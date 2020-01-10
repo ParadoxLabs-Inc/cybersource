@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <paradoxlabs_cybersource>
+                <version backend_model="ParadoxLabs\CyberSource\Model\Config\Version" />
+                <apitest />
+                <active>0</active>
+                <title>Credit Card (CyberSource)</title>
+                <!-- TODO: Config -->
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <trans_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <login backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
+                <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
+                <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>
+                <order_status>pending</order_status>
+                <show_branding>0</show_branding>
+                <payment_action>authorize</payment_action>
+                <test>0</test>
+                <allowspecific>0</allowspecific>
+                <allow_unsaved>1</allow_unsaved>
+                <useccv>1</useccv>
+                <require_ccv>0</require_ccv>
+                <reauthorize_partial_invoice>1</reauthorize_partial_invoice>
+                <savecard_opt_out>1</savecard_opt_out>
+                <verify_ssl>1</verify_ssl>
+                <group>tokenbase</group>
+                <!-- Feature flags -->
+                <can_order>1</can_order>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_capture_once>1</can_capture_once>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>1</can_void>
+                <can_cancel>1</can_cancel>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <can_edit>1</can_edit>
+                <can_review_payment>0</can_review_payment>
+                <is_gateway>0</is_gateway>
+                <is_offline>0</is_offline>
+                <can_initialize>0</can_initialize>
+                <can_store_bin>0</can_store_bin>
+            </paradoxlabs_cybersource>
+        </payment>
+    </default>
+</config>
