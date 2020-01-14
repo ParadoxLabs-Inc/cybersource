@@ -19,19 +19,24 @@ namespace ParadoxLabs\CyberSource\Model;
 class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
 {
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Gateway
+     */
+    protected $gateway;
+
+    /**
      * Initialize/return the API gateway class.
      *
      * @api
      *
-     * @return \ParadoxLabs\TokenBase\Api\GatewayInterface
+     * @return \ParadoxLabs\CyberSource\Model\Gateway
      */
     public function gateway()
     {
-        // TODO: This
         if ($this->gateway->isInitialized() !== true) {
             $this->gateway->init([
-                'login' => $this->getConfigData('login'),
-                'password' => $this->getConfigData('trans_key'),
+                'checkout_profile_id' => $this->getConfigData('checkout_profile_id'),
+                'access_key' => $this->getConfigData('access_key'),
+                'secret_key' => $this->getConfigData('secret_key'),
                 'test_mode' => $this->getConfigData('test'),
             ]);
         }
