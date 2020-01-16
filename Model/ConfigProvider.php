@@ -138,6 +138,9 @@ class ConfigProvider extends CcGenericConfigProvider
                     'selectedCard'            => $selected,
                     'logoImage'               => $this->getLogoImage(),
                     'defaultSaveCard'         => $this->defaultSaveCard(),
+                    // TODO: Abstract this stuff out somewhere/how
+                    'iframeAction'            => 'https://testsecureacceptance.cybersource.com/embedded/token/create',
+                    'iframeParams'            => $this->getIframeParams(),
                 ],
             ],
         ]);
@@ -167,5 +170,66 @@ class ConfigProvider extends CcGenericConfigProvider
     public function defaultSaveCard()
     {
         return $this->methods[static::CODE]->getConfigData('savecard_opt_out') ? true : false;
+    }
+
+    // TODO: Go through and add phpdoc comment descriptions
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    protected function getConfigValue($key)
+    {
+        return $this->methods[static::CODE]->getConfigData($key);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getIframeParams()
+    {
+        $signedParams = [
+            'access_key' => $this->getConfigValue('access_key'),
+            'amount' => '0.00',
+            'currency' => 'USD', // TODO
+            'locale' => 'en-us', // CYBS docs indicate this is the only possible value
+            'profile_id' => $this->getConfigValue('checkout_profile_id'),
+            'reference_number' => '12345', // TODO -- how do we get this value for the checkout? Have to reserve ID
+            'signed_date_time' => gmdate('Y-m-d\TH:i:s\Z'),
+            'transaction_type' => 'create_payment_token',
+            'transaction_uuid' => uniqid('', true),
+            'signed_field_names' => '',
+        ];
+
+        $signedParams['signed_field_names'] = implode(',', array_keys($signedParams));
+
+        $unsignedParams = [
+            'signature' => $this->getSignature($signedParams),
+            'unsigned_field_names' => 'unsigned_field_names,signature',
+            // TODO: Could add bill_to_* fields on checkout if we track addr separately
+        ];
+
+        return $signedParams + $unsignedParams;
+    }
+
+    /**
+     * @param array $signedParams
+     * @return string
+     */
+    protected function getSignature(array $signedParams)
+    {
+        $params       = [];
+        $signedFields = explode(',', $signedParams['signed_field_names']);
+        foreach ($signedFields as $key) {
+            $params[] = $key . '=' . $signedParams[$key];
+        }
+
+        return base64_encode(
+            hash_hmac(
+                'sha256',
+                implode(',', $params),
+                $this->getConfigValue('secret_key'),
+                true
+            )
+        );
     }
 }

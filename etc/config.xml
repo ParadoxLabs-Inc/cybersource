@@ -10,7 +10,7 @@
                 <title>Credit Card (CyberSource)</title>
                 <checkout_profile_id />
                 <access_key />
-                <secure_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
                 <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
                 <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>

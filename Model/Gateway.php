@@ -58,7 +58,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function init(array $parameters)
     {
-        parent::init($parameters);
+        // parent::init($parameters);
 
         return $this;
     }
