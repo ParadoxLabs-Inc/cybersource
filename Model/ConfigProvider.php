@@ -49,12 +49,23 @@ class ConfigProvider extends CcGenericConfigProvider
     protected $paymentConfig;
 
     /**
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $urlBuilder;
+
+    /**
+     * @var \Magento\Framework\App\ResourceConnection
+     */
+    // protected $resource;
+
+    /**
      * @param CcConfig $ccConfig
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
      * @param \Magento\Customer\Model\Session $customerSession *Proxy
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \ParadoxLabs\CyberSource\Helper\Data $dataHelper
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param array $methodCodes
      */
     public function __construct(
@@ -64,6 +75,8 @@ class ConfigProvider extends CcGenericConfigProvider
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Payment\Model\Config $paymentConfig,
         \ParadoxLabs\CyberSource\Helper\Data $dataHelper,
+        \Magento\Framework\UrlInterface $urlBuilder,
+        // \Magento\Framework\App\ResourceConnection $resource,
         array $methodCodes = []
     ) {
         $this->paymentHelper    = $paymentHelper;
@@ -71,6 +84,8 @@ class ConfigProvider extends CcGenericConfigProvider
         $this->customerSession  = $customerSession;
         $this->dataHelper       = $dataHelper;
         $this->paymentConfig    = $paymentConfig;
+        $this->urlBuilder       = $urlBuilder;
+        // $this->resource         = $resource;
 
         parent::__construct($ccConfig, $paymentHelper, [static::CODE]);
     }
@@ -187,17 +202,24 @@ class ConfigProvider extends CcGenericConfigProvider
      */
     protected function getIframeParams()
     {
+        $quote = $this->checkoutSession->getQuote();
+
+        $referenceId = uniqid('', true);
+
         $signedParams = [
             'access_key' => $this->getConfigValue('access_key'),
             'amount' => '0.00',
-            'currency' => 'USD', // TODO
+            'currency' => strtoupper($quote->getQuoteCurrencyCode()), // TODO: Is this correct/acceptable?
             'locale' => 'en-us', // CYBS docs indicate this is the only possible value
             'profile_id' => $this->getConfigValue('checkout_profile_id'),
-            'reference_number' => '12345', // TODO -- how do we get this value for the checkout? Have to reserve ID
+            'reference_number' => $referenceId,
             'signed_date_time' => gmdate('Y-m-d\TH:i:s\Z'),
             'transaction_type' => 'create_payment_token',
-            'transaction_uuid' => uniqid('', true),
+            'transaction_uuid' => $referenceId,
             'signed_field_names' => '',
+            'override_backoffice_post_url' => $this->urlBuilder->getUrl('paradoxlabs_cybersource/ebc/post'),
+            'override_custom_cancel_page' => $this->urlBuilder->getUrl('paradoxlabs_cybersource/ebc/cancel'),
+            'override_custom_receipt_page' => $this->urlBuilder->getUrl('paradoxlabs_cybersource/ebc/completed'),
         ];
 
         $signedParams['signed_field_names'] = implode(',', array_keys($signedParams));
@@ -232,4 +254,35 @@ class ConfigProvider extends CcGenericConfigProvider
             )
         );
     }
+
+    /**
+     * TODO: This does nooot belong here. Does it?
+     * @param \Magento\Quote\Model\Quote $quote
+     * @return string
+     */
+    // protected function getReservedOrderId(\Magento\Quote\Model\Quote $quote)
+    // {
+    //     $quote->reserveOrderId();
+    //
+    //     /**
+    //      * Persist increment_id -- if it's changed, it's new
+    //      */
+    //     if ($quote->getId()
+    //         && empty($quote->getOrigData('reserved_order_id'))
+    //         && !empty($quote->getReservedOrderId())) {
+    //         // Save quote.reserved_order_id directly to the DB with no other interaction -- only efficient option.
+    //         $connection = $this->resource->getConnection('checkout');
+    //         $connection->update(
+    //             $connection->getTableName('quote'),
+    //             [
+    //                 'reserved_order_id' => $quote->getReservedOrderId(),
+    //             ],
+    //             [
+    //                 'entity_id=?' => $quote->getId(),
+    //             ]
+    //         );
+    //     }
+    //
+    //     return $quote->getReservedOrderId();
+    // }
 }

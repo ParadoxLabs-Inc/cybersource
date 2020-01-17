@@ -20,7 +20,7 @@
                                                                     <item name="component" xsi:type="string">ParadoxLabs_CyberSource/js/view/payment/paradoxlabs_cybersource</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="paradoxlabs_cybersource" xsi:type="array">
-                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">false</item>
                                                                         </item>
                                                                     </item>
                                                                 </item>

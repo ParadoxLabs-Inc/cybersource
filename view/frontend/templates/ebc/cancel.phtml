@@ -1,0 +1,18 @@
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+
+<p><?= $block->escapeHtml(__('Please reload the page if you would like to try again.')) ?></p>
+<script type="text/javascript">
+    require(
+        ['jquery'],
+        function($) {
+            var message = {
+                success: false,
+                canceled: true
+            };
+
+            var communicator = window.top.jQuery('#paradoxlabs_cybersource-communicator', window.top.document);
+            communicator.val(JSON.stringify(message));
+            communicator.trigger('change');
+        }
+    )
+</script>

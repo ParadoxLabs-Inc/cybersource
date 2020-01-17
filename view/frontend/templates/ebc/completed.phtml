@@ -1,0 +1,18 @@
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+
+<p><?= $block->escapeHtml(__('Woo you did it! Good job.')) ?></p>
+<script type="text/javascript">
+    require(
+        ['jquery'],
+        function($) {
+            var message = {
+                success: true,
+                canceled: false
+            };
+
+            var communicator = window.top.jQuery('#paradoxlabs_cybersource-communicator', window.top.document);
+            communicator.val(JSON.stringify(message));
+            communicator.trigger('change');
+        }
+    )
+</script>
