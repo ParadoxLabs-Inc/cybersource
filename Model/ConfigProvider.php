@@ -211,22 +211,32 @@ class ConfigProvider extends CcGenericConfigProvider
             'amount' => '0.00',
             'currency' => strtoupper($quote->getQuoteCurrencyCode()), // TODO: Is this correct/acceptable?
             'locale' => 'en-us', // CYBS docs indicate this is the only possible value
+            'payment_method' => 'card',
             'profile_id' => $this->getConfigValue('checkout_profile_id'),
             'reference_number' => $referenceId,
             'signed_date_time' => gmdate('Y-m-d\TH:i:s\Z'),
+            'skip_decision_manager' => 'true',
             'transaction_type' => 'create_payment_token',
             'transaction_uuid' => $referenceId,
             'signed_field_names' => '',
             'override_backoffice_post_url' => $this->urlBuilder->getUrl('paradoxlabs_cybersource/ebc/post'),
             'override_custom_cancel_page' => $this->urlBuilder->getUrl('paradoxlabs_cybersource/ebc/cancel'),
             'override_custom_receipt_page' => $this->urlBuilder->getUrl('paradoxlabs_cybersource/ebc/completed'),
+            'bill_to_forename' => 'Ryan',
+            'bill_to_surname' => 'Hoerr',
+            'bill_to_email' => 'ryan@paradoxlabs.com',
+            'bill_to_address_country' => 'US',
+            'bill_to_address_city' => 'Lancaster',
+            'bill_to_address_state' => 'PA',
+            'bill_to_address_line1' => '8 N Queen St',
+            'bill_to_address_line2' => '9th Floor',
+            'bill_to_address_postal_code' => '17603',
         ];
 
         $signedParams['signed_field_names'] = implode(',', array_keys($signedParams));
 
         $unsignedParams = [
             'signature' => $this->getSignature($signedParams),
-            'unsigned_field_names' => 'unsigned_field_names,signature',
             // TODO: Could add bill_to_* fields on checkout if we track addr separately
         ];
 
