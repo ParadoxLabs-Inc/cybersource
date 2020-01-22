@@ -11,7 +11,7 @@
  * @license     http://store.paradoxlabs.com/license.html
  */
 
-namespace ParadoxLabs\CyberSource\Controller\Ebc;
+namespace ParadoxLabs\CyberSource\Controller\Secureaccept;
 
 /**
  * Cancel Class

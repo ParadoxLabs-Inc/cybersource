@@ -2,9 +2,11 @@ define(
     [
         'ko',
         'jquery',
-        'ParadoxLabs_TokenBase/js/view/payment/method-renderer/cc'
+        'ParadoxLabs_TokenBase/js/view/payment/method-renderer/cc',
+        'Magento_Ui/js/modal/alert',
+        'Magento_Checkout/js/model/quote'
     ],
-    function (ko, $, Component) {
+    function (ko, $, Component, alert, quote) {
         'use strict';
         var config=window.checkoutConfig.payment.paradoxlabs_cybersource;
         return Component.extend({
@@ -15,13 +17,19 @@ define(
                 selectedCard: config ? config.selectedCard : '',
                 storedCards: config ? config.storedCards : {},
                 logoImage: config ? config.logoImage : false,
-                cardToken: ''
+                cardToken: null,
+                billingAddressLine: null
             },
             initObservable: function () {
                 this._super()
                     .observe([
+                        'billingAddressLine',
                         'cardToken' // TODO: Change this
                     ]);
+
+                quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
+                quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
+                this.billingAddressLine.subscribe(this.initSecureAcceptanceForm.bind(this));
 
                 this.storedCards = ko.observableArray(config.storedCards);
 
@@ -36,22 +44,58 @@ define(
 
                 return this;
             },
+            syncSecureAcceptBillingAddress: function() {
+                // Has the template rendered? Don't process until it has.
+                if ($('#' + this.getCode() + '_iframe').length === 0
+                    || quote.billingAddress() === null
+                    || quote.paymentMethod() === null
+                    || quote.paymentMethod().method !== this.getCode()) {
+                    return;
+                }
+
+                this.billingAddressLine(this.getAddressLine(quote.billingAddress()));
+            },
             initSecureAcceptanceForm: function() {
-                var self = this;
-                window.jQuery('#' + this.getCode() + '-communicator').on('change', this.handleCommunication.bind(this));
+                this.bindCommunicator();
 
-                var form = $('#' + this.getCode() + '_trigger');
-                form.attr('action', config.iframeAction);
+                // Clear and spinner the CC form while we load new params
+                $('#' + this.getCode() + '_iframe').prop('src', 'about:blank')
+                                                   .trigger('processStart');
 
-                for (var key in config.iframeParams) {
+                return $.post({
+                    url: config.paramUrl,
+                    dataType: 'json',
+                    success: this.loadSecureAcceptanceForm.bind(this),
+                    error: this.handleAjaxError.bind(this)
+                });
+            },
+            loadSecureAcceptanceForm: function(data) {
+                var form = document.createElement('form');
+                form.target = this.getCode() + '_iframe';
+                form.method = 'post';
+                form.action = data.iframeAction;
+
+                for (var key in data.iframeParams) {
                     var input = document.createElement('input');
                     input.type = 'hidden';
                     input.name = key;
-                    input.value = config.iframeParams[key];
-                    form.append(input);
+                    input.value = data.iframeParams[key];
+                    form.appendChild(input);
                 }
 
-                form[0].submit();
+                document.body.appendChild(form);
+                form.submit();
+
+                $('#' + this.getCode() + '_iframe').trigger('processStop');
+            },
+            handleAjaxError: function(jqXHR, status, error) {
+                // TODO: Make this better
+                alert($.mage.__('Payment request failed: ' + error));
+            },
+            bindCommunicator: function() {
+                window.jQuery('#' + this.getCode() + '-communicator')
+                    .off('change')
+                    .on('change', this.handleCommunication.bind(this));
             },
             handleCommunication: function(event) {
                 var value = event.target.value;
@@ -78,6 +122,19 @@ define(
             getStoredCards: function() {
                 return this.storedCards;
             },
+            getAddressLine: function(address) {
+                if (address === null) {
+                    return null;
+                }
+
+                return address.firstname + ' '
+                       + address.lastname + ', '
+                       + address.street.join(' ') + ', '
+                       + address.city + ', '
+                       + address.region + ' '
+                       + address.postcode + ', '
+                       + address.countryId;
+            }
         });
     }
 );
