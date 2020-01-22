@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="empty" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block name="paradoxlabs_cybersource_ebc_completed_content" template="ParadoxLabs_CyberSource::ebc/completed.phtml" cacheable="false" />
+            <block name="paradoxlabs_cybersource_secureaccept_cancel_content" template="ParadoxLabs_CyberSource::secure-acceptance/cancel.phtml" cacheable="false" />
         </referenceContainer>
 
         <referenceBlock name="copyright" remove="true" />
