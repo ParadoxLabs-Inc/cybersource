@@ -13,7 +13,6 @@
 
     <form class="payment-method-content" data-bind="mageInit: {'validation': {}}">
         <input type="hidden" value="" data-bind="attr: {id: getCode() + '-communicator'}" />
-        <input type="hidden" name="payment[token]" value="" data-bind="attr: {id: getCode() + '-communicator'}, value: cardToken" />
 
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
@@ -30,7 +29,7 @@
                 <img data-bind="attr: {'src': getLogoImage(), 'alt': $t('Processed by CyberSource, a Visa Solution')}" />
             </div>
             <!--/ko-->
-            <!-- ko if: (useVault) -->
+            <!-- ko if: (storedCards().length > 0) -->
             <div>
                 <label data-bind="attr: {for: getCode() + '-card-id'}" class="label">
                     <span><!-- ko text: $t('Payment Information')--><!-- /ko --></span>
@@ -38,9 +37,8 @@
                 <div class="control">
                     <select name="payment[card_id]" class="select"
                             data-bind="attr: {id: getCode() + '-card-id', 'data-container': getCode() + '-card-id'},
-                                    mageInit: {creditCardType:{creditCardTypeContainer:'#' + getCode() + '-cc-type-ss-div'}},
                                     enable: true,
-                                    options: getStoredCards(),
+                                    options: storedCards,
                                     optionsValue: 'id',
                                     optionsText: 'label',
                                     optionsCaption: $t('Add new card'),
@@ -54,14 +52,14 @@
 
 
 
-            <div class="field card required" data-bind="visible: isFormShown">
+            <div class="field card required" data-bind="visible: showIframe()">
                 <!-- TODO: Styles to CSS -->
                 <iframe src="about:blank" frameborder="0" id="paradoxlabs_cybersource_iframe" name="paradoxlabs_cybersource_iframe" style="width:100%;height:510px;" data-bind="afterRender: syncSecureAcceptBillingAddress"></iframe>
             </div>
 
 
 
-            <div class="after-card" data-bind="visible: !isFormShown || isCardEntered">
+            <!-- ko if: (!showIframe()) -->
                 <!-- ko if: (hasVerification())-->
                 <div class="field cvv required" data-bind="attr: {id: getCode() + '-cc-type-cvv-div'}, visible: (isCcvShown)">
                     <label data-bind="attr: {for: getCode() + '-cc-cid'}" class="label">
@@ -125,10 +123,10 @@
                     </div>
                 </div>
                 <!-- /ko -->
-            </div>
+            <!-- /ko -->
         </fieldset>
 
-        <div class="payment-method-content" data-bind="visible: !isFormShown || isCardEntered">
+        <div class="payment-method-content" data-bind="visible: !showIframe()">
             <div class="checkout-agreements-block">
                 <!-- ko foreach: $parent.getRegion('before-place-order') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->

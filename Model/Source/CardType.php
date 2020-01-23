@@ -34,7 +34,7 @@ class CardType
      * @param $code
      * @return mixed|string
      */
-    public function getCardType($code)
+    public function getType($code)
     {
         return array_key_exists($code, static::CARD_TYPE_MAP)
             ? static::CARD_TYPE_MAP[$code]

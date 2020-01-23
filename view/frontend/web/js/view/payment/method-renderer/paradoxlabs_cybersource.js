@@ -12,48 +12,57 @@ define(
         return Component.extend({
             defaults: {
                 template: 'ParadoxLabs_CyberSource/payment/secure-acceptance',
-                isFormShown: true,
                 save: config ? config.canSaveCard && config.defaultSaveCard : false,
                 selectedCard: config ? config.selectedCard : '',
-                storedCards: config ? config.storedCards : {},
+                storedCards: config ? config.storedCards : [],
                 logoImage: config ? config.logoImage : false,
-                cardToken: null,
-                billingAddressLine: null
+                billingAddressLine: null,
+                iframeCompleted: false
             },
             initObservable: function () {
                 this._super()
                     .observe([
-                        'billingAddressLine',
-                        'cardToken' // TODO: Change this
+                        'billingAddressLine'
                     ]);
 
                 quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 this.billingAddressLine.subscribe(this.initSecureAcceptanceForm.bind(this));
+                this.selectedCard.subscribe(this.checkReinitSecureAcceptanceForm.bind(this));
+
+                this.showIframe = ko.computed(function() {
+                    return (this.selectedCard() === null || this.selectedCard() === undefined)
+                           && quote.billingAddress() !== null;
+                }, this);
 
                 this.storedCards = ko.observableArray(config.storedCards);
 
                 this.useVault = ko.computed(function() {
-                    return this.getStoredCards().length > 0;
-                }, this);
-
-                this.isCardEntered = ko.computed(function () {
-                    return this.cardToken() !== undefined
-                           && this.cardToken() !== '';
+                    return this.storedCards().length > 0;
                 }, this);
 
                 return this;
             },
             syncSecureAcceptBillingAddress: function() {
-                // Has the template rendered? Don't process until it has.
+                // Don't progess until the iframe has rendered, we're the active payment method, we have a billing addr.
                 if ($('#' + this.getCode() + '_iframe').length === 0
-                    || quote.billingAddress() === null
                     || quote.paymentMethod() === null
-                    || quote.paymentMethod().method !== this.getCode()) {
+                    || quote.paymentMethod().method !== this.getCode()
+                    || !this.showIframe()) {
                     return;
                 }
 
                 this.billingAddressLine(this.getAddressLine(quote.billingAddress()));
+            },
+            checkReinitSecureAcceptanceForm: function() {
+                if (this.iframeCompleted === true
+                    && (this.selectedCard() === null || this.selectedCard() === undefined)
+                    && this.storedCards().length > 0) {
+                    // The completed flag is to debounce and ensure we don't reinit unless absolutely necessary
+                    // (on reselect 'add new' after completing the process).
+                    this.iframeCompleted = false;
+                    this.initSecureAcceptanceForm();
+                }
             },
             initSecureAcceptanceForm: function() {
                 this.bindCommunicator();
@@ -65,6 +74,7 @@ define(
                 return $.post({
                     url: config.paramUrl,
                     dataType: 'json',
+                    global: false,
                     success: this.loadSecureAcceptanceForm.bind(this),
                     error: this.handleAjaxError.bind(this)
                 });
@@ -91,6 +101,8 @@ define(
             handleAjaxError: function(jqXHR, status, error) {
                 // TODO: Make this better
                 alert($.mage.__('Payment request failed: ' + error));
+
+                this.initSecureAcceptanceForm();
             },
             bindCommunicator: function() {
                 window.jQuery('#' + this.getCode() + '-communicator')
@@ -103,24 +115,16 @@ define(
                 if (value !== undefined && value !== null && value !== '') {
                     var message = JSON.parse(value);
 
+                    // TODO: Remove debug line
                     console.log('Got iframe message!', message);
 
-                    if (message.success) {
-                        this.cardToken('abc123');
-
-                        this.storedCards.push({
-                            "id": "abc123",
-                            "label": "VI XXXX-1111",
-                            "selected": true,
-                            "type": "VI"
-                        });
-                    } else {
-                        this.cardToken(null);
+                    if (message.success && message.card !== undefined) {
+                        this.storedCards.push(message.card);
+                        this.selectedCard(message.card.id);
                     }
+
+                    this.iframeCompleted = true;
                 }
-            },
-            getStoredCards: function() {
-                return this.storedCards;
             },
             getAddressLine: function(address) {
                 if (address === null) {

@@ -101,6 +101,7 @@ class GetParams extends Action
             // 'override_backoffice_post_url' => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/post'),
             'override_custom_cancel_page' => $this->_url->getUrl('pdl_cybs/secureaccept/cancel'),
             'override_custom_receipt_page' => $this->_url->getUrl('pdl_cybs/secureaccept/complete'),
+            'payer_authentication_transaction_mode' => 'S', // S for ecommerce. TODO: Pass M in admin
             'signed_field_names' => '',
         ];
         $params += $this->getBillingAddressParams();
@@ -124,6 +125,7 @@ class GetParams extends Action
             'bill_to_forename' => $address->getFirstname(),
             'bill_to_surname' => $address->getLastname(),
             'bill_to_email' => $address->getEmail(),
+            'bill_to_company_name' => $address->getCompany(),
             'bill_to_address_country' => $address->getCountryId(),
             'bill_to_address_city' => $address->getCity(),
             'bill_to_address_state' => $address->getRegionCode(),

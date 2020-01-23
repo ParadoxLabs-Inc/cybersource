@@ -1,13 +1,24 @@
-<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+<?php /** @var \ParadoxLabs\CyberSource\Block\Secureaccept\Complete $block */ ?>
 
 <p><?= $block->escapeHtml(__('Woo you did it! Good job.')) ?></p>
+
+<?php $card = $block->getCardParams(); ?>
+<pre><?= json_encode($card, JSON_PRETTY_PRINT) ?></pre>
+
 <script type="text/javascript">
     require(
         ['jquery'],
         function($) {
             var message = {
                 success: true,
-                canceled: false
+                canceled: false,
+                card: <?= json_encode([
+                        // TODO: Correctify this
+                    'id' => 'abc123',
+                    'label' => sprintf('%s XXXX-%s', $card['cc_type'], $card['cc_last4']),
+                    'selected' => false,
+                    'type' => $card['cc_type'],
+                ]) ?>
             };
 
             var communicator = window.top.jQuery('#paradoxlabs_cybersource-communicator', window.top.document);
