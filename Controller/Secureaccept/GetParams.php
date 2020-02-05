@@ -98,11 +98,14 @@ class GetParams extends Action
             'skip_decision_manager' => 'true',
             'transaction_type' => 'create_payment_token',
             'transaction_uuid' => $referenceId,
+            'consumer_id' => $quote->getCustomerId(),
+            'customer_ip_address' => $quote->getRemoteIp(),
             // 'override_backoffice_post_url' => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/post'),
             'override_custom_cancel_page' => $this->_url->getUrl('pdl_cybs/secureaccept/cancel'),
             'override_custom_receipt_page' => $this->_url->getUrl('pdl_cybs/secureaccept/complete'),
             'payer_authentication_transaction_mode' => 'S', // S for ecommerce. TODO: Pass M in admin
             'signed_field_names' => '',
+            // TODO: Add in device_fingerprint_id
         ];
         $params += $this->getBillingAddressParams();
 
@@ -120,6 +123,23 @@ class GetParams extends Action
     public function getBillingAddressParams()
     {
         $address = $this->checkoutSession->getQuote()->getBillingAddress();
+        $post = $this->getRequest()->getPostValue('billingAddress');
+
+        if (!empty($post)) {
+            return [
+                'bill_to_forename' => $post['firstname'],
+                'bill_to_surname' => $post['lastname'],
+                'bill_to_email' => $address->getEmail(),
+                'bill_to_company_name' => $post['company'],
+                'bill_to_address_country' => $post['countryId'],
+                'bill_to_address_city' => $post['city'],
+                'bill_to_address_state' => isset($post['regionCode']) ? $post['regionCode'] : $post['region'],
+                'bill_to_address_line1' => isset($post['street'][0]) ? $post['street'][0] : '',
+                'bill_to_address_line2' => isset($post['street'][1]) ? $post['street'][1] : '',
+                'bill_to_address_postal_code' => $post['postcode'],
+                'bill_to_phone' => $post['telephone'],
+            ];
+        }
 
         return [
             'bill_to_forename' => $address->getFirstname(),
@@ -132,6 +152,7 @@ class GetParams extends Action
             'bill_to_address_line1' => $address->getStreetLine(1),
             'bill_to_address_line2' => $address->getStreetLine(2),
             'bill_to_address_postal_code' => $address->getPostcode(),
+            'bill_to_phone' => $address->getTelephone(),
         ];
     }
 

@@ -7,7 +7,7 @@
  * Need help? Open a ticket in our support system:
  *  http://support.paradoxlabs.com
  *
- * @author      Chad Bender <support@paradoxlabs.com>
+ * @author      Ryan Hoerr <support@paradoxlabs.com>
  * @license     http://store.paradoxlabs.com/license.html
  */
 

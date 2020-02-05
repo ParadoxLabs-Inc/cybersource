@@ -1,28 +1,43 @@
 <?php /** @var \ParadoxLabs\CyberSource\Block\Secureaccept\Complete $block */ ?>
+<?php
+$message = [
+    'success' => false,
+    'canceled' => false,
+    'error' => '',
+    'card' => [],
+];
 
-<p><?= $block->escapeHtml(__('Woo you did it! Good job.')) ?></p>
+try {
+    $card = $block->getCard();
 
-<?php $card = $block->getCardParams(); ?>
-<pre><?= json_encode($card, JSON_PRETTY_PRINT) ?></pre>
+    $message['success'] = true;
+    $message['card'] = [
+        'id' => $card->getHash(),
+        'label' => $card->getLabel(),
+        'selected' => false,
+        'type' => $card->getType(),
+    ];
+} catch (\Exception $e) {
+    // TODO: Proper error handling
+    $message['error'] = $e->getMessage();
+}
+?>
+<?php if (!empty($message['error'])): ?>
+    <div class="messages">
+        <div class="error-msg message-error error message">
+            <span><?= $block->escapeHtml(__('ERROR: %1', $error)) ?></span>
+        </div>
+    </div>
+<?php else: ?>
+    <p><?= $block->escapeHtml(__('Card %1 entered successfully.', $card->getLabel())) ?></p>
+<?php endif; ?>
 
 <script type="text/javascript">
     require(
         ['jquery'],
         function($) {
-            var message = {
-                success: true,
-                canceled: false,
-                card: <?= json_encode([
-                        // TODO: Correctify this
-                    'id' => 'abc123',
-                    'label' => sprintf('%s XXXX-%s', $card['cc_type'], $card['cc_last4']),
-                    'selected' => false,
-                    'type' => $card['cc_type'],
-                ]) ?>
-            };
-
             var communicator = window.top.jQuery('#paradoxlabs_cybersource-communicator', window.top.document);
-            communicator.val(JSON.stringify(message));
+            communicator.val('<?= json_encode($message) ?>');
             communicator.trigger('change');
         }
     )

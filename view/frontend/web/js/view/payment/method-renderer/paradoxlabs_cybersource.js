@@ -2,11 +2,12 @@ define(
     [
         'ko',
         'jquery',
+        'underscore',
         'ParadoxLabs_TokenBase/js/view/payment/method-renderer/cc',
         'Magento_Ui/js/modal/alert',
         'Magento_Checkout/js/model/quote'
     ],
-    function (ko, $, Component, alert, quote) {
+    function (ko, $, _, Component, alert, quote) {
         'use strict';
         var config=window.checkoutConfig.payment.paradoxlabs_cybersource;
         return Component.extend({
@@ -52,6 +53,7 @@ define(
                     return;
                 }
 
+                // TODO: Something isn't right here. Not catching changes when it should.
                 this.billingAddressLine(this.getAddressLine(quote.billingAddress()));
             },
             checkReinitSecureAcceptanceForm: function() {
@@ -71,9 +73,28 @@ define(
                 $('#' + this.getCode() + '_iframe').prop('src', 'about:blank')
                                                    .trigger('processStart');
 
+                var billingAddress = _.pick(
+                    quote.billingAddress(),
+                    [
+                        'firstname',
+                        'lastname',
+                        'company',
+                        'street',
+                        'city',
+                        'regionCode',
+                        'region',
+                        'postcode',
+                        'countryId',
+                        'telephone'
+                    ]
+                );
+
                 return $.post({
                     url: config.paramUrl,
                     dataType: 'json',
+                    data: {
+                        "billingAddress": billingAddress
+                    },
                     global: false,
                     success: this.loadSecureAcceptanceForm.bind(this),
                     error: this.handleAjaxError.bind(this)
@@ -137,7 +158,8 @@ define(
                        + address.city + ', '
                        + address.region + ' '
                        + address.postcode + ', '
-                       + address.countryId;
+                       + address.countryId + ' '
+                       + address.telephone;
             }
         });
     }
