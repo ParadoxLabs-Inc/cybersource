@@ -1,0 +1,189 @@
+<?php
+
+namespace ParadoxLabs\CyberSource\Gateway\Api;
+
+class CCSaleCreditReply
+{
+
+    /**
+     * @var int $reasonCode
+     */
+    protected $reasonCode = null;
+
+    /**
+     * @var float $amount
+     */
+    protected $amount = null;
+
+    /**
+     * @var string $authorizationCode
+     */
+    protected $authorizationCode = null;
+
+    /**
+     * @var string $processorResponse
+     */
+    protected $processorResponse = null;
+
+    /**
+     * @var \DateTime $authorizedDateTime
+     */
+    protected $authorizedDateTime = null;
+
+    /**
+     * @var string $reconciliationID
+     */
+    protected $reconciliationID = null;
+
+    /**
+     * @var string $paymentNetworkTransactionID
+     */
+    protected $paymentNetworkTransactionID = null;
+
+    /**
+     * @param int $reasonCode
+     */
+    public function __construct($reasonCode)
+    {
+      $this->reasonCode = $reasonCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getReasonCode()
+    {
+      return $this->reasonCode;
+    }
+
+    /**
+     * @param int $reasonCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setReasonCode($reasonCode)
+    {
+      $this->reasonCode = $reasonCode;
+      return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAmount()
+    {
+      return $this->amount;
+    }
+
+    /**
+     * @param float $amount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setAmount($amount)
+    {
+      $this->amount = $amount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorizationCode()
+    {
+      return $this->authorizationCode;
+    }
+
+    /**
+     * @param string $authorizationCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setAuthorizationCode($authorizationCode)
+    {
+      $this->authorizationCode = $authorizationCode;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProcessorResponse()
+    {
+      return $this->processorResponse;
+    }
+
+    /**
+     * @param string $processorResponse
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setProcessorResponse($processorResponse)
+    {
+      $this->processorResponse = $processorResponse;
+      return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAuthorizedDateTime()
+    {
+      if ($this->authorizedDateTime == null) {
+        return null;
+      } else {
+        try {
+          return new \DateTime($this->authorizedDateTime);
+        } catch (\Exception $e) {
+          return false;
+        }
+      }
+    }
+
+    /**
+     * @param \DateTime $authorizedDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setAuthorizedDateTime(\DateTime $authorizedDateTime = null)
+    {
+      if ($authorizedDateTime == null) {
+       $this->authorizedDateTime = null;
+      } else {
+        $this->authorizedDateTime = $authorizedDateTime->format(\DateTime::ATOM);
+      }
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReconciliationID()
+    {
+      return $this->reconciliationID;
+    }
+
+    /**
+     * @param string $reconciliationID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setReconciliationID($reconciliationID)
+    {
+      $this->reconciliationID = $reconciliationID;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentNetworkTransactionID()
+    {
+      return $this->paymentNetworkTransactionID;
+    }
+
+    /**
+     * @param string $paymentNetworkTransactionID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
+     */
+    public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
+    {
+      $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+      return $this;
+    }
+
+}

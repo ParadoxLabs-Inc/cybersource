@@ -1,0 +1,704 @@
+<?php
+
+namespace ParadoxLabs\CyberSource\Gateway\Api;
+
+class Installment
+{
+
+    /**
+     * @var string $sequence
+     */
+    protected $sequence = null;
+
+    /**
+     * @var string $totalCount
+     */
+    protected $totalCount = null;
+
+    /**
+     * @var string $totalAmount
+     */
+    protected $totalAmount = null;
+
+    /**
+     * @var string $frequency
+     */
+    protected $frequency = null;
+
+    /**
+     * @var string $amount
+     */
+    protected $amount = null;
+
+    /**
+     * @var string $planType
+     */
+    protected $planType = null;
+
+    /**
+     * @var string $firstInstallmentDate
+     */
+    protected $firstInstallmentDate = null;
+
+    /**
+     * @var string $amountFunded
+     */
+    protected $amountFunded = null;
+
+    /**
+     * @var string $amountRequestedPercentage
+     */
+    protected $amountRequestedPercentage = null;
+
+    /**
+     * @var string $expenses
+     */
+    protected $expenses = null;
+
+    /**
+     * @var string $expensesPercentage
+     */
+    protected $expensesPercentage = null;
+
+    /**
+     * @var string $fees
+     */
+    protected $fees = null;
+
+    /**
+     * @var string $feesPercentage
+     */
+    protected $feesPercentage = null;
+
+    /**
+     * @var string $taxes
+     */
+    protected $taxes = null;
+
+    /**
+     * @var string $taxesPercentage
+     */
+    protected $taxesPercentage = null;
+
+    /**
+     * @var string $insurance
+     */
+    protected $insurance = null;
+
+    /**
+     * @var string $insurancePercentage
+     */
+    protected $insurancePercentage = null;
+
+    /**
+     * @var string $additionalCosts
+     */
+    protected $additionalCosts = null;
+
+    /**
+     * @var string $additionalCostsPercentage
+     */
+    protected $additionalCostsPercentage = null;
+
+    /**
+     * @var string $monthlyInterestRate
+     */
+    protected $monthlyInterestRate = null;
+
+    /**
+     * @var string $annualInterestRate
+     */
+    protected $annualInterestRate = null;
+
+    /**
+     * @var string $annualFinancingCost
+     */
+    protected $annualFinancingCost = null;
+
+    /**
+     * @var string $paymentType
+     */
+    protected $paymentType = null;
+
+    /**
+     * @var string $invoiceData
+     */
+    protected $invoiceData = null;
+
+    /**
+     * @var string $downPayment
+     */
+    protected $downPayment = null;
+
+    /**
+     * @var string $firstInstallmentAmount
+     */
+    protected $firstInstallmentAmount = null;
+
+    /**
+     * @var string $minimumTotalCount
+     */
+    protected $minimumTotalCount = null;
+
+    /**
+     * @var string $maximumTotalCount
+     */
+    protected $maximumTotalCount = null;
+
+    /**
+     * @var string $gracePeriodDuration
+     */
+    protected $gracePeriodDuration = null;
+
+    /**
+     * @var string $gracePeriodDurationType
+     */
+    protected $gracePeriodDurationType = null;
+
+    
+    public function __construct()
+    {
+    
+    }
+
+    /**
+     * @return string
+     */
+    public function getSequence()
+    {
+      return $this->sequence;
+    }
+
+    /**
+     * @param string $sequence
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setSequence($sequence)
+    {
+      $this->sequence = $sequence;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTotalCount()
+    {
+      return $this->totalCount;
+    }
+
+    /**
+     * @param string $totalCount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setTotalCount($totalCount)
+    {
+      $this->totalCount = $totalCount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTotalAmount()
+    {
+      return $this->totalAmount;
+    }
+
+    /**
+     * @param string $totalAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setTotalAmount($totalAmount)
+    {
+      $this->totalAmount = $totalAmount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrequency()
+    {
+      return $this->frequency;
+    }
+
+    /**
+     * @param string $frequency
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setFrequency($frequency)
+    {
+      $this->frequency = $frequency;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmount()
+    {
+      return $this->amount;
+    }
+
+    /**
+     * @param string $amount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAmount($amount)
+    {
+      $this->amount = $amount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlanType()
+    {
+      return $this->planType;
+    }
+
+    /**
+     * @param string $planType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setPlanType($planType)
+    {
+      $this->planType = $planType;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstInstallmentDate()
+    {
+      return $this->firstInstallmentDate;
+    }
+
+    /**
+     * @param string $firstInstallmentDate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setFirstInstallmentDate($firstInstallmentDate)
+    {
+      $this->firstInstallmentDate = $firstInstallmentDate;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmountFunded()
+    {
+      return $this->amountFunded;
+    }
+
+    /**
+     * @param string $amountFunded
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAmountFunded($amountFunded)
+    {
+      $this->amountFunded = $amountFunded;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmountRequestedPercentage()
+    {
+      return $this->amountRequestedPercentage;
+    }
+
+    /**
+     * @param string $amountRequestedPercentage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAmountRequestedPercentage($amountRequestedPercentage)
+    {
+      $this->amountRequestedPercentage = $amountRequestedPercentage;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpenses()
+    {
+      return $this->expenses;
+    }
+
+    /**
+     * @param string $expenses
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setExpenses($expenses)
+    {
+      $this->expenses = $expenses;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpensesPercentage()
+    {
+      return $this->expensesPercentage;
+    }
+
+    /**
+     * @param string $expensesPercentage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setExpensesPercentage($expensesPercentage)
+    {
+      $this->expensesPercentage = $expensesPercentage;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFees()
+    {
+      return $this->fees;
+    }
+
+    /**
+     * @param string $fees
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setFees($fees)
+    {
+      $this->fees = $fees;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeesPercentage()
+    {
+      return $this->feesPercentage;
+    }
+
+    /**
+     * @param string $feesPercentage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setFeesPercentage($feesPercentage)
+    {
+      $this->feesPercentage = $feesPercentage;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxes()
+    {
+      return $this->taxes;
+    }
+
+    /**
+     * @param string $taxes
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setTaxes($taxes)
+    {
+      $this->taxes = $taxes;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxesPercentage()
+    {
+      return $this->taxesPercentage;
+    }
+
+    /**
+     * @param string $taxesPercentage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setTaxesPercentage($taxesPercentage)
+    {
+      $this->taxesPercentage = $taxesPercentage;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInsurance()
+    {
+      return $this->insurance;
+    }
+
+    /**
+     * @param string $insurance
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setInsurance($insurance)
+    {
+      $this->insurance = $insurance;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInsurancePercentage()
+    {
+      return $this->insurancePercentage;
+    }
+
+    /**
+     * @param string $insurancePercentage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setInsurancePercentage($insurancePercentage)
+    {
+      $this->insurancePercentage = $insurancePercentage;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalCosts()
+    {
+      return $this->additionalCosts;
+    }
+
+    /**
+     * @param string $additionalCosts
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAdditionalCosts($additionalCosts)
+    {
+      $this->additionalCosts = $additionalCosts;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalCostsPercentage()
+    {
+      return $this->additionalCostsPercentage;
+    }
+
+    /**
+     * @param string $additionalCostsPercentage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAdditionalCostsPercentage($additionalCostsPercentage)
+    {
+      $this->additionalCostsPercentage = $additionalCostsPercentage;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMonthlyInterestRate()
+    {
+      return $this->monthlyInterestRate;
+    }
+
+    /**
+     * @param string $monthlyInterestRate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setMonthlyInterestRate($monthlyInterestRate)
+    {
+      $this->monthlyInterestRate = $monthlyInterestRate;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnnualInterestRate()
+    {
+      return $this->annualInterestRate;
+    }
+
+    /**
+     * @param string $annualInterestRate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAnnualInterestRate($annualInterestRate)
+    {
+      $this->annualInterestRate = $annualInterestRate;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnnualFinancingCost()
+    {
+      return $this->annualFinancingCost;
+    }
+
+    /**
+     * @param string $annualFinancingCost
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setAnnualFinancingCost($annualFinancingCost)
+    {
+      $this->annualFinancingCost = $annualFinancingCost;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentType()
+    {
+      return $this->paymentType;
+    }
+
+    /**
+     * @param string $paymentType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setPaymentType($paymentType)
+    {
+      $this->paymentType = $paymentType;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInvoiceData()
+    {
+      return $this->invoiceData;
+    }
+
+    /**
+     * @param string $invoiceData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setInvoiceData($invoiceData)
+    {
+      $this->invoiceData = $invoiceData;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDownPayment()
+    {
+      return $this->downPayment;
+    }
+
+    /**
+     * @param string $downPayment
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setDownPayment($downPayment)
+    {
+      $this->downPayment = $downPayment;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstInstallmentAmount()
+    {
+      return $this->firstInstallmentAmount;
+    }
+
+    /**
+     * @param string $firstInstallmentAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setFirstInstallmentAmount($firstInstallmentAmount)
+    {
+      $this->firstInstallmentAmount = $firstInstallmentAmount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMinimumTotalCount()
+    {
+      return $this->minimumTotalCount;
+    }
+
+    /**
+     * @param string $minimumTotalCount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setMinimumTotalCount($minimumTotalCount)
+    {
+      $this->minimumTotalCount = $minimumTotalCount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMaximumTotalCount()
+    {
+      return $this->maximumTotalCount;
+    }
+
+    /**
+     * @param string $maximumTotalCount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setMaximumTotalCount($maximumTotalCount)
+    {
+      $this->maximumTotalCount = $maximumTotalCount;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGracePeriodDuration()
+    {
+      return $this->gracePeriodDuration;
+    }
+
+    /**
+     * @param string $gracePeriodDuration
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setGracePeriodDuration($gracePeriodDuration)
+    {
+      $this->gracePeriodDuration = $gracePeriodDuration;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGracePeriodDurationType()
+    {
+      return $this->gracePeriodDurationType;
+    }
+
+    /**
+     * @param string $gracePeriodDurationType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setGracePeriodDurationType($gracePeriodDurationType)
+    {
+      $this->gracePeriodDurationType = $gracePeriodDurationType;
+      return $this;
+    }
+
+}
