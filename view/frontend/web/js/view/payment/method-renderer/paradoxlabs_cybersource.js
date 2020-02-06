@@ -140,11 +140,15 @@ define(
                     console.log('Got iframe message!', message);
 
                     if (message.success && message.card !== undefined) {
+                        this.iframeCompleted = true;
                         this.storedCards.push(message.card);
                         this.selectedCard(message.card.id);
-                    }
+                    } else if (message.success === false && message.error.length > 0) {
+                        this.iframeCompleted = false;
+                        this.initSecureAcceptanceForm();
 
-                    this.iframeCompleted = true;
+                        alert(message.error);
+                    }
                 }
             },
             getAddressLine: function(address) {

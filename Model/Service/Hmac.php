@@ -54,7 +54,7 @@ class Hmac
         $hmac = hash_hmac(
             'sha256',
             implode(',', $signedParams),
-            $this->config->getSecretKey(),
+            $this->config->getSecureAcceptSecretKey(),
             true
         );
 

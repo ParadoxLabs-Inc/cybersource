@@ -19,8 +19,10 @@ namespace ParadoxLabs\CyberSource\Model\Config;
 class Config
 {
     const CODE = 'paradoxlabs_cybersource';
-    const ENDPOINT_LIVE = 'https://secureacceptance.cybersource.com';
-    const ENDPOINT_TEST = 'https://testsecureacceptance.cybersource.com';
+    const SECUREACCEPT_LIVE = 'https://secureacceptance.cybersource.com';
+    const SECUREACCEPT_TEST = 'https://testsecureacceptance.cybersource.com';
+    const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
+    const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -76,14 +78,36 @@ class Config
     }
 
     /**
+     * Get the CyberSource Merchant ID.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     */
+    public function getMerchantId($storeId = null)
+    {
+        return $this->getConfigValue('merchant_id', $storeId);
+    }
+
+    /**
+     * Get the SOAP transaction key.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     */
+    public function getSoapTransactionKey($storeId = null)
+    {
+        return $this->getConfigValue('soap_transaction_key', $storeId);
+    }
+
+    /**
      * Get the Secure Acceptance checkout profile ID.
      *
      * @param int|null $storeId
      * @return mixed
      */
-    public function getCheckoutProfileId($storeId = null)
+    public function getSecureAcceptProfileId($storeId = null)
     {
-        return $this->getConfigValue('checkout_profile_id', $storeId);
+        return $this->getConfigValue('secureaccept_profile_id', $storeId);
     }
 
     /**
@@ -92,9 +116,9 @@ class Config
      * @param int|null $storeId
      * @return mixed
      */
-    public function getAccessKey($storeId = null)
+    public function getSecureAcceptAccessKey($storeId = null)
     {
-        return $this->getConfigValue('access_key', $storeId);
+        return $this->getConfigValue('secureaccept_access_key', $storeId);
     }
 
     /**
@@ -103,22 +127,34 @@ class Config
      * @param int|null $storeId
      * @return mixed
      */
-    public function getSecretKey($storeId = null)
+    public function getSecureAcceptSecretKey($storeId = null)
     {
-        return $this->getConfigValue('secret_key', $storeId);
+        return $this->getConfigValue('secureaccept_secret_key', $storeId);
     }
 
     /**
      * @param string $path
      * @return string
      */
-    public function getSecureAcceptanceEndpoint($path)
+    public function getSecureAcceptEndpoint($path)
     {
         if ($this->isSandboxMode()) {
-            return static::ENDPOINT_TEST . $path;
+            return static::SECUREACCEPT_TEST . $path;
         }
 
-        return static::ENDPOINT_LIVE . $path;
+        return static::SECUREACCEPT_LIVE . $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSoapWsdl()
+    {
+        if ($this->isSandboxMode()) {
+            return static::SOAP_TEST;
+        }
+
+        return static::SOAP_LIVE;
     }
 
     // TODO: Add more getters, probably

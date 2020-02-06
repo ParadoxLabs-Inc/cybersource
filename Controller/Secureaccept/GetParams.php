@@ -87,12 +87,12 @@ class GetParams extends Action
         $referenceId = uniqid('', true);
 
         $params = [
-            'access_key' => $this->config->getAccessKey(),
+            'access_key' => $this->config->getSecureAcceptAccessKey(),
             'amount' => '0.00',
             'currency' => strtoupper($quote->getQuoteCurrencyCode()), // TODO: Is this correct/acceptable?
             'locale' => 'en-us', // CYBS docs indicate this is the only possible value
             'payment_method' => 'card',
-            'profile_id' => $this->config->getCheckoutProfileId(),
+            'profile_id' => $this->config->getSecureAcceptProfileId(),
             'reference_number' => $referenceId,
             'signed_date_time' => gmdate('Y-m-d\TH:i:s\Z'),
             'skip_decision_manager' => 'true',
@@ -162,6 +162,6 @@ class GetParams extends Action
     public function getIframeUrl()
     {
         // TODO: Support create vs. update?
-        return $this->config->getSecureAcceptanceEndpoint('/embedded/token/create');
+        return $this->config->getSecureAcceptEndpoint('/embedded/token/create');
     }
 }

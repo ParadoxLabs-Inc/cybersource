@@ -34,9 +34,8 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
     {
         if ($this->gateway->isInitialized() !== true) {
             $this->gateway->init([
-                'checkout_profile_id' => $this->getConfigData('checkout_profile_id'),
-                'access_key' => $this->getConfigData('access_key'),
-                'secret_key' => $this->getConfigData('secret_key'),
+                'merchant_id' => $this->getConfigData('merchant_id'),
+                'transaction_key' => $this->getConfigData('soap_transaction_key'),
                 'test_mode' => $this->getConfigData('test'),
             ]);
         }

@@ -123,6 +123,8 @@ class SecureAcceptance
 
         $this->cardRepository->save($card);
 
+        // TODO: Persist the card on the session or quote or both and fetch on reload? Would be nice, rare case though.
+
         return $card;
     }
 

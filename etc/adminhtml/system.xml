@@ -19,20 +19,26 @@
                 </field>
                 <field id="test" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Is Sandbox Account</label>
-                    <!-- TODO: Can we determine this on our own? Should we? -->
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
-                <field id="checkout_profile_id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Checkout Profile ID</label>
+                <field id="merchant_id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Merchant ID</label>
                 </field>
-                <field id="access_key" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Access Key</label>
+                <field id="secureaccept_profile_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Profile ID</label>
                 </field>
-                <field id="secret_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secret Key</label>
+                <field id="secureaccept_access_key" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Access Key</label>
+                </field>
+                <field id="secureaccept_secret_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Secret Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="soap_transaction_key" translate="label" type="obscure" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>SOAP API Transaction Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="payment_action" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
