@@ -110,8 +110,7 @@ class SecureAcceptance
         /** @var \ParadoxLabs\CyberSource\Model\Card $card */
         $card = $this->cardFactory->create();
         $card->setMethod('paradoxlabs_cybersource');
-        $card->setProfileId($input['payment_token']); // TODO: Probably don't want to do this. Sort out these two vals.
-        $card->setPaymentId($input['payment_token_instrument_identifier_id']);
+        $card->setPaymentId($input['payment_token']);
         $card->setCustomerEmail($input['req_bill_to_email']);
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);
         $card->setCustomerIp($input['req_customer_ip_address']);
@@ -144,7 +143,7 @@ class SecureAcceptance
                 $input['req_bill_to_address_line2'],
             ],
             'city' => $input['req_bill_to_address_city'],
-            'region' => $input['req_bill_to_address_state'], // TODO: region_code => region, region_id
+            'region' => $input['req_bill_to_address_state'],
             'region_code' => $input['req_bill_to_address_state'],
             'postcode' => $input['req_bill_to_address_postal_code'],
             'country_id' => $input['req_bill_to_address_country'],
@@ -176,5 +175,6 @@ class SecureAcceptance
 
         $card->setAdditional('auth_avs_code', $input['auth_avs_code']);
         $card->setAdditional('auth_transaction_id', $input['auth_trans_ref_no']);
+        $card->setAdditional('instrument_identifier', $input['payment_token_instrument_identifier_id']);
     }
 }

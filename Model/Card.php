@@ -29,7 +29,10 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
     {
         // Send only if we have an info instance for payment data
         if ($this->hasData('info_instance') && $this->getData('no_sync') !== true) {
-            // TODO: Update billing address if and only if necessary
+            if ($this->hasOrigData('payment_id') && $this->getData('address') !== $this->getOrigData('address')) {
+                // TODO: Update billing address on the token, because it changed since the token was created.
+                // TODO: Update card from account somehow?
+            }
         }
 
         parent::beforeSave();
@@ -48,10 +51,12 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
          * Delete from Stripe if we have a valid record.
          */
         if (!empty($this->getPaymentId())) {
-            /** @var \ParadoxLabs\Stripe\Model\Gateway $gateway */
+            /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
             $gateway = $this->getMethodInstance()->gateway();
 
             try {
+                $gateway->setCard($this);
+                $gateway->deleteCard();
                 // TODO: Delete card from gateway
             } catch (\Exception $e) {
                 $this->helper->log(

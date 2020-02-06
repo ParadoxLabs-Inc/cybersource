@@ -52,6 +52,39 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $fields = [];
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Config\Config
+     */
+    protected $config;
+
+    /**
+     * @var Api\TransactionProcessor
+     */
+    protected $soapClient;
+
+    /**
+     * Constructor, yeah!
+     *
+     * @param \ParadoxLabs\TokenBase\Helper\Data $helper
+     * @param \ParadoxLabs\TokenBase\Model\Gateway\Xml $xml
+     * @param \ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory $responseFactory
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
+     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param array $data
+     */
+    public function __construct(
+        \ParadoxLabs\TokenBase\Helper\Data $helper,
+        \ParadoxLabs\TokenBase\Model\Gateway\Xml $xml,
+        \ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory $responseFactory,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
+        \ParadoxLabs\CyberSource\Model\Config\Config $config,
+        array $data = []
+    ) {
+        parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
+
+        $this->config = $config;
+    }
+
+    /**
      * Initialize the gateway. Input is taken as an array for greater flexibility.
      *
      * @param array $parameters
@@ -59,102 +92,65 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function init(array $parameters)
     {
-        // parent::init($parameters);
+        $soapOptions = [
+            'encoding' => 'utf-8',
+            'exceptions' => true,
+            'connection_timeout' => 3, // TODO: make this configurable?
+        ];
 
-        // $soapOptions = [
-        //     'encoding' => 'utf-8',
-        //     'exceptions' => true,
-        //     'connection_timeout' => 3,
-        //     'cache_wsdl' => WSDL_CACHE_NONE,
-        //     'trace' => 1,
-        // ];
-        // $merchantId = 'paradoxlabs';
-        // $transactionKey = 'J5q4DNmc3kyrasfMPJB007YfH5tqOF931vZcXdp7gH/WL2imGszI67qXtdgOiWruYzu1dbb34+kvoMMEKYu2jm7LMrpOr0L/qugyFwFgG3C1nfZ+P95q2OByrh1Kk6TPtx9rv9fz4nnW3x9mrXbxX7+QXp+X0vq1g2DWtCmgMpLDOZOtbWUuhdqtuf/veFu/WujH5qxMjt9oZPztnr8yMnjBmZQ4tgM/7Z4kdmIhk0cIYlXdSqIrwhKEGP+GcIPU13vAeHXeIAUQZThDJemPvTdgKIkS9ySLGTHdMX9norJDdvggHHKukQu3s5T65FvmfmesqiBODBbrp1IXHO4vbg==';
-        //
-        // $request = new Api\RequestMessage();
-        // $request->setMerchantReferenceCode('ABC123');
-        //
-        // $billTo = new Api\BillTo();
-        // $billTo->setFirstName('John');
-        // $billTo->setLastName('Doe');
-        // $billTo->setStreet1('123 Test Ave.');
-        // $billTo->setCity('Test City');
-        // $billTo->setState('PA');
-        // $billTo->setPostalCode('12345');
-        // $billTo->setCountry('US');
-        // $billTo->setPhoneNumber('555-555-5555');
-        // $billTo->setEmail('test@example.com');
-        // $billTo->setIpAddress('127.0.0.1');
-        // $request->setBillTo($billTo);
-        //
-        // $shipTo = new Api\ShipTo();
-        // $shipTo->setFirstName('John');
-        // $shipTo->setLastName('Doe');
-        // $shipTo->setStreet1('123 Test Ave.');
-        // $shipTo->setCity('Test City');
-        // $shipTo->setState('PA');
-        // $shipTo->setPostalCode('12345');
-        // $shipTo->setCountry('US');
-        // $shipTo->setPhoneNumber('555-555-5555');
-        // $request->setShipTo($shipTo);
-        //
-        // $item0 = new Api\Item(0);
-        // $item0->setUnitPrice(1.99);
-        // $item0->setTaxAmount(0);
-        // $item0->setQuantity(1);
-        // $item0->setProductSKU('Q993');
-        // $request->setItem([$item0]);
-        //
-        // $purchaseTotals = new Api\PurchaseTotals();
-        // $purchaseTotals->setCurrency('USD');
-        // $request->setPurchaseTotals($purchaseTotals);
-        //
-        // $card = new Api\Card();
-        // $card->setAccountNumber('4111111111111111');
-        // $card->setCardType('001');
-        // $card->setExpirationMonth(12);
-        // $card->setExpirationYear(2021);
-        // $request->setCard($card);
-        //
-        // $ccAuthService = new Api\CCAuthService('true');
-        // $ccAuthService->setCommerceIndicator('moto');
-        // $request->setCcAuthService($ccAuthService);
-        //
-        // $request->setClientLibrary('PHP');
-        // $request->setClientLibraryVersion('7.2');
-        //
-        // $decisionManager = new Api\DecisionManager();
-        // $decisionManager->setEnabled('false');
-        // $request->setDecisionManager($decisionManager);
-        //
-        // try {
-        //     $client = new Api\TransactionProcessor($soapOptions, 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl');
-        //     $client->__setSoapHeaders(
-        //         new Api\WsseHeader('', '', null, true, null, $merchantId, $transactionKey)
-        //     );
-        //     $result = $client->runTransaction($request);
-        // } catch (\Exception $e) {
-        // }
+        if ($this->config->isSandboxMode()) {
+            $soapOptions['cache_wsdl'] = WSDL_CACHE_NONE;
+            $soapOptions['trace'] = true;
+        }
+
+        // TODO: Get current store ID for these?
+        $this->soapClient = new Api\TransactionProcessor(
+            $soapOptions,
+            $this->config->getSoapWsdl()
+        );
+
+        $this->soapClient->__setSoapHeaders(
+            new Api\WsseHeader(
+                '',
+                '',
+                null,
+                true,
+                null,
+                $this->config->getMerchantId(),
+                $this->config->getSoapTransactionKey()
+            )
+        );
 
         return $this;
     }
 
     /**
-     * Set the API credentials so they go through validation.
-     *
-     * @return $this
-     * @throws PaymentException
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function clearParameters()
+    public function createRequest()
     {
-        parent::clearParameters();
+        $request = new Api\RequestMessage();
+        $request->setMerchantID($this->config->getMerchantId());
+        $request->setMerchantReferenceCode(uniqid('', true));
+        // TODO: SolutionID
+        // TODO: Client library info
+        // TODO: site URL?
 
-        if (isset($this->defaults['login'], $this->defaults['password'])) {
-            $this->setParameter('apikey', $this->defaults['login']);
-            $this->setParameter('token', $this->defaults['password']);
+        return $request;
+    }
+
+    /**
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function run(Api\RequestMessage $requestMessage)
+    {
+        if ($this->soapClient instanceof Api\TransactionProcessor === false) {
+            throw new \Magento\Framework\Exception\StateException(__('CyberSource gateway has not been initialized'));
         }
 
-        return $this;
+        // TODO: Error handling
+        return $this->soapClient->runTransaction($requestMessage);
     }
 
     /**
@@ -166,7 +162,79 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
-        // TODO: Implement authorize() method.
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $payment->getOrder();
+
+        /** @var \Magento\Sales\Model\Order\Address $billingAddress */
+        $billingAddress = $order->getBillingAddress();
+
+        $billTo = new Api\BillTo();
+        $billTo->setFirstName($billingAddress->getFirstname());
+        $billTo->setLastName($billingAddress->getLastname());
+        $billTo->setStreet1($billingAddress->getStreetLine(1));
+        $billTo->setStreet2($billingAddress->getStreetLine(2));
+        $billTo->setCity($billingAddress->getCity());
+        $billTo->setState($billingAddress->getRegionCode());
+        $billTo->setPostalCode($billingAddress->getPostcode());
+        $billTo->setCountry($billingAddress->getCountryId());
+        $billTo->setPhoneNumber($billingAddress->getTelephone());
+        $billTo->setEmail($billingAddress->getEmail());
+        $billTo->setIpAddress($order->getRemoteIp());
+
+        if ((bool)$order->getIsVirtual() === false) {
+            /** @var \Magento\Sales\Model\Order\Address $shippingAddress */
+            $shippingAddress = $order->getShippingAddress();
+
+            $shipTo = new Api\ShipTo();
+            $shipTo->setFirstName($shippingAddress->getFirstname());
+            $shipTo->setLastName($shippingAddress->getLastname());
+            $shipTo->setStreet1($shippingAddress->getStreetLine(1));
+            $shipTo->setStreet2($shippingAddress->getStreetLine(2));
+            $shipTo->setCity($shippingAddress->getCity());
+            $shipTo->setState($shippingAddress->getRegionCode());
+            $shipTo->setPostalCode($shippingAddress->getPostcode());
+            $shipTo->setCountry($shippingAddress->getCountryId());
+            $shipTo->setPhoneNumber($shippingAddress->getTelephone());
+        }
+
+        $items = [];
+        /** @var \Magento\Sales\Model\Order\Item $orderItem */
+        foreach ($order->getAllVisibleItems() as $k => $orderItem) {
+            $soapItem = new Api\Item($k);
+            $soapItem->setUnitPrice($orderItem->getPrice());
+            $soapItem->setQuantity($orderItem->getQtyOrdered());
+            $soapItem->setProductSKU($orderItem->getSku());
+            $soapItem->setProductName($orderItem->getName());
+            $soapItem->setTaxAmount($orderItem->getTaxAmount()); // TODO: Verify unit or row amount on both sides
+            $soapItem->setDiscountAmount($orderItem->getDiscountAmount()); // TODO: Verify unit or row amount
+            $items[] = $soapItem;
+        }
+
+        $tokenInfo = new Api\RecurringSubscriptionInfo();
+        $tokenInfo->setSubscriptionID($this->getCard()->getPaymentId());
+
+        $purchaseTotals = new Api\PurchaseTotals();
+        $purchaseTotals->setCurrency(strtoupper($order->getOrderCurrencyCode())); // TODO: Verify currency handling
+        $purchaseTotals->setGrandTotalAmount($order->getGrandTotal());
+
+        $ccAuthService = new Api\CCAuthService('true');
+        $ccAuthService->setCommerceIndicator('moto'); // TODO: Make this correct based on source ??
+
+        $request = $this->createRequest();
+        $request->setBillTo($billTo);
+        $request->setShipTo($shipTo);
+        $request->setItem($items);
+        $request->setRecurringSubscriptionInfo($tokenInfo);
+        $request->setPurchaseTotals($purchaseTotals);
+        $request->setCcAuthService($ccAuthService);
+
+        $response = $this->run($request);
+        // TODO: Handle response
+        // TODO: Split all the above objects out
+
+        return new \ParadoxLabs\TokenBase\Model\Gateway\Response([]);
     }
 
     /**
@@ -217,5 +285,23 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     public function fraudUpdate(\Magento\Payment\Model\InfoInterface $payment, $transactionId)
     {
         // TODO: Implement fraudUpdate() method.
+    }
+
+    /**
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function deleteCard()
+    {
+        $info = new Api\RecurringSubscriptionInfo();
+        $info->setSubscriptionID($this->getCard()->getPaymentId());
+
+        $request = $this->createRequest();
+        $request->setRecurringSubscriptionInfo($info);
+        $request->setPaySubscriptionDeleteService(
+            new Api\PaySubscriptionDeleteService(true) // TODO: Fix missing class
+        );
+
+        return $this->run($request);
     }
 }
