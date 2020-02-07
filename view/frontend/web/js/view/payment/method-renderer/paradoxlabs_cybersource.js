@@ -26,6 +26,8 @@ define(
                         'billingAddressLine'
                     ]);
 
+                // TODO: Wire require-cvv-for-stored-cards back up
+
                 quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 this.billingAddressLine.subscribe(this.initSecureAcceptanceForm.bind(this));
