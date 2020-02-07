@@ -49,7 +49,9 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      *
      * @var array
      */
-    protected $fields = [];
+    protected $fields = [
+        'transaction_id' => [],
+    ];
 
     /**
      * @var \ParadoxLabs\CyberSource\Model\Config\Config
@@ -140,9 +142,17 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request = new Api\RequestMessage();
         $request->setMerchantID($this->config->getMerchantId());
         $request->setMerchantReferenceCode(uniqid('', true));
-        // TODO: SolutionID
-        // TODO: Client library info
-        // TODO: site URL?
+        $request->setPartnerSolutionID($this->config->getSolutionId());
+        $request->setClientLibrary($this->config->getClientName());
+        $request->setClientLibraryVersion($this->config->getClientVersion());
+        $request->setClientEnvironment('Magento 2');
+
+        // TODO: Verify this comes out the same as setting Field3
+        // Fields 1 and 2 have special meaning for certain processors, so skip them.
+        $merchantDefinedData = $this->objectBuilder->getMerchantDefinedData([
+            3 => $this->getTransactionOrigin(),
+        ]);
+        $request->setMerchantDefinedData($merchantDefinedData);
 
         return $request;
     }
@@ -230,23 +240,13 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = new Api\PurchaseTotals();
-        $purchaseTotals->setCurrency(strtoupper($order->getOrderCurrencyCode())); // TODO: Verify currency handling
-        $purchaseTotals->setGrandTotalAmount($amount);
-
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getOrderCurrencyCode(), $amount);
         if ($this->getHaveAuthorized() !== true) {
             $purchaseTotals->setTaxAmount($order->getTaxAmount());
             $purchaseTotals->setShippingAmount($payment->getShippingAmount());
         }
 
-        $ccAuthService = new Api\CCAuthService('true');
-        // TODO: Make this correct based on source ?? internet, or moto for admin/followup
-        $ccAuthService->setCommerceIndicator('internet');
-
-        $merchantDefinedData = new Api\MerchantDefinedData();
-        // Fields 1 and 2 have special meaning for certain processors, so skip them.
-        $store = $this->helper->getCurrentStore();
-        $merchantDefinedData->setField3(substr(__('%1 (%2)', $store->getName(), $store->getBaseUrl()), 0, 255));
+        $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
@@ -254,25 +254,23 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
         $request->setPurchaseTotals($purchaseTotals);
-        $request->setCcAuthService($ccAuthService);
-        $request->setMerchantDefinedData($merchantDefinedData);
+        $request->setCcAuthService($this->objectBuilder->getAuthService($commerceIndicator));
 
         if ((bool)$order->getIsVirtual() === false) {
             $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
         }
 
-        // TODO: Card code not being validated?
+        // TODO: Card code not being validated? Emailed Trevor 2/07
         if ($payment->hasData('cc_cid') && !empty($payment->getData('cc_cid'))) {
-            $card = new Api\Card();
-            $card->setCvNumber($payment->getData('cc_cid'));
-            $request->setCard($card);
+            $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
         }
 
-        $result = $this->run($request);
-        // TODO: Handle response
-        // TODO: Split all the above objects out
+        $reply = $this->run($request);
 
-        return $this->interpretTransaction($result);
+        // TODO: Handle response
+        $response = $this->interpretTransaction($reply);
+
+        return $response;
     }
 
     /**
@@ -285,7 +283,52 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount, $transactionId = null)
     {
-        // TODO: Implement capture() method.
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var \Magento\Sales\Model\Order $order */
+        $order  = $payment->getOrder();
+
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getOrderCurrencyCode(), $amount);
+        if ($this->getHaveAuthorized() !== true) {
+            $purchaseTotals->setTaxAmount($order->getTaxAmount());
+            $purchaseTotals->setShippingAmount($payment->getShippingAmount());
+        }
+
+        $request = $this->createRequest();
+        $request->setMerchantReferenceCode($order->getIncrementId());
+        $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
+        $request->setPurchaseTotals($purchaseTotals);
+
+        $transactionId = $transactionId ?: $this->getTransactionId();
+        $ccCaptureService = new Api\CCCaptureService('true');
+        if ($this->getHaveAuthorized() && !empty($transactionId)) {
+            $ccCaptureService->setAuthRequestID($transactionId);
+        } else {
+            // If we don't have a transaction ID to capture, run a 'bundled' auth+capture instead.
+            $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
+            $ccAuthService = $this->objectBuilder->getAuthService($commerceIndicator);
+            $ccAuthService->setAuthType('AUTOCAPTURE');
+            $request->setCcAuthService($ccAuthService);
+
+            $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
+            $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
+            if ((bool)$order->getIsVirtual() === false) {
+                $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
+            }
+            // TODO: Card code not being validated? Emailed Trevor 2/07
+            if ($payment->hasData('cc_cid') && !empty($payment->getData('cc_cid'))) {
+                $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
+            }
+        }
+        $request->setCcCaptureService($ccCaptureService);
+
+        $reply = $this->run($request);
+
+        // TODO: Handle no-such-auth/expired-auth error
+
+        // TODO: Handle response
+        $response = $this->interpretTransaction($reply);
+
+        return $response;
     }
 
     /**
@@ -298,7 +341,40 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function refund(\Magento\Payment\Model\InfoInterface $payment, $amount, $transactionId = null)
     {
-        // TODO: Implement refund() method.
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var \Magento\Sales\Model\Order $order */
+        $order  = $payment->getOrder();
+
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getOrderCurrencyCode(), $amount);
+        if ($payment->getCreditmemo() instanceof \Magento\Sales\Api\Data\CreditmemoInterface) {
+            if ($payment->getCreditmemo()->getTaxAmount()) {
+                $purchaseTotals->setTaxAmount($payment->getCreditmemo()->getTaxAmount());
+            }
+            if ($payment->getCreditmemo()->getShippingAmount()) {
+                $purchaseTotals->setShippingAmount($payment->getCreditmemo()->getShippingAmount());
+            }
+        }
+
+        $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
+
+        $ccCreditService = new Api\CCCreditService('true');
+        $ccCreditService->setCommerceIndicator($commerceIndicator);
+        $ccCreditService->setCaptureRequestID($transactionId ?: $this->getTransactionId());
+
+        $request = $this->createRequest();
+        $request->setMerchantReferenceCode($order->getIncrementId());
+        $request->setPurchaseTotals($purchaseTotals);
+        $request->setCcCreditService($ccCreditService);
+
+        $reply = $this->run($request);
+
+        // TODO: Handle not-settled-yet error (auto void IF full amount AND do an auth reversal)
+        // TODO: Handle past-refund-period error (run unlinked refund, or error out?)
+
+        // TODO: Handle response
+        $response = $this->interpretTransaction($reply);
+
+        return $response;
     }
 
     /**
@@ -310,7 +386,29 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function void(\Magento\Payment\Model\InfoInterface $payment, $transactionId = null)
     {
-        // TODO: Implement void() method.
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var \Magento\Sales\Model\Order $order */
+        $order  = $payment->getOrder();
+
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
+            $order->getOrderCurrencyCode(),
+            $order->getTotalDue()
+        );
+
+        $ccAuthReversalService = new Api\CCAuthReversalService('true');
+        $ccAuthReversalService->setAuthRequestID($transactionId ?: $this->getTransactionId());
+
+        $request = $this->createRequest();
+        $request->setMerchantReferenceCode($order->getIncrementId());
+        $request->setPurchaseTotals($purchaseTotals);
+        $request->setCcAuthReversalService($ccAuthReversalService);
+
+        $reply = $this->run($request);
+
+        // TODO: Handle response
+        $response = $this->interpretTransaction($reply);
+
+        return $response;
     }
 
     /**
@@ -323,14 +421,18 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     public function fraudUpdate(\Magento\Payment\Model\InfoInterface $payment, $transactionId)
     {
         // TODO: Implement fraudUpdate() method.
+        //  Need to use https://developer.cybersource.com/api/developer-guides/dita-txn-search-details-rest-api-dev-guide-102718/txn_details_api/retrieve_a_txn.html
+        //  or https://developer.cybersource.com/api/developer-guides/dita-reporting-rest-api-dev-guide-102718/reporting_api/download_ondemand_detail_report.html
+        //  to get transaction updates ... separate API, separate creds
     }
 
     /**
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
      * @throws \Magento\Framework\Exception\StateException
      */
     public function deleteCard()
     {
+        // TODO: Test this! NB: API indicates token can't be removed until all instrs referencing it are. Problematic?
         $info = new Api\RecurringSubscriptionInfo();
         $info->setSubscriptionID($this->getCard()->getPaymentId());
 
@@ -340,7 +442,9 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             new Api\PaySubscriptionDeleteService('true')
         );
 
-        return $this->run($request);
+        $reply = $this->run($request);
+
+        return $this->interpretTransaction($reply);
     }
 
     /**
@@ -354,13 +458,23 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $data['transaction_id'] = $data['requestID'];
 
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
-        $response = $this->responseFactory->create();
-        $response->setData($data);
-        $response->setIsError($api->getDecision() === 'DECLINE'); // TODO
-        $response->setIsFraud($api->getDecision() === 'REVIEW'); // TODO
+        $response = $this->responseFactory->create(['data' => $data]);
+        $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
+        $response->setIsFraud($api->getDecision() === 'REVIEW');
 
         // TODO: Error handling / payment exceptions
 
         return $response;
+    }
+
+    /**
+     * @return \Magento\Framework\Phrase
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    protected function getTransactionOrigin()
+    {
+        $store  = $this->helper->getCurrentStore();
+
+        return __('%1 (%2)', $store->getName(), $store->getBaseUrl());
     }
 }

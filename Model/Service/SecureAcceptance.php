@@ -83,7 +83,7 @@ class SecureAcceptance
         $input['signature_validation'] = $this->hmac->validateSignature($input);
 
         $this->helper->log(
-            'cybersource',
+            'paradoxlabs_cybersource',
             json_encode($input)
         );
 
@@ -114,7 +114,7 @@ class SecureAcceptance
         $card->setCustomerEmail($input['req_bill_to_email']);
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);
         $card->setCustomerIp($input['req_customer_ip_address']);
-        $card->setActive(0); // TODO: Will this allow checkout?
+        $card->setActive(0);
 
         $card->setAddress($this->getAddress($input));
 

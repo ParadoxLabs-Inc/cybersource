@@ -42,4 +42,6 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
 
         return $this->gateway;
     }
+
+    // TODO: Handle partial capture differently? Cybs allows multiple capture, but Magento's transaction records may not
 }

@@ -23,6 +23,7 @@ class Config
     const SECUREACCEPT_TEST = 'https://testsecureacceptance.cybersource.com';
     const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
     const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
+    const SOLUTION_ID = 'DEQXVEEG';
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -155,6 +156,30 @@ class Config
         }
 
         return static::SOAP_LIVE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSolutionId()
+    {
+        return static::SOLUTION_ID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientName()
+    {
+        return $this->getConfigValue('client_name');
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientVersion()
+    {
+        return $this->getConfigValue('client_version');
     }
 
     // TODO: Add more getters, probably

@@ -26,7 +26,12 @@
                 <sort_order />
                 <require_ccv>0</require_ccv>
                 <reauthorize_partial_invoice>1</reauthorize_partial_invoice>
+                <reauthorize_partial_invoice>1</reauthorize_partial_invoice>
+                <savecard_opt_out>1</savecard_opt_out>
                 <group>tokenbase</group>
+                <!-- API info -->
+                <client_name>ParadoxLabs_CyberSource</client_name>
+                <client_version>0.0.1</client_version>
                 <!-- Feature flags -->
                 <can_order>1</can_order>
                 <can_authorize>1</can_authorize>
@@ -40,7 +45,9 @@
                 <can_use_internal>1</can_use_internal>
                 <can_use_checkout>1</can_use_checkout>
                 <can_edit>1</can_edit>
-                <can_review_payment>1</can_review_payment>
+                <can_fetch_transaction_information>1</can_fetch_transaction_information>
+                <can_fetch_transaction_info>1</can_fetch_transaction_info>
+                <can_review_payment>0</can_review_payment>
                 <is_gateway>0</is_gateway>
                 <is_offline>0</is_offline>
                 <can_initialize>0</can_initialize>

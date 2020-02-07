@@ -119,4 +119,59 @@ class ObjectBuilder
 
         return $tokenInfo;
     }
+
+    /**
+     * @param string $currency
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
+     */
+    public function getPurchaseTotals($currency, $amount)
+    {
+        $purchaseTotals = new PurchaseTotals();
+        $purchaseTotals->setCurrency(strtoupper($currency));
+        $purchaseTotals->setGrandTotalAmount($amount);
+
+        return $purchaseTotals;
+    }
+
+    /**
+     * @param string $commerceIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function getAuthService($commerceIndicator = null)
+    {
+        $ccAuthService = new CCAuthService('true');
+        if ($commerceIndicator !== null) {
+            $ccAuthService->setCommerceIndicator($commerceIndicator);
+        }
+
+        return $ccAuthService;
+    }
+
+    /**
+     * @param array $fieldsArray
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\MerchantDefinedData
+     */
+    public function getMerchantDefinedData($fieldsArray)
+    {
+        // NB: Using deprecated Field#s because MDDField[] doesn't appear to work through the SoapClient classes.
+        $fields = [];
+        $merchantDefinedData = new MerchantDefinedData();
+        foreach ($fieldsArray as $key => $value) {
+            call_user_func([$merchantDefinedData, 'setField' . (int)$key], $value);
+        }
+
+        return $merchantDefinedData;
+    }
+
+    /**
+     * @param string|int $cvv
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function getCardForCvv($cvv)
+    {
+        $card = new Card();
+        $card->setCvNumber($cvv);
+
+        return $card;
+    }
 }

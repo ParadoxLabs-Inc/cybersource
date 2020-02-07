@@ -26,7 +26,7 @@ define(
                         'billingAddressLine'
                     ]);
 
-                // TODO: Wire require-cvv-for-stored-cards back up
+                // TODO: Wire require-cvv-for-stored-cards back up, IF TMS + CVV works. Waiting for answer.
 
                 quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));

@@ -104,6 +104,7 @@ class GetParams extends Action
             'override_custom_cancel_page' => $this->_url->getUrl('pdl_cybs/secureaccept/cancel'),
             'override_custom_receipt_page' => $this->_url->getUrl('pdl_cybs/secureaccept/complete'),
             'payer_authentication_transaction_mode' => 'S', // S for ecommerce. TODO: Pass M in admin
+            'partner_solution_id' => $this->config->getSolutionId(),
             'signed_field_names' => '',
             // TODO: Add in device_fingerprint_id
         ];

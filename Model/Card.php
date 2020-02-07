@@ -35,6 +35,8 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
             }
         }
 
+        // TODO: Get card set to active if that's chosen on checkout.
+
         parent::beforeSave();
 
         return $this;
@@ -57,7 +59,6 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
             try {
                 $gateway->setCard($this);
                 $gateway->deleteCard();
-                // TODO: Delete card from gateway
             } catch (\Exception $e) {
                 $this->helper->log(
                     $this->getMethod(),
