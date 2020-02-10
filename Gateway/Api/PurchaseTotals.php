@@ -195,7 +195,7 @@ class PurchaseTotals
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
+      $this->currency = strtoupper(substr($currency, 0, 5));
       return $this;
     }
 
@@ -267,7 +267,7 @@ class PurchaseTotals
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
+      $this->taxAmount = max((float)$taxAmount, 0);
       return $this;
     }
 
@@ -321,7 +321,7 @@ class PurchaseTotals
      */
     public function setGrandTotalAmount($grandTotalAmount)
     {
-      $this->grandTotalAmount = $grandTotalAmount;
+      $this->grandTotalAmount = max((float)$grandTotalAmount, 0);
       return $this;
     }
 
@@ -411,7 +411,7 @@ class PurchaseTotals
      */
     public function setOriginalAmount($originalAmount)
     {
-      $this->originalAmount = $originalAmount;
+      $this->originalAmount = max((float)$originalAmount, 0);
       return $this;
     }
 
@@ -699,7 +699,7 @@ class PurchaseTotals
      */
     public function setShippingAmount($shippingAmount)
     {
-      $this->shippingAmount = $shippingAmount;
+      $this->shippingAmount = max((float)$shippingAmount, 0);
       return $this;
     }
 

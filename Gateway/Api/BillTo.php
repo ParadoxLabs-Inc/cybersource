@@ -358,7 +358,7 @@ class BillTo
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = $firstName;
+      $this->firstName = substr(str_replace(':', '', $firstName), 0, 60);
       return $this;
     }
 
@@ -394,7 +394,7 @@ class BillTo
      */
     public function setLastName($lastName)
     {
-      $this->lastName = $lastName;
+      $this->lastName = substr(str_replace(':', '', $lastName), 0, 60);
       return $this;
     }
 
@@ -430,7 +430,7 @@ class BillTo
      */
     public function setBuildingNumber($buildingNumber)
     {
-      $this->buildingNumber = $buildingNumber;
+      $this->buildingNumber = substr(str_replace(':', '', $buildingNumber), 0, 255);
       return $this;
     }
 
@@ -448,7 +448,7 @@ class BillTo
      */
     public function setStreet1($street1)
     {
-      $this->street1 = $street1;
+      $this->street1 = substr(str_replace(':', '', $street1), 0, 60);
       return $this;
     }
 
@@ -466,7 +466,7 @@ class BillTo
      */
     public function setStreet2($street2)
     {
-      $this->street2 = $street2;
+      $this->street2 = substr(str_replace(':', '', $street2), 0, 60);
       return $this;
     }
 
@@ -484,7 +484,7 @@ class BillTo
      */
     public function setStreet3($street3)
     {
-      $this->street3 = $street3;
+      $this->street3 = substr(str_replace(':', '', $street3), 0, 60);
       return $this;
     }
 
@@ -502,7 +502,7 @@ class BillTo
      */
     public function setStreet4($street4)
     {
-      $this->street4 = $street4;
+      $this->street4 = substr(str_replace(':', '', $street4), 0, 60);
       return $this;
     }
 
@@ -538,7 +538,7 @@ class BillTo
      */
     public function setCity($city)
     {
-      $this->city = $city;
+      $this->city = substr(str_replace(':', '', $city), 0, 50);
       return $this;
     }
 
@@ -592,7 +592,7 @@ class BillTo
      */
     public function setState($state)
     {
-      $this->state = $state;
+      $this->state = strtoupper(substr(str_replace(':', '', $state), 0, 2));
       return $this;
     }
 
@@ -610,7 +610,19 @@ class BillTo
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
+        if ($this->getCountry() === 'US') {
+            $postalCode = preg_replace('/[^\d]/', '', $postalCode);
+            if (strlen($postalCode) > 5) {
+                $postalCode = substr($postalCode, 0, 5) . '-' . substr($postalCode, 5, 4);
+            } elseif (strlen($postalCode) < 5) {
+                $postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
+            }
+        } elseif ($this->getCountry() === 'CA') {
+            $postalCode = preg_replace('/[^a-zA-Z0-9]/', '', $postalCode);
+            $postalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3, 3);
+        }
+
+      $this->postalCode = substr(str_replace(':', '', $postalCode), 0, 10);
       return $this;
     }
 
@@ -628,7 +640,7 @@ class BillTo
      */
     public function setCountry($country)
     {
-      $this->country = $country;
+      $this->country = strtoupper(substr(str_replace(':', '', $country), 0, 2));
       return $this;
     }
 
@@ -646,7 +658,7 @@ class BillTo
      */
     public function setCompany($company)
     {
-      $this->company = $company;
+      $this->company = substr(str_replace(':', '', $company), 0, 60);
       return $this;
     }
 
@@ -664,7 +676,7 @@ class BillTo
      */
     public function setCompanyTaxID($companyTaxID)
     {
-      $this->companyTaxID = $companyTaxID;
+      $this->companyTaxID = substr(str_replace(':', '', $companyTaxID), 0, 9);
       return $this;
     }
 
@@ -682,7 +694,7 @@ class BillTo
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = $phoneNumber;
+      $this->phoneNumber = substr(str_replace(':', '', $phoneNumber), 0, 15);
       return $this;
     }
 
@@ -700,7 +712,7 @@ class BillTo
      */
     public function setEmail($email)
     {
-      $this->email = $email;
+      $this->email = substr(str_replace(':', '', $email), 0, 255);
       return $this;
     }
 
@@ -718,7 +730,7 @@ class BillTo
      */
     public function setIpAddress($ipAddress)
     {
-      $this->ipAddress = $ipAddress;
+      $this->ipAddress = substr(preg_replace('/[^\d.]/', '', $ipAddress), 0, 15);
       return $this;
     }
 
@@ -790,7 +802,7 @@ class BillTo
      */
     public function setHostname($hostname)
     {
-      $this->hostname = $hostname;
+      $this->hostname = substr(str_replace(':', '', $hostname), 0, 60);
       return $this;
     }
 
@@ -898,7 +910,7 @@ class BillTo
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = $customerID;
+      $this->customerID = substr(str_replace(':', '', $customerID), 0, 30);
       return $this;
     }
 
@@ -916,7 +928,7 @@ class BillTo
      */
     public function setHttpBrowserType($httpBrowserType)
     {
-      $this->httpBrowserType = $httpBrowserType;
+      $this->httpBrowserType = substr(str_replace(':', '', $httpBrowserType), 0, 40);
       return $this;
     }
 
@@ -988,7 +1000,7 @@ class BillTo
      */
     public function setPersonalID($personalID)
     {
-      $this->personalID = $personalID;
+      $this->personalID = substr(str_replace(':', '', $personalID), 0, 26);
       return $this;
     }
 
@@ -1060,7 +1072,7 @@ class BillTo
      */
     public function setMerchantTaxID($merchantTaxID)
     {
-      $this->merchantTaxID = $merchantTaxID;
+      $this->merchantTaxID = substr(str_replace(':', '', $merchantTaxID), 0, 15);
       return $this;
     }
 

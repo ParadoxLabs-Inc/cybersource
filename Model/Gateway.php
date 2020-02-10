@@ -209,13 +209,13 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $maskFour = ['Password', 'accountNumber'];
 
         foreach ($maskAll as $val) {
-            $string = preg_replace('#' . $val . '>(.+?)</' . $val . '#', $val . '>XXX</' . $val, $string);
+            $string = preg_replace('#' . $val . '>(.+?)</(.+?):' . $val . '#', $val . '>XXX</$2:' . $val, $string);
         }
 
         foreach ($maskFour as $val) {
             $start = strpos($string, $val . '>');
             $end = strpos($string, '</', $start);
-            $tagLen = strlen($val) + 2;
+            $tagLen = strlen($val) + 1;
 
             if ($start !== false && $end > ($start + $tagLen + 4)) {
                 $string = substr_replace($string, 'XXXX', $start + $tagLen, $end - 4 - ($start + $tagLen));
@@ -462,6 +462,13 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
         // TODO: Error handling / payment exceptions
+
+        if ($api->getDecision() === 'ERROR') {
+            throw new LocalizedException(__('Transaction Failed: %1', 'Generic decline')); // TODO: Response code handling
+        }
+        if ($api->getDecision() === 'REJECT') {
+            throw new PaymentException(__('Transaction Failed: %1', 'Generic decline')); // TODO: Response code handling
+        }
 
         return $response;
     }

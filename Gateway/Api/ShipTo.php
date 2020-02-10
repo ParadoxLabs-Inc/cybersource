@@ -193,7 +193,7 @@ class ShipTo
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = $firstName;
+      $this->firstName = substr($firstName, 0, 60);
       return $this;
     }
 
@@ -229,7 +229,7 @@ class ShipTo
      */
     public function setLastName($lastName)
     {
-      $this->lastName = $lastName;
+      $this->lastName = substr($lastName, 0, 60);
       return $this;
     }
 
@@ -265,7 +265,7 @@ class ShipTo
      */
     public function setStreet1($street1)
     {
-      $this->street1 = $street1;
+      $this->street1 = substr($street1, 0, 60);
       return $this;
     }
 
@@ -283,7 +283,7 @@ class ShipTo
      */
     public function setStreet2($street2)
     {
-      $this->street2 = $street2;
+      $this->street2 = substr($street2, 0, 60);
       return $this;
     }
 
@@ -301,7 +301,7 @@ class ShipTo
      */
     public function setStreet3($street3)
     {
-      $this->street3 = $street3;
+      $this->street3 = substr($street3, 0, 60);
       return $this;
     }
 
@@ -319,7 +319,7 @@ class ShipTo
      */
     public function setStreet4($street4)
     {
-      $this->street4 = $street4;
+      $this->street4 = substr($street4, 0, 60);
       return $this;
     }
 
@@ -355,7 +355,7 @@ class ShipTo
      */
     public function setCity($city)
     {
-      $this->city = $city;
+      $this->city = substr($city, 0, 50);
       return $this;
     }
 
@@ -373,7 +373,7 @@ class ShipTo
      */
     public function setCounty($county)
     {
-      $this->county = $county;
+      $this->county = strtoupper(substr($county, 0, 2));
       return $this;
     }
 
@@ -391,7 +391,7 @@ class ShipTo
      */
     public function setState($state)
     {
-      $this->state = $state;
+      $this->state = strtoupper(substr($state, 0, 2));
       return $this;
     }
 
@@ -409,7 +409,7 @@ class ShipTo
      */
     public function setBuildingNumber($buildingNumber)
     {
-      $this->buildingNumber = $buildingNumber;
+      $this->buildingNumber = substr($buildingNumber, 0, 15);
       return $this;
     }
 
@@ -445,7 +445,19 @@ class ShipTo
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
+        if ($this->getCountry() === 'US') {
+            $postalCode = preg_replace('/[^\d]/', '', $postalCode);
+            if (strlen($postalCode) > 5) {
+                $postalCode = substr($postalCode, 0, 5) . '-' . substr($postalCode, 5, 4);
+            } elseif (strlen($postalCode) < 5) {
+                $postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
+            }
+        } elseif ($this->getCountry() === 'CA') {
+            $postalCode = preg_replace('/[^a-zA-Z0-9]/', '', $postalCode);
+            $postalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3, 3);
+        }
+
+        $this->postalCode = substr($postalCode, 0, 10);
       return $this;
     }
 
@@ -499,7 +511,7 @@ class ShipTo
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = $phoneNumber;
+      $this->phoneNumber = substr($phoneNumber, 0, 15);
       return $this;
     }
 

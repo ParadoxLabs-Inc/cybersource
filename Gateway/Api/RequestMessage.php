@@ -1185,7 +1185,7 @@ class RequestMessage
      */
     public function setMerchantID($merchantID)
     {
-      $this->merchantID = $merchantID;
+      $this->merchantID = substr($merchantID, 0, 30);
       return $this;
     }
 
@@ -1203,7 +1203,7 @@ class RequestMessage
      */
     public function setMerchantReferenceCode($merchantReferenceCode)
     {
-      $this->merchantReferenceCode = $merchantReferenceCode;
+      $this->merchantReferenceCode = substr($merchantReferenceCode, 0, 50);
       return $this;
     }
 

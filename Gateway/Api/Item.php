@@ -707,7 +707,7 @@ class Item
      */
     public function setUnitPrice($unitPrice)
     {
-      $this->unitPrice = $unitPrice;
+      $this->unitPrice = (float)$unitPrice;
       return $this;
     }
 
@@ -725,7 +725,7 @@ class Item
      */
     public function setQuantity($quantity)
     {
-      $this->quantity = $quantity;
+      $this->quantity = (int)$quantity;
       return $this;
     }
 
@@ -743,7 +743,7 @@ class Item
      */
     public function setProductCode($productCode)
     {
-      $this->productCode = $productCode;
+      $this->productCode = substr(str_replace(['^', ':'], '', $productCode), 0, 255);
       return $this;
     }
 
@@ -761,7 +761,7 @@ class Item
      */
     public function setProductName($productName)
     {
-      $this->productName = $productName;
+      $this->productName = substr(str_replace(['^', ':'], '', $productName), 0, 255);
       return $this;
     }
 
@@ -779,7 +779,7 @@ class Item
      */
     public function setProductSKU($productSKU)
     {
-      $this->productSKU = $productSKU;
+      $this->productSKU = substr(str_replace(['^', ':'], '', $productSKU), 0, 255);
       return $this;
     }
 
@@ -815,7 +815,7 @@ class Item
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
+      $this->taxAmount = max((float)$taxAmount, 0);
       return $this;
     }
 
@@ -1787,7 +1787,7 @@ class Item
      */
     public function setTotalAmount($totalAmount)
     {
-      $this->totalAmount = $totalAmount;
+      $this->totalAmount = (float)$totalAmount ?: null;
       return $this;
     }
 
@@ -1805,7 +1805,7 @@ class Item
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
+      $this->discountAmount = (float)$discountAmount ?: null;
       return $this;
     }
 
@@ -2201,7 +2201,7 @@ class Item
      */
     public function setProductDescription($productDescription)
     {
-      $this->productDescription = $productDescription;
+      $this->productDescription = substr(str_replace(['^', ':'], '', $productDescription), 0, 255);
       return $this;
     }
 

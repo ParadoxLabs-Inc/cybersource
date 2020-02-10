@@ -22,6 +22,7 @@ class ObjectBuilder
         'connection_timeout' => 3,
         'encoding' => 'utf-8',
         'exceptions' => true,
+        'trace' => true,
     ];
 
     /**
@@ -87,8 +88,8 @@ class ObjectBuilder
         $billTo->setStreet2($billingAddress->getStreetLine(2));
         $billTo->setCity($billingAddress->getCity());
         $billTo->setState($billingAddress->getRegionCode());
-        $billTo->setPostalCode($billingAddress->getPostcode());
         $billTo->setCountry($billingAddress->getCountryId());
+        $billTo->setPostalCode($billingAddress->getPostcode());
         $billTo->setPhoneNumber($billingAddress->getTelephone());
         $billTo->setEmail($billingAddress->getEmail());
         $billTo->setIpAddress($order->getRemoteIp());
@@ -112,8 +113,8 @@ class ObjectBuilder
         $shipTo->setStreet2($shippingAddress->getStreetLine(2));
         $shipTo->setCity($shippingAddress->getCity());
         $shipTo->setState($shippingAddress->getRegionCode());
-        $shipTo->setPostalCode($shippingAddress->getPostcode());
         $shipTo->setCountry($shippingAddress->getCountryId());
+        $shipTo->setPostalCode($shippingAddress->getPostcode());
         $shipTo->setPhoneNumber($shippingAddress->getTelephone());
 
         return $shipTo;
@@ -179,7 +180,7 @@ class ObjectBuilder
     public function getPurchaseTotals($currency, $amount)
     {
         $purchaseTotals = new PurchaseTotals();
-        $purchaseTotals->setCurrency(strtoupper($currency));
+        $purchaseTotals->setCurrency($currency);
         $purchaseTotals->setGrandTotalAmount($amount);
 
         return $purchaseTotals;
