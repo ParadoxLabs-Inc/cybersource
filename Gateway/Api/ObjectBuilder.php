@@ -18,6 +18,59 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
  */
 class ObjectBuilder
 {
+    const SOAP_DEFAULTS = [
+        'connection_timeout' => 3,
+        'encoding' => 'utf-8',
+        'exceptions' => true,
+    ];
+
+    /**
+     * @param string|null $wsdl
+     * @param array $soapOptions
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor
+     */
+    public function getProcessor($wsdl, $soapOptions = [])
+    {
+        return new TransactionProcessor(
+            static::SOAP_DEFAULTS + $soapOptions,
+            $wsdl
+        );
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\WsseHeader
+     */
+    public function getSecurityHeader($username, $password)
+    {
+        return new WsseHeader(
+            '',
+            '',
+            null,
+            true,
+            null,
+            $username,
+            $password
+        );
+    }
+
+    /**
+     * @param string $merchantId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function getRequest($merchantId)
+    {
+        $request = new RequestMessage();
+        $request->setMerchantID($merchantId);
+
+        // All requests require a unique reference code, but that doesn't always make sense. Fill a sane default.
+        // Particular requests can override this if needed (EG. order increment ID).
+        $request->setMerchantReferenceCode(uniqid('', true));
+
+        return $request;
+    }
+
     /**
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
@@ -102,8 +155,7 @@ class ObjectBuilder
         $soapItem->setQuantity($orderItem->getQtyToInvoice());
         $soapItem->setProductSKU($orderItem->getSku());
         $soapItem->setProductName($orderItem->getName());
-        $soapItem->setTaxAmount($orderItem->getTaxAmount()); // TODO: Verify unit or row amount on both sides
-        $soapItem->setDiscountAmount($orderItem->getDiscountAmount()); // TODO: Verify unit or row amount
+        $soapItem->setTaxAmount($orderItem->getTaxAmount()); // NB: Row total tax
 
         return $soapItem;
     }
@@ -145,6 +197,60 @@ class ObjectBuilder
         }
 
         return $ccAuthService;
+    }
+
+    /**
+     * @param string $transactionId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureService
+     */
+    public function getCaptureService($transactionId = null)
+    {
+        $ccCaptureService = new CCCaptureService('true');
+        if ($transactionId !== null) {
+            $ccCaptureService->setAuthRequestID($transactionId);
+        }
+
+        return $ccCaptureService;
+    }
+
+    /**
+     * @param string $commerceIndicator
+     * @param string $transactionId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditService
+     */
+    public function getCreditService($commerceIndicator = null, $transactionId = null)
+    {
+        $ccCreditService = new CCCreditService('true');
+        if ($commerceIndicator !== null) {
+            $ccCreditService->setCommerceIndicator($commerceIndicator);
+        }
+        if ($transactionId !== null) {
+            $ccCreditService->setCaptureRequestID($transactionId);
+        }
+
+        return $ccCreditService;
+    }
+
+    /**
+     * @param string $transactionId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalService
+     */
+    public function getAuthReversalService($transactionId = null)
+    {
+        $ccAuthReversalService = new CCAuthReversalService('true');
+        if ($transactionId !== null) {
+            $ccAuthReversalService->setAuthRequestID($transactionId);
+        }
+
+        return $ccAuthReversalService;
+    }
+
+    /**
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PaySubscriptionDeleteService
+     */
+    public function getPaySubscriptionDeleteService()
+    {
+        return new PaySubscriptionDeleteService('true');
     }
 
     /**

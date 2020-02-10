@@ -28,16 +28,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $code = 'paradoxlabs_cybersource';
 
     /**
-     * @var string
-     */
-    protected $endpointLive = 'https://secureacceptance.cybersource.com';
-
-    /**
-     * @var string
-     */
-    protected $endpointTest = 'https://testsecureacceptance.cybersource.com';
-
-    /**
      * $fields defines validation for each API parameter or input.
      *
      * key => [
@@ -102,30 +92,13 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function init(array $parameters)
     {
-        $soapOptions = [
-            'encoding' => 'utf-8',
-            'exceptions' => true,
-            'connection_timeout' => 3, // TODO: make this configurable?
-        ];
-
-        if ($this->config->isSandboxMode()) {
-            $soapOptions['cache_wsdl'] = WSDL_CACHE_NONE;
-            $soapOptions['trace'] = true;
-        }
-
-        // TODO: Get current store ID for these?
-        $this->soapClient = new Api\TransactionProcessor(
-            $soapOptions,
+        // TODO: Get current store ID for these config lookups?
+        $this->soapClient = $this->objectBuilder->getProcessor(
             $this->config->getSoapWsdl()
         );
 
         $this->soapClient->__setSoapHeaders(
-            new Api\WsseHeader(
-                '',
-                '',
-                null,
-                true,
-                null,
+            $this->objectBuilder->getSecurityHeader(
                 $this->config->getMerchantId(),
                 $this->config->getSoapTransactionKey()
             )
@@ -139,15 +112,12 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function createRequest()
     {
-        $request = new Api\RequestMessage();
-        $request->setMerchantID($this->config->getMerchantId());
-        $request->setMerchantReferenceCode(uniqid('', true));
+        $request = $this->objectBuilder->getRequest($this->config->getMerchantId());
         $request->setPartnerSolutionID($this->config->getSolutionId());
         $request->setClientLibrary($this->config->getClientName());
         $request->setClientLibraryVersion($this->config->getClientVersion());
         $request->setClientEnvironment('Magento 2');
 
-        // TODO: Verify this comes out the same as setting Field3
         // Fields 1 and 2 have special meaning for certain processors, so skip them.
         $merchantDefinedData = $this->objectBuilder->getMerchantDefinedData([
             3 => $this->getTransactionOrigin(),
@@ -168,6 +138,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         // TODO: Error handling
+        // TODO: Input filtering/validation
         try {
             $reply = $this->soapClient->runTransaction($requestMessage);
         } catch (\Exception $exception) {
@@ -178,24 +149,22 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
             throw new LocalizedException(__('CyberSource Gateway error: %1', $exception->getMessage()), $exception);
         } finally {
-            // TODO: Sanitize logs of keys/CVVs
+            $response = $this->sanitizeLog($this->soapClient->__getLastResponse());
+
             if ($this->config->isSandboxMode()) {
+                $request = $this->sanitizeLog($this->soapClient->__getLastRequest());
+
                 $this->helper->log(
                     $this->code,
-                    str_replace("\n", '', $this->soapClient->__getLastRequest()) . "\n"
-                    . str_replace("\n", '', $this->soapClient->__getLastResponse()),
+                    $request . "\n" . $response,
                     true
                 );
             }
 
-            $this->helper->log(
-                $this->code,
-                str_replace("\n", '', $this->soapClient->__getLastResponse())
-            );
+            $this->helper->log($this->code, $response);
 
-            // TODO: This probably isn't a good way to do this.
+            // Parse response into array for easier handling
             $this->lastResponse = $this->xmlToArray($this->soapClient->__getLastResponse());
-
             $this->helper->log(
                 $this->code,
                 json_encode($this->lastResponse),
@@ -225,6 +194,35 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         return $array;
+    }
+
+    /**
+     * Mask certain values in the XML for secure logging purposes.
+     *
+     * @param $string
+     * @return mixed
+     */
+    protected function sanitizeLog($string)
+    {
+        // TODO: Verify
+        $maskAll = ['cvNumber'];
+        $maskFour = ['Password', 'accountNumber'];
+
+        foreach ($maskAll as $val) {
+            $string = preg_replace('#' . $val . '>(.+?)</' . $val . '#', $val . '>XXX</' . $val, $string);
+        }
+
+        foreach ($maskFour as $val) {
+            $start = strpos($string, $val . '>');
+            $end = strpos($string, '</', $start);
+            $tagLen = strlen($val) + 2;
+
+            if ($start !== false && $end > ($start + $tagLen + 4)) {
+                $string = substr_replace($string, 'XXXX', $start + $tagLen, $end - 4 - ($start + $tagLen));
+            }
+        }
+
+        return str_replace("\n", '', $string);
     }
 
     /**
@@ -299,11 +297,14 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request->setPurchaseTotals($purchaseTotals);
 
         $transactionId = $transactionId ?: $this->getTransactionId();
-        $ccCaptureService = new Api\CCCaptureService('true');
+        $ccCaptureService = $this->objectBuilder->getCaptureService();
         if ($this->getHaveAuthorized() && !empty($transactionId)) {
+            // TODO: HAndle request tokens? cf. http://apps.cybersource.com/library/documentation/dev_guides/
+            //  Getting_Started_SO/html/wwhelp/wwhimpl/js/html/wwhelp.htm#href=basics_SO.6.3.html#1096692
             $ccCaptureService->setAuthRequestID($transactionId);
         } else {
             // If we don't have a transaction ID to capture, run a 'bundled' auth+capture instead.
+            // NB: Documentation says this varies by processor. Hoping this generic case works for all.
             $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
             $ccAuthService = $this->objectBuilder->getAuthService($commerceIndicator);
             $ccAuthService->setAuthType('AUTOCAPTURE');
@@ -355,11 +356,10 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             }
         }
 
-        $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
-
-        $ccCreditService = new Api\CCCreditService('true');
-        $ccCreditService->setCommerceIndicator($commerceIndicator);
-        $ccCreditService->setCaptureRequestID($transactionId ?: $this->getTransactionId());
+        $ccCreditService = $this->objectBuilder->getCreditService(
+            'internet',
+            $transactionId ?: $this->getTransactionId()
+        );
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
@@ -395,8 +395,9 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $order->getTotalDue()
         );
 
-        $ccAuthReversalService = new Api\CCAuthReversalService('true');
-        $ccAuthReversalService->setAuthRequestID($transactionId ?: $this->getTransactionId());
+        $ccAuthReversalService = $this->objectBuilder->getAuthReversalService(
+            $transactionId ?: $this->getTransactionId()
+        );
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
@@ -433,14 +434,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     public function deleteCard()
     {
         // TODO: Test this! NB: API indicates token can't be removed until all instrs referencing it are. Problematic?
-        $info = new Api\RecurringSubscriptionInfo();
-        $info->setSubscriptionID($this->getCard()->getPaymentId());
+        $info = $this->objectBuilder->getTokenInfo($this->getCard());
 
         $request = $this->createRequest();
         $request->setRecurringSubscriptionInfo($info);
-        $request->setPaySubscriptionDeleteService(
-            new Api\PaySubscriptionDeleteService('true')
-        );
+        $request->setPaySubscriptionDeleteService($this->objectBuilder->getPaySubscriptionDeleteService());
 
         $reply = $this->run($request);
 
@@ -453,7 +451,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     protected function interpretTransaction(Api\ReplyMessage $api)
     {
-        // TODO: Can we convert the entire $api object to array? This isn't great.
+        // NB: Temporal coupling, we assume interpretTransaction will always be run immediately after the transaction
+        // it's intended to interpret. Otherwise lastResponse will be the wrong data.
         $data = $this->lastResponse;
         $data['transaction_id'] = $data['requestID'];
 

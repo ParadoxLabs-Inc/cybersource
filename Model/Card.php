@@ -27,13 +27,8 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
      */
     public function beforeSave()
     {
-        // Send only if we have an info instance for payment data
-        if ($this->hasData('info_instance') && $this->getData('no_sync') !== true) {
-            if ($this->hasOrigData('payment_id') && $this->getData('address') !== $this->getOrigData('address')) {
-                // TODO: Update billing address on the token, because it changed since the token was created.
-                // TODO: Update card from account somehow?
-            }
-        }
+        // Note: All gateway syncing happens via direct posts to Secure Acceptance.
+        // @see \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance for the response handling.
 
         // TODO: Get card set to active if that's chosen on checkout.
 
