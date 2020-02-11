@@ -199,12 +199,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     /**
      * Mask certain values in the XML for secure logging purposes.
      *
-     * @param $string
-     * @return mixed
+     * @param string $string
+     * @return string
      */
     protected function sanitizeLog($string)
     {
-        // TODO: Verify
         $maskAll = ['cvNumber'];
         $maskFour = ['Password', 'accountNumber'];
 
