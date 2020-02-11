@@ -116,7 +116,7 @@ define(
                     url: config.paramUrl,
                     dataType: 'json',
                     data: {
-                        "billingAddress": billingAddress
+                        'billingAddress': billingAddress
                     },
                     global: false,
                     success: this.loadSecureAcceptanceForm.bind(this),
@@ -143,22 +143,26 @@ define(
                 $('#' + this.getCode() + '_iframe').trigger('processStop');
             },
             handleAjaxError: function(jqXHR, status, error) {
+                $('#' + this.getCode() + '_iframe').trigger('processStop');
+
                 var message = $.mage.__('A server error occurred. Please try again.');
 
                 try {
                     var responseJson = JSON.parse(jqXHR.responseText);
-
                     if (responseJson.message !== undefined) {
                         message = responseJson.message;
                     }
                 } catch (error) {}
 
-                // TODO: This will fail if it runs before alert has initialized. How do we initialize it?
-                alert(responseJson.message);
-
-                // TODO: This could cause infinite loop if GetParams consistently fails
-                this.iframeInitialized = false;
-                this.initSecureAcceptanceForm();
+                try {
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: message
+                    });
+                } catch (error) {
+                    // Fall back to standard alert if jq widget hasn't initialized yet
+                    window.alert(message);
+                }
             },
             bindCommunicator: function() {
                 window.jQuery('#' + this.getCode() + '-communicator')
@@ -174,13 +178,15 @@ define(
                     if (message.success && message.card !== undefined) {
                         this.storedCards.push(message.card);
                         this.selectedCard(message.card.id);
-                    } else if (message.success === false && message.error.length > 0) {
+                        this.iframeInitialized = false;
+                    } else if (message.error.length > 0) {
                         this.initSecureAcceptanceForm();
 
-                        alert(message.error);
+                        alert({
+                            title: $.mage.__('Error'),
+                            content: message.error
+                        });
                     }
-
-                    this.iframeInitialized = false;
                 }
             },
             getAddressLine: function(address) {

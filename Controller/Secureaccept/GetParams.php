@@ -80,7 +80,6 @@ class GetParams extends \Magento\Framework\App\Action\Action
 
             $result->setData($payload);
         } catch (\Exception $exception) {
-            // TODO: Handle error case
             $result->setHttpResponseCode(500);
             $result->setData([
                 'message' => $exception->getMessage(),

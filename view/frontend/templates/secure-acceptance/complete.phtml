@@ -19,21 +19,36 @@ try {
         'new' => true,
     ];
 } catch (\Exception $e) {
-    // TODO: Proper error handling
     $message['error'] = $e->getMessage();
 }
 ?>
 <?php if (!empty($message['error'])): ?>
-    <div class="messages">
+    <div id="cybersource-complete-results" style="display:none" class="messages">
         <div class="error-msg message-error error message">
-            <span><?= $block->escapeHtml(__('ERROR: %1', $error)) ?></span>
+            <span><?= $block->escapeHtml(__('ERROR: %1', $message['error'])) ?></span>
         </div>
     </div>
 <?php else: ?>
-    <p><?= $block->escapeHtml(__('Card %1 entered successfully.', $card->getLabel())) ?></p>
+    <p id="cybersource-complete-results" style="display:none">
+        <?= $block->escapeHtml(__('%1 entered successfully.', $card->getLabel())) ?>
+    </p>
 <?php endif; ?>
 
 <script type="text/javascript">
+    /**
+     * Show the results after 3 seconds in the event that the communicator fails, but don't otherwise, to avoid visual
+     * disruption (blinky page).
+     */
+    setTimeout(
+        function () {
+            document.getElementById('cybersource-complete-results').style.display = 'block';
+        },
+        3000
+    );
+
+    /**
+     * Send the results out of frame up to the parent page.
+     */
     require(
         ['jquery'],
         function($) {

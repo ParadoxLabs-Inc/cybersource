@@ -87,16 +87,10 @@ class SecureAcceptance
             json_encode($input)
         );
 
-        if ($input['signature_validation'] !== true) {
-            throw new \Magento\Framework\Exception\SecurityViolationException(
-                __('Invalid request signature.')
-            );
-        }
+        $this->validateRequest($input);
 
-        // TODO: Check for errors and stuff
         // TODO: Does it check AVS and CVV when storing? Can we make it?
 
-        // TODO: Kick them back into the process somehow (reinit frame and pop alert?) if it fails.
         $data = [
             'avs_response' => $input['auth_avs_code'],
             'auth_code' => $input['auth_code'],
@@ -115,7 +109,6 @@ class SecureAcceptance
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);
         $card->setCustomerIp($input['req_customer_ip_address']);
         $card->setActive(0);
-
         $card->setAddress($this->getAddress($input));
 
         $this->setCardPaymentInfo($input, $card);
@@ -175,6 +168,36 @@ class SecureAcceptance
 
         $card->setAdditional('auth_avs_code', $input['auth_avs_code']);
         $card->setAdditional('auth_transaction_id', $input['auth_trans_ref_no']);
+
+        // NB: This is a card fingerprint, unique to each credit card but not reversible. Last4 will match the CC.
         $card->setAdditional('instrument_identifier', $input['payment_token_instrument_identifier_id']);
+    }
+
+    /**
+     * Validate the CyberSource response data for error conditions.
+     *
+     * Any exceptions thrown here are caught at view/frontend/templates/secure-acceptance/complete.phtml:21
+     * and passed to the form JS for processing/display.
+     *
+     * @param array $input
+     * @return void
+     * @throws \Magento\Framework\Exception\SecurityViolationException
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function validateRequest($input)
+    {
+        if ($input['signature_validation'] !== true) {
+            throw new \Magento\Framework\Exception\SecurityViolationException(
+                __('Invalid request signature.')
+            );
+        }
+
+        if (in_array($input['decision'], ['DECLINE', 'ERROR', 'CANCEL'], true) === true) {
+            $message = !empty($input['message'])
+                ? __('Credit card was not accepted: %1 (%2)', __($input['message']), $input['reason_code'])
+                : __('Credit card was not accepted. (%1)', $input['reason_code']);
+
+            throw new \Magento\Framework\Exception\InputException($message);
+        }
     }
 }
