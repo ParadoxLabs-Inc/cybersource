@@ -119,7 +119,7 @@ class CheckoutProvider extends CcGenericConfigProvider
         $config             = parent::getConfig();
         $selected           = null;
         $storedCardOptions  = [];
-        
+
         if ($this->canSaveCard()) {
             $cards              = $this->getStoredCards();
 
@@ -130,6 +130,7 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'label'    => $card->getLabel(),
                     'selected' => false,
                     'type'     => $card->getAdditional('cc_type'),
+                    'new'      => false,
                 ];
 
                 $selected               = $card->getHash();
@@ -139,12 +140,15 @@ class CheckoutProvider extends CcGenericConfigProvider
         $config = array_merge_recursive($config, [
             'payment' => [
                 Config::CODE => [
-                    'useVault'                => true,
-                    'storedCards'             => $storedCardOptions,
-                    'selectedCard'            => $selected,
-                    'logoImage'               => $this->getLogoImage(),
-                    'defaultSaveCard'         => $this->defaultSaveCard(),
-                    'paramUrl'                => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/getParams'),
+                    'useVault'        => true,
+                    'canSaveCard'     => $this->canSaveCard(),
+                    'forceSaveCard'   => $this->forceSaveCard(),
+                    'defaultSaveCard' => $this->defaultSaveCard(),
+                    'storedCards'     => $storedCardOptions,
+                    'selectedCard'    => $selected,
+                    'logoImage'       => $this->getLogoImage(),
+                    'requireCcv'      => $this->requireCcv(),
+                    'paramUrl'        => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/getParams'),
                 ],
             ],
         ]);
@@ -164,6 +168,26 @@ class CheckoutProvider extends CcGenericConfigProvider
         }
 
         return false;
+    }
+
+    /**
+     * Whether to force customers to enter CCV when using a stored card.
+     *
+     * @return bool
+     */
+    public function requireCcv()
+    {
+        return $this->methods[Config::CODE]->getConfigData('require_ccv') ? true : false;
+    }
+
+    /**
+     * Whether to give customers the 'save this card' option, or just assume yes.
+     *
+     * @return bool
+     */
+    public function forceSaveCard()
+    {
+        return $this->methods[Config::CODE]->getConfigData('allow_unsaved') ? false : true;
     }
 
     /**

@@ -89,12 +89,17 @@
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
                     <attribute type="shared">1</attribute>
                 </field>
-                <field id="require_ccv" translate="label comment" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Allow cards to not be stored</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, customers can choose whether to save their credit card during checkout.</comment>
+                </field>
+                <field id="require_ccv" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Require CVV for stored cards</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, CVV will be required for stored cards, and customers may have to enter it twice on checkout. This will not affect recurring transactions.</comment>
                 </field>
-                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Reauthorize on Partial Invoice</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, when you create a partial invoice, we will reauthorize any outstanding balance on the order. This helps guarantee funds, but can cause multiple holds on the card until transactions settle.</comment>

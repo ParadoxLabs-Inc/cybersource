@@ -59,8 +59,7 @@
 
 
 
-            <!-- ko if: (!showIframe()) -->
-                <!-- ko if: (hasVerification())-->
+            <!-- ko if: (selectedCard()) -->
                 <div class="field cvv required" data-bind="attr: {id: getCode() + '-cc-type-cvv-div'}, visible: (isCcvShown)">
                     <label data-bind="attr: {for: getCode() + '-cc-cid'}" class="label">
                         <span><!-- ko text: $t('Card Verification Number')--><!-- /ko --></span>
@@ -91,9 +90,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /ko -->
-                <!-- TODO: Show the checkbox for newly added cards -->
-                <!-- ko if: (canSaveCard)-->
+                <!-- ko if: (showSaveOption())-->
                 <div class="field">
                     <label class="label">
                         <span></span>
@@ -127,7 +124,7 @@
             <!-- /ko -->
         </fieldset>
 
-        <div class="payment-method-content" data-bind="visible: !showIframe()">
+        <div class="payment-method-content" data-bind="visible: selectedCard()">
             <div class="checkout-agreements-block">
                 <!-- ko foreach: $parent.getRegion('before-place-order') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->

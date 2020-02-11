@@ -24,8 +24,8 @@
                 <min_order_total />
                 <max_order_total />
                 <sort_order />
+                <allow_unsaved>1</allow_unsaved>
                 <require_ccv>0</require_ccv>
-                <reauthorize_partial_invoice>1</reauthorize_partial_invoice>
                 <reauthorize_partial_invoice>1</reauthorize_partial_invoice>
                 <savecard_opt_out>1</savecard_opt_out>
                 <group>tokenbase</group>

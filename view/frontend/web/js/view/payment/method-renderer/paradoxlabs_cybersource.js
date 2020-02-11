@@ -5,7 +5,8 @@ define(
         'underscore',
         'ParadoxLabs_TokenBase/js/view/payment/method-renderer/cc',
         'Magento_Ui/js/modal/alert',
-        'Magento_Checkout/js/model/quote'
+        'Magento_Checkout/js/model/quote',
+        'mage/translate'
     ],
     function (ko, $, _, Component, alert, quote) {
         'use strict';
@@ -18,15 +19,20 @@ define(
                 storedCards: config ? config.storedCards : [],
                 logoImage: config ? config.logoImage : false,
                 billingAddressLine: null,
-                iframeCompleted: false
+                iframeInitialized: false
+            },
+            initVars: function() {
+                this.canSaveCard     = config ? config.canSaveCard : false;
+                this.forceSaveCard   = config ? config.forceSaveCard : false;
+                this.defaultSaveCard = config ? config.defaultSaveCard : false;
+                this.requireCcv      = config ? config.requireCcv : false;
             },
             initObservable: function () {
+                this.initVars();
                 this._super()
                     .observe([
                         'billingAddressLine'
                     ]);
-
-                // TODO: Wire require-cvv-for-stored-cards back up, IF TMS + CVV works. Waiting for answer.
 
                 quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
@@ -36,6 +42,22 @@ define(
                 this.showIframe = ko.computed(function() {
                     return (this.selectedCard() === null || this.selectedCard() === undefined)
                            && quote.billingAddress() !== null;
+                }, this);
+
+                this.showSaveOption = ko.computed(function() {
+                    if (this.canSaveCard !== true
+                        || this.selectedCard() === null
+                        || this.selectedCard() === undefined) {
+                        return false;
+                    }
+
+                    for (var card of this.storedCards()) {
+                        if (card.id === this.selectedCard()) {
+                            return card.new;
+                        }
+                    }
+
+                    return false;
                 }, this);
 
                 this.storedCards = ko.observableArray(config.storedCards);
@@ -51,20 +73,19 @@ define(
                 if ($('#' + this.getCode() + '_iframe').length === 0
                     || quote.paymentMethod() === null
                     || quote.paymentMethod().method !== this.getCode()
-                    || !this.showIframe()) {
+                    || this.selectedCard()
+                    || quote.billingAddress() === null) {
                     return;
                 }
 
-                // TODO: Something isn't right here. Not catching changes when it should.
                 this.billingAddressLine(this.getAddressLine(quote.billingAddress()));
             },
             checkReinitSecureAcceptanceForm: function() {
-                if (this.iframeCompleted === true
+                if (this.iframeInitialized === false
                     && (this.selectedCard() === null || this.selectedCard() === undefined)
                     && this.storedCards().length > 0) {
-                    // The completed flag is to debounce and ensure we don't reinit unless absolutely necessary
-                    // (on reselect 'add new' after completing the process).
-                    this.iframeCompleted = false;
+                    // The initialized flag is to debounce and ensure we don't reinit unless absolutely necessary.
+                    this.iframeInitialized = true;
                     this.initSecureAcceptanceForm();
                 }
             },
@@ -122,9 +143,21 @@ define(
                 $('#' + this.getCode() + '_iframe').trigger('processStop');
             },
             handleAjaxError: function(jqXHR, status, error) {
-                // TODO: Make this better
-                alert($.mage.__('Payment request failed: ' + error));
+                var message = $.mage.__('A server error occurred. Please try again.');
 
+                try {
+                    var responseJson = JSON.parse(jqXHR.responseText);
+
+                    if (responseJson.message !== undefined) {
+                        message = responseJson.message;
+                    }
+                } catch (error) {}
+
+                // TODO: This will fail if it runs before alert has initialized. How do we initialize it?
+                alert(responseJson.message);
+
+                // TODO: This could cause infinite loop if GetParams consistently fails
+                this.iframeInitialized = false;
                 this.initSecureAcceptanceForm();
             },
             bindCommunicator: function() {
@@ -138,19 +171,16 @@ define(
                 if (value !== undefined && value !== null && value !== '') {
                     var message = JSON.parse(value);
 
-                    // TODO: Remove debug line
-                    console.log('Got iframe message!', message);
-
                     if (message.success && message.card !== undefined) {
-                        this.iframeCompleted = true;
                         this.storedCards.push(message.card);
                         this.selectedCard(message.card.id);
                     } else if (message.success === false && message.error.length > 0) {
-                        this.iframeCompleted = false;
                         this.initSecureAcceptanceForm();
 
                         alert(message.error);
                     }
+
+                    this.iframeInitialized = false;
                 }
             },
             getAddressLine: function(address) {

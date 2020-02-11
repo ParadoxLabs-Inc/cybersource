@@ -85,7 +85,7 @@ class Sanitizer
      */
     public function asciiAlphanumericPunc($input, $maxLength)
     {
-        $input = preg_replace('/[^a-zA-Z0-9!&\'()+,\-./:@]/', '', $input);
+        $input = preg_replace('/[^a-zA-Z0-9!&\'()+,\-.\/:@]/', '', $input);
 
         return $this->length($input, $maxLength);
     }
