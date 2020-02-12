@@ -217,6 +217,4 @@ class Config
     {
         return $this->getConfigValue('client_version');
     }
-
-    // TODO: Add more getters, probably
 }

@@ -36,6 +36,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @var array
      */
     protected $fields = [
+        'auth_code' => [],
         'transaction_id' => [],
     ];
 
@@ -97,7 +98,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     public function init(array $parameters)
     {
         try {
-            // TODO: Get current store ID for these config lookups?
             $this->soapClient = $this->objectBuilder->getProcessor(
                 $this->config->getSoapWsdl()
             );
@@ -255,22 +255,24 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $purchaseTotals->setShippingAmount($payment->getShippingAmount());
         }
 
-        $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
-
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
         $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
         $request->setPurchaseTotals($purchaseTotals);
-        $request->setCcAuthService($this->objectBuilder->getAuthService($commerceIndicator));
+        $request->setCcAuthService(
+            $this->objectBuilder->getAuthService(
+                $this->helper->getIsFrontend() ? 'internet' : 'moto'
+            )
+        );
 
         if ((bool)$order->getIsVirtual() === false) {
             $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
         }
 
         // TODO: Card code not being validated? Emailed Trevor 2/07
-        if ($payment->hasData('cc_cid') && !empty($payment->getData('cc_cid'))) {
+        if (!empty($payment->getData('cc_cid'))) {
             $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
         }
 
@@ -304,31 +306,14 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setPurchaseTotals($purchaseTotals);
 
-        $transactionId = $transactionId !== null ? $transactionId: $this->getTransactionId();
-        $ccCaptureService = $this->objectBuilder->getCaptureService();
-        if ($this->getHaveAuthorized() && !empty($transactionId)) {
-            // TODO: Handle request tokens? cf. http://apps.cybersource.com/library/documentation/dev_guides/
-            //  Getting_Started_SO/html/wwhelp/wwhimpl/js/html/wwhelp.htm#href=basics_SO.6.3.html#1096692
-            $ccCaptureService->setAuthRequestID($transactionId);
-        } else {
-            // If we don't have a transaction ID to capture, run a 'bundled' auth+capture instead.
-            // NB: Documentation says this varies by processor. Hoping this generic case works for all.
-            $commerceIndicator = $this->helper->getIsFrontend() ? 'internet' : 'moto';
-            $ccAuthService = $this->objectBuilder->getAuthService($commerceIndicator);
-            $ccAuthService->setAuthType('AUTOCAPTURE');
-            $request->setCcAuthService($ccAuthService);
+        $transactionId = $transactionId !== null ? $transactionId : $this->getTransactionId();
 
-            $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
-            $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
-            if ((bool)$order->getIsVirtual() === false) {
-                $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
-            }
-            // TODO: Card code not being validated? Emailed Trevor 2/07
-            if ($payment->hasData('cc_cid') && !empty($payment->getData('cc_cid'))) {
-                $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
-            }
+        // If we don't have a transaction ID to capture, run a 'bundled' auth+capture; otherwise, prior-auth capture.
+        if (!$this->getHaveAuthorized() || empty($transactionId)) {
+            $this->captureInitBundledRequest($payment, $request);
+        } else {
+            $this->captureInitLinkedRequest($transactionId, $request);
         }
-        $request->setCcCaptureService($ccCaptureService);
 
         $reply = $this->run($request);
 
@@ -349,6 +334,58 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             // Pass any other errors through.
             throw $exception;
         }
+    }
+
+    /**
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param \Magento\Sales\Model\Order $order
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+     * @return void
+     */
+    protected function captureInitBundledRequest(
+        \Magento\Payment\Model\InfoInterface $payment,
+        \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+    ) {
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $payment->getOrder();
+
+        // NB: Documentation says bundled capture varies by processor. Hoping this generic case works for all.
+
+        $ccAuthService = $this->objectBuilder->getAuthService(
+            $this->helper->getIsFrontend() ? 'internet' : 'moto'
+        );
+        $ccAuthService->setAuthType('AUTOCAPTURE');
+
+        $request->setCcAuthService($ccAuthService);
+        $request->setCcCaptureService($this->objectBuilder->getCaptureService());
+        $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
+        $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
+
+        if ((bool)$order->getIsVirtual() === false) {
+            $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
+        }
+
+        // TODO: Card code not being validated? Emailed Trevor 2/07
+        if (!empty($payment->getData('cc_cid'))) {
+            $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
+        }
+    }
+
+    /**
+     * @param string $transactionId
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+     * @return void
+     */
+    protected function captureInitLinkedRequest(
+        $transactionId,
+        \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+    ) {
+        $ccCaptureService = $this->objectBuilder->getCaptureService();
+        $ccCaptureService->setAuthRequestID($transactionId);
+        $ccCaptureService->setAuthRequestToken($this->getParameter('auth_code') ?: null);
+
+        $request->setCcCaptureService($ccCaptureService);
     }
 
     /**
@@ -457,7 +494,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function deleteCard()
     {
-        // TODO: Test this! NB: API indicates token can't be removed until all instrs referencing it are. Problematic?
         $info = $this->objectBuilder->getTokenInfo($this->getCard());
 
         $request = $this->createRequest();
@@ -482,6 +518,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $data['response_code']        = $api->getReasonCode();
         $data['response_reason_code'] = $api->getReasonCode();
         $data['response_reason_text'] = $this->responseCodeSource->getMessage($api->getReasonCode());
+        $data['auth_code']            = $api->getRequestToken(); // Not auth code, but it functions the same way.
 
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
         $response = $this->responseFactory->create(['data' => $data]);

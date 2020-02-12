@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- TODO: Verify everything in here -->
     <!-- Payment Method Facade -->
     <virtualType name="ParadoxLabs\CyberSource\Gateway\VirtualFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -37,11 +36,14 @@
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>
             <argument name="sensitive" xsi:type="array">
-                <item name="payment/paradoxlabs_cybersource/login" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/trans_key" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/soap_transaction_key" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/secureaccept_secret_key" xsi:type="string">1</item>
             </argument>
             <argument name="environment" xsi:type="array">
                 <item name="payment/paradoxlabs_cybersource/test" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/merchant_id" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/secureaccept_profile_id" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/secureaccept_access_key" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>
@@ -80,7 +82,6 @@
         <arguments>
             <argument name="validators" xsi:type="array">
                 <item name="storedCard" xsi:type="string">ParadoxLabs\CyberSource\Gateway\VirtualStoredCardValidator</item>
-                <item name="creditCard" xsi:type="string">ParadoxLabs\CyberSource\Gateway\VirtualCreditCardValidator</item>
             </argument>
         </arguments>
     </virtualType>

@@ -103,7 +103,6 @@
                     <label>Reauthorize on Partial Invoice</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, when you create a partial invoice, we will reauthorize any outstanding balance on the order. This helps guarantee funds, but can cause multiple holds on the card until transactions settle.</comment>
-                    <!-- TODO: Is this necessary with cybs? Manual auth reversal management -->
                 </field>
             </group>
         </section>

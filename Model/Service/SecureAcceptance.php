@@ -89,8 +89,6 @@ class SecureAcceptance
 
         $this->validateRequest($input);
 
-        // TODO: Does it check AVS and CVV when storing? Can we make it?
-
         $data = [
             'avs_response' => $input['auth_avs_code'],
             'auth_code' => $input['auth_code'],
@@ -115,7 +113,7 @@ class SecureAcceptance
 
         $this->cardRepository->save($card);
 
-        // TODO: Persist the card on the session or quote or both and fetch on reload? Would be nice, rare case though.
+        // Future: Persist the card on the session or quote and fetch on reload? Would be nice, rare case though.
 
         return $card;
     }

@@ -18,24 +18,59 @@ namespace ParadoxLabs\CyberSource\Helper;
  */
 class Data extends \ParadoxLabs\TokenBase\Helper\Data
 {
-    // TODO: All of this
-
     /**
      * @var array
+     * @see https://apps.cybersource.com/library/documentation/dev_guides/Secure_Acceptance_Hosted_Checkout/html/
+     *  Topics/AVS_Codes.htm
      */
     protected $avsResponses = [
+        'A' => 'Street matches; postcode does not',
+        'B' => 'Street matches; postcode does not',
+        'C' => 'Street and postcode do not match card',
+        'D' => 'Match',
+        'E' => 'AVS data invalid',
+        'F' => 'Postcode matches; cardholder name does not',
+        'H' => 'Street and postcode match; cardholder name does not',
+        'I' => 'Street and postcode do not match card',
+        'J' => 'Full match; chargeback protection guaranteed',
+        'K' => 'Cardholder matches; street and postcode do not',
+        'L' => 'Cardholder and postcode match; street does not',
+        'M' => 'Match',
+        'N' => 'Street and postcode do not match card',
+        'O' => 'Cardholder and street match; postcode does not',
+        'P' => 'Postcode matches; street does not',
+        'Q' => 'Full match, but chargeback protection NOT guaranteed',
+        'R' => 'AVS unavailable',
+        'S' => 'AVS not supported',
+        'T' => 'Street matches; cardholder name does not',
+        'U' => 'AVS unavailable',
+        'V' => 'Match',
+        'W' => 'Postcode matches; street does not',
+        'X' => 'Match',
+        'Y' => 'Match',
+        'Z' => 'Postcode matches; street does not',
+        '1' => 'AVS not supported',
+        '2' => 'AVS data invalid',
+        '3' => 'Match',
+        '4' => 'No match',
     ];
 
     /**
      * @var array
+     * @see http://apps.cybersource.com/library/documentation/dev_guides/CC_Svcs_SO_API/html/Topics/app_CVN_codes.htm
      */
     protected $ccvResponses = [
-    ];
-
-    /**
-     * @var array
-     */
-    protected $cardTypeMap = [
+        'D' => 'The transaction was considered suspicious by the issuing bank',
+        'I' => 'CVN failed the processor\'s data validation',
+        'M' => 'CVN matched',
+        'N' => 'CVN did not match',
+        'P' => 'CVN was not processed for an unspecified reason',
+        'S' => 'CVN was not included in the request',
+        'U' => 'Card verification is not supported by the issuing bank',
+        'X' => 'Card verification is not supported by the card association',
+        '1' => 'Card verification is not supported for this processor or card type',
+        '2' => 'Unrecognized CVN response',
+        '3' => 'No CVN response',
     ];
 
     /**
@@ -66,35 +101,5 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
         }
 
         return $code;
-    }
-
-    /**
-     * Map CC Type to Magento's.
-     *
-     * @param string $type
-     * @return string|null
-     */
-    public function mapCcTypeToMagento($type)
-    {
-        if (!empty($type) && isset($this->cardTypeMap[$type])) {
-            return $this->cardTypeMap[$type];
-        }
-
-        return null;
-    }
-
-    /**
-     * Map CC Type to CyberSource's.
-     *
-     * @param string $type
-     * @return string|null
-     */
-    public function mapCcTypeToGateway($type)
-    {
-        if (!empty($type) && in_array($type, $this->cardTypeMap)) {
-            return array_search($type, $this->cardTypeMap);
-        }
-
-        return null;
     }
 }
