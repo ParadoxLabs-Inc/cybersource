@@ -9,9 +9,10 @@
                     <label>Version Installed</label>
                     <backend_model>ParadoxLabs\CyberSource\Model\Config\Version</backend_model>
                 </field>
-                <field id="apitest" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="apitest" translate="label comment" type="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Test Results</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest</frontend_model>
+                    <comment>* We can't test Secure Acceptance keys. Please verify the credit card form loads on checkout.</comment>
                 </field>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>

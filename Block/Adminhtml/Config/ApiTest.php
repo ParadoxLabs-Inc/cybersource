@@ -34,29 +34,46 @@ class ApiTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Config\ApiTest
         $method = $this->methodFactory->getMethodInstance($this->code);
         $method->setStore($this->getStoreId());
 
-        // Don't bother if details aren't entered.
-        if (empty($method->getConfigData('checkout_profile_id'))
-            || empty($method->getConfigData('access_key'))
-            || empty($method->getConfigData('secret_key'))) {
-            return __('Please enter your Secure Acceptance Checkout profile API credentials and save to test.'
-                . ' See the user manual for a walkthrough of setup and configuration.');
+        $apiSettings = [
+            'merchant_id',
+            'soap_transaction_key',
+            'secureaccept_profile_id',
+            'secureaccept_access_key',
+            'secureaccept_secret_key',
+        ];
+
+        // Don't test unless all details are entered and look valid.
+        foreach ($apiSettings as $key) {
+            if (empty($method->getConfigData($key))) {
+                return __('Please enter all API credentials and save to test.'
+                    . ' See the user manual for a walkthrough of setup and configuration.');
+            }
+
+            // Verify no non-ASCII characters -- suggests changed encryption key/corrupted data.
+            if ($this->containsInvalidCharacters($method->getConfigData($key))) {
+                return __('Please re-enter your API credentials. They may be corrupted.');
+            }
         }
 
-        // Verify no invalid characters -- suggests changed encryption key/corrupted data.
-        if ($this->containsInvalidCharacters($method->getConfigData('checkout_profile_id'))
-            || $this->containsInvalidCharacters($method->getConfigData('access_key'))
-            || $this->containsInvalidCharacters($method->getConfigData('secret_key'))) {
-            return __('Please re-enter your API credentials. They may be corrupted.');
-        }
-
-        /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
-        $gateway = $method->gateway();
-
+        /**
+         * Unfortunately, we can only validate the SOAP connection (merchant_id, transaction_key). Better than nothing.
+         */
         try {
-            // TODO: Run the test call -- simple tokenize credit card request. It won't tokenize, that's okay.
-            return __('CyberSource connected successfully.');
+            /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
+            $gateway = $method->gateway();
+            $gateway->testConnection();
         } catch (\Exception $e) {
-            return __($e->getMessage());
+            if (strpos($e->getMessage(), 'UsernameToken') !== false) {
+                return __('Your Merchant ID or SOAP API Transaction Key is incorrect.');
+            }
+
+            if ($e->getCode() === 101) {
+                return __('CyberSource SOAP API connected successfully.') . ($method->getConfigData('test')
+                        ? __(' (SANDBOX)')
+                        : __(' (PRODUCTION)'));
+            }
+
+            return $e->getMessage();
         }
     }
 }

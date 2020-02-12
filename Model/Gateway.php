@@ -140,9 +140,12 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
     /**
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage
+     * @param bool $log
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     * @throws \Magento\Framework\Exception\RuntimeException
+     * @throws \Magento\Framework\Exception\StateException
      */
-    public function run(\ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage)
+    public function run(\ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage, $log = true)
     {
         if ($this->soapClient instanceof \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor === false) {
             throw new \Magento\Framework\Exception\StateException(__('CyberSource gateway has not been initialized'));
@@ -501,6 +504,17 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request->setPaySubscriptionDeleteService($this->objectBuilder->getPaySubscriptionDeleteService());
 
         $reply = $this->run($request);
+
+        return $this->interpretTransaction($reply);
+    }
+
+    /**
+     * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
+     */
+    public function testConnection()
+    {
+        $request = $this->createRequest();
+        $reply = $this->run($request, false);
 
         return $this->interpretTransaction($reply);
     }
