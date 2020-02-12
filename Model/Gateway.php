@@ -13,10 +13,6 @@
 
 namespace ParadoxLabs\CyberSource\Model;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\PaymentException;
-use ParadoxLabs\CyberSource\Gateway\Api;
-
 /**
  * CyberSource API Gateway - custom built for perfection.
  */
@@ -49,7 +45,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $config;
 
     /**
-     * @var Api\TransactionProcessor
+     * @var \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor
      */
     protected $soapClient;
 
@@ -57,6 +53,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @var \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder
      */
     protected $objectBuilder;
+
+    /**
+     * @var \ParadoxLabs\CyberSource\Model\Source\ResponseCode
+     */
+    protected $responseCodeSource;
 
     /**
      * Constructor, yeah!
@@ -67,6 +68,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder
+     * @param \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource
      * @param array $data
      */
     public function __construct(
@@ -75,13 +77,15 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory $responseFactory,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        Api\ObjectBuilder $objectBuilder,
+        \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder,
+        \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource,
         array $data = []
     ) {
         parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
 
         $this->config = $config;
         $this->objectBuilder = $objectBuilder;
+        $this->responseCodeSource = $responseCodeSource;
     }
 
     /**
@@ -92,17 +96,24 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function init(array $parameters)
     {
-        // TODO: Get current store ID for these config lookups?
-        $this->soapClient = $this->objectBuilder->getProcessor(
-            $this->config->getSoapWsdl()
-        );
+        try {
+            // TODO: Get current store ID for these config lookups?
+            $this->soapClient = $this->objectBuilder->getProcessor(
+                $this->config->getSoapWsdl()
+            );
 
-        $this->soapClient->__setSoapHeaders(
-            $this->objectBuilder->getSecurityHeader(
-                $this->config->getMerchantId(),
-                $this->config->getSoapTransactionKey()
-            )
-        );
+            $this->soapClient->__setSoapHeaders(
+                $this->objectBuilder->getSecurityHeader(
+                    $this->config->getMerchantId(),
+                    $this->config->getSoapTransactionKey()
+                )
+            );
+        } catch (\SoapFault $exception) {
+            $this->helper->log($this->code, trim($exception->getMessage()));
+            throw new \Magento\Framework\Exception\RuntimeException(
+                __('Server Error: Could not connect to CyberSource payment gateway.')
+            );
+        }
 
         return $this;
     }
@@ -131,23 +142,24 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function run(Api\RequestMessage $requestMessage)
+    public function run(\ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage)
     {
-        if ($this->soapClient instanceof Api\TransactionProcessor === false) {
+        if ($this->soapClient instanceof \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor === false) {
             throw new \Magento\Framework\Exception\StateException(__('CyberSource gateway has not been initialized'));
         }
 
-        // TODO: Error handling
-        // TODO: Input filtering/validation
         try {
             $reply = $this->soapClient->runTransaction($requestMessage);
         } catch (\Exception $exception) {
             $this->helper->log(
                 $this->code,
-                $exception->getMessage()
+                sprintf('CyberSource Gateway error: %s', trim($exception->getMessage()))
             );
 
-            throw new LocalizedException(__('CyberSource Gateway error: %1', $exception->getMessage()), $exception);
+            throw new \Magento\Framework\Exception\RuntimeException(
+                __('CyberSource Gateway error: %1', trim($exception->getMessage())),
+                $exception
+            );
         } finally {
             $response = $this->sanitizeLog($this->soapClient->__getLastResponse());
 
@@ -264,10 +276,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $reply = $this->run($request);
 
-        // TODO: Handle response
-        $response = $this->interpretTransaction($reply);
-
-        return $response;
+        return $this->interpretTransaction($reply);
     }
 
     /**
@@ -295,10 +304,10 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setPurchaseTotals($purchaseTotals);
 
-        $transactionId = $transactionId ?: $this->getTransactionId();
+        $transactionId = $transactionId !== null ? $transactionId: $this->getTransactionId();
         $ccCaptureService = $this->objectBuilder->getCaptureService();
         if ($this->getHaveAuthorized() && !empty($transactionId)) {
-            // TODO: HAndle request tokens? cf. http://apps.cybersource.com/library/documentation/dev_guides/
+            // TODO: Handle request tokens? cf. http://apps.cybersource.com/library/documentation/dev_guides/
             //  Getting_Started_SO/html/wwhelp/wwhimpl/js/html/wwhelp.htm#href=basics_SO.6.3.html#1096692
             $ccCaptureService->setAuthRequestID($transactionId);
         } else {
@@ -323,12 +332,23 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $reply = $this->run($request);
 
-        // TODO: Handle no-such-auth/expired-auth error
+        try {
+            return $this->interpretTransaction($reply);
+        } catch (\Exception $exception) {
+            // Handle 'transaction not found' error (expired authorization).
+            if ($exception->getCode() === 242) {
+                $this->helper->log($this->code, 'Transaction not found. Attempting to recapture.');
 
-        // TODO: Handle response
-        $response = $this->interpretTransaction($reply);
+                $this->setTransactionId(null)
+                     ->setHaveAuthorized(false)
+                     ->setCard($this->getData('card'));
 
-        return $response;
+                return $this->capture($payment, $amount, '');
+            }
+
+            // Pass any other errors through.
+            throw $exception;
+        }
     }
 
     /**
@@ -357,7 +377,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $ccCreditService = $this->objectBuilder->getCreditService(
             'internet',
-            $transactionId ?: $this->getTransactionId()
+            $transactionId !== null ? $transactionId : $this->getTransactionId()
         );
 
         $request = $this->createRequest();
@@ -367,13 +387,22 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $reply = $this->run($request);
 
-        // TODO: Handle not-settled-yet error (auto void IF full amount AND do an auth reversal)
-        // TODO: Handle past-refund-period error (run unlinked refund, or error out?)
+        try {
+            return $this->interpretTransaction($reply);
+        } catch (\Exception $exception) {
+            // Handle 'not valid for follow-on transaction' error (past allowed period).
+            if ($exception->getCode() === 241) {
+                $this->helper->log($this->code, 'Transaction not refundable. Attempting unlinked credit.');
 
-        // TODO: Handle response
-        $response = $this->interpretTransaction($reply);
+                $this->setTransactionId(null)
+                     ->setCard($this->getData('card'));
 
-        return $response;
+                return $this->refund($payment, $amount, '');
+            }
+
+            // Pass any other errors through.
+            throw $exception;
+        }
     }
 
     /**
@@ -405,10 +434,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $reply = $this->run($request);
 
-        // TODO: Handle response
-        $response = $this->interpretTransaction($reply);
-
-        return $response;
+        return $this->interpretTransaction($reply);
     }
 
     /**
@@ -428,7 +454,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
     /**
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
-     * @throws \Magento\Framework\Exception\StateException
      */
     public function deleteCard()
     {
@@ -448,25 +473,34 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
      */
-    protected function interpretTransaction(Api\ReplyMessage $api)
+    protected function interpretTransaction(\ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api)
     {
         // NB: Temporal coupling, we assume interpretTransaction will always be run immediately after the transaction
         // it's intended to interpret. Otherwise lastResponse will be the wrong data.
         $data = $this->lastResponse;
-        $data['transaction_id'] = $data['requestID'];
+        $data['transaction_id']       = $api->getRequestID();
+        $data['response_code']        = $api->getReasonCode();
+        $data['response_reason_code'] = $api->getReasonCode();
+        $data['response_reason_text'] = $this->responseCodeSource->getMessage($api->getReasonCode());
 
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
         $response = $this->responseFactory->create(['data' => $data]);
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
-        // TODO: Error handling / payment exceptions
-
         if ($api->getDecision() === 'ERROR') {
-            throw new LocalizedException(__('Transaction Failed: %1', 'Generic decline')); // TODO: Response code handling
+            throw new \Magento\Framework\Exception\RuntimeException(
+                __('Transaction Failed: %1', __($response->getResponseReasonText())),
+                null,
+                $api->getReasonCode()
+            );
         }
         if ($api->getDecision() === 'REJECT') {
-            throw new PaymentException(__('Transaction Failed: %1', 'Generic decline')); // TODO: Response code handling
+            throw new \Magento\Framework\Exception\PaymentException(
+                __('Transaction Failed: %1', __($response->getResponseReasonText())),
+                null,
+                $api->getReasonCode()
+            );
         }
 
         return $response;

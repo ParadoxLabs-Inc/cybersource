@@ -225,7 +225,7 @@ class ObjectBuilder
         if ($commerceIndicator !== null) {
             $ccCreditService->setCommerceIndicator($commerceIndicator);
         }
-        if ($transactionId !== null) {
+        if (!empty($transactionId)) {
             $ccCreditService->setCaptureRequestID($transactionId);
         }
 

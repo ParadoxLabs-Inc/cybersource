@@ -853,7 +853,7 @@ class ReplyMessage
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+      return (int)$this->reasonCode;
     }
 
     /**
