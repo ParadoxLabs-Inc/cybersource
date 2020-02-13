@@ -535,7 +535,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $data['auth_code']            = $api->getRequestToken(); // Not auth code, but it functions the same way.
 
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
-        $response = $this->responseFactory->create(['data' => $data]);
+        $response = $this->responseFactory->create(['data' => $this->flattenArray($data)]);
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
@@ -555,6 +555,31 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         return $response;
+    }
+
+    /**
+     * Turn multi-dimensional array into 1D, concatenating keys
+     *
+     * @param mixed $array
+     * @param string|null $prefix
+     * @return array
+     * @see http://stackoverflow.com/a/9546215/2336164
+     */
+    protected function flattenArray($array, $prefix = null)
+    {
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result += $this->flattenArray($value, $prefix . $key . '.');
+            } elseif (is_bool($value)) {
+                $result[$prefix . $key] = $value ? '1' : '0';
+            } else {
+                $result[$prefix . $key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**

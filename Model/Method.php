@@ -42,4 +42,31 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
 
         return $this->gateway;
     }
+
+    /**
+     * Store response statuses persistently.
+     *
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param \ParadoxLabs\TokenBase\Model\Gateway\Response $response
+     * @return \Magento\Payment\Model\InfoInterface
+     */
+    protected function storeTransactionStatuses(
+        \Magento\Payment\Model\InfoInterface $payment,
+        \ParadoxLabs\TokenBase\Model\Gateway\Response $response
+    ) {
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        if (empty($payment->getData('cc_avs_status'))) {
+            $payment->setData('cc_avs_status', $response->getData('ccAuthReply.avsCode'));
+        }
+
+        if (empty($payment->getData('cc_cid_status'))) {
+            $payment->setData('cc_cid_status', $response->getData('ccAuthReply.cvCode'));
+        }
+
+        if (!empty($response->getData('ccAuthReply.authorizationCode'))) {
+            $payment->setData('cc_approval', $response->getData('ccAuthReply.authorizationCode'));
+        }
+
+        return $payment;
+    }
 }

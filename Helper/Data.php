@@ -23,7 +23,7 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      * @see https://apps.cybersource.com/library/documentation/dev_guides/Secure_Acceptance_Hosted_Checkout/html/
      *  Topics/AVS_Codes.htm
      */
-    protected $avsResponses = [
+    const AVS_RESPONSE_CODES = [
         'A' => 'Street matches; postcode does not',
         'B' => 'Street matches; postcode does not',
         'C' => 'Street and postcode do not match card',
@@ -59,7 +59,7 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      * @var array
      * @see http://apps.cybersource.com/library/documentation/dev_guides/CC_Svcs_SO_API/html/Topics/app_CVN_codes.htm
      */
-    protected $ccvResponses = [
+    const CVN_RESPONSE_CODES = [
         'D' => 'The transaction was considered suspicious by the issuing bank',
         'I' => 'CVN failed the processor\'s data validation',
         'M' => 'CVN matched',
@@ -74,6 +74,33 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
     ];
 
     /**
+     * @var array
+     * @see Decision Manager documentation
+     */
+    const RISK_FACTOR_CODES = [
+        'A' => 'Excessive address changes',
+        'B' => 'Card BIN or authorization risk',
+        'C' => 'High number of account numbers',
+        'D' => 'Email is a free provider, or otherwise risky',
+        'E' => 'The customer is on your positive list',
+        'F' => 'Negative list or negative history',
+        'G' => 'Geolocation inconsistencies',
+        'H' => 'Excessive name changes',
+        'I' => 'IP address/email/billing address inconsistencies',
+        'N' => 'Nonsensical input',
+        'O' => 'Customer info contains obscene words',
+        'P' => 'Identity morphing',
+        'Q' => 'The customer’s phone number is suspicious',
+        'R' => 'Risky order; multiple high-risk correlations',
+        'T' => 'Purchase outside of the expected hours',
+        'U' => 'Unverifiable address',
+        'V' => 'Velocity',
+        'W' => 'Previously marked as suspect',
+        'Y' => 'Gift Order',
+        'Z' => 'Invalid value; a default value was substituted',
+    ];
+
+    /**
      * Translate AVS response codes shown on admin order pages.
      *
      * @param string $code
@@ -81,23 +108,38 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      */
     public function translateAvs($code)
     {
-        if (isset($this->avsResponses[$code])) {
-            return __(sprintf('%s (%s)', $code, $this->avsResponses[$code]));
+        if (array_key_exists($code, static::AVS_RESPONSE_CODES)) {
+            return __(sprintf('%s (%s)', $code, static::AVS_RESPONSE_CODES[ $code ]));
         }
 
         return $code;
     }
 
     /**
-     * Translate CCV response codes shown on admin order pages.
+     * Translate CVN response codes shown on admin order pages.
      *
      * @param string $code
      * @return \Magento\Framework\Phrase|string
      */
-    public function translateCcv($code)
+    public function translateCvn($code)
     {
-        if (isset($this->ccvResponses[$code])) {
-            return __(sprintf('%s (%s)', $code, $this->ccvResponses[$code]));
+        if (array_key_exists($code, static::CVN_RESPONSE_CODES)) {
+            return __(sprintf('%s (%s)', $code, static::CVN_RESPONSE_CODES[ $code ]));
+        }
+
+        return $code;
+    }
+
+    /**
+     * Translate risk factor codes shown on admin order pages.
+     *
+     * @param string $code
+     * @return \Magento\Framework\Phrase|string
+     */
+    public function translateRiskFactor($code)
+    {
+        if (array_key_exists($code, static::RISK_FACTOR_CODES)) {
+            return __(sprintf('%s (%s)', $code, static::RISK_FACTOR_CODES[ $code ]));
         }
 
         return $code;

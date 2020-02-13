@@ -38,25 +38,28 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Info\Cc
             /** @var \Magento\Sales\Model\Order\Payment\Info $info */
             $info = $this->getInfo();
 
-            // TODO: Update display info
-            if ($info->getData('cc_avs_status')) {
-                $avs = $info->getData('cc_avs_status');
-            } else {
-                $avs = $info->getAdditionalInformation('avs_result_code');
-            }
-
-            if ($info->getData('cc_cid_status')) {
-                $ccv = $info->getData('cc_cid_status');
-            } else {
-                $ccv = $info->getAdditionalInformation('card_code_response_code');
-            }
-
+            $avs = $info->getData('cc_avs_status') ?: $info->getAdditionalInformation('ccAuthReply.avsCode');
             if (!empty($avs)) {
-                $data[(string)__('AVS Response')]   = $this->helper->translateAvs($avs);
+                $data[(string)__('AVS Response')] = $this->helper->translateAvs($avs);
             }
 
-            if (!empty($ccv)) {
-                $data[(string)__('CCV Response')]   = $this->helper->translateCcv($ccv);
+            $cvn = $info->getData('cc_cid_status') ?: $info->getAdditionalInformation('ccAuthReply.cvCode');
+            if (!empty($cvn)) {
+                $data[(string)__('CVN Response')] = $this->helper->translateCvn($cvn);
+            }
+
+            if (!empty($info->getAdditionalInformation('afsReply.afsResult'))) {
+                $data[(string)__('Fraud Risk Score')] = __(
+                    '%1/100',
+                    $info->getAdditionalInformation('afsReply.afsResult')
+                );
+            }
+
+            if (!empty($info->getAdditionalInformation('afsReply.afsFactorCode'))) {
+                $riskFactors = explode('^', $info->getAdditionalInformation('afsReply.afsFactorCode'));
+                foreach ($riskFactors as $code) {
+                    $data[(string)__('Risk Factor')] = $this->helper->translateRiskFactor($code);
+                }
             }
         }
 
