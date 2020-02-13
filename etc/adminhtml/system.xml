@@ -42,6 +42,13 @@
                     <label>SOAP API Transaction Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
+                <field id="rest_secret_key_id" translate="label" type="text" sortOrder="67" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>REST API Secret Key ID</label>
+                </field>
+                <field id="rest_secret_key" translate="label" type="obscure" sortOrder="68" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>REST API Secret Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
                 <field id="payment_action" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
                     <source_model>ParadoxLabs\TokenBase\Model\Source\PaymentAction</source_model>

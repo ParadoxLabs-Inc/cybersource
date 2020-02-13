@@ -33,11 +33,7 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
     public function gateway()
     {
         if ($this->gateway->isInitialized() !== true) {
-            $this->gateway->init([
-                'merchant_id' => $this->getConfigData('merchant_id'),
-                'transaction_key' => $this->getConfigData('soap_transaction_key'),
-                'test_mode' => $this->getConfigData('test'),
-            ]);
+            $this->gateway->init([]);
         }
 
         return $this->gateway;

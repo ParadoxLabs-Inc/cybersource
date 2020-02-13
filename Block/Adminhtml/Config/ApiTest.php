@@ -40,6 +40,8 @@ class ApiTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Config\ApiTest
             'secureaccept_profile_id',
             'secureaccept_access_key',
             'secureaccept_secret_key',
+            'rest_secret_key_id',
+            'rest_secret_key',
         ];
 
         // Don't test unless all details are entered and look valid.

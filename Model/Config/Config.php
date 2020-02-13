@@ -19,6 +19,8 @@ namespace ParadoxLabs\CyberSource\Model\Config;
 class Config
 {
     const CODE = 'paradoxlabs_cybersource';
+    const REST_LIVE = 'https://api.cybersource.com';
+    const REST_TEST = 'https://apitest.cybersource.com';
     const SECUREACCEPT_LIVE = 'https://secureacceptance.cybersource.com';
     const SECUREACCEPT_TEST = 'https://testsecureacceptance.cybersource.com';
     const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
@@ -107,6 +109,61 @@ class Config
         }
 
         return $value;
+    }
+
+    /**
+     * Get the REST secret key ID.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getRestSecretKeyId($storeId = null)
+    {
+        $value = $this->getConfigValue('rest_secret_key_id', $storeId);
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing CyberSource REST Secret Key ID. Please check configuration.')
+            );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the REST secret key.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getRestSecretKey($storeId = null)
+    {
+        $value = $this->getConfigValue('rest_secret_key', $storeId);
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing CyberSource REST Secret Key. Please check configuration.')
+            );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the REST API endpoint.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getRestEndpoint($path)
+    {
+        if ($this->isSandboxMode()) {
+            return static::REST_TEST . $path;
+        }
+
+        return static::REST_LIVE . $path;
     }
 
     /**

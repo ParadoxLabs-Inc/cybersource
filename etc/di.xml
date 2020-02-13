@@ -115,6 +115,7 @@
                 <item name="refund" xsi:type="string">ParadoxLabs\CyberSource\Gateway\VirtualRefundCommand</item>
                 <item name="cancel" xsi:type="string">ParadoxLabs\CyberSource\Gateway\VirtualCancelCommand</item>
                 <item name="void" xsi:type="string">ParadoxLabs\CyberSource\Gateway\VirtualVoidCommand</item>
+                <item name="fetch_transaction_information" xsi:type="string">ParadoxLabs\CyberSource\Gateway\VirtualFetchTransactionInformationCommand</item>
             </argument>
         </arguments>
     </virtualType>

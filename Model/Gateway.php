@@ -13,6 +13,8 @@
 
 namespace ParadoxLabs\CyberSource\Model;
 
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+
 /**
  * CyberSource API Gateway - custom built for perfection.
  */
@@ -61,6 +63,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $responseCodeSource;
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\Rest
+     */
+    protected $restClient;
+
+    /**
      * Constructor, yeah!
      *
      * @param \ParadoxLabs\TokenBase\Helper\Data $helper
@@ -70,6 +77,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder
      * @param \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource
+     * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
      * @param array $data
      */
     public function __construct(
@@ -80,6 +88,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
         \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder,
         \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource,
+        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
         array $data = []
     ) {
         parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
@@ -87,6 +96,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $this->config = $config;
         $this->objectBuilder = $objectBuilder;
         $this->responseCodeSource = $responseCodeSource;
+        $this->restClient = $restClient;
     }
 
     /**
@@ -108,6 +118,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
                     $this->config->getSoapTransactionKey()
                 )
             );
+
+            $this->initialized  = true;
         } catch (\SoapFault $exception) {
             $this->helper->log($this->code, trim($exception->getMessage()));
             throw new \Magento\Framework\Exception\RuntimeException(
@@ -486,10 +498,44 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     public function fraudUpdate(\Magento\Payment\Model\InfoInterface $payment, $transactionId)
     {
-        // TODO: Implement fraudUpdate() method.
-        //  Need to use https://developer.cybersource.com/api/developer-guides/dita-txn-search-details-rest-api-dev-guide-102718/txn_details_api/retrieve_a_txn.html
-        //  or https://developer.cybersource.com/api/developer-guides/dita-reporting-rest-api-dev-guide-102718/reporting_api/download_ondemand_detail_report.html
-        //  to get transaction updates ... separate API, separate creds
+        /**
+         * NB: We can only request up to 24 hours of data, which means 'fetch update' will only work if the decision
+         * was made within 24 hours. But our hourly updater cron should mean that never comes up unless cron isn't
+         * running at all. This just allows people to pull updates through immediately.
+         */
+
+        $reply = $this->restClient->get(
+            '/reporting/v3/conversion-details',
+            [
+                'startTime' => date(Sanitizer::ISO_FORMAT, strtotime('-24 hour')),
+                'endTime' => date(Sanitizer::ISO_FORMAT),
+                'organizationId' => $this->config->getMerchantId(),
+            ]
+        );
+
+        /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
+        $response = $this->responseFactory->create();
+        $response->setData(['is_approved' => false, 'is_denied' => false]);
+
+        $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
+        if (!empty($reply['conversionDetails'])) {
+            foreach ($reply['conversionDetails'] as $change) {
+                if ($change['requestId'] === $transactionId) {
+                    $response->addData($this->flattenArray($change));
+
+                    if ($change['newDecision'] === 'ACCEPT') {
+                        $response->setData('is_approved', true);
+                    }
+                    if ($change['newDecision'] === 'REJECT') {
+                        $response->setData('is_denied', true);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return $response;
     }
 
     /**

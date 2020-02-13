@@ -18,6 +18,8 @@ namespace ParadoxLabs\CyberSource\Model\Service;
  */
 class Sanitizer
 {
+    const ISO_FORMAT = 'Y-m-d\TH:i:s\Z';
+
     /**
      * Truncate input at length
      *
@@ -112,7 +114,7 @@ class Sanitizer
      */
     public function isoDate($input)
     {
-        return date('Y-m-d\TH:i:s\Z', strtotime($input));
+        return date(static::ISO_FORMAT, strtotime($input));
     }
 
     /**
