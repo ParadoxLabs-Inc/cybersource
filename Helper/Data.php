@@ -60,16 +60,16 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      * @see http://apps.cybersource.com/library/documentation/dev_guides/CC_Svcs_SO_API/html/Topics/app_CVN_codes.htm
      */
     const CVN_RESPONSE_CODES = [
-        'D' => 'The transaction was considered suspicious by the issuing bank',
-        'I' => 'CVN failed the processor\'s data validation',
-        'M' => 'CVN matched',
-        'N' => 'CVN did not match',
-        'P' => 'CVN was not processed for an unspecified reason',
-        'S' => 'CVN was not included in the request',
-        'U' => 'Card verification is not supported by the issuing bank',
-        'X' => 'Card verification is not supported by the card association',
-        '1' => 'Card verification is not supported for this processor or card type',
-        '2' => 'Unrecognized CVN response',
+        'D' => 'Transaction considered suspicious by the issuing bank',
+        'I' => 'Failed data validation',
+        'M' => 'Match',
+        'N' => 'No match',
+        'P' => 'Not processed for an unspecified reason',
+        'S' => 'No CVN provided',
+        'U' => 'Not supported by the issuing bank',
+        'X' => 'Not supported by the card association',
+        '1' => 'Not supported for this processor or card type',
+        '2' => 'Unrecognized response',
         '3' => 'No CVN response',
     ];
 

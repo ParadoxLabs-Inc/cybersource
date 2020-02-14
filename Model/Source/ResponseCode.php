@@ -82,7 +82,7 @@ class ResponseCode
         475 => 'The cardholder is enrolled in Payer Authentication. Please authenticate before continuing.',
         476 => 'Encountered a Payer Authentication problem. Payer could not be authenticated.',
         480 => 'The order is marked for review by Decision Manager.',
-        481 => 'The order has been rejected by Decision Manager.',
+        481 => 'Transaction declined.',
         490 => 'The aggregator or acquirer is not accepting transactions at this time.',
         491 => 'The aggregator or acquirer is not accepting this transaction.',
         520 => 'Transaction declined.',

@@ -286,7 +286,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
         }
 
-        // TODO: Card code not being validated? Emailed Trevor 2/07
         if (!empty($payment->getData('cc_cid'))) {
             $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
         }
@@ -381,7 +380,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
         }
 
-        // TODO: Card code not being validated? Emailed Trevor 2/07
         if (!empty($payment->getData('cc_cid'))) {
             $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
         }
