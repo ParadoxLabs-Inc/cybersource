@@ -42,23 +42,23 @@ class CheckoutProvider extends CcGenericConfigProvider
     protected $paymentHelper;
 
     /**
-     * @var \Magento\Payment\Model\Config
-     */
-    protected $paymentConfig;
-
-    /**
      * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
+
+    /**
+     * @var \ParadoxLabs\CyberSource\Model\Config\Config
+     */
+    protected $config;
 
     /**
      * @param CcConfig $ccConfig
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
      * @param \Magento\Customer\Model\Session $customerSession *Proxy
-     * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \ParadoxLabs\CyberSource\Helper\Data $dataHelper
      * @param \Magento\Framework\UrlInterface $urlBuilder
+     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param array $methodCodes
      */
     public function __construct(
@@ -66,17 +66,17 @@ class CheckoutProvider extends CcGenericConfigProvider
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Payment\Model\Config $paymentConfig,
         \ParadoxLabs\CyberSource\Helper\Data $dataHelper,
         \Magento\Framework\UrlInterface $urlBuilder,
+        Config $config,
         array $methodCodes = []
     ) {
         $this->paymentHelper    = $paymentHelper;
         $this->checkoutSession  = $checkoutSession;
         $this->customerSession  = $customerSession;
         $this->dataHelper       = $dataHelper;
-        $this->paymentConfig    = $paymentConfig;
         $this->urlBuilder       = $urlBuilder;
+        $this->config           = $config;
 
         parent::__construct($ccConfig, $paymentHelper, [Config::CODE]);
     }
@@ -149,6 +149,7 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'logoImage'       => $this->getLogoImage(),
                     'requireCcv'      => $this->requireCcv(),
                     'paramUrl'        => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/getParams'),
+                    'fingerprintUrl'  => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
                 ],
             ],
         ]);

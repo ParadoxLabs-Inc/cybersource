@@ -66,7 +66,19 @@ define(
                     return this.storedCards().length > 0;
                 }, this);
 
+                this.initFingerprint();
+
                 return this;
+            },
+            initFingerprint: function() {
+                if (config.fingerprintUrl !== undefined
+                    && config.fingerprintUrl !== null
+                    && config.fingerprintUrl.length > 1) {
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = config.fingerprintUrl;
+                    document.head.appendChild(script);
+                }
             },
             syncSecureAcceptBillingAddress: function() {
                 // Don't progess until the iframe has rendered, we're the active payment method, we have a billing addr.

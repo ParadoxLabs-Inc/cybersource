@@ -123,7 +123,7 @@ class GetParams extends \Magento\Framework\App\Action\Action
             ),
             'partner_solution_id' => $this->sanitizer->alphanumeric($this->config->getSolutionId(), 8),
             'signed_field_names' => '',
-            // TODO: Add in device_fingerprint_id
+            // NB: No device_fingerprint_id because skip_decision_manager=true
         ];
         $params += $this->getBillingAddressParams();
 

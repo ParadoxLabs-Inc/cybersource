@@ -272,6 +272,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
+        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId()));
         $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
@@ -317,6 +318,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
+        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId()));
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setPurchaseTotals($purchaseTotals);
 

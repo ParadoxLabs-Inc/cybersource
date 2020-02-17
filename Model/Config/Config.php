@@ -274,4 +274,53 @@ class Config
     {
         return $this->getConfigValue('client_version');
     }
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isFingerprintEnabled($storeId = null)
+    {
+        if ((bool)$this->getConfigValue('fingerprint', $storeId) === false
+            || empty($this->getConfigValue('organization_id', $storeId))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $sessionId
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function getFingerprintSessionId($sessionId, $storeId = null)
+    {
+        return $this->isFingerprintEnabled($storeId)
+            ? $this->getConfigValue('merchant_id', $storeId) . $sessionId
+            : null;
+    }
+
+    /**
+     * @param string $sessionId
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function getFingerprintUrl($sessionId, $storeId = null)
+    {
+        if ($this->isFingerprintEnabled($storeId) === false) {
+            return null;
+        }
+
+        $params = [
+            'org_id' => $this->getConfigValue('organization_id', $storeId),
+            'session_id' => $this->getFingerprintSessionId($sessionId, $storeId),
+        ];
+
+        return sprintf(
+            'https://%s/fp/tags.js?%s',
+            $this->getConfigValue('fingerprint_domain', $storeId) ?: 'h.online-metrix.net',
+            http_build_query($params)
+        );
+    }
 }

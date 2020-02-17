@@ -8,6 +8,7 @@
                 <active>0</active>
                 <test>0</test>
                 <title>Credit Card (CyberSource)</title>
+                <organization_id />
                 <merchant_id />
                 <soap_transaction_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <secureaccept_profile_id />
@@ -30,9 +31,11 @@
                 <require_ccv>0</require_ccv>
                 <reauthorize_partial_invoice>1</reauthorize_partial_invoice>
                 <savecard_opt_out>1</savecard_opt_out>
+                <fingerprint>1</fingerprint>
+                <fingerprint_domain>h.online-metrix.net</fingerprint_domain>
                 <group>tokenbase</group>
                 <!-- API info -->
-                <client_name>ParadoxLabs_CyberSource</client_name>
+                <client_name>ParadoxLabs CyberSource</client_name>
                 <client_version>0.0.1</client_version>
                 <!-- Feature flags -->
                 <can_order>1</can_order>
