@@ -13,6 +13,8 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service;
 
+use ParadoxLabs\CyberSource\Model\Config\Config;
+
 /**
  * SecureAcceptance Class
  */
@@ -83,7 +85,7 @@ class SecureAcceptance
         $input['signature_validation'] = $this->hmac->validateSignature($input);
 
         $this->helper->log(
-            'paradoxlabs_cybersource',
+            Config::CODE,
             json_encode($input)
         );
 
@@ -101,7 +103,7 @@ class SecureAcceptance
 
         /** @var \ParadoxLabs\CyberSource\Model\Card $card */
         $card = $this->cardFactory->create();
-        $card->setMethod('paradoxlabs_cybersource');
+        $card->setMethod(Config::CODE);
         $card->setPaymentId($input['payment_token']);
         $card->setCustomerEmail($input['req_bill_to_email']);
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);

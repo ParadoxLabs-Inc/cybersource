@@ -81,6 +81,17 @@ class Config
     }
 
     /**
+     * Get the CyberSource Organization ID.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     */
+    public function getOrganizationId($storeId = null)
+    {
+        return $this->getConfigValue('organization_id', $storeId);
+    }
+
+    /**
      * Get the CyberSource Merchant ID.
      *
      * @param int|null $storeId
@@ -282,7 +293,7 @@ class Config
     public function isFingerprintEnabled($storeId = null)
     {
         if ((bool)$this->getConfigValue('fingerprint', $storeId) === false
-            || empty($this->getConfigValue('organization_id', $storeId))) {
+            || empty($this->getOrganizationId($storeId))) {
             return false;
         }
 
@@ -313,7 +324,7 @@ class Config
         }
 
         $params = [
-            'org_id' => $this->getConfigValue('organization_id', $storeId),
+            'org_id' => $this->getOrganizationId($storeId),
             'session_id' => $this->getFingerprintSessionId($sessionId, $storeId),
         ];
 

@@ -4,5 +4,8 @@
         <job name="paradoxlabs_cybersource_update_fraud_txn_status" instance="ParadoxLabs\CyberSource\Model\Cron\TransactionUpdater" method="execute">
             <schedule>0 * * * *</schedule>
         </job>
+        <job name="paradoxlabs_cybersource_account_updater" instance="ParadoxLabs\CyberSource\Model\Cron\AccountUpdater" method="execute">
+            <schedule>0 7 * * *</schedule>
+        </job>
     </group>
 </config>

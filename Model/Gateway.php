@@ -23,7 +23,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     /**
      * @var string
      */
-    protected $code = 'paradoxlabs_cybersource';
+    protected $code = \ParadoxLabs\CyberSource\Model\Config\Config::CODE;
 
     /**
      * $fields defines validation for each API parameter or input.

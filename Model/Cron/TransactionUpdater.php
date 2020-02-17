@@ -13,6 +13,7 @@
 
 namespace ParadoxLabs\CyberSource\Model\Cron;
 
+use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 
 /**
@@ -56,7 +57,7 @@ class TransactionUpdater
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
+        Config $config,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\Data\OrderInterfaceFactory $orderFactory,
         \ParadoxLabs\CyberSource\Helper\Data $helper
@@ -80,7 +81,7 @@ class TransactionUpdater
             [
                 'startTime' => date(Sanitizer::ISO_FORMAT, strtotime('-24 hour')),
                 'endTime' => date(Sanitizer::ISO_FORMAT),
-                'organizationId' => $this->config->getMerchantId(),
+                'organizationId' => $this->config->getOrganizationId(),
             ]
         );
 
@@ -90,7 +91,7 @@ class TransactionUpdater
                 try {
                     $this->processChange($change);
                 } catch (\Exception $exception) {
-                    $this->helper->log('paradoxlabs_cybersource', $exception->getMessage());
+                    $this->helper->log(Config::CODE, $exception->getMessage());
                 }
             }
         }
@@ -113,14 +114,14 @@ class TransactionUpdater
                 $this->updateOrderStatus($order, $change);
 
                 $this->helper->log(
-                    'paradoxlabs_cybersource',
+                    Config::CODE,
                     sprintf(
                         'Updated fraud status of order %s to %s',
                         $order->getIncrementId(),
                         $order->getStatus()
                     )
                 );
-                $this->helper->log('paradoxlabs_cybersource', json_encode($change));
+                $this->helper->log(Config::CODE, json_encode($change));
             }
         }
     }
