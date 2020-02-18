@@ -128,7 +128,8 @@ define(
                     url: config.paramUrl,
                     dataType: 'json',
                     data: {
-                        'billingAddress': billingAddress
+                        'billing': billingAddress,
+                        'source': 'checkout'
                     },
                     global: false,
                     success: this.loadSecureAcceptanceForm.bind(this),

@@ -91,24 +91,12 @@ class SecureAcceptance
 
         $this->validateRequest($input);
 
-        $data = [
-            'avs_response' => $input['auth_avs_code'],
-            'auth_code' => $input['auth_code'],
-            'auth_response' => $input['auth_response'],
-            'auth_transaction_id' => $input['auth_trans_ref_no'],
-            'result' => $input['decision'],
-            'message' => $input['message'],
-            'reason_code' => $input['reason_code'],
-        ];
-
         /** @var \ParadoxLabs\CyberSource\Model\Card $card */
-        $card = $this->cardFactory->create();
-        $card->setMethod(Config::CODE);
-        $card->setPaymentId($input['payment_token']);
+        $card = $this->getCard($input);
+        $card->setPaymentId(isset($input['payment_token']) ? $input['payment_token'] : $input['req_payment_token']);
         $card->setCustomerEmail($input['req_bill_to_email']);
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);
         $card->setCustomerIp($input['req_customer_ip_address']);
-        $card->setActive(0);
         $card->setAddress($this->getAddress($input));
 
         $this->setCardPaymentInfo($input, $card);
@@ -128,19 +116,21 @@ class SecureAcceptance
     protected function getAddress($input)
     {
         $addressArray = [
-            'firstname' => $input['req_bill_to_forename'],
-            'lastname' => $input['req_bill_to_surname'],
-            'company' => $input['req_bill_to_company_name'],
+            'firstname' => isset($input['req_bill_to_forename']) ? $input['req_bill_to_forename'] : null,
+            'lastname' => isset($input['req_bill_to_surname']) ? $input['req_bill_to_surname'] : null,
+            'company' => isset($input['req_bill_to_company_name']) ? $input['req_bill_to_company_name'] : null,
             'street' => [
-                $input['req_bill_to_address_line1'],
-                $input['req_bill_to_address_line2'],
+                isset($input['req_bill_to_address_line1']) ? $input['req_bill_to_address_line1'] : null,
+                isset($input['req_bill_to_address_line2']) ? $input['req_bill_to_address_line2'] : null,
             ],
-            'city' => $input['req_bill_to_address_city'],
-            'region' => $input['req_bill_to_address_state'],
-            'region_code' => $input['req_bill_to_address_state'],
-            'postcode' => $input['req_bill_to_address_postal_code'],
-            'country_id' => $input['req_bill_to_address_country'],
-            'telephone' => $input['req_bill_to_phone'],
+            'city' => isset($input['req_bill_to_address_city']) ? $input['req_bill_to_address_city'] : null,
+            'region' => isset($input['req_bill_to_address_state']) ? $input['req_bill_to_address_state'] : null,
+            'region_code' => isset($input['req_bill_to_address_state']) ? $input['req_bill_to_address_state'] : null,
+            'postcode' => isset($input['req_bill_to_address_postal_code'])
+                ? $input['req_bill_to_address_postal_code']
+                : null,
+            'country_id' => isset($input['req_bill_to_address_country']) ? $input['req_bill_to_address_country'] : null,
+            'telephone' => isset($input['req_bill_to_phone']) ? $input['req_bill_to_phone'] : null,
         ];
 
         return $this->addressHelper->buildAddressFromInput($addressArray);
@@ -160,14 +150,24 @@ class SecureAcceptance
         $day = date('t', strtotime($yr . '-' . $mo));
         $card->setExpires(sprintf('%s-%s-%s 23:59:59', $yr, $mo, $day));
 
+        // Sometimes the full number is masked. idk. But instrument ID should have the same last4.
+        $last4 = substr($input['req_card_number'], -4);
+        if ($last4 === 'xxxx') {
+            $last4 = substr($input['payment_token_instrument_identifier_id'], -4);
+        }
+
         $card->setAdditional('cc_type', $this->cardType->getType($input['req_card_type']));
-        $card->setAdditional('cc_last4', substr($input['req_card_number'], -4));
+        $card->setAdditional('cc_last4', $last4);
         $card->setAdditional('cc_bin', substr($input['req_card_number'], 0, 6));
         $card->setAdditional('cc_exp_year', $yr);
         $card->setAdditional('cc_exp_month', $mo);
 
-        $card->setAdditional('auth_avs_code', $input['auth_avs_code']);
-        $card->setAdditional('auth_transaction_id', $input['auth_trans_ref_no']);
+        if (!empty($input['auth_avs_code'])) {
+            $card->setAdditional('auth_avs_code', $input['auth_avs_code']);
+        }
+        if (!empty($input['auth_trans_ref_no'])) {
+            $card->setAdditional('auth_transaction_id', $input['auth_trans_ref_no']);
+        }
 
         // NB: This is a card fingerprint, unique to each credit card but not reversible. Last4 will match the CC.
         $card->setAdditional('instrument_identifier', $input['payment_token_instrument_identifier_id']);
@@ -199,5 +199,36 @@ class SecureAcceptance
 
             throw new \Magento\Framework\Exception\InputException($message);
         }
+    }
+
+    /**
+     * @param array $input
+     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
+     */
+    protected function getCard($input)
+    {
+        if (!empty($input['req_merchant_defined_data99'])) {
+            try {
+                $card = $this->cardRepository->getByHash($input['req_merchant_defined_data99']);
+
+                if ($card->getMethod() === Config::CODE
+                    && (int)$card->getCustomerId() === (int)$input['req_consumer_id']) {
+                    return $card;
+                }
+            } catch (\Exception $exception) {
+                // If card failed to load, store it as a new one instead.
+            }
+        }
+
+        $card = $this->cardFactory->create();
+        $card->setMethod(Config::CODE);
+        $card->setActive(0);
+
+        if (!empty($input['req_merchant_defined_data100'])
+            && $input['req_merchant_defined_data100'] === 'paymentinfo') {
+            $card->setActive(1);
+        }
+
+        return $card;
     }
 }

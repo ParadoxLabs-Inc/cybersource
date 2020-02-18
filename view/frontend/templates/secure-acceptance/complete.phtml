@@ -17,6 +17,8 @@ try {
         'selected' => false,
         'type' => $card->getType(),
         'new' => true,
+        'cc_bin' => $card->getAdditional('cc_bin'),
+        'cc_last_4' => $card->getAdditional('cc_last_4'),
     ];
 } catch (\Exception $e) {
     $message['error'] = $e->getMessage();

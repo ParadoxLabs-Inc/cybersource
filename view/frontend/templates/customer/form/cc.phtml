@@ -18,6 +18,7 @@
     <?= $block->getBlockHtml('formkey'); ?>
     <input type="hidden" name="id" value="<?= $block->getCard()->getId() ? $block->escapeQuote($block->getCard()->getHash()) : ''; ?>" />
     <input type="hidden" name="method" value="<?= $code; ?>" />
+    <input type="hidden" name="source" value="paymentinfo" />
     <input type="hidden" id="<?= $code ?>-communicator" value="" />
     <fieldset class="fieldset address">
         <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend><br>
@@ -47,7 +48,8 @@
                 <input type="text" name="billing[street][]" value="<?= $block->escapeQuote($block->getStreetLine(1)) ?>" title="<?= $block->escapeQuote(__('Street Address')) ?>" id="street" class="input-text <?= $_streetValidationClass ?>"  />
                 <div class="nested">
                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
-                    <?php for ($_i = 1, $_n = $this->helper(\Magento\Customer\Helper\Address::class)->getStreetLines(); $_i < $_n; $_i++): ?>
+                    <?php /** NB: Secure Acceptance only supports 2 street lines according to documentation */ ?>
+                    <?php for ($_i = 1, $_n = min(2, $this->helper(\Magento\Customer\Helper\Address::class)->getStreetLines()); $_i < $_n; $_i++): ?>
                         <?php $lineNo = (int)($_i+1); ?>
                         <div class="field additional">
                             <label class="label" for="street_<?= $lineNo ?>">
@@ -127,10 +129,9 @@
         "#form-validate": {
             "validation": {},
             "cybersourcePaymentInfoForm": {
-                "cardId": "<?= $block->escapeJs($block->getCard()->getHash()) ?>",
-                "paymentId": "<?= $block->escapeJs($block->getCard()->getPaymentId()) ?>",
                 "target": "<?= $code ?>_iframe",
-                "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureaccept/getParams')) ?>"
+                "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureaccept/getParams')) ?>",
+                "successUrl": "<?= $block->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
             }
         },
         "#country": {

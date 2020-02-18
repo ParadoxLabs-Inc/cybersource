@@ -22,10 +22,9 @@ define([
 
     $.widget('mage.cybersourcePaymentInfoForm', {
         options: {
-            cardId: null,
-            paymentId: null,
             target: null,
-            paramUrl: null
+            paramUrl: null,
+            successUrl: null
         },
 
         _create: function() {
@@ -85,17 +84,10 @@ define([
             this.element.find('iframe').prop('src', 'about:blank')
                 .trigger('processStart');
 
-            // TODO: Address
-            var billingAddress = {};
-
-            // TODO: update card
-            // TODO: Success/response handling
             return $.post({
                 url: this.options.paramUrl,
                 dataType: 'json',
-                data: {
-                    'billingAddress': billingAddress
-                },
+                data: this.element.serialize(),
                 global: false,
                 success: this.loadSecureAcceptanceForm.bind(this),
                 error: this.handleAjaxError.bind(this)
@@ -158,8 +150,8 @@ define([
                 var message = JSON.parse(value);
 
                 if (message.success && message.card !== undefined) {
-                    // TODO: reload list page
-                    console.log(message);
+                    window.location.href = this.options.successUrl;
+                    this.element.trigger('processStart');
                 } else if (message.error.length > 0) {
                     this.initSecureAcceptanceForm();
 

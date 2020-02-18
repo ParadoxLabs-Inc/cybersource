@@ -126,11 +126,13 @@ class CheckoutProvider extends CcGenericConfigProvider
             /** @var \ParadoxLabs\TokenBase\Model\Card $card */
             foreach ($cards as $card) {
                 $storedCardOptions[]    = [
-                    'id'       => $card->getHash(),
-                    'label'    => $card->getLabel(),
-                    'selected' => false,
-                    'type'     => $card->getAdditional('cc_type'),
-                    'new'      => false,
+                    'id'        => $card->getHash(),
+                    'label'     => $card->getLabel(),
+                    'selected'  => false,
+                    'type'      => $card->getAdditional('cc_type'),
+                    'new'       => false,
+                    'cc_bin'    => $card->getAdditional('cc_bin'),
+                    'cc_last_4' => $card->getAdditional('cc_last_4'),
                 ];
 
                 $selected               = $card->getHash();
