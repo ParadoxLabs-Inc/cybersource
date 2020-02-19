@@ -129,8 +129,8 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'id'        => $card->getHash(),
                     'label'     => $card->getLabel(),
                     'selected'  => false,
-                    'type'      => $card->getAdditional('cc_type'),
                     'new'       => false,
+                    'type'      => $card->getType(),
                     'cc_bin'    => $card->getAdditional('cc_bin'),
                     'cc_last_4' => $card->getAdditional('cc_last_4'),
                 ];
