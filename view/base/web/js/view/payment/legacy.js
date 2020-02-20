@@ -24,29 +24,31 @@ define([
         options: {
             target: null,
             paramUrl: null,
-            fingerprintUrl: null
+            fingerprintUrl: null,
+            cardSelector: '[name="payment[card_id]"]',
+            communicatorSelector: null
         },
 
         _create: function() {
-            this.element.on('change', '[name="payment[card_id]"]', this.handleCardSelectChange.bind(this));
+            this.element.on('change', this.options.cardSelector, this.handleCardSelectChange.bind(this));
 
             this.initFingerprint();
             this.handleCardSelectChange();
         },
 
         handleCardSelectChange: function() {
-            if (this.element.find('[name="payment[card_id]"]').val() !== '') {
-                this.element.find('.field.cvv').show();
-                this.element.find('.field.save').toggle(
-                    this.element.find('[name="payment[card_id]"] option:selected').data('new')
+            if (this.element.find(this.options.cardSelector).val() !== '') {
+                this.element.find('div.cvv').show();
+                this.element.find('div.save').toggle(
+                    this.element.find(this.options.cardSelector + ' option:selected').data('new')
                 );
 
                 return;
             }
 
             // Hide additional fields when iframe is visible
-            this.element.find('.field.cvv').hide();
-            this.element.find('.field.save').hide();
+            this.element.find('div.cvv').hide();
+            this.element.find('div.save').hide();
 
             // Re/init iframe if 'add new card' is selected
             this.initSecureAcceptanceForm();
@@ -62,7 +64,7 @@ define([
             return $.post({
                 url: this.options.paramUrl,
                 dataType: 'json',
-                data: this.element.serialize(),
+                data: this.element.find(':input').serialize(),
                 global: false,
                 success: this.loadSecureAcceptanceForm.bind(this),
                 error: this.handleAjaxError.bind(this)
@@ -113,7 +115,7 @@ define([
         },
 
         bindCommunicator: function() {
-            window.jQuery('#paradoxlabs_cybersource-communicator')
+            window.jQuery(this.options.communicatorSelector)
                 .off('change')
                 .on('change', this.handleCommunication.bind(this));
         },
@@ -145,7 +147,7 @@ define([
                   .data('cc_bin', card.cc_bin)
                   .data('cc_last_4', card.cc_last_4);
 
-            this.element.find('[name="payment[card_id]"]').append(option).val(card.id).trigger('change');
+            this.element.find(this.options.cardSelector).append(option).val(card.id).trigger('change');
         },
 
         initFingerprint: function() {

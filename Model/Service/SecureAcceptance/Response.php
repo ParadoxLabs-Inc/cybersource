@@ -11,14 +11,14 @@
  * @license     http://store.paradoxlabs.com/license.html
  */
 
-namespace ParadoxLabs\CyberSource\Model\Service;
+namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
 use ParadoxLabs\CyberSource\Model\Config\Config;
 
 /**
  * SecureAcceptance Class
  */
-class SecureAcceptance
+class Response
 {
     /**
      * @var \ParadoxLabs\CyberSource\Model\Service\Hmac
@@ -96,7 +96,7 @@ class SecureAcceptance
         $card->setPaymentId(isset($input['payment_token']) ? $input['payment_token'] : $input['req_payment_token']);
         $card->setCustomerEmail($input['req_bill_to_email']);
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);
-        $card->setCustomerIp($input['req_customer_ip_address']);
+        $card->setCustomerIp(!empty($input['req_customer_ip_address']) ? $input['req_customer_ip_address'] : null);
         $card->setAddress($this->getAddress($input));
 
         $this->setCardPaymentInfo($input, $card);

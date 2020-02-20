@@ -11,27 +11,27 @@
  * @license     http://store.paradoxlabs.com/license.html
  */
 
-namespace ParadoxLabs\CyberSource\Controller\Secureaccept;
+namespace ParadoxLabs\CyberSource\Controller\Adminhtml\Secureaccept;
 
 use Magento\Framework\Controller\ResultFactory;
 
 /**
  * GetParams Class
  */
-class GetParams extends \Magento\Framework\App\Action\Action
+class GetParams extends \Magento\Backend\App\Action
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest
+     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest
      */
     protected $secureAcceptRequest;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest
+        \Magento\Backend\App\Action\Context $context,
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest
     ) {
         parent::__construct($context);
 

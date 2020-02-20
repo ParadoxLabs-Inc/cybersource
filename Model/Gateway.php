@@ -585,19 +585,14 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
-        if ($api->getDecision() === 'ERROR') {
-            throw new \Magento\Framework\Exception\RuntimeException(
-                __('Transaction Failed: %1', __($response->getResponseReasonText())),
-                null,
-                $api->getReasonCode()
-            );
-        }
-        if ($api->getDecision() === 'REJECT') {
-            throw new \Magento\Framework\Exception\PaymentException(
-                __('Transaction Failed: %1', __($response->getResponseReasonText())),
-                null,
-                $api->getReasonCode()
-            );
+        if (in_array($api->getDecision(), ['ERROR', 'REJECT'], true)) {
+            $message = __('Transaction Failed: %1', __($response->getResponseReasonText()));
+            $this->helper->log($this->code, $message . ' (' . $api->getReasonCode() . ')');
+
+            if ($api->getDecision() === 'REJECT') {
+                throw new \Magento\Framework\Exception\PaymentException($message, null, $api->getReasonCode());
+            }
+            throw new \Magento\Framework\Exception\RuntimeException($message, null, $api->getReasonCode());
         }
 
         return $response;

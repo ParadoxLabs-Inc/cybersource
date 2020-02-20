@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-empty" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="backend.page" remove="true"/>
+        <referenceContainer name="menu.wrapper" remove="true"/>
+
+        <referenceContainer name="content">
+            <block class="ParadoxLabs\CyberSource\Block\Secureaccept\Complete" name="paradoxlabs_cybersource_secureaccept_completed_content" template="ParadoxLabs_CyberSource::secure-acceptance/complete.phtml" cacheable="false" />
+        </referenceContainer>
+    </body>
+</page>

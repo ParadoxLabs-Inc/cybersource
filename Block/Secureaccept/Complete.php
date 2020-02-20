@@ -19,25 +19,25 @@ namespace ParadoxLabs\CyberSource\Block\Secureaccept;
 class Complete extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance
+     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response
      */
-    protected $secureAcceptance;
+    protected $responseHandler;
 
     /**
      * Constructor
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance $secureAcceptance
+     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response $responseHandler
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance $secureAcceptance,
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response $responseHandler,
         array $data = []
     ) {
         parent::__construct($context, $data);
 
-        $this->secureAcceptance = $secureAcceptance;
+        $this->responseHandler = $responseHandler;
     }
 
     /**
@@ -47,6 +47,6 @@ class Complete extends \Magento\Framework\View\Element\Template
     {
         $post = $this->getRequest()->getPostValue();
 
-        return $this->secureAcceptance->saveCard($post);
+        return $this->responseHandler->saveCard($post);
     }
 }
