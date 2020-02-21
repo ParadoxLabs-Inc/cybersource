@@ -53,7 +53,9 @@ class Rest
     /**
      * @param string $path
      * @param array $params
+     * @param string $responseType
      * @return string
+     * @throws \Zend_Http_Client_Exception
      */
     public function get($path, $params = [], $responseType = 'application/hal+json')
     {

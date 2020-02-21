@@ -77,5 +77,7 @@ class ApiTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Config\ApiTest
 
             return $e->getMessage();
         }
+
+        return '';
     }
 }

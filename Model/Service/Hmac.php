@@ -35,7 +35,7 @@ class Hmac
     }
 
     /**
-     * Get CyberSource HMAC signature for the given signed parameters.
+     * Get Secure Acceptance HMAC signature for the given signed parameters.
      *
      * $params may include unsigned request params. Only fields passed in as comma-separated signed_field_names will be
      * signed, as per API spec.

@@ -47,6 +47,7 @@ class Config
      * Get a payment config value by code and store ID
      *
      * @param string $key
+     * @param int|null $storeId
      * @return mixed
      */
     protected function getConfigValue($key, $storeId = null)

@@ -354,7 +354,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
     /**
      * @param \Magento\Payment\Model\InfoInterface $payment
-     * @param \Magento\Sales\Model\Order $order
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
      * @return void
      */

@@ -24,7 +24,8 @@ define([
         options: {
             target: null,
             paramUrl: null,
-            code: null
+            successUrl: null,
+            fieldPrefix: '#'
         },
 
         _create: function() {
@@ -53,23 +54,23 @@ define([
         },
 
         renderAddress: function() {
-            var address = $('#'+this.options.code+'-firstname').val() + ' ';
-            address += $('#'+this.options.code+'-lastname').val() + '<br />';
-            address += $('#'+this.options.code+'-company').val()
-                       ? $('#'+this.options.code+'-company').val() + '<br />'
+            var address = $(this.options.fieldPrefix + 'firstname').val() + ' ';
+            address += $(this.options.fieldPrefix + 'lastname').val() + '<br />';
+            address += $(this.options.fieldPrefix + 'company').val()
+                       ? $(this.options.fieldPrefix + 'company').val() + '<br />'
                        : '';
-            address += $('#'+this.options.code+'-street').val() + '<br />';
-            address += $('#'+this.options.code+'-street_2').val()
-                       ? $('#'+this.options.code+'-street_2').val() + '<br />'
+            address += $(this.options.fieldPrefix + 'street').val() + '<br />';
+            address += $(this.options.fieldPrefix + 'street_2').val()
+                       ? $(this.options.fieldPrefix + 'street_2').val() + '<br />'
                        : '';
-            address += $('#'+this.options.code+'-city').val() + ', ';
-            address += $('#'+this.options.code+'-region-id option:selected').text()
-                       ? $('#'+this.options.code+'-region-id option:selected').text() + ' '
-                       : $('#'+this.options.code+'-region').val() + ' ';
-            address += $('#'+this.options.code+'-zip').val() + '<br />';
-            address += $('#'+this.options.code+'-country option:selected').text() + '<br />';
-            address += $('#'+this.options.code+'-telephone').val()
-                       ? $('#'+this.options.code+'-telephone').val()
+            address += $(this.options.fieldPrefix + 'city').val() + ', ';
+            address += $(this.options.fieldPrefix + 'region-id option:selected').text()
+                       ? $(this.options.fieldPrefix + 'region-id option:selected').text() + ' '
+                       : $(this.options.fieldPrefix + 'region').val() + ' ';
+            address += $(this.options.fieldPrefix + 'zip').val() + '<br />';
+            address += $(this.options.fieldPrefix + 'country option:selected').text() + '<br />';
+            address += $(this.options.fieldPrefix + 'telephone').val()
+                       ? $(this.options.fieldPrefix + 'telephone').val()
                        : '';
 
             this.element.find('address').html(address);
@@ -156,9 +157,15 @@ define([
                 var message = JSON.parse(value);
 
                 if (message.success && message.card !== undefined) {
-                    // Trigger form submission to reload the section
-                    this.element.find('input[name=card_id]').attr('name', '');
-                    this.element.submit();
+                    if (this.options.successUrl !== null) {
+                        // If we have a success URL, redirect there (frontend behavior)
+                        window.location.href = this.options.successUrl;
+                        this.element.trigger('processStart');
+                    } else {
+                        // Trigger form submission to reload the section (admin behavior)
+                        this.element.find('input[name=card_id]').attr('name', '');
+                        this.element.submit();
+                    }
                 } else if (message.error.length > 0) {
                     this.initSecureAcceptanceForm();
 

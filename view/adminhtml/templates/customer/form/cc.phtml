@@ -22,7 +22,7 @@
     "cybersourcePaymentInfoForm": {
         "target": "<?= $code ?>_iframe",
         "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureaccept/getParams', ['id' => $this->getRequest()->getParam('id')])) ?>",
-        "code": "<?= $code ?>"
+        "fieldPrefix": "#<?= $code ?>-"
     }
 }'>
     <?= $block->getBlockHtml('formkey'); ?>
