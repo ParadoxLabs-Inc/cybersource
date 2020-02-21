@@ -25,7 +25,7 @@ class CCAutoAuthReversalReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -33,7 +33,7 @@ class CCAutoAuthReversalReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -42,8 +42,9 @@ class CCAutoAuthReversalReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class CCAutoAuthReversalReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -60,8 +61,9 @@ class CCAutoAuthReversalReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class CCAutoAuthReversalReply
      */
     public function getResult()
     {
-      return $this->result;
+        return $this->result;
     }
 
     /**
@@ -78,8 +80,9 @@ class CCAutoAuthReversalReply
      */
     public function setResult($result)
     {
-      $this->result = $result;
-      return $this;
+        $this->result = $result;
+
+        return $this;
     }
 
 }

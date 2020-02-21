@@ -45,7 +45,7 @@ class PayPalRefundReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -53,7 +53,7 @@ class PayPalRefundReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -62,8 +62,9 @@ class PayPalRefundReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -71,7 +72,7 @@ class PayPalRefundReply
      */
     public function getTransactionId()
     {
-      return $this->transactionId;
+        return $this->transactionId;
     }
 
     /**
@@ -80,8 +81,9 @@ class PayPalRefundReply
      */
     public function setTransactionId($transactionId)
     {
-      $this->transactionId = $transactionId;
-      return $this;
+        $this->transactionId = $transactionId;
+
+        return $this;
     }
 
     /**
@@ -89,7 +91,7 @@ class PayPalRefundReply
      */
     public function getPaypalNetRefundAmount()
     {
-      return $this->paypalNetRefundAmount;
+        return $this->paypalNetRefundAmount;
     }
 
     /**
@@ -98,8 +100,9 @@ class PayPalRefundReply
      */
     public function setPaypalNetRefundAmount($paypalNetRefundAmount)
     {
-      $this->paypalNetRefundAmount = $paypalNetRefundAmount;
-      return $this;
+        $this->paypalNetRefundAmount = $paypalNetRefundAmount;
+
+        return $this;
     }
 
     /**
@@ -107,7 +110,7 @@ class PayPalRefundReply
      */
     public function getPaypalFeeRefundAmount()
     {
-      return $this->paypalFeeRefundAmount;
+        return $this->paypalFeeRefundAmount;
     }
 
     /**
@@ -116,8 +119,9 @@ class PayPalRefundReply
      */
     public function setPaypalFeeRefundAmount($paypalFeeRefundAmount)
     {
-      $this->paypalFeeRefundAmount = $paypalFeeRefundAmount;
-      return $this;
+        $this->paypalFeeRefundAmount = $paypalFeeRefundAmount;
+
+        return $this;
     }
 
     /**
@@ -125,7 +129,7 @@ class PayPalRefundReply
      */
     public function getPaypalGrossRefundAmount()
     {
-      return $this->paypalGrossRefundAmount;
+        return $this->paypalGrossRefundAmount;
     }
 
     /**
@@ -134,8 +138,9 @@ class PayPalRefundReply
      */
     public function setPaypalGrossRefundAmount($paypalGrossRefundAmount)
     {
-      $this->paypalGrossRefundAmount = $paypalGrossRefundAmount;
-      return $this;
+        $this->paypalGrossRefundAmount = $paypalGrossRefundAmount;
+
+        return $this;
     }
 
     /**
@@ -143,7 +148,7 @@ class PayPalRefundReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -152,8 +157,9 @@ class PayPalRefundReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
     /**
@@ -161,7 +167,7 @@ class PayPalRefundReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -170,8 +176,9 @@ class PayPalRefundReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
 }

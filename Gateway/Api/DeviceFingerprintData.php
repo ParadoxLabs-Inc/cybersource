@@ -25,7 +25,7 @@ class DeviceFingerprintData
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -33,7 +33,7 @@ class DeviceFingerprintData
      */
     public function getData()
     {
-      return $this->data;
+        return $this->data;
     }
 
     /**
@@ -42,8 +42,9 @@ class DeviceFingerprintData
      */
     public function setData($data)
     {
-      $this->data = $data;
-      return $this;
+        $this->data = $data;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class DeviceFingerprintData
      */
     public function getProvider()
     {
-      return $this->provider;
+        return $this->provider;
     }
 
     /**
@@ -60,8 +61,9 @@ class DeviceFingerprintData
      */
     public function setProvider($provider)
     {
-      $this->provider = $provider;
-      return $this;
+        $this->provider = $provider;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class DeviceFingerprintData
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -78,8 +80,9 @@ class DeviceFingerprintData
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

@@ -245,10 +245,8 @@ class InvoiceHeader
      */
     protected $customData_1 = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -256,7 +254,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptor()
     {
-      return $this->merchantDescriptor;
+        return $this->merchantDescriptor;
     }
 
     /**
@@ -265,8 +263,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptor($merchantDescriptor)
     {
-      $this->merchantDescriptor = $merchantDescriptor;
-      return $this;
+        $this->merchantDescriptor = $merchantDescriptor;
+
+        return $this;
     }
 
     /**
@@ -274,7 +273,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorContact()
     {
-      return $this->merchantDescriptorContact;
+        return $this->merchantDescriptorContact;
     }
 
     /**
@@ -283,8 +282,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorContact($merchantDescriptorContact)
     {
-      $this->merchantDescriptorContact = $merchantDescriptorContact;
-      return $this;
+        $this->merchantDescriptorContact = $merchantDescriptorContact;
+
+        return $this;
     }
 
     /**
@@ -292,7 +292,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorAlternate()
     {
-      return $this->merchantDescriptorAlternate;
+        return $this->merchantDescriptorAlternate;
     }
 
     /**
@@ -301,8 +301,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorAlternate($merchantDescriptorAlternate)
     {
-      $this->merchantDescriptorAlternate = $merchantDescriptorAlternate;
-      return $this;
+        $this->merchantDescriptorAlternate = $merchantDescriptorAlternate;
+
+        return $this;
     }
 
     /**
@@ -310,7 +311,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorStreet()
     {
-      return $this->merchantDescriptorStreet;
+        return $this->merchantDescriptorStreet;
     }
 
     /**
@@ -319,8 +320,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorStreet($merchantDescriptorStreet)
     {
-      $this->merchantDescriptorStreet = $merchantDescriptorStreet;
-      return $this;
+        $this->merchantDescriptorStreet = $merchantDescriptorStreet;
+
+        return $this;
     }
 
     /**
@@ -328,7 +330,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorCity()
     {
-      return $this->merchantDescriptorCity;
+        return $this->merchantDescriptorCity;
     }
 
     /**
@@ -337,8 +339,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorCity($merchantDescriptorCity)
     {
-      $this->merchantDescriptorCity = $merchantDescriptorCity;
-      return $this;
+        $this->merchantDescriptorCity = $merchantDescriptorCity;
+
+        return $this;
     }
 
     /**
@@ -346,7 +349,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorState()
     {
-      return $this->merchantDescriptorState;
+        return $this->merchantDescriptorState;
     }
 
     /**
@@ -355,8 +358,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorState($merchantDescriptorState)
     {
-      $this->merchantDescriptorState = $merchantDescriptorState;
-      return $this;
+        $this->merchantDescriptorState = $merchantDescriptorState;
+
+        return $this;
     }
 
     /**
@@ -364,7 +368,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorPostalCode()
     {
-      return $this->merchantDescriptorPostalCode;
+        return $this->merchantDescriptorPostalCode;
     }
 
     /**
@@ -373,8 +377,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorPostalCode($merchantDescriptorPostalCode)
     {
-      $this->merchantDescriptorPostalCode = $merchantDescriptorPostalCode;
-      return $this;
+        $this->merchantDescriptorPostalCode = $merchantDescriptorPostalCode;
+
+        return $this;
     }
 
     /**
@@ -382,7 +387,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorCountry()
     {
-      return $this->merchantDescriptorCountry;
+        return $this->merchantDescriptorCountry;
     }
 
     /**
@@ -391,8 +396,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorCountry($merchantDescriptorCountry)
     {
-      $this->merchantDescriptorCountry = $merchantDescriptorCountry;
-      return $this;
+        $this->merchantDescriptorCountry = $merchantDescriptorCountry;
+
+        return $this;
     }
 
     /**
@@ -400,7 +406,7 @@ class InvoiceHeader
      */
     public function getIsGift()
     {
-      return $this->isGift;
+        return $this->isGift;
     }
 
     /**
@@ -409,8 +415,9 @@ class InvoiceHeader
      */
     public function setIsGift($isGift)
     {
-      $this->isGift = $isGift;
-      return $this;
+        $this->isGift = $isGift;
+
+        return $this;
     }
 
     /**
@@ -418,7 +425,7 @@ class InvoiceHeader
      */
     public function getReturnsAccepted()
     {
-      return $this->returnsAccepted;
+        return $this->returnsAccepted;
     }
 
     /**
@@ -427,8 +434,9 @@ class InvoiceHeader
      */
     public function setReturnsAccepted($returnsAccepted)
     {
-      $this->returnsAccepted = $returnsAccepted;
-      return $this;
+        $this->returnsAccepted = $returnsAccepted;
+
+        return $this;
     }
 
     /**
@@ -436,7 +444,7 @@ class InvoiceHeader
      */
     public function getTenderType()
     {
-      return $this->tenderType;
+        return $this->tenderType;
     }
 
     /**
@@ -445,8 +453,9 @@ class InvoiceHeader
      */
     public function setTenderType($tenderType)
     {
-      $this->tenderType = $tenderType;
-      return $this;
+        $this->tenderType = $tenderType;
+
+        return $this;
     }
 
     /**
@@ -454,7 +463,7 @@ class InvoiceHeader
      */
     public function getMerchantVATRegistrationNumber()
     {
-      return $this->merchantVATRegistrationNumber;
+        return $this->merchantVATRegistrationNumber;
     }
 
     /**
@@ -463,8 +472,9 @@ class InvoiceHeader
      */
     public function setMerchantVATRegistrationNumber($merchantVATRegistrationNumber)
     {
-      $this->merchantVATRegistrationNumber = $merchantVATRegistrationNumber;
-      return $this;
+        $this->merchantVATRegistrationNumber = $merchantVATRegistrationNumber;
+
+        return $this;
     }
 
     /**
@@ -472,7 +482,7 @@ class InvoiceHeader
      */
     public function getPurchaserOrderDate()
     {
-      return $this->purchaserOrderDate;
+        return $this->purchaserOrderDate;
     }
 
     /**
@@ -481,8 +491,9 @@ class InvoiceHeader
      */
     public function setPurchaserOrderDate($purchaserOrderDate)
     {
-      $this->purchaserOrderDate = $purchaserOrderDate;
-      return $this;
+        $this->purchaserOrderDate = $purchaserOrderDate;
+
+        return $this;
     }
 
     /**
@@ -490,7 +501,7 @@ class InvoiceHeader
      */
     public function getPurchaserVATRegistrationNumber()
     {
-      return $this->purchaserVATRegistrationNumber;
+        return $this->purchaserVATRegistrationNumber;
     }
 
     /**
@@ -499,8 +510,9 @@ class InvoiceHeader
      */
     public function setPurchaserVATRegistrationNumber($purchaserVATRegistrationNumber)
     {
-      $this->purchaserVATRegistrationNumber = $purchaserVATRegistrationNumber;
-      return $this;
+        $this->purchaserVATRegistrationNumber = $purchaserVATRegistrationNumber;
+
+        return $this;
     }
 
     /**
@@ -508,7 +520,7 @@ class InvoiceHeader
      */
     public function getVatInvoiceReferenceNumber()
     {
-      return $this->vatInvoiceReferenceNumber;
+        return $this->vatInvoiceReferenceNumber;
     }
 
     /**
@@ -517,8 +529,9 @@ class InvoiceHeader
      */
     public function setVatInvoiceReferenceNumber($vatInvoiceReferenceNumber)
     {
-      $this->vatInvoiceReferenceNumber = $vatInvoiceReferenceNumber;
-      return $this;
+        $this->vatInvoiceReferenceNumber = $vatInvoiceReferenceNumber;
+
+        return $this;
     }
 
     /**
@@ -526,7 +539,7 @@ class InvoiceHeader
      */
     public function getSummaryCommodityCode()
     {
-      return $this->summaryCommodityCode;
+        return $this->summaryCommodityCode;
     }
 
     /**
@@ -535,8 +548,9 @@ class InvoiceHeader
      */
     public function setSummaryCommodityCode($summaryCommodityCode)
     {
-      $this->summaryCommodityCode = $summaryCommodityCode;
-      return $this;
+        $this->summaryCommodityCode = $summaryCommodityCode;
+
+        return $this;
     }
 
     /**
@@ -544,7 +558,7 @@ class InvoiceHeader
      */
     public function getSupplierOrderReference()
     {
-      return $this->supplierOrderReference;
+        return $this->supplierOrderReference;
     }
 
     /**
@@ -553,8 +567,9 @@ class InvoiceHeader
      */
     public function setSupplierOrderReference($supplierOrderReference)
     {
-      $this->supplierOrderReference = $supplierOrderReference;
-      return $this;
+        $this->supplierOrderReference = $supplierOrderReference;
+
+        return $this;
     }
 
     /**
@@ -562,7 +577,7 @@ class InvoiceHeader
      */
     public function getUserPO()
     {
-      return $this->userPO;
+        return $this->userPO;
     }
 
     /**
@@ -571,8 +586,9 @@ class InvoiceHeader
      */
     public function setUserPO($userPO)
     {
-      $this->userPO = $userPO;
-      return $this;
+        $this->userPO = $userPO;
+
+        return $this;
     }
 
     /**
@@ -580,7 +596,7 @@ class InvoiceHeader
      */
     public function getCostCenter()
     {
-      return $this->costCenter;
+        return $this->costCenter;
     }
 
     /**
@@ -589,8 +605,9 @@ class InvoiceHeader
      */
     public function setCostCenter($costCenter)
     {
-      $this->costCenter = $costCenter;
-      return $this;
+        $this->costCenter = $costCenter;
+
+        return $this;
     }
 
     /**
@@ -598,7 +615,7 @@ class InvoiceHeader
      */
     public function getPurchaserCode()
     {
-      return $this->purchaserCode;
+        return $this->purchaserCode;
     }
 
     /**
@@ -607,8 +624,9 @@ class InvoiceHeader
      */
     public function setPurchaserCode($purchaserCode)
     {
-      $this->purchaserCode = $purchaserCode;
-      return $this;
+        $this->purchaserCode = $purchaserCode;
+
+        return $this;
     }
 
     /**
@@ -616,7 +634,7 @@ class InvoiceHeader
      */
     public function getTaxable()
     {
-      return $this->taxable;
+        return $this->taxable;
     }
 
     /**
@@ -625,8 +643,9 @@ class InvoiceHeader
      */
     public function setTaxable($taxable)
     {
-      $this->taxable = $taxable;
-      return $this;
+        $this->taxable = $taxable;
+
+        return $this;
     }
 
     /**
@@ -634,7 +653,7 @@ class InvoiceHeader
      */
     public function getAmexDataTAA1()
     {
-      return $this->amexDataTAA1;
+        return $this->amexDataTAA1;
     }
 
     /**
@@ -643,8 +662,9 @@ class InvoiceHeader
      */
     public function setAmexDataTAA1($amexDataTAA1)
     {
-      $this->amexDataTAA1 = $amexDataTAA1;
-      return $this;
+        $this->amexDataTAA1 = $amexDataTAA1;
+
+        return $this;
     }
 
     /**
@@ -652,7 +672,7 @@ class InvoiceHeader
      */
     public function getAmexDataTAA2()
     {
-      return $this->amexDataTAA2;
+        return $this->amexDataTAA2;
     }
 
     /**
@@ -661,8 +681,9 @@ class InvoiceHeader
      */
     public function setAmexDataTAA2($amexDataTAA2)
     {
-      $this->amexDataTAA2 = $amexDataTAA2;
-      return $this;
+        $this->amexDataTAA2 = $amexDataTAA2;
+
+        return $this;
     }
 
     /**
@@ -670,7 +691,7 @@ class InvoiceHeader
      */
     public function getAmexDataTAA3()
     {
-      return $this->amexDataTAA3;
+        return $this->amexDataTAA3;
     }
 
     /**
@@ -679,8 +700,9 @@ class InvoiceHeader
      */
     public function setAmexDataTAA3($amexDataTAA3)
     {
-      $this->amexDataTAA3 = $amexDataTAA3;
-      return $this;
+        $this->amexDataTAA3 = $amexDataTAA3;
+
+        return $this;
     }
 
     /**
@@ -688,7 +710,7 @@ class InvoiceHeader
      */
     public function getAmexDataTAA4()
     {
-      return $this->amexDataTAA4;
+        return $this->amexDataTAA4;
     }
 
     /**
@@ -697,8 +719,9 @@ class InvoiceHeader
      */
     public function setAmexDataTAA4($amexDataTAA4)
     {
-      $this->amexDataTAA4 = $amexDataTAA4;
-      return $this;
+        $this->amexDataTAA4 = $amexDataTAA4;
+
+        return $this;
     }
 
     /**
@@ -706,7 +729,7 @@ class InvoiceHeader
      */
     public function getInvoiceDate()
     {
-      return $this->invoiceDate;
+        return $this->invoiceDate;
     }
 
     /**
@@ -715,8 +738,9 @@ class InvoiceHeader
      */
     public function setInvoiceDate($invoiceDate)
     {
-      $this->invoiceDate = $invoiceDate;
-      return $this;
+        $this->invoiceDate = $invoiceDate;
+
+        return $this;
     }
 
     /**
@@ -724,7 +748,7 @@ class InvoiceHeader
      */
     public function getTotalTaxTypeCode()
     {
-      return $this->totalTaxTypeCode;
+        return $this->totalTaxTypeCode;
     }
 
     /**
@@ -733,8 +757,9 @@ class InvoiceHeader
      */
     public function setTotalTaxTypeCode($totalTaxTypeCode)
     {
-      $this->totalTaxTypeCode = $totalTaxTypeCode;
-      return $this;
+        $this->totalTaxTypeCode = $totalTaxTypeCode;
+
+        return $this;
     }
 
     /**
@@ -742,7 +767,7 @@ class InvoiceHeader
      */
     public function getCardAcceptorRefNumber()
     {
-      return $this->cardAcceptorRefNumber;
+        return $this->cardAcceptorRefNumber;
     }
 
     /**
@@ -751,8 +776,9 @@ class InvoiceHeader
      */
     public function setCardAcceptorRefNumber($cardAcceptorRefNumber)
     {
-      $this->cardAcceptorRefNumber = $cardAcceptorRefNumber;
-      return $this;
+        $this->cardAcceptorRefNumber = $cardAcceptorRefNumber;
+
+        return $this;
     }
 
     /**
@@ -760,7 +786,7 @@ class InvoiceHeader
      */
     public function getAuthorizedContactName()
     {
-      return $this->authorizedContactName;
+        return $this->authorizedContactName;
     }
 
     /**
@@ -769,8 +795,9 @@ class InvoiceHeader
      */
     public function setAuthorizedContactName($authorizedContactName)
     {
-      $this->authorizedContactName = $authorizedContactName;
-      return $this;
+        $this->authorizedContactName = $authorizedContactName;
+
+        return $this;
     }
 
     /**
@@ -778,7 +805,7 @@ class InvoiceHeader
      */
     public function getBusinessApplicationID()
     {
-      return $this->businessApplicationID;
+        return $this->businessApplicationID;
     }
 
     /**
@@ -787,8 +814,9 @@ class InvoiceHeader
      */
     public function setBusinessApplicationID($businessApplicationID)
     {
-      $this->businessApplicationID = $businessApplicationID;
-      return $this;
+        $this->businessApplicationID = $businessApplicationID;
+
+        return $this;
     }
 
     /**
@@ -796,7 +824,7 @@ class InvoiceHeader
      */
     public function getSalesOrganizationID()
     {
-      return $this->salesOrganizationID;
+        return $this->salesOrganizationID;
     }
 
     /**
@@ -805,8 +833,9 @@ class InvoiceHeader
      */
     public function setSalesOrganizationID($salesOrganizationID)
     {
-      $this->salesOrganizationID = $salesOrganizationID;
-      return $this;
+        $this->salesOrganizationID = $salesOrganizationID;
+
+        return $this;
     }
 
     /**
@@ -814,7 +843,7 @@ class InvoiceHeader
      */
     public function getSubmerchantID()
     {
-      return $this->submerchantID;
+        return $this->submerchantID;
     }
 
     /**
@@ -823,8 +852,9 @@ class InvoiceHeader
      */
     public function setSubmerchantID($submerchantID)
     {
-      $this->submerchantID = $submerchantID;
-      return $this;
+        $this->submerchantID = $submerchantID;
+
+        return $this;
     }
 
     /**
@@ -832,7 +862,7 @@ class InvoiceHeader
      */
     public function getSubmerchantName()
     {
-      return $this->submerchantName;
+        return $this->submerchantName;
     }
 
     /**
@@ -841,8 +871,9 @@ class InvoiceHeader
      */
     public function setSubmerchantName($submerchantName)
     {
-      $this->submerchantName = $submerchantName;
-      return $this;
+        $this->submerchantName = $submerchantName;
+
+        return $this;
     }
 
     /**
@@ -850,7 +881,7 @@ class InvoiceHeader
      */
     public function getSubmerchantStreet()
     {
-      return $this->submerchantStreet;
+        return $this->submerchantStreet;
     }
 
     /**
@@ -859,8 +890,9 @@ class InvoiceHeader
      */
     public function setSubmerchantStreet($submerchantStreet)
     {
-      $this->submerchantStreet = $submerchantStreet;
-      return $this;
+        $this->submerchantStreet = $submerchantStreet;
+
+        return $this;
     }
 
     /**
@@ -868,7 +900,7 @@ class InvoiceHeader
      */
     public function getSubmerchantCity()
     {
-      return $this->submerchantCity;
+        return $this->submerchantCity;
     }
 
     /**
@@ -877,8 +909,9 @@ class InvoiceHeader
      */
     public function setSubmerchantCity($submerchantCity)
     {
-      $this->submerchantCity = $submerchantCity;
-      return $this;
+        $this->submerchantCity = $submerchantCity;
+
+        return $this;
     }
 
     /**
@@ -886,7 +919,7 @@ class InvoiceHeader
      */
     public function getSubmerchantPostalCode()
     {
-      return $this->submerchantPostalCode;
+        return $this->submerchantPostalCode;
     }
 
     /**
@@ -895,8 +928,9 @@ class InvoiceHeader
      */
     public function setSubmerchantPostalCode($submerchantPostalCode)
     {
-      $this->submerchantPostalCode = $submerchantPostalCode;
-      return $this;
+        $this->submerchantPostalCode = $submerchantPostalCode;
+
+        return $this;
     }
 
     /**
@@ -904,7 +938,7 @@ class InvoiceHeader
      */
     public function getSubmerchantState()
     {
-      return $this->submerchantState;
+        return $this->submerchantState;
     }
 
     /**
@@ -913,8 +947,9 @@ class InvoiceHeader
      */
     public function setSubmerchantState($submerchantState)
     {
-      $this->submerchantState = $submerchantState;
-      return $this;
+        $this->submerchantState = $submerchantState;
+
+        return $this;
     }
 
     /**
@@ -922,7 +957,7 @@ class InvoiceHeader
      */
     public function getSubmerchantCountry()
     {
-      return $this->submerchantCountry;
+        return $this->submerchantCountry;
     }
 
     /**
@@ -931,8 +966,9 @@ class InvoiceHeader
      */
     public function setSubmerchantCountry($submerchantCountry)
     {
-      $this->submerchantCountry = $submerchantCountry;
-      return $this;
+        $this->submerchantCountry = $submerchantCountry;
+
+        return $this;
     }
 
     /**
@@ -940,7 +976,7 @@ class InvoiceHeader
      */
     public function getSubmerchantEmail()
     {
-      return $this->submerchantEmail;
+        return $this->submerchantEmail;
     }
 
     /**
@@ -949,8 +985,9 @@ class InvoiceHeader
      */
     public function setSubmerchantEmail($submerchantEmail)
     {
-      $this->submerchantEmail = $submerchantEmail;
-      return $this;
+        $this->submerchantEmail = $submerchantEmail;
+
+        return $this;
     }
 
     /**
@@ -958,7 +995,7 @@ class InvoiceHeader
      */
     public function getSubmerchantTelephoneNumber()
     {
-      return $this->submerchantTelephoneNumber;
+        return $this->submerchantTelephoneNumber;
     }
 
     /**
@@ -967,8 +1004,9 @@ class InvoiceHeader
      */
     public function setSubmerchantTelephoneNumber($submerchantTelephoneNumber)
     {
-      $this->submerchantTelephoneNumber = $submerchantTelephoneNumber;
-      return $this;
+        $this->submerchantTelephoneNumber = $submerchantTelephoneNumber;
+
+        return $this;
     }
 
     /**
@@ -976,7 +1014,7 @@ class InvoiceHeader
      */
     public function getSubmerchantRegion()
     {
-      return $this->submerchantRegion;
+        return $this->submerchantRegion;
     }
 
     /**
@@ -985,8 +1023,9 @@ class InvoiceHeader
      */
     public function setSubmerchantRegion($submerchantRegion)
     {
-      $this->submerchantRegion = $submerchantRegion;
-      return $this;
+        $this->submerchantRegion = $submerchantRegion;
+
+        return $this;
     }
 
     /**
@@ -994,7 +1033,7 @@ class InvoiceHeader
      */
     public function getSubmerchantMerchantID()
     {
-      return $this->submerchantMerchantID;
+        return $this->submerchantMerchantID;
     }
 
     /**
@@ -1003,8 +1042,9 @@ class InvoiceHeader
      */
     public function setSubmerchantMerchantID($submerchantMerchantID)
     {
-      $this->submerchantMerchantID = $submerchantMerchantID;
-      return $this;
+        $this->submerchantMerchantID = $submerchantMerchantID;
+
+        return $this;
     }
 
     /**
@@ -1012,7 +1052,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorCounty()
     {
-      return $this->merchantDescriptorCounty;
+        return $this->merchantDescriptorCounty;
     }
 
     /**
@@ -1021,8 +1061,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorCounty($merchantDescriptorCounty)
     {
-      $this->merchantDescriptorCounty = $merchantDescriptorCounty;
-      return $this;
+        $this->merchantDescriptorCounty = $merchantDescriptorCounty;
+
+        return $this;
     }
 
     /**
@@ -1030,7 +1071,7 @@ class InvoiceHeader
      */
     public function getReferenceDataCode()
     {
-      return $this->referenceDataCode;
+        return $this->referenceDataCode;
     }
 
     /**
@@ -1039,8 +1080,9 @@ class InvoiceHeader
      */
     public function setReferenceDataCode($referenceDataCode)
     {
-      $this->referenceDataCode = $referenceDataCode;
-      return $this;
+        $this->referenceDataCode = $referenceDataCode;
+
+        return $this;
     }
 
     /**
@@ -1048,7 +1090,7 @@ class InvoiceHeader
      */
     public function getReferenceDataNumber()
     {
-      return $this->referenceDataNumber;
+        return $this->referenceDataNumber;
     }
 
     /**
@@ -1057,8 +1099,9 @@ class InvoiceHeader
      */
     public function setReferenceDataNumber($referenceDataNumber)
     {
-      $this->referenceDataNumber = $referenceDataNumber;
-      return $this;
+        $this->referenceDataNumber = $referenceDataNumber;
+
+        return $this;
     }
 
     /**
@@ -1066,7 +1109,7 @@ class InvoiceHeader
      */
     public function getMerchantDescriptorStoreID()
     {
-      return $this->merchantDescriptorStoreID;
+        return $this->merchantDescriptorStoreID;
     }
 
     /**
@@ -1075,8 +1118,9 @@ class InvoiceHeader
      */
     public function setMerchantDescriptorStoreID($merchantDescriptorStoreID)
     {
-      $this->merchantDescriptorStoreID = $merchantDescriptorStoreID;
-      return $this;
+        $this->merchantDescriptorStoreID = $merchantDescriptorStoreID;
+
+        return $this;
     }
 
     /**
@@ -1084,7 +1128,7 @@ class InvoiceHeader
      */
     public function getClerkID()
     {
-      return $this->clerkID;
+        return $this->clerkID;
     }
 
     /**
@@ -1093,8 +1137,9 @@ class InvoiceHeader
      */
     public function setClerkID($clerkID)
     {
-      $this->clerkID = $clerkID;
-      return $this;
+        $this->clerkID = $clerkID;
+
+        return $this;
     }
 
     /**
@@ -1102,7 +1147,7 @@ class InvoiceHeader
      */
     public function getCustomData_1()
     {
-      return $this->customData_1;
+        return $this->customData_1;
     }
 
     /**
@@ -1111,8 +1156,9 @@ class InvoiceHeader
      */
     public function setCustomData_1($customData_1)
     {
-      $this->customData_1 = $customData_1;
-      return $this;
+        $this->customData_1 = $customData_1;
+
+        return $this;
     }
 
 }

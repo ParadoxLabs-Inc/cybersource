@@ -30,7 +30,7 @@ class PayPalAuthReversalReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -38,7 +38,7 @@ class PayPalAuthReversalReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -47,8 +47,9 @@ class PayPalAuthReversalReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PayPalAuthReversalReply
      */
     public function getAuthorizationId()
     {
-      return $this->authorizationId;
+        return $this->authorizationId;
     }
 
     /**
@@ -65,8 +66,9 @@ class PayPalAuthReversalReply
      */
     public function setAuthorizationId($authorizationId)
     {
-      $this->authorizationId = $authorizationId;
-      return $this;
+        $this->authorizationId = $authorizationId;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PayPalAuthReversalReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -83,8 +85,9 @@ class PayPalAuthReversalReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PayPalAuthReversalReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -101,8 +104,9 @@ class PayPalAuthReversalReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
 }

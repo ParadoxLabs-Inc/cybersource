@@ -110,7 +110,7 @@ class CCSaleService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -118,7 +118,7 @@ class CCSaleService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -127,8 +127,9 @@ class CCSaleService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -136,7 +137,7 @@ class CCSaleService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -145,8 +146,9 @@ class CCSaleService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -154,7 +156,7 @@ class CCSaleService
      */
     public function getPartialAuthIndicator()
     {
-      return $this->partialAuthIndicator;
+        return $this->partialAuthIndicator;
     }
 
     /**
@@ -163,8 +165,9 @@ class CCSaleService
      */
     public function setPartialAuthIndicator($partialAuthIndicator)
     {
-      $this->partialAuthIndicator = $partialAuthIndicator;
-      return $this;
+        $this->partialAuthIndicator = $partialAuthIndicator;
+
+        return $this;
     }
 
     /**
@@ -172,7 +175,7 @@ class CCSaleService
      */
     public function getCavv()
     {
-      return $this->cavv;
+        return $this->cavv;
     }
 
     /**
@@ -181,8 +184,9 @@ class CCSaleService
      */
     public function setCavv($cavv)
     {
-      $this->cavv = $cavv;
-      return $this;
+        $this->cavv = $cavv;
+
+        return $this;
     }
 
     /**
@@ -190,7 +194,7 @@ class CCSaleService
      */
     public function getXid()
     {
-      return $this->xid;
+        return $this->xid;
     }
 
     /**
@@ -199,8 +203,9 @@ class CCSaleService
      */
     public function setXid($xid)
     {
-      $this->xid = $xid;
-      return $this;
+        $this->xid = $xid;
+
+        return $this;
     }
 
     /**
@@ -208,7 +213,7 @@ class CCSaleService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -217,8 +222,9 @@ class CCSaleService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -226,7 +232,7 @@ class CCSaleService
      */
     public function getIndustryDatatype()
     {
-      return $this->industryDatatype;
+        return $this->industryDatatype;
     }
 
     /**
@@ -235,8 +241,9 @@ class CCSaleService
      */
     public function setIndustryDatatype($industryDatatype)
     {
-      $this->industryDatatype = $industryDatatype;
-      return $this;
+        $this->industryDatatype = $industryDatatype;
+
+        return $this;
     }
 
     /**
@@ -244,7 +251,7 @@ class CCSaleService
      */
     public function getNetworkTokenCryptogram()
     {
-      return $this->networkTokenCryptogram;
+        return $this->networkTokenCryptogram;
     }
 
     /**
@@ -253,8 +260,9 @@ class CCSaleService
      */
     public function setNetworkTokenCryptogram($networkTokenCryptogram)
     {
-      $this->networkTokenCryptogram = $networkTokenCryptogram;
-      return $this;
+        $this->networkTokenCryptogram = $networkTokenCryptogram;
+
+        return $this;
     }
 
     /**
@@ -262,7 +270,7 @@ class CCSaleService
      */
     public function getPaSpecificationVersion()
     {
-      return $this->paSpecificationVersion;
+        return $this->paSpecificationVersion;
     }
 
     /**
@@ -271,8 +279,9 @@ class CCSaleService
      */
     public function setPaSpecificationVersion($paSpecificationVersion)
     {
-      $this->paSpecificationVersion = $paSpecificationVersion;
-      return $this;
+        $this->paSpecificationVersion = $paSpecificationVersion;
+
+        return $this;
     }
 
     /**
@@ -280,7 +289,7 @@ class CCSaleService
      */
     public function getDirectoryServerTransactionID()
     {
-      return $this->directoryServerTransactionID;
+        return $this->directoryServerTransactionID;
     }
 
     /**
@@ -289,8 +298,9 @@ class CCSaleService
      */
     public function setDirectoryServerTransactionID($directoryServerTransactionID)
     {
-      $this->directoryServerTransactionID = $directoryServerTransactionID;
-      return $this;
+        $this->directoryServerTransactionID = $directoryServerTransactionID;
+
+        return $this;
     }
 
     /**
@@ -298,7 +308,7 @@ class CCSaleService
      */
     public function getCryptocurrencyPurchase()
     {
-      return $this->cryptocurrencyPurchase;
+        return $this->cryptocurrencyPurchase;
     }
 
     /**
@@ -307,8 +317,9 @@ class CCSaleService
      */
     public function setCryptocurrencyPurchase($cryptocurrencyPurchase)
     {
-      $this->cryptocurrencyPurchase = $cryptocurrencyPurchase;
-      return $this;
+        $this->cryptocurrencyPurchase = $cryptocurrencyPurchase;
+
+        return $this;
     }
 
     /**
@@ -316,7 +327,7 @@ class CCSaleService
      */
     public function getLowValueExemptionIndicator()
     {
-      return $this->lowValueExemptionIndicator;
+        return $this->lowValueExemptionIndicator;
     }
 
     /**
@@ -325,8 +336,9 @@ class CCSaleService
      */
     public function setLowValueExemptionIndicator($lowValueExemptionIndicator)
     {
-      $this->lowValueExemptionIndicator = $lowValueExemptionIndicator;
-      return $this;
+        $this->lowValueExemptionIndicator = $lowValueExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -334,7 +346,7 @@ class CCSaleService
      */
     public function getRiskAnalysisExemptionIndicator()
     {
-      return $this->riskAnalysisExemptionIndicator;
+        return $this->riskAnalysisExemptionIndicator;
     }
 
     /**
@@ -343,8 +355,9 @@ class CCSaleService
      */
     public function setRiskAnalysisExemptionIndicator($riskAnalysisExemptionIndicator)
     {
-      $this->riskAnalysisExemptionIndicator = $riskAnalysisExemptionIndicator;
-      return $this;
+        $this->riskAnalysisExemptionIndicator = $riskAnalysisExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -352,7 +365,7 @@ class CCSaleService
      */
     public function getTrustedMerchantExemptionIndicator()
     {
-      return $this->trustedMerchantExemptionIndicator;
+        return $this->trustedMerchantExemptionIndicator;
     }
 
     /**
@@ -361,8 +374,9 @@ class CCSaleService
      */
     public function setTrustedMerchantExemptionIndicator($trustedMerchantExemptionIndicator)
     {
-      $this->trustedMerchantExemptionIndicator = $trustedMerchantExemptionIndicator;
-      return $this;
+        $this->trustedMerchantExemptionIndicator = $trustedMerchantExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -370,7 +384,7 @@ class CCSaleService
      */
     public function getSecureCorporatePaymentIndicator()
     {
-      return $this->secureCorporatePaymentIndicator;
+        return $this->secureCorporatePaymentIndicator;
     }
 
     /**
@@ -379,8 +393,9 @@ class CCSaleService
      */
     public function setSecureCorporatePaymentIndicator($secureCorporatePaymentIndicator)
     {
-      $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
-      return $this;
+        $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
+
+        return $this;
     }
 
     /**
@@ -388,7 +403,7 @@ class CCSaleService
      */
     public function getDeferredAuthIndicator()
     {
-      return $this->deferredAuthIndicator;
+        return $this->deferredAuthIndicator;
     }
 
     /**
@@ -397,8 +412,9 @@ class CCSaleService
      */
     public function setDeferredAuthIndicator($deferredAuthIndicator)
     {
-      $this->deferredAuthIndicator = $deferredAuthIndicator;
-      return $this;
+        $this->deferredAuthIndicator = $deferredAuthIndicator;
+
+        return $this;
     }
 
     /**
@@ -406,7 +422,7 @@ class CCSaleService
      */
     public function getDelegatedAuthenticationExemptionIndicator()
     {
-      return $this->delegatedAuthenticationExemptionIndicator;
+        return $this->delegatedAuthenticationExemptionIndicator;
     }
 
     /**
@@ -415,8 +431,9 @@ class CCSaleService
      */
     public function setDelegatedAuthenticationExemptionIndicator($delegatedAuthenticationExemptionIndicator)
     {
-      $this->delegatedAuthenticationExemptionIndicator = $delegatedAuthenticationExemptionIndicator;
-      return $this;
+        $this->delegatedAuthenticationExemptionIndicator = $delegatedAuthenticationExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -424,7 +441,7 @@ class CCSaleService
      */
     public function getTransitTransactionType()
     {
-      return $this->transitTransactionType;
+        return $this->transitTransactionType;
     }
 
     /**
@@ -433,8 +450,9 @@ class CCSaleService
      */
     public function setTransitTransactionType($transitTransactionType)
     {
-      $this->transitTransactionType = $transitTransactionType;
-      return $this;
+        $this->transitTransactionType = $transitTransactionType;
+
+        return $this;
     }
 
     /**
@@ -442,7 +460,7 @@ class CCSaleService
      */
     public function getTransportationMode()
     {
-      return $this->transportationMode;
+        return $this->transportationMode;
     }
 
     /**
@@ -451,8 +469,9 @@ class CCSaleService
      */
     public function setTransportationMode($transportationMode)
     {
-      $this->transportationMode = $transportationMode;
-      return $this;
+        $this->transportationMode = $transportationMode;
+
+        return $this;
     }
 
     /**
@@ -460,7 +479,7 @@ class CCSaleService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -469,8 +488,9 @@ class CCSaleService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

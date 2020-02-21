@@ -10,10 +10,8 @@ class Pin
      */
     protected $entryCapability = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class Pin
      */
     public function getEntryCapability()
     {
-      return $this->entryCapability;
+        return $this->entryCapability;
     }
 
     /**
@@ -30,8 +28,9 @@ class Pin
      */
     public function setEntryCapability($entryCapability)
     {
-      $this->entryCapability = $entryCapability;
-      return $this;
+        $this->entryCapability = $entryCapability;
+
+        return $this;
     }
 
 }

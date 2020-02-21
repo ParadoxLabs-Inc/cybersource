@@ -140,7 +140,7 @@ class AFSReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -148,7 +148,7 @@ class AFSReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -157,8 +157,9 @@ class AFSReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -166,7 +167,7 @@ class AFSReply
      */
     public function getAfsResult()
     {
-      return $this->afsResult;
+        return $this->afsResult;
     }
 
     /**
@@ -175,8 +176,9 @@ class AFSReply
      */
     public function setAfsResult($afsResult)
     {
-      $this->afsResult = $afsResult;
-      return $this;
+        $this->afsResult = $afsResult;
+
+        return $this;
     }
 
     /**
@@ -184,7 +186,7 @@ class AFSReply
      */
     public function getHostSeverity()
     {
-      return $this->hostSeverity;
+        return $this->hostSeverity;
     }
 
     /**
@@ -193,8 +195,9 @@ class AFSReply
      */
     public function setHostSeverity($hostSeverity)
     {
-      $this->hostSeverity = $hostSeverity;
-      return $this;
+        $this->hostSeverity = $hostSeverity;
+
+        return $this;
     }
 
     /**
@@ -202,7 +205,7 @@ class AFSReply
      */
     public function getConsumerLocalTime()
     {
-      return $this->consumerLocalTime;
+        return $this->consumerLocalTime;
     }
 
     /**
@@ -211,8 +214,9 @@ class AFSReply
      */
     public function setConsumerLocalTime($consumerLocalTime)
     {
-      $this->consumerLocalTime = $consumerLocalTime;
-      return $this;
+        $this->consumerLocalTime = $consumerLocalTime;
+
+        return $this;
     }
 
     /**
@@ -220,7 +224,7 @@ class AFSReply
      */
     public function getAfsFactorCode()
     {
-      return $this->afsFactorCode;
+        return $this->afsFactorCode;
     }
 
     /**
@@ -229,8 +233,9 @@ class AFSReply
      */
     public function setAfsFactorCode($afsFactorCode)
     {
-      $this->afsFactorCode = $afsFactorCode;
-      return $this;
+        $this->afsFactorCode = $afsFactorCode;
+
+        return $this;
     }
 
     /**
@@ -238,7 +243,7 @@ class AFSReply
      */
     public function getAddressInfoCode()
     {
-      return $this->addressInfoCode;
+        return $this->addressInfoCode;
     }
 
     /**
@@ -247,8 +252,9 @@ class AFSReply
      */
     public function setAddressInfoCode($addressInfoCode)
     {
-      $this->addressInfoCode = $addressInfoCode;
-      return $this;
+        $this->addressInfoCode = $addressInfoCode;
+
+        return $this;
     }
 
     /**
@@ -256,7 +262,7 @@ class AFSReply
      */
     public function getHotlistInfoCode()
     {
-      return $this->hotlistInfoCode;
+        return $this->hotlistInfoCode;
     }
 
     /**
@@ -265,8 +271,9 @@ class AFSReply
      */
     public function setHotlistInfoCode($hotlistInfoCode)
     {
-      $this->hotlistInfoCode = $hotlistInfoCode;
-      return $this;
+        $this->hotlistInfoCode = $hotlistInfoCode;
+
+        return $this;
     }
 
     /**
@@ -274,7 +281,7 @@ class AFSReply
      */
     public function getInternetInfoCode()
     {
-      return $this->internetInfoCode;
+        return $this->internetInfoCode;
     }
 
     /**
@@ -283,8 +290,9 @@ class AFSReply
      */
     public function setInternetInfoCode($internetInfoCode)
     {
-      $this->internetInfoCode = $internetInfoCode;
-      return $this;
+        $this->internetInfoCode = $internetInfoCode;
+
+        return $this;
     }
 
     /**
@@ -292,7 +300,7 @@ class AFSReply
      */
     public function getPhoneInfoCode()
     {
-      return $this->phoneInfoCode;
+        return $this->phoneInfoCode;
     }
 
     /**
@@ -301,8 +309,9 @@ class AFSReply
      */
     public function setPhoneInfoCode($phoneInfoCode)
     {
-      $this->phoneInfoCode = $phoneInfoCode;
-      return $this;
+        $this->phoneInfoCode = $phoneInfoCode;
+
+        return $this;
     }
 
     /**
@@ -310,7 +319,7 @@ class AFSReply
      */
     public function getSuspiciousInfoCode()
     {
-      return $this->suspiciousInfoCode;
+        return $this->suspiciousInfoCode;
     }
 
     /**
@@ -319,8 +328,9 @@ class AFSReply
      */
     public function setSuspiciousInfoCode($suspiciousInfoCode)
     {
-      $this->suspiciousInfoCode = $suspiciousInfoCode;
-      return $this;
+        $this->suspiciousInfoCode = $suspiciousInfoCode;
+
+        return $this;
     }
 
     /**
@@ -328,7 +338,7 @@ class AFSReply
      */
     public function getVelocityInfoCode()
     {
-      return $this->velocityInfoCode;
+        return $this->velocityInfoCode;
     }
 
     /**
@@ -337,8 +347,9 @@ class AFSReply
      */
     public function setVelocityInfoCode($velocityInfoCode)
     {
-      $this->velocityInfoCode = $velocityInfoCode;
-      return $this;
+        $this->velocityInfoCode = $velocityInfoCode;
+
+        return $this;
     }
 
     /**
@@ -346,7 +357,7 @@ class AFSReply
      */
     public function getIdentityInfoCode()
     {
-      return $this->identityInfoCode;
+        return $this->identityInfoCode;
     }
 
     /**
@@ -355,8 +366,9 @@ class AFSReply
      */
     public function setIdentityInfoCode($identityInfoCode)
     {
-      $this->identityInfoCode = $identityInfoCode;
-      return $this;
+        $this->identityInfoCode = $identityInfoCode;
+
+        return $this;
     }
 
     /**
@@ -364,7 +376,7 @@ class AFSReply
      */
     public function getIpCountry()
     {
-      return $this->ipCountry;
+        return $this->ipCountry;
     }
 
     /**
@@ -373,8 +385,9 @@ class AFSReply
      */
     public function setIpCountry($ipCountry)
     {
-      $this->ipCountry = $ipCountry;
-      return $this;
+        $this->ipCountry = $ipCountry;
+
+        return $this;
     }
 
     /**
@@ -382,7 +395,7 @@ class AFSReply
      */
     public function getIpState()
     {
-      return $this->ipState;
+        return $this->ipState;
     }
 
     /**
@@ -391,8 +404,9 @@ class AFSReply
      */
     public function setIpState($ipState)
     {
-      $this->ipState = $ipState;
-      return $this;
+        $this->ipState = $ipState;
+
+        return $this;
     }
 
     /**
@@ -400,7 +414,7 @@ class AFSReply
      */
     public function getIpCity()
     {
-      return $this->ipCity;
+        return $this->ipCity;
     }
 
     /**
@@ -409,8 +423,9 @@ class AFSReply
      */
     public function setIpCity($ipCity)
     {
-      $this->ipCity = $ipCity;
-      return $this;
+        $this->ipCity = $ipCity;
+
+        return $this;
     }
 
     /**
@@ -418,7 +433,7 @@ class AFSReply
      */
     public function getIpRoutingMethod()
     {
-      return $this->ipRoutingMethod;
+        return $this->ipRoutingMethod;
     }
 
     /**
@@ -427,8 +442,9 @@ class AFSReply
      */
     public function setIpRoutingMethod($ipRoutingMethod)
     {
-      $this->ipRoutingMethod = $ipRoutingMethod;
-      return $this;
+        $this->ipRoutingMethod = $ipRoutingMethod;
+
+        return $this;
     }
 
     /**
@@ -436,7 +452,7 @@ class AFSReply
      */
     public function getIpAnonymizerStatus()
     {
-      return $this->ipAnonymizerStatus;
+        return $this->ipAnonymizerStatus;
     }
 
     /**
@@ -445,8 +461,9 @@ class AFSReply
      */
     public function setIpAnonymizerStatus($ipAnonymizerStatus)
     {
-      $this->ipAnonymizerStatus = $ipAnonymizerStatus;
-      return $this;
+        $this->ipAnonymizerStatus = $ipAnonymizerStatus;
+
+        return $this;
     }
 
     /**
@@ -454,7 +471,7 @@ class AFSReply
      */
     public function getIpCarrier()
     {
-      return $this->ipCarrier;
+        return $this->ipCarrier;
     }
 
     /**
@@ -463,8 +480,9 @@ class AFSReply
      */
     public function setIpCarrier($ipCarrier)
     {
-      $this->ipCarrier = $ipCarrier;
-      return $this;
+        $this->ipCarrier = $ipCarrier;
+
+        return $this;
     }
 
     /**
@@ -472,7 +490,7 @@ class AFSReply
      */
     public function getIpOrganization()
     {
-      return $this->ipOrganization;
+        return $this->ipOrganization;
     }
 
     /**
@@ -481,8 +499,9 @@ class AFSReply
      */
     public function setIpOrganization($ipOrganization)
     {
-      $this->ipOrganization = $ipOrganization;
-      return $this;
+        $this->ipOrganization = $ipOrganization;
+
+        return $this;
     }
 
     /**
@@ -490,7 +509,7 @@ class AFSReply
      */
     public function getScoreModelUsed()
     {
-      return $this->scoreModelUsed;
+        return $this->scoreModelUsed;
     }
 
     /**
@@ -499,8 +518,9 @@ class AFSReply
      */
     public function setScoreModelUsed($scoreModelUsed)
     {
-      $this->scoreModelUsed = $scoreModelUsed;
-      return $this;
+        $this->scoreModelUsed = $scoreModelUsed;
+
+        return $this;
     }
 
     /**
@@ -508,7 +528,7 @@ class AFSReply
      */
     public function getCardBin()
     {
-      return $this->cardBin;
+        return $this->cardBin;
     }
 
     /**
@@ -517,8 +537,9 @@ class AFSReply
      */
     public function setCardBin($cardBin)
     {
-      $this->cardBin = $cardBin;
-      return $this;
+        $this->cardBin = $cardBin;
+
+        return $this;
     }
 
     /**
@@ -526,7 +547,7 @@ class AFSReply
      */
     public function getBinCountry()
     {
-      return $this->binCountry;
+        return $this->binCountry;
     }
 
     /**
@@ -535,8 +556,9 @@ class AFSReply
      */
     public function setBinCountry($binCountry)
     {
-      $this->binCountry = $binCountry;
-      return $this;
+        $this->binCountry = $binCountry;
+
+        return $this;
     }
 
     /**
@@ -544,7 +566,7 @@ class AFSReply
      */
     public function getCardAccountType()
     {
-      return $this->cardAccountType;
+        return $this->cardAccountType;
     }
 
     /**
@@ -553,8 +575,9 @@ class AFSReply
      */
     public function setCardAccountType($cardAccountType)
     {
-      $this->cardAccountType = $cardAccountType;
-      return $this;
+        $this->cardAccountType = $cardAccountType;
+
+        return $this;
     }
 
     /**
@@ -562,7 +585,7 @@ class AFSReply
      */
     public function getCardScheme()
     {
-      return $this->cardScheme;
+        return $this->cardScheme;
     }
 
     /**
@@ -571,8 +594,9 @@ class AFSReply
      */
     public function setCardScheme($cardScheme)
     {
-      $this->cardScheme = $cardScheme;
-      return $this;
+        $this->cardScheme = $cardScheme;
+
+        return $this;
     }
 
     /**
@@ -580,7 +604,7 @@ class AFSReply
      */
     public function getCardIssuer()
     {
-      return $this->cardIssuer;
+        return $this->cardIssuer;
     }
 
     /**
@@ -589,8 +613,9 @@ class AFSReply
      */
     public function setCardIssuer($cardIssuer)
     {
-      $this->cardIssuer = $cardIssuer;
-      return $this;
+        $this->cardIssuer = $cardIssuer;
+
+        return $this;
     }
 
     /**
@@ -598,7 +623,7 @@ class AFSReply
      */
     public function getDeviceFingerprint()
     {
-      return $this->deviceFingerprint;
+        return $this->deviceFingerprint;
     }
 
     /**
@@ -607,8 +632,9 @@ class AFSReply
      */
     public function setDeviceFingerprint($deviceFingerprint)
     {
-      $this->deviceFingerprint = $deviceFingerprint;
-      return $this;
+        $this->deviceFingerprint = $deviceFingerprint;
+
+        return $this;
     }
 
 }

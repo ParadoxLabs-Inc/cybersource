@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class ServiceFeeCalculateReply
 {
 
@@ -25,7 +28,7 @@ class ServiceFeeCalculateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -33,7 +36,7 @@ class ServiceFeeCalculateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -42,8 +45,9 @@ class ServiceFeeCalculateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +55,7 @@ class ServiceFeeCalculateReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -60,8 +64,9 @@ class ServiceFeeCalculateReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -69,29 +74,30 @@ class ServiceFeeCalculateReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ServiceFeeCalculateReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

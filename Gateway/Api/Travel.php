@@ -85,10 +85,8 @@ class Travel
      */
     protected $lastDestinationLongitude = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -96,7 +94,7 @@ class Travel
      */
     public function getActualFinalDestinationCountry()
     {
-      return $this->actualFinalDestinationCountry;
+        return $this->actualFinalDestinationCountry;
     }
 
     /**
@@ -105,8 +103,9 @@ class Travel
      */
     public function setActualFinalDestinationCountry($actualFinalDestinationCountry)
     {
-      $this->actualFinalDestinationCountry = $actualFinalDestinationCountry;
-      return $this;
+        $this->actualFinalDestinationCountry = $actualFinalDestinationCountry;
+
+        return $this;
     }
 
     /**
@@ -114,7 +113,7 @@ class Travel
      */
     public function getActualFinalDestinationCity()
     {
-      return $this->actualFinalDestinationCity;
+        return $this->actualFinalDestinationCity;
     }
 
     /**
@@ -123,8 +122,9 @@ class Travel
      */
     public function setActualFinalDestinationCity($actualFinalDestinationCity)
     {
-      $this->actualFinalDestinationCity = $actualFinalDestinationCity;
-      return $this;
+        $this->actualFinalDestinationCity = $actualFinalDestinationCity;
+
+        return $this;
     }
 
     /**
@@ -132,7 +132,7 @@ class Travel
      */
     public function getActualFinalDestinationLatitude()
     {
-      return $this->actualFinalDestinationLatitude;
+        return $this->actualFinalDestinationLatitude;
     }
 
     /**
@@ -141,8 +141,9 @@ class Travel
      */
     public function setActualFinalDestinationLatitude($actualFinalDestinationLatitude)
     {
-      $this->actualFinalDestinationLatitude = $actualFinalDestinationLatitude;
-      return $this;
+        $this->actualFinalDestinationLatitude = $actualFinalDestinationLatitude;
+
+        return $this;
     }
 
     /**
@@ -150,7 +151,7 @@ class Travel
      */
     public function getActualFinalDestinationLongitude()
     {
-      return $this->actualFinalDestinationLongitude;
+        return $this->actualFinalDestinationLongitude;
     }
 
     /**
@@ -159,8 +160,9 @@ class Travel
      */
     public function setActualFinalDestinationLongitude($actualFinalDestinationLongitude)
     {
-      $this->actualFinalDestinationLongitude = $actualFinalDestinationLongitude;
-      return $this;
+        $this->actualFinalDestinationLongitude = $actualFinalDestinationLongitude;
+
+        return $this;
     }
 
     /**
@@ -168,7 +170,7 @@ class Travel
      */
     public function getFirstDepartureCountry()
     {
-      return $this->firstDepartureCountry;
+        return $this->firstDepartureCountry;
     }
 
     /**
@@ -177,8 +179,9 @@ class Travel
      */
     public function setFirstDepartureCountry($firstDepartureCountry)
     {
-      $this->firstDepartureCountry = $firstDepartureCountry;
-      return $this;
+        $this->firstDepartureCountry = $firstDepartureCountry;
+
+        return $this;
     }
 
     /**
@@ -186,7 +189,7 @@ class Travel
      */
     public function getFirstDepartureCity()
     {
-      return $this->firstDepartureCity;
+        return $this->firstDepartureCity;
     }
 
     /**
@@ -195,8 +198,9 @@ class Travel
      */
     public function setFirstDepartureCity($firstDepartureCity)
     {
-      $this->firstDepartureCity = $firstDepartureCity;
-      return $this;
+        $this->firstDepartureCity = $firstDepartureCity;
+
+        return $this;
     }
 
     /**
@@ -204,7 +208,7 @@ class Travel
      */
     public function getFirstDepartureLatitude()
     {
-      return $this->firstDepartureLatitude;
+        return $this->firstDepartureLatitude;
     }
 
     /**
@@ -213,8 +217,9 @@ class Travel
      */
     public function setFirstDepartureLatitude($firstDepartureLatitude)
     {
-      $this->firstDepartureLatitude = $firstDepartureLatitude;
-      return $this;
+        $this->firstDepartureLatitude = $firstDepartureLatitude;
+
+        return $this;
     }
 
     /**
@@ -222,7 +227,7 @@ class Travel
      */
     public function getFirstDepartureLongitude()
     {
-      return $this->firstDepartureLongitude;
+        return $this->firstDepartureLongitude;
     }
 
     /**
@@ -231,8 +236,9 @@ class Travel
      */
     public function setFirstDepartureLongitude($firstDepartureLongitude)
     {
-      $this->firstDepartureLongitude = $firstDepartureLongitude;
-      return $this;
+        $this->firstDepartureLongitude = $firstDepartureLongitude;
+
+        return $this;
     }
 
     /**
@@ -240,7 +246,7 @@ class Travel
      */
     public function getFirstDestinationCountry()
     {
-      return $this->firstDestinationCountry;
+        return $this->firstDestinationCountry;
     }
 
     /**
@@ -249,8 +255,9 @@ class Travel
      */
     public function setFirstDestinationCountry($firstDestinationCountry)
     {
-      $this->firstDestinationCountry = $firstDestinationCountry;
-      return $this;
+        $this->firstDestinationCountry = $firstDestinationCountry;
+
+        return $this;
     }
 
     /**
@@ -258,7 +265,7 @@ class Travel
      */
     public function getFirstDestinationCity()
     {
-      return $this->firstDestinationCity;
+        return $this->firstDestinationCity;
     }
 
     /**
@@ -267,8 +274,9 @@ class Travel
      */
     public function setFirstDestinationCity($firstDestinationCity)
     {
-      $this->firstDestinationCity = $firstDestinationCity;
-      return $this;
+        $this->firstDestinationCity = $firstDestinationCity;
+
+        return $this;
     }
 
     /**
@@ -276,7 +284,7 @@ class Travel
      */
     public function getFirstDestinationLatitude()
     {
-      return $this->firstDestinationLatitude;
+        return $this->firstDestinationLatitude;
     }
 
     /**
@@ -285,8 +293,9 @@ class Travel
      */
     public function setFirstDestinationLatitude($firstDestinationLatitude)
     {
-      $this->firstDestinationLatitude = $firstDestinationLatitude;
-      return $this;
+        $this->firstDestinationLatitude = $firstDestinationLatitude;
+
+        return $this;
     }
 
     /**
@@ -294,7 +303,7 @@ class Travel
      */
     public function getFirstDestinationLongitude()
     {
-      return $this->firstDestinationLongitude;
+        return $this->firstDestinationLongitude;
     }
 
     /**
@@ -303,8 +312,9 @@ class Travel
      */
     public function setFirstDestinationLongitude($firstDestinationLongitude)
     {
-      $this->firstDestinationLongitude = $firstDestinationLongitude;
-      return $this;
+        $this->firstDestinationLongitude = $firstDestinationLongitude;
+
+        return $this;
     }
 
     /**
@@ -312,7 +322,7 @@ class Travel
      */
     public function getLastDestinationCountry()
     {
-      return $this->lastDestinationCountry;
+        return $this->lastDestinationCountry;
     }
 
     /**
@@ -321,8 +331,9 @@ class Travel
      */
     public function setLastDestinationCountry($lastDestinationCountry)
     {
-      $this->lastDestinationCountry = $lastDestinationCountry;
-      return $this;
+        $this->lastDestinationCountry = $lastDestinationCountry;
+
+        return $this;
     }
 
     /**
@@ -330,7 +341,7 @@ class Travel
      */
     public function getLastDestinationCity()
     {
-      return $this->lastDestinationCity;
+        return $this->lastDestinationCity;
     }
 
     /**
@@ -339,8 +350,9 @@ class Travel
      */
     public function setLastDestinationCity($lastDestinationCity)
     {
-      $this->lastDestinationCity = $lastDestinationCity;
-      return $this;
+        $this->lastDestinationCity = $lastDestinationCity;
+
+        return $this;
     }
 
     /**
@@ -348,7 +360,7 @@ class Travel
      */
     public function getLastDestinationLatitude()
     {
-      return $this->lastDestinationLatitude;
+        return $this->lastDestinationLatitude;
     }
 
     /**
@@ -357,8 +369,9 @@ class Travel
      */
     public function setLastDestinationLatitude($lastDestinationLatitude)
     {
-      $this->lastDestinationLatitude = $lastDestinationLatitude;
-      return $this;
+        $this->lastDestinationLatitude = $lastDestinationLatitude;
+
+        return $this;
     }
 
     /**
@@ -366,7 +379,7 @@ class Travel
      */
     public function getLastDestinationLongitude()
     {
-      return $this->lastDestinationLongitude;
+        return $this->lastDestinationLongitude;
     }
 
     /**
@@ -375,8 +388,9 @@ class Travel
      */
     public function setLastDestinationLongitude($lastDestinationLongitude)
     {
-      $this->lastDestinationLongitude = $lastDestinationLongitude;
-      return $this;
+        $this->lastDestinationLongitude = $lastDestinationLongitude;
+
+        return $this;
     }
 
 }

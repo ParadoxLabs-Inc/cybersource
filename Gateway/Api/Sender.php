@@ -75,10 +75,8 @@ class Sender
      */
     protected $phoneNumber = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -86,7 +84,7 @@ class Sender
      */
     public function getReferenceNumber()
     {
-      return $this->referenceNumber;
+        return $this->referenceNumber;
     }
 
     /**
@@ -95,8 +93,9 @@ class Sender
      */
     public function setReferenceNumber($referenceNumber)
     {
-      $this->referenceNumber = $referenceNumber;
-      return $this;
+        $this->referenceNumber = $referenceNumber;
+
+        return $this;
     }
 
     /**
@@ -104,7 +103,7 @@ class Sender
      */
     public function getSourceOfFunds()
     {
-      return $this->sourceOfFunds;
+        return $this->sourceOfFunds;
     }
 
     /**
@@ -113,8 +112,9 @@ class Sender
      */
     public function setSourceOfFunds($sourceOfFunds)
     {
-      $this->sourceOfFunds = $sourceOfFunds;
-      return $this;
+        $this->sourceOfFunds = $sourceOfFunds;
+
+        return $this;
     }
 
     /**
@@ -122,7 +122,7 @@ class Sender
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -131,8 +131,9 @@ class Sender
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -140,7 +141,7 @@ class Sender
      */
     public function getAddress()
     {
-      return $this->address;
+        return $this->address;
     }
 
     /**
@@ -149,8 +150,9 @@ class Sender
      */
     public function setAddress($address)
     {
-      $this->address = $address;
-      return $this;
+        $this->address = $address;
+
+        return $this;
     }
 
     /**
@@ -158,7 +160,7 @@ class Sender
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -167,8 +169,9 @@ class Sender
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -176,7 +179,7 @@ class Sender
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -185,8 +188,9 @@ class Sender
      */
     public function setState($state)
     {
-      $this->state = $state;
-      return $this;
+        $this->state = $state;
+
+        return $this;
     }
 
     /**
@@ -194,7 +198,7 @@ class Sender
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -203,8 +207,9 @@ class Sender
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
-      return $this;
+        $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
@@ -212,7 +217,7 @@ class Sender
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -221,8 +226,9 @@ class Sender
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -230,7 +236,7 @@ class Sender
      */
     public function getAccountNumber()
     {
-      return $this->accountNumber;
+        return $this->accountNumber;
     }
 
     /**
@@ -239,8 +245,9 @@ class Sender
      */
     public function setAccountNumber($accountNumber)
     {
-      $this->accountNumber = $accountNumber;
-      return $this;
+        $this->accountNumber = $accountNumber;
+
+        return $this;
     }
 
     /**
@@ -248,7 +255,7 @@ class Sender
      */
     public function getDateOfBirth()
     {
-      return $this->dateOfBirth;
+        return $this->dateOfBirth;
     }
 
     /**
@@ -257,8 +264,9 @@ class Sender
      */
     public function setDateOfBirth($dateOfBirth)
     {
-      $this->dateOfBirth = $dateOfBirth;
-      return $this;
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
     }
 
     /**
@@ -266,7 +274,7 @@ class Sender
      */
     public function getFirstName()
     {
-      return $this->firstName;
+        return $this->firstName;
     }
 
     /**
@@ -275,8 +283,9 @@ class Sender
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = $firstName;
-      return $this;
+        $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -284,7 +293,7 @@ class Sender
      */
     public function getMiddleInitial()
     {
-      return $this->middleInitial;
+        return $this->middleInitial;
     }
 
     /**
@@ -293,8 +302,9 @@ class Sender
      */
     public function setMiddleInitial($middleInitial)
     {
-      $this->middleInitial = $middleInitial;
-      return $this;
+        $this->middleInitial = $middleInitial;
+
+        return $this;
     }
 
     /**
@@ -302,7 +312,7 @@ class Sender
      */
     public function getLastName()
     {
-      return $this->lastName;
+        return $this->lastName;
     }
 
     /**
@@ -311,8 +321,9 @@ class Sender
      */
     public function setLastName($lastName)
     {
-      $this->lastName = $lastName;
-      return $this;
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
@@ -320,7 +331,7 @@ class Sender
      */
     public function getPhoneNumber()
     {
-      return $this->phoneNumber;
+        return $this->phoneNumber;
     }
 
     /**
@@ -329,8 +340,9 @@ class Sender
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = $phoneNumber;
-      return $this;
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
     }
 
 }

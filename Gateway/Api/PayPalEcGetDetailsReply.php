@@ -185,7 +185,7 @@ class PayPalEcGetDetailsReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -193,7 +193,7 @@ class PayPalEcGetDetailsReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -202,8 +202,9 @@ class PayPalEcGetDetailsReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -211,7 +212,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPaypalToken()
     {
-      return $this->paypalToken;
+        return $this->paypalToken;
     }
 
     /**
@@ -220,8 +221,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPaypalToken($paypalToken)
     {
-      $this->paypalToken = $paypalToken;
-      return $this;
+        $this->paypalToken = $paypalToken;
+
+        return $this;
     }
 
     /**
@@ -229,7 +231,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayer()
     {
-      return $this->payer;
+        return $this->payer;
     }
 
     /**
@@ -238,8 +240,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayer($payer)
     {
-      $this->payer = $payer;
-      return $this;
+        $this->payer = $payer;
+
+        return $this;
     }
 
     /**
@@ -247,7 +250,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerId()
     {
-      return $this->payerId;
+        return $this->payerId;
     }
 
     /**
@@ -256,8 +259,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerId($payerId)
     {
-      $this->payerId = $payerId;
-      return $this;
+        $this->payerId = $payerId;
+
+        return $this;
     }
 
     /**
@@ -265,7 +269,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerStatus()
     {
-      return $this->payerStatus;
+        return $this->payerStatus;
     }
 
     /**
@@ -274,8 +278,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerStatus($payerStatus)
     {
-      $this->payerStatus = $payerStatus;
-      return $this;
+        $this->payerStatus = $payerStatus;
+
+        return $this;
     }
 
     /**
@@ -283,7 +288,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerSalutation()
     {
-      return $this->payerSalutation;
+        return $this->payerSalutation;
     }
 
     /**
@@ -292,8 +297,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerSalutation($payerSalutation)
     {
-      $this->payerSalutation = $payerSalutation;
-      return $this;
+        $this->payerSalutation = $payerSalutation;
+
+        return $this;
     }
 
     /**
@@ -301,7 +307,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerFirstname()
     {
-      return $this->payerFirstname;
+        return $this->payerFirstname;
     }
 
     /**
@@ -310,8 +316,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerFirstname($payerFirstname)
     {
-      $this->payerFirstname = $payerFirstname;
-      return $this;
+        $this->payerFirstname = $payerFirstname;
+
+        return $this;
     }
 
     /**
@@ -319,7 +326,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerMiddlename()
     {
-      return $this->payerMiddlename;
+        return $this->payerMiddlename;
     }
 
     /**
@@ -328,8 +335,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerMiddlename($payerMiddlename)
     {
-      $this->payerMiddlename = $payerMiddlename;
-      return $this;
+        $this->payerMiddlename = $payerMiddlename;
+
+        return $this;
     }
 
     /**
@@ -337,7 +345,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerLastname()
     {
-      return $this->payerLastname;
+        return $this->payerLastname;
     }
 
     /**
@@ -346,8 +354,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerLastname($payerLastname)
     {
-      $this->payerLastname = $payerLastname;
-      return $this;
+        $this->payerLastname = $payerLastname;
+
+        return $this;
     }
 
     /**
@@ -355,7 +364,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerSuffix()
     {
-      return $this->payerSuffix;
+        return $this->payerSuffix;
     }
 
     /**
@@ -364,8 +373,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerSuffix($payerSuffix)
     {
-      $this->payerSuffix = $payerSuffix;
-      return $this;
+        $this->payerSuffix = $payerSuffix;
+
+        return $this;
     }
 
     /**
@@ -373,7 +383,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerCountry()
     {
-      return $this->payerCountry;
+        return $this->payerCountry;
     }
 
     /**
@@ -382,8 +392,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerCountry($payerCountry)
     {
-      $this->payerCountry = $payerCountry;
-      return $this;
+        $this->payerCountry = $payerCountry;
+
+        return $this;
     }
 
     /**
@@ -391,7 +402,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerBusiness()
     {
-      return $this->payerBusiness;
+        return $this->payerBusiness;
     }
 
     /**
@@ -400,8 +411,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerBusiness($payerBusiness)
     {
-      $this->payerBusiness = $payerBusiness;
-      return $this;
+        $this->payerBusiness = $payerBusiness;
+
+        return $this;
     }
 
     /**
@@ -409,7 +421,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToName()
     {
-      return $this->shipToName;
+        return $this->shipToName;
     }
 
     /**
@@ -418,8 +430,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToName($shipToName)
     {
-      $this->shipToName = $shipToName;
-      return $this;
+        $this->shipToName = $shipToName;
+
+        return $this;
     }
 
     /**
@@ -427,7 +440,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToAddress1()
     {
-      return $this->shipToAddress1;
+        return $this->shipToAddress1;
     }
 
     /**
@@ -436,8 +449,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToAddress1($shipToAddress1)
     {
-      $this->shipToAddress1 = $shipToAddress1;
-      return $this;
+        $this->shipToAddress1 = $shipToAddress1;
+
+        return $this;
     }
 
     /**
@@ -445,7 +459,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToAddress2()
     {
-      return $this->shipToAddress2;
+        return $this->shipToAddress2;
     }
 
     /**
@@ -454,8 +468,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToAddress2($shipToAddress2)
     {
-      $this->shipToAddress2 = $shipToAddress2;
-      return $this;
+        $this->shipToAddress2 = $shipToAddress2;
+
+        return $this;
     }
 
     /**
@@ -463,7 +478,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToCity()
     {
-      return $this->shipToCity;
+        return $this->shipToCity;
     }
 
     /**
@@ -472,8 +487,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToCity($shipToCity)
     {
-      $this->shipToCity = $shipToCity;
-      return $this;
+        $this->shipToCity = $shipToCity;
+
+        return $this;
     }
 
     /**
@@ -481,7 +497,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToState()
     {
-      return $this->shipToState;
+        return $this->shipToState;
     }
 
     /**
@@ -490,8 +506,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToState($shipToState)
     {
-      $this->shipToState = $shipToState;
-      return $this;
+        $this->shipToState = $shipToState;
+
+        return $this;
     }
 
     /**
@@ -499,7 +516,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToCountry()
     {
-      return $this->shipToCountry;
+        return $this->shipToCountry;
     }
 
     /**
@@ -508,8 +525,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToCountry($shipToCountry)
     {
-      $this->shipToCountry = $shipToCountry;
-      return $this;
+        $this->shipToCountry = $shipToCountry;
+
+        return $this;
     }
 
     /**
@@ -517,7 +535,7 @@ class PayPalEcGetDetailsReply
      */
     public function getShipToZip()
     {
-      return $this->shipToZip;
+        return $this->shipToZip;
     }
 
     /**
@@ -526,8 +544,9 @@ class PayPalEcGetDetailsReply
      */
     public function setShipToZip($shipToZip)
     {
-      $this->shipToZip = $shipToZip;
-      return $this;
+        $this->shipToZip = $shipToZip;
+
+        return $this;
     }
 
     /**
@@ -535,7 +554,7 @@ class PayPalEcGetDetailsReply
      */
     public function getAddressStatus()
     {
-      return $this->addressStatus;
+        return $this->addressStatus;
     }
 
     /**
@@ -544,8 +563,9 @@ class PayPalEcGetDetailsReply
      */
     public function setAddressStatus($addressStatus)
     {
-      $this->addressStatus = $addressStatus;
-      return $this;
+        $this->addressStatus = $addressStatus;
+
+        return $this;
     }
 
     /**
@@ -553,7 +573,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPayerPhone()
     {
-      return $this->payerPhone;
+        return $this->payerPhone;
     }
 
     /**
@@ -562,8 +582,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPayerPhone($payerPhone)
     {
-      $this->payerPhone = $payerPhone;
-      return $this;
+        $this->payerPhone = $payerPhone;
+
+        return $this;
     }
 
     /**
@@ -571,7 +592,7 @@ class PayPalEcGetDetailsReply
      */
     public function getAvsCode()
     {
-      return $this->avsCode;
+        return $this->avsCode;
     }
 
     /**
@@ -580,8 +601,9 @@ class PayPalEcGetDetailsReply
      */
     public function setAvsCode($avsCode)
     {
-      $this->avsCode = $avsCode;
-      return $this;
+        $this->avsCode = $avsCode;
+
+        return $this;
     }
 
     /**
@@ -589,7 +611,7 @@ class PayPalEcGetDetailsReply
      */
     public function getStreet1()
     {
-      return $this->street1;
+        return $this->street1;
     }
 
     /**
@@ -598,8 +620,9 @@ class PayPalEcGetDetailsReply
      */
     public function setStreet1($street1)
     {
-      $this->street1 = $street1;
-      return $this;
+        $this->street1 = $street1;
+
+        return $this;
     }
 
     /**
@@ -607,7 +630,7 @@ class PayPalEcGetDetailsReply
      */
     public function getStreet2()
     {
-      return $this->street2;
+        return $this->street2;
     }
 
     /**
@@ -616,8 +639,9 @@ class PayPalEcGetDetailsReply
      */
     public function setStreet2($street2)
     {
-      $this->street2 = $street2;
-      return $this;
+        $this->street2 = $street2;
+
+        return $this;
     }
 
     /**
@@ -625,7 +649,7 @@ class PayPalEcGetDetailsReply
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -634,8 +658,9 @@ class PayPalEcGetDetailsReply
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -643,7 +668,7 @@ class PayPalEcGetDetailsReply
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -652,8 +677,9 @@ class PayPalEcGetDetailsReply
      */
     public function setState($state)
     {
-      $this->state = $state;
-      return $this;
+        $this->state = $state;
+
+        return $this;
     }
 
     /**
@@ -661,7 +687,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -670,8 +696,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
-      return $this;
+        $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
@@ -679,7 +706,7 @@ class PayPalEcGetDetailsReply
      */
     public function getCountryCode()
     {
-      return $this->countryCode;
+        return $this->countryCode;
     }
 
     /**
@@ -688,8 +715,9 @@ class PayPalEcGetDetailsReply
      */
     public function setCountryCode($countryCode)
     {
-      $this->countryCode = $countryCode;
-      return $this;
+        $this->countryCode = $countryCode;
+
+        return $this;
     }
 
     /**
@@ -697,7 +725,7 @@ class PayPalEcGetDetailsReply
      */
     public function getCountryName()
     {
-      return $this->countryName;
+        return $this->countryName;
     }
 
     /**
@@ -706,8 +734,9 @@ class PayPalEcGetDetailsReply
      */
     public function setCountryName($countryName)
     {
-      $this->countryName = $countryName;
-      return $this;
+        $this->countryName = $countryName;
+
+        return $this;
     }
 
     /**
@@ -715,7 +744,7 @@ class PayPalEcGetDetailsReply
      */
     public function getAddressID()
     {
-      return $this->addressID;
+        return $this->addressID;
     }
 
     /**
@@ -724,8 +753,9 @@ class PayPalEcGetDetailsReply
      */
     public function setAddressID($addressID)
     {
-      $this->addressID = $addressID;
-      return $this;
+        $this->addressID = $addressID;
+
+        return $this;
     }
 
     /**
@@ -733,7 +763,7 @@ class PayPalEcGetDetailsReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -742,8 +772,9 @@ class PayPalEcGetDetailsReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
     /**
@@ -751,7 +782,7 @@ class PayPalEcGetDetailsReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -760,8 +791,9 @@ class PayPalEcGetDetailsReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
     /**
@@ -769,7 +801,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPaypalBillingAgreementAcceptedStatus()
     {
-      return $this->paypalBillingAgreementAcceptedStatus;
+        return $this->paypalBillingAgreementAcceptedStatus;
     }
 
     /**
@@ -778,8 +810,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPaypalBillingAgreementAcceptedStatus($paypalBillingAgreementAcceptedStatus)
     {
-      $this->paypalBillingAgreementAcceptedStatus = $paypalBillingAgreementAcceptedStatus;
-      return $this;
+        $this->paypalBillingAgreementAcceptedStatus = $paypalBillingAgreementAcceptedStatus;
+
+        return $this;
     }
 
     /**
@@ -787,7 +820,7 @@ class PayPalEcGetDetailsReply
      */
     public function getPaypalTaxAmount()
     {
-      return $this->paypalTaxAmount;
+        return $this->paypalTaxAmount;
     }
 
     /**
@@ -796,8 +829,9 @@ class PayPalEcGetDetailsReply
      */
     public function setPaypalTaxAmount($paypalTaxAmount)
     {
-      $this->paypalTaxAmount = $paypalTaxAmount;
-      return $this;
+        $this->paypalTaxAmount = $paypalTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -805,7 +839,7 @@ class PayPalEcGetDetailsReply
      */
     public function getItem()
     {
-      return $this->item;
+        return $this->item;
     }
 
     /**
@@ -814,8 +848,9 @@ class PayPalEcGetDetailsReply
      */
     public function setItem(array $item = null)
     {
-      $this->item = $item;
-      return $this;
+        $this->item = $item;
+
+        return $this;
     }
 
 }

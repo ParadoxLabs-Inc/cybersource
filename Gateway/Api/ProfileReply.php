@@ -30,10 +30,8 @@ class ProfileReply
      */
     protected $rulesTriggered = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -41,7 +39,7 @@ class ProfileReply
      */
     public function getSelectedBy()
     {
-      return $this->selectedBy;
+        return $this->selectedBy;
     }
 
     /**
@@ -50,8 +48,9 @@ class ProfileReply
      */
     public function setSelectedBy($selectedBy)
     {
-      $this->selectedBy = $selectedBy;
-      return $this;
+        $this->selectedBy = $selectedBy;
+
+        return $this;
     }
 
     /**
@@ -59,7 +58,7 @@ class ProfileReply
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -68,8 +67,9 @@ class ProfileReply
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -77,7 +77,7 @@ class ProfileReply
      */
     public function getDestinationQueue()
     {
-      return $this->destinationQueue;
+        return $this->destinationQueue;
     }
 
     /**
@@ -86,8 +86,9 @@ class ProfileReply
      */
     public function setDestinationQueue($destinationQueue)
     {
-      $this->destinationQueue = $destinationQueue;
-      return $this;
+        $this->destinationQueue = $destinationQueue;
+
+        return $this;
     }
 
     /**
@@ -95,7 +96,7 @@ class ProfileReply
      */
     public function getProfileScore()
     {
-      return $this->profileScore;
+        return $this->profileScore;
     }
 
     /**
@@ -104,8 +105,9 @@ class ProfileReply
      */
     public function setProfileScore($profileScore)
     {
-      $this->profileScore = $profileScore;
-      return $this;
+        $this->profileScore = $profileScore;
+
+        return $this;
     }
 
     /**
@@ -113,7 +115,7 @@ class ProfileReply
      */
     public function getRulesTriggered()
     {
-      return $this->rulesTriggered;
+        return $this->rulesTriggered;
     }
 
     /**
@@ -122,8 +124,9 @@ class ProfileReply
      */
     public function setRulesTriggered($rulesTriggered)
     {
-      $this->rulesTriggered = $rulesTriggered;
-      return $this;
+        $this->rulesTriggered = $rulesTriggered;
+
+        return $this;
     }
 
 }

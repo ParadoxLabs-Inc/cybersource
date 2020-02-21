@@ -25,10 +25,8 @@ class DeniedPartiesMatch
      */
     protected $program = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class DeniedPartiesMatch
      */
     public function getList()
     {
-      return $this->list;
+        return $this->list;
     }
 
     /**
@@ -45,8 +43,9 @@ class DeniedPartiesMatch
      */
     public function setList($list)
     {
-      $this->list = $list;
-      return $this;
+        $this->list = $list;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class DeniedPartiesMatch
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -63,8 +62,9 @@ class DeniedPartiesMatch
      */
     public function setName(array $name = null)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class DeniedPartiesMatch
      */
     public function getAddress()
     {
-      return $this->address;
+        return $this->address;
     }
 
     /**
@@ -81,8 +81,9 @@ class DeniedPartiesMatch
      */
     public function setAddress(array $address = null)
     {
-      $this->address = $address;
-      return $this;
+        $this->address = $address;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class DeniedPartiesMatch
      */
     public function getProgram()
     {
-      return $this->program;
+        return $this->program;
     }
 
     /**
@@ -99,8 +100,9 @@ class DeniedPartiesMatch
      */
     public function setProgram(array $program = null)
     {
-      $this->program = $program;
-      return $this;
+        $this->program = $program;
+
+        return $this;
     }
 
 }

@@ -105,7 +105,7 @@ class PayPalEcDoPaymentReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -113,7 +113,7 @@ class PayPalEcDoPaymentReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -122,8 +122,9 @@ class PayPalEcDoPaymentReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -131,7 +132,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalToken()
     {
-      return $this->paypalToken;
+        return $this->paypalToken;
     }
 
     /**
@@ -140,8 +141,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalToken($paypalToken)
     {
-      $this->paypalToken = $paypalToken;
-      return $this;
+        $this->paypalToken = $paypalToken;
+
+        return $this;
     }
 
     /**
@@ -149,7 +151,7 @@ class PayPalEcDoPaymentReply
      */
     public function getTransactionId()
     {
-      return $this->transactionId;
+        return $this->transactionId;
     }
 
     /**
@@ -158,8 +160,9 @@ class PayPalEcDoPaymentReply
      */
     public function setTransactionId($transactionId)
     {
-      $this->transactionId = $transactionId;
-      return $this;
+        $this->transactionId = $transactionId;
+
+        return $this;
     }
 
     /**
@@ -167,7 +170,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalTransactiontype()
     {
-      return $this->paypalTransactiontype;
+        return $this->paypalTransactiontype;
     }
 
     /**
@@ -176,8 +179,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalTransactiontype($paypalTransactiontype)
     {
-      $this->paypalTransactiontype = $paypalTransactiontype;
-      return $this;
+        $this->paypalTransactiontype = $paypalTransactiontype;
+
+        return $this;
     }
 
     /**
@@ -185,7 +189,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaymentType()
     {
-      return $this->paymentType;
+        return $this->paymentType;
     }
 
     /**
@@ -194,8 +198,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaymentType($paymentType)
     {
-      $this->paymentType = $paymentType;
-      return $this;
+        $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -203,7 +208,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalOrderTime()
     {
-      return $this->paypalOrderTime;
+        return $this->paypalOrderTime;
     }
 
     /**
@@ -212,8 +217,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalOrderTime($paypalOrderTime)
     {
-      $this->paypalOrderTime = $paypalOrderTime;
-      return $this;
+        $this->paypalOrderTime = $paypalOrderTime;
+
+        return $this;
     }
 
     /**
@@ -221,7 +227,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalAmount()
     {
-      return $this->paypalAmount;
+        return $this->paypalAmount;
     }
 
     /**
@@ -230,8 +236,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalAmount($paypalAmount)
     {
-      $this->paypalAmount = $paypalAmount;
-      return $this;
+        $this->paypalAmount = $paypalAmount;
+
+        return $this;
     }
 
     /**
@@ -239,7 +246,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalFeeAmount()
     {
-      return $this->paypalFeeAmount;
+        return $this->paypalFeeAmount;
     }
 
     /**
@@ -248,8 +255,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalFeeAmount($paypalFeeAmount)
     {
-      $this->paypalFeeAmount = $paypalFeeAmount;
-      return $this;
+        $this->paypalFeeAmount = $paypalFeeAmount;
+
+        return $this;
     }
 
     /**
@@ -257,7 +265,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalTaxAmount()
     {
-      return $this->paypalTaxAmount;
+        return $this->paypalTaxAmount;
     }
 
     /**
@@ -266,8 +274,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalTaxAmount($paypalTaxAmount)
     {
-      $this->paypalTaxAmount = $paypalTaxAmount;
-      return $this;
+        $this->paypalTaxAmount = $paypalTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -275,7 +284,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalExchangeRate()
     {
-      return $this->paypalExchangeRate;
+        return $this->paypalExchangeRate;
     }
 
     /**
@@ -284,8 +293,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalExchangeRate($paypalExchangeRate)
     {
-      $this->paypalExchangeRate = $paypalExchangeRate;
-      return $this;
+        $this->paypalExchangeRate = $paypalExchangeRate;
+
+        return $this;
     }
 
     /**
@@ -293,7 +303,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalPaymentStatus()
     {
-      return $this->paypalPaymentStatus;
+        return $this->paypalPaymentStatus;
     }
 
     /**
@@ -302,8 +312,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalPaymentStatus($paypalPaymentStatus)
     {
-      $this->paypalPaymentStatus = $paypalPaymentStatus;
-      return $this;
+        $this->paypalPaymentStatus = $paypalPaymentStatus;
+
+        return $this;
     }
 
     /**
@@ -311,7 +322,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalPendingReason()
     {
-      return $this->paypalPendingReason;
+        return $this->paypalPendingReason;
     }
 
     /**
@@ -320,8 +331,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalPendingReason($paypalPendingReason)
     {
-      $this->paypalPendingReason = $paypalPendingReason;
-      return $this;
+        $this->paypalPendingReason = $paypalPendingReason;
+
+        return $this;
     }
 
     /**
@@ -329,7 +341,7 @@ class PayPalEcDoPaymentReply
      */
     public function getOrderId()
     {
-      return $this->orderId;
+        return $this->orderId;
     }
 
     /**
@@ -338,8 +350,9 @@ class PayPalEcDoPaymentReply
      */
     public function setOrderId($orderId)
     {
-      $this->orderId = $orderId;
-      return $this;
+        $this->orderId = $orderId;
+
+        return $this;
     }
 
     /**
@@ -347,7 +360,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalReasonCode()
     {
-      return $this->paypalReasonCode;
+        return $this->paypalReasonCode;
     }
 
     /**
@@ -356,8 +369,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalReasonCode($paypalReasonCode)
     {
-      $this->paypalReasonCode = $paypalReasonCode;
-      return $this;
+        $this->paypalReasonCode = $paypalReasonCode;
+
+        return $this;
     }
 
     /**
@@ -365,7 +379,7 @@ class PayPalEcDoPaymentReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -374,8 +388,9 @@ class PayPalEcDoPaymentReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -383,7 +398,7 @@ class PayPalEcDoPaymentReply
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -392,8 +407,9 @@ class PayPalEcDoPaymentReply
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -401,7 +417,7 @@ class PayPalEcDoPaymentReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -410,8 +426,9 @@ class PayPalEcDoPaymentReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
     /**
@@ -419,7 +436,7 @@ class PayPalEcDoPaymentReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -428,8 +445,9 @@ class PayPalEcDoPaymentReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
     /**
@@ -437,7 +455,7 @@ class PayPalEcDoPaymentReply
      */
     public function getPaypalBillingAgreementId()
     {
-      return $this->paypalBillingAgreementId;
+        return $this->paypalBillingAgreementId;
     }
 
     /**
@@ -446,8 +464,9 @@ class PayPalEcDoPaymentReply
      */
     public function setPaypalBillingAgreementId($paypalBillingAgreementId)
     {
-      $this->paypalBillingAgreementId = $paypalBillingAgreementId;
-      return $this;
+        $this->paypalBillingAgreementId = $paypalBillingAgreementId;
+
+        return $this;
     }
 
 }

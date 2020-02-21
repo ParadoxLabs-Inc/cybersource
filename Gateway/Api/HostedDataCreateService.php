@@ -25,7 +25,7 @@ class HostedDataCreateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class HostedDataCreateService
      */
     public function getProfileID()
     {
-      return $this->profileID;
+        return $this->profileID;
     }
 
     /**
@@ -42,8 +42,9 @@ class HostedDataCreateService
      */
     public function setProfileID($profileID)
     {
-      $this->profileID = $profileID;
-      return $this;
+        $this->profileID = $profileID;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class HostedDataCreateService
      */
     public function getPaymentMethod()
     {
-      return $this->paymentMethod;
+        return $this->paymentMethod;
     }
 
     /**
@@ -60,8 +61,9 @@ class HostedDataCreateService
      */
     public function setPaymentMethod($paymentMethod)
     {
-      $this->paymentMethod = $paymentMethod;
-      return $this;
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class HostedDataCreateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class HostedDataCreateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

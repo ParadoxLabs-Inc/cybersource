@@ -35,10 +35,8 @@ class Address
      */
     protected $country = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class Address
      */
     public function getStreet1()
     {
-      return $this->street1;
+        return $this->street1;
     }
 
     /**
@@ -55,8 +53,9 @@ class Address
      */
     public function setStreet1($street1)
     {
-      $this->street1 = $street1;
-      return $this;
+        $this->street1 = $street1;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class Address
      */
     public function getStreet2()
     {
-      return $this->street2;
+        return $this->street2;
     }
 
     /**
@@ -73,8 +72,9 @@ class Address
      */
     public function setStreet2($street2)
     {
-      $this->street2 = $street2;
-      return $this;
+        $this->street2 = $street2;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class Address
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -91,8 +91,9 @@ class Address
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class Address
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -109,8 +110,9 @@ class Address
      */
     public function setState($state)
     {
-      $this->state = $state;
-      return $this;
+        $this->state = $state;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class Address
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -127,8 +129,9 @@ class Address
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
-      return $this;
+        $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class Address
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -145,8 +148,9 @@ class Address
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
 }

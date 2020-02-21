@@ -15,10 +15,8 @@ class OriginalTransaction
      */
     protected $reasonCode = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -26,7 +24,7 @@ class OriginalTransaction
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -35,8 +33,9 @@ class OriginalTransaction
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -44,7 +43,7 @@ class OriginalTransaction
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -53,8 +52,9 @@ class OriginalTransaction
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
 }

@@ -20,7 +20,7 @@ class PayPalGetTxnDetailsService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class PayPalGetTxnDetailsService
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -37,8 +37,9 @@ class PayPalGetTxnDetailsService
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class PayPalGetTxnDetailsService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class PayPalGetTxnDetailsService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

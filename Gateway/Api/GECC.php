@@ -35,10 +35,8 @@ class GECC
      */
     protected $line = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class GECC
      */
     public function getSaleType()
     {
-      return $this->saleType;
+        return $this->saleType;
     }
 
     /**
@@ -55,8 +53,9 @@ class GECC
      */
     public function setSaleType($saleType)
     {
-      $this->saleType = $saleType;
-      return $this;
+        $this->saleType = $saleType;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class GECC
      */
     public function getPlanNumber()
     {
-      return $this->planNumber;
+        return $this->planNumber;
     }
 
     /**
@@ -73,8 +72,9 @@ class GECC
      */
     public function setPlanNumber($planNumber)
     {
-      $this->planNumber = $planNumber;
-      return $this;
+        $this->planNumber = $planNumber;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class GECC
      */
     public function getSequenceNumber()
     {
-      return $this->sequenceNumber;
+        return $this->sequenceNumber;
     }
 
     /**
@@ -91,8 +91,9 @@ class GECC
      */
     public function setSequenceNumber($sequenceNumber)
     {
-      $this->sequenceNumber = $sequenceNumber;
-      return $this;
+        $this->sequenceNumber = $sequenceNumber;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class GECC
      */
     public function getPromotionEndDate()
     {
-      return $this->promotionEndDate;
+        return $this->promotionEndDate;
     }
 
     /**
@@ -109,8 +110,9 @@ class GECC
      */
     public function setPromotionEndDate($promotionEndDate)
     {
-      $this->promotionEndDate = $promotionEndDate;
-      return $this;
+        $this->promotionEndDate = $promotionEndDate;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class GECC
      */
     public function getPromotionPlan()
     {
-      return $this->promotionPlan;
+        return $this->promotionPlan;
     }
 
     /**
@@ -127,8 +129,9 @@ class GECC
      */
     public function setPromotionPlan($promotionPlan)
     {
-      $this->promotionPlan = $promotionPlan;
-      return $this;
+        $this->promotionPlan = $promotionPlan;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class GECC
      */
     public function getLine()
     {
-      return $this->line;
+        return $this->line;
     }
 
     /**
@@ -145,8 +148,9 @@ class GECC
      */
     public function setLine(array $line = null)
     {
-      $this->line = $line;
-      return $this;
+        $this->line = $line;
+
+        return $this;
     }
 
 }

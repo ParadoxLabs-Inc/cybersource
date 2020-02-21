@@ -30,10 +30,8 @@ class AncillaryData
      */
     protected $service = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -41,7 +39,7 @@ class AncillaryData
      */
     public function getTicketNumber()
     {
-      return $this->ticketNumber;
+        return $this->ticketNumber;
     }
 
     /**
@@ -50,8 +48,9 @@ class AncillaryData
      */
     public function setTicketNumber($ticketNumber)
     {
-      $this->ticketNumber = $ticketNumber;
-      return $this;
+        $this->ticketNumber = $ticketNumber;
+
+        return $this;
     }
 
     /**
@@ -59,7 +58,7 @@ class AncillaryData
      */
     public function getPassengerName()
     {
-      return $this->passengerName;
+        return $this->passengerName;
     }
 
     /**
@@ -68,8 +67,9 @@ class AncillaryData
      */
     public function setPassengerName($passengerName)
     {
-      $this->passengerName = $passengerName;
-      return $this;
+        $this->passengerName = $passengerName;
+
+        return $this;
     }
 
     /**
@@ -77,7 +77,7 @@ class AncillaryData
      */
     public function getConnectedTicketNumber()
     {
-      return $this->connectedTicketNumber;
+        return $this->connectedTicketNumber;
     }
 
     /**
@@ -86,8 +86,9 @@ class AncillaryData
      */
     public function setConnectedTicketNumber($connectedTicketNumber)
     {
-      $this->connectedTicketNumber = $connectedTicketNumber;
-      return $this;
+        $this->connectedTicketNumber = $connectedTicketNumber;
+
+        return $this;
     }
 
     /**
@@ -95,7 +96,7 @@ class AncillaryData
      */
     public function getCreditReasonIndicator()
     {
-      return $this->creditReasonIndicator;
+        return $this->creditReasonIndicator;
     }
 
     /**
@@ -104,8 +105,9 @@ class AncillaryData
      */
     public function setCreditReasonIndicator($creditReasonIndicator)
     {
-      $this->creditReasonIndicator = $creditReasonIndicator;
-      return $this;
+        $this->creditReasonIndicator = $creditReasonIndicator;
+
+        return $this;
     }
 
     /**
@@ -113,7 +115,7 @@ class AncillaryData
      */
     public function getService()
     {
-      return $this->service;
+        return $this->service;
     }
 
     /**
@@ -122,8 +124,9 @@ class AncillaryData
      */
     public function setService(array $service = null)
     {
-      $this->service = $service;
-      return $this;
+        $this->service = $service;
+
+        return $this;
     }
 
 }

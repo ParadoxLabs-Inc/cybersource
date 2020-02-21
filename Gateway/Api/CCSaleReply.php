@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class CCSaleReply
 {
 
@@ -115,7 +118,7 @@ class CCSaleReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -123,7 +126,7 @@ class CCSaleReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -132,8 +135,9 @@ class CCSaleReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -141,7 +145,7 @@ class CCSaleReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -150,8 +154,9 @@ class CCSaleReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -159,7 +164,7 @@ class CCSaleReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -168,8 +173,9 @@ class CCSaleReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -177,7 +183,7 @@ class CCSaleReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -186,8 +192,9 @@ class CCSaleReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -195,7 +202,7 @@ class CCSaleReply
      */
     public function getAvsCode()
     {
-      return $this->avsCode;
+        return $this->avsCode;
     }
 
     /**
@@ -204,8 +211,9 @@ class CCSaleReply
      */
     public function setAvsCode($avsCode)
     {
-      $this->avsCode = $avsCode;
-      return $this;
+        $this->avsCode = $avsCode;
+
+        return $this;
     }
 
     /**
@@ -213,7 +221,7 @@ class CCSaleReply
      */
     public function getAvsCodeRaw()
     {
-      return $this->avsCodeRaw;
+        return $this->avsCodeRaw;
     }
 
     /**
@@ -222,8 +230,9 @@ class CCSaleReply
      */
     public function setAvsCodeRaw($avsCodeRaw)
     {
-      $this->avsCodeRaw = $avsCodeRaw;
-      return $this;
+        $this->avsCodeRaw = $avsCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -231,7 +240,7 @@ class CCSaleReply
      */
     public function getCvCode()
     {
-      return $this->cvCode;
+        return $this->cvCode;
     }
 
     /**
@@ -240,8 +249,9 @@ class CCSaleReply
      */
     public function setCvCode($cvCode)
     {
-      $this->cvCode = $cvCode;
-      return $this;
+        $this->cvCode = $cvCode;
+
+        return $this;
     }
 
     /**
@@ -249,7 +259,7 @@ class CCSaleReply
      */
     public function getCvCodeRaw()
     {
-      return $this->cvCodeRaw;
+        return $this->cvCodeRaw;
     }
 
     /**
@@ -258,8 +268,9 @@ class CCSaleReply
      */
     public function setCvCodeRaw($cvCodeRaw)
     {
-      $this->cvCodeRaw = $cvCodeRaw;
-      return $this;
+        $this->cvCodeRaw = $cvCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -267,7 +278,7 @@ class CCSaleReply
      */
     public function getCavvResponseCode()
     {
-      return $this->cavvResponseCode;
+        return $this->cavvResponseCode;
     }
 
     /**
@@ -276,8 +287,9 @@ class CCSaleReply
      */
     public function setCavvResponseCode($cavvResponseCode)
     {
-      $this->cavvResponseCode = $cavvResponseCode;
-      return $this;
+        $this->cavvResponseCode = $cavvResponseCode;
+
+        return $this;
     }
 
     /**
@@ -285,7 +297,7 @@ class CCSaleReply
      */
     public function getCavvResponseCodeRaw()
     {
-      return $this->cavvResponseCodeRaw;
+        return $this->cavvResponseCodeRaw;
     }
 
     /**
@@ -294,8 +306,9 @@ class CCSaleReply
      */
     public function setCavvResponseCodeRaw($cavvResponseCodeRaw)
     {
-      $this->cavvResponseCodeRaw = $cavvResponseCodeRaw;
-      return $this;
+        $this->cavvResponseCodeRaw = $cavvResponseCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -303,7 +316,7 @@ class CCSaleReply
      */
     public function getCardGroup()
     {
-      return $this->cardGroup;
+        return $this->cardGroup;
     }
 
     /**
@@ -312,8 +325,9 @@ class CCSaleReply
      */
     public function setCardGroup($cardGroup)
     {
-      $this->cardGroup = $cardGroup;
-      return $this;
+        $this->cardGroup = $cardGroup;
+
+        return $this;
     }
 
     /**
@@ -321,7 +335,7 @@ class CCSaleReply
      */
     public function getPaymentNetworkTransactionID()
     {
-      return $this->paymentNetworkTransactionID;
+        return $this->paymentNetworkTransactionID;
     }
 
     /**
@@ -330,8 +344,9 @@ class CCSaleReply
      */
     public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
     {
-      $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
-      return $this;
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
     }
 
     /**
@@ -339,7 +354,7 @@ class CCSaleReply
      */
     public function getCardCategory()
     {
-      return $this->cardCategory;
+        return $this->cardCategory;
     }
 
     /**
@@ -348,8 +363,9 @@ class CCSaleReply
      */
     public function setCardCategory($cardCategory)
     {
-      $this->cardCategory = $cardCategory;
-      return $this;
+        $this->cardCategory = $cardCategory;
+
+        return $this;
     }
 
     /**
@@ -357,7 +373,7 @@ class CCSaleReply
      */
     public function getAccountBalance()
     {
-      return $this->accountBalance;
+        return $this->accountBalance;
     }
 
     /**
@@ -366,8 +382,9 @@ class CCSaleReply
      */
     public function setAccountBalance($accountBalance)
     {
-      $this->accountBalance = $accountBalance;
-      return $this;
+        $this->accountBalance = $accountBalance;
+
+        return $this;
     }
 
     /**
@@ -375,29 +392,30 @@ class CCSaleReply
      */
     public function getAuthorizedDateTime()
     {
-      if ($this->authorizedDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->authorizedDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->authorizedDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->authorizedDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $authorizedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleReply
      */
-    public function setAuthorizedDateTime(\DateTime $authorizedDateTime = null)
+    public function setAuthorizedDateTime(DateTime $authorizedDateTime = null)
     {
-      if ($authorizedDateTime == null) {
-       $this->authorizedDateTime = null;
-      } else {
-        $this->authorizedDateTime = $authorizedDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($authorizedDateTime == null) {
+            $this->authorizedDateTime = null;
+        } else {
+            $this->authorizedDateTime = $authorizedDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -405,7 +423,7 @@ class CCSaleReply
      */
     public function getRequestAmount()
     {
-      return $this->requestAmount;
+        return $this->requestAmount;
     }
 
     /**
@@ -414,8 +432,9 @@ class CCSaleReply
      */
     public function setRequestAmount($requestAmount)
     {
-      $this->requestAmount = $requestAmount;
-      return $this;
+        $this->requestAmount = $requestAmount;
+
+        return $this;
     }
 
     /**
@@ -423,7 +442,7 @@ class CCSaleReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -432,8 +451,9 @@ class CCSaleReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -441,7 +461,7 @@ class CCSaleReply
      */
     public function getAccountBalanceCurrency()
     {
-      return $this->accountBalanceCurrency;
+        return $this->accountBalanceCurrency;
     }
 
     /**
@@ -450,8 +470,9 @@ class CCSaleReply
      */
     public function setAccountBalanceCurrency($accountBalanceCurrency)
     {
-      $this->accountBalanceCurrency = $accountBalanceCurrency;
-      return $this;
+        $this->accountBalanceCurrency = $accountBalanceCurrency;
+
+        return $this;
     }
 
     /**
@@ -459,7 +480,7 @@ class CCSaleReply
      */
     public function getAccountBalanceSign()
     {
-      return $this->accountBalanceSign;
+        return $this->accountBalanceSign;
     }
 
     /**
@@ -468,8 +489,9 @@ class CCSaleReply
      */
     public function setAccountBalanceSign($accountBalanceSign)
     {
-      $this->accountBalanceSign = $accountBalanceSign;
-      return $this;
+        $this->accountBalanceSign = $accountBalanceSign;
+
+        return $this;
     }
 
     /**
@@ -477,7 +499,7 @@ class CCSaleReply
      */
     public function getCardReferenceData()
     {
-      return $this->cardReferenceData;
+        return $this->cardReferenceData;
     }
 
     /**
@@ -486,8 +508,9 @@ class CCSaleReply
      */
     public function setCardReferenceData($cardReferenceData)
     {
-      $this->cardReferenceData = $cardReferenceData;
-      return $this;
+        $this->cardReferenceData = $cardReferenceData;
+
+        return $this;
     }
 
     /**
@@ -495,7 +518,7 @@ class CCSaleReply
      */
     public function getPartialPANandIBAN()
     {
-      return $this->partialPANandIBAN;
+        return $this->partialPANandIBAN;
     }
 
     /**
@@ -504,8 +527,9 @@ class CCSaleReply
      */
     public function setPartialPANandIBAN($partialPANandIBAN)
     {
-      $this->partialPANandIBAN = $partialPANandIBAN;
-      return $this;
+        $this->partialPANandIBAN = $partialPANandIBAN;
+
+        return $this;
     }
 
 }

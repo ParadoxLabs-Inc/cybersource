@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APInitiateReply
 {
 
@@ -55,7 +58,7 @@ class APInitiateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -63,7 +66,7 @@ class APInitiateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -72,8 +75,9 @@ class APInitiateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -81,7 +85,7 @@ class APInitiateReply
      */
     public function getMerchantURL()
     {
-      return $this->merchantURL;
+        return $this->merchantURL;
     }
 
     /**
@@ -90,8 +94,9 @@ class APInitiateReply
      */
     public function setMerchantURL($merchantURL)
     {
-      $this->merchantURL = $merchantURL;
-      return $this;
+        $this->merchantURL = $merchantURL;
+
+        return $this;
     }
 
     /**
@@ -99,7 +104,7 @@ class APInitiateReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -108,8 +113,9 @@ class APInitiateReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -117,7 +123,7 @@ class APInitiateReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -126,8 +132,9 @@ class APInitiateReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -135,29 +142,30 @@ class APInitiateReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APInitiateReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -165,7 +173,7 @@ class APInitiateReply
      */
     public function getSignature()
     {
-      return $this->signature;
+        return $this->signature;
     }
 
     /**
@@ -174,8 +182,9 @@ class APInitiateReply
      */
     public function setSignature($signature)
     {
-      $this->signature = $signature;
-      return $this;
+        $this->signature = $signature;
+
+        return $this;
     }
 
     /**
@@ -183,7 +192,7 @@ class APInitiateReply
      */
     public function getPublicKey()
     {
-      return $this->publicKey;
+        return $this->publicKey;
     }
 
     /**
@@ -192,8 +201,9 @@ class APInitiateReply
      */
     public function setPublicKey($publicKey)
     {
-      $this->publicKey = $publicKey;
-      return $this;
+        $this->publicKey = $publicKey;
+
+        return $this;
     }
 
     /**
@@ -201,7 +211,7 @@ class APInitiateReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -210,8 +220,9 @@ class APInitiateReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -219,7 +230,7 @@ class APInitiateReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -228,8 +239,9 @@ class APInitiateReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
 }

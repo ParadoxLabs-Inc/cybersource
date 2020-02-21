@@ -175,10 +175,8 @@ class PurchaseTotals
      */
     protected $insuranceAmount = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -186,7 +184,7 @@ class PurchaseTotals
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -195,8 +193,9 @@ class PurchaseTotals
      */
     public function setCurrency($currency)
     {
-      $this->currency = strtoupper(substr($currency, 0, 5));
-      return $this;
+        $this->currency = strtoupper(substr($currency, 0, 5));
+
+        return $this;
     }
 
     /**
@@ -204,7 +203,7 @@ class PurchaseTotals
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -213,8 +212,9 @@ class PurchaseTotals
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
     /**
@@ -222,7 +222,7 @@ class PurchaseTotals
      */
     public function getDiscountAmountSign()
     {
-      return $this->discountAmountSign;
+        return $this->discountAmountSign;
     }
 
     /**
@@ -231,8 +231,9 @@ class PurchaseTotals
      */
     public function setDiscountAmountSign($discountAmountSign)
     {
-      $this->discountAmountSign = $discountAmountSign;
-      return $this;
+        $this->discountAmountSign = $discountAmountSign;
+
+        return $this;
     }
 
     /**
@@ -240,7 +241,7 @@ class PurchaseTotals
      */
     public function getDiscountManagementIndicator()
     {
-      return $this->discountManagementIndicator;
+        return $this->discountManagementIndicator;
     }
 
     /**
@@ -249,8 +250,9 @@ class PurchaseTotals
      */
     public function setDiscountManagementIndicator($discountManagementIndicator)
     {
-      $this->discountManagementIndicator = $discountManagementIndicator;
-      return $this;
+        $this->discountManagementIndicator = $discountManagementIndicator;
+
+        return $this;
     }
 
     /**
@@ -258,7 +260,7 @@ class PurchaseTotals
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -267,8 +269,9 @@ class PurchaseTotals
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = max((float)$taxAmount, 0);
-      return $this;
+        $this->taxAmount = max((float)$taxAmount, 0);
+
+        return $this;
     }
 
     /**
@@ -276,7 +279,7 @@ class PurchaseTotals
      */
     public function getDutyAmount()
     {
-      return $this->dutyAmount;
+        return $this->dutyAmount;
     }
 
     /**
@@ -285,8 +288,9 @@ class PurchaseTotals
      */
     public function setDutyAmount($dutyAmount)
     {
-      $this->dutyAmount = $dutyAmount;
-      return $this;
+        $this->dutyAmount = $dutyAmount;
+
+        return $this;
     }
 
     /**
@@ -294,7 +298,7 @@ class PurchaseTotals
      */
     public function getDutyAmountSign()
     {
-      return $this->dutyAmountSign;
+        return $this->dutyAmountSign;
     }
 
     /**
@@ -303,8 +307,9 @@ class PurchaseTotals
      */
     public function setDutyAmountSign($dutyAmountSign)
     {
-      $this->dutyAmountSign = $dutyAmountSign;
-      return $this;
+        $this->dutyAmountSign = $dutyAmountSign;
+
+        return $this;
     }
 
     /**
@@ -312,7 +317,7 @@ class PurchaseTotals
      */
     public function getGrandTotalAmount()
     {
-      return $this->grandTotalAmount;
+        return $this->grandTotalAmount;
     }
 
     /**
@@ -321,8 +326,9 @@ class PurchaseTotals
      */
     public function setGrandTotalAmount($grandTotalAmount)
     {
-      $this->grandTotalAmount = max((float)$grandTotalAmount, 0);
-      return $this;
+        $this->grandTotalAmount = max((float)$grandTotalAmount, 0);
+
+        return $this;
     }
 
     /**
@@ -330,7 +336,7 @@ class PurchaseTotals
      */
     public function getFreightAmount()
     {
-      return $this->freightAmount;
+        return $this->freightAmount;
     }
 
     /**
@@ -339,8 +345,9 @@ class PurchaseTotals
      */
     public function setFreightAmount($freightAmount)
     {
-      $this->freightAmount = $freightAmount;
-      return $this;
+        $this->freightAmount = $freightAmount;
+
+        return $this;
     }
 
     /**
@@ -348,7 +355,7 @@ class PurchaseTotals
      */
     public function getFreightAmountSign()
     {
-      return $this->freightAmountSign;
+        return $this->freightAmountSign;
     }
 
     /**
@@ -357,8 +364,9 @@ class PurchaseTotals
      */
     public function setFreightAmountSign($freightAmountSign)
     {
-      $this->freightAmountSign = $freightAmountSign;
-      return $this;
+        $this->freightAmountSign = $freightAmountSign;
+
+        return $this;
     }
 
     /**
@@ -366,7 +374,7 @@ class PurchaseTotals
      */
     public function getForeignAmount()
     {
-      return $this->foreignAmount;
+        return $this->foreignAmount;
     }
 
     /**
@@ -375,8 +383,9 @@ class PurchaseTotals
      */
     public function setForeignAmount($foreignAmount)
     {
-      $this->foreignAmount = $foreignAmount;
-      return $this;
+        $this->foreignAmount = $foreignAmount;
+
+        return $this;
     }
 
     /**
@@ -384,7 +393,7 @@ class PurchaseTotals
      */
     public function getForeignCurrency()
     {
-      return $this->foreignCurrency;
+        return $this->foreignCurrency;
     }
 
     /**
@@ -393,8 +402,9 @@ class PurchaseTotals
      */
     public function setForeignCurrency($foreignCurrency)
     {
-      $this->foreignCurrency = $foreignCurrency;
-      return $this;
+        $this->foreignCurrency = $foreignCurrency;
+
+        return $this;
     }
 
     /**
@@ -402,7 +412,7 @@ class PurchaseTotals
      */
     public function getOriginalAmount()
     {
-      return $this->originalAmount;
+        return $this->originalAmount;
     }
 
     /**
@@ -411,8 +421,9 @@ class PurchaseTotals
      */
     public function setOriginalAmount($originalAmount)
     {
-      $this->originalAmount = max((float)$originalAmount, 0);
-      return $this;
+        $this->originalAmount = max((float)$originalAmount, 0);
+
+        return $this;
     }
 
     /**
@@ -420,7 +431,7 @@ class PurchaseTotals
      */
     public function getOriginalCurrency()
     {
-      return $this->originalCurrency;
+        return $this->originalCurrency;
     }
 
     /**
@@ -429,8 +440,9 @@ class PurchaseTotals
      */
     public function setOriginalCurrency($originalCurrency)
     {
-      $this->originalCurrency = $originalCurrency;
-      return $this;
+        $this->originalCurrency = $originalCurrency;
+
+        return $this;
     }
 
     /**
@@ -438,7 +450,7 @@ class PurchaseTotals
      */
     public function getExchangeRate()
     {
-      return $this->exchangeRate;
+        return $this->exchangeRate;
     }
 
     /**
@@ -447,8 +459,9 @@ class PurchaseTotals
      */
     public function setExchangeRate($exchangeRate)
     {
-      $this->exchangeRate = $exchangeRate;
-      return $this;
+        $this->exchangeRate = $exchangeRate;
+
+        return $this;
     }
 
     /**
@@ -456,7 +469,7 @@ class PurchaseTotals
      */
     public function getExchangeRateTimeStamp()
     {
-      return $this->exchangeRateTimeStamp;
+        return $this->exchangeRateTimeStamp;
     }
 
     /**
@@ -465,8 +478,9 @@ class PurchaseTotals
      */
     public function setExchangeRateTimeStamp($exchangeRateTimeStamp)
     {
-      $this->exchangeRateTimeStamp = $exchangeRateTimeStamp;
-      return $this;
+        $this->exchangeRateTimeStamp = $exchangeRateTimeStamp;
+
+        return $this;
     }
 
     /**
@@ -474,7 +488,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmountType0()
     {
-      return $this->additionalAmountType0;
+        return $this->additionalAmountType0;
     }
 
     /**
@@ -483,8 +497,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmountType0($additionalAmountType0)
     {
-      $this->additionalAmountType0 = $additionalAmountType0;
-      return $this;
+        $this->additionalAmountType0 = $additionalAmountType0;
+
+        return $this;
     }
 
     /**
@@ -492,7 +507,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmount0()
     {
-      return $this->additionalAmount0;
+        return $this->additionalAmount0;
     }
 
     /**
@@ -501,8 +516,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmount0($additionalAmount0)
     {
-      $this->additionalAmount0 = $additionalAmount0;
-      return $this;
+        $this->additionalAmount0 = $additionalAmount0;
+
+        return $this;
     }
 
     /**
@@ -510,7 +526,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmountType1()
     {
-      return $this->additionalAmountType1;
+        return $this->additionalAmountType1;
     }
 
     /**
@@ -519,8 +535,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmountType1($additionalAmountType1)
     {
-      $this->additionalAmountType1 = $additionalAmountType1;
-      return $this;
+        $this->additionalAmountType1 = $additionalAmountType1;
+
+        return $this;
     }
 
     /**
@@ -528,7 +545,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmount1()
     {
-      return $this->additionalAmount1;
+        return $this->additionalAmount1;
     }
 
     /**
@@ -537,8 +554,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmount1($additionalAmount1)
     {
-      $this->additionalAmount1 = $additionalAmount1;
-      return $this;
+        $this->additionalAmount1 = $additionalAmount1;
+
+        return $this;
     }
 
     /**
@@ -546,7 +564,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmountType2()
     {
-      return $this->additionalAmountType2;
+        return $this->additionalAmountType2;
     }
 
     /**
@@ -555,8 +573,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmountType2($additionalAmountType2)
     {
-      $this->additionalAmountType2 = $additionalAmountType2;
-      return $this;
+        $this->additionalAmountType2 = $additionalAmountType2;
+
+        return $this;
     }
 
     /**
@@ -564,7 +583,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmount2()
     {
-      return $this->additionalAmount2;
+        return $this->additionalAmount2;
     }
 
     /**
@@ -573,8 +592,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmount2($additionalAmount2)
     {
-      $this->additionalAmount2 = $additionalAmount2;
-      return $this;
+        $this->additionalAmount2 = $additionalAmount2;
+
+        return $this;
     }
 
     /**
@@ -582,7 +602,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmountType3()
     {
-      return $this->additionalAmountType3;
+        return $this->additionalAmountType3;
     }
 
     /**
@@ -591,8 +611,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmountType3($additionalAmountType3)
     {
-      $this->additionalAmountType3 = $additionalAmountType3;
-      return $this;
+        $this->additionalAmountType3 = $additionalAmountType3;
+
+        return $this;
     }
 
     /**
@@ -600,7 +621,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmount3()
     {
-      return $this->additionalAmount3;
+        return $this->additionalAmount3;
     }
 
     /**
@@ -609,8 +630,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmount3($additionalAmount3)
     {
-      $this->additionalAmount3 = $additionalAmount3;
-      return $this;
+        $this->additionalAmount3 = $additionalAmount3;
+
+        return $this;
     }
 
     /**
@@ -618,7 +640,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmountType4()
     {
-      return $this->additionalAmountType4;
+        return $this->additionalAmountType4;
     }
 
     /**
@@ -627,8 +649,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmountType4($additionalAmountType4)
     {
-      $this->additionalAmountType4 = $additionalAmountType4;
-      return $this;
+        $this->additionalAmountType4 = $additionalAmountType4;
+
+        return $this;
     }
 
     /**
@@ -636,7 +659,7 @@ class PurchaseTotals
      */
     public function getAdditionalAmount4()
     {
-      return $this->additionalAmount4;
+        return $this->additionalAmount4;
     }
 
     /**
@@ -645,8 +668,9 @@ class PurchaseTotals
      */
     public function setAdditionalAmount4($additionalAmount4)
     {
-      $this->additionalAmount4 = $additionalAmount4;
-      return $this;
+        $this->additionalAmount4 = $additionalAmount4;
+
+        return $this;
     }
 
     /**
@@ -654,7 +678,7 @@ class PurchaseTotals
      */
     public function getServiceFeeAmount()
     {
-      return $this->serviceFeeAmount;
+        return $this->serviceFeeAmount;
     }
 
     /**
@@ -663,8 +687,9 @@ class PurchaseTotals
      */
     public function setServiceFeeAmount($serviceFeeAmount)
     {
-      $this->serviceFeeAmount = $serviceFeeAmount;
-      return $this;
+        $this->serviceFeeAmount = $serviceFeeAmount;
+
+        return $this;
     }
 
     /**
@@ -672,7 +697,7 @@ class PurchaseTotals
      */
     public function getSubtotalAmount()
     {
-      return $this->subtotalAmount;
+        return $this->subtotalAmount;
     }
 
     /**
@@ -681,8 +706,9 @@ class PurchaseTotals
      */
     public function setSubtotalAmount($subtotalAmount)
     {
-      $this->subtotalAmount = $subtotalAmount;
-      return $this;
+        $this->subtotalAmount = $subtotalAmount;
+
+        return $this;
     }
 
     /**
@@ -690,7 +716,7 @@ class PurchaseTotals
      */
     public function getShippingAmount()
     {
-      return $this->shippingAmount;
+        return $this->shippingAmount;
     }
 
     /**
@@ -699,8 +725,9 @@ class PurchaseTotals
      */
     public function setShippingAmount($shippingAmount)
     {
-      $this->shippingAmount = max((float)$shippingAmount, 0);
-      return $this;
+        $this->shippingAmount = max((float)$shippingAmount, 0);
+
+        return $this;
     }
 
     /**
@@ -708,7 +735,7 @@ class PurchaseTotals
      */
     public function getHandlingAmount()
     {
-      return $this->handlingAmount;
+        return $this->handlingAmount;
     }
 
     /**
@@ -717,8 +744,9 @@ class PurchaseTotals
      */
     public function setHandlingAmount($handlingAmount)
     {
-      $this->handlingAmount = $handlingAmount;
-      return $this;
+        $this->handlingAmount = $handlingAmount;
+
+        return $this;
     }
 
     /**
@@ -726,7 +754,7 @@ class PurchaseTotals
      */
     public function getShippingHandlingAmount()
     {
-      return $this->shippingHandlingAmount;
+        return $this->shippingHandlingAmount;
     }
 
     /**
@@ -735,8 +763,9 @@ class PurchaseTotals
      */
     public function setShippingHandlingAmount($shippingHandlingAmount)
     {
-      $this->shippingHandlingAmount = $shippingHandlingAmount;
-      return $this;
+        $this->shippingHandlingAmount = $shippingHandlingAmount;
+
+        return $this;
     }
 
     /**
@@ -744,7 +773,7 @@ class PurchaseTotals
      */
     public function getShippingDiscountAmount()
     {
-      return $this->shippingDiscountAmount;
+        return $this->shippingDiscountAmount;
     }
 
     /**
@@ -753,8 +782,9 @@ class PurchaseTotals
      */
     public function setShippingDiscountAmount($shippingDiscountAmount)
     {
-      $this->shippingDiscountAmount = $shippingDiscountAmount;
-      return $this;
+        $this->shippingDiscountAmount = $shippingDiscountAmount;
+
+        return $this;
     }
 
     /**
@@ -762,7 +792,7 @@ class PurchaseTotals
      */
     public function getGiftWrapAmount()
     {
-      return $this->giftWrapAmount;
+        return $this->giftWrapAmount;
     }
 
     /**
@@ -771,8 +801,9 @@ class PurchaseTotals
      */
     public function setGiftWrapAmount($giftWrapAmount)
     {
-      $this->giftWrapAmount = $giftWrapAmount;
-      return $this;
+        $this->giftWrapAmount = $giftWrapAmount;
+
+        return $this;
     }
 
     /**
@@ -780,7 +811,7 @@ class PurchaseTotals
      */
     public function getInsuranceAmount()
     {
-      return $this->insuranceAmount;
+        return $this->insuranceAmount;
     }
 
     /**
@@ -789,8 +820,9 @@ class PurchaseTotals
      */
     public function setInsuranceAmount($insuranceAmount)
     {
-      $this->insuranceAmount = $insuranceAmount;
-      return $this;
+        $this->insuranceAmount = $insuranceAmount;
+
+        return $this;
     }
 
 }

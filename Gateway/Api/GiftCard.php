@@ -110,10 +110,8 @@ class GiftCard
      */
     protected $discountAmount = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -121,7 +119,7 @@ class GiftCard
      */
     public function getOriginalRequestID()
     {
-      return $this->originalRequestID;
+        return $this->originalRequestID;
     }
 
     /**
@@ -130,8 +128,9 @@ class GiftCard
      */
     public function setOriginalRequestID($originalRequestID)
     {
-      $this->originalRequestID = $originalRequestID;
-      return $this;
+        $this->originalRequestID = $originalRequestID;
+
+        return $this;
     }
 
     /**
@@ -139,7 +138,7 @@ class GiftCard
      */
     public function getRedemptionType()
     {
-      return $this->redemptionType;
+        return $this->redemptionType;
     }
 
     /**
@@ -148,8 +147,9 @@ class GiftCard
      */
     public function setRedemptionType($redemptionType)
     {
-      $this->redemptionType = $redemptionType;
-      return $this;
+        $this->redemptionType = $redemptionType;
+
+        return $this;
     }
 
     /**
@@ -157,7 +157,7 @@ class GiftCard
      */
     public function getCount()
     {
-      return $this->count;
+        return $this->count;
     }
 
     /**
@@ -166,8 +166,9 @@ class GiftCard
      */
     public function setCount($count)
     {
-      $this->count = $count;
-      return $this;
+        $this->count = $count;
+
+        return $this;
     }
 
     /**
@@ -175,7 +176,7 @@ class GiftCard
      */
     public function getEscheatable()
     {
-      return $this->escheatable;
+        return $this->escheatable;
     }
 
     /**
@@ -184,8 +185,9 @@ class GiftCard
      */
     public function setEscheatable($escheatable)
     {
-      $this->escheatable = $escheatable;
-      return $this;
+        $this->escheatable = $escheatable;
+
+        return $this;
     }
 
     /**
@@ -193,7 +195,7 @@ class GiftCard
      */
     public function getGroupID()
     {
-      return $this->groupID;
+        return $this->groupID;
     }
 
     /**
@@ -202,8 +204,9 @@ class GiftCard
      */
     public function setGroupID($groupID)
     {
-      $this->groupID = $groupID;
-      return $this;
+        $this->groupID = $groupID;
+
+        return $this;
     }
 
     /**
@@ -211,7 +214,7 @@ class GiftCard
      */
     public function getSecurityValue()
     {
-      return $this->securityValue;
+        return $this->securityValue;
     }
 
     /**
@@ -220,8 +223,9 @@ class GiftCard
      */
     public function setSecurityValue($securityValue)
     {
-      $this->securityValue = $securityValue;
-      return $this;
+        $this->securityValue = $securityValue;
+
+        return $this;
     }
 
     /**
@@ -229,7 +233,7 @@ class GiftCard
      */
     public function getTransactionPostingDate()
     {
-      return $this->transactionPostingDate;
+        return $this->transactionPostingDate;
     }
 
     /**
@@ -238,8 +242,9 @@ class GiftCard
      */
     public function setTransactionPostingDate($transactionPostingDate)
     {
-      $this->transactionPostingDate = $transactionPostingDate;
-      return $this;
+        $this->transactionPostingDate = $transactionPostingDate;
+
+        return $this;
     }
 
     /**
@@ -247,7 +252,7 @@ class GiftCard
      */
     public function getAdditionalAccountNumber()
     {
-      return $this->additionalAccountNumber;
+        return $this->additionalAccountNumber;
     }
 
     /**
@@ -256,8 +261,9 @@ class GiftCard
      */
     public function setAdditionalAccountNumber($additionalAccountNumber)
     {
-      $this->additionalAccountNumber = $additionalAccountNumber;
-      return $this;
+        $this->additionalAccountNumber = $additionalAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -265,7 +271,7 @@ class GiftCard
      */
     public function getPromoCode()
     {
-      return $this->promoCode;
+        return $this->promoCode;
     }
 
     /**
@@ -274,8 +280,9 @@ class GiftCard
      */
     public function setPromoCode($promoCode)
     {
-      $this->promoCode = $promoCode;
-      return $this;
+        $this->promoCode = $promoCode;
+
+        return $this;
     }
 
     /**
@@ -283,7 +290,7 @@ class GiftCard
      */
     public function getBalanceCurrency()
     {
-      return $this->balanceCurrency;
+        return $this->balanceCurrency;
     }
 
     /**
@@ -292,8 +299,9 @@ class GiftCard
      */
     public function setBalanceCurrency($balanceCurrency)
     {
-      $this->balanceCurrency = $balanceCurrency;
-      return $this;
+        $this->balanceCurrency = $balanceCurrency;
+
+        return $this;
     }
 
     /**
@@ -301,7 +309,7 @@ class GiftCard
      */
     public function getExtendedAccountNumber()
     {
-      return $this->extendedAccountNumber;
+        return $this->extendedAccountNumber;
     }
 
     /**
@@ -310,8 +318,9 @@ class GiftCard
      */
     public function setExtendedAccountNumber($extendedAccountNumber)
     {
-      $this->extendedAccountNumber = $extendedAccountNumber;
-      return $this;
+        $this->extendedAccountNumber = $extendedAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -319,7 +328,7 @@ class GiftCard
      */
     public function getPreviousBalance()
     {
-      return $this->previousBalance;
+        return $this->previousBalance;
     }
 
     /**
@@ -328,8 +337,9 @@ class GiftCard
      */
     public function setPreviousBalance($previousBalance)
     {
-      $this->previousBalance = $previousBalance;
-      return $this;
+        $this->previousBalance = $previousBalance;
+
+        return $this;
     }
 
     /**
@@ -337,7 +347,7 @@ class GiftCard
      */
     public function getCurrentBalance()
     {
-      return $this->currentBalance;
+        return $this->currentBalance;
     }
 
     /**
@@ -346,8 +356,9 @@ class GiftCard
      */
     public function setCurrentBalance($currentBalance)
     {
-      $this->currentBalance = $currentBalance;
-      return $this;
+        $this->currentBalance = $currentBalance;
+
+        return $this;
     }
 
     /**
@@ -355,7 +366,7 @@ class GiftCard
      */
     public function getBaseCurrencyPreviousBalance()
     {
-      return $this->baseCurrencyPreviousBalance;
+        return $this->baseCurrencyPreviousBalance;
     }
 
     /**
@@ -364,8 +375,9 @@ class GiftCard
      */
     public function setBaseCurrencyPreviousBalance($baseCurrencyPreviousBalance)
     {
-      $this->baseCurrencyPreviousBalance = $baseCurrencyPreviousBalance;
-      return $this;
+        $this->baseCurrencyPreviousBalance = $baseCurrencyPreviousBalance;
+
+        return $this;
     }
 
     /**
@@ -373,7 +385,7 @@ class GiftCard
      */
     public function getBaseCurrencyCurrentBalance()
     {
-      return $this->baseCurrencyCurrentBalance;
+        return $this->baseCurrencyCurrentBalance;
     }
 
     /**
@@ -382,8 +394,9 @@ class GiftCard
      */
     public function setBaseCurrencyCurrentBalance($baseCurrencyCurrentBalance)
     {
-      $this->baseCurrencyCurrentBalance = $baseCurrencyCurrentBalance;
-      return $this;
+        $this->baseCurrencyCurrentBalance = $baseCurrencyCurrentBalance;
+
+        return $this;
     }
 
     /**
@@ -391,7 +404,7 @@ class GiftCard
      */
     public function getBaseCurrencyCashbackAmount()
     {
-      return $this->baseCurrencyCashbackAmount;
+        return $this->baseCurrencyCashbackAmount;
     }
 
     /**
@@ -400,8 +413,9 @@ class GiftCard
      */
     public function setBaseCurrencyCashbackAmount($baseCurrencyCashbackAmount)
     {
-      $this->baseCurrencyCashbackAmount = $baseCurrencyCashbackAmount;
-      return $this;
+        $this->baseCurrencyCashbackAmount = $baseCurrencyCashbackAmount;
+
+        return $this;
     }
 
     /**
@@ -409,7 +423,7 @@ class GiftCard
      */
     public function getBaseCurrency()
     {
-      return $this->baseCurrency;
+        return $this->baseCurrency;
     }
 
     /**
@@ -418,8 +432,9 @@ class GiftCard
      */
     public function setBaseCurrency($baseCurrency)
     {
-      $this->baseCurrency = $baseCurrency;
-      return $this;
+        $this->baseCurrency = $baseCurrency;
+
+        return $this;
     }
 
     /**
@@ -427,7 +442,7 @@ class GiftCard
      */
     public function getExpirationDate()
     {
-      return $this->expirationDate;
+        return $this->expirationDate;
     }
 
     /**
@@ -436,8 +451,9 @@ class GiftCard
      */
     public function setExpirationDate($expirationDate)
     {
-      $this->expirationDate = $expirationDate;
-      return $this;
+        $this->expirationDate = $expirationDate;
+
+        return $this;
     }
 
     /**
@@ -445,7 +461,7 @@ class GiftCard
      */
     public function getExchangeRate()
     {
-      return $this->exchangeRate;
+        return $this->exchangeRate;
     }
 
     /**
@@ -454,8 +470,9 @@ class GiftCard
      */
     public function setExchangeRate($exchangeRate)
     {
-      $this->exchangeRate = $exchangeRate;
-      return $this;
+        $this->exchangeRate = $exchangeRate;
+
+        return $this;
     }
 
     /**
@@ -463,7 +480,7 @@ class GiftCard
      */
     public function getBonusAmount()
     {
-      return $this->bonusAmount;
+        return $this->bonusAmount;
     }
 
     /**
@@ -472,8 +489,9 @@ class GiftCard
      */
     public function setBonusAmount($bonusAmount)
     {
-      $this->bonusAmount = $bonusAmount;
-      return $this;
+        $this->bonusAmount = $bonusAmount;
+
+        return $this;
     }
 
     /**
@@ -481,7 +499,7 @@ class GiftCard
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -490,8 +508,9 @@ class GiftCard
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
 }

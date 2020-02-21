@@ -50,10 +50,8 @@ class BankInfo
      */
     protected $issuerID = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -61,7 +59,7 @@ class BankInfo
      */
     public function getBankCode()
     {
-      return $this->bankCode;
+        return $this->bankCode;
     }
 
     /**
@@ -70,8 +68,9 @@ class BankInfo
      */
     public function setBankCode($bankCode)
     {
-      $this->bankCode = $bankCode;
-      return $this;
+        $this->bankCode = $bankCode;
+
+        return $this;
     }
 
     /**
@@ -79,7 +78,7 @@ class BankInfo
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -88,8 +87,9 @@ class BankInfo
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -97,7 +97,7 @@ class BankInfo
      */
     public function getAddress()
     {
-      return $this->address;
+        return $this->address;
     }
 
     /**
@@ -106,8 +106,9 @@ class BankInfo
      */
     public function setAddress($address)
     {
-      $this->address = $address;
-      return $this;
+        $this->address = $address;
+
+        return $this;
     }
 
     /**
@@ -115,7 +116,7 @@ class BankInfo
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -124,8 +125,9 @@ class BankInfo
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -133,7 +135,7 @@ class BankInfo
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -142,8 +144,9 @@ class BankInfo
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -151,7 +154,7 @@ class BankInfo
      */
     public function getBranchCode()
     {
-      return $this->branchCode;
+        return $this->branchCode;
     }
 
     /**
@@ -160,8 +163,9 @@ class BankInfo
      */
     public function setBranchCode($branchCode)
     {
-      $this->branchCode = $branchCode;
-      return $this;
+        $this->branchCode = $branchCode;
+
+        return $this;
     }
 
     /**
@@ -169,7 +173,7 @@ class BankInfo
      */
     public function getSwiftCode()
     {
-      return $this->swiftCode;
+        return $this->swiftCode;
     }
 
     /**
@@ -178,8 +182,9 @@ class BankInfo
      */
     public function setSwiftCode($swiftCode)
     {
-      $this->swiftCode = $swiftCode;
-      return $this;
+        $this->swiftCode = $swiftCode;
+
+        return $this;
     }
 
     /**
@@ -187,7 +192,7 @@ class BankInfo
      */
     public function getSortCode()
     {
-      return $this->sortCode;
+        return $this->sortCode;
     }
 
     /**
@@ -196,8 +201,9 @@ class BankInfo
      */
     public function setSortCode($sortCode)
     {
-      $this->sortCode = $sortCode;
-      return $this;
+        $this->sortCode = $sortCode;
+
+        return $this;
     }
 
     /**
@@ -205,7 +211,7 @@ class BankInfo
      */
     public function getIssuerID()
     {
-      return $this->issuerID;
+        return $this->issuerID;
     }
 
     /**
@@ -214,8 +220,9 @@ class BankInfo
      */
     public function setIssuerID($issuerID)
     {
-      $this->issuerID = $issuerID;
-      return $this;
+        $this->issuerID = $issuerID;
+
+        return $this;
     }
 
 }

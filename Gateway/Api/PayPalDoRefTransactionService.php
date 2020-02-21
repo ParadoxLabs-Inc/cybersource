@@ -60,7 +60,7 @@ class PayPalDoRefTransactionService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -68,7 +68,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalBillingAgreementId()
     {
-      return $this->paypalBillingAgreementId;
+        return $this->paypalBillingAgreementId;
     }
 
     /**
@@ -77,8 +77,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalBillingAgreementId($paypalBillingAgreementId)
     {
-      $this->paypalBillingAgreementId = $paypalBillingAgreementId;
-      return $this;
+        $this->paypalBillingAgreementId = $paypalBillingAgreementId;
+
+        return $this;
     }
 
     /**
@@ -86,7 +87,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalPaymentType()
     {
-      return $this->paypalPaymentType;
+        return $this->paypalPaymentType;
     }
 
     /**
@@ -95,8 +96,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalPaymentType($paypalPaymentType)
     {
-      $this->paypalPaymentType = $paypalPaymentType;
-      return $this;
+        $this->paypalPaymentType = $paypalPaymentType;
+
+        return $this;
     }
 
     /**
@@ -104,7 +106,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalReqconfirmshipping()
     {
-      return $this->paypalReqconfirmshipping;
+        return $this->paypalReqconfirmshipping;
     }
 
     /**
@@ -113,8 +115,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalReqconfirmshipping($paypalReqconfirmshipping)
     {
-      $this->paypalReqconfirmshipping = $paypalReqconfirmshipping;
-      return $this;
+        $this->paypalReqconfirmshipping = $paypalReqconfirmshipping;
+
+        return $this;
     }
 
     /**
@@ -122,7 +125,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalReturnFmfDetails()
     {
-      return $this->paypalReturnFmfDetails;
+        return $this->paypalReturnFmfDetails;
     }
 
     /**
@@ -131,8 +134,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalReturnFmfDetails($paypalReturnFmfDetails)
     {
-      $this->paypalReturnFmfDetails = $paypalReturnFmfDetails;
-      return $this;
+        $this->paypalReturnFmfDetails = $paypalReturnFmfDetails;
+
+        return $this;
     }
 
     /**
@@ -140,7 +144,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalSoftDescriptor()
     {
-      return $this->paypalSoftDescriptor;
+        return $this->paypalSoftDescriptor;
     }
 
     /**
@@ -149,8 +153,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalSoftDescriptor($paypalSoftDescriptor)
     {
-      $this->paypalSoftDescriptor = $paypalSoftDescriptor;
-      return $this;
+        $this->paypalSoftDescriptor = $paypalSoftDescriptor;
+
+        return $this;
     }
 
     /**
@@ -158,7 +163,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalShippingdiscount()
     {
-      return $this->paypalShippingdiscount;
+        return $this->paypalShippingdiscount;
     }
 
     /**
@@ -167,8 +172,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalShippingdiscount($paypalShippingdiscount)
     {
-      $this->paypalShippingdiscount = $paypalShippingdiscount;
-      return $this;
+        $this->paypalShippingdiscount = $paypalShippingdiscount;
+
+        return $this;
     }
 
     /**
@@ -176,7 +182,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalDesc()
     {
-      return $this->paypalDesc;
+        return $this->paypalDesc;
     }
 
     /**
@@ -185,8 +191,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalDesc($paypalDesc)
     {
-      $this->paypalDesc = $paypalDesc;
-      return $this;
+        $this->paypalDesc = $paypalDesc;
+
+        return $this;
     }
 
     /**
@@ -194,7 +201,7 @@ class PayPalDoRefTransactionService
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -203,8 +210,9 @@ class PayPalDoRefTransactionService
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -212,7 +220,7 @@ class PayPalDoRefTransactionService
      */
     public function getPaypalEcNotifyUrl()
     {
-      return $this->paypalEcNotifyUrl;
+        return $this->paypalEcNotifyUrl;
     }
 
     /**
@@ -221,8 +229,9 @@ class PayPalDoRefTransactionService
      */
     public function setPaypalEcNotifyUrl($paypalEcNotifyUrl)
     {
-      $this->paypalEcNotifyUrl = $paypalEcNotifyUrl;
-      return $this;
+        $this->paypalEcNotifyUrl = $paypalEcNotifyUrl;
+
+        return $this;
     }
 
     /**
@@ -230,7 +239,7 @@ class PayPalDoRefTransactionService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -239,8 +248,9 @@ class PayPalDoRefTransactionService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

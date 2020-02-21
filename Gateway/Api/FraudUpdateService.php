@@ -60,7 +60,7 @@ class FraudUpdateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -68,7 +68,7 @@ class FraudUpdateService
      */
     public function getActionCode()
     {
-      return $this->actionCode;
+        return $this->actionCode;
     }
 
     /**
@@ -77,8 +77,9 @@ class FraudUpdateService
      */
     public function setActionCode($actionCode)
     {
-      $this->actionCode = $actionCode;
-      return $this;
+        $this->actionCode = $actionCode;
+
+        return $this;
     }
 
     /**
@@ -86,7 +87,7 @@ class FraudUpdateService
      */
     public function getMarkedData()
     {
-      return $this->markedData;
+        return $this->markedData;
     }
 
     /**
@@ -95,8 +96,9 @@ class FraudUpdateService
      */
     public function setMarkedData($markedData)
     {
-      $this->markedData = $markedData;
-      return $this;
+        $this->markedData = $markedData;
+
+        return $this;
     }
 
     /**
@@ -104,7 +106,7 @@ class FraudUpdateService
      */
     public function getMarkingReason()
     {
-      return $this->markingReason;
+        return $this->markingReason;
     }
 
     /**
@@ -113,8 +115,9 @@ class FraudUpdateService
      */
     public function setMarkingReason($markingReason)
     {
-      $this->markingReason = $markingReason;
-      return $this;
+        $this->markingReason = $markingReason;
+
+        return $this;
     }
 
     /**
@@ -122,7 +125,7 @@ class FraudUpdateService
      */
     public function getMarkingNotes()
     {
-      return $this->markingNotes;
+        return $this->markingNotes;
     }
 
     /**
@@ -131,8 +134,9 @@ class FraudUpdateService
      */
     public function setMarkingNotes($markingNotes)
     {
-      $this->markingNotes = $markingNotes;
-      return $this;
+        $this->markingNotes = $markingNotes;
+
+        return $this;
     }
 
     /**
@@ -140,7 +144,7 @@ class FraudUpdateService
      */
     public function getMarkingRequestID()
     {
-      return $this->markingRequestID;
+        return $this->markingRequestID;
     }
 
     /**
@@ -149,8 +153,9 @@ class FraudUpdateService
      */
     public function setMarkingRequestID($markingRequestID)
     {
-      $this->markingRequestID = $markingRequestID;
-      return $this;
+        $this->markingRequestID = $markingRequestID;
+
+        return $this;
     }
 
     /**
@@ -158,7 +163,7 @@ class FraudUpdateService
      */
     public function getMarkingTransactionDate()
     {
-      return $this->markingTransactionDate;
+        return $this->markingTransactionDate;
     }
 
     /**
@@ -167,8 +172,9 @@ class FraudUpdateService
      */
     public function setMarkingTransactionDate($markingTransactionDate)
     {
-      $this->markingTransactionDate = $markingTransactionDate;
-      return $this;
+        $this->markingTransactionDate = $markingTransactionDate;
+
+        return $this;
     }
 
     /**
@@ -176,7 +182,7 @@ class FraudUpdateService
      */
     public function getMarkingAmount()
     {
-      return $this->markingAmount;
+        return $this->markingAmount;
     }
 
     /**
@@ -185,8 +191,9 @@ class FraudUpdateService
      */
     public function setMarkingAmount($markingAmount)
     {
-      $this->markingAmount = $markingAmount;
-      return $this;
+        $this->markingAmount = $markingAmount;
+
+        return $this;
     }
 
     /**
@@ -194,7 +201,7 @@ class FraudUpdateService
      */
     public function getMarkingCurrency()
     {
-      return $this->markingCurrency;
+        return $this->markingCurrency;
     }
 
     /**
@@ -203,8 +210,9 @@ class FraudUpdateService
      */
     public function setMarkingCurrency($markingCurrency)
     {
-      $this->markingCurrency = $markingCurrency;
-      return $this;
+        $this->markingCurrency = $markingCurrency;
+
+        return $this;
     }
 
     /**
@@ -212,7 +220,7 @@ class FraudUpdateService
      */
     public function getMarkingIndicator()
     {
-      return $this->markingIndicator;
+        return $this->markingIndicator;
     }
 
     /**
@@ -221,8 +229,9 @@ class FraudUpdateService
      */
     public function setMarkingIndicator($markingIndicator)
     {
-      $this->markingIndicator = $markingIndicator;
-      return $this;
+        $this->markingIndicator = $markingIndicator;
+
+        return $this;
     }
 
     /**
@@ -230,7 +239,7 @@ class FraudUpdateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -239,8 +248,9 @@ class FraudUpdateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

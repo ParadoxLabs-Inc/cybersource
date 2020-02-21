@@ -20,10 +20,8 @@ class DecisionManager
      */
     protected $travelData = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class DecisionManager
      */
     public function getEnabled()
     {
-      return $this->enabled;
+        return $this->enabled;
     }
 
     /**
@@ -40,8 +38,9 @@ class DecisionManager
      */
     public function setEnabled($enabled)
     {
-      $this->enabled = $enabled;
-      return $this;
+        $this->enabled = $enabled;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class DecisionManager
      */
     public function getProfile()
     {
-      return $this->profile;
+        return $this->profile;
     }
 
     /**
@@ -58,8 +57,9 @@ class DecisionManager
      */
     public function setProfile($profile)
     {
-      $this->profile = $profile;
-      return $this;
+        $this->profile = $profile;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class DecisionManager
      */
     public function getTravelData()
     {
-      return $this->travelData;
+        return $this->travelData;
     }
 
     /**
@@ -76,8 +76,9 @@ class DecisionManager
      */
     public function setTravelData($travelData)
     {
-      $this->travelData = $travelData;
-      return $this;
+        $this->travelData = $travelData;
+
+        return $this;
     }
 
 }

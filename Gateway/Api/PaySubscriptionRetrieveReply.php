@@ -370,7 +370,7 @@ class PaySubscriptionRetrieveReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -378,7 +378,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -387,8 +387,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -396,7 +397,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getApprovalRequired()
     {
-      return $this->approvalRequired;
+        return $this->approvalRequired;
     }
 
     /**
@@ -405,8 +406,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setApprovalRequired($approvalRequired)
     {
-      $this->approvalRequired = $approvalRequired;
-      return $this;
+        $this->approvalRequired = $approvalRequired;
+
+        return $this;
     }
 
     /**
@@ -414,7 +416,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getAutomaticRenew()
     {
-      return $this->automaticRenew;
+        return $this->automaticRenew;
     }
 
     /**
@@ -423,8 +425,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setAutomaticRenew($automaticRenew)
     {
-      $this->automaticRenew = $automaticRenew;
-      return $this;
+        $this->automaticRenew = $automaticRenew;
+
+        return $this;
     }
 
     /**
@@ -432,7 +435,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardAccountNumber()
     {
-      return $this->cardAccountNumber;
+        return $this->cardAccountNumber;
     }
 
     /**
@@ -441,8 +444,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardAccountNumber($cardAccountNumber)
     {
-      $this->cardAccountNumber = $cardAccountNumber;
-      return $this;
+        $this->cardAccountNumber = $cardAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -450,7 +454,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardExpirationMonth()
     {
-      return $this->cardExpirationMonth;
+        return $this->cardExpirationMonth;
     }
 
     /**
@@ -459,8 +463,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardExpirationMonth($cardExpirationMonth)
     {
-      $this->cardExpirationMonth = $cardExpirationMonth;
-      return $this;
+        $this->cardExpirationMonth = $cardExpirationMonth;
+
+        return $this;
     }
 
     /**
@@ -468,7 +473,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardExpirationYear()
     {
-      return $this->cardExpirationYear;
+        return $this->cardExpirationYear;
     }
 
     /**
@@ -477,8 +482,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardExpirationYear($cardExpirationYear)
     {
-      $this->cardExpirationYear = $cardExpirationYear;
-      return $this;
+        $this->cardExpirationYear = $cardExpirationYear;
+
+        return $this;
     }
 
     /**
@@ -486,7 +492,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardIssueNumber()
     {
-      return $this->cardIssueNumber;
+        return $this->cardIssueNumber;
     }
 
     /**
@@ -495,8 +501,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardIssueNumber($cardIssueNumber)
     {
-      $this->cardIssueNumber = $cardIssueNumber;
-      return $this;
+        $this->cardIssueNumber = $cardIssueNumber;
+
+        return $this;
     }
 
     /**
@@ -504,7 +511,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardStartMonth()
     {
-      return $this->cardStartMonth;
+        return $this->cardStartMonth;
     }
 
     /**
@@ -513,8 +520,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardStartMonth($cardStartMonth)
     {
-      $this->cardStartMonth = $cardStartMonth;
-      return $this;
+        $this->cardStartMonth = $cardStartMonth;
+
+        return $this;
     }
 
     /**
@@ -522,7 +530,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardStartYear()
     {
-      return $this->cardStartYear;
+        return $this->cardStartYear;
     }
 
     /**
@@ -531,8 +539,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardStartYear($cardStartYear)
     {
-      $this->cardStartYear = $cardStartYear;
-      return $this;
+        $this->cardStartYear = $cardStartYear;
+
+        return $this;
     }
 
     /**
@@ -540,7 +549,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCardType()
     {
-      return $this->cardType;
+        return $this->cardType;
     }
 
     /**
@@ -549,8 +558,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCardType($cardType)
     {
-      $this->cardType = $cardType;
-      return $this;
+        $this->cardType = $cardType;
+
+        return $this;
     }
 
     /**
@@ -558,7 +568,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCheckAccountNumber()
     {
-      return $this->checkAccountNumber;
+        return $this->checkAccountNumber;
     }
 
     /**
@@ -567,8 +577,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCheckAccountNumber($checkAccountNumber)
     {
-      $this->checkAccountNumber = $checkAccountNumber;
-      return $this;
+        $this->checkAccountNumber = $checkAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -576,7 +587,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCheckAccountType()
     {
-      return $this->checkAccountType;
+        return $this->checkAccountType;
     }
 
     /**
@@ -585,8 +596,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCheckAccountType($checkAccountType)
     {
-      $this->checkAccountType = $checkAccountType;
-      return $this;
+        $this->checkAccountType = $checkAccountType;
+
+        return $this;
     }
 
     /**
@@ -594,7 +606,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCheckBankTransitNumber()
     {
-      return $this->checkBankTransitNumber;
+        return $this->checkBankTransitNumber;
     }
 
     /**
@@ -603,8 +615,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCheckBankTransitNumber($checkBankTransitNumber)
     {
-      $this->checkBankTransitNumber = $checkBankTransitNumber;
-      return $this;
+        $this->checkBankTransitNumber = $checkBankTransitNumber;
+
+        return $this;
     }
 
     /**
@@ -612,7 +625,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCheckSecCode()
     {
-      return $this->checkSecCode;
+        return $this->checkSecCode;
     }
 
     /**
@@ -621,8 +634,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCheckSecCode($checkSecCode)
     {
-      $this->checkSecCode = $checkSecCode;
-      return $this;
+        $this->checkSecCode = $checkSecCode;
+
+        return $this;
     }
 
     /**
@@ -630,7 +644,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCheckAuthenticateID()
     {
-      return $this->checkAuthenticateID;
+        return $this->checkAuthenticateID;
     }
 
     /**
@@ -639,8 +653,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCheckAuthenticateID($checkAuthenticateID)
     {
-      $this->checkAuthenticateID = $checkAuthenticateID;
-      return $this;
+        $this->checkAuthenticateID = $checkAuthenticateID;
+
+        return $this;
     }
 
     /**
@@ -648,7 +663,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -657,8 +672,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -666,7 +682,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getComments()
     {
-      return $this->comments;
+        return $this->comments;
     }
 
     /**
@@ -675,8 +691,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setComments($comments)
     {
-      $this->comments = $comments;
-      return $this;
+        $this->comments = $comments;
+
+        return $this;
     }
 
     /**
@@ -684,7 +701,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCompanyName()
     {
-      return $this->companyName;
+        return $this->companyName;
     }
 
     /**
@@ -693,8 +710,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCompanyName($companyName)
     {
-      $this->companyName = $companyName;
-      return $this;
+        $this->companyName = $companyName;
+
+        return $this;
     }
 
     /**
@@ -702,7 +720,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -711,8 +729,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -720,7 +739,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -729,8 +748,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -738,7 +758,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCustomerAccountID()
     {
-      return $this->customerAccountID;
+        return $this->customerAccountID;
     }
 
     /**
@@ -747,8 +767,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCustomerAccountID($customerAccountID)
     {
-      $this->customerAccountID = $customerAccountID;
-      return $this;
+        $this->customerAccountID = $customerAccountID;
+
+        return $this;
     }
 
     /**
@@ -756,7 +777,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getEmail()
     {
-      return $this->email;
+        return $this->email;
     }
 
     /**
@@ -765,8 +786,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setEmail($email)
     {
-      $this->email = $email;
-      return $this;
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
@@ -774,7 +796,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getEndDate()
     {
-      return $this->endDate;
+        return $this->endDate;
     }
 
     /**
@@ -783,8 +805,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setEndDate($endDate)
     {
-      $this->endDate = $endDate;
-      return $this;
+        $this->endDate = $endDate;
+
+        return $this;
     }
 
     /**
@@ -792,7 +815,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getFirstName()
     {
-      return $this->firstName;
+        return $this->firstName;
     }
 
     /**
@@ -801,8 +824,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = $firstName;
-      return $this;
+        $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -810,7 +834,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getFrequency()
     {
-      return $this->frequency;
+        return $this->frequency;
     }
 
     /**
@@ -819,8 +843,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setFrequency($frequency)
     {
-      $this->frequency = $frequency;
-      return $this;
+        $this->frequency = $frequency;
+
+        return $this;
     }
 
     /**
@@ -828,7 +853,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getLastName()
     {
-      return $this->lastName;
+        return $this->lastName;
     }
 
     /**
@@ -837,8 +862,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setLastName($lastName)
     {
-      $this->lastName = $lastName;
-      return $this;
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
@@ -846,7 +872,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantReferenceCode()
     {
-      return $this->merchantReferenceCode;
+        return $this->merchantReferenceCode;
     }
 
     /**
@@ -855,8 +881,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantReferenceCode($merchantReferenceCode)
     {
-      $this->merchantReferenceCode = $merchantReferenceCode;
-      return $this;
+        $this->merchantReferenceCode = $merchantReferenceCode;
+
+        return $this;
     }
 
     /**
@@ -864,7 +891,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getPaymentMethod()
     {
-      return $this->paymentMethod;
+        return $this->paymentMethod;
     }
 
     /**
@@ -873,8 +900,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setPaymentMethod($paymentMethod)
     {
-      $this->paymentMethod = $paymentMethod;
-      return $this;
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 
     /**
@@ -882,7 +910,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getPaymentsRemaining()
     {
-      return $this->paymentsRemaining;
+        return $this->paymentsRemaining;
     }
 
     /**
@@ -891,8 +919,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setPaymentsRemaining($paymentsRemaining)
     {
-      $this->paymentsRemaining = $paymentsRemaining;
-      return $this;
+        $this->paymentsRemaining = $paymentsRemaining;
+
+        return $this;
     }
 
     /**
@@ -900,7 +929,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getPhoneNumber()
     {
-      return $this->phoneNumber;
+        return $this->phoneNumber;
     }
 
     /**
@@ -909,8 +938,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = $phoneNumber;
-      return $this;
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
     }
 
     /**
@@ -918,7 +948,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -927,8 +957,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
-      return $this;
+        $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
@@ -936,7 +967,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getRecurringAmount()
     {
-      return $this->recurringAmount;
+        return $this->recurringAmount;
     }
 
     /**
@@ -945,8 +976,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setRecurringAmount($recurringAmount)
     {
-      $this->recurringAmount = $recurringAmount;
-      return $this;
+        $this->recurringAmount = $recurringAmount;
+
+        return $this;
     }
 
     /**
@@ -954,7 +986,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getSetupAmount()
     {
-      return $this->setupAmount;
+        return $this->setupAmount;
     }
 
     /**
@@ -963,8 +995,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setSetupAmount($setupAmount)
     {
-      $this->setupAmount = $setupAmount;
-      return $this;
+        $this->setupAmount = $setupAmount;
+
+        return $this;
     }
 
     /**
@@ -972,7 +1005,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getStartDate()
     {
-      return $this->startDate;
+        return $this->startDate;
     }
 
     /**
@@ -981,8 +1014,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setStartDate($startDate)
     {
-      $this->startDate = $startDate;
-      return $this;
+        $this->startDate = $startDate;
+
+        return $this;
     }
 
     /**
@@ -990,7 +1024,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -999,8 +1033,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setState($state)
     {
-      $this->state = $state;
-      return $this;
+        $this->state = $state;
+
+        return $this;
     }
 
     /**
@@ -1008,7 +1043,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -1017,8 +1052,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -1026,7 +1062,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getStreet1()
     {
-      return $this->street1;
+        return $this->street1;
     }
 
     /**
@@ -1035,8 +1071,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setStreet1($street1)
     {
-      $this->street1 = $street1;
-      return $this;
+        $this->street1 = $street1;
+
+        return $this;
     }
 
     /**
@@ -1044,7 +1081,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getStreet2()
     {
-      return $this->street2;
+        return $this->street2;
     }
 
     /**
@@ -1053,8 +1090,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setStreet2($street2)
     {
-      $this->street2 = $street2;
-      return $this;
+        $this->street2 = $street2;
+
+        return $this;
     }
 
     /**
@@ -1062,7 +1100,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getSubscriptionID()
     {
-      return $this->subscriptionID;
+        return $this->subscriptionID;
     }
 
     /**
@@ -1071,8 +1109,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setSubscriptionID($subscriptionID)
     {
-      $this->subscriptionID = $subscriptionID;
-      return $this;
+        $this->subscriptionID = $subscriptionID;
+
+        return $this;
     }
 
     /**
@@ -1080,7 +1119,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getSubscriptionIDNew()
     {
-      return $this->subscriptionIDNew;
+        return $this->subscriptionIDNew;
     }
 
     /**
@@ -1089,8 +1128,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setSubscriptionIDNew($subscriptionIDNew)
     {
-      $this->subscriptionIDNew = $subscriptionIDNew;
-      return $this;
+        $this->subscriptionIDNew = $subscriptionIDNew;
+
+        return $this;
     }
 
     /**
@@ -1098,7 +1138,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getTitle()
     {
-      return $this->title;
+        return $this->title;
     }
 
     /**
@@ -1107,8 +1147,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setTitle($title)
     {
-      $this->title = $title;
-      return $this;
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -1116,7 +1157,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getTotalPayments()
     {
-      return $this->totalPayments;
+        return $this->totalPayments;
     }
 
     /**
@@ -1125,8 +1166,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setTotalPayments($totalPayments)
     {
-      $this->totalPayments = $totalPayments;
-      return $this;
+        $this->totalPayments = $totalPayments;
+
+        return $this;
     }
 
     /**
@@ -1134,7 +1176,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToFirstName()
     {
-      return $this->shipToFirstName;
+        return $this->shipToFirstName;
     }
 
     /**
@@ -1143,8 +1185,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToFirstName($shipToFirstName)
     {
-      $this->shipToFirstName = $shipToFirstName;
-      return $this;
+        $this->shipToFirstName = $shipToFirstName;
+
+        return $this;
     }
 
     /**
@@ -1152,7 +1195,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToLastName()
     {
-      return $this->shipToLastName;
+        return $this->shipToLastName;
     }
 
     /**
@@ -1161,8 +1204,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToLastName($shipToLastName)
     {
-      $this->shipToLastName = $shipToLastName;
-      return $this;
+        $this->shipToLastName = $shipToLastName;
+
+        return $this;
     }
 
     /**
@@ -1170,7 +1214,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToStreet1()
     {
-      return $this->shipToStreet1;
+        return $this->shipToStreet1;
     }
 
     /**
@@ -1179,8 +1223,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToStreet1($shipToStreet1)
     {
-      $this->shipToStreet1 = $shipToStreet1;
-      return $this;
+        $this->shipToStreet1 = $shipToStreet1;
+
+        return $this;
     }
 
     /**
@@ -1188,7 +1233,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToStreet2()
     {
-      return $this->shipToStreet2;
+        return $this->shipToStreet2;
     }
 
     /**
@@ -1197,8 +1242,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToStreet2($shipToStreet2)
     {
-      $this->shipToStreet2 = $shipToStreet2;
-      return $this;
+        $this->shipToStreet2 = $shipToStreet2;
+
+        return $this;
     }
 
     /**
@@ -1206,7 +1252,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToCity()
     {
-      return $this->shipToCity;
+        return $this->shipToCity;
     }
 
     /**
@@ -1215,8 +1261,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToCity($shipToCity)
     {
-      $this->shipToCity = $shipToCity;
-      return $this;
+        $this->shipToCity = $shipToCity;
+
+        return $this;
     }
 
     /**
@@ -1224,7 +1271,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToState()
     {
-      return $this->shipToState;
+        return $this->shipToState;
     }
 
     /**
@@ -1233,8 +1280,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToState($shipToState)
     {
-      $this->shipToState = $shipToState;
-      return $this;
+        $this->shipToState = $shipToState;
+
+        return $this;
     }
 
     /**
@@ -1242,7 +1290,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToPostalCode()
     {
-      return $this->shipToPostalCode;
+        return $this->shipToPostalCode;
     }
 
     /**
@@ -1251,8 +1299,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToPostalCode($shipToPostalCode)
     {
-      $this->shipToPostalCode = $shipToPostalCode;
-      return $this;
+        $this->shipToPostalCode = $shipToPostalCode;
+
+        return $this;
     }
 
     /**
@@ -1260,7 +1309,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToCompany()
     {
-      return $this->shipToCompany;
+        return $this->shipToCompany;
     }
 
     /**
@@ -1269,8 +1318,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToCompany($shipToCompany)
     {
-      $this->shipToCompany = $shipToCompany;
-      return $this;
+        $this->shipToCompany = $shipToCompany;
+
+        return $this;
     }
 
     /**
@@ -1278,7 +1328,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getShipToCountry()
     {
-      return $this->shipToCountry;
+        return $this->shipToCountry;
     }
 
     /**
@@ -1287,8 +1337,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setShipToCountry($shipToCountry)
     {
-      $this->shipToCountry = $shipToCountry;
-      return $this;
+        $this->shipToCountry = $shipToCountry;
+
+        return $this;
     }
 
     /**
@@ -1296,7 +1347,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getBillPayment()
     {
-      return $this->billPayment;
+        return $this->billPayment;
     }
 
     /**
@@ -1305,8 +1356,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setBillPayment($billPayment)
     {
-      $this->billPayment = $billPayment;
-      return $this;
+        $this->billPayment = $billPayment;
+
+        return $this;
     }
 
     /**
@@ -1314,7 +1366,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantDefinedDataField1()
     {
-      return $this->merchantDefinedDataField1;
+        return $this->merchantDefinedDataField1;
     }
 
     /**
@@ -1323,8 +1375,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantDefinedDataField1($merchantDefinedDataField1)
     {
-      $this->merchantDefinedDataField1 = $merchantDefinedDataField1;
-      return $this;
+        $this->merchantDefinedDataField1 = $merchantDefinedDataField1;
+
+        return $this;
     }
 
     /**
@@ -1332,7 +1385,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantDefinedDataField2()
     {
-      return $this->merchantDefinedDataField2;
+        return $this->merchantDefinedDataField2;
     }
 
     /**
@@ -1341,8 +1394,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantDefinedDataField2($merchantDefinedDataField2)
     {
-      $this->merchantDefinedDataField2 = $merchantDefinedDataField2;
-      return $this;
+        $this->merchantDefinedDataField2 = $merchantDefinedDataField2;
+
+        return $this;
     }
 
     /**
@@ -1350,7 +1404,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantDefinedDataField3()
     {
-      return $this->merchantDefinedDataField3;
+        return $this->merchantDefinedDataField3;
     }
 
     /**
@@ -1359,8 +1413,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantDefinedDataField3($merchantDefinedDataField3)
     {
-      $this->merchantDefinedDataField3 = $merchantDefinedDataField3;
-      return $this;
+        $this->merchantDefinedDataField3 = $merchantDefinedDataField3;
+
+        return $this;
     }
 
     /**
@@ -1368,7 +1423,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantDefinedDataField4()
     {
-      return $this->merchantDefinedDataField4;
+        return $this->merchantDefinedDataField4;
     }
 
     /**
@@ -1377,8 +1432,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantDefinedDataField4($merchantDefinedDataField4)
     {
-      $this->merchantDefinedDataField4 = $merchantDefinedDataField4;
-      return $this;
+        $this->merchantDefinedDataField4 = $merchantDefinedDataField4;
+
+        return $this;
     }
 
     /**
@@ -1386,7 +1442,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantSecureDataField1()
     {
-      return $this->merchantSecureDataField1;
+        return $this->merchantSecureDataField1;
     }
 
     /**
@@ -1395,8 +1451,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantSecureDataField1($merchantSecureDataField1)
     {
-      $this->merchantSecureDataField1 = $merchantSecureDataField1;
-      return $this;
+        $this->merchantSecureDataField1 = $merchantSecureDataField1;
+
+        return $this;
     }
 
     /**
@@ -1404,7 +1461,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantSecureDataField2()
     {
-      return $this->merchantSecureDataField2;
+        return $this->merchantSecureDataField2;
     }
 
     /**
@@ -1413,8 +1470,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantSecureDataField2($merchantSecureDataField2)
     {
-      $this->merchantSecureDataField2 = $merchantSecureDataField2;
-      return $this;
+        $this->merchantSecureDataField2 = $merchantSecureDataField2;
+
+        return $this;
     }
 
     /**
@@ -1422,7 +1480,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantSecureDataField3()
     {
-      return $this->merchantSecureDataField3;
+        return $this->merchantSecureDataField3;
     }
 
     /**
@@ -1431,8 +1489,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantSecureDataField3($merchantSecureDataField3)
     {
-      $this->merchantSecureDataField3 = $merchantSecureDataField3;
-      return $this;
+        $this->merchantSecureDataField3 = $merchantSecureDataField3;
+
+        return $this;
     }
 
     /**
@@ -1440,7 +1499,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getMerchantSecureDataField4()
     {
-      return $this->merchantSecureDataField4;
+        return $this->merchantSecureDataField4;
     }
 
     /**
@@ -1449,8 +1508,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setMerchantSecureDataField4($merchantSecureDataField4)
     {
-      $this->merchantSecureDataField4 = $merchantSecureDataField4;
-      return $this;
+        $this->merchantSecureDataField4 = $merchantSecureDataField4;
+
+        return $this;
     }
 
     /**
@@ -1458,7 +1518,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -1467,8 +1527,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
     /**
@@ -1476,7 +1537,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getCompanyTaxID()
     {
-      return $this->companyTaxID;
+        return $this->companyTaxID;
     }
 
     /**
@@ -1485,8 +1546,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setCompanyTaxID($companyTaxID)
     {
-      $this->companyTaxID = $companyTaxID;
-      return $this;
+        $this->companyTaxID = $companyTaxID;
+
+        return $this;
     }
 
     /**
@@ -1494,7 +1556,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getDriversLicenseNumber()
     {
-      return $this->driversLicenseNumber;
+        return $this->driversLicenseNumber;
     }
 
     /**
@@ -1503,8 +1565,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setDriversLicenseNumber($driversLicenseNumber)
     {
-      $this->driversLicenseNumber = $driversLicenseNumber;
-      return $this;
+        $this->driversLicenseNumber = $driversLicenseNumber;
+
+        return $this;
     }
 
     /**
@@ -1512,7 +1575,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getDriversLicenseState()
     {
-      return $this->driversLicenseState;
+        return $this->driversLicenseState;
     }
 
     /**
@@ -1521,8 +1584,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setDriversLicenseState($driversLicenseState)
     {
-      $this->driversLicenseState = $driversLicenseState;
-      return $this;
+        $this->driversLicenseState = $driversLicenseState;
+
+        return $this;
     }
 
     /**
@@ -1530,7 +1594,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getDateOfBirth()
     {
-      return $this->dateOfBirth;
+        return $this->dateOfBirth;
     }
 
     /**
@@ -1539,8 +1603,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setDateOfBirth($dateOfBirth)
     {
-      $this->dateOfBirth = $dateOfBirth;
-      return $this;
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
     }
 
     /**
@@ -1548,7 +1613,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getInstrumentIdentifierID()
     {
-      return $this->instrumentIdentifierID;
+        return $this->instrumentIdentifierID;
     }
 
     /**
@@ -1557,8 +1622,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setInstrumentIdentifierID($instrumentIdentifierID)
     {
-      $this->instrumentIdentifierID = $instrumentIdentifierID;
-      return $this;
+        $this->instrumentIdentifierID = $instrumentIdentifierID;
+
+        return $this;
     }
 
     /**
@@ -1566,7 +1632,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getInstrumentIdentifierStatus()
     {
-      return $this->instrumentIdentifierStatus;
+        return $this->instrumentIdentifierStatus;
     }
 
     /**
@@ -1575,8 +1641,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setInstrumentIdentifierStatus($instrumentIdentifierStatus)
     {
-      $this->instrumentIdentifierStatus = $instrumentIdentifierStatus;
-      return $this;
+        $this->instrumentIdentifierStatus = $instrumentIdentifierStatus;
+
+        return $this;
     }
 
     /**
@@ -1584,7 +1651,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getInstrumentIdentifierSuccessorID()
     {
-      return $this->instrumentIdentifierSuccessorID;
+        return $this->instrumentIdentifierSuccessorID;
     }
 
     /**
@@ -1593,8 +1660,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setInstrumentIdentifierSuccessorID($instrumentIdentifierSuccessorID)
     {
-      $this->instrumentIdentifierSuccessorID = $instrumentIdentifierSuccessorID;
-      return $this;
+        $this->instrumentIdentifierSuccessorID = $instrumentIdentifierSuccessorID;
+
+        return $this;
     }
 
     /**
@@ -1602,7 +1670,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getSubsequentAuthTransactionID()
     {
-      return $this->subsequentAuthTransactionID;
+        return $this->subsequentAuthTransactionID;
     }
 
     /**
@@ -1611,8 +1679,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setSubsequentAuthTransactionID($subsequentAuthTransactionID)
     {
-      $this->subsequentAuthTransactionID = $subsequentAuthTransactionID;
-      return $this;
+        $this->subsequentAuthTransactionID = $subsequentAuthTransactionID;
+
+        return $this;
     }
 
     /**
@@ -1620,7 +1689,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getLatestCardSuffix()
     {
-      return $this->latestCardSuffix;
+        return $this->latestCardSuffix;
     }
 
     /**
@@ -1629,8 +1698,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setLatestCardSuffix($latestCardSuffix)
     {
-      $this->latestCardSuffix = $latestCardSuffix;
-      return $this;
+        $this->latestCardSuffix = $latestCardSuffix;
+
+        return $this;
     }
 
     /**
@@ -1638,7 +1708,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getLatestCardExpirationMonth()
     {
-      return $this->latestCardExpirationMonth;
+        return $this->latestCardExpirationMonth;
     }
 
     /**
@@ -1647,8 +1717,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setLatestCardExpirationMonth($latestCardExpirationMonth)
     {
-      $this->latestCardExpirationMonth = $latestCardExpirationMonth;
-      return $this;
+        $this->latestCardExpirationMonth = $latestCardExpirationMonth;
+
+        return $this;
     }
 
     /**
@@ -1656,7 +1727,7 @@ class PaySubscriptionRetrieveReply
      */
     public function getLatestCardExpirationYear()
     {
-      return $this->latestCardExpirationYear;
+        return $this->latestCardExpirationYear;
     }
 
     /**
@@ -1665,8 +1736,9 @@ class PaySubscriptionRetrieveReply
      */
     public function setLatestCardExpirationYear($latestCardExpirationYear)
     {
-      $this->latestCardExpirationYear = $latestCardExpirationYear;
-      return $this;
+        $this->latestCardExpirationYear = $latestCardExpirationYear;
+
+        return $this;
     }
 
 }

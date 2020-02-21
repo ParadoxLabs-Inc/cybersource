@@ -25,7 +25,7 @@ class PayPalPreapprovedPaymentService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class PayPalPreapprovedPaymentService
      */
     public function getMpID()
     {
-      return $this->mpID;
+        return $this->mpID;
     }
 
     /**
@@ -42,8 +42,9 @@ class PayPalPreapprovedPaymentService
      */
     public function setMpID($mpID)
     {
-      $this->mpID = $mpID;
-      return $this;
+        $this->mpID = $mpID;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class PayPalPreapprovedPaymentService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -60,8 +61,9 @@ class PayPalPreapprovedPaymentService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class PayPalPreapprovedPaymentService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class PayPalPreapprovedPaymentService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -10,10 +10,8 @@ class mPOS
      */
     protected $deviceType = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class mPOS
      */
     public function getDeviceType()
     {
-      return $this->deviceType;
+        return $this->deviceType;
     }
 
     /**
@@ -30,8 +28,9 @@ class mPOS
      */
     public function setDeviceType($deviceType)
     {
-      $this->deviceType = $deviceType;
-      return $this;
+        $this->deviceType = $deviceType;
+
+        return $this;
     }
 
 }

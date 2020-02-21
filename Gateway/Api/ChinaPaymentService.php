@@ -45,7 +45,7 @@ class ChinaPaymentService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -53,7 +53,7 @@ class ChinaPaymentService
      */
     public function getPaymentMode()
     {
-      return $this->paymentMode;
+        return $this->paymentMode;
     }
 
     /**
@@ -62,8 +62,9 @@ class ChinaPaymentService
      */
     public function setPaymentMode($paymentMode)
     {
-      $this->paymentMode = $paymentMode;
-      return $this;
+        $this->paymentMode = $paymentMode;
+
+        return $this;
     }
 
     /**
@@ -71,7 +72,7 @@ class ChinaPaymentService
      */
     public function getReturnURL()
     {
-      return $this->returnURL;
+        return $this->returnURL;
     }
 
     /**
@@ -80,8 +81,9 @@ class ChinaPaymentService
      */
     public function setReturnURL($returnURL)
     {
-      $this->returnURL = $returnURL;
-      return $this;
+        $this->returnURL = $returnURL;
+
+        return $this;
     }
 
     /**
@@ -89,7 +91,7 @@ class ChinaPaymentService
      */
     public function getPickUpAddress()
     {
-      return $this->pickUpAddress;
+        return $this->pickUpAddress;
     }
 
     /**
@@ -98,8 +100,9 @@ class ChinaPaymentService
      */
     public function setPickUpAddress($pickUpAddress)
     {
-      $this->pickUpAddress = $pickUpAddress;
-      return $this;
+        $this->pickUpAddress = $pickUpAddress;
+
+        return $this;
     }
 
     /**
@@ -107,7 +110,7 @@ class ChinaPaymentService
      */
     public function getPickUpPhoneNumber()
     {
-      return $this->pickUpPhoneNumber;
+        return $this->pickUpPhoneNumber;
     }
 
     /**
@@ -116,8 +119,9 @@ class ChinaPaymentService
      */
     public function setPickUpPhoneNumber($pickUpPhoneNumber)
     {
-      $this->pickUpPhoneNumber = $pickUpPhoneNumber;
-      return $this;
+        $this->pickUpPhoneNumber = $pickUpPhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -125,7 +129,7 @@ class ChinaPaymentService
      */
     public function getPickUpPostalCode()
     {
-      return $this->pickUpPostalCode;
+        return $this->pickUpPostalCode;
     }
 
     /**
@@ -134,8 +138,9 @@ class ChinaPaymentService
      */
     public function setPickUpPostalCode($pickUpPostalCode)
     {
-      $this->pickUpPostalCode = $pickUpPostalCode;
-      return $this;
+        $this->pickUpPostalCode = $pickUpPostalCode;
+
+        return $this;
     }
 
     /**
@@ -143,7 +148,7 @@ class ChinaPaymentService
      */
     public function getPickUpName()
     {
-      return $this->pickUpName;
+        return $this->pickUpName;
     }
 
     /**
@@ -152,8 +157,9 @@ class ChinaPaymentService
      */
     public function setPickUpName($pickUpName)
     {
-      $this->pickUpName = $pickUpName;
-      return $this;
+        $this->pickUpName = $pickUpName;
+
+        return $this;
     }
 
     /**
@@ -161,7 +167,7 @@ class ChinaPaymentService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -170,8 +176,9 @@ class ChinaPaymentService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

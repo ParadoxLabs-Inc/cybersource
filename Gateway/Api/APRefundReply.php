@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APRefundReply
 {
 
@@ -70,7 +73,7 @@ class APRefundReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -78,7 +81,7 @@ class APRefundReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -87,8 +90,9 @@ class APRefundReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -96,7 +100,7 @@ class APRefundReply
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -105,8 +109,9 @@ class APRefundReply
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -114,7 +119,7 @@ class APRefundReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -123,8 +128,9 @@ class APRefundReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -132,7 +138,7 @@ class APRefundReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -141,8 +147,9 @@ class APRefundReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -150,7 +157,7 @@ class APRefundReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -159,8 +166,9 @@ class APRefundReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -168,29 +176,30 @@ class APRefundReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRefundReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -198,7 +207,7 @@ class APRefundReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -207,8 +216,9 @@ class APRefundReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -216,7 +226,7 @@ class APRefundReply
      */
     public function getReturnRef()
     {
-      return $this->returnRef;
+        return $this->returnRef;
     }
 
     /**
@@ -225,8 +235,9 @@ class APRefundReply
      */
     public function setReturnRef($returnRef)
     {
-      $this->returnRef = $returnRef;
-      return $this;
+        $this->returnRef = $returnRef;
+
+        return $this;
     }
 
     /**
@@ -234,7 +245,7 @@ class APRefundReply
      */
     public function getProviderResponse()
     {
-      return $this->providerResponse;
+        return $this->providerResponse;
     }
 
     /**
@@ -243,8 +254,9 @@ class APRefundReply
      */
     public function setProviderResponse($providerResponse)
     {
-      $this->providerResponse = $providerResponse;
-      return $this;
+        $this->providerResponse = $providerResponse;
+
+        return $this;
     }
 
     /**
@@ -252,7 +264,7 @@ class APRefundReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -261,8 +273,9 @@ class APRefundReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -270,7 +283,7 @@ class APRefundReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -279,8 +292,9 @@ class APRefundReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -288,7 +302,7 @@ class APRefundReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -297,8 +311,9 @@ class APRefundReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
 }

@@ -110,7 +110,7 @@ class TaxReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -118,7 +118,7 @@ class TaxReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -127,8 +127,9 @@ class TaxReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -136,7 +137,7 @@ class TaxReply
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -145,8 +146,9 @@ class TaxReply
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -154,7 +156,7 @@ class TaxReply
      */
     public function getGrandTotalAmount()
     {
-      return $this->grandTotalAmount;
+        return $this->grandTotalAmount;
     }
 
     /**
@@ -163,8 +165,9 @@ class TaxReply
      */
     public function setGrandTotalAmount($grandTotalAmount)
     {
-      $this->grandTotalAmount = $grandTotalAmount;
-      return $this;
+        $this->grandTotalAmount = $grandTotalAmount;
+
+        return $this;
     }
 
     /**
@@ -172,7 +175,7 @@ class TaxReply
      */
     public function getTotalTaxableAmount()
     {
-      return $this->totalTaxableAmount;
+        return $this->totalTaxableAmount;
     }
 
     /**
@@ -181,8 +184,9 @@ class TaxReply
      */
     public function setTotalTaxableAmount($totalTaxableAmount)
     {
-      $this->totalTaxableAmount = $totalTaxableAmount;
-      return $this;
+        $this->totalTaxableAmount = $totalTaxableAmount;
+
+        return $this;
     }
 
     /**
@@ -190,7 +194,7 @@ class TaxReply
      */
     public function getTotalExemptAmount()
     {
-      return $this->totalExemptAmount;
+        return $this->totalExemptAmount;
     }
 
     /**
@@ -199,8 +203,9 @@ class TaxReply
      */
     public function setTotalExemptAmount($totalExemptAmount)
     {
-      $this->totalExemptAmount = $totalExemptAmount;
-      return $this;
+        $this->totalExemptAmount = $totalExemptAmount;
+
+        return $this;
     }
 
     /**
@@ -208,7 +213,7 @@ class TaxReply
      */
     public function getTotalSpecialTaxAmount()
     {
-      return $this->totalSpecialTaxAmount;
+        return $this->totalSpecialTaxAmount;
     }
 
     /**
@@ -217,8 +222,9 @@ class TaxReply
      */
     public function setTotalSpecialTaxAmount($totalSpecialTaxAmount)
     {
-      $this->totalSpecialTaxAmount = $totalSpecialTaxAmount;
-      return $this;
+        $this->totalSpecialTaxAmount = $totalSpecialTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -226,7 +232,7 @@ class TaxReply
      */
     public function getTotalCityTaxAmount()
     {
-      return $this->totalCityTaxAmount;
+        return $this->totalCityTaxAmount;
     }
 
     /**
@@ -235,8 +241,9 @@ class TaxReply
      */
     public function setTotalCityTaxAmount($totalCityTaxAmount)
     {
-      $this->totalCityTaxAmount = $totalCityTaxAmount;
-      return $this;
+        $this->totalCityTaxAmount = $totalCityTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -244,7 +251,7 @@ class TaxReply
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -253,8 +260,9 @@ class TaxReply
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -262,7 +270,7 @@ class TaxReply
      */
     public function getTotalCountyTaxAmount()
     {
-      return $this->totalCountyTaxAmount;
+        return $this->totalCountyTaxAmount;
     }
 
     /**
@@ -271,8 +279,9 @@ class TaxReply
      */
     public function setTotalCountyTaxAmount($totalCountyTaxAmount)
     {
-      $this->totalCountyTaxAmount = $totalCountyTaxAmount;
-      return $this;
+        $this->totalCountyTaxAmount = $totalCountyTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -280,7 +289,7 @@ class TaxReply
      */
     public function getCounty()
     {
-      return $this->county;
+        return $this->county;
     }
 
     /**
@@ -289,8 +298,9 @@ class TaxReply
      */
     public function setCounty($county)
     {
-      $this->county = $county;
-      return $this;
+        $this->county = $county;
+
+        return $this;
     }
 
     /**
@@ -298,7 +308,7 @@ class TaxReply
      */
     public function getTotalDistrictTaxAmount()
     {
-      return $this->totalDistrictTaxAmount;
+        return $this->totalDistrictTaxAmount;
     }
 
     /**
@@ -307,8 +317,9 @@ class TaxReply
      */
     public function setTotalDistrictTaxAmount($totalDistrictTaxAmount)
     {
-      $this->totalDistrictTaxAmount = $totalDistrictTaxAmount;
-      return $this;
+        $this->totalDistrictTaxAmount = $totalDistrictTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -316,7 +327,7 @@ class TaxReply
      */
     public function getTotalStateTaxAmount()
     {
-      return $this->totalStateTaxAmount;
+        return $this->totalStateTaxAmount;
     }
 
     /**
@@ -325,8 +336,9 @@ class TaxReply
      */
     public function setTotalStateTaxAmount($totalStateTaxAmount)
     {
-      $this->totalStateTaxAmount = $totalStateTaxAmount;
-      return $this;
+        $this->totalStateTaxAmount = $totalStateTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -334,7 +346,7 @@ class TaxReply
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -343,8 +355,9 @@ class TaxReply
      */
     public function setState($state)
     {
-      $this->state = $state;
-      return $this;
+        $this->state = $state;
+
+        return $this;
     }
 
     /**
@@ -352,7 +365,7 @@ class TaxReply
      */
     public function getTotalCountryTaxAmount()
     {
-      return $this->totalCountryTaxAmount;
+        return $this->totalCountryTaxAmount;
     }
 
     /**
@@ -361,8 +374,9 @@ class TaxReply
      */
     public function setTotalCountryTaxAmount($totalCountryTaxAmount)
     {
-      $this->totalCountryTaxAmount = $totalCountryTaxAmount;
-      return $this;
+        $this->totalCountryTaxAmount = $totalCountryTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -370,7 +384,7 @@ class TaxReply
      */
     public function getTotalTaxAmount()
     {
-      return $this->totalTaxAmount;
+        return $this->totalTaxAmount;
     }
 
     /**
@@ -379,8 +393,9 @@ class TaxReply
      */
     public function setTotalTaxAmount($totalTaxAmount)
     {
-      $this->totalTaxAmount = $totalTaxAmount;
-      return $this;
+        $this->totalTaxAmount = $totalTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -388,7 +403,7 @@ class TaxReply
      */
     public function getCommitIndicator()
     {
-      return $this->commitIndicator;
+        return $this->commitIndicator;
     }
 
     /**
@@ -397,8 +412,9 @@ class TaxReply
      */
     public function setCommitIndicator($commitIndicator)
     {
-      $this->commitIndicator = $commitIndicator;
-      return $this;
+        $this->commitIndicator = $commitIndicator;
+
+        return $this;
     }
 
     /**
@@ -406,7 +422,7 @@ class TaxReply
      */
     public function getRefundIndicator()
     {
-      return $this->refundIndicator;
+        return $this->refundIndicator;
     }
 
     /**
@@ -415,8 +431,9 @@ class TaxReply
      */
     public function setRefundIndicator($refundIndicator)
     {
-      $this->refundIndicator = $refundIndicator;
-      return $this;
+        $this->refundIndicator = $refundIndicator;
+
+        return $this;
     }
 
     /**
@@ -424,7 +441,7 @@ class TaxReply
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -433,8 +450,9 @@ class TaxReply
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
-      return $this;
+        $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
@@ -442,7 +460,7 @@ class TaxReply
      */
     public function getGeocode()
     {
-      return $this->geocode;
+        return $this->geocode;
     }
 
     /**
@@ -451,8 +469,9 @@ class TaxReply
      */
     public function setGeocode($geocode)
     {
-      $this->geocode = $geocode;
-      return $this;
+        $this->geocode = $geocode;
+
+        return $this;
     }
 
     /**
@@ -460,7 +479,7 @@ class TaxReply
      */
     public function getItem()
     {
-      return $this->item;
+        return $this->item;
     }
 
     /**
@@ -469,8 +488,9 @@ class TaxReply
      */
     public function setItem(array $item = null)
     {
-      $this->item = $item;
-      return $this;
+        $this->item = $item;
+
+        return $this;
     }
 
 }

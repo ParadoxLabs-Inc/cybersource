@@ -35,7 +35,7 @@ class APCreateMandateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -43,7 +43,7 @@ class APCreateMandateService
      */
     public function getSaleRequestID()
     {
-      return $this->saleRequestID;
+        return $this->saleRequestID;
     }
 
     /**
@@ -52,8 +52,9 @@ class APCreateMandateService
      */
     public function setSaleRequestID($saleRequestID)
     {
-      $this->saleRequestID = $saleRequestID;
-      return $this;
+        $this->saleRequestID = $saleRequestID;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class APCreateMandateService
      */
     public function getCancelURL()
     {
-      return $this->cancelURL;
+        return $this->cancelURL;
     }
 
     /**
@@ -70,8 +71,9 @@ class APCreateMandateService
      */
     public function setCancelURL($cancelURL)
     {
-      $this->cancelURL = $cancelURL;
-      return $this;
+        $this->cancelURL = $cancelURL;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class APCreateMandateService
      */
     public function getSuccessURL()
     {
-      return $this->successURL;
+        return $this->successURL;
     }
 
     /**
@@ -88,8 +90,9 @@ class APCreateMandateService
      */
     public function setSuccessURL($successURL)
     {
-      $this->successURL = $successURL;
-      return $this;
+        $this->successURL = $successURL;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class APCreateMandateService
      */
     public function getFailureURL()
     {
-      return $this->failureURL;
+        return $this->failureURL;
     }
 
     /**
@@ -106,8 +109,9 @@ class APCreateMandateService
      */
     public function setFailureURL($failureURL)
     {
-      $this->failureURL = $failureURL;
-      return $this;
+        $this->failureURL = $failureURL;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class APCreateMandateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -124,8 +128,9 @@ class APCreateMandateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

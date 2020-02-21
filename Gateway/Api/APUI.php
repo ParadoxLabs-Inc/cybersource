@@ -60,10 +60,8 @@ class APUI
      */
     protected $theme = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -71,7 +69,7 @@ class APUI
      */
     public function getColorBorder()
     {
-      return $this->colorBorder;
+        return $this->colorBorder;
     }
 
     /**
@@ -80,8 +78,9 @@ class APUI
      */
     public function setColorBorder($colorBorder)
     {
-      $this->colorBorder = $colorBorder;
-      return $this;
+        $this->colorBorder = $colorBorder;
+
+        return $this;
     }
 
     /**
@@ -89,7 +88,7 @@ class APUI
      */
     public function getColorBorderSelected()
     {
-      return $this->colorBorderSelected;
+        return $this->colorBorderSelected;
     }
 
     /**
@@ -98,8 +97,9 @@ class APUI
      */
     public function setColorBorderSelected($colorBorderSelected)
     {
-      $this->colorBorderSelected = $colorBorderSelected;
-      return $this;
+        $this->colorBorderSelected = $colorBorderSelected;
+
+        return $this;
     }
 
     /**
@@ -107,7 +107,7 @@ class APUI
      */
     public function getColorButton()
     {
-      return $this->colorButton;
+        return $this->colorButton;
     }
 
     /**
@@ -116,8 +116,9 @@ class APUI
      */
     public function setColorButton($colorButton)
     {
-      $this->colorButton = $colorButton;
-      return $this;
+        $this->colorButton = $colorButton;
+
+        return $this;
     }
 
     /**
@@ -125,7 +126,7 @@ class APUI
      */
     public function getColorButtonText()
     {
-      return $this->colorButtonText;
+        return $this->colorButtonText;
     }
 
     /**
@@ -134,8 +135,9 @@ class APUI
      */
     public function setColorButtonText($colorButtonText)
     {
-      $this->colorButtonText = $colorButtonText;
-      return $this;
+        $this->colorButtonText = $colorButtonText;
+
+        return $this;
     }
 
     /**
@@ -143,7 +145,7 @@ class APUI
      */
     public function getColorCheckbox()
     {
-      return $this->colorCheckbox;
+        return $this->colorCheckbox;
     }
 
     /**
@@ -152,8 +154,9 @@ class APUI
      */
     public function setColorCheckbox($colorCheckbox)
     {
-      $this->colorCheckbox = $colorCheckbox;
-      return $this;
+        $this->colorCheckbox = $colorCheckbox;
+
+        return $this;
     }
 
     /**
@@ -161,7 +164,7 @@ class APUI
      */
     public function getColorCheckboxCheckMark()
     {
-      return $this->colorCheckboxCheckMark;
+        return $this->colorCheckboxCheckMark;
     }
 
     /**
@@ -170,8 +173,9 @@ class APUI
      */
     public function setColorCheckboxCheckMark($colorCheckboxCheckMark)
     {
-      $this->colorCheckboxCheckMark = $colorCheckboxCheckMark;
-      return $this;
+        $this->colorCheckboxCheckMark = $colorCheckboxCheckMark;
+
+        return $this;
     }
 
     /**
@@ -179,7 +183,7 @@ class APUI
      */
     public function getColorHeader()
     {
-      return $this->colorHeader;
+        return $this->colorHeader;
     }
 
     /**
@@ -188,8 +192,9 @@ class APUI
      */
     public function setColorHeader($colorHeader)
     {
-      $this->colorHeader = $colorHeader;
-      return $this;
+        $this->colorHeader = $colorHeader;
+
+        return $this;
     }
 
     /**
@@ -197,7 +202,7 @@ class APUI
      */
     public function getColorLink()
     {
-      return $this->colorLink;
+        return $this->colorLink;
     }
 
     /**
@@ -206,8 +211,9 @@ class APUI
      */
     public function setColorLink($colorLink)
     {
-      $this->colorLink = $colorLink;
-      return $this;
+        $this->colorLink = $colorLink;
+
+        return $this;
     }
 
     /**
@@ -215,7 +221,7 @@ class APUI
      */
     public function getColorText()
     {
-      return $this->colorText;
+        return $this->colorText;
     }
 
     /**
@@ -224,8 +230,9 @@ class APUI
      */
     public function setColorText($colorText)
     {
-      $this->colorText = $colorText;
-      return $this;
+        $this->colorText = $colorText;
+
+        return $this;
     }
 
     /**
@@ -233,7 +240,7 @@ class APUI
      */
     public function getBorderRadius()
     {
-      return $this->borderRadius;
+        return $this->borderRadius;
     }
 
     /**
@@ -242,8 +249,9 @@ class APUI
      */
     public function setBorderRadius($borderRadius)
     {
-      $this->borderRadius = $borderRadius;
-      return $this;
+        $this->borderRadius = $borderRadius;
+
+        return $this;
     }
 
     /**
@@ -251,7 +259,7 @@ class APUI
      */
     public function getTheme()
     {
-      return $this->theme;
+        return $this->theme;
     }
 
     /**
@@ -260,8 +268,9 @@ class APUI
      */
     public function setTheme($theme)
     {
-      $this->theme = $theme;
-      return $this;
+        $this->theme = $theme;
+
+        return $this;
     }
 
 }

@@ -30,7 +30,7 @@ class PinlessDebitReversalService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class PinlessDebitReversalService
      */
     public function getPinlessDebitRequestID()
     {
-      return $this->pinlessDebitRequestID;
+        return $this->pinlessDebitRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class PinlessDebitReversalService
      */
     public function setPinlessDebitRequestID($pinlessDebitRequestID)
     {
-      $this->pinlessDebitRequestID = $pinlessDebitRequestID;
-      return $this;
+        $this->pinlessDebitRequestID = $pinlessDebitRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PinlessDebitReversalService
      */
     public function getPinlessDebitRequestToken()
     {
-      return $this->pinlessDebitRequestToken;
+        return $this->pinlessDebitRequestToken;
     }
 
     /**
@@ -65,8 +66,9 @@ class PinlessDebitReversalService
      */
     public function setPinlessDebitRequestToken($pinlessDebitRequestToken)
     {
-      $this->pinlessDebitRequestToken = $pinlessDebitRequestToken;
-      return $this;
+        $this->pinlessDebitRequestToken = $pinlessDebitRequestToken;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PinlessDebitReversalService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -83,8 +85,9 @@ class PinlessDebitReversalService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PinlessDebitReversalService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class PinlessDebitReversalService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

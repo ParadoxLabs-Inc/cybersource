@@ -20,7 +20,7 @@ class ECAuthenticateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class ECAuthenticateService
      */
     public function getReferenceNumber()
     {
-      return $this->referenceNumber;
+        return $this->referenceNumber;
     }
 
     /**
@@ -37,8 +37,9 @@ class ECAuthenticateService
      */
     public function setReferenceNumber($referenceNumber)
     {
-      $this->referenceNumber = $referenceNumber;
-      return $this;
+        $this->referenceNumber = $referenceNumber;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class ECAuthenticateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class ECAuthenticateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -15,7 +15,7 @@ class ReplyReserved
      */
     public function __construct($any)
     {
-      $this->any = $any;
+        $this->any = $any;
     }
 
     /**
@@ -23,7 +23,7 @@ class ReplyReserved
      */
     public function getAny()
     {
-      return $this->any;
+        return $this->any;
     }
 
     /**
@@ -32,8 +32,9 @@ class ReplyReserved
      */
     public function setAny($any)
     {
-      $this->any = $any;
-      return $this;
+        $this->any = $any;
+
+        return $this;
     }
 
 }

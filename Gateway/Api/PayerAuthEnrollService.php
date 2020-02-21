@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PayerAuthEnrollService
 {
 
@@ -375,7 +378,7 @@ class PayerAuthEnrollService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -383,7 +386,7 @@ class PayerAuthEnrollService
      */
     public function getHttpAccept()
     {
-      return $this->httpAccept;
+        return $this->httpAccept;
     }
 
     /**
@@ -392,8 +395,9 @@ class PayerAuthEnrollService
      */
     public function setHttpAccept($httpAccept)
     {
-      $this->httpAccept = $httpAccept;
-      return $this;
+        $this->httpAccept = $httpAccept;
+
+        return $this;
     }
 
     /**
@@ -401,7 +405,7 @@ class PayerAuthEnrollService
      */
     public function getHttpUserAgent()
     {
-      return $this->httpUserAgent;
+        return $this->httpUserAgent;
     }
 
     /**
@@ -410,8 +414,9 @@ class PayerAuthEnrollService
      */
     public function setHttpUserAgent($httpUserAgent)
     {
-      $this->httpUserAgent = $httpUserAgent;
-      return $this;
+        $this->httpUserAgent = $httpUserAgent;
+
+        return $this;
     }
 
     /**
@@ -419,7 +424,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantName()
     {
-      return $this->merchantName;
+        return $this->merchantName;
     }
 
     /**
@@ -428,8 +433,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantName($merchantName)
     {
-      $this->merchantName = $merchantName;
-      return $this;
+        $this->merchantName = $merchantName;
+
+        return $this;
     }
 
     /**
@@ -437,7 +443,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantURL()
     {
-      return $this->merchantURL;
+        return $this->merchantURL;
     }
 
     /**
@@ -446,8 +452,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantURL($merchantURL)
     {
-      $this->merchantURL = $merchantURL;
-      return $this;
+        $this->merchantURL = $merchantURL;
+
+        return $this;
     }
 
     /**
@@ -455,7 +462,7 @@ class PayerAuthEnrollService
      */
     public function getPurchaseDescription()
     {
-      return $this->purchaseDescription;
+        return $this->purchaseDescription;
     }
 
     /**
@@ -464,8 +471,9 @@ class PayerAuthEnrollService
      */
     public function setPurchaseDescription($purchaseDescription)
     {
-      $this->purchaseDescription = $purchaseDescription;
-      return $this;
+        $this->purchaseDescription = $purchaseDescription;
+
+        return $this;
     }
 
     /**
@@ -473,29 +481,30 @@ class PayerAuthEnrollService
      */
     public function getPurchaseTime()
     {
-      if ($this->purchaseTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->purchaseTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->purchaseTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->purchaseTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $purchaseTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
      */
-    public function setPurchaseTime(\DateTime $purchaseTime = null)
+    public function setPurchaseTime(DateTime $purchaseTime = null)
     {
-      if ($purchaseTime == null) {
-       $this->purchaseTime = null;
-      } else {
-        $this->purchaseTime = $purchaseTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($purchaseTime == null) {
+            $this->purchaseTime = null;
+        } else {
+            $this->purchaseTime = $purchaseTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -503,7 +512,7 @@ class PayerAuthEnrollService
      */
     public function getCountryCode()
     {
-      return $this->countryCode;
+        return $this->countryCode;
     }
 
     /**
@@ -512,8 +521,9 @@ class PayerAuthEnrollService
      */
     public function setCountryCode($countryCode)
     {
-      $this->countryCode = $countryCode;
-      return $this;
+        $this->countryCode = $countryCode;
+
+        return $this;
     }
 
     /**
@@ -521,7 +531,7 @@ class PayerAuthEnrollService
      */
     public function getAcquirerBin()
     {
-      return $this->acquirerBin;
+        return $this->acquirerBin;
     }
 
     /**
@@ -530,8 +540,9 @@ class PayerAuthEnrollService
      */
     public function setAcquirerBin($acquirerBin)
     {
-      $this->acquirerBin = $acquirerBin;
-      return $this;
+        $this->acquirerBin = $acquirerBin;
+
+        return $this;
     }
 
     /**
@@ -539,7 +550,7 @@ class PayerAuthEnrollService
      */
     public function getLoginID()
     {
-      return $this->loginID;
+        return $this->loginID;
     }
 
     /**
@@ -548,8 +559,9 @@ class PayerAuthEnrollService
      */
     public function setLoginID($loginID)
     {
-      $this->loginID = $loginID;
-      return $this;
+        $this->loginID = $loginID;
+
+        return $this;
     }
 
     /**
@@ -557,7 +569,7 @@ class PayerAuthEnrollService
      */
     public function getPassword()
     {
-      return $this->password;
+        return $this->password;
     }
 
     /**
@@ -566,8 +578,9 @@ class PayerAuthEnrollService
      */
     public function setPassword($password)
     {
-      $this->password = $password;
-      return $this;
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -575,7 +588,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantID()
     {
-      return $this->merchantID;
+        return $this->merchantID;
     }
 
     /**
@@ -584,8 +597,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantID($merchantID)
     {
-      $this->merchantID = $merchantID;
-      return $this;
+        $this->merchantID = $merchantID;
+
+        return $this;
     }
 
     /**
@@ -593,7 +607,7 @@ class PayerAuthEnrollService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -602,8 +616,9 @@ class PayerAuthEnrollService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -611,7 +626,7 @@ class PayerAuthEnrollService
      */
     public function getMobilePhone()
     {
-      return $this->mobilePhone;
+        return $this->mobilePhone;
     }
 
     /**
@@ -620,8 +635,9 @@ class PayerAuthEnrollService
      */
     public function setMobilePhone($mobilePhone)
     {
-      $this->mobilePhone = $mobilePhone;
-      return $this;
+        $this->mobilePhone = $mobilePhone;
+
+        return $this;
     }
 
     /**
@@ -629,7 +645,7 @@ class PayerAuthEnrollService
      */
     public function getMCC()
     {
-      return $this->MCC;
+        return $this->MCC;
     }
 
     /**
@@ -638,8 +654,9 @@ class PayerAuthEnrollService
      */
     public function setMCC($MCC)
     {
-      $this->MCC = $MCC;
-      return $this;
+        $this->MCC = $MCC;
+
+        return $this;
     }
 
     /**
@@ -647,7 +664,7 @@ class PayerAuthEnrollService
      */
     public function getProductCode()
     {
-      return $this->productCode;
+        return $this->productCode;
     }
 
     /**
@@ -656,8 +673,9 @@ class PayerAuthEnrollService
      */
     public function setProductCode($productCode)
     {
-      $this->productCode = $productCode;
-      return $this;
+        $this->productCode = $productCode;
+
+        return $this;
     }
 
     /**
@@ -665,7 +683,7 @@ class PayerAuthEnrollService
      */
     public function getReferenceID()
     {
-      return $this->referenceID;
+        return $this->referenceID;
     }
 
     /**
@@ -674,8 +692,9 @@ class PayerAuthEnrollService
      */
     public function setReferenceID($referenceID)
     {
-      $this->referenceID = $referenceID;
-      return $this;
+        $this->referenceID = $referenceID;
+
+        return $this;
     }
 
     /**
@@ -683,7 +702,7 @@ class PayerAuthEnrollService
      */
     public function getMarketingOptIn()
     {
-      return $this->marketingOptIn;
+        return $this->marketingOptIn;
     }
 
     /**
@@ -692,8 +711,9 @@ class PayerAuthEnrollService
      */
     public function setMarketingOptIn($marketingOptIn)
     {
-      $this->marketingOptIn = $marketingOptIn;
-      return $this;
+        $this->marketingOptIn = $marketingOptIn;
+
+        return $this;
     }
 
     /**
@@ -701,7 +721,7 @@ class PayerAuthEnrollService
      */
     public function getMarketingSource()
     {
-      return $this->marketingSource;
+        return $this->marketingSource;
     }
 
     /**
@@ -710,8 +730,9 @@ class PayerAuthEnrollService
      */
     public function setMarketingSource($marketingSource)
     {
-      $this->marketingSource = $marketingSource;
-      return $this;
+        $this->marketingSource = $marketingSource;
+
+        return $this;
     }
 
     /**
@@ -719,7 +740,7 @@ class PayerAuthEnrollService
      */
     public function getDefaultCard()
     {
-      return $this->defaultCard;
+        return $this->defaultCard;
     }
 
     /**
@@ -728,8 +749,9 @@ class PayerAuthEnrollService
      */
     public function setDefaultCard($defaultCard)
     {
-      $this->defaultCard = $defaultCard;
-      return $this;
+        $this->defaultCard = $defaultCard;
+
+        return $this;
     }
 
     /**
@@ -737,7 +759,7 @@ class PayerAuthEnrollService
      */
     public function getShipAddressUsageDate()
     {
-      return $this->shipAddressUsageDate;
+        return $this->shipAddressUsageDate;
     }
 
     /**
@@ -746,8 +768,9 @@ class PayerAuthEnrollService
      */
     public function setShipAddressUsageDate($shipAddressUsageDate)
     {
-      $this->shipAddressUsageDate = $shipAddressUsageDate;
-      return $this;
+        $this->shipAddressUsageDate = $shipAddressUsageDate;
+
+        return $this;
     }
 
     /**
@@ -755,7 +778,7 @@ class PayerAuthEnrollService
      */
     public function getTransactionCountDay()
     {
-      return $this->transactionCountDay;
+        return $this->transactionCountDay;
     }
 
     /**
@@ -764,8 +787,9 @@ class PayerAuthEnrollService
      */
     public function setTransactionCountDay($transactionCountDay)
     {
-      $this->transactionCountDay = $transactionCountDay;
-      return $this;
+        $this->transactionCountDay = $transactionCountDay;
+
+        return $this;
     }
 
     /**
@@ -773,7 +797,7 @@ class PayerAuthEnrollService
      */
     public function getTransactionCountYear()
     {
-      return $this->transactionCountYear;
+        return $this->transactionCountYear;
     }
 
     /**
@@ -782,8 +806,9 @@ class PayerAuthEnrollService
      */
     public function setTransactionCountYear($transactionCountYear)
     {
-      $this->transactionCountYear = $transactionCountYear;
-      return $this;
+        $this->transactionCountYear = $transactionCountYear;
+
+        return $this;
     }
 
     /**
@@ -791,7 +816,7 @@ class PayerAuthEnrollService
      */
     public function getAddCardAttempts()
     {
-      return $this->addCardAttempts;
+        return $this->addCardAttempts;
     }
 
     /**
@@ -800,8 +825,9 @@ class PayerAuthEnrollService
      */
     public function setAddCardAttempts($addCardAttempts)
     {
-      $this->addCardAttempts = $addCardAttempts;
-      return $this;
+        $this->addCardAttempts = $addCardAttempts;
+
+        return $this;
     }
 
     /**
@@ -809,7 +835,7 @@ class PayerAuthEnrollService
      */
     public function getAccountPurchases()
     {
-      return $this->accountPurchases;
+        return $this->accountPurchases;
     }
 
     /**
@@ -818,8 +844,9 @@ class PayerAuthEnrollService
      */
     public function setAccountPurchases($accountPurchases)
     {
-      $this->accountPurchases = $accountPurchases;
-      return $this;
+        $this->accountPurchases = $accountPurchases;
+
+        return $this;
     }
 
     /**
@@ -827,7 +854,7 @@ class PayerAuthEnrollService
      */
     public function getFraudActivity()
     {
-      return $this->fraudActivity;
+        return $this->fraudActivity;
     }
 
     /**
@@ -836,8 +863,9 @@ class PayerAuthEnrollService
      */
     public function setFraudActivity($fraudActivity)
     {
-      $this->fraudActivity = $fraudActivity;
-      return $this;
+        $this->fraudActivity = $fraudActivity;
+
+        return $this;
     }
 
     /**
@@ -845,7 +873,7 @@ class PayerAuthEnrollService
      */
     public function getPaymentAccountDate()
     {
-      return $this->paymentAccountDate;
+        return $this->paymentAccountDate;
     }
 
     /**
@@ -854,8 +882,9 @@ class PayerAuthEnrollService
      */
     public function setPaymentAccountDate($paymentAccountDate)
     {
-      $this->paymentAccountDate = $paymentAccountDate;
-      return $this;
+        $this->paymentAccountDate = $paymentAccountDate;
+
+        return $this;
     }
 
     /**
@@ -863,7 +892,7 @@ class PayerAuthEnrollService
      */
     public function getAlternateAuthenticationMethod()
     {
-      return $this->alternateAuthenticationMethod;
+        return $this->alternateAuthenticationMethod;
     }
 
     /**
@@ -872,8 +901,9 @@ class PayerAuthEnrollService
      */
     public function setAlternateAuthenticationMethod($alternateAuthenticationMethod)
     {
-      $this->alternateAuthenticationMethod = $alternateAuthenticationMethod;
-      return $this;
+        $this->alternateAuthenticationMethod = $alternateAuthenticationMethod;
+
+        return $this;
     }
 
     /**
@@ -881,7 +911,7 @@ class PayerAuthEnrollService
      */
     public function getAlternateAuthenticationDate()
     {
-      return $this->alternateAuthenticationDate;
+        return $this->alternateAuthenticationDate;
     }
 
     /**
@@ -890,8 +920,9 @@ class PayerAuthEnrollService
      */
     public function setAlternateAuthenticationDate($alternateAuthenticationDate)
     {
-      $this->alternateAuthenticationDate = $alternateAuthenticationDate;
-      return $this;
+        $this->alternateAuthenticationDate = $alternateAuthenticationDate;
+
+        return $this;
     }
 
     /**
@@ -899,7 +930,7 @@ class PayerAuthEnrollService
      */
     public function getAlternateAuthenticationData()
     {
-      return $this->alternateAuthenticationData;
+        return $this->alternateAuthenticationData;
     }
 
     /**
@@ -908,8 +939,9 @@ class PayerAuthEnrollService
      */
     public function setAlternateAuthenticationData($alternateAuthenticationData)
     {
-      $this->alternateAuthenticationData = $alternateAuthenticationData;
-      return $this;
+        $this->alternateAuthenticationData = $alternateAuthenticationData;
+
+        return $this;
     }
 
     /**
@@ -917,7 +949,7 @@ class PayerAuthEnrollService
      */
     public function getChallengeRequired()
     {
-      return $this->challengeRequired;
+        return $this->challengeRequired;
     }
 
     /**
@@ -926,8 +958,9 @@ class PayerAuthEnrollService
      */
     public function setChallengeRequired($challengeRequired)
     {
-      $this->challengeRequired = $challengeRequired;
-      return $this;
+        $this->challengeRequired = $challengeRequired;
+
+        return $this;
     }
 
     /**
@@ -935,7 +968,7 @@ class PayerAuthEnrollService
      */
     public function getChallengeCode()
     {
-      return $this->challengeCode;
+        return $this->challengeCode;
     }
 
     /**
@@ -944,8 +977,9 @@ class PayerAuthEnrollService
      */
     public function setChallengeCode($challengeCode)
     {
-      $this->challengeCode = $challengeCode;
-      return $this;
+        $this->challengeCode = $challengeCode;
+
+        return $this;
     }
 
     /**
@@ -953,7 +987,7 @@ class PayerAuthEnrollService
      */
     public function getPreorder()
     {
-      return $this->preorder;
+        return $this->preorder;
     }
 
     /**
@@ -962,8 +996,9 @@ class PayerAuthEnrollService
      */
     public function setPreorder($preorder)
     {
-      $this->preorder = $preorder;
-      return $this;
+        $this->preorder = $preorder;
+
+        return $this;
     }
 
     /**
@@ -971,7 +1006,7 @@ class PayerAuthEnrollService
      */
     public function getReorder()
     {
-      return $this->reorder;
+        return $this->reorder;
     }
 
     /**
@@ -980,8 +1015,9 @@ class PayerAuthEnrollService
      */
     public function setReorder($reorder)
     {
-      $this->reorder = $reorder;
-      return $this;
+        $this->reorder = $reorder;
+
+        return $this;
     }
 
     /**
@@ -989,7 +1025,7 @@ class PayerAuthEnrollService
      */
     public function getPreorderDate()
     {
-      return $this->preorderDate;
+        return $this->preorderDate;
     }
 
     /**
@@ -998,8 +1034,9 @@ class PayerAuthEnrollService
      */
     public function setPreorderDate($preorderDate)
     {
-      $this->preorderDate = $preorderDate;
-      return $this;
+        $this->preorderDate = $preorderDate;
+
+        return $this;
     }
 
     /**
@@ -1007,7 +1044,7 @@ class PayerAuthEnrollService
      */
     public function getGiftCardAmount()
     {
-      return $this->giftCardAmount;
+        return $this->giftCardAmount;
     }
 
     /**
@@ -1016,8 +1053,9 @@ class PayerAuthEnrollService
      */
     public function setGiftCardAmount($giftCardAmount)
     {
-      $this->giftCardAmount = $giftCardAmount;
-      return $this;
+        $this->giftCardAmount = $giftCardAmount;
+
+        return $this;
     }
 
     /**
@@ -1025,7 +1063,7 @@ class PayerAuthEnrollService
      */
     public function getGiftCardCurrency()
     {
-      return $this->giftCardCurrency;
+        return $this->giftCardCurrency;
     }
 
     /**
@@ -1034,8 +1072,9 @@ class PayerAuthEnrollService
      */
     public function setGiftCardCurrency($giftCardCurrency)
     {
-      $this->giftCardCurrency = $giftCardCurrency;
-      return $this;
+        $this->giftCardCurrency = $giftCardCurrency;
+
+        return $this;
     }
 
     /**
@@ -1043,7 +1082,7 @@ class PayerAuthEnrollService
      */
     public function getGiftCardCount()
     {
-      return $this->giftCardCount;
+        return $this->giftCardCount;
     }
 
     /**
@@ -1052,8 +1091,9 @@ class PayerAuthEnrollService
      */
     public function setGiftCardCount($giftCardCount)
     {
-      $this->giftCardCount = $giftCardCount;
-      return $this;
+        $this->giftCardCount = $giftCardCount;
+
+        return $this;
     }
 
     /**
@@ -1061,7 +1101,7 @@ class PayerAuthEnrollService
      */
     public function getMessageCategory()
     {
-      return $this->messageCategory;
+        return $this->messageCategory;
     }
 
     /**
@@ -1070,8 +1110,9 @@ class PayerAuthEnrollService
      */
     public function setMessageCategory($messageCategory)
     {
-      $this->messageCategory = $messageCategory;
-      return $this;
+        $this->messageCategory = $messageCategory;
+
+        return $this;
     }
 
     /**
@@ -1079,7 +1120,7 @@ class PayerAuthEnrollService
      */
     public function getNpaCode()
     {
-      return $this->npaCode;
+        return $this->npaCode;
     }
 
     /**
@@ -1088,8 +1129,9 @@ class PayerAuthEnrollService
      */
     public function setNpaCode($npaCode)
     {
-      $this->npaCode = $npaCode;
-      return $this;
+        $this->npaCode = $npaCode;
+
+        return $this;
     }
 
     /**
@@ -1097,7 +1139,7 @@ class PayerAuthEnrollService
      */
     public function getRecurringOriginalPurchaseDate()
     {
-      return $this->recurringOriginalPurchaseDate;
+        return $this->recurringOriginalPurchaseDate;
     }
 
     /**
@@ -1106,8 +1148,9 @@ class PayerAuthEnrollService
      */
     public function setRecurringOriginalPurchaseDate($recurringOriginalPurchaseDate)
     {
-      $this->recurringOriginalPurchaseDate = $recurringOriginalPurchaseDate;
-      return $this;
+        $this->recurringOriginalPurchaseDate = $recurringOriginalPurchaseDate;
+
+        return $this;
     }
 
     /**
@@ -1115,7 +1158,7 @@ class PayerAuthEnrollService
      */
     public function getTransactionMode()
     {
-      return $this->transactionMode;
+        return $this->transactionMode;
     }
 
     /**
@@ -1124,8 +1167,9 @@ class PayerAuthEnrollService
      */
     public function setTransactionMode($transactionMode)
     {
-      $this->transactionMode = $transactionMode;
-      return $this;
+        $this->transactionMode = $transactionMode;
+
+        return $this;
     }
 
     /**
@@ -1133,7 +1177,7 @@ class PayerAuthEnrollService
      */
     public function getRecurringEndDate()
     {
-      return $this->recurringEndDate;
+        return $this->recurringEndDate;
     }
 
     /**
@@ -1142,8 +1186,9 @@ class PayerAuthEnrollService
      */
     public function setRecurringEndDate($recurringEndDate)
     {
-      $this->recurringEndDate = $recurringEndDate;
-      return $this;
+        $this->recurringEndDate = $recurringEndDate;
+
+        return $this;
     }
 
     /**
@@ -1151,7 +1196,7 @@ class PayerAuthEnrollService
      */
     public function getRecurringFrequency()
     {
-      return $this->recurringFrequency;
+        return $this->recurringFrequency;
     }
 
     /**
@@ -1160,8 +1205,9 @@ class PayerAuthEnrollService
      */
     public function setRecurringFrequency($recurringFrequency)
     {
-      $this->recurringFrequency = $recurringFrequency;
-      return $this;
+        $this->recurringFrequency = $recurringFrequency;
+
+        return $this;
     }
 
     /**
@@ -1169,7 +1215,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantNewCustomer()
     {
-      return $this->merchantNewCustomer;
+        return $this->merchantNewCustomer;
     }
 
     /**
@@ -1178,8 +1224,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantNewCustomer($merchantNewCustomer)
     {
-      $this->merchantNewCustomer = $merchantNewCustomer;
-      return $this;
+        $this->merchantNewCustomer = $merchantNewCustomer;
+
+        return $this;
     }
 
     /**
@@ -1187,7 +1234,7 @@ class PayerAuthEnrollService
      */
     public function getCustomerCCAlias()
     {
-      return $this->customerCCAlias;
+        return $this->customerCCAlias;
     }
 
     /**
@@ -1196,8 +1243,9 @@ class PayerAuthEnrollService
      */
     public function setCustomerCCAlias($customerCCAlias)
     {
-      $this->customerCCAlias = $customerCCAlias;
-      return $this;
+        $this->customerCCAlias = $customerCCAlias;
+
+        return $this;
     }
 
     /**
@@ -1205,7 +1253,7 @@ class PayerAuthEnrollService
      */
     public function getInstallmentTotalCount()
     {
-      return $this->installmentTotalCount;
+        return $this->installmentTotalCount;
     }
 
     /**
@@ -1214,8 +1262,9 @@ class PayerAuthEnrollService
      */
     public function setInstallmentTotalCount($installmentTotalCount)
     {
-      $this->installmentTotalCount = $installmentTotalCount;
-      return $this;
+        $this->installmentTotalCount = $installmentTotalCount;
+
+        return $this;
     }
 
     /**
@@ -1223,7 +1272,7 @@ class PayerAuthEnrollService
      */
     public function getAuthenticationTransactionID()
     {
-      return $this->authenticationTransactionID;
+        return $this->authenticationTransactionID;
     }
 
     /**
@@ -1232,8 +1281,9 @@ class PayerAuthEnrollService
      */
     public function setAuthenticationTransactionID($authenticationTransactionID)
     {
-      $this->authenticationTransactionID = $authenticationTransactionID;
-      return $this;
+        $this->authenticationTransactionID = $authenticationTransactionID;
+
+        return $this;
     }
 
     /**
@@ -1241,7 +1291,7 @@ class PayerAuthEnrollService
      */
     public function getHttpUserAccept()
     {
-      return $this->httpUserAccept;
+        return $this->httpUserAccept;
     }
 
     /**
@@ -1250,8 +1300,9 @@ class PayerAuthEnrollService
      */
     public function setHttpUserAccept($httpUserAccept)
     {
-      $this->httpUserAccept = $httpUserAccept;
-      return $this;
+        $this->httpUserAccept = $httpUserAccept;
+
+        return $this;
     }
 
     /**
@@ -1259,7 +1310,7 @@ class PayerAuthEnrollService
      */
     public function getMobilePhoneDomestic()
     {
-      return $this->mobilePhoneDomestic;
+        return $this->mobilePhoneDomestic;
     }
 
     /**
@@ -1268,8 +1319,9 @@ class PayerAuthEnrollService
      */
     public function setMobilePhoneDomestic($mobilePhoneDomestic)
     {
-      $this->mobilePhoneDomestic = $mobilePhoneDomestic;
-      return $this;
+        $this->mobilePhoneDomestic = $mobilePhoneDomestic;
+
+        return $this;
     }
 
     /**
@@ -1277,7 +1329,7 @@ class PayerAuthEnrollService
      */
     public function getPareqChannel()
     {
-      return $this->pareqChannel;
+        return $this->pareqChannel;
     }
 
     /**
@@ -1286,8 +1338,9 @@ class PayerAuthEnrollService
      */
     public function setPareqChannel($pareqChannel)
     {
-      $this->pareqChannel = $pareqChannel;
-      return $this;
+        $this->pareqChannel = $pareqChannel;
+
+        return $this;
     }
 
     /**
@@ -1295,7 +1348,7 @@ class PayerAuthEnrollService
      */
     public function getShoppingChannel()
     {
-      return $this->shoppingChannel;
+        return $this->shoppingChannel;
     }
 
     /**
@@ -1304,8 +1357,9 @@ class PayerAuthEnrollService
      */
     public function setShoppingChannel($shoppingChannel)
     {
-      $this->shoppingChannel = $shoppingChannel;
-      return $this;
+        $this->shoppingChannel = $shoppingChannel;
+
+        return $this;
     }
 
     /**
@@ -1313,7 +1367,7 @@ class PayerAuthEnrollService
      */
     public function getAuthenticationChannel()
     {
-      return $this->authenticationChannel;
+        return $this->authenticationChannel;
     }
 
     /**
@@ -1322,8 +1376,9 @@ class PayerAuthEnrollService
      */
     public function setAuthenticationChannel($authenticationChannel)
     {
-      $this->authenticationChannel = $authenticationChannel;
-      return $this;
+        $this->authenticationChannel = $authenticationChannel;
+
+        return $this;
     }
 
     /**
@@ -1331,7 +1386,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantTTPCredential()
     {
-      return $this->merchantTTPCredential;
+        return $this->merchantTTPCredential;
     }
 
     /**
@@ -1340,8 +1395,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantTTPCredential($merchantTTPCredential)
     {
-      $this->merchantTTPCredential = $merchantTTPCredential;
-      return $this;
+        $this->merchantTTPCredential = $merchantTTPCredential;
+
+        return $this;
     }
 
     /**
@@ -1349,7 +1405,7 @@ class PayerAuthEnrollService
      */
     public function getRequestorID()
     {
-      return $this->requestorID;
+        return $this->requestorID;
     }
 
     /**
@@ -1358,8 +1414,9 @@ class PayerAuthEnrollService
      */
     public function setRequestorID($requestorID)
     {
-      $this->requestorID = $requestorID;
-      return $this;
+        $this->requestorID = $requestorID;
+
+        return $this;
     }
 
     /**
@@ -1367,7 +1424,7 @@ class PayerAuthEnrollService
      */
     public function getRequestorName()
     {
-      return $this->requestorName;
+        return $this->requestorName;
     }
 
     /**
@@ -1376,8 +1433,9 @@ class PayerAuthEnrollService
      */
     public function setRequestorName($requestorName)
     {
-      $this->requestorName = $requestorName;
-      return $this;
+        $this->requestorName = $requestorName;
+
+        return $this;
     }
 
     /**
@@ -1385,7 +1443,7 @@ class PayerAuthEnrollService
      */
     public function getAcsWindowSize()
     {
-      return $this->acsWindowSize;
+        return $this->acsWindowSize;
     }
 
     /**
@@ -1394,8 +1452,9 @@ class PayerAuthEnrollService
      */
     public function setAcsWindowSize($acsWindowSize)
     {
-      $this->acsWindowSize = $acsWindowSize;
-      return $this;
+        $this->acsWindowSize = $acsWindowSize;
+
+        return $this;
     }
 
     /**
@@ -1403,7 +1462,7 @@ class PayerAuthEnrollService
      */
     public function getDecoupledAuthenticationIndicator()
     {
-      return $this->decoupledAuthenticationIndicator;
+        return $this->decoupledAuthenticationIndicator;
     }
 
     /**
@@ -1412,8 +1471,9 @@ class PayerAuthEnrollService
      */
     public function setDecoupledAuthenticationIndicator($decoupledAuthenticationIndicator)
     {
-      $this->decoupledAuthenticationIndicator = $decoupledAuthenticationIndicator;
-      return $this;
+        $this->decoupledAuthenticationIndicator = $decoupledAuthenticationIndicator;
+
+        return $this;
     }
 
     /**
@@ -1421,7 +1481,7 @@ class PayerAuthEnrollService
      */
     public function getDecoupledAuthenticationMaxTime()
     {
-      return $this->decoupledAuthenticationMaxTime;
+        return $this->decoupledAuthenticationMaxTime;
     }
 
     /**
@@ -1430,8 +1490,9 @@ class PayerAuthEnrollService
      */
     public function setDecoupledAuthenticationMaxTime($decoupledAuthenticationMaxTime)
     {
-      $this->decoupledAuthenticationMaxTime = $decoupledAuthenticationMaxTime;
-      return $this;
+        $this->decoupledAuthenticationMaxTime = $decoupledAuthenticationMaxTime;
+
+        return $this;
     }
 
     /**
@@ -1439,7 +1500,7 @@ class PayerAuthEnrollService
      */
     public function getDeviceChannel()
     {
-      return $this->deviceChannel;
+        return $this->deviceChannel;
     }
 
     /**
@@ -1448,8 +1509,9 @@ class PayerAuthEnrollService
      */
     public function setDeviceChannel($deviceChannel)
     {
-      $this->deviceChannel = $deviceChannel;
-      return $this;
+        $this->deviceChannel = $deviceChannel;
+
+        return $this;
     }
 
     /**
@@ -1457,7 +1519,7 @@ class PayerAuthEnrollService
      */
     public function getPriorAuthenticationReferenceID()
     {
-      return $this->priorAuthenticationReferenceID;
+        return $this->priorAuthenticationReferenceID;
     }
 
     /**
@@ -1466,8 +1528,9 @@ class PayerAuthEnrollService
      */
     public function setPriorAuthenticationReferenceID($priorAuthenticationReferenceID)
     {
-      $this->priorAuthenticationReferenceID = $priorAuthenticationReferenceID;
-      return $this;
+        $this->priorAuthenticationReferenceID = $priorAuthenticationReferenceID;
+
+        return $this;
     }
 
     /**
@@ -1475,7 +1538,7 @@ class PayerAuthEnrollService
      */
     public function getPriorAuthenticationData()
     {
-      return $this->priorAuthenticationData;
+        return $this->priorAuthenticationData;
     }
 
     /**
@@ -1484,8 +1547,9 @@ class PayerAuthEnrollService
      */
     public function setPriorAuthenticationData($priorAuthenticationData)
     {
-      $this->priorAuthenticationData = $priorAuthenticationData;
-      return $this;
+        $this->priorAuthenticationData = $priorAuthenticationData;
+
+        return $this;
     }
 
     /**
@@ -1493,7 +1557,7 @@ class PayerAuthEnrollService
      */
     public function getPriorAuthenticationMethod()
     {
-      return $this->priorAuthenticationMethod;
+        return $this->priorAuthenticationMethod;
     }
 
     /**
@@ -1502,8 +1566,9 @@ class PayerAuthEnrollService
      */
     public function setPriorAuthenticationMethod($priorAuthenticationMethod)
     {
-      $this->priorAuthenticationMethod = $priorAuthenticationMethod;
-      return $this;
+        $this->priorAuthenticationMethod = $priorAuthenticationMethod;
+
+        return $this;
     }
 
     /**
@@ -1511,7 +1576,7 @@ class PayerAuthEnrollService
      */
     public function getPriorAuthenticationTime()
     {
-      return $this->priorAuthenticationTime;
+        return $this->priorAuthenticationTime;
     }
 
     /**
@@ -1520,8 +1585,9 @@ class PayerAuthEnrollService
      */
     public function setPriorAuthenticationTime($priorAuthenticationTime)
     {
-      $this->priorAuthenticationTime = $priorAuthenticationTime;
-      return $this;
+        $this->priorAuthenticationTime = $priorAuthenticationTime;
+
+        return $this;
     }
 
     /**
@@ -1529,7 +1595,7 @@ class PayerAuthEnrollService
      */
     public function getRequestorInitiatedAuthenticationIndicator()
     {
-      return $this->requestorInitiatedAuthenticationIndicator;
+        return $this->requestorInitiatedAuthenticationIndicator;
     }
 
     /**
@@ -1538,8 +1604,9 @@ class PayerAuthEnrollService
      */
     public function setRequestorInitiatedAuthenticationIndicator($requestorInitiatedAuthenticationIndicator)
     {
-      $this->requestorInitiatedAuthenticationIndicator = $requestorInitiatedAuthenticationIndicator;
-      return $this;
+        $this->requestorInitiatedAuthenticationIndicator = $requestorInitiatedAuthenticationIndicator;
+
+        return $this;
     }
 
     /**
@@ -1547,7 +1614,7 @@ class PayerAuthEnrollService
      */
     public function getSdkMaxTimeout()
     {
-      return $this->sdkMaxTimeout;
+        return $this->sdkMaxTimeout;
     }
 
     /**
@@ -1556,8 +1623,9 @@ class PayerAuthEnrollService
      */
     public function setSdkMaxTimeout($sdkMaxTimeout)
     {
-      $this->sdkMaxTimeout = $sdkMaxTimeout;
-      return $this;
+        $this->sdkMaxTimeout = $sdkMaxTimeout;
+
+        return $this;
     }
 
     /**
@@ -1565,7 +1633,7 @@ class PayerAuthEnrollService
      */
     public function getAuthenticationIndicator()
     {
-      return $this->authenticationIndicator;
+        return $this->authenticationIndicator;
     }
 
     /**
@@ -1574,8 +1642,9 @@ class PayerAuthEnrollService
      */
     public function setAuthenticationIndicator($authenticationIndicator)
     {
-      $this->authenticationIndicator = $authenticationIndicator;
-      return $this;
+        $this->authenticationIndicator = $authenticationIndicator;
+
+        return $this;
     }
 
     /**
@@ -1583,7 +1652,7 @@ class PayerAuthEnrollService
      */
     public function getWhiteListStatus()
     {
-      return $this->whiteListStatus;
+        return $this->whiteListStatus;
     }
 
     /**
@@ -1592,8 +1661,9 @@ class PayerAuthEnrollService
      */
     public function setWhiteListStatus($whiteListStatus)
     {
-      $this->whiteListStatus = $whiteListStatus;
-      return $this;
+        $this->whiteListStatus = $whiteListStatus;
+
+        return $this;
     }
 
     /**
@@ -1601,7 +1671,7 @@ class PayerAuthEnrollService
      */
     public function getTotalOffersCount()
     {
-      return $this->totalOffersCount;
+        return $this->totalOffersCount;
     }
 
     /**
@@ -1610,8 +1680,9 @@ class PayerAuthEnrollService
      */
     public function setTotalOffersCount($totalOffersCount)
     {
-      $this->totalOffersCount = $totalOffersCount;
-      return $this;
+        $this->totalOffersCount = $totalOffersCount;
+
+        return $this;
     }
 
     /**
@@ -1619,7 +1690,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantScore()
     {
-      return $this->merchantScore;
+        return $this->merchantScore;
     }
 
     /**
@@ -1628,8 +1699,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantScore($merchantScore)
     {
-      $this->merchantScore = $merchantScore;
-      return $this;
+        $this->merchantScore = $merchantScore;
+
+        return $this;
     }
 
     /**
@@ -1637,7 +1709,7 @@ class PayerAuthEnrollService
      */
     public function getMerchantFraudRate()
     {
-      return $this->merchantFraudRate;
+        return $this->merchantFraudRate;
     }
 
     /**
@@ -1646,8 +1718,9 @@ class PayerAuthEnrollService
      */
     public function setMerchantFraudRate($merchantFraudRate)
     {
-      $this->merchantFraudRate = $merchantFraudRate;
-      return $this;
+        $this->merchantFraudRate = $merchantFraudRate;
+
+        return $this;
     }
 
     /**
@@ -1655,7 +1728,7 @@ class PayerAuthEnrollService
      */
     public function getAcquirerCountry()
     {
-      return $this->acquirerCountry;
+        return $this->acquirerCountry;
     }
 
     /**
@@ -1664,8 +1737,9 @@ class PayerAuthEnrollService
      */
     public function setAcquirerCountry($acquirerCountry)
     {
-      $this->acquirerCountry = $acquirerCountry;
-      return $this;
+        $this->acquirerCountry = $acquirerCountry;
+
+        return $this;
     }
 
     /**
@@ -1673,7 +1747,7 @@ class PayerAuthEnrollService
      */
     public function getSecureCorporatePaymentIndicator()
     {
-      return $this->secureCorporatePaymentIndicator;
+        return $this->secureCorporatePaymentIndicator;
     }
 
     /**
@@ -1682,8 +1756,9 @@ class PayerAuthEnrollService
      */
     public function setSecureCorporatePaymentIndicator($secureCorporatePaymentIndicator)
     {
-      $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
-      return $this;
+        $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
+
+        return $this;
     }
 
     /**
@@ -1691,7 +1766,7 @@ class PayerAuthEnrollService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -1700,8 +1775,9 @@ class PayerAuthEnrollService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -25,7 +25,7 @@ class DMEService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class DMEService
      */
     public function getEventType()
     {
-      return $this->eventType;
+        return $this->eventType;
     }
 
     /**
@@ -42,8 +42,9 @@ class DMEService
      */
     public function setEventType($eventType)
     {
-      $this->eventType = $eventType;
-      return $this;
+        $this->eventType = $eventType;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class DMEService
      */
     public function getEventPolicy()
     {
-      return $this->eventPolicy;
+        return $this->eventPolicy;
     }
 
     /**
@@ -60,8 +61,9 @@ class DMEService
      */
     public function setEventPolicy($eventPolicy)
     {
-      $this->eventPolicy = $eventPolicy;
-      return $this;
+        $this->eventPolicy = $eventPolicy;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class DMEService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class DMEService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

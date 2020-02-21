@@ -75,7 +75,7 @@ class APSaleService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -83,7 +83,7 @@ class APSaleService
      */
     public function getCancelURL()
     {
-      return $this->cancelURL;
+        return $this->cancelURL;
     }
 
     /**
@@ -92,8 +92,9 @@ class APSaleService
      */
     public function setCancelURL($cancelURL)
     {
-      $this->cancelURL = $cancelURL;
-      return $this;
+        $this->cancelURL = $cancelURL;
+
+        return $this;
     }
 
     /**
@@ -101,7 +102,7 @@ class APSaleService
      */
     public function getSuccessURL()
     {
-      return $this->successURL;
+        return $this->successURL;
     }
 
     /**
@@ -110,8 +111,9 @@ class APSaleService
      */
     public function setSuccessURL($successURL)
     {
-      $this->successURL = $successURL;
-      return $this;
+        $this->successURL = $successURL;
+
+        return $this;
     }
 
     /**
@@ -119,7 +121,7 @@ class APSaleService
      */
     public function getFailureURL()
     {
-      return $this->failureURL;
+        return $this->failureURL;
     }
 
     /**
@@ -128,8 +130,9 @@ class APSaleService
      */
     public function setFailureURL($failureURL)
     {
-      $this->failureURL = $failureURL;
-      return $this;
+        $this->failureURL = $failureURL;
+
+        return $this;
     }
 
     /**
@@ -137,7 +140,7 @@ class APSaleService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -146,8 +149,9 @@ class APSaleService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -155,7 +159,7 @@ class APSaleService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -164,8 +168,9 @@ class APSaleService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -173,7 +178,7 @@ class APSaleService
      */
     public function getPaymentOptionID()
     {
-      return $this->paymentOptionID;
+        return $this->paymentOptionID;
     }
 
     /**
@@ -182,8 +187,9 @@ class APSaleService
      */
     public function setPaymentOptionID($paymentOptionID)
     {
-      $this->paymentOptionID = $paymentOptionID;
-      return $this;
+        $this->paymentOptionID = $paymentOptionID;
+
+        return $this;
     }
 
     /**
@@ -191,7 +197,7 @@ class APSaleService
      */
     public function getTransactionTimeout()
     {
-      return $this->transactionTimeout;
+        return $this->transactionTimeout;
     }
 
     /**
@@ -200,8 +206,9 @@ class APSaleService
      */
     public function setTransactionTimeout($transactionTimeout)
     {
-      $this->transactionTimeout = $transactionTimeout;
-      return $this;
+        $this->transactionTimeout = $transactionTimeout;
+
+        return $this;
     }
 
     /**
@@ -209,7 +216,7 @@ class APSaleService
      */
     public function getOrderRequestID()
     {
-      return $this->orderRequestID;
+        return $this->orderRequestID;
     }
 
     /**
@@ -218,8 +225,9 @@ class APSaleService
      */
     public function setOrderRequestID($orderRequestID)
     {
-      $this->orderRequestID = $orderRequestID;
-      return $this;
+        $this->orderRequestID = $orderRequestID;
+
+        return $this;
     }
 
     /**
@@ -227,7 +235,7 @@ class APSaleService
      */
     public function getBillingAgreementID()
     {
-      return $this->billingAgreementID;
+        return $this->billingAgreementID;
     }
 
     /**
@@ -236,8 +244,9 @@ class APSaleService
      */
     public function setBillingAgreementID($billingAgreementID)
     {
-      $this->billingAgreementID = $billingAgreementID;
-      return $this;
+        $this->billingAgreementID = $billingAgreementID;
+
+        return $this;
     }
 
     /**
@@ -245,7 +254,7 @@ class APSaleService
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -254,8 +263,9 @@ class APSaleService
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -263,7 +273,7 @@ class APSaleService
      */
     public function getDateCollect()
     {
-      return $this->dateCollect;
+        return $this->dateCollect;
     }
 
     /**
@@ -272,8 +282,9 @@ class APSaleService
      */
     public function setDateCollect($dateCollect)
     {
-      $this->dateCollect = $dateCollect;
-      return $this;
+        $this->dateCollect = $dateCollect;
+
+        return $this;
     }
 
     /**
@@ -281,7 +292,7 @@ class APSaleService
      */
     public function getPreapprovalToken()
     {
-      return $this->preapprovalToken;
+        return $this->preapprovalToken;
     }
 
     /**
@@ -290,8 +301,9 @@ class APSaleService
      */
     public function setPreapprovalToken($preapprovalToken)
     {
-      $this->preapprovalToken = $preapprovalToken;
-      return $this;
+        $this->preapprovalToken = $preapprovalToken;
+
+        return $this;
     }
 
     /**
@@ -299,7 +311,7 @@ class APSaleService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -308,8 +320,9 @@ class APSaleService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

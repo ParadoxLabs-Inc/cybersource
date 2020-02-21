@@ -21,8 +21,8 @@ class MDDField
      */
     public function __construct($_, $id)
     {
-      $this->_ = $_;
-      $this->id = $id;
+        $this->_  = $_;
+        $this->id = $id;
     }
 
     /**
@@ -30,7 +30,7 @@ class MDDField
      */
     public function get_()
     {
-      return $this->_;
+        return $this->_;
     }
 
     /**
@@ -39,8 +39,9 @@ class MDDField
      */
     public function set_($_)
     {
-      $this->_ = $_;
-      return $this;
+        $this->_ = $_;
+
+        return $this;
     }
 
     /**
@@ -48,7 +49,7 @@ class MDDField
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -57,8 +58,9 @@ class MDDField
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

@@ -10,10 +10,8 @@ class RuleResultItems
      */
     protected $ruleResultItem = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class RuleResultItems
      */
     public function getRuleResultItem()
     {
-      return $this->ruleResultItem;
+        return $this->ruleResultItem;
     }
 
     /**
@@ -30,8 +28,9 @@ class RuleResultItems
      */
     public function setRuleResultItem(array $ruleResultItem = null)
     {
-      $this->ruleResultItem = $ruleResultItem;
-      return $this;
+        $this->ruleResultItem = $ruleResultItem;
+
+        return $this;
     }
 
 }

@@ -25,7 +25,7 @@ class PayPalTransactionSearchReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -33,7 +33,7 @@ class PayPalTransactionSearchReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -42,8 +42,9 @@ class PayPalTransactionSearchReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class PayPalTransactionSearchReply
      */
     public function getTransaction()
     {
-      return $this->transaction;
+        return $this->transaction;
     }
 
     /**
@@ -60,8 +61,9 @@ class PayPalTransactionSearchReply
      */
     public function setTransaction(array $transaction = null)
     {
-      $this->transaction = $transaction;
-      return $this;
+        $this->transaction = $transaction;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class PayPalTransactionSearchReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -78,8 +80,9 @@ class PayPalTransactionSearchReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
 }

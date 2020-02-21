@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APSessionsReply
 {
 
@@ -55,7 +58,7 @@ class APSessionsReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -63,7 +66,7 @@ class APSessionsReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -72,8 +75,9 @@ class APSessionsReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -81,7 +85,7 @@ class APSessionsReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -90,8 +94,9 @@ class APSessionsReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -99,7 +104,7 @@ class APSessionsReply
      */
     public function getMerchantURL()
     {
-      return $this->merchantURL;
+        return $this->merchantURL;
     }
 
     /**
@@ -108,8 +113,9 @@ class APSessionsReply
      */
     public function setMerchantURL($merchantURL)
     {
-      $this->merchantURL = $merchantURL;
-      return $this;
+        $this->merchantURL = $merchantURL;
+
+        return $this;
     }
 
     /**
@@ -117,7 +123,7 @@ class APSessionsReply
      */
     public function getProcessorToken()
     {
-      return $this->processorToken;
+        return $this->processorToken;
     }
 
     /**
@@ -126,8 +132,9 @@ class APSessionsReply
      */
     public function setProcessorToken($processorToken)
     {
-      $this->processorToken = $processorToken;
-      return $this;
+        $this->processorToken = $processorToken;
+
+        return $this;
     }
 
     /**
@@ -135,7 +142,7 @@ class APSessionsReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -144,8 +151,9 @@ class APSessionsReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -153,7 +161,7 @@ class APSessionsReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -162,8 +170,9 @@ class APSessionsReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -171,7 +180,7 @@ class APSessionsReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -180,8 +189,9 @@ class APSessionsReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -189,7 +199,7 @@ class APSessionsReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -198,8 +208,9 @@ class APSessionsReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -207,29 +218,30 @@ class APSessionsReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APSessionsReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

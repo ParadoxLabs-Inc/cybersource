@@ -280,7 +280,7 @@ class CCAuthService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -288,7 +288,7 @@ class CCAuthService
      */
     public function getCavv()
     {
-      return $this->cavv;
+        return $this->cavv;
     }
 
     /**
@@ -297,8 +297,9 @@ class CCAuthService
      */
     public function setCavv($cavv)
     {
-      $this->cavv = $cavv;
-      return $this;
+        $this->cavv = $cavv;
+
+        return $this;
     }
 
     /**
@@ -306,7 +307,7 @@ class CCAuthService
      */
     public function getCavvAlgorithm()
     {
-      return $this->cavvAlgorithm;
+        return $this->cavvAlgorithm;
     }
 
     /**
@@ -315,8 +316,9 @@ class CCAuthService
      */
     public function setCavvAlgorithm($cavvAlgorithm)
     {
-      $this->cavvAlgorithm = $cavvAlgorithm;
-      return $this;
+        $this->cavvAlgorithm = $cavvAlgorithm;
+
+        return $this;
     }
 
     /**
@@ -324,7 +326,7 @@ class CCAuthService
      */
     public function getNetworkTokenCryptogram()
     {
-      return $this->networkTokenCryptogram;
+        return $this->networkTokenCryptogram;
     }
 
     /**
@@ -333,8 +335,9 @@ class CCAuthService
      */
     public function setNetworkTokenCryptogram($networkTokenCryptogram)
     {
-      $this->networkTokenCryptogram = $networkTokenCryptogram;
-      return $this;
+        $this->networkTokenCryptogram = $networkTokenCryptogram;
+
+        return $this;
     }
 
     /**
@@ -342,7 +345,7 @@ class CCAuthService
      */
     public function getPaSpecificationVersion()
     {
-      return $this->paSpecificationVersion;
+        return $this->paSpecificationVersion;
     }
 
     /**
@@ -351,8 +354,9 @@ class CCAuthService
      */
     public function setPaSpecificationVersion($paSpecificationVersion)
     {
-      $this->paSpecificationVersion = $paSpecificationVersion;
-      return $this;
+        $this->paSpecificationVersion = $paSpecificationVersion;
+
+        return $this;
     }
 
     /**
@@ -360,7 +364,7 @@ class CCAuthService
      */
     public function getDirectoryServerTransactionID()
     {
-      return $this->directoryServerTransactionID;
+        return $this->directoryServerTransactionID;
     }
 
     /**
@@ -369,8 +373,9 @@ class CCAuthService
      */
     public function setDirectoryServerTransactionID($directoryServerTransactionID)
     {
-      $this->directoryServerTransactionID = $directoryServerTransactionID;
-      return $this;
+        $this->directoryServerTransactionID = $directoryServerTransactionID;
+
+        return $this;
     }
 
     /**
@@ -378,7 +383,7 @@ class CCAuthService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -387,8 +392,9 @@ class CCAuthService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -396,7 +402,7 @@ class CCAuthService
      */
     public function getEciRaw()
     {
-      return $this->eciRaw;
+        return $this->eciRaw;
     }
 
     /**
@@ -405,8 +411,9 @@ class CCAuthService
      */
     public function setEciRaw($eciRaw)
     {
-      $this->eciRaw = $eciRaw;
-      return $this;
+        $this->eciRaw = $eciRaw;
+
+        return $this;
     }
 
     /**
@@ -414,7 +421,7 @@ class CCAuthService
      */
     public function getXid()
     {
-      return $this->xid;
+        return $this->xid;
     }
 
     /**
@@ -423,8 +430,9 @@ class CCAuthService
      */
     public function setXid($xid)
     {
-      $this->xid = $xid;
-      return $this;
+        $this->xid = $xid;
+
+        return $this;
     }
 
     /**
@@ -432,7 +440,7 @@ class CCAuthService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -441,8 +449,9 @@ class CCAuthService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -450,7 +459,7 @@ class CCAuthService
      */
     public function getAvsLevel()
     {
-      return $this->avsLevel;
+        return $this->avsLevel;
     }
 
     /**
@@ -459,8 +468,9 @@ class CCAuthService
      */
     public function setAvsLevel($avsLevel)
     {
-      $this->avsLevel = $avsLevel;
-      return $this;
+        $this->avsLevel = $avsLevel;
+
+        return $this;
     }
 
     /**
@@ -468,7 +478,7 @@ class CCAuthService
      */
     public function getFxQuoteID()
     {
-      return $this->fxQuoteID;
+        return $this->fxQuoteID;
     }
 
     /**
@@ -477,8 +487,9 @@ class CCAuthService
      */
     public function setFxQuoteID($fxQuoteID)
     {
-      $this->fxQuoteID = $fxQuoteID;
-      return $this;
+        $this->fxQuoteID = $fxQuoteID;
+
+        return $this;
     }
 
     /**
@@ -486,7 +497,7 @@ class CCAuthService
      */
     public function getReturnAuthRecord()
     {
-      return $this->returnAuthRecord;
+        return $this->returnAuthRecord;
     }
 
     /**
@@ -495,8 +506,9 @@ class CCAuthService
      */
     public function setReturnAuthRecord($returnAuthRecord)
     {
-      $this->returnAuthRecord = $returnAuthRecord;
-      return $this;
+        $this->returnAuthRecord = $returnAuthRecord;
+
+        return $this;
     }
 
     /**
@@ -504,7 +516,7 @@ class CCAuthService
      */
     public function getAuthType()
     {
-      return $this->authType;
+        return $this->authType;
     }
 
     /**
@@ -513,8 +525,9 @@ class CCAuthService
      */
     public function setAuthType($authType)
     {
-      $this->authType = $authType;
-      return $this;
+        $this->authType = $authType;
+
+        return $this;
     }
 
     /**
@@ -522,7 +535,7 @@ class CCAuthService
      */
     public function getVerbalAuthCode()
     {
-      return $this->verbalAuthCode;
+        return $this->verbalAuthCode;
     }
 
     /**
@@ -531,8 +544,9 @@ class CCAuthService
      */
     public function setVerbalAuthCode($verbalAuthCode)
     {
-      $this->verbalAuthCode = $verbalAuthCode;
-      return $this;
+        $this->verbalAuthCode = $verbalAuthCode;
+
+        return $this;
     }
 
     /**
@@ -540,7 +554,7 @@ class CCAuthService
      */
     public function getBillPayment()
     {
-      return $this->billPayment;
+        return $this->billPayment;
     }
 
     /**
@@ -549,8 +563,9 @@ class CCAuthService
      */
     public function setBillPayment($billPayment)
     {
-      $this->billPayment = $billPayment;
-      return $this;
+        $this->billPayment = $billPayment;
+
+        return $this;
     }
 
     /**
@@ -558,7 +573,7 @@ class CCAuthService
      */
     public function getAuthenticationXID()
     {
-      return $this->authenticationXID;
+        return $this->authenticationXID;
     }
 
     /**
@@ -567,8 +582,9 @@ class CCAuthService
      */
     public function setAuthenticationXID($authenticationXID)
     {
-      $this->authenticationXID = $authenticationXID;
-      return $this;
+        $this->authenticationXID = $authenticationXID;
+
+        return $this;
     }
 
     /**
@@ -576,7 +592,7 @@ class CCAuthService
      */
     public function getAuthorizationXID()
     {
-      return $this->authorizationXID;
+        return $this->authorizationXID;
     }
 
     /**
@@ -585,8 +601,9 @@ class CCAuthService
      */
     public function setAuthorizationXID($authorizationXID)
     {
-      $this->authorizationXID = $authorizationXID;
-      return $this;
+        $this->authorizationXID = $authorizationXID;
+
+        return $this;
     }
 
     /**
@@ -594,7 +611,7 @@ class CCAuthService
      */
     public function getIndustryDatatype()
     {
-      return $this->industryDatatype;
+        return $this->industryDatatype;
     }
 
     /**
@@ -603,8 +620,9 @@ class CCAuthService
      */
     public function setIndustryDatatype($industryDatatype)
     {
-      $this->industryDatatype = $industryDatatype;
-      return $this;
+        $this->industryDatatype = $industryDatatype;
+
+        return $this;
     }
 
     /**
@@ -612,7 +630,7 @@ class CCAuthService
      */
     public function getTraceNumber()
     {
-      return $this->traceNumber;
+        return $this->traceNumber;
     }
 
     /**
@@ -621,8 +639,9 @@ class CCAuthService
      */
     public function setTraceNumber($traceNumber)
     {
-      $this->traceNumber = $traceNumber;
-      return $this;
+        $this->traceNumber = $traceNumber;
+
+        return $this;
     }
 
     /**
@@ -630,7 +649,7 @@ class CCAuthService
      */
     public function getChecksumKey()
     {
-      return $this->checksumKey;
+        return $this->checksumKey;
     }
 
     /**
@@ -639,8 +658,9 @@ class CCAuthService
      */
     public function setChecksumKey($checksumKey)
     {
-      $this->checksumKey = $checksumKey;
-      return $this;
+        $this->checksumKey = $checksumKey;
+
+        return $this;
     }
 
     /**
@@ -648,7 +668,7 @@ class CCAuthService
      */
     public function getAggregatorID()
     {
-      return $this->aggregatorID;
+        return $this->aggregatorID;
     }
 
     /**
@@ -657,8 +677,9 @@ class CCAuthService
      */
     public function setAggregatorID($aggregatorID)
     {
-      $this->aggregatorID = $aggregatorID;
-      return $this;
+        $this->aggregatorID = $aggregatorID;
+
+        return $this;
     }
 
     /**
@@ -666,7 +687,7 @@ class CCAuthService
      */
     public function getAggregatorName()
     {
-      return $this->aggregatorName;
+        return $this->aggregatorName;
     }
 
     /**
@@ -675,8 +696,9 @@ class CCAuthService
      */
     public function setAggregatorName($aggregatorName)
     {
-      $this->aggregatorName = $aggregatorName;
-      return $this;
+        $this->aggregatorName = $aggregatorName;
+
+        return $this;
     }
 
     /**
@@ -684,7 +706,7 @@ class CCAuthService
      */
     public function getSplitTenderIndicator()
     {
-      return $this->splitTenderIndicator;
+        return $this->splitTenderIndicator;
     }
 
     /**
@@ -693,8 +715,9 @@ class CCAuthService
      */
     public function setSplitTenderIndicator($splitTenderIndicator)
     {
-      $this->splitTenderIndicator = $splitTenderIndicator;
-      return $this;
+        $this->splitTenderIndicator = $splitTenderIndicator;
+
+        return $this;
     }
 
     /**
@@ -702,7 +725,7 @@ class CCAuthService
      */
     public function getVeresEnrolled()
     {
-      return $this->veresEnrolled;
+        return $this->veresEnrolled;
     }
 
     /**
@@ -711,8 +734,9 @@ class CCAuthService
      */
     public function setVeresEnrolled($veresEnrolled)
     {
-      $this->veresEnrolled = $veresEnrolled;
-      return $this;
+        $this->veresEnrolled = $veresEnrolled;
+
+        return $this;
     }
 
     /**
@@ -720,7 +744,7 @@ class CCAuthService
      */
     public function getParesStatus()
     {
-      return $this->paresStatus;
+        return $this->paresStatus;
     }
 
     /**
@@ -729,8 +753,9 @@ class CCAuthService
      */
     public function setParesStatus($paresStatus)
     {
-      $this->paresStatus = $paresStatus;
-      return $this;
+        $this->paresStatus = $paresStatus;
+
+        return $this;
     }
 
     /**
@@ -738,7 +763,7 @@ class CCAuthService
      */
     public function getPartialAuthIndicator()
     {
-      return $this->partialAuthIndicator;
+        return $this->partialAuthIndicator;
     }
 
     /**
@@ -747,8 +772,9 @@ class CCAuthService
      */
     public function setPartialAuthIndicator($partialAuthIndicator)
     {
-      $this->partialAuthIndicator = $partialAuthIndicator;
-      return $this;
+        $this->partialAuthIndicator = $partialAuthIndicator;
+
+        return $this;
     }
 
     /**
@@ -756,7 +782,7 @@ class CCAuthService
      */
     public function getCaptureDate()
     {
-      return $this->captureDate;
+        return $this->captureDate;
     }
 
     /**
@@ -765,8 +791,9 @@ class CCAuthService
      */
     public function setCaptureDate($captureDate)
     {
-      $this->captureDate = $captureDate;
-      return $this;
+        $this->captureDate = $captureDate;
+
+        return $this;
     }
 
     /**
@@ -774,7 +801,7 @@ class CCAuthService
      */
     public function getFirstRecurringPayment()
     {
-      return $this->firstRecurringPayment;
+        return $this->firstRecurringPayment;
     }
 
     /**
@@ -783,8 +810,9 @@ class CCAuthService
      */
     public function setFirstRecurringPayment($firstRecurringPayment)
     {
-      $this->firstRecurringPayment = $firstRecurringPayment;
-      return $this;
+        $this->firstRecurringPayment = $firstRecurringPayment;
+
+        return $this;
     }
 
     /**
@@ -792,7 +820,7 @@ class CCAuthService
      */
     public function getDuration()
     {
-      return $this->duration;
+        return $this->duration;
     }
 
     /**
@@ -801,8 +829,9 @@ class CCAuthService
      */
     public function setDuration($duration)
     {
-      $this->duration = $duration;
-      return $this;
+        $this->duration = $duration;
+
+        return $this;
     }
 
     /**
@@ -810,7 +839,7 @@ class CCAuthService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -819,8 +848,9 @@ class CCAuthService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -828,7 +858,7 @@ class CCAuthService
      */
     public function getMobileRemotePaymentType()
     {
-      return $this->mobileRemotePaymentType;
+        return $this->mobileRemotePaymentType;
     }
 
     /**
@@ -837,8 +867,9 @@ class CCAuthService
      */
     public function setMobileRemotePaymentType($mobileRemotePaymentType)
     {
-      $this->mobileRemotePaymentType = $mobileRemotePaymentType;
-      return $this;
+        $this->mobileRemotePaymentType = $mobileRemotePaymentType;
+
+        return $this;
     }
 
     /**
@@ -846,7 +877,7 @@ class CCAuthService
      */
     public function getCardholderVerificationMethod()
     {
-      return $this->cardholderVerificationMethod;
+        return $this->cardholderVerificationMethod;
     }
 
     /**
@@ -855,8 +886,9 @@ class CCAuthService
      */
     public function setCardholderVerificationMethod($cardholderVerificationMethod)
     {
-      $this->cardholderVerificationMethod = $cardholderVerificationMethod;
-      return $this;
+        $this->cardholderVerificationMethod = $cardholderVerificationMethod;
+
+        return $this;
     }
 
     /**
@@ -864,7 +896,7 @@ class CCAuthService
      */
     public function getDccRequestID()
     {
-      return $this->dccRequestID;
+        return $this->dccRequestID;
     }
 
     /**
@@ -873,8 +905,9 @@ class CCAuthService
      */
     public function setDccRequestID($dccRequestID)
     {
-      $this->dccRequestID = $dccRequestID;
-      return $this;
+        $this->dccRequestID = $dccRequestID;
+
+        return $this;
     }
 
     /**
@@ -882,7 +915,7 @@ class CCAuthService
      */
     public function getOverridePaymentDetails()
     {
-      return $this->overridePaymentDetails;
+        return $this->overridePaymentDetails;
     }
 
     /**
@@ -891,8 +924,9 @@ class CCAuthService
      */
     public function setOverridePaymentDetails($overridePaymentDetails)
     {
-      $this->overridePaymentDetails = $overridePaymentDetails;
-      return $this;
+        $this->overridePaymentDetails = $overridePaymentDetails;
+
+        return $this;
     }
 
     /**
@@ -900,7 +934,7 @@ class CCAuthService
      */
     public function getCardholderAuthenticationMethod()
     {
-      return $this->cardholderAuthenticationMethod;
+        return $this->cardholderAuthenticationMethod;
     }
 
     /**
@@ -909,8 +943,9 @@ class CCAuthService
      */
     public function setCardholderAuthenticationMethod($cardholderAuthenticationMethod)
     {
-      $this->cardholderAuthenticationMethod = $cardholderAuthenticationMethod;
-      return $this;
+        $this->cardholderAuthenticationMethod = $cardholderAuthenticationMethod;
+
+        return $this;
     }
 
     /**
@@ -918,7 +953,7 @@ class CCAuthService
      */
     public function getLeastCostRouting()
     {
-      return $this->leastCostRouting;
+        return $this->leastCostRouting;
     }
 
     /**
@@ -927,8 +962,9 @@ class CCAuthService
      */
     public function setLeastCostRouting($leastCostRouting)
     {
-      $this->leastCostRouting = $leastCostRouting;
-      return $this;
+        $this->leastCostRouting = $leastCostRouting;
+
+        return $this;
     }
 
     /**
@@ -936,7 +972,7 @@ class CCAuthService
      */
     public function getVerificationType()
     {
-      return $this->verificationType;
+        return $this->verificationType;
     }
 
     /**
@@ -945,8 +981,9 @@ class CCAuthService
      */
     public function setVerificationType($verificationType)
     {
-      $this->verificationType = $verificationType;
-      return $this;
+        $this->verificationType = $verificationType;
+
+        return $this;
     }
 
     /**
@@ -954,7 +991,7 @@ class CCAuthService
      */
     public function getCryptocurrencyPurchase()
     {
-      return $this->cryptocurrencyPurchase;
+        return $this->cryptocurrencyPurchase;
     }
 
     /**
@@ -963,8 +1000,9 @@ class CCAuthService
      */
     public function setCryptocurrencyPurchase($cryptocurrencyPurchase)
     {
-      $this->cryptocurrencyPurchase = $cryptocurrencyPurchase;
-      return $this;
+        $this->cryptocurrencyPurchase = $cryptocurrencyPurchase;
+
+        return $this;
     }
 
     /**
@@ -972,7 +1010,7 @@ class CCAuthService
      */
     public function getLowValueExemptionIndicator()
     {
-      return $this->lowValueExemptionIndicator;
+        return $this->lowValueExemptionIndicator;
     }
 
     /**
@@ -981,8 +1019,9 @@ class CCAuthService
      */
     public function setLowValueExemptionIndicator($lowValueExemptionIndicator)
     {
-      $this->lowValueExemptionIndicator = $lowValueExemptionIndicator;
-      return $this;
+        $this->lowValueExemptionIndicator = $lowValueExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -990,7 +1029,7 @@ class CCAuthService
      */
     public function getRiskAnalysisExemptionIndicator()
     {
-      return $this->riskAnalysisExemptionIndicator;
+        return $this->riskAnalysisExemptionIndicator;
     }
 
     /**
@@ -999,8 +1038,9 @@ class CCAuthService
      */
     public function setRiskAnalysisExemptionIndicator($riskAnalysisExemptionIndicator)
     {
-      $this->riskAnalysisExemptionIndicator = $riskAnalysisExemptionIndicator;
-      return $this;
+        $this->riskAnalysisExemptionIndicator = $riskAnalysisExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -1008,7 +1048,7 @@ class CCAuthService
      */
     public function getTrustedMerchantExemptionIndicator()
     {
-      return $this->trustedMerchantExemptionIndicator;
+        return $this->trustedMerchantExemptionIndicator;
     }
 
     /**
@@ -1017,8 +1057,9 @@ class CCAuthService
      */
     public function setTrustedMerchantExemptionIndicator($trustedMerchantExemptionIndicator)
     {
-      $this->trustedMerchantExemptionIndicator = $trustedMerchantExemptionIndicator;
-      return $this;
+        $this->trustedMerchantExemptionIndicator = $trustedMerchantExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -1026,7 +1067,7 @@ class CCAuthService
      */
     public function getSecureCorporatePaymentIndicator()
     {
-      return $this->secureCorporatePaymentIndicator;
+        return $this->secureCorporatePaymentIndicator;
     }
 
     /**
@@ -1035,8 +1076,9 @@ class CCAuthService
      */
     public function setSecureCorporatePaymentIndicator($secureCorporatePaymentIndicator)
     {
-      $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
-      return $this;
+        $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
+
+        return $this;
     }
 
     /**
@@ -1044,7 +1086,7 @@ class CCAuthService
      */
     public function getDeferredAuthIndicator()
     {
-      return $this->deferredAuthIndicator;
+        return $this->deferredAuthIndicator;
     }
 
     /**
@@ -1053,8 +1095,9 @@ class CCAuthService
      */
     public function setDeferredAuthIndicator($deferredAuthIndicator)
     {
-      $this->deferredAuthIndicator = $deferredAuthIndicator;
-      return $this;
+        $this->deferredAuthIndicator = $deferredAuthIndicator;
+
+        return $this;
     }
 
     /**
@@ -1062,7 +1105,7 @@ class CCAuthService
      */
     public function getDelegatedAuthenticationExemptionIndicator()
     {
-      return $this->delegatedAuthenticationExemptionIndicator;
+        return $this->delegatedAuthenticationExemptionIndicator;
     }
 
     /**
@@ -1071,8 +1114,9 @@ class CCAuthService
      */
     public function setDelegatedAuthenticationExemptionIndicator($delegatedAuthenticationExemptionIndicator)
     {
-      $this->delegatedAuthenticationExemptionIndicator = $delegatedAuthenticationExemptionIndicator;
-      return $this;
+        $this->delegatedAuthenticationExemptionIndicator = $delegatedAuthenticationExemptionIndicator;
+
+        return $this;
     }
 
     /**
@@ -1080,7 +1124,7 @@ class CCAuthService
      */
     public function getTransitTransactionType()
     {
-      return $this->transitTransactionType;
+        return $this->transitTransactionType;
     }
 
     /**
@@ -1089,8 +1133,9 @@ class CCAuthService
      */
     public function setTransitTransactionType($transitTransactionType)
     {
-      $this->transitTransactionType = $transitTransactionType;
-      return $this;
+        $this->transitTransactionType = $transitTransactionType;
+
+        return $this;
     }
 
     /**
@@ -1098,7 +1143,7 @@ class CCAuthService
      */
     public function getTransportationMode()
     {
-      return $this->transportationMode;
+        return $this->transportationMode;
     }
 
     /**
@@ -1107,8 +1152,9 @@ class CCAuthService
      */
     public function setTransportationMode($transportationMode)
     {
-      $this->transportationMode = $transportationMode;
-      return $this;
+        $this->transportationMode = $transportationMode;
+
+        return $this;
     }
 
     /**
@@ -1116,7 +1162,7 @@ class CCAuthService
      */
     public function getTotaloffersCount()
     {
-      return $this->totaloffersCount;
+        return $this->totaloffersCount;
     }
 
     /**
@@ -1125,8 +1171,9 @@ class CCAuthService
      */
     public function setTotaloffersCount($totaloffersCount)
     {
-      $this->totaloffersCount = $totaloffersCount;
-      return $this;
+        $this->totaloffersCount = $totaloffersCount;
+
+        return $this;
     }
 
     /**
@@ -1134,7 +1181,7 @@ class CCAuthService
      */
     public function getEffectiveAuthenticationType()
     {
-      return $this->effectiveAuthenticationType;
+        return $this->effectiveAuthenticationType;
     }
 
     /**
@@ -1143,8 +1190,9 @@ class CCAuthService
      */
     public function setEffectiveAuthenticationType($effectiveAuthenticationType)
     {
-      $this->effectiveAuthenticationType = $effectiveAuthenticationType;
-      return $this;
+        $this->effectiveAuthenticationType = $effectiveAuthenticationType;
+
+        return $this;
     }
 
     /**
@@ -1152,7 +1200,7 @@ class CCAuthService
      */
     public function getPaChallengeStatus()
     {
-      return $this->paChallengeStatus;
+        return $this->paChallengeStatus;
     }
 
     /**
@@ -1161,8 +1209,9 @@ class CCAuthService
      */
     public function setPaChallengeStatus($paChallengeStatus)
     {
-      $this->paChallengeStatus = $paChallengeStatus;
-      return $this;
+        $this->paChallengeStatus = $paChallengeStatus;
+
+        return $this;
     }
 
     /**
@@ -1170,7 +1219,7 @@ class CCAuthService
      */
     public function getParesStatusReason()
     {
-      return $this->paresStatusReason;
+        return $this->paresStatusReason;
     }
 
     /**
@@ -1179,8 +1228,9 @@ class CCAuthService
      */
     public function setParesStatusReason($paresStatusReason)
     {
-      $this->paresStatusReason = $paresStatusReason;
-      return $this;
+        $this->paresStatusReason = $paresStatusReason;
+
+        return $this;
     }
 
     /**
@@ -1188,7 +1238,7 @@ class CCAuthService
      */
     public function getPaChallengeCancelCode()
     {
-      return $this->paChallengeCancelCode;
+        return $this->paChallengeCancelCode;
     }
 
     /**
@@ -1197,8 +1247,9 @@ class CCAuthService
      */
     public function setPaChallengeCancelCode($paChallengeCancelCode)
     {
-      $this->paChallengeCancelCode = $paChallengeCancelCode;
-      return $this;
+        $this->paChallengeCancelCode = $paChallengeCancelCode;
+
+        return $this;
     }
 
     /**
@@ -1206,7 +1257,7 @@ class CCAuthService
      */
     public function getPaNetworkScore()
     {
-      return $this->paNetworkScore;
+        return $this->paNetworkScore;
     }
 
     /**
@@ -1215,8 +1266,9 @@ class CCAuthService
      */
     public function setPaNetworkScore($paNetworkScore)
     {
-      $this->paNetworkScore = $paNetworkScore;
-      return $this;
+        $this->paNetworkScore = $paNetworkScore;
+
+        return $this;
     }
 
     /**
@@ -1224,7 +1276,7 @@ class CCAuthService
      */
     public function getPaAuthenticationDate()
     {
-      return $this->paAuthenticationDate;
+        return $this->paAuthenticationDate;
     }
 
     /**
@@ -1233,8 +1285,9 @@ class CCAuthService
      */
     public function setPaAuthenticationDate($paAuthenticationDate)
     {
-      $this->paAuthenticationDate = $paAuthenticationDate;
-      return $this;
+        $this->paAuthenticationDate = $paAuthenticationDate;
+
+        return $this;
     }
 
     /**
@@ -1242,7 +1295,7 @@ class CCAuthService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -1251,8 +1304,9 @@ class CCAuthService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

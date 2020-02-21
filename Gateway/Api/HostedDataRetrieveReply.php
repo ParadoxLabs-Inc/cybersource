@@ -125,7 +125,7 @@ class HostedDataRetrieveReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -133,7 +133,7 @@ class HostedDataRetrieveReply
      */
     public function getResponseMessage()
     {
-      return $this->responseMessage;
+        return $this->responseMessage;
     }
 
     /**
@@ -142,8 +142,9 @@ class HostedDataRetrieveReply
      */
     public function setResponseMessage($responseMessage)
     {
-      $this->responseMessage = $responseMessage;
-      return $this;
+        $this->responseMessage = $responseMessage;
+
+        return $this;
     }
 
     /**
@@ -151,7 +152,7 @@ class HostedDataRetrieveReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -160,8 +161,9 @@ class HostedDataRetrieveReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -169,7 +171,7 @@ class HostedDataRetrieveReply
      */
     public function getAggregatorMerchantIdentifier()
     {
-      return $this->aggregatorMerchantIdentifier;
+        return $this->aggregatorMerchantIdentifier;
     }
 
     /**
@@ -178,8 +180,9 @@ class HostedDataRetrieveReply
      */
     public function setAggregatorMerchantIdentifier($aggregatorMerchantIdentifier)
     {
-      $this->aggregatorMerchantIdentifier = $aggregatorMerchantIdentifier;
-      return $this;
+        $this->aggregatorMerchantIdentifier = $aggregatorMerchantIdentifier;
+
+        return $this;
     }
 
     /**
@@ -187,7 +190,7 @@ class HostedDataRetrieveReply
      */
     public function getCustomerFirstName()
     {
-      return $this->customerFirstName;
+        return $this->customerFirstName;
     }
 
     /**
@@ -196,8 +199,9 @@ class HostedDataRetrieveReply
      */
     public function setCustomerFirstName($customerFirstName)
     {
-      $this->customerFirstName = $customerFirstName;
-      return $this;
+        $this->customerFirstName = $customerFirstName;
+
+        return $this;
     }
 
     /**
@@ -205,7 +209,7 @@ class HostedDataRetrieveReply
      */
     public function getCustomerLastName()
     {
-      return $this->customerLastName;
+        return $this->customerLastName;
     }
 
     /**
@@ -214,8 +218,9 @@ class HostedDataRetrieveReply
      */
     public function setCustomerLastName($customerLastName)
     {
-      $this->customerLastName = $customerLastName;
-      return $this;
+        $this->customerLastName = $customerLastName;
+
+        return $this;
     }
 
     /**
@@ -223,7 +228,7 @@ class HostedDataRetrieveReply
      */
     public function getCustomerID()
     {
-      return $this->customerID;
+        return $this->customerID;
     }
 
     /**
@@ -232,8 +237,9 @@ class HostedDataRetrieveReply
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = $customerID;
-      return $this;
+        $this->customerID = $customerID;
+
+        return $this;
     }
 
     /**
@@ -241,7 +247,7 @@ class HostedDataRetrieveReply
      */
     public function getPaymentMethod()
     {
-      return $this->paymentMethod;
+        return $this->paymentMethod;
     }
 
     /**
@@ -250,8 +256,9 @@ class HostedDataRetrieveReply
      */
     public function setPaymentMethod($paymentMethod)
     {
-      $this->paymentMethod = $paymentMethod;
-      return $this;
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 
     /**
@@ -259,7 +266,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToStreet1()
     {
-      return $this->billToStreet1;
+        return $this->billToStreet1;
     }
 
     /**
@@ -268,8 +275,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToStreet1($billToStreet1)
     {
-      $this->billToStreet1 = $billToStreet1;
-      return $this;
+        $this->billToStreet1 = $billToStreet1;
+
+        return $this;
     }
 
     /**
@@ -277,7 +285,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToStreet2()
     {
-      return $this->billToStreet2;
+        return $this->billToStreet2;
     }
 
     /**
@@ -286,8 +294,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToStreet2($billToStreet2)
     {
-      $this->billToStreet2 = $billToStreet2;
-      return $this;
+        $this->billToStreet2 = $billToStreet2;
+
+        return $this;
     }
 
     /**
@@ -295,7 +304,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToEmail()
     {
-      return $this->billToEmail;
+        return $this->billToEmail;
     }
 
     /**
@@ -304,8 +313,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToEmail($billToEmail)
     {
-      $this->billToEmail = $billToEmail;
-      return $this;
+        $this->billToEmail = $billToEmail;
+
+        return $this;
     }
 
     /**
@@ -313,7 +323,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToState()
     {
-      return $this->billToState;
+        return $this->billToState;
     }
 
     /**
@@ -322,8 +332,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToState($billToState)
     {
-      $this->billToState = $billToState;
-      return $this;
+        $this->billToState = $billToState;
+
+        return $this;
     }
 
     /**
@@ -331,7 +342,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToFirstName()
     {
-      return $this->billToFirstName;
+        return $this->billToFirstName;
     }
 
     /**
@@ -340,8 +351,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToFirstName($billToFirstName)
     {
-      $this->billToFirstName = $billToFirstName;
-      return $this;
+        $this->billToFirstName = $billToFirstName;
+
+        return $this;
     }
 
     /**
@@ -349,7 +361,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToLastName()
     {
-      return $this->billToLastName;
+        return $this->billToLastName;
     }
 
     /**
@@ -358,8 +370,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToLastName($billToLastName)
     {
-      $this->billToLastName = $billToLastName;
-      return $this;
+        $this->billToLastName = $billToLastName;
+
+        return $this;
     }
 
     /**
@@ -367,7 +380,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToCity()
     {
-      return $this->billToCity;
+        return $this->billToCity;
     }
 
     /**
@@ -376,8 +389,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToCity($billToCity)
     {
-      $this->billToCity = $billToCity;
-      return $this;
+        $this->billToCity = $billToCity;
+
+        return $this;
     }
 
     /**
@@ -385,7 +399,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToCountry()
     {
-      return $this->billToCountry;
+        return $this->billToCountry;
     }
 
     /**
@@ -394,8 +408,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToCountry($billToCountry)
     {
-      $this->billToCountry = $billToCountry;
-      return $this;
+        $this->billToCountry = $billToCountry;
+
+        return $this;
     }
 
     /**
@@ -403,7 +418,7 @@ class HostedDataRetrieveReply
      */
     public function getBillToPostalCode()
     {
-      return $this->billToPostalCode;
+        return $this->billToPostalCode;
     }
 
     /**
@@ -412,8 +427,9 @@ class HostedDataRetrieveReply
      */
     public function setBillToPostalCode($billToPostalCode)
     {
-      $this->billToPostalCode = $billToPostalCode;
-      return $this;
+        $this->billToPostalCode = $billToPostalCode;
+
+        return $this;
     }
 
     /**
@@ -421,7 +437,7 @@ class HostedDataRetrieveReply
      */
     public function getCardAccountNumber()
     {
-      return $this->cardAccountNumber;
+        return $this->cardAccountNumber;
     }
 
     /**
@@ -430,8 +446,9 @@ class HostedDataRetrieveReply
      */
     public function setCardAccountNumber($cardAccountNumber)
     {
-      $this->cardAccountNumber = $cardAccountNumber;
-      return $this;
+        $this->cardAccountNumber = $cardAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -439,7 +456,7 @@ class HostedDataRetrieveReply
      */
     public function getCardType()
     {
-      return $this->cardType;
+        return $this->cardType;
     }
 
     /**
@@ -448,8 +465,9 @@ class HostedDataRetrieveReply
      */
     public function setCardType($cardType)
     {
-      $this->cardType = $cardType;
-      return $this;
+        $this->cardType = $cardType;
+
+        return $this;
     }
 
     /**
@@ -457,7 +475,7 @@ class HostedDataRetrieveReply
      */
     public function getCardExpirationMonth()
     {
-      return $this->cardExpirationMonth;
+        return $this->cardExpirationMonth;
     }
 
     /**
@@ -466,8 +484,9 @@ class HostedDataRetrieveReply
      */
     public function setCardExpirationMonth($cardExpirationMonth)
     {
-      $this->cardExpirationMonth = $cardExpirationMonth;
-      return $this;
+        $this->cardExpirationMonth = $cardExpirationMonth;
+
+        return $this;
     }
 
     /**
@@ -475,7 +494,7 @@ class HostedDataRetrieveReply
      */
     public function getCardExpirationYear()
     {
-      return $this->cardExpirationYear;
+        return $this->cardExpirationYear;
     }
 
     /**
@@ -484,8 +503,9 @@ class HostedDataRetrieveReply
      */
     public function setCardExpirationYear($cardExpirationYear)
     {
-      $this->cardExpirationYear = $cardExpirationYear;
-      return $this;
+        $this->cardExpirationYear = $cardExpirationYear;
+
+        return $this;
     }
 
     /**
@@ -493,7 +513,7 @@ class HostedDataRetrieveReply
      */
     public function getCardIssueNumber()
     {
-      return $this->cardIssueNumber;
+        return $this->cardIssueNumber;
     }
 
     /**
@@ -502,8 +522,9 @@ class HostedDataRetrieveReply
      */
     public function setCardIssueNumber($cardIssueNumber)
     {
-      $this->cardIssueNumber = $cardIssueNumber;
-      return $this;
+        $this->cardIssueNumber = $cardIssueNumber;
+
+        return $this;
     }
 
     /**
@@ -511,7 +532,7 @@ class HostedDataRetrieveReply
      */
     public function getCardStartMonth()
     {
-      return $this->cardStartMonth;
+        return $this->cardStartMonth;
     }
 
     /**
@@ -520,8 +541,9 @@ class HostedDataRetrieveReply
      */
     public function setCardStartMonth($cardStartMonth)
     {
-      $this->cardStartMonth = $cardStartMonth;
-      return $this;
+        $this->cardStartMonth = $cardStartMonth;
+
+        return $this;
     }
 
     /**
@@ -529,7 +551,7 @@ class HostedDataRetrieveReply
      */
     public function getCardStartYear()
     {
-      return $this->cardStartYear;
+        return $this->cardStartYear;
     }
 
     /**
@@ -538,8 +560,9 @@ class HostedDataRetrieveReply
      */
     public function setCardStartYear($cardStartYear)
     {
-      $this->cardStartYear = $cardStartYear;
-      return $this;
+        $this->cardStartYear = $cardStartYear;
+
+        return $this;
     }
 
 }

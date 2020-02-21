@@ -30,7 +30,7 @@ class PromotionGroup
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -38,7 +38,7 @@ class PromotionGroup
      */
     public function getSubtotalAmount()
     {
-      return $this->subtotalAmount;
+        return $this->subtotalAmount;
     }
 
     /**
@@ -47,8 +47,9 @@ class PromotionGroup
      */
     public function setSubtotalAmount($subtotalAmount)
     {
-      $this->subtotalAmount = $subtotalAmount;
-      return $this;
+        $this->subtotalAmount = $subtotalAmount;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PromotionGroup
      */
     public function getTaxRate()
     {
-      return $this->taxRate;
+        return $this->taxRate;
     }
 
     /**
@@ -65,8 +66,9 @@ class PromotionGroup
      */
     public function setTaxRate($taxRate)
     {
-      $this->taxRate = $taxRate;
-      return $this;
+        $this->taxRate = $taxRate;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PromotionGroup
      */
     public function getProhibitDiscount()
     {
-      return $this->prohibitDiscount;
+        return $this->prohibitDiscount;
     }
 
     /**
@@ -83,8 +85,9 @@ class PromotionGroup
      */
     public function setProhibitDiscount($prohibitDiscount)
     {
-      $this->prohibitDiscount = $prohibitDiscount;
-      return $this;
+        $this->prohibitDiscount = $prohibitDiscount;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PromotionGroup
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -101,8 +104,9 @@ class PromotionGroup
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

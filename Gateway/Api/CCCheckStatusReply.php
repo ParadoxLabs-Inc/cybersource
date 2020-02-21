@@ -25,7 +25,7 @@ class CCCheckStatusReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -33,7 +33,7 @@ class CCCheckStatusReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -42,8 +42,9 @@ class CCCheckStatusReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class CCCheckStatusReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -60,8 +61,9 @@ class CCCheckStatusReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class CCCheckStatusReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -78,8 +80,9 @@ class CCCheckStatusReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
 }

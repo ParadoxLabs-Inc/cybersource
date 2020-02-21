@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class CCIncrementalAuthReply
 {
 
@@ -50,7 +53,7 @@ class CCIncrementalAuthReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -58,7 +61,7 @@ class CCIncrementalAuthReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -67,8 +70,9 @@ class CCIncrementalAuthReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -76,7 +80,7 @@ class CCIncrementalAuthReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -85,8 +89,9 @@ class CCIncrementalAuthReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -94,7 +99,7 @@ class CCIncrementalAuthReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -103,8 +108,9 @@ class CCIncrementalAuthReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -112,7 +118,7 @@ class CCIncrementalAuthReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -121,8 +127,9 @@ class CCIncrementalAuthReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -130,29 +137,30 @@ class CCIncrementalAuthReply
      */
     public function getAuthorizedDateTime()
     {
-      if ($this->authorizedDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->authorizedDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->authorizedDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->authorizedDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $authorizedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCIncrementalAuthReply
      */
-    public function setAuthorizedDateTime(\DateTime $authorizedDateTime = null)
+    public function setAuthorizedDateTime(DateTime $authorizedDateTime = null)
     {
-      if ($authorizedDateTime == null) {
-       $this->authorizedDateTime = null;
-      } else {
-        $this->authorizedDateTime = $authorizedDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($authorizedDateTime == null) {
+            $this->authorizedDateTime = null;
+        } else {
+            $this->authorizedDateTime = $authorizedDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -160,7 +168,7 @@ class CCIncrementalAuthReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -169,8 +177,9 @@ class CCIncrementalAuthReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -178,7 +187,7 @@ class CCIncrementalAuthReply
      */
     public function getPaymentNetworkTransactionID()
     {
-      return $this->paymentNetworkTransactionID;
+        return $this->paymentNetworkTransactionID;
     }
 
     /**
@@ -187,8 +196,9 @@ class CCIncrementalAuthReply
      */
     public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
     {
-      $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
-      return $this;
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
     }
 
     /**
@@ -196,7 +206,7 @@ class CCIncrementalAuthReply
      */
     public function getCardCategory()
     {
-      return $this->cardCategory;
+        return $this->cardCategory;
     }
 
     /**
@@ -205,8 +215,9 @@ class CCIncrementalAuthReply
      */
     public function setCardCategory($cardCategory)
     {
-      $this->cardCategory = $cardCategory;
-      return $this;
+        $this->cardCategory = $cardCategory;
+
+        return $this;
     }
 
 }

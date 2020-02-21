@@ -25,7 +25,7 @@ class APOptionsOption
      */
     public function __construct($data)
     {
-      $this->data = $data;
+        $this->data = $data;
     }
 
     /**
@@ -33,7 +33,7 @@ class APOptionsOption
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -42,8 +42,9 @@ class APOptionsOption
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class APOptionsOption
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -60,8 +61,9 @@ class APOptionsOption
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class APOptionsOption
      */
     public function getData()
     {
-      return $this->data;
+        return $this->data;
     }
 
     /**
@@ -78,8 +80,9 @@ class APOptionsOption
      */
     public function setData($data)
     {
-      $this->data = $data;
-      return $this;
+        $this->data = $data;
+
+        return $this;
     }
 
 }

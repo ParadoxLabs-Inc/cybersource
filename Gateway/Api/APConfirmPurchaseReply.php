@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APConfirmPurchaseReply
 {
 
@@ -40,7 +43,7 @@ class APConfirmPurchaseReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -48,7 +51,7 @@ class APConfirmPurchaseReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -57,8 +60,9 @@ class APConfirmPurchaseReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -66,7 +70,7 @@ class APConfirmPurchaseReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -75,8 +79,9 @@ class APConfirmPurchaseReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -84,7 +89,7 @@ class APConfirmPurchaseReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -93,8 +98,9 @@ class APConfirmPurchaseReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -102,7 +108,7 @@ class APConfirmPurchaseReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -111,8 +117,9 @@ class APConfirmPurchaseReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -120,29 +127,30 @@ class APConfirmPurchaseReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APConfirmPurchaseReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -150,7 +158,7 @@ class APConfirmPurchaseReply
      */
     public function getProviderResponse()
     {
-      return $this->providerResponse;
+        return $this->providerResponse;
     }
 
     /**
@@ -159,8 +167,9 @@ class APConfirmPurchaseReply
      */
     public function setProviderResponse($providerResponse)
     {
-      $this->providerResponse = $providerResponse;
-      return $this;
+        $this->providerResponse = $providerResponse;
+
+        return $this;
     }
 
 }

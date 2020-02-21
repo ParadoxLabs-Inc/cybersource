@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PayPalPreapprovedUpdateReply
 {
 
@@ -75,7 +78,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -83,7 +86,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -92,8 +95,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -101,29 +105,30 @@ class PayPalPreapprovedUpdateReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayPalPreapprovedUpdateReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -131,7 +136,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -140,8 +145,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -149,7 +155,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPayerStatus()
     {
-      return $this->payerStatus;
+        return $this->payerStatus;
     }
 
     /**
@@ -158,8 +164,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPayerStatus($payerStatus)
     {
-      $this->payerStatus = $payerStatus;
-      return $this;
+        $this->payerStatus = $payerStatus;
+
+        return $this;
     }
 
     /**
@@ -167,7 +174,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPayerName()
     {
-      return $this->payerName;
+        return $this->payerName;
     }
 
     /**
@@ -176,8 +183,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPayerName($payerName)
     {
-      $this->payerName = $payerName;
-      return $this;
+        $this->payerName = $payerName;
+
+        return $this;
     }
 
     /**
@@ -185,7 +193,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPayerCountry()
     {
-      return $this->payerCountry;
+        return $this->payerCountry;
     }
 
     /**
@@ -194,8 +202,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPayerCountry($payerCountry)
     {
-      $this->payerCountry = $payerCountry;
-      return $this;
+        $this->payerCountry = $payerCountry;
+
+        return $this;
     }
 
     /**
@@ -203,7 +212,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getMpStatus()
     {
-      return $this->mpStatus;
+        return $this->mpStatus;
     }
 
     /**
@@ -212,8 +221,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setMpStatus($mpStatus)
     {
-      $this->mpStatus = $mpStatus;
-      return $this;
+        $this->mpStatus = $mpStatus;
+
+        return $this;
     }
 
     /**
@@ -221,7 +231,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPayer()
     {
-      return $this->payer;
+        return $this->payer;
     }
 
     /**
@@ -230,8 +240,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPayer($payer)
     {
-      $this->payer = $payer;
-      return $this;
+        $this->payer = $payer;
+
+        return $this;
     }
 
     /**
@@ -239,7 +250,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPayerID()
     {
-      return $this->payerID;
+        return $this->payerID;
     }
 
     /**
@@ -248,8 +259,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPayerID($payerID)
     {
-      $this->payerID = $payerID;
-      return $this;
+        $this->payerID = $payerID;
+
+        return $this;
     }
 
     /**
@@ -257,7 +269,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPayerBusiness()
     {
-      return $this->payerBusiness;
+        return $this->payerBusiness;
     }
 
     /**
@@ -266,8 +278,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPayerBusiness($payerBusiness)
     {
-      $this->payerBusiness = $payerBusiness;
-      return $this;
+        $this->payerBusiness = $payerBusiness;
+
+        return $this;
     }
 
     /**
@@ -275,7 +288,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getDesc()
     {
-      return $this->desc;
+        return $this->desc;
     }
 
     /**
@@ -284,8 +297,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setDesc($desc)
     {
-      $this->desc = $desc;
-      return $this;
+        $this->desc = $desc;
+
+        return $this;
     }
 
     /**
@@ -293,7 +307,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getMpMax()
     {
-      return $this->mpMax;
+        return $this->mpMax;
     }
 
     /**
@@ -302,8 +316,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setMpMax($mpMax)
     {
-      $this->mpMax = $mpMax;
-      return $this;
+        $this->mpMax = $mpMax;
+
+        return $this;
     }
 
     /**
@@ -311,7 +326,7 @@ class PayPalPreapprovedUpdateReply
      */
     public function getPaymentSourceID()
     {
-      return $this->paymentSourceID;
+        return $this->paymentSourceID;
     }
 
     /**
@@ -320,8 +335,9 @@ class PayPalPreapprovedUpdateReply
      */
     public function setPaymentSourceID($paymentSourceID)
     {
-      $this->paymentSourceID = $paymentSourceID;
-      return $this;
+        $this->paymentSourceID = $paymentSourceID;
+
+        return $this;
     }
 
 }

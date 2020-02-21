@@ -20,10 +20,8 @@ class APDevice
      */
     protected $userAgent = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class APDevice
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -40,8 +38,9 @@ class APDevice
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class APDevice
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -58,8 +57,9 @@ class APDevice
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class APDevice
      */
     public function getUserAgent()
     {
-      return $this->userAgent;
+        return $this->userAgent;
     }
 
     /**
@@ -76,8 +76,9 @@ class APDevice
      */
     public function setUserAgent($userAgent)
     {
-      $this->userAgent = $userAgent;
-      return $this;
+        $this->userAgent = $userAgent;
+
+        return $this;
     }
 
 }

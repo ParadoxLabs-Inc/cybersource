@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class FXQuote
 {
 
@@ -40,10 +43,8 @@ class FXQuote
      */
     protected $receivedDateTime = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -51,7 +52,7 @@ class FXQuote
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -60,8 +61,9 @@ class FXQuote
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class FXQuote
      */
     public function getRate()
     {
-      return $this->rate;
+        return $this->rate;
     }
 
     /**
@@ -78,8 +80,9 @@ class FXQuote
      */
     public function setRate($rate)
     {
-      $this->rate = $rate;
-      return $this;
+        $this->rate = $rate;
+
+        return $this;
     }
 
     /**
@@ -87,7 +90,7 @@ class FXQuote
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -96,8 +99,9 @@ class FXQuote
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -105,29 +109,30 @@ class FXQuote
      */
     public function getExpirationDateTime()
     {
-      if ($this->expirationDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->expirationDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->expirationDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->expirationDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $expirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\FXQuote
      */
-    public function setExpirationDateTime(\DateTime $expirationDateTime = null)
+    public function setExpirationDateTime(DateTime $expirationDateTime = null)
     {
-      if ($expirationDateTime == null) {
-       $this->expirationDateTime = null;
-      } else {
-        $this->expirationDateTime = $expirationDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($expirationDateTime == null) {
+            $this->expirationDateTime = null;
+        } else {
+            $this->expirationDateTime = $expirationDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -135,7 +140,7 @@ class FXQuote
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -144,8 +149,9 @@ class FXQuote
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -153,7 +159,7 @@ class FXQuote
      */
     public function getFundingCurrency()
     {
-      return $this->fundingCurrency;
+        return $this->fundingCurrency;
     }
 
     /**
@@ -162,8 +168,9 @@ class FXQuote
      */
     public function setFundingCurrency($fundingCurrency)
     {
-      $this->fundingCurrency = $fundingCurrency;
-      return $this;
+        $this->fundingCurrency = $fundingCurrency;
+
+        return $this;
     }
 
     /**
@@ -171,29 +178,30 @@ class FXQuote
      */
     public function getReceivedDateTime()
     {
-      if ($this->receivedDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->receivedDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->receivedDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->receivedDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $receivedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\FXQuote
      */
-    public function setReceivedDateTime(\DateTime $receivedDateTime = null)
+    public function setReceivedDateTime(DateTime $receivedDateTime = null)
     {
-      if ($receivedDateTime == null) {
-       $this->receivedDateTime = null;
-      } else {
-        $this->receivedDateTime = $receivedDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($receivedDateTime == null) {
+            $this->receivedDateTime = null;
+        } else {
+            $this->receivedDateTime = $receivedDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

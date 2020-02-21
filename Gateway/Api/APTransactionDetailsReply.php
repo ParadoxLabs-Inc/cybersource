@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APTransactionDetailsReply
 {
 
@@ -45,7 +48,7 @@ class APTransactionDetailsReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -53,7 +56,7 @@ class APTransactionDetailsReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -62,8 +65,9 @@ class APTransactionDetailsReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -71,7 +75,7 @@ class APTransactionDetailsReply
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -80,8 +84,9 @@ class APTransactionDetailsReply
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -89,7 +94,7 @@ class APTransactionDetailsReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -98,8 +103,9 @@ class APTransactionDetailsReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -107,7 +113,7 @@ class APTransactionDetailsReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -116,8 +122,9 @@ class APTransactionDetailsReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -125,29 +132,30 @@ class APTransactionDetailsReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APTransactionDetailsReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -155,7 +163,7 @@ class APTransactionDetailsReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -164,8 +172,9 @@ class APTransactionDetailsReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -173,7 +182,7 @@ class APTransactionDetailsReply
      */
     public function getProviderResponse()
     {
-      return $this->providerResponse;
+        return $this->providerResponse;
     }
 
     /**
@@ -182,8 +191,9 @@ class APTransactionDetailsReply
      */
     public function setProviderResponse($providerResponse)
     {
-      $this->providerResponse = $providerResponse;
-      return $this;
+        $this->providerResponse = $providerResponse;
+
+        return $this;
     }
 
 }

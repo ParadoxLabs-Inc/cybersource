@@ -115,7 +115,7 @@ class CCCaptureService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -123,7 +123,7 @@ class CCCaptureService
      */
     public function getAuthType()
     {
-      return $this->authType;
+        return $this->authType;
     }
 
     /**
@@ -132,8 +132,9 @@ class CCCaptureService
      */
     public function setAuthType($authType)
     {
-      $this->authType = $authType;
-      return $this;
+        $this->authType = $authType;
+
+        return $this;
     }
 
     /**
@@ -141,7 +142,7 @@ class CCCaptureService
      */
     public function getVerbalAuthCode()
     {
-      return $this->verbalAuthCode;
+        return $this->verbalAuthCode;
     }
 
     /**
@@ -150,8 +151,9 @@ class CCCaptureService
      */
     public function setVerbalAuthCode($verbalAuthCode)
     {
-      $this->verbalAuthCode = $verbalAuthCode;
-      return $this;
+        $this->verbalAuthCode = $verbalAuthCode;
+
+        return $this;
     }
 
     /**
@@ -159,7 +161,7 @@ class CCCaptureService
      */
     public function getAuthRequestID()
     {
-      return $this->authRequestID;
+        return $this->authRequestID;
     }
 
     /**
@@ -168,8 +170,9 @@ class CCCaptureService
      */
     public function setAuthRequestID($authRequestID)
     {
-      $this->authRequestID = $authRequestID;
-      return $this;
+        $this->authRequestID = $authRequestID;
+
+        return $this;
     }
 
     /**
@@ -177,7 +180,7 @@ class CCCaptureService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -186,8 +189,9 @@ class CCCaptureService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -195,7 +199,7 @@ class CCCaptureService
      */
     public function getPartialPaymentID()
     {
-      return $this->partialPaymentID;
+        return $this->partialPaymentID;
     }
 
     /**
@@ -204,8 +208,9 @@ class CCCaptureService
      */
     public function setPartialPaymentID($partialPaymentID)
     {
-      $this->partialPaymentID = $partialPaymentID;
-      return $this;
+        $this->partialPaymentID = $partialPaymentID;
+
+        return $this;
     }
 
     /**
@@ -213,7 +218,7 @@ class CCCaptureService
      */
     public function getPurchasingLevel()
     {
-      return $this->purchasingLevel;
+        return $this->purchasingLevel;
     }
 
     /**
@@ -222,8 +227,9 @@ class CCCaptureService
      */
     public function setPurchasingLevel($purchasingLevel)
     {
-      $this->purchasingLevel = $purchasingLevel;
-      return $this;
+        $this->purchasingLevel = $purchasingLevel;
+
+        return $this;
     }
 
     /**
@@ -231,7 +237,7 @@ class CCCaptureService
      */
     public function getIndustryDatatype()
     {
-      return $this->industryDatatype;
+        return $this->industryDatatype;
     }
 
     /**
@@ -240,8 +246,9 @@ class CCCaptureService
      */
     public function setIndustryDatatype($industryDatatype)
     {
-      $this->industryDatatype = $industryDatatype;
-      return $this;
+        $this->industryDatatype = $industryDatatype;
+
+        return $this;
     }
 
     /**
@@ -249,7 +256,7 @@ class CCCaptureService
      */
     public function getAuthRequestToken()
     {
-      return $this->authRequestToken;
+        return $this->authRequestToken;
     }
 
     /**
@@ -258,8 +265,9 @@ class CCCaptureService
      */
     public function setAuthRequestToken($authRequestToken)
     {
-      $this->authRequestToken = $authRequestToken;
-      return $this;
+        $this->authRequestToken = $authRequestToken;
+
+        return $this;
     }
 
     /**
@@ -267,7 +275,7 @@ class CCCaptureService
      */
     public function getMerchantReceiptNumber()
     {
-      return $this->merchantReceiptNumber;
+        return $this->merchantReceiptNumber;
     }
 
     /**
@@ -276,8 +284,9 @@ class CCCaptureService
      */
     public function setMerchantReceiptNumber($merchantReceiptNumber)
     {
-      $this->merchantReceiptNumber = $merchantReceiptNumber;
-      return $this;
+        $this->merchantReceiptNumber = $merchantReceiptNumber;
+
+        return $this;
     }
 
     /**
@@ -285,7 +294,7 @@ class CCCaptureService
      */
     public function getPosData()
     {
-      return $this->posData;
+        return $this->posData;
     }
 
     /**
@@ -294,8 +303,9 @@ class CCCaptureService
      */
     public function setPosData($posData)
     {
-      $this->posData = $posData;
-      return $this;
+        $this->posData = $posData;
+
+        return $this;
     }
 
     /**
@@ -303,7 +313,7 @@ class CCCaptureService
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -312,8 +322,9 @@ class CCCaptureService
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -321,7 +332,7 @@ class CCCaptureService
      */
     public function getChecksumKey()
     {
-      return $this->checksumKey;
+        return $this->checksumKey;
     }
 
     /**
@@ -330,8 +341,9 @@ class CCCaptureService
      */
     public function setChecksumKey($checksumKey)
     {
-      $this->checksumKey = $checksumKey;
-      return $this;
+        $this->checksumKey = $checksumKey;
+
+        return $this;
     }
 
     /**
@@ -339,7 +351,7 @@ class CCCaptureService
      */
     public function getGratuityAmount()
     {
-      return $this->gratuityAmount;
+        return $this->gratuityAmount;
     }
 
     /**
@@ -348,8 +360,9 @@ class CCCaptureService
      */
     public function setGratuityAmount($gratuityAmount)
     {
-      $this->gratuityAmount = $gratuityAmount;
-      return $this;
+        $this->gratuityAmount = $gratuityAmount;
+
+        return $this;
     }
 
     /**
@@ -357,7 +370,7 @@ class CCCaptureService
      */
     public function getDuration()
     {
-      return $this->duration;
+        return $this->duration;
     }
 
     /**
@@ -366,8 +379,9 @@ class CCCaptureService
      */
     public function setDuration($duration)
     {
-      $this->duration = $duration;
-      return $this;
+        $this->duration = $duration;
+
+        return $this;
     }
 
     /**
@@ -375,7 +389,7 @@ class CCCaptureService
      */
     public function getDpdeBillingMonth()
     {
-      return $this->dpdeBillingMonth;
+        return $this->dpdeBillingMonth;
     }
 
     /**
@@ -384,8 +398,9 @@ class CCCaptureService
      */
     public function setDpdeBillingMonth($dpdeBillingMonth)
     {
-      $this->dpdeBillingMonth = $dpdeBillingMonth;
-      return $this;
+        $this->dpdeBillingMonth = $dpdeBillingMonth;
+
+        return $this;
     }
 
     /**
@@ -393,7 +408,7 @@ class CCCaptureService
      */
     public function getSequence()
     {
-      return $this->sequence;
+        return $this->sequence;
     }
 
     /**
@@ -402,8 +417,9 @@ class CCCaptureService
      */
     public function setSequence($sequence)
     {
-      $this->sequence = $sequence;
-      return $this;
+        $this->sequence = $sequence;
+
+        return $this;
     }
 
     /**
@@ -411,7 +427,7 @@ class CCCaptureService
      */
     public function getTotalCount()
     {
-      return $this->totalCount;
+        return $this->totalCount;
     }
 
     /**
@@ -420,8 +436,9 @@ class CCCaptureService
      */
     public function setTotalCount($totalCount)
     {
-      $this->totalCount = $totalCount;
-      return $this;
+        $this->totalCount = $totalCount;
+
+        return $this;
     }
 
     /**
@@ -429,7 +446,7 @@ class CCCaptureService
      */
     public function getReconciliationIDAlternate()
     {
-      return $this->reconciliationIDAlternate;
+        return $this->reconciliationIDAlternate;
     }
 
     /**
@@ -438,8 +455,9 @@ class CCCaptureService
      */
     public function setReconciliationIDAlternate($reconciliationIDAlternate)
     {
-      $this->reconciliationIDAlternate = $reconciliationIDAlternate;
-      return $this;
+        $this->reconciliationIDAlternate = $reconciliationIDAlternate;
+
+        return $this;
     }
 
     /**
@@ -447,7 +465,7 @@ class CCCaptureService
      */
     public function getAggregatorID()
     {
-      return $this->aggregatorID;
+        return $this->aggregatorID;
     }
 
     /**
@@ -456,8 +474,9 @@ class CCCaptureService
      */
     public function setAggregatorID($aggregatorID)
     {
-      $this->aggregatorID = $aggregatorID;
-      return $this;
+        $this->aggregatorID = $aggregatorID;
+
+        return $this;
     }
 
     /**
@@ -465,7 +484,7 @@ class CCCaptureService
      */
     public function getAggregatorName()
     {
-      return $this->aggregatorName;
+        return $this->aggregatorName;
     }
 
     /**
@@ -474,8 +493,9 @@ class CCCaptureService
      */
     public function setAggregatorName($aggregatorName)
     {
-      $this->aggregatorName = $aggregatorName;
-      return $this;
+        $this->aggregatorName = $aggregatorName;
+
+        return $this;
     }
 
     /**
@@ -483,7 +503,7 @@ class CCCaptureService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -492,8 +512,9 @@ class CCCaptureService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

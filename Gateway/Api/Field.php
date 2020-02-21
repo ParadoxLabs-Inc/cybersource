@@ -27,9 +27,9 @@ class Field
      */
     public function __construct($provider, $name, $value)
     {
-      $this->provider = $provider;
-      $this->name = $name;
-      $this->value = $value;
+        $this->provider = $provider;
+        $this->name     = $name;
+        $this->value    = $value;
     }
 
     /**
@@ -37,7 +37,7 @@ class Field
      */
     public function getProvider()
     {
-      return $this->provider;
+        return $this->provider;
     }
 
     /**
@@ -46,8 +46,9 @@ class Field
      */
     public function setProvider($provider)
     {
-      $this->provider = $provider;
-      return $this;
+        $this->provider = $provider;
+
+        return $this;
     }
 
     /**
@@ -55,7 +56,7 @@ class Field
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -64,8 +65,9 @@ class Field
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -73,7 +75,7 @@ class Field
      */
     public function getValue()
     {
-      return $this->value;
+        return $this->value;
     }
 
     /**
@@ -82,8 +84,9 @@ class Field
      */
     public function setValue($value)
     {
-      $this->value = $value;
-      return $this;
+        $this->value = $value;
+
+        return $this;
     }
 
 }

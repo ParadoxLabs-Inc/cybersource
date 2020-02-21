@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APCancelReply
 {
 
@@ -50,7 +53,7 @@ class APCancelReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -58,7 +61,7 @@ class APCancelReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -67,8 +70,9 @@ class APCancelReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -76,7 +80,7 @@ class APCancelReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -85,8 +89,9 @@ class APCancelReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -94,7 +99,7 @@ class APCancelReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -103,8 +108,9 @@ class APCancelReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -112,7 +118,7 @@ class APCancelReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -121,8 +127,9 @@ class APCancelReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -130,29 +137,30 @@ class APCancelReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCancelReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -160,7 +168,7 @@ class APCancelReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -169,8 +177,9 @@ class APCancelReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -178,7 +187,7 @@ class APCancelReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -187,8 +196,9 @@ class APCancelReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -196,7 +206,7 @@ class APCancelReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -205,8 +215,9 @@ class APCancelReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
 }

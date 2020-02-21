@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class CCSaleCreditReply
 {
 
@@ -45,7 +48,7 @@ class CCSaleCreditReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -53,7 +56,7 @@ class CCSaleCreditReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -62,8 +65,9 @@ class CCSaleCreditReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -71,7 +75,7 @@ class CCSaleCreditReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -80,8 +84,9 @@ class CCSaleCreditReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -89,7 +94,7 @@ class CCSaleCreditReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -98,8 +103,9 @@ class CCSaleCreditReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -107,7 +113,7 @@ class CCSaleCreditReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -116,8 +122,9 @@ class CCSaleCreditReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -125,29 +132,30 @@ class CCSaleCreditReply
      */
     public function getAuthorizedDateTime()
     {
-      if ($this->authorizedDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->authorizedDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->authorizedDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->authorizedDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $authorizedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
      */
-    public function setAuthorizedDateTime(\DateTime $authorizedDateTime = null)
+    public function setAuthorizedDateTime(DateTime $authorizedDateTime = null)
     {
-      if ($authorizedDateTime == null) {
-       $this->authorizedDateTime = null;
-      } else {
-        $this->authorizedDateTime = $authorizedDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($authorizedDateTime == null) {
+            $this->authorizedDateTime = null;
+        } else {
+            $this->authorizedDateTime = $authorizedDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -155,7 +163,7 @@ class CCSaleCreditReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -164,8 +172,9 @@ class CCSaleCreditReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -173,7 +182,7 @@ class CCSaleCreditReply
      */
     public function getPaymentNetworkTransactionID()
     {
-      return $this->paymentNetworkTransactionID;
+        return $this->paymentNetworkTransactionID;
     }
 
     /**
@@ -182,8 +191,9 @@ class CCSaleCreditReply
      */
     public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
     {
-      $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
-      return $this;
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
     }
 
 }

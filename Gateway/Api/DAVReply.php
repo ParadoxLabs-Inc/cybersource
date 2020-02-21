@@ -180,7 +180,7 @@ class DAVReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -188,7 +188,7 @@ class DAVReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -197,8 +197,9 @@ class DAVReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -206,7 +207,7 @@ class DAVReply
      */
     public function getAddressType()
     {
-      return $this->addressType;
+        return $this->addressType;
     }
 
     /**
@@ -215,8 +216,9 @@ class DAVReply
      */
     public function setAddressType($addressType)
     {
-      $this->addressType = $addressType;
-      return $this;
+        $this->addressType = $addressType;
+
+        return $this;
     }
 
     /**
@@ -224,7 +226,7 @@ class DAVReply
      */
     public function getApartmentInfo()
     {
-      return $this->apartmentInfo;
+        return $this->apartmentInfo;
     }
 
     /**
@@ -233,8 +235,9 @@ class DAVReply
      */
     public function setApartmentInfo($apartmentInfo)
     {
-      $this->apartmentInfo = $apartmentInfo;
-      return $this;
+        $this->apartmentInfo = $apartmentInfo;
+
+        return $this;
     }
 
     /**
@@ -242,7 +245,7 @@ class DAVReply
      */
     public function getBarCode()
     {
-      return $this->barCode;
+        return $this->barCode;
     }
 
     /**
@@ -251,8 +254,9 @@ class DAVReply
      */
     public function setBarCode($barCode)
     {
-      $this->barCode = $barCode;
-      return $this;
+        $this->barCode = $barCode;
+
+        return $this;
     }
 
     /**
@@ -260,7 +264,7 @@ class DAVReply
      */
     public function getBarCodeCheckDigit()
     {
-      return $this->barCodeCheckDigit;
+        return $this->barCodeCheckDigit;
     }
 
     /**
@@ -269,8 +273,9 @@ class DAVReply
      */
     public function setBarCodeCheckDigit($barCodeCheckDigit)
     {
-      $this->barCodeCheckDigit = $barCodeCheckDigit;
-      return $this;
+        $this->barCodeCheckDigit = $barCodeCheckDigit;
+
+        return $this;
     }
 
     /**
@@ -278,7 +283,7 @@ class DAVReply
      */
     public function getCareOf()
     {
-      return $this->careOf;
+        return $this->careOf;
     }
 
     /**
@@ -287,8 +292,9 @@ class DAVReply
      */
     public function setCareOf($careOf)
     {
-      $this->careOf = $careOf;
-      return $this;
+        $this->careOf = $careOf;
+
+        return $this;
     }
 
     /**
@@ -296,7 +302,7 @@ class DAVReply
      */
     public function getCityInfo()
     {
-      return $this->cityInfo;
+        return $this->cityInfo;
     }
 
     /**
@@ -305,8 +311,9 @@ class DAVReply
      */
     public function setCityInfo($cityInfo)
     {
-      $this->cityInfo = $cityInfo;
-      return $this;
+        $this->cityInfo = $cityInfo;
+
+        return $this;
     }
 
     /**
@@ -314,7 +321,7 @@ class DAVReply
      */
     public function getCountryInfo()
     {
-      return $this->countryInfo;
+        return $this->countryInfo;
     }
 
     /**
@@ -323,8 +330,9 @@ class DAVReply
      */
     public function setCountryInfo($countryInfo)
     {
-      $this->countryInfo = $countryInfo;
-      return $this;
+        $this->countryInfo = $countryInfo;
+
+        return $this;
     }
 
     /**
@@ -332,7 +340,7 @@ class DAVReply
      */
     public function getDirectionalInfo()
     {
-      return $this->directionalInfo;
+        return $this->directionalInfo;
     }
 
     /**
@@ -341,8 +349,9 @@ class DAVReply
      */
     public function setDirectionalInfo($directionalInfo)
     {
-      $this->directionalInfo = $directionalInfo;
-      return $this;
+        $this->directionalInfo = $directionalInfo;
+
+        return $this;
     }
 
     /**
@@ -350,7 +359,7 @@ class DAVReply
      */
     public function getLvrInfo()
     {
-      return $this->lvrInfo;
+        return $this->lvrInfo;
     }
 
     /**
@@ -359,8 +368,9 @@ class DAVReply
      */
     public function setLvrInfo($lvrInfo)
     {
-      $this->lvrInfo = $lvrInfo;
-      return $this;
+        $this->lvrInfo = $lvrInfo;
+
+        return $this;
     }
 
     /**
@@ -368,7 +378,7 @@ class DAVReply
      */
     public function getMatchScore()
     {
-      return $this->matchScore;
+        return $this->matchScore;
     }
 
     /**
@@ -377,8 +387,9 @@ class DAVReply
      */
     public function setMatchScore($matchScore)
     {
-      $this->matchScore = $matchScore;
-      return $this;
+        $this->matchScore = $matchScore;
+
+        return $this;
     }
 
     /**
@@ -386,7 +397,7 @@ class DAVReply
      */
     public function getStandardizedAddress1()
     {
-      return $this->standardizedAddress1;
+        return $this->standardizedAddress1;
     }
 
     /**
@@ -395,8 +406,9 @@ class DAVReply
      */
     public function setStandardizedAddress1($standardizedAddress1)
     {
-      $this->standardizedAddress1 = $standardizedAddress1;
-      return $this;
+        $this->standardizedAddress1 = $standardizedAddress1;
+
+        return $this;
     }
 
     /**
@@ -404,7 +416,7 @@ class DAVReply
      */
     public function getStandardizedAddress2()
     {
-      return $this->standardizedAddress2;
+        return $this->standardizedAddress2;
     }
 
     /**
@@ -413,8 +425,9 @@ class DAVReply
      */
     public function setStandardizedAddress2($standardizedAddress2)
     {
-      $this->standardizedAddress2 = $standardizedAddress2;
-      return $this;
+        $this->standardizedAddress2 = $standardizedAddress2;
+
+        return $this;
     }
 
     /**
@@ -422,7 +435,7 @@ class DAVReply
      */
     public function getStandardizedAddress3()
     {
-      return $this->standardizedAddress3;
+        return $this->standardizedAddress3;
     }
 
     /**
@@ -431,8 +444,9 @@ class DAVReply
      */
     public function setStandardizedAddress3($standardizedAddress3)
     {
-      $this->standardizedAddress3 = $standardizedAddress3;
-      return $this;
+        $this->standardizedAddress3 = $standardizedAddress3;
+
+        return $this;
     }
 
     /**
@@ -440,7 +454,7 @@ class DAVReply
      */
     public function getStandardizedAddress4()
     {
-      return $this->standardizedAddress4;
+        return $this->standardizedAddress4;
     }
 
     /**
@@ -449,8 +463,9 @@ class DAVReply
      */
     public function setStandardizedAddress4($standardizedAddress4)
     {
-      $this->standardizedAddress4 = $standardizedAddress4;
-      return $this;
+        $this->standardizedAddress4 = $standardizedAddress4;
+
+        return $this;
     }
 
     /**
@@ -458,7 +473,7 @@ class DAVReply
      */
     public function getStandardizedAddressNoApt()
     {
-      return $this->standardizedAddressNoApt;
+        return $this->standardizedAddressNoApt;
     }
 
     /**
@@ -467,8 +482,9 @@ class DAVReply
      */
     public function setStandardizedAddressNoApt($standardizedAddressNoApt)
     {
-      $this->standardizedAddressNoApt = $standardizedAddressNoApt;
-      return $this;
+        $this->standardizedAddressNoApt = $standardizedAddressNoApt;
+
+        return $this;
     }
 
     /**
@@ -476,7 +492,7 @@ class DAVReply
      */
     public function getStandardizedCity()
     {
-      return $this->standardizedCity;
+        return $this->standardizedCity;
     }
 
     /**
@@ -485,8 +501,9 @@ class DAVReply
      */
     public function setStandardizedCity($standardizedCity)
     {
-      $this->standardizedCity = $standardizedCity;
-      return $this;
+        $this->standardizedCity = $standardizedCity;
+
+        return $this;
     }
 
     /**
@@ -494,7 +511,7 @@ class DAVReply
      */
     public function getStandardizedCounty()
     {
-      return $this->standardizedCounty;
+        return $this->standardizedCounty;
     }
 
     /**
@@ -503,8 +520,9 @@ class DAVReply
      */
     public function setStandardizedCounty($standardizedCounty)
     {
-      $this->standardizedCounty = $standardizedCounty;
-      return $this;
+        $this->standardizedCounty = $standardizedCounty;
+
+        return $this;
     }
 
     /**
@@ -512,7 +530,7 @@ class DAVReply
      */
     public function getStandardizedCSP()
     {
-      return $this->standardizedCSP;
+        return $this->standardizedCSP;
     }
 
     /**
@@ -521,8 +539,9 @@ class DAVReply
      */
     public function setStandardizedCSP($standardizedCSP)
     {
-      $this->standardizedCSP = $standardizedCSP;
-      return $this;
+        $this->standardizedCSP = $standardizedCSP;
+
+        return $this;
     }
 
     /**
@@ -530,7 +549,7 @@ class DAVReply
      */
     public function getStandardizedState()
     {
-      return $this->standardizedState;
+        return $this->standardizedState;
     }
 
     /**
@@ -539,8 +558,9 @@ class DAVReply
      */
     public function setStandardizedState($standardizedState)
     {
-      $this->standardizedState = $standardizedState;
-      return $this;
+        $this->standardizedState = $standardizedState;
+
+        return $this;
     }
 
     /**
@@ -548,7 +568,7 @@ class DAVReply
      */
     public function getStandardizedPostalCode()
     {
-      return $this->standardizedPostalCode;
+        return $this->standardizedPostalCode;
     }
 
     /**
@@ -557,8 +577,9 @@ class DAVReply
      */
     public function setStandardizedPostalCode($standardizedPostalCode)
     {
-      $this->standardizedPostalCode = $standardizedPostalCode;
-      return $this;
+        $this->standardizedPostalCode = $standardizedPostalCode;
+
+        return $this;
     }
 
     /**
@@ -566,7 +587,7 @@ class DAVReply
      */
     public function getStandardizedCountry()
     {
-      return $this->standardizedCountry;
+        return $this->standardizedCountry;
     }
 
     /**
@@ -575,8 +596,9 @@ class DAVReply
      */
     public function setStandardizedCountry($standardizedCountry)
     {
-      $this->standardizedCountry = $standardizedCountry;
-      return $this;
+        $this->standardizedCountry = $standardizedCountry;
+
+        return $this;
     }
 
     /**
@@ -584,7 +606,7 @@ class DAVReply
      */
     public function getStandardizedISOCountry()
     {
-      return $this->standardizedISOCountry;
+        return $this->standardizedISOCountry;
     }
 
     /**
@@ -593,8 +615,9 @@ class DAVReply
      */
     public function setStandardizedISOCountry($standardizedISOCountry)
     {
-      $this->standardizedISOCountry = $standardizedISOCountry;
-      return $this;
+        $this->standardizedISOCountry = $standardizedISOCountry;
+
+        return $this;
     }
 
     /**
@@ -602,7 +625,7 @@ class DAVReply
      */
     public function getStateInfo()
     {
-      return $this->stateInfo;
+        return $this->stateInfo;
     }
 
     /**
@@ -611,8 +634,9 @@ class DAVReply
      */
     public function setStateInfo($stateInfo)
     {
-      $this->stateInfo = $stateInfo;
-      return $this;
+        $this->stateInfo = $stateInfo;
+
+        return $this;
     }
 
     /**
@@ -620,7 +644,7 @@ class DAVReply
      */
     public function getStreetInfo()
     {
-      return $this->streetInfo;
+        return $this->streetInfo;
     }
 
     /**
@@ -629,8 +653,9 @@ class DAVReply
      */
     public function setStreetInfo($streetInfo)
     {
-      $this->streetInfo = $streetInfo;
-      return $this;
+        $this->streetInfo = $streetInfo;
+
+        return $this;
     }
 
     /**
@@ -638,7 +663,7 @@ class DAVReply
      */
     public function getSuffixInfo()
     {
-      return $this->suffixInfo;
+        return $this->suffixInfo;
     }
 
     /**
@@ -647,8 +672,9 @@ class DAVReply
      */
     public function setSuffixInfo($suffixInfo)
     {
-      $this->suffixInfo = $suffixInfo;
-      return $this;
+        $this->suffixInfo = $suffixInfo;
+
+        return $this;
     }
 
     /**
@@ -656,7 +682,7 @@ class DAVReply
      */
     public function getPostalCodeInfo()
     {
-      return $this->postalCodeInfo;
+        return $this->postalCodeInfo;
     }
 
     /**
@@ -665,8 +691,9 @@ class DAVReply
      */
     public function setPostalCodeInfo($postalCodeInfo)
     {
-      $this->postalCodeInfo = $postalCodeInfo;
-      return $this;
+        $this->postalCodeInfo = $postalCodeInfo;
+
+        return $this;
     }
 
     /**
@@ -674,7 +701,7 @@ class DAVReply
      */
     public function getOverallInfo()
     {
-      return $this->overallInfo;
+        return $this->overallInfo;
     }
 
     /**
@@ -683,8 +710,9 @@ class DAVReply
      */
     public function setOverallInfo($overallInfo)
     {
-      $this->overallInfo = $overallInfo;
-      return $this;
+        $this->overallInfo = $overallInfo;
+
+        return $this;
     }
 
     /**
@@ -692,7 +720,7 @@ class DAVReply
      */
     public function getUsInfo()
     {
-      return $this->usInfo;
+        return $this->usInfo;
     }
 
     /**
@@ -701,8 +729,9 @@ class DAVReply
      */
     public function setUsInfo($usInfo)
     {
-      $this->usInfo = $usInfo;
-      return $this;
+        $this->usInfo = $usInfo;
+
+        return $this;
     }
 
     /**
@@ -710,7 +739,7 @@ class DAVReply
      */
     public function getCaInfo()
     {
-      return $this->caInfo;
+        return $this->caInfo;
     }
 
     /**
@@ -719,8 +748,9 @@ class DAVReply
      */
     public function setCaInfo($caInfo)
     {
-      $this->caInfo = $caInfo;
-      return $this;
+        $this->caInfo = $caInfo;
+
+        return $this;
     }
 
     /**
@@ -728,7 +758,7 @@ class DAVReply
      */
     public function getIntlInfo()
     {
-      return $this->intlInfo;
+        return $this->intlInfo;
     }
 
     /**
@@ -737,8 +767,9 @@ class DAVReply
      */
     public function setIntlInfo($intlInfo)
     {
-      $this->intlInfo = $intlInfo;
-      return $this;
+        $this->intlInfo = $intlInfo;
+
+        return $this;
     }
 
     /**
@@ -746,7 +777,7 @@ class DAVReply
      */
     public function getUsErrorInfo()
     {
-      return $this->usErrorInfo;
+        return $this->usErrorInfo;
     }
 
     /**
@@ -755,8 +786,9 @@ class DAVReply
      */
     public function setUsErrorInfo($usErrorInfo)
     {
-      $this->usErrorInfo = $usErrorInfo;
-      return $this;
+        $this->usErrorInfo = $usErrorInfo;
+
+        return $this;
     }
 
     /**
@@ -764,7 +796,7 @@ class DAVReply
      */
     public function getCaErrorInfo()
     {
-      return $this->caErrorInfo;
+        return $this->caErrorInfo;
     }
 
     /**
@@ -773,8 +805,9 @@ class DAVReply
      */
     public function setCaErrorInfo($caErrorInfo)
     {
-      $this->caErrorInfo = $caErrorInfo;
-      return $this;
+        $this->caErrorInfo = $caErrorInfo;
+
+        return $this;
     }
 
     /**
@@ -782,7 +815,7 @@ class DAVReply
      */
     public function getIntlErrorInfo()
     {
-      return $this->intlErrorInfo;
+        return $this->intlErrorInfo;
     }
 
     /**
@@ -791,8 +824,9 @@ class DAVReply
      */
     public function setIntlErrorInfo($intlErrorInfo)
     {
-      $this->intlErrorInfo = $intlErrorInfo;
-      return $this;
+        $this->intlErrorInfo = $intlErrorInfo;
+
+        return $this;
     }
 
 }

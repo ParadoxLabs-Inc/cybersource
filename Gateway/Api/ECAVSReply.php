@@ -200,7 +200,7 @@ class ECAVSReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -208,7 +208,7 @@ class ECAVSReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -217,8 +217,9 @@ class ECAVSReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -226,7 +227,7 @@ class ECAVSReply
      */
     public function getValidationType()
     {
-      return $this->validationType;
+        return $this->validationType;
     }
 
     /**
@@ -235,8 +236,9 @@ class ECAVSReply
      */
     public function setValidationType($validationType)
     {
-      $this->validationType = $validationType;
-      return $this;
+        $this->validationType = $validationType;
+
+        return $this;
     }
 
     /**
@@ -244,7 +246,7 @@ class ECAVSReply
      */
     public function getPrimaryStatusCode()
     {
-      return $this->primaryStatusCode;
+        return $this->primaryStatusCode;
     }
 
     /**
@@ -253,8 +255,9 @@ class ECAVSReply
      */
     public function setPrimaryStatusCode($primaryStatusCode)
     {
-      $this->primaryStatusCode = $primaryStatusCode;
-      return $this;
+        $this->primaryStatusCode = $primaryStatusCode;
+
+        return $this;
     }
 
     /**
@@ -262,7 +265,7 @@ class ECAVSReply
      */
     public function getSecondaryStatusCode()
     {
-      return $this->secondaryStatusCode;
+        return $this->secondaryStatusCode;
     }
 
     /**
@@ -271,8 +274,9 @@ class ECAVSReply
      */
     public function setSecondaryStatusCode($secondaryStatusCode)
     {
-      $this->secondaryStatusCode = $secondaryStatusCode;
-      return $this;
+        $this->secondaryStatusCode = $secondaryStatusCode;
+
+        return $this;
     }
 
     /**
@@ -280,7 +284,7 @@ class ECAVSReply
      */
     public function getAdditionalStatusCode()
     {
-      return $this->additionalStatusCode;
+        return $this->additionalStatusCode;
     }
 
     /**
@@ -289,8 +293,9 @@ class ECAVSReply
      */
     public function setAdditionalStatusCode($additionalStatusCode)
     {
-      $this->additionalStatusCode = $additionalStatusCode;
-      return $this;
+        $this->additionalStatusCode = $additionalStatusCode;
+
+        return $this;
     }
 
     /**
@@ -298,7 +303,7 @@ class ECAVSReply
      */
     public function getNumberOfReturns()
     {
-      return $this->numberOfReturns;
+        return $this->numberOfReturns;
     }
 
     /**
@@ -307,8 +312,9 @@ class ECAVSReply
      */
     public function setNumberOfReturns($numberOfReturns)
     {
-      $this->numberOfReturns = $numberOfReturns;
-      return $this;
+        $this->numberOfReturns = $numberOfReturns;
+
+        return $this;
     }
 
     /**
@@ -316,7 +322,7 @@ class ECAVSReply
      */
     public function getLastReturnDate()
     {
-      return $this->lastReturnDate;
+        return $this->lastReturnDate;
     }
 
     /**
@@ -325,8 +331,9 @@ class ECAVSReply
      */
     public function setLastReturnDate($lastReturnDate)
     {
-      $this->lastReturnDate = $lastReturnDate;
-      return $this;
+        $this->lastReturnDate = $lastReturnDate;
+
+        return $this;
     }
 
     /**
@@ -334,7 +341,7 @@ class ECAVSReply
      */
     public function getLastReturnProcessorResponse()
     {
-      return $this->lastReturnProcessorResponse;
+        return $this->lastReturnProcessorResponse;
     }
 
     /**
@@ -343,8 +350,9 @@ class ECAVSReply
      */
     public function setLastReturnProcessorResponse($lastReturnProcessorResponse)
     {
-      $this->lastReturnProcessorResponse = $lastReturnProcessorResponse;
-      return $this;
+        $this->lastReturnProcessorResponse = $lastReturnProcessorResponse;
+
+        return $this;
     }
 
     /**
@@ -352,7 +360,7 @@ class ECAVSReply
      */
     public function getLastUpdateDate()
     {
-      return $this->lastUpdateDate;
+        return $this->lastUpdateDate;
     }
 
     /**
@@ -361,8 +369,9 @@ class ECAVSReply
      */
     public function setLastUpdateDate($lastUpdateDate)
     {
-      $this->lastUpdateDate = $lastUpdateDate;
-      return $this;
+        $this->lastUpdateDate = $lastUpdateDate;
+
+        return $this;
     }
 
     /**
@@ -370,7 +379,7 @@ class ECAVSReply
      */
     public function getAddedOrClosedDate()
     {
-      return $this->addedOrClosedDate;
+        return $this->addedOrClosedDate;
     }
 
     /**
@@ -379,8 +388,9 @@ class ECAVSReply
      */
     public function setAddedOrClosedDate($addedOrClosedDate)
     {
-      $this->addedOrClosedDate = $addedOrClosedDate;
-      return $this;
+        $this->addedOrClosedDate = $addedOrClosedDate;
+
+        return $this;
     }
 
     /**
@@ -388,7 +398,7 @@ class ECAVSReply
      */
     public function getPreviousStatusCode()
     {
-      return $this->previousStatusCode;
+        return $this->previousStatusCode;
     }
 
     /**
@@ -397,8 +407,9 @@ class ECAVSReply
      */
     public function setPreviousStatusCode($previousStatusCode)
     {
-      $this->previousStatusCode = $previousStatusCode;
-      return $this;
+        $this->previousStatusCode = $previousStatusCode;
+
+        return $this;
     }
 
     /**
@@ -406,7 +417,7 @@ class ECAVSReply
      */
     public function getFcraDisputeCode()
     {
-      return $this->fcraDisputeCode;
+        return $this->fcraDisputeCode;
     }
 
     /**
@@ -415,8 +426,9 @@ class ECAVSReply
      */
     public function setFcraDisputeCode($fcraDisputeCode)
     {
-      $this->fcraDisputeCode = $fcraDisputeCode;
-      return $this;
+        $this->fcraDisputeCode = $fcraDisputeCode;
+
+        return $this;
     }
 
     /**
@@ -424,7 +436,7 @@ class ECAVSReply
      */
     public function getScoredAccountProcessorResponse1()
     {
-      return $this->scoredAccountProcessorResponse1;
+        return $this->scoredAccountProcessorResponse1;
     }
 
     /**
@@ -433,8 +445,9 @@ class ECAVSReply
      */
     public function setScoredAccountProcessorResponse1($scoredAccountProcessorResponse1)
     {
-      $this->scoredAccountProcessorResponse1 = $scoredAccountProcessorResponse1;
-      return $this;
+        $this->scoredAccountProcessorResponse1 = $scoredAccountProcessorResponse1;
+
+        return $this;
     }
 
     /**
@@ -442,7 +455,7 @@ class ECAVSReply
      */
     public function getScoredAccountProcessorResponse2()
     {
-      return $this->scoredAccountProcessorResponse2;
+        return $this->scoredAccountProcessorResponse2;
     }
 
     /**
@@ -451,8 +464,9 @@ class ECAVSReply
      */
     public function setScoredAccountProcessorResponse2($scoredAccountProcessorResponse2)
     {
-      $this->scoredAccountProcessorResponse2 = $scoredAccountProcessorResponse2;
-      return $this;
+        $this->scoredAccountProcessorResponse2 = $scoredAccountProcessorResponse2;
+
+        return $this;
     }
 
     /**
@@ -460,7 +474,7 @@ class ECAVSReply
      */
     public function getScoredAccountProcessorResponse3()
     {
-      return $this->scoredAccountProcessorResponse3;
+        return $this->scoredAccountProcessorResponse3;
     }
 
     /**
@@ -469,8 +483,9 @@ class ECAVSReply
      */
     public function setScoredAccountProcessorResponse3($scoredAccountProcessorResponse3)
     {
-      $this->scoredAccountProcessorResponse3 = $scoredAccountProcessorResponse3;
-      return $this;
+        $this->scoredAccountProcessorResponse3 = $scoredAccountProcessorResponse3;
+
+        return $this;
     }
 
     /**
@@ -478,7 +493,7 @@ class ECAVSReply
      */
     public function getScoredAccountProcessorResponse5()
     {
-      return $this->scoredAccountProcessorResponse5;
+        return $this->scoredAccountProcessorResponse5;
     }
 
     /**
@@ -487,8 +502,9 @@ class ECAVSReply
      */
     public function setScoredAccountProcessorResponse5($scoredAccountProcessorResponse5)
     {
-      $this->scoredAccountProcessorResponse5 = $scoredAccountProcessorResponse5;
-      return $this;
+        $this->scoredAccountProcessorResponse5 = $scoredAccountProcessorResponse5;
+
+        return $this;
     }
 
     /**
@@ -496,7 +512,7 @@ class ECAVSReply
      */
     public function getCustomerDataConditionCode()
     {
-      return $this->customerDataConditionCode;
+        return $this->customerDataConditionCode;
     }
 
     /**
@@ -505,8 +521,9 @@ class ECAVSReply
      */
     public function setCustomerDataConditionCode($customerDataConditionCode)
     {
-      $this->customerDataConditionCode = $customerDataConditionCode;
-      return $this;
+        $this->customerDataConditionCode = $customerDataConditionCode;
+
+        return $this;
     }
 
     /**
@@ -514,7 +531,7 @@ class ECAVSReply
      */
     public function getMatchBillToFullName()
     {
-      return $this->matchBillToFullName;
+        return $this->matchBillToFullName;
     }
 
     /**
@@ -523,8 +540,9 @@ class ECAVSReply
      */
     public function setMatchBillToFullName($matchBillToFullName)
     {
-      $this->matchBillToFullName = $matchBillToFullName;
-      return $this;
+        $this->matchBillToFullName = $matchBillToFullName;
+
+        return $this;
     }
 
     /**
@@ -532,7 +550,7 @@ class ECAVSReply
      */
     public function getMatchBillToPrefix()
     {
-      return $this->matchBillToPrefix;
+        return $this->matchBillToPrefix;
     }
 
     /**
@@ -541,8 +559,9 @@ class ECAVSReply
      */
     public function setMatchBillToPrefix($matchBillToPrefix)
     {
-      $this->matchBillToPrefix = $matchBillToPrefix;
-      return $this;
+        $this->matchBillToPrefix = $matchBillToPrefix;
+
+        return $this;
     }
 
     /**
@@ -550,7 +569,7 @@ class ECAVSReply
      */
     public function getMatchBillToFirstName()
     {
-      return $this->matchBillToFirstName;
+        return $this->matchBillToFirstName;
     }
 
     /**
@@ -559,8 +578,9 @@ class ECAVSReply
      */
     public function setMatchBillToFirstName($matchBillToFirstName)
     {
-      $this->matchBillToFirstName = $matchBillToFirstName;
-      return $this;
+        $this->matchBillToFirstName = $matchBillToFirstName;
+
+        return $this;
     }
 
     /**
@@ -568,7 +588,7 @@ class ECAVSReply
      */
     public function getMatchBillToMiddleName()
     {
-      return $this->matchBillToMiddleName;
+        return $this->matchBillToMiddleName;
     }
 
     /**
@@ -577,8 +597,9 @@ class ECAVSReply
      */
     public function setMatchBillToMiddleName($matchBillToMiddleName)
     {
-      $this->matchBillToMiddleName = $matchBillToMiddleName;
-      return $this;
+        $this->matchBillToMiddleName = $matchBillToMiddleName;
+
+        return $this;
     }
 
     /**
@@ -586,7 +607,7 @@ class ECAVSReply
      */
     public function getMatchBillToLastName()
     {
-      return $this->matchBillToLastName;
+        return $this->matchBillToLastName;
     }
 
     /**
@@ -595,8 +616,9 @@ class ECAVSReply
      */
     public function setMatchBillToLastName($matchBillToLastName)
     {
-      $this->matchBillToLastName = $matchBillToLastName;
-      return $this;
+        $this->matchBillToLastName = $matchBillToLastName;
+
+        return $this;
     }
 
     /**
@@ -604,7 +626,7 @@ class ECAVSReply
      */
     public function getMatchBillToSuffix()
     {
-      return $this->matchBillToSuffix;
+        return $this->matchBillToSuffix;
     }
 
     /**
@@ -613,8 +635,9 @@ class ECAVSReply
      */
     public function setMatchBillToSuffix($matchBillToSuffix)
     {
-      $this->matchBillToSuffix = $matchBillToSuffix;
-      return $this;
+        $this->matchBillToSuffix = $matchBillToSuffix;
+
+        return $this;
     }
 
     /**
@@ -622,7 +645,7 @@ class ECAVSReply
      */
     public function getMatchBillToCompany()
     {
-      return $this->matchBillToCompany;
+        return $this->matchBillToCompany;
     }
 
     /**
@@ -631,8 +654,9 @@ class ECAVSReply
      */
     public function setMatchBillToCompany($matchBillToCompany)
     {
-      $this->matchBillToCompany = $matchBillToCompany;
-      return $this;
+        $this->matchBillToCompany = $matchBillToCompany;
+
+        return $this;
     }
 
     /**
@@ -640,7 +664,7 @@ class ECAVSReply
      */
     public function getMatchBillToAddress()
     {
-      return $this->matchBillToAddress;
+        return $this->matchBillToAddress;
     }
 
     /**
@@ -649,8 +673,9 @@ class ECAVSReply
      */
     public function setMatchBillToAddress($matchBillToAddress)
     {
-      $this->matchBillToAddress = $matchBillToAddress;
-      return $this;
+        $this->matchBillToAddress = $matchBillToAddress;
+
+        return $this;
     }
 
     /**
@@ -658,7 +683,7 @@ class ECAVSReply
      */
     public function getMatchBillToCity()
     {
-      return $this->matchBillToCity;
+        return $this->matchBillToCity;
     }
 
     /**
@@ -667,8 +692,9 @@ class ECAVSReply
      */
     public function setMatchBillToCity($matchBillToCity)
     {
-      $this->matchBillToCity = $matchBillToCity;
-      return $this;
+        $this->matchBillToCity = $matchBillToCity;
+
+        return $this;
     }
 
     /**
@@ -676,7 +702,7 @@ class ECAVSReply
      */
     public function getMatchBillToState()
     {
-      return $this->matchBillToState;
+        return $this->matchBillToState;
     }
 
     /**
@@ -685,8 +711,9 @@ class ECAVSReply
      */
     public function setMatchBillToState($matchBillToState)
     {
-      $this->matchBillToState = $matchBillToState;
-      return $this;
+        $this->matchBillToState = $matchBillToState;
+
+        return $this;
     }
 
     /**
@@ -694,7 +721,7 @@ class ECAVSReply
      */
     public function getMatchBillToPostalCode()
     {
-      return $this->matchBillToPostalCode;
+        return $this->matchBillToPostalCode;
     }
 
     /**
@@ -703,8 +730,9 @@ class ECAVSReply
      */
     public function setMatchBillToPostalCode($matchBillToPostalCode)
     {
-      $this->matchBillToPostalCode = $matchBillToPostalCode;
-      return $this;
+        $this->matchBillToPostalCode = $matchBillToPostalCode;
+
+        return $this;
     }
 
     /**
@@ -712,7 +740,7 @@ class ECAVSReply
      */
     public function getMatchBillToPhoneNumber()
     {
-      return $this->matchBillToPhoneNumber;
+        return $this->matchBillToPhoneNumber;
     }
 
     /**
@@ -721,8 +749,9 @@ class ECAVSReply
      */
     public function setMatchBillToPhoneNumber($matchBillToPhoneNumber)
     {
-      $this->matchBillToPhoneNumber = $matchBillToPhoneNumber;
-      return $this;
+        $this->matchBillToPhoneNumber = $matchBillToPhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -730,7 +759,7 @@ class ECAVSReply
      */
     public function getMatchBillToCompanyPhoneNumber()
     {
-      return $this->matchBillToCompanyPhoneNumber;
+        return $this->matchBillToCompanyPhoneNumber;
     }
 
     /**
@@ -739,8 +768,9 @@ class ECAVSReply
      */
     public function setMatchBillToCompanyPhoneNumber($matchBillToCompanyPhoneNumber)
     {
-      $this->matchBillToCompanyPhoneNumber = $matchBillToCompanyPhoneNumber;
-      return $this;
+        $this->matchBillToCompanyPhoneNumber = $matchBillToCompanyPhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -748,7 +778,7 @@ class ECAVSReply
      */
     public function getMatchBillToCompanyTaxID()
     {
-      return $this->matchBillToCompanyTaxID;
+        return $this->matchBillToCompanyTaxID;
     }
 
     /**
@@ -757,8 +787,9 @@ class ECAVSReply
      */
     public function setMatchBillToCompanyTaxID($matchBillToCompanyTaxID)
     {
-      $this->matchBillToCompanyTaxID = $matchBillToCompanyTaxID;
-      return $this;
+        $this->matchBillToCompanyTaxID = $matchBillToCompanyTaxID;
+
+        return $this;
     }
 
     /**
@@ -766,7 +797,7 @@ class ECAVSReply
      */
     public function getMatchBillToSSN()
     {
-      return $this->matchBillToSSN;
+        return $this->matchBillToSSN;
     }
 
     /**
@@ -775,8 +806,9 @@ class ECAVSReply
      */
     public function setMatchBillToSSN($matchBillToSSN)
     {
-      $this->matchBillToSSN = $matchBillToSSN;
-      return $this;
+        $this->matchBillToSSN = $matchBillToSSN;
+
+        return $this;
     }
 
     /**
@@ -784,7 +816,7 @@ class ECAVSReply
      */
     public function getMatchBillToDateOfBirth()
     {
-      return $this->matchBillToDateOfBirth;
+        return $this->matchBillToDateOfBirth;
     }
 
     /**
@@ -793,8 +825,9 @@ class ECAVSReply
      */
     public function setMatchBillToDateOfBirth($matchBillToDateOfBirth)
     {
-      $this->matchBillToDateOfBirth = $matchBillToDateOfBirth;
-      return $this;
+        $this->matchBillToDateOfBirth = $matchBillToDateOfBirth;
+
+        return $this;
     }
 
     /**
@@ -802,7 +835,7 @@ class ECAVSReply
      */
     public function getMatchPersonalIDType()
     {
-      return $this->matchPersonalIDType;
+        return $this->matchPersonalIDType;
     }
 
     /**
@@ -811,8 +844,9 @@ class ECAVSReply
      */
     public function setMatchPersonalIDType($matchPersonalIDType)
     {
-      $this->matchPersonalIDType = $matchPersonalIDType;
-      return $this;
+        $this->matchPersonalIDType = $matchPersonalIDType;
+
+        return $this;
     }
 
     /**
@@ -820,7 +854,7 @@ class ECAVSReply
      */
     public function getMatchPersonalID()
     {
-      return $this->matchPersonalID;
+        return $this->matchPersonalID;
     }
 
     /**
@@ -829,8 +863,9 @@ class ECAVSReply
      */
     public function setMatchPersonalID($matchPersonalID)
     {
-      $this->matchPersonalID = $matchPersonalID;
-      return $this;
+        $this->matchPersonalID = $matchPersonalID;
+
+        return $this;
     }
 
     /**
@@ -838,7 +873,7 @@ class ECAVSReply
      */
     public function getMatchPersonalIDIssuedBy()
     {
-      return $this->matchPersonalIDIssuedBy;
+        return $this->matchPersonalIDIssuedBy;
     }
 
     /**
@@ -847,8 +882,9 @@ class ECAVSReply
      */
     public function setMatchPersonalIDIssuedBy($matchPersonalIDIssuedBy)
     {
-      $this->matchPersonalIDIssuedBy = $matchPersonalIDIssuedBy;
-      return $this;
+        $this->matchPersonalIDIssuedBy = $matchPersonalIDIssuedBy;
+
+        return $this;
     }
 
     /**
@@ -856,7 +892,7 @@ class ECAVSReply
      */
     public function getOverallMatchScore()
     {
-      return $this->overallMatchScore;
+        return $this->overallMatchScore;
     }
 
     /**
@@ -865,8 +901,9 @@ class ECAVSReply
      */
     public function setOverallMatchScore($overallMatchScore)
     {
-      $this->overallMatchScore = $overallMatchScore;
-      return $this;
+        $this->overallMatchScore = $overallMatchScore;
+
+        return $this;
     }
 
     /**
@@ -874,7 +911,7 @@ class ECAVSReply
      */
     public function getCalculatedResponse()
     {
-      return $this->calculatedResponse;
+        return $this->calculatedResponse;
     }
 
     /**
@@ -883,8 +920,9 @@ class ECAVSReply
      */
     public function setCalculatedResponse($calculatedResponse)
     {
-      $this->calculatedResponse = $calculatedResponse;
-      return $this;
+        $this->calculatedResponse = $calculatedResponse;
+
+        return $this;
     }
 
 }

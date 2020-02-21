@@ -30,7 +30,7 @@ class PayPalPaymentService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class PayPalPaymentService
      */
     public function getCancelURL()
     {
-      return $this->cancelURL;
+        return $this->cancelURL;
     }
 
     /**
@@ -47,8 +47,9 @@ class PayPalPaymentService
      */
     public function setCancelURL($cancelURL)
     {
-      $this->cancelURL = $cancelURL;
-      return $this;
+        $this->cancelURL = $cancelURL;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PayPalPaymentService
      */
     public function getSuccessURL()
     {
-      return $this->successURL;
+        return $this->successURL;
     }
 
     /**
@@ -65,8 +66,9 @@ class PayPalPaymentService
      */
     public function setSuccessURL($successURL)
     {
-      $this->successURL = $successURL;
-      return $this;
+        $this->successURL = $successURL;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PayPalPaymentService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -83,8 +85,9 @@ class PayPalPaymentService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PayPalPaymentService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class PayPalPaymentService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

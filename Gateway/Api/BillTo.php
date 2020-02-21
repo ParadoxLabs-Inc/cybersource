@@ -320,10 +320,8 @@ class BillTo
      */
     protected $httpBrowserTimeDifference = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -331,7 +329,7 @@ class BillTo
      */
     public function getTitle()
     {
-      return $this->title;
+        return $this->title;
     }
 
     /**
@@ -340,8 +338,9 @@ class BillTo
      */
     public function setTitle($title)
     {
-      $this->title = $title;
-      return $this;
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -349,7 +348,7 @@ class BillTo
      */
     public function getFirstName()
     {
-      return $this->firstName;
+        return $this->firstName;
     }
 
     /**
@@ -358,8 +357,9 @@ class BillTo
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = substr(str_replace(':', '', $firstName), 0, 60);
-      return $this;
+        $this->firstName = substr(str_replace(':', '', $firstName), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -367,7 +367,7 @@ class BillTo
      */
     public function getMiddleName()
     {
-      return $this->middleName;
+        return $this->middleName;
     }
 
     /**
@@ -376,8 +376,9 @@ class BillTo
      */
     public function setMiddleName($middleName)
     {
-      $this->middleName = $middleName;
-      return $this;
+        $this->middleName = $middleName;
+
+        return $this;
     }
 
     /**
@@ -385,7 +386,7 @@ class BillTo
      */
     public function getLastName()
     {
-      return $this->lastName;
+        return $this->lastName;
     }
 
     /**
@@ -394,8 +395,9 @@ class BillTo
      */
     public function setLastName($lastName)
     {
-      $this->lastName = substr(str_replace(':', '', $lastName), 0, 60);
-      return $this;
+        $this->lastName = substr(str_replace(':', '', $lastName), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -403,7 +405,7 @@ class BillTo
      */
     public function getSuffix()
     {
-      return $this->suffix;
+        return $this->suffix;
     }
 
     /**
@@ -412,8 +414,9 @@ class BillTo
      */
     public function setSuffix($suffix)
     {
-      $this->suffix = $suffix;
-      return $this;
+        $this->suffix = $suffix;
+
+        return $this;
     }
 
     /**
@@ -421,7 +424,7 @@ class BillTo
      */
     public function getBuildingNumber()
     {
-      return $this->buildingNumber;
+        return $this->buildingNumber;
     }
 
     /**
@@ -430,8 +433,9 @@ class BillTo
      */
     public function setBuildingNumber($buildingNumber)
     {
-      $this->buildingNumber = substr(str_replace(':', '', $buildingNumber), 0, 255);
-      return $this;
+        $this->buildingNumber = substr(str_replace(':', '', $buildingNumber), 0, 255);
+
+        return $this;
     }
 
     /**
@@ -439,7 +443,7 @@ class BillTo
      */
     public function getStreet1()
     {
-      return $this->street1;
+        return $this->street1;
     }
 
     /**
@@ -448,8 +452,9 @@ class BillTo
      */
     public function setStreet1($street1)
     {
-      $this->street1 = substr(str_replace(':', '', $street1), 0, 60);
-      return $this;
+        $this->street1 = substr(str_replace(':', '', $street1), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -457,7 +462,7 @@ class BillTo
      */
     public function getStreet2()
     {
-      return $this->street2;
+        return $this->street2;
     }
 
     /**
@@ -466,8 +471,9 @@ class BillTo
      */
     public function setStreet2($street2)
     {
-      $this->street2 = substr(str_replace(':', '', $street2), 0, 60);
-      return $this;
+        $this->street2 = substr(str_replace(':', '', $street2), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -475,7 +481,7 @@ class BillTo
      */
     public function getStreet3()
     {
-      return $this->street3;
+        return $this->street3;
     }
 
     /**
@@ -484,8 +490,9 @@ class BillTo
      */
     public function setStreet3($street3)
     {
-      $this->street3 = substr(str_replace(':', '', $street3), 0, 60);
-      return $this;
+        $this->street3 = substr(str_replace(':', '', $street3), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -493,7 +500,7 @@ class BillTo
      */
     public function getStreet4()
     {
-      return $this->street4;
+        return $this->street4;
     }
 
     /**
@@ -502,8 +509,9 @@ class BillTo
      */
     public function setStreet4($street4)
     {
-      $this->street4 = substr(str_replace(':', '', $street4), 0, 60);
-      return $this;
+        $this->street4 = substr(str_replace(':', '', $street4), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -511,7 +519,7 @@ class BillTo
      */
     public function getStreet5()
     {
-      return $this->street5;
+        return $this->street5;
     }
 
     /**
@@ -520,8 +528,9 @@ class BillTo
      */
     public function setStreet5($street5)
     {
-      $this->street5 = $street5;
-      return $this;
+        $this->street5 = $street5;
+
+        return $this;
     }
 
     /**
@@ -529,7 +538,7 @@ class BillTo
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -538,8 +547,9 @@ class BillTo
      */
     public function setCity($city)
     {
-      $this->city = substr(str_replace(':', '', $city), 0, 50);
-      return $this;
+        $this->city = substr(str_replace(':', '', $city), 0, 50);
+
+        return $this;
     }
 
     /**
@@ -547,7 +557,7 @@ class BillTo
      */
     public function getDistrict()
     {
-      return $this->district;
+        return $this->district;
     }
 
     /**
@@ -556,8 +566,9 @@ class BillTo
      */
     public function setDistrict($district)
     {
-      $this->district = $district;
-      return $this;
+        $this->district = $district;
+
+        return $this;
     }
 
     /**
@@ -565,7 +576,7 @@ class BillTo
      */
     public function getCounty()
     {
-      return $this->county;
+        return $this->county;
     }
 
     /**
@@ -574,8 +585,9 @@ class BillTo
      */
     public function setCounty($county)
     {
-      $this->county = $county;
-      return $this;
+        $this->county = $county;
+
+        return $this;
     }
 
     /**
@@ -583,7 +595,7 @@ class BillTo
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -592,8 +604,9 @@ class BillTo
      */
     public function setState($state)
     {
-      $this->state = strtoupper(substr(str_replace(':', '', $state), 0, 2));
-      return $this;
+        $this->state = strtoupper(substr(str_replace(':', '', $state), 0, 2));
+
+        return $this;
     }
 
     /**
@@ -601,7 +614,7 @@ class BillTo
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -622,8 +635,9 @@ class BillTo
             $postalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3, 3);
         }
 
-      $this->postalCode = substr(str_replace(':', '', $postalCode), 0, 10);
-      return $this;
+        $this->postalCode = substr(str_replace(':', '', $postalCode), 0, 10);
+
+        return $this;
     }
 
     /**
@@ -631,7 +645,7 @@ class BillTo
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -640,8 +654,9 @@ class BillTo
      */
     public function setCountry($country)
     {
-      $this->country = strtoupper(substr(str_replace(':', '', $country), 0, 2));
-      return $this;
+        $this->country = strtoupper(substr(str_replace(':', '', $country), 0, 2));
+
+        return $this;
     }
 
     /**
@@ -649,7 +664,7 @@ class BillTo
      */
     public function getCompany()
     {
-      return $this->company;
+        return $this->company;
     }
 
     /**
@@ -658,8 +673,9 @@ class BillTo
      */
     public function setCompany($company)
     {
-      $this->company = substr(str_replace(':', '', $company), 0, 60);
-      return $this;
+        $this->company = substr(str_replace(':', '', $company), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -667,7 +683,7 @@ class BillTo
      */
     public function getCompanyTaxID()
     {
-      return $this->companyTaxID;
+        return $this->companyTaxID;
     }
 
     /**
@@ -676,8 +692,9 @@ class BillTo
      */
     public function setCompanyTaxID($companyTaxID)
     {
-      $this->companyTaxID = substr(str_replace(':', '', $companyTaxID), 0, 9);
-      return $this;
+        $this->companyTaxID = substr(str_replace(':', '', $companyTaxID), 0, 9);
+
+        return $this;
     }
 
     /**
@@ -685,7 +702,7 @@ class BillTo
      */
     public function getPhoneNumber()
     {
-      return $this->phoneNumber;
+        return $this->phoneNumber;
     }
 
     /**
@@ -694,8 +711,9 @@ class BillTo
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = substr(str_replace(':', '', $phoneNumber), 0, 15);
-      return $this;
+        $this->phoneNumber = substr(str_replace(':', '', $phoneNumber), 0, 15);
+
+        return $this;
     }
 
     /**
@@ -703,7 +721,7 @@ class BillTo
      */
     public function getEmail()
     {
-      return $this->email;
+        return $this->email;
     }
 
     /**
@@ -712,8 +730,9 @@ class BillTo
      */
     public function setEmail($email)
     {
-      $this->email = substr(str_replace(':', '', $email), 0, 255);
-      return $this;
+        $this->email = substr(str_replace(':', '', $email), 0, 255);
+
+        return $this;
     }
 
     /**
@@ -721,7 +740,7 @@ class BillTo
      */
     public function getIpAddress()
     {
-      return $this->ipAddress;
+        return $this->ipAddress;
     }
 
     /**
@@ -730,8 +749,9 @@ class BillTo
      */
     public function setIpAddress($ipAddress)
     {
-      $this->ipAddress = substr(preg_replace('/[^\d.]/', '', $ipAddress), 0, 15);
-      return $this;
+        $this->ipAddress = substr(preg_replace('/[^\d.]/', '', $ipAddress), 0, 15);
+
+        return $this;
     }
 
     /**
@@ -739,7 +759,7 @@ class BillTo
      */
     public function getCustomerUserName()
     {
-      return $this->customerUserName;
+        return $this->customerUserName;
     }
 
     /**
@@ -748,8 +768,9 @@ class BillTo
      */
     public function setCustomerUserName($customerUserName)
     {
-      $this->customerUserName = $customerUserName;
-      return $this;
+        $this->customerUserName = $customerUserName;
+
+        return $this;
     }
 
     /**
@@ -757,7 +778,7 @@ class BillTo
      */
     public function getCustomerPassword()
     {
-      return $this->customerPassword;
+        return $this->customerPassword;
     }
 
     /**
@@ -766,8 +787,9 @@ class BillTo
      */
     public function setCustomerPassword($customerPassword)
     {
-      $this->customerPassword = $customerPassword;
-      return $this;
+        $this->customerPassword = $customerPassword;
+
+        return $this;
     }
 
     /**
@@ -775,7 +797,7 @@ class BillTo
      */
     public function getIpNetworkAddress()
     {
-      return $this->ipNetworkAddress;
+        return $this->ipNetworkAddress;
     }
 
     /**
@@ -784,8 +806,9 @@ class BillTo
      */
     public function setIpNetworkAddress($ipNetworkAddress)
     {
-      $this->ipNetworkAddress = $ipNetworkAddress;
-      return $this;
+        $this->ipNetworkAddress = $ipNetworkAddress;
+
+        return $this;
     }
 
     /**
@@ -793,7 +816,7 @@ class BillTo
      */
     public function getHostname()
     {
-      return $this->hostname;
+        return $this->hostname;
     }
 
     /**
@@ -802,8 +825,9 @@ class BillTo
      */
     public function setHostname($hostname)
     {
-      $this->hostname = substr(str_replace(':', '', $hostname), 0, 60);
-      return $this;
+        $this->hostname = substr(str_replace(':', '', $hostname), 0, 60);
+
+        return $this;
     }
 
     /**
@@ -811,7 +835,7 @@ class BillTo
      */
     public function getDomainName()
     {
-      return $this->domainName;
+        return $this->domainName;
     }
 
     /**
@@ -820,8 +844,9 @@ class BillTo
      */
     public function setDomainName($domainName)
     {
-      $this->domainName = $domainName;
-      return $this;
+        $this->domainName = $domainName;
+
+        return $this;
     }
 
     /**
@@ -829,7 +854,7 @@ class BillTo
      */
     public function getDateOfBirth()
     {
-      return $this->dateOfBirth;
+        return $this->dateOfBirth;
     }
 
     /**
@@ -838,8 +863,9 @@ class BillTo
      */
     public function setDateOfBirth($dateOfBirth)
     {
-      $this->dateOfBirth = $dateOfBirth;
-      return $this;
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
     }
 
     /**
@@ -847,7 +873,7 @@ class BillTo
      */
     public function getDriversLicenseNumber()
     {
-      return $this->driversLicenseNumber;
+        return $this->driversLicenseNumber;
     }
 
     /**
@@ -856,8 +882,9 @@ class BillTo
      */
     public function setDriversLicenseNumber($driversLicenseNumber)
     {
-      $this->driversLicenseNumber = $driversLicenseNumber;
-      return $this;
+        $this->driversLicenseNumber = $driversLicenseNumber;
+
+        return $this;
     }
 
     /**
@@ -865,7 +892,7 @@ class BillTo
      */
     public function getDriversLicenseState()
     {
-      return $this->driversLicenseState;
+        return $this->driversLicenseState;
     }
 
     /**
@@ -874,8 +901,9 @@ class BillTo
      */
     public function setDriversLicenseState($driversLicenseState)
     {
-      $this->driversLicenseState = $driversLicenseState;
-      return $this;
+        $this->driversLicenseState = $driversLicenseState;
+
+        return $this;
     }
 
     /**
@@ -883,7 +911,7 @@ class BillTo
      */
     public function getSsn()
     {
-      return $this->ssn;
+        return $this->ssn;
     }
 
     /**
@@ -892,8 +920,9 @@ class BillTo
      */
     public function setSsn($ssn)
     {
-      $this->ssn = $ssn;
-      return $this;
+        $this->ssn = $ssn;
+
+        return $this;
     }
 
     /**
@@ -901,7 +930,7 @@ class BillTo
      */
     public function getCustomerID()
     {
-      return $this->customerID;
+        return $this->customerID;
     }
 
     /**
@@ -910,8 +939,9 @@ class BillTo
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = substr(str_replace(':', '', $customerID), 0, 30);
-      return $this;
+        $this->customerID = substr(str_replace(':', '', $customerID), 0, 30);
+
+        return $this;
     }
 
     /**
@@ -919,7 +949,7 @@ class BillTo
      */
     public function getHttpBrowserType()
     {
-      return $this->httpBrowserType;
+        return $this->httpBrowserType;
     }
 
     /**
@@ -928,8 +958,9 @@ class BillTo
      */
     public function setHttpBrowserType($httpBrowserType)
     {
-      $this->httpBrowserType = substr(str_replace(':', '', $httpBrowserType), 0, 40);
-      return $this;
+        $this->httpBrowserType = substr(str_replace(':', '', $httpBrowserType), 0, 40);
+
+        return $this;
     }
 
     /**
@@ -937,7 +968,7 @@ class BillTo
      */
     public function getHttpBrowserEmail()
     {
-      return $this->httpBrowserEmail;
+        return $this->httpBrowserEmail;
     }
 
     /**
@@ -946,8 +977,9 @@ class BillTo
      */
     public function setHttpBrowserEmail($httpBrowserEmail)
     {
-      $this->httpBrowserEmail = $httpBrowserEmail;
-      return $this;
+        $this->httpBrowserEmail = $httpBrowserEmail;
+
+        return $this;
     }
 
     /**
@@ -955,7 +987,7 @@ class BillTo
      */
     public function getHttpBrowserCookiesAccepted()
     {
-      return $this->httpBrowserCookiesAccepted;
+        return $this->httpBrowserCookiesAccepted;
     }
 
     /**
@@ -964,8 +996,9 @@ class BillTo
      */
     public function setHttpBrowserCookiesAccepted($httpBrowserCookiesAccepted)
     {
-      $this->httpBrowserCookiesAccepted = $httpBrowserCookiesAccepted;
-      return $this;
+        $this->httpBrowserCookiesAccepted = $httpBrowserCookiesAccepted;
+
+        return $this;
     }
 
     /**
@@ -973,7 +1006,7 @@ class BillTo
      */
     public function getNif()
     {
-      return $this->nif;
+        return $this->nif;
     }
 
     /**
@@ -982,8 +1015,9 @@ class BillTo
      */
     public function setNif($nif)
     {
-      $this->nif = $nif;
-      return $this;
+        $this->nif = $nif;
+
+        return $this;
     }
 
     /**
@@ -991,7 +1025,7 @@ class BillTo
      */
     public function getPersonalID()
     {
-      return $this->personalID;
+        return $this->personalID;
     }
 
     /**
@@ -1000,8 +1034,9 @@ class BillTo
      */
     public function setPersonalID($personalID)
     {
-      $this->personalID = substr(str_replace(':', '', $personalID), 0, 26);
-      return $this;
+        $this->personalID = substr(str_replace(':', '', $personalID), 0, 26);
+
+        return $this;
     }
 
     /**
@@ -1009,7 +1044,7 @@ class BillTo
      */
     public function getLanguage()
     {
-      return $this->language;
+        return $this->language;
     }
 
     /**
@@ -1018,8 +1053,9 @@ class BillTo
      */
     public function setLanguage($language)
     {
-      $this->language = $language;
-      return $this;
+        $this->language = $language;
+
+        return $this;
     }
 
     /**
@@ -1027,7 +1063,7 @@ class BillTo
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -1036,8 +1072,9 @@ class BillTo
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -1045,7 +1082,7 @@ class BillTo
      */
     public function getGender()
     {
-      return $this->gender;
+        return $this->gender;
     }
 
     /**
@@ -1054,8 +1091,9 @@ class BillTo
      */
     public function setGender($gender)
     {
-      $this->gender = $gender;
-      return $this;
+        $this->gender = $gender;
+
+        return $this;
     }
 
     /**
@@ -1063,7 +1101,7 @@ class BillTo
      */
     public function getMerchantTaxID()
     {
-      return $this->merchantTaxID;
+        return $this->merchantTaxID;
     }
 
     /**
@@ -1072,8 +1110,9 @@ class BillTo
      */
     public function setMerchantTaxID($merchantTaxID)
     {
-      $this->merchantTaxID = substr(str_replace(':', '', $merchantTaxID), 0, 15);
-      return $this;
+        $this->merchantTaxID = substr(str_replace(':', '', $merchantTaxID), 0, 15);
+
+        return $this;
     }
 
     /**
@@ -1081,7 +1120,7 @@ class BillTo
      */
     public function getPassportNumber()
     {
-      return $this->passportNumber;
+        return $this->passportNumber;
     }
 
     /**
@@ -1090,8 +1129,9 @@ class BillTo
      */
     public function setPassportNumber($passportNumber)
     {
-      $this->passportNumber = $passportNumber;
-      return $this;
+        $this->passportNumber = $passportNumber;
+
+        return $this;
     }
 
     /**
@@ -1099,7 +1139,7 @@ class BillTo
      */
     public function getPassportCountry()
     {
-      return $this->passportCountry;
+        return $this->passportCountry;
     }
 
     /**
@@ -1108,8 +1148,9 @@ class BillTo
      */
     public function setPassportCountry($passportCountry)
     {
-      $this->passportCountry = $passportCountry;
-      return $this;
+        $this->passportCountry = $passportCountry;
+
+        return $this;
     }
 
     /**
@@ -1117,7 +1158,7 @@ class BillTo
      */
     public function getCustomerAccountCreateDate()
     {
-      return $this->customerAccountCreateDate;
+        return $this->customerAccountCreateDate;
     }
 
     /**
@@ -1126,8 +1167,9 @@ class BillTo
      */
     public function setCustomerAccountCreateDate($customerAccountCreateDate)
     {
-      $this->customerAccountCreateDate = $customerAccountCreateDate;
-      return $this;
+        $this->customerAccountCreateDate = $customerAccountCreateDate;
+
+        return $this;
     }
 
     /**
@@ -1135,7 +1177,7 @@ class BillTo
      */
     public function getCustomerAccountChangeDate()
     {
-      return $this->customerAccountChangeDate;
+        return $this->customerAccountChangeDate;
     }
 
     /**
@@ -1144,8 +1186,9 @@ class BillTo
      */
     public function setCustomerAccountChangeDate($customerAccountChangeDate)
     {
-      $this->customerAccountChangeDate = $customerAccountChangeDate;
-      return $this;
+        $this->customerAccountChangeDate = $customerAccountChangeDate;
+
+        return $this;
     }
 
     /**
@@ -1153,7 +1196,7 @@ class BillTo
      */
     public function getCustomerAccountPasswordChangeDate()
     {
-      return $this->customerAccountPasswordChangeDate;
+        return $this->customerAccountPasswordChangeDate;
     }
 
     /**
@@ -1162,8 +1205,9 @@ class BillTo
      */
     public function setCustomerAccountPasswordChangeDate($customerAccountPasswordChangeDate)
     {
-      $this->customerAccountPasswordChangeDate = $customerAccountPasswordChangeDate;
-      return $this;
+        $this->customerAccountPasswordChangeDate = $customerAccountPasswordChangeDate;
+
+        return $this;
     }
 
     /**
@@ -1171,7 +1215,7 @@ class BillTo
      */
     public function getPointOfReference()
     {
-      return $this->pointOfReference;
+        return $this->pointOfReference;
     }
 
     /**
@@ -1180,8 +1224,9 @@ class BillTo
      */
     public function setPointOfReference($pointOfReference)
     {
-      $this->pointOfReference = $pointOfReference;
-      return $this;
+        $this->pointOfReference = $pointOfReference;
+
+        return $this;
     }
 
     /**
@@ -1189,7 +1234,7 @@ class BillTo
      */
     public function getDefaultIndicator()
     {
-      return $this->defaultIndicator;
+        return $this->defaultIndicator;
     }
 
     /**
@@ -1198,8 +1243,9 @@ class BillTo
      */
     public function setDefaultIndicator($defaultIndicator)
     {
-      $this->defaultIndicator = $defaultIndicator;
-      return $this;
+        $this->defaultIndicator = $defaultIndicator;
+
+        return $this;
     }
 
     /**
@@ -1207,7 +1253,7 @@ class BillTo
      */
     public function getCompanyStreet1()
     {
-      return $this->companyStreet1;
+        return $this->companyStreet1;
     }
 
     /**
@@ -1216,8 +1262,9 @@ class BillTo
      */
     public function setCompanyStreet1($companyStreet1)
     {
-      $this->companyStreet1 = $companyStreet1;
-      return $this;
+        $this->companyStreet1 = $companyStreet1;
+
+        return $this;
     }
 
     /**
@@ -1225,7 +1272,7 @@ class BillTo
      */
     public function getCompanyStreet2()
     {
-      return $this->companyStreet2;
+        return $this->companyStreet2;
     }
 
     /**
@@ -1234,8 +1281,9 @@ class BillTo
      */
     public function setCompanyStreet2($companyStreet2)
     {
-      $this->companyStreet2 = $companyStreet2;
-      return $this;
+        $this->companyStreet2 = $companyStreet2;
+
+        return $this;
     }
 
     /**
@@ -1243,7 +1291,7 @@ class BillTo
      */
     public function getCompanyCity()
     {
-      return $this->companyCity;
+        return $this->companyCity;
     }
 
     /**
@@ -1252,8 +1300,9 @@ class BillTo
      */
     public function setCompanyCity($companyCity)
     {
-      $this->companyCity = $companyCity;
-      return $this;
+        $this->companyCity = $companyCity;
+
+        return $this;
     }
 
     /**
@@ -1261,7 +1310,7 @@ class BillTo
      */
     public function getCompanyCountry()
     {
-      return $this->companyCountry;
+        return $this->companyCountry;
     }
 
     /**
@@ -1270,8 +1319,9 @@ class BillTo
      */
     public function setCompanyCountry($companyCountry)
     {
-      $this->companyCountry = $companyCountry;
-      return $this;
+        $this->companyCountry = $companyCountry;
+
+        return $this;
     }
 
     /**
@@ -1279,7 +1329,7 @@ class BillTo
      */
     public function getCompanyState()
     {
-      return $this->companyState;
+        return $this->companyState;
     }
 
     /**
@@ -1288,8 +1338,9 @@ class BillTo
      */
     public function setCompanyState($companyState)
     {
-      $this->companyState = $companyState;
-      return $this;
+        $this->companyState = $companyState;
+
+        return $this;
     }
 
     /**
@@ -1297,7 +1348,7 @@ class BillTo
      */
     public function getCompanyPostalCode()
     {
-      return $this->companyPostalCode;
+        return $this->companyPostalCode;
     }
 
     /**
@@ -1306,8 +1357,9 @@ class BillTo
      */
     public function setCompanyPostalCode($companyPostalCode)
     {
-      $this->companyPostalCode = $companyPostalCode;
-      return $this;
+        $this->companyPostalCode = $companyPostalCode;
+
+        return $this;
     }
 
     /**
@@ -1315,7 +1367,7 @@ class BillTo
      */
     public function getPrefix()
     {
-      return $this->prefix;
+        return $this->prefix;
     }
 
     /**
@@ -1324,8 +1376,9 @@ class BillTo
      */
     public function setPrefix($prefix)
     {
-      $this->prefix = $prefix;
-      return $this;
+        $this->prefix = $prefix;
+
+        return $this;
     }
 
     /**
@@ -1333,7 +1386,7 @@ class BillTo
      */
     public function getCompanyPhoneNumber()
     {
-      return $this->companyPhoneNumber;
+        return $this->companyPhoneNumber;
     }
 
     /**
@@ -1342,8 +1395,9 @@ class BillTo
      */
     public function setCompanyPhoneNumber($companyPhoneNumber)
     {
-      $this->companyPhoneNumber = $companyPhoneNumber;
-      return $this;
+        $this->companyPhoneNumber = $companyPhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -1351,7 +1405,7 @@ class BillTo
      */
     public function getHttpBrowserColorDepth()
     {
-      return $this->httpBrowserColorDepth;
+        return $this->httpBrowserColorDepth;
     }
 
     /**
@@ -1360,8 +1414,9 @@ class BillTo
      */
     public function setHttpBrowserColorDepth($httpBrowserColorDepth)
     {
-      $this->httpBrowserColorDepth = $httpBrowserColorDepth;
-      return $this;
+        $this->httpBrowserColorDepth = $httpBrowserColorDepth;
+
+        return $this;
     }
 
     /**
@@ -1369,7 +1424,7 @@ class BillTo
      */
     public function getHttpBrowserJavaEnabled()
     {
-      return $this->httpBrowserJavaEnabled;
+        return $this->httpBrowserJavaEnabled;
     }
 
     /**
@@ -1378,8 +1433,9 @@ class BillTo
      */
     public function setHttpBrowserJavaEnabled($httpBrowserJavaEnabled)
     {
-      $this->httpBrowserJavaEnabled = $httpBrowserJavaEnabled;
-      return $this;
+        $this->httpBrowserJavaEnabled = $httpBrowserJavaEnabled;
+
+        return $this;
     }
 
     /**
@@ -1387,7 +1443,7 @@ class BillTo
      */
     public function getHttpBrowserJavaScriptEnabled()
     {
-      return $this->httpBrowserJavaScriptEnabled;
+        return $this->httpBrowserJavaScriptEnabled;
     }
 
     /**
@@ -1396,8 +1452,9 @@ class BillTo
      */
     public function setHttpBrowserJavaScriptEnabled($httpBrowserJavaScriptEnabled)
     {
-      $this->httpBrowserJavaScriptEnabled = $httpBrowserJavaScriptEnabled;
-      return $this;
+        $this->httpBrowserJavaScriptEnabled = $httpBrowserJavaScriptEnabled;
+
+        return $this;
     }
 
     /**
@@ -1405,7 +1462,7 @@ class BillTo
      */
     public function getHttpBrowserLanguage()
     {
-      return $this->httpBrowserLanguage;
+        return $this->httpBrowserLanguage;
     }
 
     /**
@@ -1414,8 +1471,9 @@ class BillTo
      */
     public function setHttpBrowserLanguage($httpBrowserLanguage)
     {
-      $this->httpBrowserLanguage = $httpBrowserLanguage;
-      return $this;
+        $this->httpBrowserLanguage = $httpBrowserLanguage;
+
+        return $this;
     }
 
     /**
@@ -1423,7 +1481,7 @@ class BillTo
      */
     public function getHttpBrowserScreenHeight()
     {
-      return $this->httpBrowserScreenHeight;
+        return $this->httpBrowserScreenHeight;
     }
 
     /**
@@ -1432,8 +1490,9 @@ class BillTo
      */
     public function setHttpBrowserScreenHeight($httpBrowserScreenHeight)
     {
-      $this->httpBrowserScreenHeight = $httpBrowserScreenHeight;
-      return $this;
+        $this->httpBrowserScreenHeight = $httpBrowserScreenHeight;
+
+        return $this;
     }
 
     /**
@@ -1441,7 +1500,7 @@ class BillTo
      */
     public function getHttpBrowserScreenWidth()
     {
-      return $this->httpBrowserScreenWidth;
+        return $this->httpBrowserScreenWidth;
     }
 
     /**
@@ -1450,8 +1509,9 @@ class BillTo
      */
     public function setHttpBrowserScreenWidth($httpBrowserScreenWidth)
     {
-      $this->httpBrowserScreenWidth = $httpBrowserScreenWidth;
-      return $this;
+        $this->httpBrowserScreenWidth = $httpBrowserScreenWidth;
+
+        return $this;
     }
 
     /**
@@ -1459,7 +1519,7 @@ class BillTo
      */
     public function getHttpBrowserTimeDifference()
     {
-      return $this->httpBrowserTimeDifference;
+        return $this->httpBrowserTimeDifference;
     }
 
     /**
@@ -1468,8 +1528,9 @@ class BillTo
      */
     public function setHttpBrowserTimeDifference($httpBrowserTimeDifference)
     {
-      $this->httpBrowserTimeDifference = $httpBrowserTimeDifference;
-      return $this;
+        $this->httpBrowserTimeDifference = $httpBrowserTimeDifference;
+
+        return $this;
     }
 
 }

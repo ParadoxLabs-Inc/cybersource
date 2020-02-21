@@ -35,10 +35,8 @@ class Promotion
      */
     protected $description = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class Promotion
      */
     public function getDiscountedAmount()
     {
-      return $this->discountedAmount;
+        return $this->discountedAmount;
     }
 
     /**
@@ -55,8 +53,9 @@ class Promotion
      */
     public function setDiscountedAmount($discountedAmount)
     {
-      $this->discountedAmount = $discountedAmount;
-      return $this;
+        $this->discountedAmount = $discountedAmount;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class Promotion
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -73,8 +72,9 @@ class Promotion
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class Promotion
      */
     public function getCode()
     {
-      return $this->code;
+        return $this->code;
     }
 
     /**
@@ -91,8 +91,9 @@ class Promotion
      */
     public function setCode($code)
     {
-      $this->code = $code;
-      return $this;
+        $this->code = $code;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class Promotion
      */
     public function getReceiptData()
     {
-      return $this->receiptData;
+        return $this->receiptData;
     }
 
     /**
@@ -109,8 +110,9 @@ class Promotion
      */
     public function setReceiptData($receiptData)
     {
-      $this->receiptData = $receiptData;
-      return $this;
+        $this->receiptData = $receiptData;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class Promotion
      */
     public function getDiscountApplied()
     {
-      return $this->discountApplied;
+        return $this->discountApplied;
     }
 
     /**
@@ -127,8 +129,9 @@ class Promotion
      */
     public function setDiscountApplied($discountApplied)
     {
-      $this->discountApplied = $discountApplied;
-      return $this;
+        $this->discountApplied = $discountApplied;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class Promotion
      */
     public function getDescription()
     {
-      return $this->description;
+        return $this->description;
     }
 
     /**
@@ -145,8 +148,9 @@ class Promotion
      */
     public function setDescription($description)
     {
-      $this->description = $description;
-      return $this;
+        $this->description = $description;
+
+        return $this;
     }
 
 }

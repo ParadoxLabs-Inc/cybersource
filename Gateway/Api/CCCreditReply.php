@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class CCCreditReply
 {
 
@@ -75,7 +78,7 @@ class CCCreditReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -83,7 +86,7 @@ class CCCreditReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -92,8 +95,9 @@ class CCCreditReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -101,29 +105,30 @@ class CCCreditReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -131,7 +136,7 @@ class CCCreditReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -140,8 +145,9 @@ class CCCreditReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -149,7 +155,7 @@ class CCCreditReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -158,8 +164,9 @@ class CCCreditReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -167,7 +174,7 @@ class CCCreditReply
      */
     public function getPurchasingLevel3Enabled()
     {
-      return $this->purchasingLevel3Enabled;
+        return $this->purchasingLevel3Enabled;
     }
 
     /**
@@ -176,8 +183,9 @@ class CCCreditReply
      */
     public function setPurchasingLevel3Enabled($purchasingLevel3Enabled)
     {
-      $this->purchasingLevel3Enabled = $purchasingLevel3Enabled;
-      return $this;
+        $this->purchasingLevel3Enabled = $purchasingLevel3Enabled;
+
+        return $this;
     }
 
     /**
@@ -185,7 +193,7 @@ class CCCreditReply
      */
     public function getEnhancedDataEnabled()
     {
-      return $this->enhancedDataEnabled;
+        return $this->enhancedDataEnabled;
     }
 
     /**
@@ -194,8 +202,9 @@ class CCCreditReply
      */
     public function setEnhancedDataEnabled($enhancedDataEnabled)
     {
-      $this->enhancedDataEnabled = $enhancedDataEnabled;
-      return $this;
+        $this->enhancedDataEnabled = $enhancedDataEnabled;
+
+        return $this;
     }
 
     /**
@@ -203,7 +212,7 @@ class CCCreditReply
      */
     public function getAuthorizationXID()
     {
-      return $this->authorizationXID;
+        return $this->authorizationXID;
     }
 
     /**
@@ -212,8 +221,9 @@ class CCCreditReply
      */
     public function setAuthorizationXID($authorizationXID)
     {
-      $this->authorizationXID = $authorizationXID;
-      return $this;
+        $this->authorizationXID = $authorizationXID;
+
+        return $this;
     }
 
     /**
@@ -221,7 +231,7 @@ class CCCreditReply
      */
     public function getForwardCode()
     {
-      return $this->forwardCode;
+        return $this->forwardCode;
     }
 
     /**
@@ -230,8 +240,9 @@ class CCCreditReply
      */
     public function setForwardCode($forwardCode)
     {
-      $this->forwardCode = $forwardCode;
-      return $this;
+        $this->forwardCode = $forwardCode;
+
+        return $this;
     }
 
     /**
@@ -239,7 +250,7 @@ class CCCreditReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -248,8 +259,9 @@ class CCCreditReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
     /**
@@ -257,7 +269,7 @@ class CCCreditReply
      */
     public function getReconciliationReferenceNumber()
     {
-      return $this->reconciliationReferenceNumber;
+        return $this->reconciliationReferenceNumber;
     }
 
     /**
@@ -266,8 +278,9 @@ class CCCreditReply
      */
     public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
     {
-      $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
-      return $this;
+        $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
+
+        return $this;
     }
 
     /**
@@ -275,7 +288,7 @@ class CCCreditReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -284,8 +297,9 @@ class CCCreditReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -293,7 +307,7 @@ class CCCreditReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -302,8 +316,9 @@ class CCCreditReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -311,7 +326,7 @@ class CCCreditReply
      */
     public function getPaymentNetworkTransactionID()
     {
-      return $this->paymentNetworkTransactionID;
+        return $this->paymentNetworkTransactionID;
     }
 
     /**
@@ -320,8 +335,9 @@ class CCCreditReply
      */
     public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
     {
-      $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
-      return $this;
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
     }
 
 }

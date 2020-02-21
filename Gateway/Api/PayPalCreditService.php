@@ -30,7 +30,7 @@ class PayPalCreditService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class PayPalCreditService
      */
     public function getPayPalPaymentRequestID()
     {
-      return $this->payPalPaymentRequestID;
+        return $this->payPalPaymentRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class PayPalCreditService
      */
     public function setPayPalPaymentRequestID($payPalPaymentRequestID)
     {
-      $this->payPalPaymentRequestID = $payPalPaymentRequestID;
-      return $this;
+        $this->payPalPaymentRequestID = $payPalPaymentRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PayPalCreditService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -65,8 +66,9 @@ class PayPalCreditService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PayPalCreditService
      */
     public function getPayPalPaymentRequestToken()
     {
-      return $this->payPalPaymentRequestToken;
+        return $this->payPalPaymentRequestToken;
     }
 
     /**
@@ -83,8 +85,9 @@ class PayPalCreditService
      */
     public function setPayPalPaymentRequestToken($payPalPaymentRequestToken)
     {
-      $this->payPalPaymentRequestToken = $payPalPaymentRequestToken;
-      return $this;
+        $this->payPalPaymentRequestToken = $payPalPaymentRequestToken;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PayPalCreditService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class PayPalCreditService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

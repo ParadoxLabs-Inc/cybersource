@@ -120,7 +120,7 @@ class CCCreditService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -128,7 +128,7 @@ class CCCreditService
      */
     public function getCaptureRequestID()
     {
-      return $this->captureRequestID;
+        return $this->captureRequestID;
     }
 
     /**
@@ -137,8 +137,9 @@ class CCCreditService
      */
     public function setCaptureRequestID($captureRequestID)
     {
-      $this->captureRequestID = $captureRequestID;
-      return $this;
+        $this->captureRequestID = $captureRequestID;
+
+        return $this;
     }
 
     /**
@@ -146,7 +147,7 @@ class CCCreditService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -155,8 +156,9 @@ class CCCreditService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -164,7 +166,7 @@ class CCCreditService
      */
     public function getPartialPaymentID()
     {
-      return $this->partialPaymentID;
+        return $this->partialPaymentID;
     }
 
     /**
@@ -173,8 +175,9 @@ class CCCreditService
      */
     public function setPartialPaymentID($partialPaymentID)
     {
-      $this->partialPaymentID = $partialPaymentID;
-      return $this;
+        $this->partialPaymentID = $partialPaymentID;
+
+        return $this;
     }
 
     /**
@@ -182,7 +185,7 @@ class CCCreditService
      */
     public function getPurchasingLevel()
     {
-      return $this->purchasingLevel;
+        return $this->purchasingLevel;
     }
 
     /**
@@ -191,8 +194,9 @@ class CCCreditService
      */
     public function setPurchasingLevel($purchasingLevel)
     {
-      $this->purchasingLevel = $purchasingLevel;
-      return $this;
+        $this->purchasingLevel = $purchasingLevel;
+
+        return $this;
     }
 
     /**
@@ -200,7 +204,7 @@ class CCCreditService
      */
     public function getIndustryDatatype()
     {
-      return $this->industryDatatype;
+        return $this->industryDatatype;
     }
 
     /**
@@ -209,8 +213,9 @@ class CCCreditService
      */
     public function setIndustryDatatype($industryDatatype)
     {
-      $this->industryDatatype = $industryDatatype;
-      return $this;
+        $this->industryDatatype = $industryDatatype;
+
+        return $this;
     }
 
     /**
@@ -218,7 +223,7 @@ class CCCreditService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -227,8 +232,9 @@ class CCCreditService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -236,7 +242,7 @@ class CCCreditService
      */
     public function getBillPayment()
     {
-      return $this->billPayment;
+        return $this->billPayment;
     }
 
     /**
@@ -245,8 +251,9 @@ class CCCreditService
      */
     public function setBillPayment($billPayment)
     {
-      $this->billPayment = $billPayment;
-      return $this;
+        $this->billPayment = $billPayment;
+
+        return $this;
     }
 
     /**
@@ -254,7 +261,7 @@ class CCCreditService
      */
     public function getAuthorizationXID()
     {
-      return $this->authorizationXID;
+        return $this->authorizationXID;
     }
 
     /**
@@ -263,8 +270,9 @@ class CCCreditService
      */
     public function setAuthorizationXID($authorizationXID)
     {
-      $this->authorizationXID = $authorizationXID;
-      return $this;
+        $this->authorizationXID = $authorizationXID;
+
+        return $this;
     }
 
     /**
@@ -272,7 +280,7 @@ class CCCreditService
      */
     public function getOccurrenceNumber()
     {
-      return $this->occurrenceNumber;
+        return $this->occurrenceNumber;
     }
 
     /**
@@ -281,8 +289,9 @@ class CCCreditService
      */
     public function setOccurrenceNumber($occurrenceNumber)
     {
-      $this->occurrenceNumber = $occurrenceNumber;
-      return $this;
+        $this->occurrenceNumber = $occurrenceNumber;
+
+        return $this;
     }
 
     /**
@@ -290,7 +299,7 @@ class CCCreditService
      */
     public function getAuthCode()
     {
-      return $this->authCode;
+        return $this->authCode;
     }
 
     /**
@@ -299,8 +308,9 @@ class CCCreditService
      */
     public function setAuthCode($authCode)
     {
-      $this->authCode = $authCode;
-      return $this;
+        $this->authCode = $authCode;
+
+        return $this;
     }
 
     /**
@@ -308,7 +318,7 @@ class CCCreditService
      */
     public function getCaptureRequestToken()
     {
-      return $this->captureRequestToken;
+        return $this->captureRequestToken;
     }
 
     /**
@@ -317,8 +327,9 @@ class CCCreditService
      */
     public function setCaptureRequestToken($captureRequestToken)
     {
-      $this->captureRequestToken = $captureRequestToken;
-      return $this;
+        $this->captureRequestToken = $captureRequestToken;
+
+        return $this;
     }
 
     /**
@@ -326,7 +337,7 @@ class CCCreditService
      */
     public function getMerchantReceiptNumber()
     {
-      return $this->merchantReceiptNumber;
+        return $this->merchantReceiptNumber;
     }
 
     /**
@@ -335,8 +346,9 @@ class CCCreditService
      */
     public function setMerchantReceiptNumber($merchantReceiptNumber)
     {
-      $this->merchantReceiptNumber = $merchantReceiptNumber;
-      return $this;
+        $this->merchantReceiptNumber = $merchantReceiptNumber;
+
+        return $this;
     }
 
     /**
@@ -344,7 +356,7 @@ class CCCreditService
      */
     public function getChecksumKey()
     {
-      return $this->checksumKey;
+        return $this->checksumKey;
     }
 
     /**
@@ -353,8 +365,9 @@ class CCCreditService
      */
     public function setChecksumKey($checksumKey)
     {
-      $this->checksumKey = $checksumKey;
-      return $this;
+        $this->checksumKey = $checksumKey;
+
+        return $this;
     }
 
     /**
@@ -362,7 +375,7 @@ class CCCreditService
      */
     public function getAggregatorID()
     {
-      return $this->aggregatorID;
+        return $this->aggregatorID;
     }
 
     /**
@@ -371,8 +384,9 @@ class CCCreditService
      */
     public function setAggregatorID($aggregatorID)
     {
-      $this->aggregatorID = $aggregatorID;
-      return $this;
+        $this->aggregatorID = $aggregatorID;
+
+        return $this;
     }
 
     /**
@@ -380,7 +394,7 @@ class CCCreditService
      */
     public function getAggregatorName()
     {
-      return $this->aggregatorName;
+        return $this->aggregatorName;
     }
 
     /**
@@ -389,8 +403,9 @@ class CCCreditService
      */
     public function setAggregatorName($aggregatorName)
     {
-      $this->aggregatorName = $aggregatorName;
-      return $this;
+        $this->aggregatorName = $aggregatorName;
+
+        return $this;
     }
 
     /**
@@ -398,7 +413,7 @@ class CCCreditService
      */
     public function getDuration()
     {
-      return $this->duration;
+        return $this->duration;
     }
 
     /**
@@ -407,8 +422,9 @@ class CCCreditService
      */
     public function setDuration($duration)
     {
-      $this->duration = $duration;
-      return $this;
+        $this->duration = $duration;
+
+        return $this;
     }
 
     /**
@@ -416,7 +432,7 @@ class CCCreditService
      */
     public function getDpdeBillingMonth()
     {
-      return $this->dpdeBillingMonth;
+        return $this->dpdeBillingMonth;
     }
 
     /**
@@ -425,8 +441,9 @@ class CCCreditService
      */
     public function setDpdeBillingMonth($dpdeBillingMonth)
     {
-      $this->dpdeBillingMonth = $dpdeBillingMonth;
-      return $this;
+        $this->dpdeBillingMonth = $dpdeBillingMonth;
+
+        return $this;
     }
 
     /**
@@ -434,7 +451,7 @@ class CCCreditService
      */
     public function getReconciliationIDAlternate()
     {
-      return $this->reconciliationIDAlternate;
+        return $this->reconciliationIDAlternate;
     }
 
     /**
@@ -443,8 +460,9 @@ class CCCreditService
      */
     public function setReconciliationIDAlternate($reconciliationIDAlternate)
     {
-      $this->reconciliationIDAlternate = $reconciliationIDAlternate;
-      return $this;
+        $this->reconciliationIDAlternate = $reconciliationIDAlternate;
+
+        return $this;
     }
 
     /**
@@ -452,7 +470,7 @@ class CCCreditService
      */
     public function getRefundReason()
     {
-      return $this->refundReason;
+        return $this->refundReason;
     }
 
     /**
@@ -461,8 +479,9 @@ class CCCreditService
      */
     public function setRefundReason($refundReason)
     {
-      $this->refundReason = $refundReason;
-      return $this;
+        $this->refundReason = $refundReason;
+
+        return $this;
     }
 
     /**
@@ -470,7 +489,7 @@ class CCCreditService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -479,8 +498,9 @@ class CCCreditService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -488,7 +508,7 @@ class CCCreditService
      */
     public function getOverridePaymentDetails()
     {
-      return $this->overridePaymentDetails;
+        return $this->overridePaymentDetails;
     }
 
     /**
@@ -497,8 +517,9 @@ class CCCreditService
      */
     public function setOverridePaymentDetails($overridePaymentDetails)
     {
-      $this->overridePaymentDetails = $overridePaymentDetails;
-      return $this;
+        $this->overridePaymentDetails = $overridePaymentDetails;
+
+        return $this;
     }
 
     /**
@@ -506,7 +527,7 @@ class CCCreditService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -515,8 +536,9 @@ class CCCreditService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

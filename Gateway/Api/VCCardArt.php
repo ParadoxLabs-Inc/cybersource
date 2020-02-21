@@ -30,7 +30,7 @@ class VCCardArt
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -38,7 +38,7 @@ class VCCardArt
      */
     public function getFileName()
     {
-      return $this->fileName;
+        return $this->fileName;
     }
 
     /**
@@ -47,8 +47,9 @@ class VCCardArt
      */
     public function setFileName($fileName)
     {
-      $this->fileName = $fileName;
-      return $this;
+        $this->fileName = $fileName;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class VCCardArt
      */
     public function getHeight()
     {
-      return $this->height;
+        return $this->height;
     }
 
     /**
@@ -65,8 +66,9 @@ class VCCardArt
      */
     public function setHeight($height)
     {
-      $this->height = $height;
-      return $this;
+        $this->height = $height;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class VCCardArt
      */
     public function getWidth()
     {
-      return $this->width;
+        return $this->width;
     }
 
     /**
@@ -83,8 +85,9 @@ class VCCardArt
      */
     public function setWidth($width)
     {
-      $this->width = $width;
-      return $this;
+        $this->width = $width;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class VCCardArt
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -101,8 +104,9 @@ class VCCardArt
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

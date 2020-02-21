@@ -165,7 +165,7 @@ class TaxService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -173,7 +173,7 @@ class TaxService
      */
     public function getNexus()
     {
-      return $this->nexus;
+        return $this->nexus;
     }
 
     /**
@@ -182,8 +182,9 @@ class TaxService
      */
     public function setNexus($nexus)
     {
-      $this->nexus = $nexus;
-      return $this;
+        $this->nexus = $nexus;
+
+        return $this;
     }
 
     /**
@@ -191,7 +192,7 @@ class TaxService
      */
     public function getNoNexus()
     {
-      return $this->noNexus;
+        return $this->noNexus;
     }
 
     /**
@@ -200,8 +201,9 @@ class TaxService
      */
     public function setNoNexus($noNexus)
     {
-      $this->noNexus = $noNexus;
-      return $this;
+        $this->noNexus = $noNexus;
+
+        return $this;
     }
 
     /**
@@ -209,7 +211,7 @@ class TaxService
      */
     public function getOrderAcceptanceCity()
     {
-      return $this->orderAcceptanceCity;
+        return $this->orderAcceptanceCity;
     }
 
     /**
@@ -218,8 +220,9 @@ class TaxService
      */
     public function setOrderAcceptanceCity($orderAcceptanceCity)
     {
-      $this->orderAcceptanceCity = $orderAcceptanceCity;
-      return $this;
+        $this->orderAcceptanceCity = $orderAcceptanceCity;
+
+        return $this;
     }
 
     /**
@@ -227,7 +230,7 @@ class TaxService
      */
     public function getOrderAcceptanceCounty()
     {
-      return $this->orderAcceptanceCounty;
+        return $this->orderAcceptanceCounty;
     }
 
     /**
@@ -236,8 +239,9 @@ class TaxService
      */
     public function setOrderAcceptanceCounty($orderAcceptanceCounty)
     {
-      $this->orderAcceptanceCounty = $orderAcceptanceCounty;
-      return $this;
+        $this->orderAcceptanceCounty = $orderAcceptanceCounty;
+
+        return $this;
     }
 
     /**
@@ -245,7 +249,7 @@ class TaxService
      */
     public function getOrderAcceptanceCountry()
     {
-      return $this->orderAcceptanceCountry;
+        return $this->orderAcceptanceCountry;
     }
 
     /**
@@ -254,8 +258,9 @@ class TaxService
      */
     public function setOrderAcceptanceCountry($orderAcceptanceCountry)
     {
-      $this->orderAcceptanceCountry = $orderAcceptanceCountry;
-      return $this;
+        $this->orderAcceptanceCountry = $orderAcceptanceCountry;
+
+        return $this;
     }
 
     /**
@@ -263,7 +268,7 @@ class TaxService
      */
     public function getOrderAcceptanceState()
     {
-      return $this->orderAcceptanceState;
+        return $this->orderAcceptanceState;
     }
 
     /**
@@ -272,8 +277,9 @@ class TaxService
      */
     public function setOrderAcceptanceState($orderAcceptanceState)
     {
-      $this->orderAcceptanceState = $orderAcceptanceState;
-      return $this;
+        $this->orderAcceptanceState = $orderAcceptanceState;
+
+        return $this;
     }
 
     /**
@@ -281,7 +287,7 @@ class TaxService
      */
     public function getOrderAcceptancePostalCode()
     {
-      return $this->orderAcceptancePostalCode;
+        return $this->orderAcceptancePostalCode;
     }
 
     /**
@@ -290,8 +296,9 @@ class TaxService
      */
     public function setOrderAcceptancePostalCode($orderAcceptancePostalCode)
     {
-      $this->orderAcceptancePostalCode = $orderAcceptancePostalCode;
-      return $this;
+        $this->orderAcceptancePostalCode = $orderAcceptancePostalCode;
+
+        return $this;
     }
 
     /**
@@ -299,7 +306,7 @@ class TaxService
      */
     public function getOrderOriginCity()
     {
-      return $this->orderOriginCity;
+        return $this->orderOriginCity;
     }
 
     /**
@@ -308,8 +315,9 @@ class TaxService
      */
     public function setOrderOriginCity($orderOriginCity)
     {
-      $this->orderOriginCity = $orderOriginCity;
-      return $this;
+        $this->orderOriginCity = $orderOriginCity;
+
+        return $this;
     }
 
     /**
@@ -317,7 +325,7 @@ class TaxService
      */
     public function getOrderOriginCounty()
     {
-      return $this->orderOriginCounty;
+        return $this->orderOriginCounty;
     }
 
     /**
@@ -326,8 +334,9 @@ class TaxService
      */
     public function setOrderOriginCounty($orderOriginCounty)
     {
-      $this->orderOriginCounty = $orderOriginCounty;
-      return $this;
+        $this->orderOriginCounty = $orderOriginCounty;
+
+        return $this;
     }
 
     /**
@@ -335,7 +344,7 @@ class TaxService
      */
     public function getOrderOriginCountry()
     {
-      return $this->orderOriginCountry;
+        return $this->orderOriginCountry;
     }
 
     /**
@@ -344,8 +353,9 @@ class TaxService
      */
     public function setOrderOriginCountry($orderOriginCountry)
     {
-      $this->orderOriginCountry = $orderOriginCountry;
-      return $this;
+        $this->orderOriginCountry = $orderOriginCountry;
+
+        return $this;
     }
 
     /**
@@ -353,7 +363,7 @@ class TaxService
      */
     public function getOrderOriginState()
     {
-      return $this->orderOriginState;
+        return $this->orderOriginState;
     }
 
     /**
@@ -362,8 +372,9 @@ class TaxService
      */
     public function setOrderOriginState($orderOriginState)
     {
-      $this->orderOriginState = $orderOriginState;
-      return $this;
+        $this->orderOriginState = $orderOriginState;
+
+        return $this;
     }
 
     /**
@@ -371,7 +382,7 @@ class TaxService
      */
     public function getOrderOriginPostalCode()
     {
-      return $this->orderOriginPostalCode;
+        return $this->orderOriginPostalCode;
     }
 
     /**
@@ -380,8 +391,9 @@ class TaxService
      */
     public function setOrderOriginPostalCode($orderOriginPostalCode)
     {
-      $this->orderOriginPostalCode = $orderOriginPostalCode;
-      return $this;
+        $this->orderOriginPostalCode = $orderOriginPostalCode;
+
+        return $this;
     }
 
     /**
@@ -389,7 +401,7 @@ class TaxService
      */
     public function getSellerRegistration()
     {
-      return $this->sellerRegistration;
+        return $this->sellerRegistration;
     }
 
     /**
@@ -398,8 +410,9 @@ class TaxService
      */
     public function setSellerRegistration($sellerRegistration)
     {
-      $this->sellerRegistration = $sellerRegistration;
-      return $this;
+        $this->sellerRegistration = $sellerRegistration;
+
+        return $this;
     }
 
     /**
@@ -407,7 +420,7 @@ class TaxService
      */
     public function getSellerRegistration0()
     {
-      return $this->sellerRegistration0;
+        return $this->sellerRegistration0;
     }
 
     /**
@@ -416,8 +429,9 @@ class TaxService
      */
     public function setSellerRegistration0($sellerRegistration0)
     {
-      $this->sellerRegistration0 = $sellerRegistration0;
-      return $this;
+        $this->sellerRegistration0 = $sellerRegistration0;
+
+        return $this;
     }
 
     /**
@@ -425,7 +439,7 @@ class TaxService
      */
     public function getSellerRegistration1()
     {
-      return $this->sellerRegistration1;
+        return $this->sellerRegistration1;
     }
 
     /**
@@ -434,8 +448,9 @@ class TaxService
      */
     public function setSellerRegistration1($sellerRegistration1)
     {
-      $this->sellerRegistration1 = $sellerRegistration1;
-      return $this;
+        $this->sellerRegistration1 = $sellerRegistration1;
+
+        return $this;
     }
 
     /**
@@ -443,7 +458,7 @@ class TaxService
      */
     public function getSellerRegistration2()
     {
-      return $this->sellerRegistration2;
+        return $this->sellerRegistration2;
     }
 
     /**
@@ -452,8 +467,9 @@ class TaxService
      */
     public function setSellerRegistration2($sellerRegistration2)
     {
-      $this->sellerRegistration2 = $sellerRegistration2;
-      return $this;
+        $this->sellerRegistration2 = $sellerRegistration2;
+
+        return $this;
     }
 
     /**
@@ -461,7 +477,7 @@ class TaxService
      */
     public function getSellerRegistration3()
     {
-      return $this->sellerRegistration3;
+        return $this->sellerRegistration3;
     }
 
     /**
@@ -470,8 +486,9 @@ class TaxService
      */
     public function setSellerRegistration3($sellerRegistration3)
     {
-      $this->sellerRegistration3 = $sellerRegistration3;
-      return $this;
+        $this->sellerRegistration3 = $sellerRegistration3;
+
+        return $this;
     }
 
     /**
@@ -479,7 +496,7 @@ class TaxService
      */
     public function getSellerRegistration4()
     {
-      return $this->sellerRegistration4;
+        return $this->sellerRegistration4;
     }
 
     /**
@@ -488,8 +505,9 @@ class TaxService
      */
     public function setSellerRegistration4($sellerRegistration4)
     {
-      $this->sellerRegistration4 = $sellerRegistration4;
-      return $this;
+        $this->sellerRegistration4 = $sellerRegistration4;
+
+        return $this;
     }
 
     /**
@@ -497,7 +515,7 @@ class TaxService
      */
     public function getSellerRegistration5()
     {
-      return $this->sellerRegistration5;
+        return $this->sellerRegistration5;
     }
 
     /**
@@ -506,8 +524,9 @@ class TaxService
      */
     public function setSellerRegistration5($sellerRegistration5)
     {
-      $this->sellerRegistration5 = $sellerRegistration5;
-      return $this;
+        $this->sellerRegistration5 = $sellerRegistration5;
+
+        return $this;
     }
 
     /**
@@ -515,7 +534,7 @@ class TaxService
      */
     public function getSellerRegistration6()
     {
-      return $this->sellerRegistration6;
+        return $this->sellerRegistration6;
     }
 
     /**
@@ -524,8 +543,9 @@ class TaxService
      */
     public function setSellerRegistration6($sellerRegistration6)
     {
-      $this->sellerRegistration6 = $sellerRegistration6;
-      return $this;
+        $this->sellerRegistration6 = $sellerRegistration6;
+
+        return $this;
     }
 
     /**
@@ -533,7 +553,7 @@ class TaxService
      */
     public function getSellerRegistration7()
     {
-      return $this->sellerRegistration7;
+        return $this->sellerRegistration7;
     }
 
     /**
@@ -542,8 +562,9 @@ class TaxService
      */
     public function setSellerRegistration7($sellerRegistration7)
     {
-      $this->sellerRegistration7 = $sellerRegistration7;
-      return $this;
+        $this->sellerRegistration7 = $sellerRegistration7;
+
+        return $this;
     }
 
     /**
@@ -551,7 +572,7 @@ class TaxService
      */
     public function getSellerRegistration8()
     {
-      return $this->sellerRegistration8;
+        return $this->sellerRegistration8;
     }
 
     /**
@@ -560,8 +581,9 @@ class TaxService
      */
     public function setSellerRegistration8($sellerRegistration8)
     {
-      $this->sellerRegistration8 = $sellerRegistration8;
-      return $this;
+        $this->sellerRegistration8 = $sellerRegistration8;
+
+        return $this;
     }
 
     /**
@@ -569,7 +591,7 @@ class TaxService
      */
     public function getSellerRegistration9()
     {
-      return $this->sellerRegistration9;
+        return $this->sellerRegistration9;
     }
 
     /**
@@ -578,8 +600,9 @@ class TaxService
      */
     public function setSellerRegistration9($sellerRegistration9)
     {
-      $this->sellerRegistration9 = $sellerRegistration9;
-      return $this;
+        $this->sellerRegistration9 = $sellerRegistration9;
+
+        return $this;
     }
 
     /**
@@ -587,7 +610,7 @@ class TaxService
      */
     public function getBuyerRegistration()
     {
-      return $this->buyerRegistration;
+        return $this->buyerRegistration;
     }
 
     /**
@@ -596,8 +619,9 @@ class TaxService
      */
     public function setBuyerRegistration($buyerRegistration)
     {
-      $this->buyerRegistration = $buyerRegistration;
-      return $this;
+        $this->buyerRegistration = $buyerRegistration;
+
+        return $this;
     }
 
     /**
@@ -605,7 +629,7 @@ class TaxService
      */
     public function getMiddlemanRegistration()
     {
-      return $this->middlemanRegistration;
+        return $this->middlemanRegistration;
     }
 
     /**
@@ -614,8 +638,9 @@ class TaxService
      */
     public function setMiddlemanRegistration($middlemanRegistration)
     {
-      $this->middlemanRegistration = $middlemanRegistration;
-      return $this;
+        $this->middlemanRegistration = $middlemanRegistration;
+
+        return $this;
     }
 
     /**
@@ -623,7 +648,7 @@ class TaxService
      */
     public function getPointOfTitleTransfer()
     {
-      return $this->pointOfTitleTransfer;
+        return $this->pointOfTitleTransfer;
     }
 
     /**
@@ -632,8 +657,9 @@ class TaxService
      */
     public function setPointOfTitleTransfer($pointOfTitleTransfer)
     {
-      $this->pointOfTitleTransfer = $pointOfTitleTransfer;
-      return $this;
+        $this->pointOfTitleTransfer = $pointOfTitleTransfer;
+
+        return $this;
     }
 
     /**
@@ -641,7 +667,7 @@ class TaxService
      */
     public function getCommitIndicator()
     {
-      return $this->commitIndicator;
+        return $this->commitIndicator;
     }
 
     /**
@@ -650,8 +676,9 @@ class TaxService
      */
     public function setCommitIndicator($commitIndicator)
     {
-      $this->commitIndicator = $commitIndicator;
-      return $this;
+        $this->commitIndicator = $commitIndicator;
+
+        return $this;
     }
 
     /**
@@ -659,7 +686,7 @@ class TaxService
      */
     public function getRefundIndicator()
     {
-      return $this->refundIndicator;
+        return $this->refundIndicator;
     }
 
     /**
@@ -668,8 +695,9 @@ class TaxService
      */
     public function setRefundIndicator($refundIndicator)
     {
-      $this->refundIndicator = $refundIndicator;
-      return $this;
+        $this->refundIndicator = $refundIndicator;
+
+        return $this;
     }
 
     /**
@@ -677,7 +705,7 @@ class TaxService
      */
     public function getDateOverrideReason()
     {
-      return $this->dateOverrideReason;
+        return $this->dateOverrideReason;
     }
 
     /**
@@ -686,8 +714,9 @@ class TaxService
      */
     public function setDateOverrideReason($dateOverrideReason)
     {
-      $this->dateOverrideReason = $dateOverrideReason;
-      return $this;
+        $this->dateOverrideReason = $dateOverrideReason;
+
+        return $this;
     }
 
     /**
@@ -695,7 +724,7 @@ class TaxService
      */
     public function getReportingDate()
     {
-      return $this->reportingDate;
+        return $this->reportingDate;
     }
 
     /**
@@ -704,8 +733,9 @@ class TaxService
      */
     public function setReportingDate($reportingDate)
     {
-      $this->reportingDate = $reportingDate;
-      return $this;
+        $this->reportingDate = $reportingDate;
+
+        return $this;
     }
 
     /**
@@ -713,7 +743,7 @@ class TaxService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -722,8 +752,9 @@ class TaxService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class BoletoPaymentReply
 {
 
@@ -65,7 +68,7 @@ class BoletoPaymentReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -73,7 +76,7 @@ class BoletoPaymentReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -82,8 +85,9 @@ class BoletoPaymentReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -91,29 +95,30 @@ class BoletoPaymentReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\BoletoPaymentReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -121,7 +126,7 @@ class BoletoPaymentReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -130,8 +135,9 @@ class BoletoPaymentReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -139,7 +145,7 @@ class BoletoPaymentReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -148,8 +154,9 @@ class BoletoPaymentReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -157,7 +164,7 @@ class BoletoPaymentReply
      */
     public function getBoletoNumber()
     {
-      return $this->boletoNumber;
+        return $this->boletoNumber;
     }
 
     /**
@@ -166,8 +173,9 @@ class BoletoPaymentReply
      */
     public function setBoletoNumber($boletoNumber)
     {
-      $this->boletoNumber = $boletoNumber;
-      return $this;
+        $this->boletoNumber = $boletoNumber;
+
+        return $this;
     }
 
     /**
@@ -175,7 +183,7 @@ class BoletoPaymentReply
      */
     public function getExpirationDate()
     {
-      return $this->expirationDate;
+        return $this->expirationDate;
     }
 
     /**
@@ -184,8 +192,9 @@ class BoletoPaymentReply
      */
     public function setExpirationDate($expirationDate)
     {
-      $this->expirationDate = $expirationDate;
-      return $this;
+        $this->expirationDate = $expirationDate;
+
+        return $this;
     }
 
     /**
@@ -193,7 +202,7 @@ class BoletoPaymentReply
      */
     public function getUrl()
     {
-      return $this->url;
+        return $this->url;
     }
 
     /**
@@ -202,8 +211,9 @@ class BoletoPaymentReply
      */
     public function setUrl($url)
     {
-      $this->url = $url;
-      return $this;
+        $this->url = $url;
+
+        return $this;
     }
 
     /**
@@ -211,7 +221,7 @@ class BoletoPaymentReply
      */
     public function getAvsCode()
     {
-      return $this->avsCode;
+        return $this->avsCode;
     }
 
     /**
@@ -220,8 +230,9 @@ class BoletoPaymentReply
      */
     public function setAvsCode($avsCode)
     {
-      $this->avsCode = $avsCode;
-      return $this;
+        $this->avsCode = $avsCode;
+
+        return $this;
     }
 
     /**
@@ -229,7 +240,7 @@ class BoletoPaymentReply
      */
     public function getAvsCodeRaw()
     {
-      return $this->avsCodeRaw;
+        return $this->avsCodeRaw;
     }
 
     /**
@@ -238,8 +249,9 @@ class BoletoPaymentReply
      */
     public function setAvsCodeRaw($avsCodeRaw)
     {
-      $this->avsCodeRaw = $avsCodeRaw;
-      return $this;
+        $this->avsCodeRaw = $avsCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -247,7 +259,7 @@ class BoletoPaymentReply
      */
     public function getBarCodeNumber()
     {
-      return $this->barCodeNumber;
+        return $this->barCodeNumber;
     }
 
     /**
@@ -256,8 +268,9 @@ class BoletoPaymentReply
      */
     public function setBarCodeNumber($barCodeNumber)
     {
-      $this->barCodeNumber = $barCodeNumber;
-      return $this;
+        $this->barCodeNumber = $barCodeNumber;
+
+        return $this;
     }
 
     /**
@@ -265,7 +278,7 @@ class BoletoPaymentReply
      */
     public function getAssignor()
     {
-      return $this->assignor;
+        return $this->assignor;
     }
 
     /**
@@ -274,8 +287,9 @@ class BoletoPaymentReply
      */
     public function setAssignor($assignor)
     {
-      $this->assignor = $assignor;
-      return $this;
+        $this->assignor = $assignor;
+
+        return $this;
     }
 
 }

@@ -26,8 +26,8 @@ class PaySubscriptionDeleteReply
      */
     public function __construct($reasonCode, $subscriptionID)
     {
-      $this->reasonCode = $reasonCode;
-      $this->subscriptionID = $subscriptionID;
+        $this->reasonCode     = $reasonCode;
+        $this->subscriptionID = $subscriptionID;
     }
 
     /**
@@ -35,7 +35,7 @@ class PaySubscriptionDeleteReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -44,8 +44,9 @@ class PaySubscriptionDeleteReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -53,7 +54,7 @@ class PaySubscriptionDeleteReply
      */
     public function getSubscriptionID()
     {
-      return $this->subscriptionID;
+        return $this->subscriptionID;
     }
 
     /**
@@ -62,8 +63,9 @@ class PaySubscriptionDeleteReply
      */
     public function setSubscriptionID($subscriptionID)
     {
-      $this->subscriptionID = $subscriptionID;
-      return $this;
+        $this->subscriptionID = $subscriptionID;
+
+        return $this;
     }
 
     /**
@@ -71,7 +73,7 @@ class PaySubscriptionDeleteReply
      */
     public function getInstrumentIdentifierID()
     {
-      return $this->instrumentIdentifierID;
+        return $this->instrumentIdentifierID;
     }
 
     /**
@@ -80,8 +82,9 @@ class PaySubscriptionDeleteReply
      */
     public function setInstrumentIdentifierID($instrumentIdentifierID)
     {
-      $this->instrumentIdentifierID = $instrumentIdentifierID;
-      return $this;
+        $this->instrumentIdentifierID = $instrumentIdentifierID;
+
+        return $this;
     }
 
 }

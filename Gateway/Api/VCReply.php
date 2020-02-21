@@ -275,10 +275,8 @@ class VCReply
      */
     protected $newUser = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -286,7 +284,7 @@ class VCReply
      */
     public function getCreationTimeStamp()
     {
-      return $this->creationTimeStamp;
+        return $this->creationTimeStamp;
     }
 
     /**
@@ -295,8 +293,9 @@ class VCReply
      */
     public function setCreationTimeStamp($creationTimeStamp)
     {
-      $this->creationTimeStamp = $creationTimeStamp;
-      return $this;
+        $this->creationTimeStamp = $creationTimeStamp;
+
+        return $this;
     }
 
     /**
@@ -304,7 +303,7 @@ class VCReply
      */
     public function getAlternateShippingAddressCountryCode()
     {
-      return $this->alternateShippingAddressCountryCode;
+        return $this->alternateShippingAddressCountryCode;
     }
 
     /**
@@ -313,8 +312,9 @@ class VCReply
      */
     public function setAlternateShippingAddressCountryCode($alternateShippingAddressCountryCode)
     {
-      $this->alternateShippingAddressCountryCode = $alternateShippingAddressCountryCode;
-      return $this;
+        $this->alternateShippingAddressCountryCode = $alternateShippingAddressCountryCode;
+
+        return $this;
     }
 
     /**
@@ -322,7 +322,7 @@ class VCReply
      */
     public function getAlternateShippingAddressPostalCode()
     {
-      return $this->alternateShippingAddressPostalCode;
+        return $this->alternateShippingAddressPostalCode;
     }
 
     /**
@@ -331,8 +331,9 @@ class VCReply
      */
     public function setAlternateShippingAddressPostalCode($alternateShippingAddressPostalCode)
     {
-      $this->alternateShippingAddressPostalCode = $alternateShippingAddressPostalCode;
-      return $this;
+        $this->alternateShippingAddressPostalCode = $alternateShippingAddressPostalCode;
+
+        return $this;
     }
 
     /**
@@ -340,7 +341,7 @@ class VCReply
      */
     public function getVcAccountLoginName()
     {
-      return $this->vcAccountLoginName;
+        return $this->vcAccountLoginName;
     }
 
     /**
@@ -349,8 +350,9 @@ class VCReply
      */
     public function setVcAccountLoginName($vcAccountLoginName)
     {
-      $this->vcAccountLoginName = $vcAccountLoginName;
-      return $this;
+        $this->vcAccountLoginName = $vcAccountLoginName;
+
+        return $this;
     }
 
     /**
@@ -358,7 +360,7 @@ class VCReply
      */
     public function getVcAccountFirstName()
     {
-      return $this->vcAccountFirstName;
+        return $this->vcAccountFirstName;
     }
 
     /**
@@ -367,8 +369,9 @@ class VCReply
      */
     public function setVcAccountFirstName($vcAccountFirstName)
     {
-      $this->vcAccountFirstName = $vcAccountFirstName;
-      return $this;
+        $this->vcAccountFirstName = $vcAccountFirstName;
+
+        return $this;
     }
 
     /**
@@ -376,7 +379,7 @@ class VCReply
      */
     public function getVcAccountLastName()
     {
-      return $this->vcAccountLastName;
+        return $this->vcAccountLastName;
     }
 
     /**
@@ -385,8 +388,9 @@ class VCReply
      */
     public function setVcAccountLastName($vcAccountLastName)
     {
-      $this->vcAccountLastName = $vcAccountLastName;
-      return $this;
+        $this->vcAccountLastName = $vcAccountLastName;
+
+        return $this;
     }
 
     /**
@@ -394,7 +398,7 @@ class VCReply
      */
     public function getVcAccountEncryptedID()
     {
-      return $this->vcAccountEncryptedID;
+        return $this->vcAccountEncryptedID;
     }
 
     /**
@@ -403,8 +407,9 @@ class VCReply
      */
     public function setVcAccountEncryptedID($vcAccountEncryptedID)
     {
-      $this->vcAccountEncryptedID = $vcAccountEncryptedID;
-      return $this;
+        $this->vcAccountEncryptedID = $vcAccountEncryptedID;
+
+        return $this;
     }
 
     /**
@@ -412,7 +417,7 @@ class VCReply
      */
     public function getVcAccountEmail()
     {
-      return $this->vcAccountEmail;
+        return $this->vcAccountEmail;
     }
 
     /**
@@ -421,8 +426,9 @@ class VCReply
      */
     public function setVcAccountEmail($vcAccountEmail)
     {
-      $this->vcAccountEmail = $vcAccountEmail;
-      return $this;
+        $this->vcAccountEmail = $vcAccountEmail;
+
+        return $this;
     }
 
     /**
@@ -430,7 +436,7 @@ class VCReply
      */
     public function getVcAccountMobilePhoneNumber()
     {
-      return $this->vcAccountMobilePhoneNumber;
+        return $this->vcAccountMobilePhoneNumber;
     }
 
     /**
@@ -439,8 +445,9 @@ class VCReply
      */
     public function setVcAccountMobilePhoneNumber($vcAccountMobilePhoneNumber)
     {
-      $this->vcAccountMobilePhoneNumber = $vcAccountMobilePhoneNumber;
-      return $this;
+        $this->vcAccountMobilePhoneNumber = $vcAccountMobilePhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -448,7 +455,7 @@ class VCReply
      */
     public function getMerchantReferenceID()
     {
-      return $this->merchantReferenceID;
+        return $this->merchantReferenceID;
     }
 
     /**
@@ -457,8 +464,9 @@ class VCReply
      */
     public function setMerchantReferenceID($merchantReferenceID)
     {
-      $this->merchantReferenceID = $merchantReferenceID;
-      return $this;
+        $this->merchantReferenceID = $merchantReferenceID;
+
+        return $this;
     }
 
     /**
@@ -466,7 +474,7 @@ class VCReply
      */
     public function getSubtotalAmount()
     {
-      return $this->subtotalAmount;
+        return $this->subtotalAmount;
     }
 
     /**
@@ -475,8 +483,9 @@ class VCReply
      */
     public function setSubtotalAmount($subtotalAmount)
     {
-      $this->subtotalAmount = $subtotalAmount;
-      return $this;
+        $this->subtotalAmount = $subtotalAmount;
+
+        return $this;
     }
 
     /**
@@ -484,7 +493,7 @@ class VCReply
      */
     public function getShippingHandlingAmount()
     {
-      return $this->shippingHandlingAmount;
+        return $this->shippingHandlingAmount;
     }
 
     /**
@@ -493,8 +502,9 @@ class VCReply
      */
     public function setShippingHandlingAmount($shippingHandlingAmount)
     {
-      $this->shippingHandlingAmount = $shippingHandlingAmount;
-      return $this;
+        $this->shippingHandlingAmount = $shippingHandlingAmount;
+
+        return $this;
     }
 
     /**
@@ -502,7 +512,7 @@ class VCReply
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -511,8 +521,9 @@ class VCReply
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
-      return $this;
+        $this->taxAmount = $taxAmount;
+
+        return $this;
     }
 
     /**
@@ -520,7 +531,7 @@ class VCReply
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -529,8 +540,9 @@ class VCReply
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
     /**
@@ -538,7 +550,7 @@ class VCReply
      */
     public function getGiftWrapAmount()
     {
-      return $this->giftWrapAmount;
+        return $this->giftWrapAmount;
     }
 
     /**
@@ -547,8 +559,9 @@ class VCReply
      */
     public function setGiftWrapAmount($giftWrapAmount)
     {
-      $this->giftWrapAmount = $giftWrapAmount;
-      return $this;
+        $this->giftWrapAmount = $giftWrapAmount;
+
+        return $this;
     }
 
     /**
@@ -556,7 +569,7 @@ class VCReply
      */
     public function getUncategorizedAmount()
     {
-      return $this->uncategorizedAmount;
+        return $this->uncategorizedAmount;
     }
 
     /**
@@ -565,8 +578,9 @@ class VCReply
      */
     public function setUncategorizedAmount($uncategorizedAmount)
     {
-      $this->uncategorizedAmount = $uncategorizedAmount;
-      return $this;
+        $this->uncategorizedAmount = $uncategorizedAmount;
+
+        return $this;
     }
 
     /**
@@ -574,7 +588,7 @@ class VCReply
      */
     public function getTotalPurchaseAmount()
     {
-      return $this->totalPurchaseAmount;
+        return $this->totalPurchaseAmount;
     }
 
     /**
@@ -583,8 +597,9 @@ class VCReply
      */
     public function setTotalPurchaseAmount($totalPurchaseAmount)
     {
-      $this->totalPurchaseAmount = $totalPurchaseAmount;
-      return $this;
+        $this->totalPurchaseAmount = $totalPurchaseAmount;
+
+        return $this;
     }
 
     /**
@@ -592,7 +607,7 @@ class VCReply
      */
     public function getWalletReferenceID()
     {
-      return $this->walletReferenceID;
+        return $this->walletReferenceID;
     }
 
     /**
@@ -601,8 +616,9 @@ class VCReply
      */
     public function setWalletReferenceID($walletReferenceID)
     {
-      $this->walletReferenceID = $walletReferenceID;
-      return $this;
+        $this->walletReferenceID = $walletReferenceID;
+
+        return $this;
     }
 
     /**
@@ -610,7 +626,7 @@ class VCReply
      */
     public function getPromotionCode()
     {
-      return $this->promotionCode;
+        return $this->promotionCode;
     }
 
     /**
@@ -619,8 +635,9 @@ class VCReply
      */
     public function setPromotionCode($promotionCode)
     {
-      $this->promotionCode = $promotionCode;
-      return $this;
+        $this->promotionCode = $promotionCode;
+
+        return $this;
     }
 
     /**
@@ -628,7 +645,7 @@ class VCReply
      */
     public function getPaymentInstrumentID()
     {
-      return $this->paymentInstrumentID;
+        return $this->paymentInstrumentID;
     }
 
     /**
@@ -637,8 +654,9 @@ class VCReply
      */
     public function setPaymentInstrumentID($paymentInstrumentID)
     {
-      $this->paymentInstrumentID = $paymentInstrumentID;
-      return $this;
+        $this->paymentInstrumentID = $paymentInstrumentID;
+
+        return $this;
     }
 
     /**
@@ -646,7 +664,7 @@ class VCReply
      */
     public function getCardVerificationStatus()
     {
-      return $this->cardVerificationStatus;
+        return $this->cardVerificationStatus;
     }
 
     /**
@@ -655,8 +673,9 @@ class VCReply
      */
     public function setCardVerificationStatus($cardVerificationStatus)
     {
-      $this->cardVerificationStatus = $cardVerificationStatus;
-      return $this;
+        $this->cardVerificationStatus = $cardVerificationStatus;
+
+        return $this;
     }
 
     /**
@@ -664,7 +683,7 @@ class VCReply
      */
     public function getIssuerID()
     {
-      return $this->issuerID;
+        return $this->issuerID;
     }
 
     /**
@@ -673,8 +692,9 @@ class VCReply
      */
     public function setIssuerID($issuerID)
     {
-      $this->issuerID = $issuerID;
-      return $this;
+        $this->issuerID = $issuerID;
+
+        return $this;
     }
 
     /**
@@ -682,7 +702,7 @@ class VCReply
      */
     public function getPaymentInstrumentNickName()
     {
-      return $this->paymentInstrumentNickName;
+        return $this->paymentInstrumentNickName;
     }
 
     /**
@@ -691,8 +711,9 @@ class VCReply
      */
     public function setPaymentInstrumentNickName($paymentInstrumentNickName)
     {
-      $this->paymentInstrumentNickName = $paymentInstrumentNickName;
-      return $this;
+        $this->paymentInstrumentNickName = $paymentInstrumentNickName;
+
+        return $this;
     }
 
     /**
@@ -700,7 +721,7 @@ class VCReply
      */
     public function getNameOnCard()
     {
-      return $this->nameOnCard;
+        return $this->nameOnCard;
     }
 
     /**
@@ -709,8 +730,9 @@ class VCReply
      */
     public function setNameOnCard($nameOnCard)
     {
-      $this->nameOnCard = $nameOnCard;
-      return $this;
+        $this->nameOnCard = $nameOnCard;
+
+        return $this;
     }
 
     /**
@@ -718,7 +740,7 @@ class VCReply
      */
     public function getCardType()
     {
-      return $this->cardType;
+        return $this->cardType;
     }
 
     /**
@@ -727,8 +749,9 @@ class VCReply
      */
     public function setCardType($cardType)
     {
-      $this->cardType = $cardType;
-      return $this;
+        $this->cardType = $cardType;
+
+        return $this;
     }
 
     /**
@@ -736,7 +759,7 @@ class VCReply
      */
     public function getCardGroup()
     {
-      return $this->cardGroup;
+        return $this->cardGroup;
     }
 
     /**
@@ -745,8 +768,9 @@ class VCReply
      */
     public function setCardGroup($cardGroup)
     {
-      $this->cardGroup = $cardGroup;
-      return $this;
+        $this->cardGroup = $cardGroup;
+
+        return $this;
     }
 
     /**
@@ -754,7 +778,7 @@ class VCReply
      */
     public function getCardArt()
     {
-      return $this->cardArt;
+        return $this->cardArt;
     }
 
     /**
@@ -763,8 +787,9 @@ class VCReply
      */
     public function setCardArt($cardArt)
     {
-      $this->cardArt = $cardArt;
-      return $this;
+        $this->cardArt = $cardArt;
+
+        return $this;
     }
 
     /**
@@ -772,7 +797,7 @@ class VCReply
      */
     public function getRiskAdvice()
     {
-      return $this->riskAdvice;
+        return $this->riskAdvice;
     }
 
     /**
@@ -781,8 +806,9 @@ class VCReply
      */
     public function setRiskAdvice($riskAdvice)
     {
-      $this->riskAdvice = $riskAdvice;
-      return $this;
+        $this->riskAdvice = $riskAdvice;
+
+        return $this;
     }
 
     /**
@@ -790,7 +816,7 @@ class VCReply
      */
     public function getRiskScore()
     {
-      return $this->riskScore;
+        return $this->riskScore;
     }
 
     /**
@@ -799,8 +825,9 @@ class VCReply
      */
     public function setRiskScore($riskScore)
     {
-      $this->riskScore = $riskScore;
-      return $this;
+        $this->riskScore = $riskScore;
+
+        return $this;
     }
 
     /**
@@ -808,7 +835,7 @@ class VCReply
      */
     public function getRiskAdditionalData()
     {
-      return $this->riskAdditionalData;
+        return $this->riskAdditionalData;
     }
 
     /**
@@ -817,8 +844,9 @@ class VCReply
      */
     public function setRiskAdditionalData($riskAdditionalData)
     {
-      $this->riskAdditionalData = $riskAdditionalData;
-      return $this;
+        $this->riskAdditionalData = $riskAdditionalData;
+
+        return $this;
     }
 
     /**
@@ -826,7 +854,7 @@ class VCReply
      */
     public function getAvsCodeRaw()
     {
-      return $this->avsCodeRaw;
+        return $this->avsCodeRaw;
     }
 
     /**
@@ -835,8 +863,9 @@ class VCReply
      */
     public function setAvsCodeRaw($avsCodeRaw)
     {
-      $this->avsCodeRaw = $avsCodeRaw;
-      return $this;
+        $this->avsCodeRaw = $avsCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -844,7 +873,7 @@ class VCReply
      */
     public function getCvnCodeRaw()
     {
-      return $this->cvnCodeRaw;
+        return $this->cvnCodeRaw;
     }
 
     /**
@@ -853,8 +882,9 @@ class VCReply
      */
     public function setCvnCodeRaw($cvnCodeRaw)
     {
-      $this->cvnCodeRaw = $cvnCodeRaw;
-      return $this;
+        $this->cvnCodeRaw = $cvnCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -862,7 +892,7 @@ class VCReply
      */
     public function getEciRaw()
     {
-      return $this->eciRaw;
+        return $this->eciRaw;
     }
 
     /**
@@ -871,8 +901,9 @@ class VCReply
      */
     public function setEciRaw($eciRaw)
     {
-      $this->eciRaw = $eciRaw;
-      return $this;
+        $this->eciRaw = $eciRaw;
+
+        return $this;
     }
 
     /**
@@ -880,7 +911,7 @@ class VCReply
      */
     public function getEci()
     {
-      return $this->eci;
+        return $this->eci;
     }
 
     /**
@@ -889,8 +920,9 @@ class VCReply
      */
     public function setEci($eci)
     {
-      $this->eci = $eci;
-      return $this;
+        $this->eci = $eci;
+
+        return $this;
     }
 
     /**
@@ -898,7 +930,7 @@ class VCReply
      */
     public function getCavv()
     {
-      return $this->cavv;
+        return $this->cavv;
     }
 
     /**
@@ -907,8 +939,9 @@ class VCReply
      */
     public function setCavv($cavv)
     {
-      $this->cavv = $cavv;
-      return $this;
+        $this->cavv = $cavv;
+
+        return $this;
     }
 
     /**
@@ -916,7 +949,7 @@ class VCReply
      */
     public function getVeresEnrolled()
     {
-      return $this->veresEnrolled;
+        return $this->veresEnrolled;
     }
 
     /**
@@ -925,8 +958,9 @@ class VCReply
      */
     public function setVeresEnrolled($veresEnrolled)
     {
-      $this->veresEnrolled = $veresEnrolled;
-      return $this;
+        $this->veresEnrolled = $veresEnrolled;
+
+        return $this;
     }
 
     /**
@@ -934,7 +968,7 @@ class VCReply
      */
     public function getVeresTimeStamp()
     {
-      return $this->veresTimeStamp;
+        return $this->veresTimeStamp;
     }
 
     /**
@@ -943,8 +977,9 @@ class VCReply
      */
     public function setVeresTimeStamp($veresTimeStamp)
     {
-      $this->veresTimeStamp = $veresTimeStamp;
-      return $this;
+        $this->veresTimeStamp = $veresTimeStamp;
+
+        return $this;
     }
 
     /**
@@ -952,7 +987,7 @@ class VCReply
      */
     public function getParesStatus()
     {
-      return $this->paresStatus;
+        return $this->paresStatus;
     }
 
     /**
@@ -961,8 +996,9 @@ class VCReply
      */
     public function setParesStatus($paresStatus)
     {
-      $this->paresStatus = $paresStatus;
-      return $this;
+        $this->paresStatus = $paresStatus;
+
+        return $this;
     }
 
     /**
@@ -970,7 +1006,7 @@ class VCReply
      */
     public function getParesTimeStamp()
     {
-      return $this->paresTimeStamp;
+        return $this->paresTimeStamp;
     }
 
     /**
@@ -979,8 +1015,9 @@ class VCReply
      */
     public function setParesTimeStamp($paresTimeStamp)
     {
-      $this->paresTimeStamp = $paresTimeStamp;
-      return $this;
+        $this->paresTimeStamp = $paresTimeStamp;
+
+        return $this;
     }
 
     /**
@@ -988,7 +1025,7 @@ class VCReply
      */
     public function getXid()
     {
-      return $this->xid;
+        return $this->xid;
     }
 
     /**
@@ -997,8 +1034,9 @@ class VCReply
      */
     public function setXid($xid)
     {
-      $this->xid = $xid;
-      return $this;
+        $this->xid = $xid;
+
+        return $this;
     }
 
     /**
@@ -1006,7 +1044,7 @@ class VCReply
      */
     public function getCustomData()
     {
-      return $this->customData;
+        return $this->customData;
     }
 
     /**
@@ -1015,8 +1053,9 @@ class VCReply
      */
     public function setCustomData($customData)
     {
-      $this->customData = $customData;
-      return $this;
+        $this->customData = $customData;
+
+        return $this;
     }
 
     /**
@@ -1024,7 +1063,7 @@ class VCReply
      */
     public function getVcAccountFullName()
     {
-      return $this->vcAccountFullName;
+        return $this->vcAccountFullName;
     }
 
     /**
@@ -1033,8 +1072,9 @@ class VCReply
      */
     public function setVcAccountFullName($vcAccountFullName)
     {
-      $this->vcAccountFullName = $vcAccountFullName;
-      return $this;
+        $this->vcAccountFullName = $vcAccountFullName;
+
+        return $this;
     }
 
     /**
@@ -1042,7 +1082,7 @@ class VCReply
      */
     public function getPaymentDescription()
     {
-      return $this->paymentDescription;
+        return $this->paymentDescription;
     }
 
     /**
@@ -1051,8 +1091,9 @@ class VCReply
      */
     public function setPaymentDescription($paymentDescription)
     {
-      $this->paymentDescription = $paymentDescription;
-      return $this;
+        $this->paymentDescription = $paymentDescription;
+
+        return $this;
     }
 
     /**
@@ -1060,7 +1101,7 @@ class VCReply
      */
     public function getBillingAddressStreetName()
     {
-      return $this->billingAddressStreetName;
+        return $this->billingAddressStreetName;
     }
 
     /**
@@ -1069,8 +1110,9 @@ class VCReply
      */
     public function setBillingAddressStreetName($billingAddressStreetName)
     {
-      $this->billingAddressStreetName = $billingAddressStreetName;
-      return $this;
+        $this->billingAddressStreetName = $billingAddressStreetName;
+
+        return $this;
     }
 
     /**
@@ -1078,7 +1120,7 @@ class VCReply
      */
     public function getBillingAddressAdditionalLocation()
     {
-      return $this->billingAddressAdditionalLocation;
+        return $this->billingAddressAdditionalLocation;
     }
 
     /**
@@ -1087,8 +1129,9 @@ class VCReply
      */
     public function setBillingAddressAdditionalLocation($billingAddressAdditionalLocation)
     {
-      $this->billingAddressAdditionalLocation = $billingAddressAdditionalLocation;
-      return $this;
+        $this->billingAddressAdditionalLocation = $billingAddressAdditionalLocation;
+
+        return $this;
     }
 
     /**
@@ -1096,7 +1139,7 @@ class VCReply
      */
     public function getBillingAddressStreetNumber()
     {
-      return $this->billingAddressStreetNumber;
+        return $this->billingAddressStreetNumber;
     }
 
     /**
@@ -1105,8 +1148,9 @@ class VCReply
      */
     public function setBillingAddressStreetNumber($billingAddressStreetNumber)
     {
-      $this->billingAddressStreetNumber = $billingAddressStreetNumber;
-      return $this;
+        $this->billingAddressStreetNumber = $billingAddressStreetNumber;
+
+        return $this;
     }
 
     /**
@@ -1114,7 +1158,7 @@ class VCReply
      */
     public function getExpiredCard()
     {
-      return $this->expiredCard;
+        return $this->expiredCard;
     }
 
     /**
@@ -1123,8 +1167,9 @@ class VCReply
      */
     public function setExpiredCard($expiredCard)
     {
-      $this->expiredCard = $expiredCard;
-      return $this;
+        $this->expiredCard = $expiredCard;
+
+        return $this;
     }
 
     /**
@@ -1132,7 +1177,7 @@ class VCReply
      */
     public function getCardFirstName()
     {
-      return $this->cardFirstName;
+        return $this->cardFirstName;
     }
 
     /**
@@ -1141,8 +1186,9 @@ class VCReply
      */
     public function setCardFirstName($cardFirstName)
     {
-      $this->cardFirstName = $cardFirstName;
-      return $this;
+        $this->cardFirstName = $cardFirstName;
+
+        return $this;
     }
 
     /**
@@ -1150,7 +1196,7 @@ class VCReply
      */
     public function getCardLastName()
     {
-      return $this->cardLastName;
+        return $this->cardLastName;
     }
 
     /**
@@ -1159,8 +1205,9 @@ class VCReply
      */
     public function setCardLastName($cardLastName)
     {
-      $this->cardLastName = $cardLastName;
-      return $this;
+        $this->cardLastName = $cardLastName;
+
+        return $this;
     }
 
     /**
@@ -1168,7 +1215,7 @@ class VCReply
      */
     public function getShippingAddressStreetName()
     {
-      return $this->shippingAddressStreetName;
+        return $this->shippingAddressStreetName;
     }
 
     /**
@@ -1177,8 +1224,9 @@ class VCReply
      */
     public function setShippingAddressStreetName($shippingAddressStreetName)
     {
-      $this->shippingAddressStreetName = $shippingAddressStreetName;
-      return $this;
+        $this->shippingAddressStreetName = $shippingAddressStreetName;
+
+        return $this;
     }
 
     /**
@@ -1186,7 +1234,7 @@ class VCReply
      */
     public function getShippingAddressAdditionalLocation()
     {
-      return $this->shippingAddressAdditionalLocation;
+        return $this->shippingAddressAdditionalLocation;
     }
 
     /**
@@ -1195,8 +1243,9 @@ class VCReply
      */
     public function setShippingAddressAdditionalLocation($shippingAddressAdditionalLocation)
     {
-      $this->shippingAddressAdditionalLocation = $shippingAddressAdditionalLocation;
-      return $this;
+        $this->shippingAddressAdditionalLocation = $shippingAddressAdditionalLocation;
+
+        return $this;
     }
 
     /**
@@ -1204,7 +1253,7 @@ class VCReply
      */
     public function getShippingAddressStreetNumber()
     {
-      return $this->shippingAddressStreetNumber;
+        return $this->shippingAddressStreetNumber;
     }
 
     /**
@@ -1213,8 +1262,9 @@ class VCReply
      */
     public function setShippingAddressStreetNumber($shippingAddressStreetNumber)
     {
-      $this->shippingAddressStreetNumber = $shippingAddressStreetNumber;
-      return $this;
+        $this->shippingAddressStreetNumber = $shippingAddressStreetNumber;
+
+        return $this;
     }
 
     /**
@@ -1222,7 +1272,7 @@ class VCReply
      */
     public function getAgeOfAccount()
     {
-      return $this->ageOfAccount;
+        return $this->ageOfAccount;
     }
 
     /**
@@ -1231,8 +1281,9 @@ class VCReply
      */
     public function setAgeOfAccount($ageOfAccount)
     {
-      $this->ageOfAccount = $ageOfAccount;
-      return $this;
+        $this->ageOfAccount = $ageOfAccount;
+
+        return $this;
     }
 
     /**
@@ -1240,7 +1291,7 @@ class VCReply
      */
     public function getNewUser()
     {
-      return $this->newUser;
+        return $this->newUser;
     }
 
     /**
@@ -1249,8 +1300,9 @@ class VCReply
      */
     public function setNewUser($newUser)
     {
-      $this->newUser = $newUser;
-      return $this;
+        $this->newUser = $newUser;
+
+        return $this;
     }
 
 }

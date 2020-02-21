@@ -25,7 +25,7 @@ class PayPalButtonCreateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class PayPalButtonCreateService
      */
     public function getButtonType()
     {
-      return $this->buttonType;
+        return $this->buttonType;
     }
 
     /**
@@ -42,8 +42,9 @@ class PayPalButtonCreateService
      */
     public function setButtonType($buttonType)
     {
-      $this->buttonType = $buttonType;
-      return $this;
+        $this->buttonType = $buttonType;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class PayPalButtonCreateService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -60,8 +61,9 @@ class PayPalButtonCreateService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class PayPalButtonCreateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class PayPalButtonCreateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

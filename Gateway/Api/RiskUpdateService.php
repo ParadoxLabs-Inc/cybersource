@@ -65,7 +65,7 @@ class RiskUpdateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -73,7 +73,7 @@ class RiskUpdateService
      */
     public function getActionCode()
     {
-      return $this->actionCode;
+        return $this->actionCode;
     }
 
     /**
@@ -82,8 +82,9 @@ class RiskUpdateService
      */
     public function setActionCode($actionCode)
     {
-      $this->actionCode = $actionCode;
-      return $this;
+        $this->actionCode = $actionCode;
+
+        return $this;
     }
 
     /**
@@ -91,7 +92,7 @@ class RiskUpdateService
      */
     public function getRecordID()
     {
-      return $this->recordID;
+        return $this->recordID;
     }
 
     /**
@@ -100,8 +101,9 @@ class RiskUpdateService
      */
     public function setRecordID($recordID)
     {
-      $this->recordID = $recordID;
-      return $this;
+        $this->recordID = $recordID;
+
+        return $this;
     }
 
     /**
@@ -109,7 +111,7 @@ class RiskUpdateService
      */
     public function getRecordName()
     {
-      return $this->recordName;
+        return $this->recordName;
     }
 
     /**
@@ -118,8 +120,9 @@ class RiskUpdateService
      */
     public function setRecordName($recordName)
     {
-      $this->recordName = $recordName;
-      return $this;
+        $this->recordName = $recordName;
+
+        return $this;
     }
 
     /**
@@ -127,7 +130,7 @@ class RiskUpdateService
      */
     public function getNegativeAddress()
     {
-      return $this->negativeAddress;
+        return $this->negativeAddress;
     }
 
     /**
@@ -136,8 +139,9 @@ class RiskUpdateService
      */
     public function setNegativeAddress($negativeAddress)
     {
-      $this->negativeAddress = $negativeAddress;
-      return $this;
+        $this->negativeAddress = $negativeAddress;
+
+        return $this;
     }
 
     /**
@@ -145,7 +149,7 @@ class RiskUpdateService
      */
     public function getMarkingReason()
     {
-      return $this->markingReason;
+        return $this->markingReason;
     }
 
     /**
@@ -154,8 +158,9 @@ class RiskUpdateService
      */
     public function setMarkingReason($markingReason)
     {
-      $this->markingReason = $markingReason;
-      return $this;
+        $this->markingReason = $markingReason;
+
+        return $this;
     }
 
     /**
@@ -163,7 +168,7 @@ class RiskUpdateService
      */
     public function getMarkingNotes()
     {
-      return $this->markingNotes;
+        return $this->markingNotes;
     }
 
     /**
@@ -172,8 +177,9 @@ class RiskUpdateService
      */
     public function setMarkingNotes($markingNotes)
     {
-      $this->markingNotes = $markingNotes;
-      return $this;
+        $this->markingNotes = $markingNotes;
+
+        return $this;
     }
 
     /**
@@ -181,7 +187,7 @@ class RiskUpdateService
      */
     public function getMarkingRequestID()
     {
-      return $this->markingRequestID;
+        return $this->markingRequestID;
     }
 
     /**
@@ -190,8 +196,9 @@ class RiskUpdateService
      */
     public function setMarkingRequestID($markingRequestID)
     {
-      $this->markingRequestID = $markingRequestID;
-      return $this;
+        $this->markingRequestID = $markingRequestID;
+
+        return $this;
     }
 
     /**
@@ -199,7 +206,7 @@ class RiskUpdateService
      */
     public function getDeviceFingerprintSmartID()
     {
-      return $this->deviceFingerprintSmartID;
+        return $this->deviceFingerprintSmartID;
     }
 
     /**
@@ -208,8 +215,9 @@ class RiskUpdateService
      */
     public function setDeviceFingerprintSmartID($deviceFingerprintSmartID)
     {
-      $this->deviceFingerprintSmartID = $deviceFingerprintSmartID;
-      return $this;
+        $this->deviceFingerprintSmartID = $deviceFingerprintSmartID;
+
+        return $this;
     }
 
     /**
@@ -217,7 +225,7 @@ class RiskUpdateService
      */
     public function getDeviceFingerprintTrueIPAddress()
     {
-      return $this->deviceFingerprintTrueIPAddress;
+        return $this->deviceFingerprintTrueIPAddress;
     }
 
     /**
@@ -226,8 +234,9 @@ class RiskUpdateService
      */
     public function setDeviceFingerprintTrueIPAddress($deviceFingerprintTrueIPAddress)
     {
-      $this->deviceFingerprintTrueIPAddress = $deviceFingerprintTrueIPAddress;
-      return $this;
+        $this->deviceFingerprintTrueIPAddress = $deviceFingerprintTrueIPAddress;
+
+        return $this;
     }
 
     /**
@@ -235,7 +244,7 @@ class RiskUpdateService
      */
     public function getDeviceFingerprintProxyIPAddress()
     {
-      return $this->deviceFingerprintProxyIPAddress;
+        return $this->deviceFingerprintProxyIPAddress;
     }
 
     /**
@@ -244,8 +253,9 @@ class RiskUpdateService
      */
     public function setDeviceFingerprintProxyIPAddress($deviceFingerprintProxyIPAddress)
     {
-      $this->deviceFingerprintProxyIPAddress = $deviceFingerprintProxyIPAddress;
-      return $this;
+        $this->deviceFingerprintProxyIPAddress = $deviceFingerprintProxyIPAddress;
+
+        return $this;
     }
 
     /**
@@ -253,7 +263,7 @@ class RiskUpdateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -262,8 +272,9 @@ class RiskUpdateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

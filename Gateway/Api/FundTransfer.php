@@ -25,10 +25,8 @@ class FundTransfer
      */
     protected $iban = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class FundTransfer
      */
     public function getAccountNumber()
     {
-      return $this->accountNumber;
+        return $this->accountNumber;
     }
 
     /**
@@ -45,8 +43,9 @@ class FundTransfer
      */
     public function setAccountNumber($accountNumber)
     {
-      $this->accountNumber = $accountNumber;
-      return $this;
+        $this->accountNumber = $accountNumber;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class FundTransfer
      */
     public function getAccountName()
     {
-      return $this->accountName;
+        return $this->accountName;
     }
 
     /**
@@ -63,8 +62,9 @@ class FundTransfer
      */
     public function setAccountName($accountName)
     {
-      $this->accountName = $accountName;
-      return $this;
+        $this->accountName = $accountName;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class FundTransfer
      */
     public function getBankCheckDigit()
     {
-      return $this->bankCheckDigit;
+        return $this->bankCheckDigit;
     }
 
     /**
@@ -81,8 +81,9 @@ class FundTransfer
      */
     public function setBankCheckDigit($bankCheckDigit)
     {
-      $this->bankCheckDigit = $bankCheckDigit;
-      return $this;
+        $this->bankCheckDigit = $bankCheckDigit;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class FundTransfer
      */
     public function getIban()
     {
-      return $this->iban;
+        return $this->iban;
     }
 
     /**
@@ -99,8 +100,9 @@ class FundTransfer
      */
     public function setIban($iban)
     {
-      $this->iban = $iban;
-      return $this;
+        $this->iban = $iban;
+
+        return $this;
     }
 
 }

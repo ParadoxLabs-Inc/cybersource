@@ -70,7 +70,7 @@ class DirectDebitService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -78,7 +78,7 @@ class DirectDebitService
      */
     public function getDateCollect()
     {
-      return $this->dateCollect;
+        return $this->dateCollect;
     }
 
     /**
@@ -87,8 +87,9 @@ class DirectDebitService
      */
     public function setDateCollect($dateCollect)
     {
-      $this->dateCollect = $dateCollect;
-      return $this;
+        $this->dateCollect = $dateCollect;
+
+        return $this;
     }
 
     /**
@@ -96,7 +97,7 @@ class DirectDebitService
      */
     public function getDirectDebitText()
     {
-      return $this->directDebitText;
+        return $this->directDebitText;
     }
 
     /**
@@ -105,8 +106,9 @@ class DirectDebitService
      */
     public function setDirectDebitText($directDebitText)
     {
-      $this->directDebitText = $directDebitText;
-      return $this;
+        $this->directDebitText = $directDebitText;
+
+        return $this;
     }
 
     /**
@@ -114,7 +116,7 @@ class DirectDebitService
      */
     public function getAuthorizationID()
     {
-      return $this->authorizationID;
+        return $this->authorizationID;
     }
 
     /**
@@ -123,8 +125,9 @@ class DirectDebitService
      */
     public function setAuthorizationID($authorizationID)
     {
-      $this->authorizationID = $authorizationID;
-      return $this;
+        $this->authorizationID = $authorizationID;
+
+        return $this;
     }
 
     /**
@@ -132,7 +135,7 @@ class DirectDebitService
      */
     public function getTransactionType()
     {
-      return $this->transactionType;
+        return $this->transactionType;
     }
 
     /**
@@ -141,8 +144,9 @@ class DirectDebitService
      */
     public function setTransactionType($transactionType)
     {
-      $this->transactionType = $transactionType;
-      return $this;
+        $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
@@ -150,7 +154,7 @@ class DirectDebitService
      */
     public function getDirectDebitType()
     {
-      return $this->directDebitType;
+        return $this->directDebitType;
     }
 
     /**
@@ -159,8 +163,9 @@ class DirectDebitService
      */
     public function setDirectDebitType($directDebitType)
     {
-      $this->directDebitType = $directDebitType;
-      return $this;
+        $this->directDebitType = $directDebitType;
+
+        return $this;
     }
 
     /**
@@ -168,7 +173,7 @@ class DirectDebitService
      */
     public function getValidateRequestID()
     {
-      return $this->validateRequestID;
+        return $this->validateRequestID;
     }
 
     /**
@@ -177,8 +182,9 @@ class DirectDebitService
      */
     public function setValidateRequestID($validateRequestID)
     {
-      $this->validateRequestID = $validateRequestID;
-      return $this;
+        $this->validateRequestID = $validateRequestID;
+
+        return $this;
     }
 
     /**
@@ -186,7 +192,7 @@ class DirectDebitService
      */
     public function getRecurringType()
     {
-      return $this->recurringType;
+        return $this->recurringType;
     }
 
     /**
@@ -195,8 +201,9 @@ class DirectDebitService
      */
     public function setRecurringType($recurringType)
     {
-      $this->recurringType = $recurringType;
-      return $this;
+        $this->recurringType = $recurringType;
+
+        return $this;
     }
 
     /**
@@ -204,7 +211,7 @@ class DirectDebitService
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -213,8 +220,9 @@ class DirectDebitService
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -222,7 +230,7 @@ class DirectDebitService
      */
     public function getValidateRequestToken()
     {
-      return $this->validateRequestToken;
+        return $this->validateRequestToken;
     }
 
     /**
@@ -231,8 +239,9 @@ class DirectDebitService
      */
     public function setValidateRequestToken($validateRequestToken)
     {
-      $this->validateRequestToken = $validateRequestToken;
-      return $this;
+        $this->validateRequestToken = $validateRequestToken;
+
+        return $this;
     }
 
     /**
@@ -240,7 +249,7 @@ class DirectDebitService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -249,8 +258,9 @@ class DirectDebitService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -258,7 +268,7 @@ class DirectDebitService
      */
     public function getMandateAuthenticationDate()
     {
-      return $this->mandateAuthenticationDate;
+        return $this->mandateAuthenticationDate;
     }
 
     /**
@@ -267,8 +277,9 @@ class DirectDebitService
      */
     public function setMandateAuthenticationDate($mandateAuthenticationDate)
     {
-      $this->mandateAuthenticationDate = $mandateAuthenticationDate;
-      return $this;
+        $this->mandateAuthenticationDate = $mandateAuthenticationDate;
+
+        return $this;
     }
 
     /**
@@ -276,7 +287,7 @@ class DirectDebitService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -285,8 +296,9 @@ class DirectDebitService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -40,10 +40,8 @@ class BusinessRules
      */
     protected $scoreThreshold = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -51,7 +49,7 @@ class BusinessRules
      */
     public function getIgnoreAVSResult()
     {
-      return $this->ignoreAVSResult;
+        return $this->ignoreAVSResult;
     }
 
     /**
@@ -60,8 +58,9 @@ class BusinessRules
      */
     public function setIgnoreAVSResult($ignoreAVSResult)
     {
-      $this->ignoreAVSResult = $ignoreAVSResult;
-      return $this;
+        $this->ignoreAVSResult = $ignoreAVSResult;
+
+        return $this;
     }
 
     /**
@@ -69,7 +68,7 @@ class BusinessRules
      */
     public function getIgnoreCVResult()
     {
-      return $this->ignoreCVResult;
+        return $this->ignoreCVResult;
     }
 
     /**
@@ -78,8 +77,9 @@ class BusinessRules
      */
     public function setIgnoreCVResult($ignoreCVResult)
     {
-      $this->ignoreCVResult = $ignoreCVResult;
-      return $this;
+        $this->ignoreCVResult = $ignoreCVResult;
+
+        return $this;
     }
 
     /**
@@ -87,7 +87,7 @@ class BusinessRules
      */
     public function getIgnoreDAVResult()
     {
-      return $this->ignoreDAVResult;
+        return $this->ignoreDAVResult;
     }
 
     /**
@@ -96,8 +96,9 @@ class BusinessRules
      */
     public function setIgnoreDAVResult($ignoreDAVResult)
     {
-      $this->ignoreDAVResult = $ignoreDAVResult;
-      return $this;
+        $this->ignoreDAVResult = $ignoreDAVResult;
+
+        return $this;
     }
 
     /**
@@ -105,7 +106,7 @@ class BusinessRules
      */
     public function getIgnoreExportResult()
     {
-      return $this->ignoreExportResult;
+        return $this->ignoreExportResult;
     }
 
     /**
@@ -114,8 +115,9 @@ class BusinessRules
      */
     public function setIgnoreExportResult($ignoreExportResult)
     {
-      $this->ignoreExportResult = $ignoreExportResult;
-      return $this;
+        $this->ignoreExportResult = $ignoreExportResult;
+
+        return $this;
     }
 
     /**
@@ -123,7 +125,7 @@ class BusinessRules
      */
     public function getIgnoreValidateResult()
     {
-      return $this->ignoreValidateResult;
+        return $this->ignoreValidateResult;
     }
 
     /**
@@ -132,8 +134,9 @@ class BusinessRules
      */
     public function setIgnoreValidateResult($ignoreValidateResult)
     {
-      $this->ignoreValidateResult = $ignoreValidateResult;
-      return $this;
+        $this->ignoreValidateResult = $ignoreValidateResult;
+
+        return $this;
     }
 
     /**
@@ -141,7 +144,7 @@ class BusinessRules
      */
     public function getDeclineAVSFlags()
     {
-      return $this->declineAVSFlags;
+        return $this->declineAVSFlags;
     }
 
     /**
@@ -150,8 +153,9 @@ class BusinessRules
      */
     public function setDeclineAVSFlags($declineAVSFlags)
     {
-      $this->declineAVSFlags = $declineAVSFlags;
-      return $this;
+        $this->declineAVSFlags = $declineAVSFlags;
+
+        return $this;
     }
 
     /**
@@ -159,7 +163,7 @@ class BusinessRules
      */
     public function getScoreThreshold()
     {
-      return $this->scoreThreshold;
+        return $this->scoreThreshold;
     }
 
     /**
@@ -168,8 +172,9 @@ class BusinessRules
      */
     public function setScoreThreshold($scoreThreshold)
     {
-      $this->scoreThreshold = $scoreThreshold;
-      return $this;
+        $this->scoreThreshold = $scoreThreshold;
+
+        return $this;
     }
 
 }

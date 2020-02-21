@@ -240,10 +240,8 @@ class AirlineData
      */
     protected $boardingFee = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -251,7 +249,7 @@ class AirlineData
      */
     public function getAgentCode()
     {
-      return $this->agentCode;
+        return $this->agentCode;
     }
 
     /**
@@ -260,8 +258,9 @@ class AirlineData
      */
     public function setAgentCode($agentCode)
     {
-      $this->agentCode = $agentCode;
-      return $this;
+        $this->agentCode = $agentCode;
+
+        return $this;
     }
 
     /**
@@ -269,7 +268,7 @@ class AirlineData
      */
     public function getAgentName()
     {
-      return $this->agentName;
+        return $this->agentName;
     }
 
     /**
@@ -278,8 +277,9 @@ class AirlineData
      */
     public function setAgentName($agentName)
     {
-      $this->agentName = $agentName;
-      return $this;
+        $this->agentName = $agentName;
+
+        return $this;
     }
 
     /**
@@ -287,7 +287,7 @@ class AirlineData
      */
     public function getTicketIssuerCity()
     {
-      return $this->ticketIssuerCity;
+        return $this->ticketIssuerCity;
     }
 
     /**
@@ -296,8 +296,9 @@ class AirlineData
      */
     public function setTicketIssuerCity($ticketIssuerCity)
     {
-      $this->ticketIssuerCity = $ticketIssuerCity;
-      return $this;
+        $this->ticketIssuerCity = $ticketIssuerCity;
+
+        return $this;
     }
 
     /**
@@ -305,7 +306,7 @@ class AirlineData
      */
     public function getTicketIssuerState()
     {
-      return $this->ticketIssuerState;
+        return $this->ticketIssuerState;
     }
 
     /**
@@ -314,8 +315,9 @@ class AirlineData
      */
     public function setTicketIssuerState($ticketIssuerState)
     {
-      $this->ticketIssuerState = $ticketIssuerState;
-      return $this;
+        $this->ticketIssuerState = $ticketIssuerState;
+
+        return $this;
     }
 
     /**
@@ -323,7 +325,7 @@ class AirlineData
      */
     public function getTicketIssuerPostalCode()
     {
-      return $this->ticketIssuerPostalCode;
+        return $this->ticketIssuerPostalCode;
     }
 
     /**
@@ -332,8 +334,9 @@ class AirlineData
      */
     public function setTicketIssuerPostalCode($ticketIssuerPostalCode)
     {
-      $this->ticketIssuerPostalCode = $ticketIssuerPostalCode;
-      return $this;
+        $this->ticketIssuerPostalCode = $ticketIssuerPostalCode;
+
+        return $this;
     }
 
     /**
@@ -341,7 +344,7 @@ class AirlineData
      */
     public function getTicketIssuerCountry()
     {
-      return $this->ticketIssuerCountry;
+        return $this->ticketIssuerCountry;
     }
 
     /**
@@ -350,8 +353,9 @@ class AirlineData
      */
     public function setTicketIssuerCountry($ticketIssuerCountry)
     {
-      $this->ticketIssuerCountry = $ticketIssuerCountry;
-      return $this;
+        $this->ticketIssuerCountry = $ticketIssuerCountry;
+
+        return $this;
     }
 
     /**
@@ -359,7 +363,7 @@ class AirlineData
      */
     public function getTicketIssuerAddress()
     {
-      return $this->ticketIssuerAddress;
+        return $this->ticketIssuerAddress;
     }
 
     /**
@@ -368,8 +372,9 @@ class AirlineData
      */
     public function setTicketIssuerAddress($ticketIssuerAddress)
     {
-      $this->ticketIssuerAddress = $ticketIssuerAddress;
-      return $this;
+        $this->ticketIssuerAddress = $ticketIssuerAddress;
+
+        return $this;
     }
 
     /**
@@ -377,7 +382,7 @@ class AirlineData
      */
     public function getTicketIssuerCode()
     {
-      return $this->ticketIssuerCode;
+        return $this->ticketIssuerCode;
     }
 
     /**
@@ -386,8 +391,9 @@ class AirlineData
      */
     public function setTicketIssuerCode($ticketIssuerCode)
     {
-      $this->ticketIssuerCode = $ticketIssuerCode;
-      return $this;
+        $this->ticketIssuerCode = $ticketIssuerCode;
+
+        return $this;
     }
 
     /**
@@ -395,7 +401,7 @@ class AirlineData
      */
     public function getTicketIssuerName()
     {
-      return $this->ticketIssuerName;
+        return $this->ticketIssuerName;
     }
 
     /**
@@ -404,8 +410,9 @@ class AirlineData
      */
     public function setTicketIssuerName($ticketIssuerName)
     {
-      $this->ticketIssuerName = $ticketIssuerName;
-      return $this;
+        $this->ticketIssuerName = $ticketIssuerName;
+
+        return $this;
     }
 
     /**
@@ -413,7 +420,7 @@ class AirlineData
      */
     public function getTicketNumber()
     {
-      return $this->ticketNumber;
+        return $this->ticketNumber;
     }
 
     /**
@@ -422,8 +429,9 @@ class AirlineData
      */
     public function setTicketNumber($ticketNumber)
     {
-      $this->ticketNumber = $ticketNumber;
-      return $this;
+        $this->ticketNumber = $ticketNumber;
+
+        return $this;
     }
 
     /**
@@ -431,7 +439,7 @@ class AirlineData
      */
     public function getCheckDigit()
     {
-      return $this->checkDigit;
+        return $this->checkDigit;
     }
 
     /**
@@ -440,8 +448,9 @@ class AirlineData
      */
     public function setCheckDigit($checkDigit)
     {
-      $this->checkDigit = $checkDigit;
-      return $this;
+        $this->checkDigit = $checkDigit;
+
+        return $this;
     }
 
     /**
@@ -449,7 +458,7 @@ class AirlineData
      */
     public function getRestrictedTicketIndicator()
     {
-      return $this->restrictedTicketIndicator;
+        return $this->restrictedTicketIndicator;
     }
 
     /**
@@ -458,8 +467,9 @@ class AirlineData
      */
     public function setRestrictedTicketIndicator($restrictedTicketIndicator)
     {
-      $this->restrictedTicketIndicator = $restrictedTicketIndicator;
-      return $this;
+        $this->restrictedTicketIndicator = $restrictedTicketIndicator;
+
+        return $this;
     }
 
     /**
@@ -467,7 +477,7 @@ class AirlineData
      */
     public function getTransactionType()
     {
-      return $this->transactionType;
+        return $this->transactionType;
     }
 
     /**
@@ -476,8 +486,9 @@ class AirlineData
      */
     public function setTransactionType($transactionType)
     {
-      $this->transactionType = $transactionType;
-      return $this;
+        $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
@@ -485,7 +496,7 @@ class AirlineData
      */
     public function getExtendedPaymentCode()
     {
-      return $this->extendedPaymentCode;
+        return $this->extendedPaymentCode;
     }
 
     /**
@@ -494,8 +505,9 @@ class AirlineData
      */
     public function setExtendedPaymentCode($extendedPaymentCode)
     {
-      $this->extendedPaymentCode = $extendedPaymentCode;
-      return $this;
+        $this->extendedPaymentCode = $extendedPaymentCode;
+
+        return $this;
     }
 
     /**
@@ -503,7 +515,7 @@ class AirlineData
      */
     public function getCarrierName()
     {
-      return $this->carrierName;
+        return $this->carrierName;
     }
 
     /**
@@ -512,8 +524,9 @@ class AirlineData
      */
     public function setCarrierName($carrierName)
     {
-      $this->carrierName = $carrierName;
-      return $this;
+        $this->carrierName = $carrierName;
+
+        return $this;
     }
 
     /**
@@ -521,7 +534,7 @@ class AirlineData
      */
     public function getPassengerName()
     {
-      return $this->passengerName;
+        return $this->passengerName;
     }
 
     /**
@@ -530,8 +543,9 @@ class AirlineData
      */
     public function setPassengerName($passengerName)
     {
-      $this->passengerName = $passengerName;
-      return $this;
+        $this->passengerName = $passengerName;
+
+        return $this;
     }
 
     /**
@@ -539,7 +553,7 @@ class AirlineData
      */
     public function getPassenger()
     {
-      return $this->passenger;
+        return $this->passenger;
     }
 
     /**
@@ -548,8 +562,9 @@ class AirlineData
      */
     public function setPassenger(array $passenger = null)
     {
-      $this->passenger = $passenger;
-      return $this;
+        $this->passenger = $passenger;
+
+        return $this;
     }
 
     /**
@@ -557,7 +572,7 @@ class AirlineData
      */
     public function getCustomerCode()
     {
-      return $this->customerCode;
+        return $this->customerCode;
     }
 
     /**
@@ -566,8 +581,9 @@ class AirlineData
      */
     public function setCustomerCode($customerCode)
     {
-      $this->customerCode = $customerCode;
-      return $this;
+        $this->customerCode = $customerCode;
+
+        return $this;
     }
 
     /**
@@ -575,7 +591,7 @@ class AirlineData
      */
     public function getDocumentType()
     {
-      return $this->documentType;
+        return $this->documentType;
     }
 
     /**
@@ -584,8 +600,9 @@ class AirlineData
      */
     public function setDocumentType($documentType)
     {
-      $this->documentType = $documentType;
-      return $this;
+        $this->documentType = $documentType;
+
+        return $this;
     }
 
     /**
@@ -593,7 +610,7 @@ class AirlineData
      */
     public function getDocumentNumber()
     {
-      return $this->documentNumber;
+        return $this->documentNumber;
     }
 
     /**
@@ -602,8 +619,9 @@ class AirlineData
      */
     public function setDocumentNumber($documentNumber)
     {
-      $this->documentNumber = $documentNumber;
-      return $this;
+        $this->documentNumber = $documentNumber;
+
+        return $this;
     }
 
     /**
@@ -611,7 +629,7 @@ class AirlineData
      */
     public function getDocumentNumberOfParts()
     {
-      return $this->documentNumberOfParts;
+        return $this->documentNumberOfParts;
     }
 
     /**
@@ -620,8 +638,9 @@ class AirlineData
      */
     public function setDocumentNumberOfParts($documentNumberOfParts)
     {
-      $this->documentNumberOfParts = $documentNumberOfParts;
-      return $this;
+        $this->documentNumberOfParts = $documentNumberOfParts;
+
+        return $this;
     }
 
     /**
@@ -629,7 +648,7 @@ class AirlineData
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -638,8 +657,9 @@ class AirlineData
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -647,7 +667,7 @@ class AirlineData
      */
     public function getInvoiceDate()
     {
-      return $this->invoiceDate;
+        return $this->invoiceDate;
     }
 
     /**
@@ -656,8 +676,9 @@ class AirlineData
      */
     public function setInvoiceDate($invoiceDate)
     {
-      $this->invoiceDate = $invoiceDate;
-      return $this;
+        $this->invoiceDate = $invoiceDate;
+
+        return $this;
     }
 
     /**
@@ -665,7 +686,7 @@ class AirlineData
      */
     public function getChargeDetails()
     {
-      return $this->chargeDetails;
+        return $this->chargeDetails;
     }
 
     /**
@@ -674,8 +695,9 @@ class AirlineData
      */
     public function setChargeDetails($chargeDetails)
     {
-      $this->chargeDetails = $chargeDetails;
-      return $this;
+        $this->chargeDetails = $chargeDetails;
+
+        return $this;
     }
 
     /**
@@ -683,7 +705,7 @@ class AirlineData
      */
     public function getBookingReference()
     {
-      return $this->bookingReference;
+        return $this->bookingReference;
     }
 
     /**
@@ -692,8 +714,9 @@ class AirlineData
      */
     public function setBookingReference($bookingReference)
     {
-      $this->bookingReference = $bookingReference;
-      return $this;
+        $this->bookingReference = $bookingReference;
+
+        return $this;
     }
 
     /**
@@ -701,7 +724,7 @@ class AirlineData
      */
     public function getTotalFee()
     {
-      return $this->totalFee;
+        return $this->totalFee;
     }
 
     /**
@@ -710,8 +733,9 @@ class AirlineData
      */
     public function setTotalFee($totalFee)
     {
-      $this->totalFee = $totalFee;
-      return $this;
+        $this->totalFee = $totalFee;
+
+        return $this;
     }
 
     /**
@@ -719,7 +743,7 @@ class AirlineData
      */
     public function getClearingSequence()
     {
-      return $this->clearingSequence;
+        return $this->clearingSequence;
     }
 
     /**
@@ -728,8 +752,9 @@ class AirlineData
      */
     public function setClearingSequence($clearingSequence)
     {
-      $this->clearingSequence = $clearingSequence;
-      return $this;
+        $this->clearingSequence = $clearingSequence;
+
+        return $this;
     }
 
     /**
@@ -737,7 +762,7 @@ class AirlineData
      */
     public function getClearingCount()
     {
-      return $this->clearingCount;
+        return $this->clearingCount;
     }
 
     /**
@@ -746,8 +771,9 @@ class AirlineData
      */
     public function setClearingCount($clearingCount)
     {
-      $this->clearingCount = $clearingCount;
-      return $this;
+        $this->clearingCount = $clearingCount;
+
+        return $this;
     }
 
     /**
@@ -755,7 +781,7 @@ class AirlineData
      */
     public function getTotalClearingAmount()
     {
-      return $this->totalClearingAmount;
+        return $this->totalClearingAmount;
     }
 
     /**
@@ -764,8 +790,9 @@ class AirlineData
      */
     public function setTotalClearingAmount($totalClearingAmount)
     {
-      $this->totalClearingAmount = $totalClearingAmount;
-      return $this;
+        $this->totalClearingAmount = $totalClearingAmount;
+
+        return $this;
     }
 
     /**
@@ -773,7 +800,7 @@ class AirlineData
      */
     public function getLeg()
     {
-      return $this->leg;
+        return $this->leg;
     }
 
     /**
@@ -782,8 +809,9 @@ class AirlineData
      */
     public function setLeg(array $leg = null)
     {
-      $this->leg = $leg;
-      return $this;
+        $this->leg = $leg;
+
+        return $this;
     }
 
     /**
@@ -791,7 +819,7 @@ class AirlineData
      */
     public function getNumberOfPassengers()
     {
-      return $this->numberOfPassengers;
+        return $this->numberOfPassengers;
     }
 
     /**
@@ -800,8 +828,9 @@ class AirlineData
      */
     public function setNumberOfPassengers($numberOfPassengers)
     {
-      $this->numberOfPassengers = $numberOfPassengers;
-      return $this;
+        $this->numberOfPassengers = $numberOfPassengers;
+
+        return $this;
     }
 
     /**
@@ -809,7 +838,7 @@ class AirlineData
      */
     public function getReservationSystem()
     {
-      return $this->reservationSystem;
+        return $this->reservationSystem;
     }
 
     /**
@@ -818,8 +847,9 @@ class AirlineData
      */
     public function setReservationSystem($reservationSystem)
     {
-      $this->reservationSystem = $reservationSystem;
-      return $this;
+        $this->reservationSystem = $reservationSystem;
+
+        return $this;
     }
 
     /**
@@ -827,7 +857,7 @@ class AirlineData
      */
     public function getProcessIdentifier()
     {
-      return $this->processIdentifier;
+        return $this->processIdentifier;
     }
 
     /**
@@ -836,8 +866,9 @@ class AirlineData
      */
     public function setProcessIdentifier($processIdentifier)
     {
-      $this->processIdentifier = $processIdentifier;
-      return $this;
+        $this->processIdentifier = $processIdentifier;
+
+        return $this;
     }
 
     /**
@@ -845,7 +876,7 @@ class AirlineData
      */
     public function getIataNumericCode()
     {
-      return $this->iataNumericCode;
+        return $this->iataNumericCode;
     }
 
     /**
@@ -854,8 +885,9 @@ class AirlineData
      */
     public function setIataNumericCode($iataNumericCode)
     {
-      $this->iataNumericCode = $iataNumericCode;
-      return $this;
+        $this->iataNumericCode = $iataNumericCode;
+
+        return $this;
     }
 
     /**
@@ -863,7 +895,7 @@ class AirlineData
      */
     public function getTicketIssueDate()
     {
-      return $this->ticketIssueDate;
+        return $this->ticketIssueDate;
     }
 
     /**
@@ -872,8 +904,9 @@ class AirlineData
      */
     public function setTicketIssueDate($ticketIssueDate)
     {
-      $this->ticketIssueDate = $ticketIssueDate;
-      return $this;
+        $this->ticketIssueDate = $ticketIssueDate;
+
+        return $this;
     }
 
     /**
@@ -881,7 +914,7 @@ class AirlineData
      */
     public function getElectronicTicket()
     {
-      return $this->electronicTicket;
+        return $this->electronicTicket;
     }
 
     /**
@@ -890,8 +923,9 @@ class AirlineData
      */
     public function setElectronicTicket($electronicTicket)
     {
-      $this->electronicTicket = $electronicTicket;
-      return $this;
+        $this->electronicTicket = $electronicTicket;
+
+        return $this;
     }
 
     /**
@@ -899,7 +933,7 @@ class AirlineData
      */
     public function getOriginalTicketNumber()
     {
-      return $this->originalTicketNumber;
+        return $this->originalTicketNumber;
     }
 
     /**
@@ -908,8 +942,9 @@ class AirlineData
      */
     public function setOriginalTicketNumber($originalTicketNumber)
     {
-      $this->originalTicketNumber = $originalTicketNumber;
-      return $this;
+        $this->originalTicketNumber = $originalTicketNumber;
+
+        return $this;
     }
 
     /**
@@ -917,7 +952,7 @@ class AirlineData
      */
     public function getPurchaseType()
     {
-      return $this->purchaseType;
+        return $this->purchaseType;
     }
 
     /**
@@ -926,8 +961,9 @@ class AirlineData
      */
     public function setPurchaseType($purchaseType)
     {
-      $this->purchaseType = $purchaseType;
-      return $this;
+        $this->purchaseType = $purchaseType;
+
+        return $this;
     }
 
     /**
@@ -935,7 +971,7 @@ class AirlineData
      */
     public function getCreditReasonIndicator()
     {
-      return $this->creditReasonIndicator;
+        return $this->creditReasonIndicator;
     }
 
     /**
@@ -944,8 +980,9 @@ class AirlineData
      */
     public function setCreditReasonIndicator($creditReasonIndicator)
     {
-      $this->creditReasonIndicator = $creditReasonIndicator;
-      return $this;
+        $this->creditReasonIndicator = $creditReasonIndicator;
+
+        return $this;
     }
 
     /**
@@ -953,7 +990,7 @@ class AirlineData
      */
     public function getTicketUpdateIndicator()
     {
-      return $this->ticketUpdateIndicator;
+        return $this->ticketUpdateIndicator;
     }
 
     /**
@@ -962,8 +999,9 @@ class AirlineData
      */
     public function setTicketUpdateIndicator($ticketUpdateIndicator)
     {
-      $this->ticketUpdateIndicator = $ticketUpdateIndicator;
-      return $this;
+        $this->ticketUpdateIndicator = $ticketUpdateIndicator;
+
+        return $this;
     }
 
     /**
@@ -971,7 +1009,7 @@ class AirlineData
      */
     public function getPlanNumber()
     {
-      return $this->planNumber;
+        return $this->planNumber;
     }
 
     /**
@@ -980,8 +1018,9 @@ class AirlineData
      */
     public function setPlanNumber($planNumber)
     {
-      $this->planNumber = $planNumber;
-      return $this;
+        $this->planNumber = $planNumber;
+
+        return $this;
     }
 
     /**
@@ -989,7 +1028,7 @@ class AirlineData
      */
     public function getArrivalDate()
     {
-      return $this->arrivalDate;
+        return $this->arrivalDate;
     }
 
     /**
@@ -998,8 +1037,9 @@ class AirlineData
      */
     public function setArrivalDate($arrivalDate)
     {
-      $this->arrivalDate = $arrivalDate;
-      return $this;
+        $this->arrivalDate = $arrivalDate;
+
+        return $this;
     }
 
     /**
@@ -1007,7 +1047,7 @@ class AirlineData
      */
     public function getTicketRestrictionText()
     {
-      return $this->ticketRestrictionText;
+        return $this->ticketRestrictionText;
     }
 
     /**
@@ -1016,8 +1056,9 @@ class AirlineData
      */
     public function setTicketRestrictionText($ticketRestrictionText)
     {
-      $this->ticketRestrictionText = $ticketRestrictionText;
-      return $this;
+        $this->ticketRestrictionText = $ticketRestrictionText;
+
+        return $this;
     }
 
     /**
@@ -1025,7 +1066,7 @@ class AirlineData
      */
     public function getExchangeTicketAmount()
     {
-      return $this->exchangeTicketAmount;
+        return $this->exchangeTicketAmount;
     }
 
     /**
@@ -1034,8 +1075,9 @@ class AirlineData
      */
     public function setExchangeTicketAmount($exchangeTicketAmount)
     {
-      $this->exchangeTicketAmount = $exchangeTicketAmount;
-      return $this;
+        $this->exchangeTicketAmount = $exchangeTicketAmount;
+
+        return $this;
     }
 
     /**
@@ -1043,7 +1085,7 @@ class AirlineData
      */
     public function getExchangeTicketFee()
     {
-      return $this->exchangeTicketFee;
+        return $this->exchangeTicketFee;
     }
 
     /**
@@ -1052,8 +1094,9 @@ class AirlineData
      */
     public function setExchangeTicketFee($exchangeTicketFee)
     {
-      $this->exchangeTicketFee = $exchangeTicketFee;
-      return $this;
+        $this->exchangeTicketFee = $exchangeTicketFee;
+
+        return $this;
     }
 
     /**
@@ -1061,7 +1104,7 @@ class AirlineData
      */
     public function getJourneyType()
     {
-      return $this->journeyType;
+        return $this->journeyType;
     }
 
     /**
@@ -1070,8 +1113,9 @@ class AirlineData
      */
     public function setJourneyType($journeyType)
     {
-      $this->journeyType = $journeyType;
-      return $this;
+        $this->journeyType = $journeyType;
+
+        return $this;
     }
 
     /**
@@ -1079,7 +1123,7 @@ class AirlineData
      */
     public function getBoardingFee()
     {
-      return $this->boardingFee;
+        return $this->boardingFee;
     }
 
     /**
@@ -1088,8 +1132,9 @@ class AirlineData
      */
     public function setBoardingFee($boardingFee)
     {
-      $this->boardingFee = $boardingFee;
-      return $this;
+        $this->boardingFee = $boardingFee;
+
+        return $this;
     }
 
 }

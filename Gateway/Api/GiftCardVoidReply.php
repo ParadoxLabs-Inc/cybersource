@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class GiftCardVoidReply
 {
 
@@ -35,7 +38,7 @@ class GiftCardVoidReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -43,7 +46,7 @@ class GiftCardVoidReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -52,8 +55,9 @@ class GiftCardVoidReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -61,7 +65,7 @@ class GiftCardVoidReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -70,8 +74,9 @@ class GiftCardVoidReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -79,7 +84,7 @@ class GiftCardVoidReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -88,8 +93,9 @@ class GiftCardVoidReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -97,29 +103,30 @@ class GiftCardVoidReply
      */
     public function getRequestDeTime()
     {
-      if ($this->requestDeTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDeTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDeTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDeTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDeTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCardVoidReply
      */
-    public function setRequestDeTime(\DateTime $requestDeTime = null)
+    public function setRequestDeTime(DateTime $requestDeTime = null)
     {
-      if ($requestDeTime == null) {
-       $this->requestDeTime = null;
-      } else {
-        $this->requestDeTime = $requestDeTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDeTime == null) {
+            $this->requestDeTime = null;
+        } else {
+            $this->requestDeTime = $requestDeTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -127,7 +134,7 @@ class GiftCardVoidReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -136,8 +143,9 @@ class GiftCardVoidReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
 }

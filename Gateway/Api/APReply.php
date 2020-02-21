@@ -160,10 +160,8 @@ class APReply
      */
     protected $fundingSource = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -171,7 +169,7 @@ class APReply
      */
     public function getOrderID()
     {
-      return $this->orderID;
+        return $this->orderID;
     }
 
     /**
@@ -180,8 +178,9 @@ class APReply
      */
     public function setOrderID($orderID)
     {
-      $this->orderID = $orderID;
-      return $this;
+        $this->orderID = $orderID;
+
+        return $this;
     }
 
     /**
@@ -189,7 +188,7 @@ class APReply
      */
     public function getCardGroup()
     {
-      return $this->cardGroup;
+        return $this->cardGroup;
     }
 
     /**
@@ -198,8 +197,9 @@ class APReply
      */
     public function setCardGroup($cardGroup)
     {
-      $this->cardGroup = $cardGroup;
-      return $this;
+        $this->cardGroup = $cardGroup;
+
+        return $this;
     }
 
     /**
@@ -207,7 +207,7 @@ class APReply
      */
     public function getCardType()
     {
-      return $this->cardType;
+        return $this->cardType;
     }
 
     /**
@@ -216,8 +216,9 @@ class APReply
      */
     public function setCardType($cardType)
     {
-      $this->cardType = $cardType;
-      return $this;
+        $this->cardType = $cardType;
+
+        return $this;
     }
 
     /**
@@ -225,7 +226,7 @@ class APReply
      */
     public function getCardNumberSuffix()
     {
-      return $this->cardNumberSuffix;
+        return $this->cardNumberSuffix;
     }
 
     /**
@@ -234,8 +235,9 @@ class APReply
      */
     public function setCardNumberSuffix($cardNumberSuffix)
     {
-      $this->cardNumberSuffix = $cardNumberSuffix;
-      return $this;
+        $this->cardNumberSuffix = $cardNumberSuffix;
+
+        return $this;
     }
 
     /**
@@ -243,7 +245,7 @@ class APReply
      */
     public function getCardExpirationMonth()
     {
-      return $this->cardExpirationMonth;
+        return $this->cardExpirationMonth;
     }
 
     /**
@@ -252,8 +254,9 @@ class APReply
      */
     public function setCardExpirationMonth($cardExpirationMonth)
     {
-      $this->cardExpirationMonth = $cardExpirationMonth;
-      return $this;
+        $this->cardExpirationMonth = $cardExpirationMonth;
+
+        return $this;
     }
 
     /**
@@ -261,7 +264,7 @@ class APReply
      */
     public function getCardExpirationYear()
     {
-      return $this->cardExpirationYear;
+        return $this->cardExpirationYear;
     }
 
     /**
@@ -270,8 +273,9 @@ class APReply
      */
     public function setCardExpirationYear($cardExpirationYear)
     {
-      $this->cardExpirationYear = $cardExpirationYear;
-      return $this;
+        $this->cardExpirationYear = $cardExpirationYear;
+
+        return $this;
     }
 
     /**
@@ -279,7 +283,7 @@ class APReply
      */
     public function getAvsCodeRaw()
     {
-      return $this->avsCodeRaw;
+        return $this->avsCodeRaw;
     }
 
     /**
@@ -288,8 +292,9 @@ class APReply
      */
     public function setAvsCodeRaw($avsCodeRaw)
     {
-      $this->avsCodeRaw = $avsCodeRaw;
-      return $this;
+        $this->avsCodeRaw = $avsCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -297,7 +302,7 @@ class APReply
      */
     public function getPurchaseID()
     {
-      return $this->purchaseID;
+        return $this->purchaseID;
     }
 
     /**
@@ -306,8 +311,9 @@ class APReply
      */
     public function setPurchaseID($purchaseID)
     {
-      $this->purchaseID = $purchaseID;
-      return $this;
+        $this->purchaseID = $purchaseID;
+
+        return $this;
     }
 
     /**
@@ -315,7 +321,7 @@ class APReply
      */
     public function getProductID()
     {
-      return $this->productID;
+        return $this->productID;
     }
 
     /**
@@ -324,8 +330,9 @@ class APReply
      */
     public function setProductID($productID)
     {
-      $this->productID = $productID;
-      return $this;
+        $this->productID = $productID;
+
+        return $this;
     }
 
     /**
@@ -333,7 +340,7 @@ class APReply
      */
     public function getProductDescription()
     {
-      return $this->productDescription;
+        return $this->productDescription;
     }
 
     /**
@@ -342,8 +349,9 @@ class APReply
      */
     public function setProductDescription($productDescription)
     {
-      $this->productDescription = $productDescription;
-      return $this;
+        $this->productDescription = $productDescription;
+
+        return $this;
     }
 
     /**
@@ -351,7 +359,7 @@ class APReply
      */
     public function getShippingAmount()
     {
-      return $this->shippingAmount;
+        return $this->shippingAmount;
     }
 
     /**
@@ -360,8 +368,9 @@ class APReply
      */
     public function setShippingAmount($shippingAmount)
     {
-      $this->shippingAmount = $shippingAmount;
-      return $this;
+        $this->shippingAmount = $shippingAmount;
+
+        return $this;
     }
 
     /**
@@ -369,7 +378,7 @@ class APReply
      */
     public function getHandlingAmount()
     {
-      return $this->handlingAmount;
+        return $this->handlingAmount;
     }
 
     /**
@@ -378,8 +387,9 @@ class APReply
      */
     public function setHandlingAmount($handlingAmount)
     {
-      $this->handlingAmount = $handlingAmount;
-      return $this;
+        $this->handlingAmount = $handlingAmount;
+
+        return $this;
     }
 
     /**
@@ -387,7 +397,7 @@ class APReply
      */
     public function getShippingHandlingAmount()
     {
-      return $this->shippingHandlingAmount;
+        return $this->shippingHandlingAmount;
     }
 
     /**
@@ -396,8 +406,9 @@ class APReply
      */
     public function setShippingHandlingAmount($shippingHandlingAmount)
     {
-      $this->shippingHandlingAmount = $shippingHandlingAmount;
-      return $this;
+        $this->shippingHandlingAmount = $shippingHandlingAmount;
+
+        return $this;
     }
 
     /**
@@ -405,7 +416,7 @@ class APReply
      */
     public function getAdditionalAmount()
     {
-      return $this->additionalAmount;
+        return $this->additionalAmount;
     }
 
     /**
@@ -414,8 +425,9 @@ class APReply
      */
     public function setAdditionalAmount($additionalAmount)
     {
-      $this->additionalAmount = $additionalAmount;
-      return $this;
+        $this->additionalAmount = $additionalAmount;
+
+        return $this;
     }
 
     /**
@@ -423,7 +435,7 @@ class APReply
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -432,8 +444,9 @@ class APReply
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
-      return $this;
+        $this->taxAmount = $taxAmount;
+
+        return $this;
     }
 
     /**
@@ -441,7 +454,7 @@ class APReply
      */
     public function getSubtotalAmount()
     {
-      return $this->subtotalAmount;
+        return $this->subtotalAmount;
     }
 
     /**
@@ -450,8 +463,9 @@ class APReply
      */
     public function setSubtotalAmount($subtotalAmount)
     {
-      $this->subtotalAmount = $subtotalAmount;
-      return $this;
+        $this->subtotalAmount = $subtotalAmount;
+
+        return $this;
     }
 
     /**
@@ -459,7 +473,7 @@ class APReply
      */
     public function getTotalPurchaseAmount()
     {
-      return $this->totalPurchaseAmount;
+        return $this->totalPurchaseAmount;
     }
 
     /**
@@ -468,8 +482,9 @@ class APReply
      */
     public function setTotalPurchaseAmount($totalPurchaseAmount)
     {
-      $this->totalPurchaseAmount = $totalPurchaseAmount;
-      return $this;
+        $this->totalPurchaseAmount = $totalPurchaseAmount;
+
+        return $this;
     }
 
     /**
@@ -477,7 +492,7 @@ class APReply
      */
     public function getGiftWrapAmount()
     {
-      return $this->giftWrapAmount;
+        return $this->giftWrapAmount;
     }
 
     /**
@@ -486,8 +501,9 @@ class APReply
      */
     public function setGiftWrapAmount($giftWrapAmount)
     {
-      $this->giftWrapAmount = $giftWrapAmount;
-      return $this;
+        $this->giftWrapAmount = $giftWrapAmount;
+
+        return $this;
     }
 
     /**
@@ -495,7 +511,7 @@ class APReply
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -504,8 +520,9 @@ class APReply
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
     /**
@@ -513,7 +530,7 @@ class APReply
      */
     public function getCardNumberPrefix()
     {
-      return $this->cardNumberPrefix;
+        return $this->cardNumberPrefix;
     }
 
     /**
@@ -522,8 +539,9 @@ class APReply
      */
     public function setCardNumberPrefix($cardNumberPrefix)
     {
-      $this->cardNumberPrefix = $cardNumberPrefix;
-      return $this;
+        $this->cardNumberPrefix = $cardNumberPrefix;
+
+        return $this;
     }
 
     /**
@@ -531,7 +549,7 @@ class APReply
      */
     public function getRiskIndicator()
     {
-      return $this->riskIndicator;
+        return $this->riskIndicator;
     }
 
     /**
@@ -540,8 +558,9 @@ class APReply
      */
     public function setRiskIndicator($riskIndicator)
     {
-      $this->riskIndicator = $riskIndicator;
-      return $this;
+        $this->riskIndicator = $riskIndicator;
+
+        return $this;
     }
 
     /**
@@ -549,7 +568,7 @@ class APReply
      */
     public function getMerchantUUID()
     {
-      return $this->merchantUUID;
+        return $this->merchantUUID;
     }
 
     /**
@@ -558,8 +577,9 @@ class APReply
      */
     public function setMerchantUUID($merchantUUID)
     {
-      $this->merchantUUID = $merchantUUID;
-      return $this;
+        $this->merchantUUID = $merchantUUID;
+
+        return $this;
     }
 
     /**
@@ -567,7 +587,7 @@ class APReply
      */
     public function getMerchantSiteID()
     {
-      return $this->merchantSiteID;
+        return $this->merchantSiteID;
     }
 
     /**
@@ -576,8 +596,9 @@ class APReply
      */
     public function setMerchantSiteID($merchantSiteID)
     {
-      $this->merchantSiteID = $merchantSiteID;
-      return $this;
+        $this->merchantSiteID = $merchantSiteID;
+
+        return $this;
     }
 
     /**
@@ -585,7 +606,7 @@ class APReply
      */
     public function getTransactionExpirationDate()
     {
-      return $this->transactionExpirationDate;
+        return $this->transactionExpirationDate;
     }
 
     /**
@@ -594,8 +615,9 @@ class APReply
      */
     public function setTransactionExpirationDate($transactionExpirationDate)
     {
-      $this->transactionExpirationDate = $transactionExpirationDate;
-      return $this;
+        $this->transactionExpirationDate = $transactionExpirationDate;
+
+        return $this;
     }
 
     /**
@@ -603,7 +625,7 @@ class APReply
      */
     public function getSellerProtection()
     {
-      return $this->sellerProtection;
+        return $this->sellerProtection;
     }
 
     /**
@@ -612,8 +634,9 @@ class APReply
      */
     public function setSellerProtection($sellerProtection)
     {
-      $this->sellerProtection = $sellerProtection;
-      return $this;
+        $this->sellerProtection = $sellerProtection;
+
+        return $this;
     }
 
     /**
@@ -621,7 +644,7 @@ class APReply
      */
     public function getProcessorFraudDecision()
     {
-      return $this->processorFraudDecision;
+        return $this->processorFraudDecision;
     }
 
     /**
@@ -630,8 +653,9 @@ class APReply
      */
     public function setProcessorFraudDecision($processorFraudDecision)
     {
-      $this->processorFraudDecision = $processorFraudDecision;
-      return $this;
+        $this->processorFraudDecision = $processorFraudDecision;
+
+        return $this;
     }
 
     /**
@@ -639,7 +663,7 @@ class APReply
      */
     public function getProcessorFraudDecisionReason()
     {
-      return $this->processorFraudDecisionReason;
+        return $this->processorFraudDecisionReason;
     }
 
     /**
@@ -648,8 +672,9 @@ class APReply
      */
     public function setProcessorFraudDecisionReason($processorFraudDecisionReason)
     {
-      $this->processorFraudDecisionReason = $processorFraudDecisionReason;
-      return $this;
+        $this->processorFraudDecisionReason = $processorFraudDecisionReason;
+
+        return $this;
     }
 
     /**
@@ -657,7 +682,7 @@ class APReply
      */
     public function getCustomerID()
     {
-      return $this->customerID;
+        return $this->customerID;
     }
 
     /**
@@ -666,8 +691,9 @@ class APReply
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = $customerID;
-      return $this;
+        $this->customerID = $customerID;
+
+        return $this;
     }
 
     /**
@@ -675,7 +701,7 @@ class APReply
      */
     public function getBillingAgreementID()
     {
-      return $this->billingAgreementID;
+        return $this->billingAgreementID;
     }
 
     /**
@@ -684,8 +710,9 @@ class APReply
      */
     public function setBillingAgreementID($billingAgreementID)
     {
-      $this->billingAgreementID = $billingAgreementID;
-      return $this;
+        $this->billingAgreementID = $billingAgreementID;
+
+        return $this;
     }
 
     /**
@@ -693,7 +720,7 @@ class APReply
      */
     public function getPayerID()
     {
-      return $this->payerID;
+        return $this->payerID;
     }
 
     /**
@@ -702,8 +729,9 @@ class APReply
      */
     public function setPayerID($payerID)
     {
-      $this->payerID = $payerID;
-      return $this;
+        $this->payerID = $payerID;
+
+        return $this;
     }
 
     /**
@@ -711,7 +739,7 @@ class APReply
      */
     public function getFundingSource()
     {
-      return $this->fundingSource;
+        return $this->fundingSource;
     }
 
     /**
@@ -720,8 +748,9 @@ class APReply
      */
     public function setFundingSource($fundingSource)
     {
-      $this->fundingSource = $fundingSource;
-      return $this;
+        $this->fundingSource = $fundingSource;
+
+        return $this;
     }
 
 }

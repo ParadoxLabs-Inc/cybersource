@@ -145,10 +145,8 @@ class AutoRentalData
      */
     protected $specialProgramCode = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -156,7 +154,7 @@ class AutoRentalData
      */
     public function getAdjustmentCost()
     {
-      return $this->adjustmentCost;
+        return $this->adjustmentCost;
     }
 
     /**
@@ -165,8 +163,9 @@ class AutoRentalData
      */
     public function setAdjustmentCost($adjustmentCost)
     {
-      $this->adjustmentCost = $adjustmentCost;
-      return $this;
+        $this->adjustmentCost = $adjustmentCost;
+
+        return $this;
     }
 
     /**
@@ -174,7 +173,7 @@ class AutoRentalData
      */
     public function getAdjustmentCode()
     {
-      return $this->adjustmentCode;
+        return $this->adjustmentCode;
     }
 
     /**
@@ -183,8 +182,9 @@ class AutoRentalData
      */
     public function setAdjustmentCode($adjustmentCode)
     {
-      $this->adjustmentCode = $adjustmentCode;
-      return $this;
+        $this->adjustmentCode = $adjustmentCode;
+
+        return $this;
     }
 
     /**
@@ -192,7 +192,7 @@ class AutoRentalData
      */
     public function getAgreementNumber()
     {
-      return $this->agreementNumber;
+        return $this->agreementNumber;
     }
 
     /**
@@ -201,8 +201,9 @@ class AutoRentalData
      */
     public function setAgreementNumber($agreementNumber)
     {
-      $this->agreementNumber = $agreementNumber;
-      return $this;
+        $this->agreementNumber = $agreementNumber;
+
+        return $this;
     }
 
     /**
@@ -210,7 +211,7 @@ class AutoRentalData
      */
     public function getClassCode()
     {
-      return $this->classCode;
+        return $this->classCode;
     }
 
     /**
@@ -219,8 +220,9 @@ class AutoRentalData
      */
     public function setClassCode($classCode)
     {
-      $this->classCode = $classCode;
-      return $this;
+        $this->classCode = $classCode;
+
+        return $this;
     }
 
     /**
@@ -228,7 +230,7 @@ class AutoRentalData
      */
     public function getCustomerServicePhoneNumber()
     {
-      return $this->customerServicePhoneNumber;
+        return $this->customerServicePhoneNumber;
     }
 
     /**
@@ -237,8 +239,9 @@ class AutoRentalData
      */
     public function setCustomerServicePhoneNumber($customerServicePhoneNumber)
     {
-      $this->customerServicePhoneNumber = $customerServicePhoneNumber;
-      return $this;
+        $this->customerServicePhoneNumber = $customerServicePhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -246,7 +249,7 @@ class AutoRentalData
      */
     public function getDailyRate()
     {
-      return $this->dailyRate;
+        return $this->dailyRate;
     }
 
     /**
@@ -255,8 +258,9 @@ class AutoRentalData
      */
     public function setDailyRate($dailyRate)
     {
-      $this->dailyRate = $dailyRate;
-      return $this;
+        $this->dailyRate = $dailyRate;
+
+        return $this;
     }
 
     /**
@@ -264,7 +268,7 @@ class AutoRentalData
      */
     public function getMileageCost()
     {
-      return $this->mileageCost;
+        return $this->mileageCost;
     }
 
     /**
@@ -273,8 +277,9 @@ class AutoRentalData
      */
     public function setMileageCost($mileageCost)
     {
-      $this->mileageCost = $mileageCost;
-      return $this;
+        $this->mileageCost = $mileageCost;
+
+        return $this;
     }
 
     /**
@@ -282,7 +287,7 @@ class AutoRentalData
      */
     public function getGasCost()
     {
-      return $this->gasCost;
+        return $this->gasCost;
     }
 
     /**
@@ -291,8 +296,9 @@ class AutoRentalData
      */
     public function setGasCost($gasCost)
     {
-      $this->gasCost = $gasCost;
-      return $this;
+        $this->gasCost = $gasCost;
+
+        return $this;
     }
 
     /**
@@ -300,7 +306,7 @@ class AutoRentalData
      */
     public function getInsuranceCost()
     {
-      return $this->insuranceCost;
+        return $this->insuranceCost;
     }
 
     /**
@@ -309,8 +315,9 @@ class AutoRentalData
      */
     public function setInsuranceCost($insuranceCost)
     {
-      $this->insuranceCost = $insuranceCost;
-      return $this;
+        $this->insuranceCost = $insuranceCost;
+
+        return $this;
     }
 
     /**
@@ -318,7 +325,7 @@ class AutoRentalData
      */
     public function getLateReturnCost()
     {
-      return $this->lateReturnCost;
+        return $this->lateReturnCost;
     }
 
     /**
@@ -327,8 +334,9 @@ class AutoRentalData
      */
     public function setLateReturnCost($lateReturnCost)
     {
-      $this->lateReturnCost = $lateReturnCost;
-      return $this;
+        $this->lateReturnCost = $lateReturnCost;
+
+        return $this;
     }
 
     /**
@@ -336,7 +344,7 @@ class AutoRentalData
      */
     public function getMaximumFreeMiles()
     {
-      return $this->maximumFreeMiles;
+        return $this->maximumFreeMiles;
     }
 
     /**
@@ -345,8 +353,9 @@ class AutoRentalData
      */
     public function setMaximumFreeMiles($maximumFreeMiles)
     {
-      $this->maximumFreeMiles = $maximumFreeMiles;
-      return $this;
+        $this->maximumFreeMiles = $maximumFreeMiles;
+
+        return $this;
     }
 
     /**
@@ -354,7 +363,7 @@ class AutoRentalData
      */
     public function getMilesTraveled()
     {
-      return $this->milesTraveled;
+        return $this->milesTraveled;
     }
 
     /**
@@ -363,8 +372,9 @@ class AutoRentalData
      */
     public function setMilesTraveled($milesTraveled)
     {
-      $this->milesTraveled = $milesTraveled;
-      return $this;
+        $this->milesTraveled = $milesTraveled;
+
+        return $this;
     }
 
     /**
@@ -372,7 +382,7 @@ class AutoRentalData
      */
     public function getOneWayCost()
     {
-      return $this->oneWayCost;
+        return $this->oneWayCost;
     }
 
     /**
@@ -381,8 +391,9 @@ class AutoRentalData
      */
     public function setOneWayCost($oneWayCost)
     {
-      $this->oneWayCost = $oneWayCost;
-      return $this;
+        $this->oneWayCost = $oneWayCost;
+
+        return $this;
     }
 
     /**
@@ -390,7 +401,7 @@ class AutoRentalData
      */
     public function getParkingViolationCost()
     {
-      return $this->parkingViolationCost;
+        return $this->parkingViolationCost;
     }
 
     /**
@@ -399,8 +410,9 @@ class AutoRentalData
      */
     public function setParkingViolationCost($parkingViolationCost)
     {
-      $this->parkingViolationCost = $parkingViolationCost;
-      return $this;
+        $this->parkingViolationCost = $parkingViolationCost;
+
+        return $this;
     }
 
     /**
@@ -408,7 +420,7 @@ class AutoRentalData
      */
     public function getPickUpCity()
     {
-      return $this->pickUpCity;
+        return $this->pickUpCity;
     }
 
     /**
@@ -417,8 +429,9 @@ class AutoRentalData
      */
     public function setPickUpCity($pickUpCity)
     {
-      $this->pickUpCity = $pickUpCity;
-      return $this;
+        $this->pickUpCity = $pickUpCity;
+
+        return $this;
     }
 
     /**
@@ -426,7 +439,7 @@ class AutoRentalData
      */
     public function getPickUpCountry()
     {
-      return $this->pickUpCountry;
+        return $this->pickUpCountry;
     }
 
     /**
@@ -435,8 +448,9 @@ class AutoRentalData
      */
     public function setPickUpCountry($pickUpCountry)
     {
-      $this->pickUpCountry = $pickUpCountry;
-      return $this;
+        $this->pickUpCountry = $pickUpCountry;
+
+        return $this;
     }
 
     /**
@@ -444,7 +458,7 @@ class AutoRentalData
      */
     public function getPickUpDate()
     {
-      return $this->pickUpDate;
+        return $this->pickUpDate;
     }
 
     /**
@@ -453,8 +467,9 @@ class AutoRentalData
      */
     public function setPickUpDate($pickUpDate)
     {
-      $this->pickUpDate = $pickUpDate;
-      return $this;
+        $this->pickUpDate = $pickUpDate;
+
+        return $this;
     }
 
     /**
@@ -462,7 +477,7 @@ class AutoRentalData
      */
     public function getPickUpState()
     {
-      return $this->pickUpState;
+        return $this->pickUpState;
     }
 
     /**
@@ -471,8 +486,9 @@ class AutoRentalData
      */
     public function setPickUpState($pickUpState)
     {
-      $this->pickUpState = $pickUpState;
-      return $this;
+        $this->pickUpState = $pickUpState;
+
+        return $this;
     }
 
     /**
@@ -480,7 +496,7 @@ class AutoRentalData
      */
     public function getPickUpTime()
     {
-      return $this->pickUpTime;
+        return $this->pickUpTime;
     }
 
     /**
@@ -489,8 +505,9 @@ class AutoRentalData
      */
     public function setPickUpTime($pickUpTime)
     {
-      $this->pickUpTime = $pickUpTime;
-      return $this;
+        $this->pickUpTime = $pickUpTime;
+
+        return $this;
     }
 
     /**
@@ -498,7 +515,7 @@ class AutoRentalData
      */
     public function getRatePerMile()
     {
-      return $this->ratePerMile;
+        return $this->ratePerMile;
     }
 
     /**
@@ -507,8 +524,9 @@ class AutoRentalData
      */
     public function setRatePerMile($ratePerMile)
     {
-      $this->ratePerMile = $ratePerMile;
-      return $this;
+        $this->ratePerMile = $ratePerMile;
+
+        return $this;
     }
 
     /**
@@ -516,7 +534,7 @@ class AutoRentalData
      */
     public function getRenterName()
     {
-      return $this->renterName;
+        return $this->renterName;
     }
 
     /**
@@ -525,8 +543,9 @@ class AutoRentalData
      */
     public function setRenterName($renterName)
     {
-      $this->renterName = $renterName;
-      return $this;
+        $this->renterName = $renterName;
+
+        return $this;
     }
 
     /**
@@ -534,7 +553,7 @@ class AutoRentalData
      */
     public function getReturnCity()
     {
-      return $this->returnCity;
+        return $this->returnCity;
     }
 
     /**
@@ -543,8 +562,9 @@ class AutoRentalData
      */
     public function setReturnCity($returnCity)
     {
-      $this->returnCity = $returnCity;
-      return $this;
+        $this->returnCity = $returnCity;
+
+        return $this;
     }
 
     /**
@@ -552,7 +572,7 @@ class AutoRentalData
      */
     public function getReturnCountry()
     {
-      return $this->returnCountry;
+        return $this->returnCountry;
     }
 
     /**
@@ -561,8 +581,9 @@ class AutoRentalData
      */
     public function setReturnCountry($returnCountry)
     {
-      $this->returnCountry = $returnCountry;
-      return $this;
+        $this->returnCountry = $returnCountry;
+
+        return $this;
     }
 
     /**
@@ -570,7 +591,7 @@ class AutoRentalData
      */
     public function getReturnDate()
     {
-      return $this->returnDate;
+        return $this->returnDate;
     }
 
     /**
@@ -579,8 +600,9 @@ class AutoRentalData
      */
     public function setReturnDate($returnDate)
     {
-      $this->returnDate = $returnDate;
-      return $this;
+        $this->returnDate = $returnDate;
+
+        return $this;
     }
 
     /**
@@ -588,7 +610,7 @@ class AutoRentalData
      */
     public function getReturnLocationID()
     {
-      return $this->returnLocationID;
+        return $this->returnLocationID;
     }
 
     /**
@@ -597,8 +619,9 @@ class AutoRentalData
      */
     public function setReturnLocationID($returnLocationID)
     {
-      $this->returnLocationID = $returnLocationID;
-      return $this;
+        $this->returnLocationID = $returnLocationID;
+
+        return $this;
     }
 
     /**
@@ -606,7 +629,7 @@ class AutoRentalData
      */
     public function getReturnState()
     {
-      return $this->returnState;
+        return $this->returnState;
     }
 
     /**
@@ -615,8 +638,9 @@ class AutoRentalData
      */
     public function setReturnState($returnState)
     {
-      $this->returnState = $returnState;
-      return $this;
+        $this->returnState = $returnState;
+
+        return $this;
     }
 
     /**
@@ -624,7 +648,7 @@ class AutoRentalData
      */
     public function getReturnTime()
     {
-      return $this->returnTime;
+        return $this->returnTime;
     }
 
     /**
@@ -633,8 +657,9 @@ class AutoRentalData
      */
     public function setReturnTime($returnTime)
     {
-      $this->returnTime = $returnTime;
-      return $this;
+        $this->returnTime = $returnTime;
+
+        return $this;
     }
 
     /**
@@ -642,7 +667,7 @@ class AutoRentalData
      */
     public function getSpecialProgramCode()
     {
-      return $this->specialProgramCode;
+        return $this->specialProgramCode;
     }
 
     /**
@@ -651,8 +676,9 @@ class AutoRentalData
      */
     public function setSpecialProgramCode($specialProgramCode)
     {
-      $this->specialProgramCode = $specialProgramCode;
-      return $this;
+        $this->specialProgramCode = $specialProgramCode;
+
+        return $this;
     }
 
 }

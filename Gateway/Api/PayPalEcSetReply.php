@@ -40,7 +40,7 @@ class PayPalEcSetReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -48,7 +48,7 @@ class PayPalEcSetReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -57,8 +57,9 @@ class PayPalEcSetReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -66,7 +67,7 @@ class PayPalEcSetReply
      */
     public function getPaypalToken()
     {
-      return $this->paypalToken;
+        return $this->paypalToken;
     }
 
     /**
@@ -75,8 +76,9 @@ class PayPalEcSetReply
      */
     public function setPaypalToken($paypalToken)
     {
-      $this->paypalToken = $paypalToken;
-      return $this;
+        $this->paypalToken = $paypalToken;
+
+        return $this;
     }
 
     /**
@@ -84,7 +86,7 @@ class PayPalEcSetReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -93,8 +95,9 @@ class PayPalEcSetReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -102,7 +105,7 @@ class PayPalEcSetReply
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -111,8 +114,9 @@ class PayPalEcSetReply
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -120,7 +124,7 @@ class PayPalEcSetReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -129,8 +133,9 @@ class PayPalEcSetReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
     /**
@@ -138,7 +143,7 @@ class PayPalEcSetReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -147,8 +152,9 @@ class PayPalEcSetReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
 }

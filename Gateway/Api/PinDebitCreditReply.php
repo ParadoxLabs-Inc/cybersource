@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PinDebitCreditReply
 {
 
@@ -50,7 +53,7 @@ class PinDebitCreditReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -58,7 +61,7 @@ class PinDebitCreditReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -67,8 +70,9 @@ class PinDebitCreditReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -76,7 +80,7 @@ class PinDebitCreditReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -85,8 +89,9 @@ class PinDebitCreditReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -94,7 +99,7 @@ class PinDebitCreditReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -103,8 +108,9 @@ class PinDebitCreditReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -112,7 +118,7 @@ class PinDebitCreditReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -121,8 +127,9 @@ class PinDebitCreditReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -130,7 +137,7 @@ class PinDebitCreditReply
      */
     public function getNetworkCode()
     {
-      return $this->networkCode;
+        return $this->networkCode;
     }
 
     /**
@@ -139,8 +146,9 @@ class PinDebitCreditReply
      */
     public function setNetworkCode($networkCode)
     {
-      $this->networkCode = $networkCode;
-      return $this;
+        $this->networkCode = $networkCode;
+
+        return $this;
     }
 
     /**
@@ -148,7 +156,7 @@ class PinDebitCreditReply
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -157,8 +165,9 @@ class PinDebitCreditReply
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -166,7 +175,7 @@ class PinDebitCreditReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -175,8 +184,9 @@ class PinDebitCreditReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -184,29 +194,30 @@ class PinDebitCreditReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PinDebitCreditReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

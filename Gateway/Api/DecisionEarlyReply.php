@@ -35,10 +35,8 @@ class DecisionEarlyReply
      */
     protected $activeProfileReply = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class DecisionEarlyReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -55,8 +53,9 @@ class DecisionEarlyReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class DecisionEarlyReply
      */
     public function getRcode()
     {
-      return $this->rcode;
+        return $this->rcode;
     }
 
     /**
@@ -73,8 +72,9 @@ class DecisionEarlyReply
      */
     public function setRcode($rcode)
     {
-      $this->rcode = $rcode;
-      return $this;
+        $this->rcode = $rcode;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class DecisionEarlyReply
      */
     public function getRflag()
     {
-      return $this->rflag;
+        return $this->rflag;
     }
 
     /**
@@ -91,8 +91,9 @@ class DecisionEarlyReply
      */
     public function setRflag($rflag)
     {
-      $this->rflag = $rflag;
-      return $this;
+        $this->rflag = $rflag;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class DecisionEarlyReply
      */
     public function getRmsg()
     {
-      return $this->rmsg;
+        return $this->rmsg;
     }
 
     /**
@@ -109,8 +110,9 @@ class DecisionEarlyReply
      */
     public function setRmsg($rmsg)
     {
-      $this->rmsg = $rmsg;
-      return $this;
+        $this->rmsg = $rmsg;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class DecisionEarlyReply
      */
     public function getAction()
     {
-      return $this->action;
+        return $this->action;
     }
 
     /**
@@ -127,8 +129,9 @@ class DecisionEarlyReply
      */
     public function setAction($action)
     {
-      $this->action = $action;
-      return $this;
+        $this->action = $action;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class DecisionEarlyReply
      */
     public function getActiveProfileReply()
     {
-      return $this->activeProfileReply;
+        return $this->activeProfileReply;
     }
 
     /**
@@ -145,8 +148,9 @@ class DecisionEarlyReply
      */
     public function setActiveProfileReply($activeProfileReply)
     {
-      $this->activeProfileReply = $activeProfileReply;
-      return $this;
+        $this->activeProfileReply = $activeProfileReply;
+
+        return $this;
     }
 
 }

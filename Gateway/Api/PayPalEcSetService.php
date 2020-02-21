@@ -140,7 +140,7 @@ class PayPalEcSetService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -148,7 +148,7 @@ class PayPalEcSetService
      */
     public function getPaypalReturn()
     {
-      return $this->paypalReturn;
+        return $this->paypalReturn;
     }
 
     /**
@@ -157,8 +157,9 @@ class PayPalEcSetService
      */
     public function setPaypalReturn($paypalReturn)
     {
-      $this->paypalReturn = $paypalReturn;
-      return $this;
+        $this->paypalReturn = $paypalReturn;
+
+        return $this;
     }
 
     /**
@@ -166,7 +167,7 @@ class PayPalEcSetService
      */
     public function getPaypalCancelReturn()
     {
-      return $this->paypalCancelReturn;
+        return $this->paypalCancelReturn;
     }
 
     /**
@@ -175,8 +176,9 @@ class PayPalEcSetService
      */
     public function setPaypalCancelReturn($paypalCancelReturn)
     {
-      $this->paypalCancelReturn = $paypalCancelReturn;
-      return $this;
+        $this->paypalCancelReturn = $paypalCancelReturn;
+
+        return $this;
     }
 
     /**
@@ -184,7 +186,7 @@ class PayPalEcSetService
      */
     public function getPaypalMaxamt()
     {
-      return $this->paypalMaxamt;
+        return $this->paypalMaxamt;
     }
 
     /**
@@ -193,8 +195,9 @@ class PayPalEcSetService
      */
     public function setPaypalMaxamt($paypalMaxamt)
     {
-      $this->paypalMaxamt = $paypalMaxamt;
-      return $this;
+        $this->paypalMaxamt = $paypalMaxamt;
+
+        return $this;
     }
 
     /**
@@ -202,7 +205,7 @@ class PayPalEcSetService
      */
     public function getPaypalCustomerEmail()
     {
-      return $this->paypalCustomerEmail;
+        return $this->paypalCustomerEmail;
     }
 
     /**
@@ -211,8 +214,9 @@ class PayPalEcSetService
      */
     public function setPaypalCustomerEmail($paypalCustomerEmail)
     {
-      $this->paypalCustomerEmail = $paypalCustomerEmail;
-      return $this;
+        $this->paypalCustomerEmail = $paypalCustomerEmail;
+
+        return $this;
     }
 
     /**
@@ -220,7 +224,7 @@ class PayPalEcSetService
      */
     public function getPaypalDesc()
     {
-      return $this->paypalDesc;
+        return $this->paypalDesc;
     }
 
     /**
@@ -229,8 +233,9 @@ class PayPalEcSetService
      */
     public function setPaypalDesc($paypalDesc)
     {
-      $this->paypalDesc = $paypalDesc;
-      return $this;
+        $this->paypalDesc = $paypalDesc;
+
+        return $this;
     }
 
     /**
@@ -238,7 +243,7 @@ class PayPalEcSetService
      */
     public function getPaypalReqconfirmshipping()
     {
-      return $this->paypalReqconfirmshipping;
+        return $this->paypalReqconfirmshipping;
     }
 
     /**
@@ -247,8 +252,9 @@ class PayPalEcSetService
      */
     public function setPaypalReqconfirmshipping($paypalReqconfirmshipping)
     {
-      $this->paypalReqconfirmshipping = $paypalReqconfirmshipping;
-      return $this;
+        $this->paypalReqconfirmshipping = $paypalReqconfirmshipping;
+
+        return $this;
     }
 
     /**
@@ -256,7 +262,7 @@ class PayPalEcSetService
      */
     public function getPaypalNoshipping()
     {
-      return $this->paypalNoshipping;
+        return $this->paypalNoshipping;
     }
 
     /**
@@ -265,8 +271,9 @@ class PayPalEcSetService
      */
     public function setPaypalNoshipping($paypalNoshipping)
     {
-      $this->paypalNoshipping = $paypalNoshipping;
-      return $this;
+        $this->paypalNoshipping = $paypalNoshipping;
+
+        return $this;
     }
 
     /**
@@ -274,7 +281,7 @@ class PayPalEcSetService
      */
     public function getPaypalAddressOverride()
     {
-      return $this->paypalAddressOverride;
+        return $this->paypalAddressOverride;
     }
 
     /**
@@ -283,8 +290,9 @@ class PayPalEcSetService
      */
     public function setPaypalAddressOverride($paypalAddressOverride)
     {
-      $this->paypalAddressOverride = $paypalAddressOverride;
-      return $this;
+        $this->paypalAddressOverride = $paypalAddressOverride;
+
+        return $this;
     }
 
     /**
@@ -292,7 +300,7 @@ class PayPalEcSetService
      */
     public function getPaypalToken()
     {
-      return $this->paypalToken;
+        return $this->paypalToken;
     }
 
     /**
@@ -301,8 +309,9 @@ class PayPalEcSetService
      */
     public function setPaypalToken($paypalToken)
     {
-      $this->paypalToken = $paypalToken;
-      return $this;
+        $this->paypalToken = $paypalToken;
+
+        return $this;
     }
 
     /**
@@ -310,7 +319,7 @@ class PayPalEcSetService
      */
     public function getPaypalLc()
     {
-      return $this->paypalLc;
+        return $this->paypalLc;
     }
 
     /**
@@ -319,8 +328,9 @@ class PayPalEcSetService
      */
     public function setPaypalLc($paypalLc)
     {
-      $this->paypalLc = $paypalLc;
-      return $this;
+        $this->paypalLc = $paypalLc;
+
+        return $this;
     }
 
     /**
@@ -328,7 +338,7 @@ class PayPalEcSetService
      */
     public function getPaypalPagestyle()
     {
-      return $this->paypalPagestyle;
+        return $this->paypalPagestyle;
     }
 
     /**
@@ -337,8 +347,9 @@ class PayPalEcSetService
      */
     public function setPaypalPagestyle($paypalPagestyle)
     {
-      $this->paypalPagestyle = $paypalPagestyle;
-      return $this;
+        $this->paypalPagestyle = $paypalPagestyle;
+
+        return $this;
     }
 
     /**
@@ -346,7 +357,7 @@ class PayPalEcSetService
      */
     public function getPaypalHdrimg()
     {
-      return $this->paypalHdrimg;
+        return $this->paypalHdrimg;
     }
 
     /**
@@ -355,8 +366,9 @@ class PayPalEcSetService
      */
     public function setPaypalHdrimg($paypalHdrimg)
     {
-      $this->paypalHdrimg = $paypalHdrimg;
-      return $this;
+        $this->paypalHdrimg = $paypalHdrimg;
+
+        return $this;
     }
 
     /**
@@ -364,7 +376,7 @@ class PayPalEcSetService
      */
     public function getPaypalHdrbordercolor()
     {
-      return $this->paypalHdrbordercolor;
+        return $this->paypalHdrbordercolor;
     }
 
     /**
@@ -373,8 +385,9 @@ class PayPalEcSetService
      */
     public function setPaypalHdrbordercolor($paypalHdrbordercolor)
     {
-      $this->paypalHdrbordercolor = $paypalHdrbordercolor;
-      return $this;
+        $this->paypalHdrbordercolor = $paypalHdrbordercolor;
+
+        return $this;
     }
 
     /**
@@ -382,7 +395,7 @@ class PayPalEcSetService
      */
     public function getPaypalHdrbackcolor()
     {
-      return $this->paypalHdrbackcolor;
+        return $this->paypalHdrbackcolor;
     }
 
     /**
@@ -391,8 +404,9 @@ class PayPalEcSetService
      */
     public function setPaypalHdrbackcolor($paypalHdrbackcolor)
     {
-      $this->paypalHdrbackcolor = $paypalHdrbackcolor;
-      return $this;
+        $this->paypalHdrbackcolor = $paypalHdrbackcolor;
+
+        return $this;
     }
 
     /**
@@ -400,7 +414,7 @@ class PayPalEcSetService
      */
     public function getPaypalPayflowcolor()
     {
-      return $this->paypalPayflowcolor;
+        return $this->paypalPayflowcolor;
     }
 
     /**
@@ -409,8 +423,9 @@ class PayPalEcSetService
      */
     public function setPaypalPayflowcolor($paypalPayflowcolor)
     {
-      $this->paypalPayflowcolor = $paypalPayflowcolor;
-      return $this;
+        $this->paypalPayflowcolor = $paypalPayflowcolor;
+
+        return $this;
     }
 
     /**
@@ -418,7 +433,7 @@ class PayPalEcSetService
      */
     public function getPaypalEcSetRequestID()
     {
-      return $this->paypalEcSetRequestID;
+        return $this->paypalEcSetRequestID;
     }
 
     /**
@@ -427,8 +442,9 @@ class PayPalEcSetService
      */
     public function setPaypalEcSetRequestID($paypalEcSetRequestID)
     {
-      $this->paypalEcSetRequestID = $paypalEcSetRequestID;
-      return $this;
+        $this->paypalEcSetRequestID = $paypalEcSetRequestID;
+
+        return $this;
     }
 
     /**
@@ -436,7 +452,7 @@ class PayPalEcSetService
      */
     public function getPaypalEcSetRequestToken()
     {
-      return $this->paypalEcSetRequestToken;
+        return $this->paypalEcSetRequestToken;
     }
 
     /**
@@ -445,8 +461,9 @@ class PayPalEcSetService
      */
     public function setPaypalEcSetRequestToken($paypalEcSetRequestToken)
     {
-      $this->paypalEcSetRequestToken = $paypalEcSetRequestToken;
-      return $this;
+        $this->paypalEcSetRequestToken = $paypalEcSetRequestToken;
+
+        return $this;
     }
 
     /**
@@ -454,7 +471,7 @@ class PayPalEcSetService
      */
     public function getPromoCode0()
     {
-      return $this->promoCode0;
+        return $this->promoCode0;
     }
 
     /**
@@ -463,8 +480,9 @@ class PayPalEcSetService
      */
     public function setPromoCode0($promoCode0)
     {
-      $this->promoCode0 = $promoCode0;
-      return $this;
+        $this->promoCode0 = $promoCode0;
+
+        return $this;
     }
 
     /**
@@ -472,7 +490,7 @@ class PayPalEcSetService
      */
     public function getRequestBillingAddress()
     {
-      return $this->requestBillingAddress;
+        return $this->requestBillingAddress;
     }
 
     /**
@@ -481,8 +499,9 @@ class PayPalEcSetService
      */
     public function setRequestBillingAddress($requestBillingAddress)
     {
-      $this->requestBillingAddress = $requestBillingAddress;
-      return $this;
+        $this->requestBillingAddress = $requestBillingAddress;
+
+        return $this;
     }
 
     /**
@@ -490,7 +509,7 @@ class PayPalEcSetService
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -499,8 +518,9 @@ class PayPalEcSetService
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -508,7 +528,7 @@ class PayPalEcSetService
      */
     public function getPaypalBillingType()
     {
-      return $this->paypalBillingType;
+        return $this->paypalBillingType;
     }
 
     /**
@@ -517,8 +537,9 @@ class PayPalEcSetService
      */
     public function setPaypalBillingType($paypalBillingType)
     {
-      $this->paypalBillingType = $paypalBillingType;
-      return $this;
+        $this->paypalBillingType = $paypalBillingType;
+
+        return $this;
     }
 
     /**
@@ -526,7 +547,7 @@ class PayPalEcSetService
      */
     public function getPaypalBillingAgreementDesc()
     {
-      return $this->paypalBillingAgreementDesc;
+        return $this->paypalBillingAgreementDesc;
     }
 
     /**
@@ -535,8 +556,9 @@ class PayPalEcSetService
      */
     public function setPaypalBillingAgreementDesc($paypalBillingAgreementDesc)
     {
-      $this->paypalBillingAgreementDesc = $paypalBillingAgreementDesc;
-      return $this;
+        $this->paypalBillingAgreementDesc = $paypalBillingAgreementDesc;
+
+        return $this;
     }
 
     /**
@@ -544,7 +566,7 @@ class PayPalEcSetService
      */
     public function getPaypalPaymentType()
     {
-      return $this->paypalPaymentType;
+        return $this->paypalPaymentType;
     }
 
     /**
@@ -553,8 +575,9 @@ class PayPalEcSetService
      */
     public function setPaypalPaymentType($paypalPaymentType)
     {
-      $this->paypalPaymentType = $paypalPaymentType;
-      return $this;
+        $this->paypalPaymentType = $paypalPaymentType;
+
+        return $this;
     }
 
     /**
@@ -562,7 +585,7 @@ class PayPalEcSetService
      */
     public function getPaypalBillingAgreementCustom()
     {
-      return $this->paypalBillingAgreementCustom;
+        return $this->paypalBillingAgreementCustom;
     }
 
     /**
@@ -571,8 +594,9 @@ class PayPalEcSetService
      */
     public function setPaypalBillingAgreementCustom($paypalBillingAgreementCustom)
     {
-      $this->paypalBillingAgreementCustom = $paypalBillingAgreementCustom;
-      return $this;
+        $this->paypalBillingAgreementCustom = $paypalBillingAgreementCustom;
+
+        return $this;
     }
 
     /**
@@ -580,7 +604,7 @@ class PayPalEcSetService
      */
     public function getPaypalLogoimg()
     {
-      return $this->paypalLogoimg;
+        return $this->paypalLogoimg;
     }
 
     /**
@@ -589,8 +613,9 @@ class PayPalEcSetService
      */
     public function setPaypalLogoimg($paypalLogoimg)
     {
-      $this->paypalLogoimg = $paypalLogoimg;
-      return $this;
+        $this->paypalLogoimg = $paypalLogoimg;
+
+        return $this;
     }
 
     /**
@@ -598,7 +623,7 @@ class PayPalEcSetService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -607,8 +632,9 @@ class PayPalEcSetService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

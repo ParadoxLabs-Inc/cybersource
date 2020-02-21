@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class CCCaptureReply
 {
 
@@ -70,7 +73,7 @@ class CCCaptureReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -78,7 +81,7 @@ class CCCaptureReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -87,8 +90,9 @@ class CCCaptureReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -96,29 +100,30 @@ class CCCaptureReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -126,7 +131,7 @@ class CCCaptureReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -135,8 +140,9 @@ class CCCaptureReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -144,7 +150,7 @@ class CCCaptureReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -153,8 +159,9 @@ class CCCaptureReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -162,7 +169,7 @@ class CCCaptureReply
      */
     public function getFundingTotals()
     {
-      return $this->fundingTotals;
+        return $this->fundingTotals;
     }
 
     /**
@@ -171,8 +178,9 @@ class CCCaptureReply
      */
     public function setFundingTotals($fundingTotals)
     {
-      $this->fundingTotals = $fundingTotals;
-      return $this;
+        $this->fundingTotals = $fundingTotals;
+
+        return $this;
     }
 
     /**
@@ -180,7 +188,7 @@ class CCCaptureReply
      */
     public function getFxQuoteID()
     {
-      return $this->fxQuoteID;
+        return $this->fxQuoteID;
     }
 
     /**
@@ -189,8 +197,9 @@ class CCCaptureReply
      */
     public function setFxQuoteID($fxQuoteID)
     {
-      $this->fxQuoteID = $fxQuoteID;
-      return $this;
+        $this->fxQuoteID = $fxQuoteID;
+
+        return $this;
     }
 
     /**
@@ -198,29 +207,30 @@ class CCCaptureReply
      */
     public function getFxQuoteRate()
     {
-      if ($this->fxQuoteRate == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->fxQuoteRate);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->fxQuoteRate == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->fxQuoteRate);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $fxQuoteRate
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
      */
-    public function setFxQuoteRate(\DateTime $fxQuoteRate = null)
+    public function setFxQuoteRate(DateTime $fxQuoteRate = null)
     {
-      if ($fxQuoteRate == null) {
-       $this->fxQuoteRate = null;
-      } else {
-        $this->fxQuoteRate = $fxQuoteRate->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($fxQuoteRate == null) {
+            $this->fxQuoteRate = null;
+        } else {
+            $this->fxQuoteRate = $fxQuoteRate->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -228,7 +238,7 @@ class CCCaptureReply
      */
     public function getFxQuoteType()
     {
-      return $this->fxQuoteType;
+        return $this->fxQuoteType;
     }
 
     /**
@@ -237,8 +247,9 @@ class CCCaptureReply
      */
     public function setFxQuoteType($fxQuoteType)
     {
-      $this->fxQuoteType = $fxQuoteType;
-      return $this;
+        $this->fxQuoteType = $fxQuoteType;
+
+        return $this;
     }
 
     /**
@@ -246,29 +257,30 @@ class CCCaptureReply
      */
     public function getFxQuoteExpirationDateTime()
     {
-      if ($this->fxQuoteExpirationDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->fxQuoteExpirationDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->fxQuoteExpirationDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->fxQuoteExpirationDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $fxQuoteExpirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
      */
-    public function setFxQuoteExpirationDateTime(\DateTime $fxQuoteExpirationDateTime = null)
+    public function setFxQuoteExpirationDateTime(DateTime $fxQuoteExpirationDateTime = null)
     {
-      if ($fxQuoteExpirationDateTime == null) {
-       $this->fxQuoteExpirationDateTime = null;
-      } else {
-        $this->fxQuoteExpirationDateTime = $fxQuoteExpirationDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($fxQuoteExpirationDateTime == null) {
+            $this->fxQuoteExpirationDateTime = null;
+        } else {
+            $this->fxQuoteExpirationDateTime = $fxQuoteExpirationDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -276,7 +288,7 @@ class CCCaptureReply
      */
     public function getPurchasingLevel3Enabled()
     {
-      return $this->purchasingLevel3Enabled;
+        return $this->purchasingLevel3Enabled;
     }
 
     /**
@@ -285,8 +297,9 @@ class CCCaptureReply
      */
     public function setPurchasingLevel3Enabled($purchasingLevel3Enabled)
     {
-      $this->purchasingLevel3Enabled = $purchasingLevel3Enabled;
-      return $this;
+        $this->purchasingLevel3Enabled = $purchasingLevel3Enabled;
+
+        return $this;
     }
 
     /**
@@ -294,7 +307,7 @@ class CCCaptureReply
      */
     public function getEnhancedDataEnabled()
     {
-      return $this->enhancedDataEnabled;
+        return $this->enhancedDataEnabled;
     }
 
     /**
@@ -303,8 +316,9 @@ class CCCaptureReply
      */
     public function setEnhancedDataEnabled($enhancedDataEnabled)
     {
-      $this->enhancedDataEnabled = $enhancedDataEnabled;
-      return $this;
+        $this->enhancedDataEnabled = $enhancedDataEnabled;
+
+        return $this;
     }
 
     /**
@@ -312,7 +326,7 @@ class CCCaptureReply
      */
     public function getReconciliationReferenceNumber()
     {
-      return $this->reconciliationReferenceNumber;
+        return $this->reconciliationReferenceNumber;
     }
 
     /**
@@ -321,8 +335,9 @@ class CCCaptureReply
      */
     public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
     {
-      $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
-      return $this;
+        $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
+
+        return $this;
     }
 
 }

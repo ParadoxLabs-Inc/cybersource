@@ -25,10 +25,8 @@ class RuleResultItem
      */
     protected $ruleID = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class RuleResultItem
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -45,8 +43,9 @@ class RuleResultItem
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class RuleResultItem
      */
     public function getDecision()
     {
-      return $this->decision;
+        return $this->decision;
     }
 
     /**
@@ -63,8 +62,9 @@ class RuleResultItem
      */
     public function setDecision($decision)
     {
-      $this->decision = $decision;
-      return $this;
+        $this->decision = $decision;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class RuleResultItem
      */
     public function getEvaluation()
     {
-      return $this->evaluation;
+        return $this->evaluation;
     }
 
     /**
@@ -81,8 +81,9 @@ class RuleResultItem
      */
     public function setEvaluation($evaluation)
     {
-      $this->evaluation = $evaluation;
-      return $this;
+        $this->evaluation = $evaluation;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class RuleResultItem
      */
     public function getRuleID()
     {
-      return $this->ruleID;
+        return $this->ruleID;
     }
 
     /**
@@ -99,8 +100,9 @@ class RuleResultItem
      */
     public function setRuleID($ruleID)
     {
-      $this->ruleID = $ruleID;
-      return $this;
+        $this->ruleID = $ruleID;
+
+        return $this;
     }
 
 }

@@ -40,7 +40,7 @@ class ExportService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -48,7 +48,7 @@ class ExportService
      */
     public function getAddressOperator()
     {
-      return $this->addressOperator;
+        return $this->addressOperator;
     }
 
     /**
@@ -57,8 +57,9 @@ class ExportService
      */
     public function setAddressOperator($addressOperator)
     {
-      $this->addressOperator = $addressOperator;
-      return $this;
+        $this->addressOperator = $addressOperator;
+
+        return $this;
     }
 
     /**
@@ -66,7 +67,7 @@ class ExportService
      */
     public function getAddressWeight()
     {
-      return $this->addressWeight;
+        return $this->addressWeight;
     }
 
     /**
@@ -75,8 +76,9 @@ class ExportService
      */
     public function setAddressWeight($addressWeight)
     {
-      $this->addressWeight = $addressWeight;
-      return $this;
+        $this->addressWeight = $addressWeight;
+
+        return $this;
     }
 
     /**
@@ -84,7 +86,7 @@ class ExportService
      */
     public function getCompanyWeight()
     {
-      return $this->companyWeight;
+        return $this->companyWeight;
     }
 
     /**
@@ -93,8 +95,9 @@ class ExportService
      */
     public function setCompanyWeight($companyWeight)
     {
-      $this->companyWeight = $companyWeight;
-      return $this;
+        $this->companyWeight = $companyWeight;
+
+        return $this;
     }
 
     /**
@@ -102,7 +105,7 @@ class ExportService
      */
     public function getNameWeight()
     {
-      return $this->nameWeight;
+        return $this->nameWeight;
     }
 
     /**
@@ -111,8 +114,9 @@ class ExportService
      */
     public function setNameWeight($nameWeight)
     {
-      $this->nameWeight = $nameWeight;
-      return $this;
+        $this->nameWeight = $nameWeight;
+
+        return $this;
     }
 
     /**
@@ -120,7 +124,7 @@ class ExportService
      */
     public function getSanctionsLists()
     {
-      return $this->sanctionsLists;
+        return $this->sanctionsLists;
     }
 
     /**
@@ -129,8 +133,9 @@ class ExportService
      */
     public function setSanctionsLists($sanctionsLists)
     {
-      $this->sanctionsLists = $sanctionsLists;
-      return $this;
+        $this->sanctionsLists = $sanctionsLists;
+
+        return $this;
     }
 
     /**
@@ -138,7 +143,7 @@ class ExportService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -147,8 +152,9 @@ class ExportService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

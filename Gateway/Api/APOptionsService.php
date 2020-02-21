@@ -25,7 +25,7 @@ class APOptionsService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class APOptionsService
      */
     public function getLimit()
     {
-      return $this->limit;
+        return $this->limit;
     }
 
     /**
@@ -42,8 +42,9 @@ class APOptionsService
      */
     public function setLimit($limit)
     {
-      $this->limit = $limit;
-      return $this;
+        $this->limit = $limit;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class APOptionsService
      */
     public function getOffset()
     {
-      return $this->offset;
+        return $this->offset;
     }
 
     /**
@@ -60,8 +61,9 @@ class APOptionsService
      */
     public function setOffset($offset)
     {
-      $this->offset = $offset;
-      return $this;
+        $this->offset = $offset;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class APOptionsService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class APOptionsService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -30,7 +30,7 @@ class APCaptureService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class APCaptureService
      */
     public function getAuthRequestID()
     {
-      return $this->authRequestID;
+        return $this->authRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class APCaptureService
      */
     public function setAuthRequestID($authRequestID)
     {
-      $this->authRequestID = $authRequestID;
-      return $this;
+        $this->authRequestID = $authRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class APCaptureService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -65,8 +66,9 @@ class APCaptureService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class APCaptureService
      */
     public function getIsFinal()
     {
-      return $this->isFinal;
+        return $this->isFinal;
     }
 
     /**
@@ -83,8 +85,9 @@ class APCaptureService
      */
     public function setIsFinal($isFinal)
     {
-      $this->isFinal = $isFinal;
-      return $this;
+        $this->isFinal = $isFinal;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class APCaptureService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class APCaptureService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

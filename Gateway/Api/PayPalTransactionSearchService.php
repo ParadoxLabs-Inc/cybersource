@@ -85,7 +85,7 @@ class PayPalTransactionSearchService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -93,7 +93,7 @@ class PayPalTransactionSearchService
      */
     public function getStartDate()
     {
-      return $this->startDate;
+        return $this->startDate;
     }
 
     /**
@@ -102,8 +102,9 @@ class PayPalTransactionSearchService
      */
     public function setStartDate($startDate)
     {
-      $this->startDate = $startDate;
-      return $this;
+        $this->startDate = $startDate;
+
+        return $this;
     }
 
     /**
@@ -111,7 +112,7 @@ class PayPalTransactionSearchService
      */
     public function getEndDate()
     {
-      return $this->endDate;
+        return $this->endDate;
     }
 
     /**
@@ -120,8 +121,9 @@ class PayPalTransactionSearchService
      */
     public function setEndDate($endDate)
     {
-      $this->endDate = $endDate;
-      return $this;
+        $this->endDate = $endDate;
+
+        return $this;
     }
 
     /**
@@ -129,7 +131,7 @@ class PayPalTransactionSearchService
      */
     public function getPaypalCustomerEmail()
     {
-      return $this->paypalCustomerEmail;
+        return $this->paypalCustomerEmail;
     }
 
     /**
@@ -138,8 +140,9 @@ class PayPalTransactionSearchService
      */
     public function setPaypalCustomerEmail($paypalCustomerEmail)
     {
-      $this->paypalCustomerEmail = $paypalCustomerEmail;
-      return $this;
+        $this->paypalCustomerEmail = $paypalCustomerEmail;
+
+        return $this;
     }
 
     /**
@@ -147,7 +150,7 @@ class PayPalTransactionSearchService
      */
     public function getPaypalReceiptId()
     {
-      return $this->paypalReceiptId;
+        return $this->paypalReceiptId;
     }
 
     /**
@@ -156,8 +159,9 @@ class PayPalTransactionSearchService
      */
     public function setPaypalReceiptId($paypalReceiptId)
     {
-      $this->paypalReceiptId = $paypalReceiptId;
-      return $this;
+        $this->paypalReceiptId = $paypalReceiptId;
+
+        return $this;
     }
 
     /**
@@ -165,7 +169,7 @@ class PayPalTransactionSearchService
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -174,8 +178,9 @@ class PayPalTransactionSearchService
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -183,7 +188,7 @@ class PayPalTransactionSearchService
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -192,8 +197,9 @@ class PayPalTransactionSearchService
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -201,7 +207,7 @@ class PayPalTransactionSearchService
      */
     public function getGrandTotalAmount()
     {
-      return $this->grandTotalAmount;
+        return $this->grandTotalAmount;
     }
 
     /**
@@ -210,8 +216,9 @@ class PayPalTransactionSearchService
      */
     public function setGrandTotalAmount($grandTotalAmount)
     {
-      $this->grandTotalAmount = $grandTotalAmount;
-      return $this;
+        $this->grandTotalAmount = $grandTotalAmount;
+
+        return $this;
     }
 
     /**
@@ -219,7 +226,7 @@ class PayPalTransactionSearchService
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -228,8 +235,9 @@ class PayPalTransactionSearchService
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -237,7 +245,7 @@ class PayPalTransactionSearchService
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -246,8 +254,9 @@ class PayPalTransactionSearchService
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -255,7 +264,7 @@ class PayPalTransactionSearchService
      */
     public function getPayerSalutation()
     {
-      return $this->payerSalutation;
+        return $this->payerSalutation;
     }
 
     /**
@@ -264,8 +273,9 @@ class PayPalTransactionSearchService
      */
     public function setPayerSalutation($payerSalutation)
     {
-      $this->payerSalutation = $payerSalutation;
-      return $this;
+        $this->payerSalutation = $payerSalutation;
+
+        return $this;
     }
 
     /**
@@ -273,7 +283,7 @@ class PayPalTransactionSearchService
      */
     public function getPayerFirstname()
     {
-      return $this->payerFirstname;
+        return $this->payerFirstname;
     }
 
     /**
@@ -282,8 +292,9 @@ class PayPalTransactionSearchService
      */
     public function setPayerFirstname($payerFirstname)
     {
-      $this->payerFirstname = $payerFirstname;
-      return $this;
+        $this->payerFirstname = $payerFirstname;
+
+        return $this;
     }
 
     /**
@@ -291,7 +302,7 @@ class PayPalTransactionSearchService
      */
     public function getPayerMiddlename()
     {
-      return $this->payerMiddlename;
+        return $this->payerMiddlename;
     }
 
     /**
@@ -300,8 +311,9 @@ class PayPalTransactionSearchService
      */
     public function setPayerMiddlename($payerMiddlename)
     {
-      $this->payerMiddlename = $payerMiddlename;
-      return $this;
+        $this->payerMiddlename = $payerMiddlename;
+
+        return $this;
     }
 
     /**
@@ -309,7 +321,7 @@ class PayPalTransactionSearchService
      */
     public function getPayerLastname()
     {
-      return $this->payerLastname;
+        return $this->payerLastname;
     }
 
     /**
@@ -318,8 +330,9 @@ class PayPalTransactionSearchService
      */
     public function setPayerLastname($payerLastname)
     {
-      $this->payerLastname = $payerLastname;
-      return $this;
+        $this->payerLastname = $payerLastname;
+
+        return $this;
     }
 
     /**
@@ -327,7 +340,7 @@ class PayPalTransactionSearchService
      */
     public function getPayerSuffix()
     {
-      return $this->payerSuffix;
+        return $this->payerSuffix;
     }
 
     /**
@@ -336,8 +349,9 @@ class PayPalTransactionSearchService
      */
     public function setPayerSuffix($payerSuffix)
     {
-      $this->payerSuffix = $payerSuffix;
-      return $this;
+        $this->payerSuffix = $payerSuffix;
+
+        return $this;
     }
 
     /**
@@ -345,7 +359,7 @@ class PayPalTransactionSearchService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -354,8 +368,9 @@ class PayPalTransactionSearchService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

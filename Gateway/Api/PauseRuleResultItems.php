@@ -10,10 +10,8 @@ class PauseRuleResultItems
      */
     protected $ruleResultItem = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class PauseRuleResultItems
      */
     public function getRuleResultItem()
     {
-      return $this->ruleResultItem;
+        return $this->ruleResultItem;
     }
 
     /**
@@ -30,8 +28,9 @@ class PauseRuleResultItems
      */
     public function setRuleResultItem(array $ruleResultItem = null)
     {
-      $this->ruleResultItem = $ruleResultItem;
-      return $this;
+        $this->ruleResultItem = $ruleResultItem;
+
+        return $this;
     }
 
 }

@@ -25,7 +25,7 @@ class ExportReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -33,7 +33,7 @@ class ExportReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -42,8 +42,9 @@ class ExportReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class ExportReply
      */
     public function getIpCountryConfidence()
     {
-      return $this->ipCountryConfidence;
+        return $this->ipCountryConfidence;
     }
 
     /**
@@ -60,8 +61,9 @@ class ExportReply
      */
     public function setIpCountryConfidence($ipCountryConfidence)
     {
-      $this->ipCountryConfidence = $ipCountryConfidence;
-      return $this;
+        $this->ipCountryConfidence = $ipCountryConfidence;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class ExportReply
      */
     public function getInfoCode()
     {
-      return $this->infoCode;
+        return $this->infoCode;
     }
 
     /**
@@ -78,8 +80,9 @@ class ExportReply
      */
     public function setInfoCode($infoCode)
     {
-      $this->infoCode = $infoCode;
-      return $this;
+        $this->infoCode = $infoCode;
+
+        return $this;
     }
 
 }

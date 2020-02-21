@@ -25,7 +25,7 @@ class Passenger
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -33,7 +33,7 @@ class Passenger
      */
     public function getFirstName()
     {
-      return $this->firstName;
+        return $this->firstName;
     }
 
     /**
@@ -42,8 +42,9 @@ class Passenger
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = $firstName;
-      return $this;
+        $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class Passenger
      */
     public function getLastName()
     {
-      return $this->lastName;
+        return $this->lastName;
     }
 
     /**
@@ -60,8 +61,9 @@ class Passenger
      */
     public function setLastName($lastName)
     {
-      $this->lastName = $lastName;
-      return $this;
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class Passenger
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -78,8 +80,9 @@ class Passenger
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

@@ -30,7 +30,7 @@ class ChinaRefundService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class ChinaRefundService
      */
     public function getChinaPaymentRequestID()
     {
-      return $this->chinaPaymentRequestID;
+        return $this->chinaPaymentRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class ChinaRefundService
      */
     public function setChinaPaymentRequestID($chinaPaymentRequestID)
     {
-      $this->chinaPaymentRequestID = $chinaPaymentRequestID;
-      return $this;
+        $this->chinaPaymentRequestID = $chinaPaymentRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class ChinaRefundService
      */
     public function getChinaPaymentRequestToken()
     {
-      return $this->chinaPaymentRequestToken;
+        return $this->chinaPaymentRequestToken;
     }
 
     /**
@@ -65,8 +66,9 @@ class ChinaRefundService
      */
     public function setChinaPaymentRequestToken($chinaPaymentRequestToken)
     {
-      $this->chinaPaymentRequestToken = $chinaPaymentRequestToken;
-      return $this;
+        $this->chinaPaymentRequestToken = $chinaPaymentRequestToken;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class ChinaRefundService
      */
     public function getRefundReason()
     {
-      return $this->refundReason;
+        return $this->refundReason;
     }
 
     /**
@@ -83,8 +85,9 @@ class ChinaRefundService
      */
     public function setRefundReason($refundReason)
     {
-      $this->refundReason = $refundReason;
-      return $this;
+        $this->refundReason = $refundReason;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class ChinaRefundService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class ChinaRefundService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

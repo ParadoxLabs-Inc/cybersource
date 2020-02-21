@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class RequestMessage
 {
 
@@ -1165,10 +1168,8 @@ class RequestMessage
      */
     protected $ignoreRelaxAVS = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -1176,7 +1177,7 @@ class RequestMessage
      */
     public function getMerchantID()
     {
-      return $this->merchantID;
+        return $this->merchantID;
     }
 
     /**
@@ -1185,8 +1186,9 @@ class RequestMessage
      */
     public function setMerchantID($merchantID)
     {
-      $this->merchantID = substr($merchantID, 0, 30);
-      return $this;
+        $this->merchantID = substr($merchantID, 0, 30);
+
+        return $this;
     }
 
     /**
@@ -1194,7 +1196,7 @@ class RequestMessage
      */
     public function getMerchantReferenceCode()
     {
-      return $this->merchantReferenceCode;
+        return $this->merchantReferenceCode;
     }
 
     /**
@@ -1203,8 +1205,9 @@ class RequestMessage
      */
     public function setMerchantReferenceCode($merchantReferenceCode)
     {
-      $this->merchantReferenceCode = substr($merchantReferenceCode, 0, 50);
-      return $this;
+        $this->merchantReferenceCode = substr($merchantReferenceCode, 0, 50);
+
+        return $this;
     }
 
     /**
@@ -1212,7 +1215,7 @@ class RequestMessage
      */
     public function getDebtIndicator()
     {
-      return $this->debtIndicator;
+        return $this->debtIndicator;
     }
 
     /**
@@ -1221,8 +1224,9 @@ class RequestMessage
      */
     public function setDebtIndicator($debtIndicator)
     {
-      $this->debtIndicator = $debtIndicator;
-      return $this;
+        $this->debtIndicator = $debtIndicator;
+
+        return $this;
     }
 
     /**
@@ -1230,7 +1234,7 @@ class RequestMessage
      */
     public function getClientLibrary()
     {
-      return $this->clientLibrary;
+        return $this->clientLibrary;
     }
 
     /**
@@ -1239,8 +1243,9 @@ class RequestMessage
      */
     public function setClientLibrary($clientLibrary)
     {
-      $this->clientLibrary = $clientLibrary;
-      return $this;
+        $this->clientLibrary = $clientLibrary;
+
+        return $this;
     }
 
     /**
@@ -1248,7 +1253,7 @@ class RequestMessage
      */
     public function getClientLibraryVersion()
     {
-      return $this->clientLibraryVersion;
+        return $this->clientLibraryVersion;
     }
 
     /**
@@ -1257,8 +1262,9 @@ class RequestMessage
      */
     public function setClientLibraryVersion($clientLibraryVersion)
     {
-      $this->clientLibraryVersion = $clientLibraryVersion;
-      return $this;
+        $this->clientLibraryVersion = $clientLibraryVersion;
+
+        return $this;
     }
 
     /**
@@ -1266,7 +1272,7 @@ class RequestMessage
      */
     public function getClientEnvironment()
     {
-      return $this->clientEnvironment;
+        return $this->clientEnvironment;
     }
 
     /**
@@ -1275,8 +1281,9 @@ class RequestMessage
      */
     public function setClientEnvironment($clientEnvironment)
     {
-      $this->clientEnvironment = $clientEnvironment;
-      return $this;
+        $this->clientEnvironment = $clientEnvironment;
+
+        return $this;
     }
 
     /**
@@ -1284,7 +1291,7 @@ class RequestMessage
      */
     public function getClientSecurityLibraryVersion()
     {
-      return $this->clientSecurityLibraryVersion;
+        return $this->clientSecurityLibraryVersion;
     }
 
     /**
@@ -1293,8 +1300,9 @@ class RequestMessage
      */
     public function setClientSecurityLibraryVersion($clientSecurityLibraryVersion)
     {
-      $this->clientSecurityLibraryVersion = $clientSecurityLibraryVersion;
-      return $this;
+        $this->clientSecurityLibraryVersion = $clientSecurityLibraryVersion;
+
+        return $this;
     }
 
     /**
@@ -1302,7 +1310,7 @@ class RequestMessage
      */
     public function getClientApplication()
     {
-      return $this->clientApplication;
+        return $this->clientApplication;
     }
 
     /**
@@ -1311,8 +1319,9 @@ class RequestMessage
      */
     public function setClientApplication($clientApplication)
     {
-      $this->clientApplication = $clientApplication;
-      return $this;
+        $this->clientApplication = $clientApplication;
+
+        return $this;
     }
 
     /**
@@ -1320,7 +1329,7 @@ class RequestMessage
      */
     public function getClientApplicationVersion()
     {
-      return $this->clientApplicationVersion;
+        return $this->clientApplicationVersion;
     }
 
     /**
@@ -1329,8 +1338,9 @@ class RequestMessage
      */
     public function setClientApplicationVersion($clientApplicationVersion)
     {
-      $this->clientApplicationVersion = $clientApplicationVersion;
-      return $this;
+        $this->clientApplicationVersion = $clientApplicationVersion;
+
+        return $this;
     }
 
     /**
@@ -1338,7 +1348,7 @@ class RequestMessage
      */
     public function getClientApplicationUser()
     {
-      return $this->clientApplicationUser;
+        return $this->clientApplicationUser;
     }
 
     /**
@@ -1347,8 +1357,9 @@ class RequestMessage
      */
     public function setClientApplicationUser($clientApplicationUser)
     {
-      $this->clientApplicationUser = $clientApplicationUser;
-      return $this;
+        $this->clientApplicationUser = $clientApplicationUser;
+
+        return $this;
     }
 
     /**
@@ -1356,7 +1367,7 @@ class RequestMessage
      */
     public function getRoutingCode()
     {
-      return $this->routingCode;
+        return $this->routingCode;
     }
 
     /**
@@ -1365,8 +1376,9 @@ class RequestMessage
      */
     public function setRoutingCode($routingCode)
     {
-      $this->routingCode = $routingCode;
-      return $this;
+        $this->routingCode = $routingCode;
+
+        return $this;
     }
 
     /**
@@ -1374,7 +1386,7 @@ class RequestMessage
      */
     public function getComments()
     {
-      return $this->comments;
+        return $this->comments;
     }
 
     /**
@@ -1383,8 +1395,9 @@ class RequestMessage
      */
     public function setComments($comments)
     {
-      $this->comments = $comments;
-      return $this;
+        $this->comments = $comments;
+
+        return $this;
     }
 
     /**
@@ -1392,7 +1405,7 @@ class RequestMessage
      */
     public function getReturnURL()
     {
-      return $this->returnURL;
+        return $this->returnURL;
     }
 
     /**
@@ -1401,8 +1414,9 @@ class RequestMessage
      */
     public function setReturnURL($returnURL)
     {
-      $this->returnURL = $returnURL;
-      return $this;
+        $this->returnURL = $returnURL;
+
+        return $this;
     }
 
     /**
@@ -1410,7 +1424,7 @@ class RequestMessage
      */
     public function getInvoiceHeader()
     {
-      return $this->invoiceHeader;
+        return $this->invoiceHeader;
     }
 
     /**
@@ -1419,8 +1433,9 @@ class RequestMessage
      */
     public function setInvoiceHeader($invoiceHeader)
     {
-      $this->invoiceHeader = $invoiceHeader;
-      return $this;
+        $this->invoiceHeader = $invoiceHeader;
+
+        return $this;
     }
 
     /**
@@ -1428,7 +1443,7 @@ class RequestMessage
      */
     public function getPaymentScheme()
     {
-      return $this->paymentScheme;
+        return $this->paymentScheme;
     }
 
     /**
@@ -1437,8 +1452,9 @@ class RequestMessage
      */
     public function setPaymentScheme($paymentScheme)
     {
-      $this->paymentScheme = $paymentScheme;
-      return $this;
+        $this->paymentScheme = $paymentScheme;
+
+        return $this;
     }
 
     /**
@@ -1446,7 +1462,7 @@ class RequestMessage
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -1455,8 +1471,9 @@ class RequestMessage
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -1464,7 +1481,7 @@ class RequestMessage
      */
     public function getAggregatorMerchantIdentifier()
     {
-      return $this->aggregatorMerchantIdentifier;
+        return $this->aggregatorMerchantIdentifier;
     }
 
     /**
@@ -1473,8 +1490,9 @@ class RequestMessage
      */
     public function setAggregatorMerchantIdentifier($aggregatorMerchantIdentifier)
     {
-      $this->aggregatorMerchantIdentifier = $aggregatorMerchantIdentifier;
-      return $this;
+        $this->aggregatorMerchantIdentifier = $aggregatorMerchantIdentifier;
+
+        return $this;
     }
 
     /**
@@ -1482,7 +1500,7 @@ class RequestMessage
      */
     public function getCustomerID()
     {
-      return $this->customerID;
+        return $this->customerID;
     }
 
     /**
@@ -1491,8 +1509,9 @@ class RequestMessage
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = $customerID;
-      return $this;
+        $this->customerID = $customerID;
+
+        return $this;
     }
 
     /**
@@ -1500,7 +1519,7 @@ class RequestMessage
      */
     public function getCustomerFirstName()
     {
-      return $this->customerFirstName;
+        return $this->customerFirstName;
     }
 
     /**
@@ -1509,8 +1528,9 @@ class RequestMessage
      */
     public function setCustomerFirstName($customerFirstName)
     {
-      $this->customerFirstName = $customerFirstName;
-      return $this;
+        $this->customerFirstName = $customerFirstName;
+
+        return $this;
     }
 
     /**
@@ -1518,7 +1538,7 @@ class RequestMessage
      */
     public function getCustomerLastName()
     {
-      return $this->customerLastName;
+        return $this->customerLastName;
     }
 
     /**
@@ -1527,8 +1547,9 @@ class RequestMessage
      */
     public function setCustomerLastName($customerLastName)
     {
-      $this->customerLastName = $customerLastName;
-      return $this;
+        $this->customerLastName = $customerLastName;
+
+        return $this;
     }
 
     /**
@@ -1536,7 +1557,7 @@ class RequestMessage
      */
     public function getBillTo()
     {
-      return $this->billTo;
+        return $this->billTo;
     }
 
     /**
@@ -1545,8 +1566,9 @@ class RequestMessage
      */
     public function setBillTo($billTo)
     {
-      $this->billTo = $billTo;
-      return $this;
+        $this->billTo = $billTo;
+
+        return $this;
     }
 
     /**
@@ -1554,7 +1576,7 @@ class RequestMessage
      */
     public function getShipTo()
     {
-      return $this->shipTo;
+        return $this->shipTo;
     }
 
     /**
@@ -1563,8 +1585,9 @@ class RequestMessage
      */
     public function setShipTo($shipTo)
     {
-      $this->shipTo = $shipTo;
-      return $this;
+        $this->shipTo = $shipTo;
+
+        return $this;
     }
 
     /**
@@ -1572,7 +1595,7 @@ class RequestMessage
      */
     public function getPersonalID()
     {
-      return $this->personalID;
+        return $this->personalID;
     }
 
     /**
@@ -1581,8 +1604,9 @@ class RequestMessage
      */
     public function setPersonalID($personalID)
     {
-      $this->personalID = $personalID;
-      return $this;
+        $this->personalID = $personalID;
+
+        return $this;
     }
 
     /**
@@ -1590,7 +1614,7 @@ class RequestMessage
      */
     public function getShipFrom()
     {
-      return $this->shipFrom;
+        return $this->shipFrom;
     }
 
     /**
@@ -1599,8 +1623,9 @@ class RequestMessage
      */
     public function setShipFrom($shipFrom)
     {
-      $this->shipFrom = $shipFrom;
-      return $this;
+        $this->shipFrom = $shipFrom;
+
+        return $this;
     }
 
     /**
@@ -1608,7 +1633,7 @@ class RequestMessage
      */
     public function getItem()
     {
-      return $this->item;
+        return $this->item;
     }
 
     /**
@@ -1617,8 +1642,9 @@ class RequestMessage
      */
     public function setItem(array $item = null)
     {
-      $this->item = $item;
-      return $this;
+        $this->item = $item;
+
+        return $this;
     }
 
     /**
@@ -1626,7 +1652,7 @@ class RequestMessage
      */
     public function getPurchaseTotals()
     {
-      return $this->purchaseTotals;
+        return $this->purchaseTotals;
     }
 
     /**
@@ -1635,8 +1661,9 @@ class RequestMessage
      */
     public function setPurchaseTotals($purchaseTotals)
     {
-      $this->purchaseTotals = $purchaseTotals;
-      return $this;
+        $this->purchaseTotals = $purchaseTotals;
+
+        return $this;
     }
 
     /**
@@ -1644,7 +1671,7 @@ class RequestMessage
      */
     public function getFundingTotals()
     {
-      return $this->fundingTotals;
+        return $this->fundingTotals;
     }
 
     /**
@@ -1653,8 +1680,9 @@ class RequestMessage
      */
     public function setFundingTotals($fundingTotals)
     {
-      $this->fundingTotals = $fundingTotals;
-      return $this;
+        $this->fundingTotals = $fundingTotals;
+
+        return $this;
     }
 
     /**
@@ -1662,7 +1690,7 @@ class RequestMessage
      */
     public function getDcc()
     {
-      return $this->dcc;
+        return $this->dcc;
     }
 
     /**
@@ -1671,8 +1699,9 @@ class RequestMessage
      */
     public function setDcc($dcc)
     {
-      $this->dcc = $dcc;
-      return $this;
+        $this->dcc = $dcc;
+
+        return $this;
     }
 
     /**
@@ -1680,7 +1709,7 @@ class RequestMessage
      */
     public function getPos()
     {
-      return $this->pos;
+        return $this->pos;
     }
 
     /**
@@ -1689,8 +1718,9 @@ class RequestMessage
      */
     public function setPos($pos)
     {
-      $this->pos = $pos;
-      return $this;
+        $this->pos = $pos;
+
+        return $this;
     }
 
     /**
@@ -1698,7 +1728,7 @@ class RequestMessage
      */
     public function getPin()
     {
-      return $this->pin;
+        return $this->pin;
     }
 
     /**
@@ -1707,8 +1737,9 @@ class RequestMessage
      */
     public function setPin($pin)
     {
-      $this->pin = $pin;
-      return $this;
+        $this->pin = $pin;
+
+        return $this;
     }
 
     /**
@@ -1716,7 +1747,7 @@ class RequestMessage
      */
     public function getEncryptedPayment()
     {
-      return $this->encryptedPayment;
+        return $this->encryptedPayment;
     }
 
     /**
@@ -1725,8 +1756,9 @@ class RequestMessage
      */
     public function setEncryptedPayment($encryptedPayment)
     {
-      $this->encryptedPayment = $encryptedPayment;
-      return $this;
+        $this->encryptedPayment = $encryptedPayment;
+
+        return $this;
     }
 
     /**
@@ -1734,7 +1766,7 @@ class RequestMessage
      */
     public function getInstallment()
     {
-      return $this->installment;
+        return $this->installment;
     }
 
     /**
@@ -1743,8 +1775,9 @@ class RequestMessage
      */
     public function setInstallment($installment)
     {
-      $this->installment = $installment;
-      return $this;
+        $this->installment = $installment;
+
+        return $this;
     }
 
     /**
@@ -1752,7 +1785,7 @@ class RequestMessage
      */
     public function getCard()
     {
-      return $this->card;
+        return $this->card;
     }
 
     /**
@@ -1761,8 +1794,9 @@ class RequestMessage
      */
     public function setCard($card)
     {
-      $this->card = $card;
-      return $this;
+        $this->card = $card;
+
+        return $this;
     }
 
     /**
@@ -1770,7 +1804,7 @@ class RequestMessage
      */
     public function getCategory()
     {
-      return $this->category;
+        return $this->category;
     }
 
     /**
@@ -1779,8 +1813,9 @@ class RequestMessage
      */
     public function setCategory($category)
     {
-      $this->category = $category;
-      return $this;
+        $this->category = $category;
+
+        return $this;
     }
 
     /**
@@ -1788,7 +1823,7 @@ class RequestMessage
      */
     public function getCheck()
     {
-      return $this->check;
+        return $this->check;
     }
 
     /**
@@ -1797,8 +1832,9 @@ class RequestMessage
      */
     public function setCheck($check)
     {
-      $this->check = $check;
-      return $this;
+        $this->check = $check;
+
+        return $this;
     }
 
     /**
@@ -1806,7 +1842,7 @@ class RequestMessage
      */
     public function getBml()
     {
-      return $this->bml;
+        return $this->bml;
     }
 
     /**
@@ -1815,8 +1851,9 @@ class RequestMessage
      */
     public function setBml($bml)
     {
-      $this->bml = $bml;
-      return $this;
+        $this->bml = $bml;
+
+        return $this;
     }
 
     /**
@@ -1824,7 +1861,7 @@ class RequestMessage
      */
     public function getGecc()
     {
-      return $this->gecc;
+        return $this->gecc;
     }
 
     /**
@@ -1833,8 +1870,9 @@ class RequestMessage
      */
     public function setGecc($gecc)
     {
-      $this->gecc = $gecc;
-      return $this;
+        $this->gecc = $gecc;
+
+        return $this;
     }
 
     /**
@@ -1842,7 +1880,7 @@ class RequestMessage
      */
     public function getUcaf()
     {
-      return $this->ucaf;
+        return $this->ucaf;
     }
 
     /**
@@ -1851,8 +1889,9 @@ class RequestMessage
      */
     public function setUcaf($ucaf)
     {
-      $this->ucaf = $ucaf;
-      return $this;
+        $this->ucaf = $ucaf;
+
+        return $this;
     }
 
     /**
@@ -1860,7 +1899,7 @@ class RequestMessage
      */
     public function getFundTransfer()
     {
-      return $this->fundTransfer;
+        return $this->fundTransfer;
     }
 
     /**
@@ -1869,8 +1908,9 @@ class RequestMessage
      */
     public function setFundTransfer($fundTransfer)
     {
-      $this->fundTransfer = $fundTransfer;
-      return $this;
+        $this->fundTransfer = $fundTransfer;
+
+        return $this;
     }
 
     /**
@@ -1878,7 +1918,7 @@ class RequestMessage
      */
     public function getBankInfo()
     {
-      return $this->bankInfo;
+        return $this->bankInfo;
     }
 
     /**
@@ -1887,8 +1927,9 @@ class RequestMessage
      */
     public function setBankInfo($bankInfo)
     {
-      $this->bankInfo = $bankInfo;
-      return $this;
+        $this->bankInfo = $bankInfo;
+
+        return $this;
     }
 
     /**
@@ -1896,7 +1937,7 @@ class RequestMessage
      */
     public function getSubscription()
     {
-      return $this->subscription;
+        return $this->subscription;
     }
 
     /**
@@ -1905,8 +1946,9 @@ class RequestMessage
      */
     public function setSubscription($subscription)
     {
-      $this->subscription = $subscription;
-      return $this;
+        $this->subscription = $subscription;
+
+        return $this;
     }
 
     /**
@@ -1914,7 +1956,7 @@ class RequestMessage
      */
     public function getRecurringSubscriptionInfo()
     {
-      return $this->recurringSubscriptionInfo;
+        return $this->recurringSubscriptionInfo;
     }
 
     /**
@@ -1923,8 +1965,9 @@ class RequestMessage
      */
     public function setRecurringSubscriptionInfo($recurringSubscriptionInfo)
     {
-      $this->recurringSubscriptionInfo = $recurringSubscriptionInfo;
-      return $this;
+        $this->recurringSubscriptionInfo = $recurringSubscriptionInfo;
+
+        return $this;
     }
 
     /**
@@ -1932,7 +1975,7 @@ class RequestMessage
      */
     public function getTokenSource()
     {
-      return $this->tokenSource;
+        return $this->tokenSource;
     }
 
     /**
@@ -1941,8 +1984,9 @@ class RequestMessage
      */
     public function setTokenSource($tokenSource)
     {
-      $this->tokenSource = $tokenSource;
-      return $this;
+        $this->tokenSource = $tokenSource;
+
+        return $this;
     }
 
     /**
@@ -1950,7 +1994,7 @@ class RequestMessage
      */
     public function getDecisionManager()
     {
-      return $this->decisionManager;
+        return $this->decisionManager;
     }
 
     /**
@@ -1959,8 +2003,9 @@ class RequestMessage
      */
     public function setDecisionManager($decisionManager)
     {
-      $this->decisionManager = $decisionManager;
-      return $this;
+        $this->decisionManager = $decisionManager;
+
+        return $this;
     }
 
     /**
@@ -1968,7 +2013,7 @@ class RequestMessage
      */
     public function getOtherTax()
     {
-      return $this->otherTax;
+        return $this->otherTax;
     }
 
     /**
@@ -1977,8 +2022,9 @@ class RequestMessage
      */
     public function setOtherTax($otherTax)
     {
-      $this->otherTax = $otherTax;
-      return $this;
+        $this->otherTax = $otherTax;
+
+        return $this;
     }
 
     /**
@@ -1986,7 +2032,7 @@ class RequestMessage
      */
     public function getPaypal()
     {
-      return $this->paypal;
+        return $this->paypal;
     }
 
     /**
@@ -1995,8 +2041,9 @@ class RequestMessage
      */
     public function setPaypal($paypal)
     {
-      $this->paypal = $paypal;
-      return $this;
+        $this->paypal = $paypal;
+
+        return $this;
     }
 
     /**
@@ -2004,7 +2051,7 @@ class RequestMessage
      */
     public function getMerchantDefinedData()
     {
-      return $this->merchantDefinedData;
+        return $this->merchantDefinedData;
     }
 
     /**
@@ -2013,8 +2060,9 @@ class RequestMessage
      */
     public function setMerchantDefinedData($merchantDefinedData)
     {
-      $this->merchantDefinedData = $merchantDefinedData;
-      return $this;
+        $this->merchantDefinedData = $merchantDefinedData;
+
+        return $this;
     }
 
     /**
@@ -2022,7 +2070,7 @@ class RequestMessage
      */
     public function getMerchantSecureData()
     {
-      return $this->merchantSecureData;
+        return $this->merchantSecureData;
     }
 
     /**
@@ -2031,8 +2079,9 @@ class RequestMessage
      */
     public function setMerchantSecureData($merchantSecureData)
     {
-      $this->merchantSecureData = $merchantSecureData;
-      return $this;
+        $this->merchantSecureData = $merchantSecureData;
+
+        return $this;
     }
 
     /**
@@ -2040,7 +2089,7 @@ class RequestMessage
      */
     public function getJpo()
     {
-      return $this->jpo;
+        return $this->jpo;
     }
 
     /**
@@ -2049,8 +2098,9 @@ class RequestMessage
      */
     public function setJpo($jpo)
     {
-      $this->jpo = $jpo;
-      return $this;
+        $this->jpo = $jpo;
+
+        return $this;
     }
 
     /**
@@ -2058,7 +2108,7 @@ class RequestMessage
      */
     public function getOrderRequestToken()
     {
-      return $this->orderRequestToken;
+        return $this->orderRequestToken;
     }
 
     /**
@@ -2067,8 +2117,9 @@ class RequestMessage
      */
     public function setOrderRequestToken($orderRequestToken)
     {
-      $this->orderRequestToken = $orderRequestToken;
-      return $this;
+        $this->orderRequestToken = $orderRequestToken;
+
+        return $this;
     }
 
     /**
@@ -2076,7 +2127,7 @@ class RequestMessage
      */
     public function getLinkToRequest()
     {
-      return $this->linkToRequest;
+        return $this->linkToRequest;
     }
 
     /**
@@ -2085,8 +2136,9 @@ class RequestMessage
      */
     public function setLinkToRequest($linkToRequest)
     {
-      $this->linkToRequest = $linkToRequest;
-      return $this;
+        $this->linkToRequest = $linkToRequest;
+
+        return $this;
     }
 
     /**
@@ -2094,7 +2146,7 @@ class RequestMessage
      */
     public function getServiceFee()
     {
-      return $this->serviceFee;
+        return $this->serviceFee;
     }
 
     /**
@@ -2103,8 +2155,9 @@ class RequestMessage
      */
     public function setServiceFee($serviceFee)
     {
-      $this->serviceFee = $serviceFee;
-      return $this;
+        $this->serviceFee = $serviceFee;
+
+        return $this;
     }
 
     /**
@@ -2112,7 +2165,7 @@ class RequestMessage
      */
     public function getGiftCard()
     {
-      return $this->giftCard;
+        return $this->giftCard;
     }
 
     /**
@@ -2121,8 +2174,9 @@ class RequestMessage
      */
     public function setGiftCard($giftCard)
     {
-      $this->giftCard = $giftCard;
-      return $this;
+        $this->giftCard = $giftCard;
+
+        return $this;
     }
 
     /**
@@ -2130,7 +2184,7 @@ class RequestMessage
      */
     public function getCcAuthService()
     {
-      return $this->ccAuthService;
+        return $this->ccAuthService;
     }
 
     /**
@@ -2139,8 +2193,9 @@ class RequestMessage
      */
     public function setCcAuthService($ccAuthService)
     {
-      $this->ccAuthService = $ccAuthService;
-      return $this;
+        $this->ccAuthService = $ccAuthService;
+
+        return $this;
     }
 
     /**
@@ -2148,7 +2203,7 @@ class RequestMessage
      */
     public function getOctService()
     {
-      return $this->octService;
+        return $this->octService;
     }
 
     /**
@@ -2157,8 +2212,9 @@ class RequestMessage
      */
     public function setOctService($octService)
     {
-      $this->octService = $octService;
-      return $this;
+        $this->octService = $octService;
+
+        return $this;
     }
 
     /**
@@ -2166,7 +2222,7 @@ class RequestMessage
      */
     public function getEcAVSService()
     {
-      return $this->ecAVSService;
+        return $this->ecAVSService;
     }
 
     /**
@@ -2175,8 +2231,9 @@ class RequestMessage
      */
     public function setEcAVSService($ecAVSService)
     {
-      $this->ecAVSService = $ecAVSService;
-      return $this;
+        $this->ecAVSService = $ecAVSService;
+
+        return $this;
     }
 
     /**
@@ -2184,7 +2241,7 @@ class RequestMessage
      */
     public function getGiftCardActivationService()
     {
-      return $this->giftCardActivationService;
+        return $this->giftCardActivationService;
     }
 
     /**
@@ -2193,8 +2250,9 @@ class RequestMessage
      */
     public function setGiftCardActivationService($giftCardActivationService)
     {
-      $this->giftCardActivationService = $giftCardActivationService;
-      return $this;
+        $this->giftCardActivationService = $giftCardActivationService;
+
+        return $this;
     }
 
     /**
@@ -2202,7 +2260,7 @@ class RequestMessage
      */
     public function getGiftCardBalanceInquiryService()
     {
-      return $this->giftCardBalanceInquiryService;
+        return $this->giftCardBalanceInquiryService;
     }
 
     /**
@@ -2211,8 +2269,9 @@ class RequestMessage
      */
     public function setGiftCardBalanceInquiryService($giftCardBalanceInquiryService)
     {
-      $this->giftCardBalanceInquiryService = $giftCardBalanceInquiryService;
-      return $this;
+        $this->giftCardBalanceInquiryService = $giftCardBalanceInquiryService;
+
+        return $this;
     }
 
     /**
@@ -2220,7 +2279,7 @@ class RequestMessage
      */
     public function getGiftCardRedemptionService()
     {
-      return $this->giftCardRedemptionService;
+        return $this->giftCardRedemptionService;
     }
 
     /**
@@ -2229,8 +2288,9 @@ class RequestMessage
      */
     public function setGiftCardRedemptionService($giftCardRedemptionService)
     {
-      $this->giftCardRedemptionService = $giftCardRedemptionService;
-      return $this;
+        $this->giftCardRedemptionService = $giftCardRedemptionService;
+
+        return $this;
     }
 
     /**
@@ -2238,7 +2298,7 @@ class RequestMessage
      */
     public function getGiftCardVoidService()
     {
-      return $this->giftCardVoidService;
+        return $this->giftCardVoidService;
     }
 
     /**
@@ -2247,8 +2307,9 @@ class RequestMessage
      */
     public function setGiftCardVoidService($giftCardVoidService)
     {
-      $this->giftCardVoidService = $giftCardVoidService;
-      return $this;
+        $this->giftCardVoidService = $giftCardVoidService;
+
+        return $this;
     }
 
     /**
@@ -2256,7 +2317,7 @@ class RequestMessage
      */
     public function getGiftCardReversalService()
     {
-      return $this->giftCardReversalService;
+        return $this->giftCardReversalService;
     }
 
     /**
@@ -2265,8 +2326,9 @@ class RequestMessage
      */
     public function setGiftCardReversalService($giftCardReversalService)
     {
-      $this->giftCardReversalService = $giftCardReversalService;
-      return $this;
+        $this->giftCardReversalService = $giftCardReversalService;
+
+        return $this;
     }
 
     /**
@@ -2274,7 +2336,7 @@ class RequestMessage
      */
     public function getVerificationService()
     {
-      return $this->verificationService;
+        return $this->verificationService;
     }
 
     /**
@@ -2283,8 +2345,9 @@ class RequestMessage
      */
     public function setVerificationService($verificationService)
     {
-      $this->verificationService = $verificationService;
-      return $this;
+        $this->verificationService = $verificationService;
+
+        return $this;
     }
 
     /**
@@ -2292,7 +2355,7 @@ class RequestMessage
      */
     public function getCcSaleService()
     {
-      return $this->ccSaleService;
+        return $this->ccSaleService;
     }
 
     /**
@@ -2301,8 +2364,9 @@ class RequestMessage
      */
     public function setCcSaleService($ccSaleService)
     {
-      $this->ccSaleService = $ccSaleService;
-      return $this;
+        $this->ccSaleService = $ccSaleService;
+
+        return $this;
     }
 
     /**
@@ -2310,7 +2374,7 @@ class RequestMessage
      */
     public function getCcSaleCreditService()
     {
-      return $this->ccSaleCreditService;
+        return $this->ccSaleCreditService;
     }
 
     /**
@@ -2319,8 +2383,9 @@ class RequestMessage
      */
     public function setCcSaleCreditService($ccSaleCreditService)
     {
-      $this->ccSaleCreditService = $ccSaleCreditService;
-      return $this;
+        $this->ccSaleCreditService = $ccSaleCreditService;
+
+        return $this;
     }
 
     /**
@@ -2328,7 +2393,7 @@ class RequestMessage
      */
     public function getCcSaleReversalService()
     {
-      return $this->ccSaleReversalService;
+        return $this->ccSaleReversalService;
     }
 
     /**
@@ -2337,8 +2402,9 @@ class RequestMessage
      */
     public function setCcSaleReversalService($ccSaleReversalService)
     {
-      $this->ccSaleReversalService = $ccSaleReversalService;
-      return $this;
+        $this->ccSaleReversalService = $ccSaleReversalService;
+
+        return $this;
     }
 
     /**
@@ -2346,7 +2412,7 @@ class RequestMessage
      */
     public function getCcIncrementalAuthService()
     {
-      return $this->ccIncrementalAuthService;
+        return $this->ccIncrementalAuthService;
     }
 
     /**
@@ -2355,8 +2421,9 @@ class RequestMessage
      */
     public function setCcIncrementalAuthService($ccIncrementalAuthService)
     {
-      $this->ccIncrementalAuthService = $ccIncrementalAuthService;
-      return $this;
+        $this->ccIncrementalAuthService = $ccIncrementalAuthService;
+
+        return $this;
     }
 
     /**
@@ -2364,7 +2431,7 @@ class RequestMessage
      */
     public function getCcCaptureService()
     {
-      return $this->ccCaptureService;
+        return $this->ccCaptureService;
     }
 
     /**
@@ -2373,8 +2440,9 @@ class RequestMessage
      */
     public function setCcCaptureService($ccCaptureService)
     {
-      $this->ccCaptureService = $ccCaptureService;
-      return $this;
+        $this->ccCaptureService = $ccCaptureService;
+
+        return $this;
     }
 
     /**
@@ -2382,7 +2450,7 @@ class RequestMessage
      */
     public function getCcCreditService()
     {
-      return $this->ccCreditService;
+        return $this->ccCreditService;
     }
 
     /**
@@ -2391,8 +2459,9 @@ class RequestMessage
      */
     public function setCcCreditService($ccCreditService)
     {
-      $this->ccCreditService = $ccCreditService;
-      return $this;
+        $this->ccCreditService = $ccCreditService;
+
+        return $this;
     }
 
     /**
@@ -2400,7 +2469,7 @@ class RequestMessage
      */
     public function getCcAuthReversalService()
     {
-      return $this->ccAuthReversalService;
+        return $this->ccAuthReversalService;
     }
 
     /**
@@ -2409,8 +2478,9 @@ class RequestMessage
      */
     public function setCcAuthReversalService($ccAuthReversalService)
     {
-      $this->ccAuthReversalService = $ccAuthReversalService;
-      return $this;
+        $this->ccAuthReversalService = $ccAuthReversalService;
+
+        return $this;
     }
 
     /**
@@ -2418,7 +2488,7 @@ class RequestMessage
      */
     public function getCcAutoAuthReversalService()
     {
-      return $this->ccAutoAuthReversalService;
+        return $this->ccAutoAuthReversalService;
     }
 
     /**
@@ -2427,8 +2497,9 @@ class RequestMessage
      */
     public function setCcAutoAuthReversalService($ccAutoAuthReversalService)
     {
-      $this->ccAutoAuthReversalService = $ccAutoAuthReversalService;
-      return $this;
+        $this->ccAutoAuthReversalService = $ccAutoAuthReversalService;
+
+        return $this;
     }
 
     /**
@@ -2436,7 +2507,7 @@ class RequestMessage
      */
     public function getCcDCCService()
     {
-      return $this->ccDCCService;
+        return $this->ccDCCService;
     }
 
     /**
@@ -2445,8 +2516,9 @@ class RequestMessage
      */
     public function setCcDCCService($ccDCCService)
     {
-      $this->ccDCCService = $ccDCCService;
-      return $this;
+        $this->ccDCCService = $ccDCCService;
+
+        return $this;
     }
 
     /**
@@ -2454,7 +2526,7 @@ class RequestMessage
      */
     public function getServiceFeeCalculateService()
     {
-      return $this->serviceFeeCalculateService;
+        return $this->serviceFeeCalculateService;
     }
 
     /**
@@ -2463,8 +2535,9 @@ class RequestMessage
      */
     public function setServiceFeeCalculateService($serviceFeeCalculateService)
     {
-      $this->serviceFeeCalculateService = $serviceFeeCalculateService;
-      return $this;
+        $this->serviceFeeCalculateService = $serviceFeeCalculateService;
+
+        return $this;
     }
 
     /**
@@ -2472,7 +2545,7 @@ class RequestMessage
      */
     public function getEcDebitService()
     {
-      return $this->ecDebitService;
+        return $this->ecDebitService;
     }
 
     /**
@@ -2481,8 +2554,9 @@ class RequestMessage
      */
     public function setEcDebitService($ecDebitService)
     {
-      $this->ecDebitService = $ecDebitService;
-      return $this;
+        $this->ecDebitService = $ecDebitService;
+
+        return $this;
     }
 
     /**
@@ -2490,7 +2564,7 @@ class RequestMessage
      */
     public function getEcCreditService()
     {
-      return $this->ecCreditService;
+        return $this->ecCreditService;
     }
 
     /**
@@ -2499,8 +2573,9 @@ class RequestMessage
      */
     public function setEcCreditService($ecCreditService)
     {
-      $this->ecCreditService = $ecCreditService;
-      return $this;
+        $this->ecCreditService = $ecCreditService;
+
+        return $this;
     }
 
     /**
@@ -2508,7 +2583,7 @@ class RequestMessage
      */
     public function getEcAuthenticateService()
     {
-      return $this->ecAuthenticateService;
+        return $this->ecAuthenticateService;
     }
 
     /**
@@ -2517,8 +2592,9 @@ class RequestMessage
      */
     public function setEcAuthenticateService($ecAuthenticateService)
     {
-      $this->ecAuthenticateService = $ecAuthenticateService;
-      return $this;
+        $this->ecAuthenticateService = $ecAuthenticateService;
+
+        return $this;
     }
 
     /**
@@ -2526,7 +2602,7 @@ class RequestMessage
      */
     public function getPayerAuthEnrollService()
     {
-      return $this->payerAuthEnrollService;
+        return $this->payerAuthEnrollService;
     }
 
     /**
@@ -2535,8 +2611,9 @@ class RequestMessage
      */
     public function setPayerAuthEnrollService($payerAuthEnrollService)
     {
-      $this->payerAuthEnrollService = $payerAuthEnrollService;
-      return $this;
+        $this->payerAuthEnrollService = $payerAuthEnrollService;
+
+        return $this;
     }
 
     /**
@@ -2544,7 +2621,7 @@ class RequestMessage
      */
     public function getPayerAuthValidateService()
     {
-      return $this->payerAuthValidateService;
+        return $this->payerAuthValidateService;
     }
 
     /**
@@ -2553,8 +2630,9 @@ class RequestMessage
      */
     public function setPayerAuthValidateService($payerAuthValidateService)
     {
-      $this->payerAuthValidateService = $payerAuthValidateService;
-      return $this;
+        $this->payerAuthValidateService = $payerAuthValidateService;
+
+        return $this;
     }
 
     /**
@@ -2562,7 +2640,7 @@ class RequestMessage
      */
     public function getTaxService()
     {
-      return $this->taxService;
+        return $this->taxService;
     }
 
     /**
@@ -2571,8 +2649,9 @@ class RequestMessage
      */
     public function setTaxService($taxService)
     {
-      $this->taxService = $taxService;
-      return $this;
+        $this->taxService = $taxService;
+
+        return $this;
     }
 
     /**
@@ -2580,7 +2659,7 @@ class RequestMessage
      */
     public function getDmeService()
     {
-      return $this->dmeService;
+        return $this->dmeService;
     }
 
     /**
@@ -2589,8 +2668,9 @@ class RequestMessage
      */
     public function setDmeService($dmeService)
     {
-      $this->dmeService = $dmeService;
-      return $this;
+        $this->dmeService = $dmeService;
+
+        return $this;
     }
 
     /**
@@ -2598,7 +2678,7 @@ class RequestMessage
      */
     public function getAfsService()
     {
-      return $this->afsService;
+        return $this->afsService;
     }
 
     /**
@@ -2607,8 +2687,9 @@ class RequestMessage
      */
     public function setAfsService($afsService)
     {
-      $this->afsService = $afsService;
-      return $this;
+        $this->afsService = $afsService;
+
+        return $this;
     }
 
     /**
@@ -2616,7 +2697,7 @@ class RequestMessage
      */
     public function getDavService()
     {
-      return $this->davService;
+        return $this->davService;
     }
 
     /**
@@ -2625,8 +2706,9 @@ class RequestMessage
      */
     public function setDavService($davService)
     {
-      $this->davService = $davService;
-      return $this;
+        $this->davService = $davService;
+
+        return $this;
     }
 
     /**
@@ -2634,7 +2716,7 @@ class RequestMessage
      */
     public function getExportService()
     {
-      return $this->exportService;
+        return $this->exportService;
     }
 
     /**
@@ -2643,8 +2725,9 @@ class RequestMessage
      */
     public function setExportService($exportService)
     {
-      $this->exportService = $exportService;
-      return $this;
+        $this->exportService = $exportService;
+
+        return $this;
     }
 
     /**
@@ -2652,7 +2735,7 @@ class RequestMessage
      */
     public function getFxRatesService()
     {
-      return $this->fxRatesService;
+        return $this->fxRatesService;
     }
 
     /**
@@ -2661,8 +2744,9 @@ class RequestMessage
      */
     public function setFxRatesService($fxRatesService)
     {
-      $this->fxRatesService = $fxRatesService;
-      return $this;
+        $this->fxRatesService = $fxRatesService;
+
+        return $this;
     }
 
     /**
@@ -2670,7 +2754,7 @@ class RequestMessage
      */
     public function getBankTransferService()
     {
-      return $this->bankTransferService;
+        return $this->bankTransferService;
     }
 
     /**
@@ -2679,8 +2763,9 @@ class RequestMessage
      */
     public function setBankTransferService($bankTransferService)
     {
-      $this->bankTransferService = $bankTransferService;
-      return $this;
+        $this->bankTransferService = $bankTransferService;
+
+        return $this;
     }
 
     /**
@@ -2688,7 +2773,7 @@ class RequestMessage
      */
     public function getBankTransferRefundService()
     {
-      return $this->bankTransferRefundService;
+        return $this->bankTransferRefundService;
     }
 
     /**
@@ -2697,8 +2782,9 @@ class RequestMessage
      */
     public function setBankTransferRefundService($bankTransferRefundService)
     {
-      $this->bankTransferRefundService = $bankTransferRefundService;
-      return $this;
+        $this->bankTransferRefundService = $bankTransferRefundService;
+
+        return $this;
     }
 
     /**
@@ -2706,7 +2792,7 @@ class RequestMessage
      */
     public function getBankTransferRealTimeService()
     {
-      return $this->bankTransferRealTimeService;
+        return $this->bankTransferRealTimeService;
     }
 
     /**
@@ -2715,8 +2801,9 @@ class RequestMessage
      */
     public function setBankTransferRealTimeService($bankTransferRealTimeService)
     {
-      $this->bankTransferRealTimeService = $bankTransferRealTimeService;
-      return $this;
+        $this->bankTransferRealTimeService = $bankTransferRealTimeService;
+
+        return $this;
     }
 
     /**
@@ -2724,7 +2811,7 @@ class RequestMessage
      */
     public function getDirectDebitMandateService()
     {
-      return $this->directDebitMandateService;
+        return $this->directDebitMandateService;
     }
 
     /**
@@ -2733,8 +2820,9 @@ class RequestMessage
      */
     public function setDirectDebitMandateService($directDebitMandateService)
     {
-      $this->directDebitMandateService = $directDebitMandateService;
-      return $this;
+        $this->directDebitMandateService = $directDebitMandateService;
+
+        return $this;
     }
 
     /**
@@ -2742,7 +2830,7 @@ class RequestMessage
      */
     public function getDirectDebitService()
     {
-      return $this->directDebitService;
+        return $this->directDebitService;
     }
 
     /**
@@ -2751,8 +2839,9 @@ class RequestMessage
      */
     public function setDirectDebitService($directDebitService)
     {
-      $this->directDebitService = $directDebitService;
-      return $this;
+        $this->directDebitService = $directDebitService;
+
+        return $this;
     }
 
     /**
@@ -2760,7 +2849,7 @@ class RequestMessage
      */
     public function getDirectDebitRefundService()
     {
-      return $this->directDebitRefundService;
+        return $this->directDebitRefundService;
     }
 
     /**
@@ -2769,8 +2858,9 @@ class RequestMessage
      */
     public function setDirectDebitRefundService($directDebitRefundService)
     {
-      $this->directDebitRefundService = $directDebitRefundService;
-      return $this;
+        $this->directDebitRefundService = $directDebitRefundService;
+
+        return $this;
     }
 
     /**
@@ -2778,7 +2868,7 @@ class RequestMessage
      */
     public function getDirectDebitValidateService()
     {
-      return $this->directDebitValidateService;
+        return $this->directDebitValidateService;
     }
 
     /**
@@ -2787,8 +2877,9 @@ class RequestMessage
      */
     public function setDirectDebitValidateService($directDebitValidateService)
     {
-      $this->directDebitValidateService = $directDebitValidateService;
-      return $this;
+        $this->directDebitValidateService = $directDebitValidateService;
+
+        return $this;
     }
 
     /**
@@ -2796,7 +2887,7 @@ class RequestMessage
      */
     public function getDeviceFingerprintData()
     {
-      return $this->deviceFingerprintData;
+        return $this->deviceFingerprintData;
     }
 
     /**
@@ -2805,8 +2896,9 @@ class RequestMessage
      */
     public function setDeviceFingerprintData(array $deviceFingerprintData = null)
     {
-      $this->deviceFingerprintData = $deviceFingerprintData;
-      return $this;
+        $this->deviceFingerprintData = $deviceFingerprintData;
+
+        return $this;
     }
 
     /**
@@ -2814,7 +2906,7 @@ class RequestMessage
      */
     public function getPaySubscriptionCreateService()
     {
-      return $this->paySubscriptionCreateService;
+        return $this->paySubscriptionCreateService;
     }
 
     /**
@@ -2823,8 +2915,9 @@ class RequestMessage
      */
     public function setPaySubscriptionCreateService($paySubscriptionCreateService)
     {
-      $this->paySubscriptionCreateService = $paySubscriptionCreateService;
-      return $this;
+        $this->paySubscriptionCreateService = $paySubscriptionCreateService;
+
+        return $this;
     }
 
     /**
@@ -2832,7 +2925,7 @@ class RequestMessage
      */
     public function getPaySubscriptionUpdateService()
     {
-      return $this->paySubscriptionUpdateService;
+        return $this->paySubscriptionUpdateService;
     }
 
     /**
@@ -2841,8 +2934,9 @@ class RequestMessage
      */
     public function setPaySubscriptionUpdateService($paySubscriptionUpdateService)
     {
-      $this->paySubscriptionUpdateService = $paySubscriptionUpdateService;
-      return $this;
+        $this->paySubscriptionUpdateService = $paySubscriptionUpdateService;
+
+        return $this;
     }
 
     /**
@@ -2850,7 +2944,7 @@ class RequestMessage
      */
     public function getPaySubscriptionEventUpdateService()
     {
-      return $this->paySubscriptionEventUpdateService;
+        return $this->paySubscriptionEventUpdateService;
     }
 
     /**
@@ -2859,8 +2953,9 @@ class RequestMessage
      */
     public function setPaySubscriptionEventUpdateService($paySubscriptionEventUpdateService)
     {
-      $this->paySubscriptionEventUpdateService = $paySubscriptionEventUpdateService;
-      return $this;
+        $this->paySubscriptionEventUpdateService = $paySubscriptionEventUpdateService;
+
+        return $this;
     }
 
     /**
@@ -2868,7 +2963,7 @@ class RequestMessage
      */
     public function getPaySubscriptionRetrieveService()
     {
-      return $this->paySubscriptionRetrieveService;
+        return $this->paySubscriptionRetrieveService;
     }
 
     /**
@@ -2877,8 +2972,9 @@ class RequestMessage
      */
     public function setPaySubscriptionRetrieveService($paySubscriptionRetrieveService)
     {
-      $this->paySubscriptionRetrieveService = $paySubscriptionRetrieveService;
-      return $this;
+        $this->paySubscriptionRetrieveService = $paySubscriptionRetrieveService;
+
+        return $this;
     }
 
     /**
@@ -2886,7 +2982,7 @@ class RequestMessage
      */
     public function getPaySubscriptionDeleteService()
     {
-      return $this->paySubscriptionDeleteService;
+        return $this->paySubscriptionDeleteService;
     }
 
     /**
@@ -2895,8 +2991,9 @@ class RequestMessage
      */
     public function setPaySubscriptionDeleteService($paySubscriptionDeleteService)
     {
-      $this->paySubscriptionDeleteService = $paySubscriptionDeleteService;
-      return $this;
+        $this->paySubscriptionDeleteService = $paySubscriptionDeleteService;
+
+        return $this;
     }
 
     /**
@@ -2904,7 +3001,7 @@ class RequestMessage
      */
     public function getPayPalPaymentService()
     {
-      return $this->payPalPaymentService;
+        return $this->payPalPaymentService;
     }
 
     /**
@@ -2913,8 +3010,9 @@ class RequestMessage
      */
     public function setPayPalPaymentService($payPalPaymentService)
     {
-      $this->payPalPaymentService = $payPalPaymentService;
-      return $this;
+        $this->payPalPaymentService = $payPalPaymentService;
+
+        return $this;
     }
 
     /**
@@ -2922,7 +3020,7 @@ class RequestMessage
      */
     public function getPayPalCreditService()
     {
-      return $this->payPalCreditService;
+        return $this->payPalCreditService;
     }
 
     /**
@@ -2931,8 +3029,9 @@ class RequestMessage
      */
     public function setPayPalCreditService($payPalCreditService)
     {
-      $this->payPalCreditService = $payPalCreditService;
-      return $this;
+        $this->payPalCreditService = $payPalCreditService;
+
+        return $this;
     }
 
     /**
@@ -2940,7 +3039,7 @@ class RequestMessage
      */
     public function getVoidService()
     {
-      return $this->voidService;
+        return $this->voidService;
     }
 
     /**
@@ -2949,8 +3048,9 @@ class RequestMessage
      */
     public function setVoidService($voidService)
     {
-      $this->voidService = $voidService;
-      return $this;
+        $this->voidService = $voidService;
+
+        return $this;
     }
 
     /**
@@ -2958,7 +3058,7 @@ class RequestMessage
      */
     public function getBusinessRules()
     {
-      return $this->businessRules;
+        return $this->businessRules;
     }
 
     /**
@@ -2967,8 +3067,9 @@ class RequestMessage
      */
     public function setBusinessRules($businessRules)
     {
-      $this->businessRules = $businessRules;
-      return $this;
+        $this->businessRules = $businessRules;
+
+        return $this;
     }
 
     /**
@@ -2976,7 +3077,7 @@ class RequestMessage
      */
     public function getPinlessDebitService()
     {
-      return $this->pinlessDebitService;
+        return $this->pinlessDebitService;
     }
 
     /**
@@ -2985,8 +3086,9 @@ class RequestMessage
      */
     public function setPinlessDebitService($pinlessDebitService)
     {
-      $this->pinlessDebitService = $pinlessDebitService;
-      return $this;
+        $this->pinlessDebitService = $pinlessDebitService;
+
+        return $this;
     }
 
     /**
@@ -2994,7 +3096,7 @@ class RequestMessage
      */
     public function getPinlessDebitValidateService()
     {
-      return $this->pinlessDebitValidateService;
+        return $this->pinlessDebitValidateService;
     }
 
     /**
@@ -3003,8 +3105,9 @@ class RequestMessage
      */
     public function setPinlessDebitValidateService($pinlessDebitValidateService)
     {
-      $this->pinlessDebitValidateService = $pinlessDebitValidateService;
-      return $this;
+        $this->pinlessDebitValidateService = $pinlessDebitValidateService;
+
+        return $this;
     }
 
     /**
@@ -3012,7 +3115,7 @@ class RequestMessage
      */
     public function getPinlessDebitReversalService()
     {
-      return $this->pinlessDebitReversalService;
+        return $this->pinlessDebitReversalService;
     }
 
     /**
@@ -3021,8 +3124,9 @@ class RequestMessage
      */
     public function setPinlessDebitReversalService($pinlessDebitReversalService)
     {
-      $this->pinlessDebitReversalService = $pinlessDebitReversalService;
-      return $this;
+        $this->pinlessDebitReversalService = $pinlessDebitReversalService;
+
+        return $this;
     }
 
     /**
@@ -3030,7 +3134,7 @@ class RequestMessage
      */
     public function getBatch()
     {
-      return $this->batch;
+        return $this->batch;
     }
 
     /**
@@ -3039,8 +3143,9 @@ class RequestMessage
      */
     public function setBatch($batch)
     {
-      $this->batch = $batch;
-      return $this;
+        $this->batch = $batch;
+
+        return $this;
     }
 
     /**
@@ -3048,7 +3153,7 @@ class RequestMessage
      */
     public function getAirlineData()
     {
-      return $this->airlineData;
+        return $this->airlineData;
     }
 
     /**
@@ -3057,8 +3162,9 @@ class RequestMessage
      */
     public function setAirlineData($airlineData)
     {
-      $this->airlineData = $airlineData;
-      return $this;
+        $this->airlineData = $airlineData;
+
+        return $this;
     }
 
     /**
@@ -3066,7 +3172,7 @@ class RequestMessage
      */
     public function getAncillaryData()
     {
-      return $this->ancillaryData;
+        return $this->ancillaryData;
     }
 
     /**
@@ -3075,8 +3181,9 @@ class RequestMessage
      */
     public function setAncillaryData($ancillaryData)
     {
-      $this->ancillaryData = $ancillaryData;
-      return $this;
+        $this->ancillaryData = $ancillaryData;
+
+        return $this;
     }
 
     /**
@@ -3084,7 +3191,7 @@ class RequestMessage
      */
     public function getLodgingData()
     {
-      return $this->lodgingData;
+        return $this->lodgingData;
     }
 
     /**
@@ -3093,8 +3200,9 @@ class RequestMessage
      */
     public function setLodgingData($lodgingData)
     {
-      $this->lodgingData = $lodgingData;
-      return $this;
+        $this->lodgingData = $lodgingData;
+
+        return $this;
     }
 
     /**
@@ -3102,7 +3210,7 @@ class RequestMessage
      */
     public function getPayPalButtonCreateService()
     {
-      return $this->payPalButtonCreateService;
+        return $this->payPalButtonCreateService;
     }
 
     /**
@@ -3111,8 +3219,9 @@ class RequestMessage
      */
     public function setPayPalButtonCreateService($payPalButtonCreateService)
     {
-      $this->payPalButtonCreateService = $payPalButtonCreateService;
-      return $this;
+        $this->payPalButtonCreateService = $payPalButtonCreateService;
+
+        return $this;
     }
 
     /**
@@ -3120,7 +3229,7 @@ class RequestMessage
      */
     public function getPayPalPreapprovedPaymentService()
     {
-      return $this->payPalPreapprovedPaymentService;
+        return $this->payPalPreapprovedPaymentService;
     }
 
     /**
@@ -3129,8 +3238,9 @@ class RequestMessage
      */
     public function setPayPalPreapprovedPaymentService($payPalPreapprovedPaymentService)
     {
-      $this->payPalPreapprovedPaymentService = $payPalPreapprovedPaymentService;
-      return $this;
+        $this->payPalPreapprovedPaymentService = $payPalPreapprovedPaymentService;
+
+        return $this;
     }
 
     /**
@@ -3138,7 +3248,7 @@ class RequestMessage
      */
     public function getPayPalPreapprovedUpdateService()
     {
-      return $this->payPalPreapprovedUpdateService;
+        return $this->payPalPreapprovedUpdateService;
     }
 
     /**
@@ -3147,8 +3257,9 @@ class RequestMessage
      */
     public function setPayPalPreapprovedUpdateService($payPalPreapprovedUpdateService)
     {
-      $this->payPalPreapprovedUpdateService = $payPalPreapprovedUpdateService;
-      return $this;
+        $this->payPalPreapprovedUpdateService = $payPalPreapprovedUpdateService;
+
+        return $this;
     }
 
     /**
@@ -3156,7 +3267,7 @@ class RequestMessage
      */
     public function getRiskUpdateService()
     {
-      return $this->riskUpdateService;
+        return $this->riskUpdateService;
     }
 
     /**
@@ -3165,8 +3276,9 @@ class RequestMessage
      */
     public function setRiskUpdateService($riskUpdateService)
     {
-      $this->riskUpdateService = $riskUpdateService;
-      return $this;
+        $this->riskUpdateService = $riskUpdateService;
+
+        return $this;
     }
 
     /**
@@ -3174,7 +3286,7 @@ class RequestMessage
      */
     public function getFraudUpdateService()
     {
-      return $this->fraudUpdateService;
+        return $this->fraudUpdateService;
     }
 
     /**
@@ -3183,8 +3295,9 @@ class RequestMessage
      */
     public function setFraudUpdateService($fraudUpdateService)
     {
-      $this->fraudUpdateService = $fraudUpdateService;
-      return $this;
+        $this->fraudUpdateService = $fraudUpdateService;
+
+        return $this;
     }
 
     /**
@@ -3192,7 +3305,7 @@ class RequestMessage
      */
     public function getCaseManagementActionService()
     {
-      return $this->caseManagementActionService;
+        return $this->caseManagementActionService;
     }
 
     /**
@@ -3201,8 +3314,9 @@ class RequestMessage
      */
     public function setCaseManagementActionService($caseManagementActionService)
     {
-      $this->caseManagementActionService = $caseManagementActionService;
-      return $this;
+        $this->caseManagementActionService = $caseManagementActionService;
+
+        return $this;
     }
 
     /**
@@ -3210,7 +3324,7 @@ class RequestMessage
      */
     public function getReserved()
     {
-      return $this->reserved;
+        return $this->reserved;
     }
 
     /**
@@ -3219,8 +3333,9 @@ class RequestMessage
      */
     public function setReserved(array $reserved = null)
     {
-      $this->reserved = $reserved;
-      return $this;
+        $this->reserved = $reserved;
+
+        return $this;
     }
 
     /**
@@ -3228,7 +3343,7 @@ class RequestMessage
      */
     public function getDeviceFingerprintID()
     {
-      return $this->deviceFingerprintID;
+        return $this->deviceFingerprintID;
     }
 
     /**
@@ -3237,8 +3352,9 @@ class RequestMessage
      */
     public function setDeviceFingerprintID($deviceFingerprintID)
     {
-      $this->deviceFingerprintID = $deviceFingerprintID;
-      return $this;
+        $this->deviceFingerprintID = $deviceFingerprintID;
+
+        return $this;
     }
 
     /**
@@ -3246,7 +3362,7 @@ class RequestMessage
      */
     public function getDeviceFingerprintRaw()
     {
-      return $this->deviceFingerprintRaw;
+        return $this->deviceFingerprintRaw;
     }
 
     /**
@@ -3255,8 +3371,9 @@ class RequestMessage
      */
     public function setDeviceFingerprintRaw($deviceFingerprintRaw)
     {
-      $this->deviceFingerprintRaw = $deviceFingerprintRaw;
-      return $this;
+        $this->deviceFingerprintRaw = $deviceFingerprintRaw;
+
+        return $this;
     }
 
     /**
@@ -3264,7 +3381,7 @@ class RequestMessage
      */
     public function getDeviceFingerprintHash()
     {
-      return $this->deviceFingerprintHash;
+        return $this->deviceFingerprintHash;
     }
 
     /**
@@ -3273,8 +3390,9 @@ class RequestMessage
      */
     public function setDeviceFingerprintHash($deviceFingerprintHash)
     {
-      $this->deviceFingerprintHash = $deviceFingerprintHash;
-      return $this;
+        $this->deviceFingerprintHash = $deviceFingerprintHash;
+
+        return $this;
     }
 
     /**
@@ -3282,7 +3400,7 @@ class RequestMessage
      */
     public function getPayPalRefundService()
     {
-      return $this->payPalRefundService;
+        return $this->payPalRefundService;
     }
 
     /**
@@ -3291,8 +3409,9 @@ class RequestMessage
      */
     public function setPayPalRefundService($payPalRefundService)
     {
-      $this->payPalRefundService = $payPalRefundService;
-      return $this;
+        $this->payPalRefundService = $payPalRefundService;
+
+        return $this;
     }
 
     /**
@@ -3300,7 +3419,7 @@ class RequestMessage
      */
     public function getPayPalAuthReversalService()
     {
-      return $this->payPalAuthReversalService;
+        return $this->payPalAuthReversalService;
     }
 
     /**
@@ -3309,8 +3428,9 @@ class RequestMessage
      */
     public function setPayPalAuthReversalService($payPalAuthReversalService)
     {
-      $this->payPalAuthReversalService = $payPalAuthReversalService;
-      return $this;
+        $this->payPalAuthReversalService = $payPalAuthReversalService;
+
+        return $this;
     }
 
     /**
@@ -3318,7 +3438,7 @@ class RequestMessage
      */
     public function getPayPalDoCaptureService()
     {
-      return $this->payPalDoCaptureService;
+        return $this->payPalDoCaptureService;
     }
 
     /**
@@ -3327,8 +3447,9 @@ class RequestMessage
      */
     public function setPayPalDoCaptureService($payPalDoCaptureService)
     {
-      $this->payPalDoCaptureService = $payPalDoCaptureService;
-      return $this;
+        $this->payPalDoCaptureService = $payPalDoCaptureService;
+
+        return $this;
     }
 
     /**
@@ -3336,7 +3457,7 @@ class RequestMessage
      */
     public function getPayPalEcDoPaymentService()
     {
-      return $this->payPalEcDoPaymentService;
+        return $this->payPalEcDoPaymentService;
     }
 
     /**
@@ -3345,8 +3466,9 @@ class RequestMessage
      */
     public function setPayPalEcDoPaymentService($payPalEcDoPaymentService)
     {
-      $this->payPalEcDoPaymentService = $payPalEcDoPaymentService;
-      return $this;
+        $this->payPalEcDoPaymentService = $payPalEcDoPaymentService;
+
+        return $this;
     }
 
     /**
@@ -3354,7 +3476,7 @@ class RequestMessage
      */
     public function getPayPalEcGetDetailsService()
     {
-      return $this->payPalEcGetDetailsService;
+        return $this->payPalEcGetDetailsService;
     }
 
     /**
@@ -3363,8 +3485,9 @@ class RequestMessage
      */
     public function setPayPalEcGetDetailsService($payPalEcGetDetailsService)
     {
-      $this->payPalEcGetDetailsService = $payPalEcGetDetailsService;
-      return $this;
+        $this->payPalEcGetDetailsService = $payPalEcGetDetailsService;
+
+        return $this;
     }
 
     /**
@@ -3372,7 +3495,7 @@ class RequestMessage
      */
     public function getPayPalEcSetService()
     {
-      return $this->payPalEcSetService;
+        return $this->payPalEcSetService;
     }
 
     /**
@@ -3381,8 +3504,9 @@ class RequestMessage
      */
     public function setPayPalEcSetService($payPalEcSetService)
     {
-      $this->payPalEcSetService = $payPalEcSetService;
-      return $this;
+        $this->payPalEcSetService = $payPalEcSetService;
+
+        return $this;
     }
 
     /**
@@ -3390,7 +3514,7 @@ class RequestMessage
      */
     public function getPayPalEcOrderSetupService()
     {
-      return $this->payPalEcOrderSetupService;
+        return $this->payPalEcOrderSetupService;
     }
 
     /**
@@ -3399,8 +3523,9 @@ class RequestMessage
      */
     public function setPayPalEcOrderSetupService($payPalEcOrderSetupService)
     {
-      $this->payPalEcOrderSetupService = $payPalEcOrderSetupService;
-      return $this;
+        $this->payPalEcOrderSetupService = $payPalEcOrderSetupService;
+
+        return $this;
     }
 
     /**
@@ -3408,7 +3533,7 @@ class RequestMessage
      */
     public function getPayPalAuthorizationService()
     {
-      return $this->payPalAuthorizationService;
+        return $this->payPalAuthorizationService;
     }
 
     /**
@@ -3417,8 +3542,9 @@ class RequestMessage
      */
     public function setPayPalAuthorizationService($payPalAuthorizationService)
     {
-      $this->payPalAuthorizationService = $payPalAuthorizationService;
-      return $this;
+        $this->payPalAuthorizationService = $payPalAuthorizationService;
+
+        return $this;
     }
 
     /**
@@ -3426,7 +3552,7 @@ class RequestMessage
      */
     public function getPayPalUpdateAgreementService()
     {
-      return $this->payPalUpdateAgreementService;
+        return $this->payPalUpdateAgreementService;
     }
 
     /**
@@ -3435,8 +3561,9 @@ class RequestMessage
      */
     public function setPayPalUpdateAgreementService($payPalUpdateAgreementService)
     {
-      $this->payPalUpdateAgreementService = $payPalUpdateAgreementService;
-      return $this;
+        $this->payPalUpdateAgreementService = $payPalUpdateAgreementService;
+
+        return $this;
     }
 
     /**
@@ -3444,7 +3571,7 @@ class RequestMessage
      */
     public function getPayPalCreateAgreementService()
     {
-      return $this->payPalCreateAgreementService;
+        return $this->payPalCreateAgreementService;
     }
 
     /**
@@ -3453,8 +3580,9 @@ class RequestMessage
      */
     public function setPayPalCreateAgreementService($payPalCreateAgreementService)
     {
-      $this->payPalCreateAgreementService = $payPalCreateAgreementService;
-      return $this;
+        $this->payPalCreateAgreementService = $payPalCreateAgreementService;
+
+        return $this;
     }
 
     /**
@@ -3462,7 +3590,7 @@ class RequestMessage
      */
     public function getPayPalDoRefTransactionService()
     {
-      return $this->payPalDoRefTransactionService;
+        return $this->payPalDoRefTransactionService;
     }
 
     /**
@@ -3471,8 +3599,9 @@ class RequestMessage
      */
     public function setPayPalDoRefTransactionService($payPalDoRefTransactionService)
     {
-      $this->payPalDoRefTransactionService = $payPalDoRefTransactionService;
-      return $this;
+        $this->payPalDoRefTransactionService = $payPalDoRefTransactionService;
+
+        return $this;
     }
 
     /**
@@ -3480,7 +3609,7 @@ class RequestMessage
      */
     public function getChinaPaymentService()
     {
-      return $this->chinaPaymentService;
+        return $this->chinaPaymentService;
     }
 
     /**
@@ -3489,8 +3618,9 @@ class RequestMessage
      */
     public function setChinaPaymentService($chinaPaymentService)
     {
-      $this->chinaPaymentService = $chinaPaymentService;
-      return $this;
+        $this->chinaPaymentService = $chinaPaymentService;
+
+        return $this;
     }
 
     /**
@@ -3498,7 +3628,7 @@ class RequestMessage
      */
     public function getChinaRefundService()
     {
-      return $this->chinaRefundService;
+        return $this->chinaRefundService;
     }
 
     /**
@@ -3507,8 +3637,9 @@ class RequestMessage
      */
     public function setChinaRefundService($chinaRefundService)
     {
-      $this->chinaRefundService = $chinaRefundService;
-      return $this;
+        $this->chinaRefundService = $chinaRefundService;
+
+        return $this;
     }
 
     /**
@@ -3516,7 +3647,7 @@ class RequestMessage
      */
     public function getBoletoPaymentService()
     {
-      return $this->boletoPaymentService;
+        return $this->boletoPaymentService;
     }
 
     /**
@@ -3525,8 +3656,9 @@ class RequestMessage
      */
     public function setBoletoPaymentService($boletoPaymentService)
     {
-      $this->boletoPaymentService = $boletoPaymentService;
-      return $this;
+        $this->boletoPaymentService = $boletoPaymentService;
+
+        return $this;
     }
 
     /**
@@ -3534,7 +3666,7 @@ class RequestMessage
      */
     public function getApPaymentType()
     {
-      return $this->apPaymentType;
+        return $this->apPaymentType;
     }
 
     /**
@@ -3543,8 +3675,9 @@ class RequestMessage
      */
     public function setApPaymentType($apPaymentType)
     {
-      $this->apPaymentType = $apPaymentType;
-      return $this;
+        $this->apPaymentType = $apPaymentType;
+
+        return $this;
     }
 
     /**
@@ -3552,7 +3685,7 @@ class RequestMessage
      */
     public function getApInitiateService()
     {
-      return $this->apInitiateService;
+        return $this->apInitiateService;
     }
 
     /**
@@ -3561,8 +3694,9 @@ class RequestMessage
      */
     public function setApInitiateService($apInitiateService)
     {
-      $this->apInitiateService = $apInitiateService;
-      return $this;
+        $this->apInitiateService = $apInitiateService;
+
+        return $this;
     }
 
     /**
@@ -3570,7 +3704,7 @@ class RequestMessage
      */
     public function getApCheckStatusService()
     {
-      return $this->apCheckStatusService;
+        return $this->apCheckStatusService;
     }
 
     /**
@@ -3579,8 +3713,9 @@ class RequestMessage
      */
     public function setApCheckStatusService($apCheckStatusService)
     {
-      $this->apCheckStatusService = $apCheckStatusService;
-      return $this;
+        $this->apCheckStatusService = $apCheckStatusService;
+
+        return $this;
     }
 
     /**
@@ -3588,7 +3723,7 @@ class RequestMessage
      */
     public function getIgnoreCardExpiration()
     {
-      return $this->ignoreCardExpiration;
+        return $this->ignoreCardExpiration;
     }
 
     /**
@@ -3597,8 +3732,9 @@ class RequestMessage
      */
     public function setIgnoreCardExpiration($ignoreCardExpiration)
     {
-      $this->ignoreCardExpiration = $ignoreCardExpiration;
-      return $this;
+        $this->ignoreCardExpiration = $ignoreCardExpiration;
+
+        return $this;
     }
 
     /**
@@ -3606,7 +3742,7 @@ class RequestMessage
      */
     public function getReportGroup()
     {
-      return $this->reportGroup;
+        return $this->reportGroup;
     }
 
     /**
@@ -3615,8 +3751,9 @@ class RequestMessage
      */
     public function setReportGroup($reportGroup)
     {
-      $this->reportGroup = $reportGroup;
-      return $this;
+        $this->reportGroup = $reportGroup;
+
+        return $this;
     }
 
     /**
@@ -3624,7 +3761,7 @@ class RequestMessage
      */
     public function getProcessorID()
     {
-      return $this->processorID;
+        return $this->processorID;
     }
 
     /**
@@ -3633,8 +3770,9 @@ class RequestMessage
      */
     public function setProcessorID($processorID)
     {
-      $this->processorID = $processorID;
-      return $this;
+        $this->processorID = $processorID;
+
+        return $this;
     }
 
     /**
@@ -3642,7 +3780,7 @@ class RequestMessage
      */
     public function getThirdPartyCertificationNumber()
     {
-      return $this->thirdPartyCertificationNumber;
+        return $this->thirdPartyCertificationNumber;
     }
 
     /**
@@ -3651,8 +3789,9 @@ class RequestMessage
      */
     public function setThirdPartyCertificationNumber($thirdPartyCertificationNumber)
     {
-      $this->thirdPartyCertificationNumber = $thirdPartyCertificationNumber;
-      return $this;
+        $this->thirdPartyCertificationNumber = $thirdPartyCertificationNumber;
+
+        return $this;
     }
 
     /**
@@ -3660,29 +3799,30 @@ class RequestMessage
      */
     public function getTransactionLocalDateTime()
     {
-      if ($this->transactionLocalDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->transactionLocalDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->transactionLocalDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->transactionLocalDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $transactionLocalDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setTransactionLocalDateTime(\DateTime $transactionLocalDateTime = null)
+    public function setTransactionLocalDateTime(DateTime $transactionLocalDateTime = null)
     {
-      if ($transactionLocalDateTime == null) {
-       $this->transactionLocalDateTime = null;
-      } else {
-        $this->transactionLocalDateTime = $transactionLocalDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($transactionLocalDateTime == null) {
+            $this->transactionLocalDateTime = null;
+        } else {
+            $this->transactionLocalDateTime = $transactionLocalDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -3690,7 +3830,7 @@ class RequestMessage
      */
     public function getSolutionProviderTransactionID()
     {
-      return $this->solutionProviderTransactionID;
+        return $this->solutionProviderTransactionID;
     }
 
     /**
@@ -3699,8 +3839,9 @@ class RequestMessage
      */
     public function setSolutionProviderTransactionID($solutionProviderTransactionID)
     {
-      $this->solutionProviderTransactionID = $solutionProviderTransactionID;
-      return $this;
+        $this->solutionProviderTransactionID = $solutionProviderTransactionID;
+
+        return $this;
     }
 
     /**
@@ -3708,7 +3849,7 @@ class RequestMessage
      */
     public function getSurchargeAmount()
     {
-      return $this->surchargeAmount;
+        return $this->surchargeAmount;
     }
 
     /**
@@ -3717,8 +3858,9 @@ class RequestMessage
      */
     public function setSurchargeAmount($surchargeAmount)
     {
-      $this->surchargeAmount = $surchargeAmount;
-      return $this;
+        $this->surchargeAmount = $surchargeAmount;
+
+        return $this;
     }
 
     /**
@@ -3726,7 +3868,7 @@ class RequestMessage
      */
     public function getSurchargeSign()
     {
-      return $this->surchargeSign;
+        return $this->surchargeSign;
     }
 
     /**
@@ -3735,8 +3877,9 @@ class RequestMessage
      */
     public function setSurchargeSign($surchargeSign)
     {
-      $this->surchargeSign = $surchargeSign;
-      return $this;
+        $this->surchargeSign = $surchargeSign;
+
+        return $this;
     }
 
     /**
@@ -3744,7 +3887,7 @@ class RequestMessage
      */
     public function getPinDataEncryptedPIN()
     {
-      return $this->pinDataEncryptedPIN;
+        return $this->pinDataEncryptedPIN;
     }
 
     /**
@@ -3753,8 +3896,9 @@ class RequestMessage
      */
     public function setPinDataEncryptedPIN($pinDataEncryptedPIN)
     {
-      $this->pinDataEncryptedPIN = $pinDataEncryptedPIN;
-      return $this;
+        $this->pinDataEncryptedPIN = $pinDataEncryptedPIN;
+
+        return $this;
     }
 
     /**
@@ -3762,7 +3906,7 @@ class RequestMessage
      */
     public function getPinDataKeySerialNumber()
     {
-      return $this->pinDataKeySerialNumber;
+        return $this->pinDataKeySerialNumber;
     }
 
     /**
@@ -3771,8 +3915,9 @@ class RequestMessage
      */
     public function setPinDataKeySerialNumber($pinDataKeySerialNumber)
     {
-      $this->pinDataKeySerialNumber = $pinDataKeySerialNumber;
-      return $this;
+        $this->pinDataKeySerialNumber = $pinDataKeySerialNumber;
+
+        return $this;
     }
 
     /**
@@ -3780,7 +3925,7 @@ class RequestMessage
      */
     public function getPinDataPinBlockEncodingFormat()
     {
-      return $this->pinDataPinBlockEncodingFormat;
+        return $this->pinDataPinBlockEncodingFormat;
     }
 
     /**
@@ -3789,8 +3934,9 @@ class RequestMessage
      */
     public function setPinDataPinBlockEncodingFormat($pinDataPinBlockEncodingFormat)
     {
-      $this->pinDataPinBlockEncodingFormat = $pinDataPinBlockEncodingFormat;
-      return $this;
+        $this->pinDataPinBlockEncodingFormat = $pinDataPinBlockEncodingFormat;
+
+        return $this;
     }
 
     /**
@@ -3798,7 +3944,7 @@ class RequestMessage
      */
     public function getCashbackAmount()
     {
-      return $this->cashbackAmount;
+        return $this->cashbackAmount;
     }
 
     /**
@@ -3807,8 +3953,9 @@ class RequestMessage
      */
     public function setCashbackAmount($cashbackAmount)
     {
-      $this->cashbackAmount = $cashbackAmount;
-      return $this;
+        $this->cashbackAmount = $cashbackAmount;
+
+        return $this;
     }
 
     /**
@@ -3816,7 +3963,7 @@ class RequestMessage
      */
     public function getPinDebitPurchaseService()
     {
-      return $this->pinDebitPurchaseService;
+        return $this->pinDebitPurchaseService;
     }
 
     /**
@@ -3825,8 +3972,9 @@ class RequestMessage
      */
     public function setPinDebitPurchaseService($pinDebitPurchaseService)
     {
-      $this->pinDebitPurchaseService = $pinDebitPurchaseService;
-      return $this;
+        $this->pinDebitPurchaseService = $pinDebitPurchaseService;
+
+        return $this;
     }
 
     /**
@@ -3834,7 +3982,7 @@ class RequestMessage
      */
     public function getPinDebitCreditService()
     {
-      return $this->pinDebitCreditService;
+        return $this->pinDebitCreditService;
     }
 
     /**
@@ -3843,8 +3991,9 @@ class RequestMessage
      */
     public function setPinDebitCreditService($pinDebitCreditService)
     {
-      $this->pinDebitCreditService = $pinDebitCreditService;
-      return $this;
+        $this->pinDebitCreditService = $pinDebitCreditService;
+
+        return $this;
     }
 
     /**
@@ -3852,7 +4001,7 @@ class RequestMessage
      */
     public function getPinDebitReversalService()
     {
-      return $this->pinDebitReversalService;
+        return $this->pinDebitReversalService;
     }
 
     /**
@@ -3861,8 +4010,9 @@ class RequestMessage
      */
     public function setPinDebitReversalService($pinDebitReversalService)
     {
-      $this->pinDebitReversalService = $pinDebitReversalService;
-      return $this;
+        $this->pinDebitReversalService = $pinDebitReversalService;
+
+        return $this;
     }
 
     /**
@@ -3870,7 +4020,7 @@ class RequestMessage
      */
     public function getAp()
     {
-      return $this->ap;
+        return $this->ap;
     }
 
     /**
@@ -3879,8 +4029,9 @@ class RequestMessage
      */
     public function setAp($ap)
     {
-      $this->ap = $ap;
-      return $this;
+        $this->ap = $ap;
+
+        return $this;
     }
 
     /**
@@ -3888,7 +4039,7 @@ class RequestMessage
      */
     public function getApAuthService()
     {
-      return $this->apAuthService;
+        return $this->apAuthService;
     }
 
     /**
@@ -3897,8 +4048,9 @@ class RequestMessage
      */
     public function setApAuthService($apAuthService)
     {
-      $this->apAuthService = $apAuthService;
-      return $this;
+        $this->apAuthService = $apAuthService;
+
+        return $this;
     }
 
     /**
@@ -3906,7 +4058,7 @@ class RequestMessage
      */
     public function getApAuthReversalService()
     {
-      return $this->apAuthReversalService;
+        return $this->apAuthReversalService;
     }
 
     /**
@@ -3915,8 +4067,9 @@ class RequestMessage
      */
     public function setApAuthReversalService($apAuthReversalService)
     {
-      $this->apAuthReversalService = $apAuthReversalService;
-      return $this;
+        $this->apAuthReversalService = $apAuthReversalService;
+
+        return $this;
     }
 
     /**
@@ -3924,7 +4077,7 @@ class RequestMessage
      */
     public function getApCaptureService()
     {
-      return $this->apCaptureService;
+        return $this->apCaptureService;
     }
 
     /**
@@ -3933,8 +4086,9 @@ class RequestMessage
      */
     public function setApCaptureService($apCaptureService)
     {
-      $this->apCaptureService = $apCaptureService;
-      return $this;
+        $this->apCaptureService = $apCaptureService;
+
+        return $this;
     }
 
     /**
@@ -3942,7 +4096,7 @@ class RequestMessage
      */
     public function getApOptionsService()
     {
-      return $this->apOptionsService;
+        return $this->apOptionsService;
     }
 
     /**
@@ -3951,8 +4105,9 @@ class RequestMessage
      */
     public function setApOptionsService($apOptionsService)
     {
-      $this->apOptionsService = $apOptionsService;
-      return $this;
+        $this->apOptionsService = $apOptionsService;
+
+        return $this;
     }
 
     /**
@@ -3960,7 +4115,7 @@ class RequestMessage
      */
     public function getApRefundService()
     {
-      return $this->apRefundService;
+        return $this->apRefundService;
     }
 
     /**
@@ -3969,8 +4124,9 @@ class RequestMessage
      */
     public function setApRefundService($apRefundService)
     {
-      $this->apRefundService = $apRefundService;
-      return $this;
+        $this->apRefundService = $apRefundService;
+
+        return $this;
     }
 
     /**
@@ -3978,7 +4134,7 @@ class RequestMessage
      */
     public function getApSaleService()
     {
-      return $this->apSaleService;
+        return $this->apSaleService;
     }
 
     /**
@@ -3987,8 +4143,9 @@ class RequestMessage
      */
     public function setApSaleService($apSaleService)
     {
-      $this->apSaleService = $apSaleService;
-      return $this;
+        $this->apSaleService = $apSaleService;
+
+        return $this;
     }
 
     /**
@@ -3996,7 +4153,7 @@ class RequestMessage
      */
     public function getApCheckoutDetailsService()
     {
-      return $this->apCheckoutDetailsService;
+        return $this->apCheckoutDetailsService;
     }
 
     /**
@@ -4005,8 +4162,9 @@ class RequestMessage
      */
     public function setApCheckoutDetailsService($apCheckoutDetailsService)
     {
-      $this->apCheckoutDetailsService = $apCheckoutDetailsService;
-      return $this;
+        $this->apCheckoutDetailsService = $apCheckoutDetailsService;
+
+        return $this;
     }
 
     /**
@@ -4014,7 +4172,7 @@ class RequestMessage
      */
     public function getApSessionsService()
     {
-      return $this->apSessionsService;
+        return $this->apSessionsService;
     }
 
     /**
@@ -4023,8 +4181,9 @@ class RequestMessage
      */
     public function setApSessionsService($apSessionsService)
     {
-      $this->apSessionsService = $apSessionsService;
-      return $this;
+        $this->apSessionsService = $apSessionsService;
+
+        return $this;
     }
 
     /**
@@ -4032,7 +4191,7 @@ class RequestMessage
      */
     public function getApUI()
     {
-      return $this->apUI;
+        return $this->apUI;
     }
 
     /**
@@ -4041,8 +4200,9 @@ class RequestMessage
      */
     public function setApUI($apUI)
     {
-      $this->apUI = $apUI;
-      return $this;
+        $this->apUI = $apUI;
+
+        return $this;
     }
 
     /**
@@ -4050,7 +4210,7 @@ class RequestMessage
      */
     public function getApTransactionDetailsService()
     {
-      return $this->apTransactionDetailsService;
+        return $this->apTransactionDetailsService;
     }
 
     /**
@@ -4059,8 +4219,9 @@ class RequestMessage
      */
     public function setApTransactionDetailsService($apTransactionDetailsService)
     {
-      $this->apTransactionDetailsService = $apTransactionDetailsService;
-      return $this;
+        $this->apTransactionDetailsService = $apTransactionDetailsService;
+
+        return $this;
     }
 
     /**
@@ -4068,7 +4229,7 @@ class RequestMessage
      */
     public function getApConfirmPurchaseService()
     {
-      return $this->apConfirmPurchaseService;
+        return $this->apConfirmPurchaseService;
     }
 
     /**
@@ -4077,8 +4238,9 @@ class RequestMessage
      */
     public function setApConfirmPurchaseService($apConfirmPurchaseService)
     {
-      $this->apConfirmPurchaseService = $apConfirmPurchaseService;
-      return $this;
+        $this->apConfirmPurchaseService = $apConfirmPurchaseService;
+
+        return $this;
     }
 
     /**
@@ -4086,7 +4248,7 @@ class RequestMessage
      */
     public function getPayPalGetTxnDetailsService()
     {
-      return $this->payPalGetTxnDetailsService;
+        return $this->payPalGetTxnDetailsService;
     }
 
     /**
@@ -4095,8 +4257,9 @@ class RequestMessage
      */
     public function setPayPalGetTxnDetailsService($payPalGetTxnDetailsService)
     {
-      $this->payPalGetTxnDetailsService = $payPalGetTxnDetailsService;
-      return $this;
+        $this->payPalGetTxnDetailsService = $payPalGetTxnDetailsService;
+
+        return $this;
     }
 
     /**
@@ -4104,7 +4267,7 @@ class RequestMessage
      */
     public function getPayPalTransactionSearchService()
     {
-      return $this->payPalTransactionSearchService;
+        return $this->payPalTransactionSearchService;
     }
 
     /**
@@ -4113,8 +4276,9 @@ class RequestMessage
      */
     public function setPayPalTransactionSearchService($payPalTransactionSearchService)
     {
-      $this->payPalTransactionSearchService = $payPalTransactionSearchService;
-      return $this;
+        $this->payPalTransactionSearchService = $payPalTransactionSearchService;
+
+        return $this;
     }
 
     /**
@@ -4122,7 +4286,7 @@ class RequestMessage
      */
     public function getCcDCCUpdateService()
     {
-      return $this->ccDCCUpdateService;
+        return $this->ccDCCUpdateService;
     }
 
     /**
@@ -4131,8 +4295,9 @@ class RequestMessage
      */
     public function setCcDCCUpdateService($ccDCCUpdateService)
     {
-      $this->ccDCCUpdateService = $ccDCCUpdateService;
-      return $this;
+        $this->ccDCCUpdateService = $ccDCCUpdateService;
+
+        return $this;
     }
 
     /**
@@ -4140,7 +4305,7 @@ class RequestMessage
      */
     public function getEmvRequest()
     {
-      return $this->emvRequest;
+        return $this->emvRequest;
     }
 
     /**
@@ -4149,8 +4314,9 @@ class RequestMessage
      */
     public function setEmvRequest($emvRequest)
     {
-      $this->emvRequest = $emvRequest;
-      return $this;
+        $this->emvRequest = $emvRequest;
+
+        return $this;
     }
 
     /**
@@ -4158,7 +4324,7 @@ class RequestMessage
      */
     public function getMerchant()
     {
-      return $this->merchant;
+        return $this->merchant;
     }
 
     /**
@@ -4167,8 +4333,9 @@ class RequestMessage
      */
     public function setMerchant($merchant)
     {
-      $this->merchant = $merchant;
-      return $this;
+        $this->merchant = $merchant;
+
+        return $this;
     }
 
     /**
@@ -4176,7 +4343,7 @@ class RequestMessage
      */
     public function getMerchantTransactionIdentifier()
     {
-      return $this->merchantTransactionIdentifier;
+        return $this->merchantTransactionIdentifier;
     }
 
     /**
@@ -4185,8 +4352,9 @@ class RequestMessage
      */
     public function setMerchantTransactionIdentifier($merchantTransactionIdentifier)
     {
-      $this->merchantTransactionIdentifier = $merchantTransactionIdentifier;
-      return $this;
+        $this->merchantTransactionIdentifier = $merchantTransactionIdentifier;
+
+        return $this;
     }
 
     /**
@@ -4194,7 +4362,7 @@ class RequestMessage
      */
     public function getHostedDataCreateService()
     {
-      return $this->hostedDataCreateService;
+        return $this->hostedDataCreateService;
     }
 
     /**
@@ -4203,8 +4371,9 @@ class RequestMessage
      */
     public function setHostedDataCreateService($hostedDataCreateService)
     {
-      $this->hostedDataCreateService = $hostedDataCreateService;
-      return $this;
+        $this->hostedDataCreateService = $hostedDataCreateService;
+
+        return $this;
     }
 
     /**
@@ -4212,7 +4381,7 @@ class RequestMessage
      */
     public function getHostedDataRetrieveService()
     {
-      return $this->hostedDataRetrieveService;
+        return $this->hostedDataRetrieveService;
     }
 
     /**
@@ -4221,8 +4390,9 @@ class RequestMessage
      */
     public function setHostedDataRetrieveService($hostedDataRetrieveService)
     {
-      $this->hostedDataRetrieveService = $hostedDataRetrieveService;
-      return $this;
+        $this->hostedDataRetrieveService = $hostedDataRetrieveService;
+
+        return $this;
     }
 
     /**
@@ -4230,7 +4400,7 @@ class RequestMessage
      */
     public function getMerchantCategoryCode()
     {
-      return $this->merchantCategoryCode;
+        return $this->merchantCategoryCode;
     }
 
     /**
@@ -4239,8 +4409,9 @@ class RequestMessage
      */
     public function setMerchantCategoryCode($merchantCategoryCode)
     {
-      $this->merchantCategoryCode = $merchantCategoryCode;
-      return $this;
+        $this->merchantCategoryCode = $merchantCategoryCode;
+
+        return $this;
     }
 
     /**
@@ -4248,7 +4419,7 @@ class RequestMessage
      */
     public function getMerchantCategoryCodeDomestic()
     {
-      return $this->merchantCategoryCodeDomestic;
+        return $this->merchantCategoryCodeDomestic;
     }
 
     /**
@@ -4257,8 +4428,9 @@ class RequestMessage
      */
     public function setMerchantCategoryCodeDomestic($merchantCategoryCodeDomestic)
     {
-      $this->merchantCategoryCodeDomestic = $merchantCategoryCodeDomestic;
-      return $this;
+        $this->merchantCategoryCodeDomestic = $merchantCategoryCodeDomestic;
+
+        return $this;
     }
 
     /**
@@ -4266,7 +4438,7 @@ class RequestMessage
      */
     public function getSalesSlipNumber()
     {
-      return $this->salesSlipNumber;
+        return $this->salesSlipNumber;
     }
 
     /**
@@ -4275,8 +4447,9 @@ class RequestMessage
      */
     public function setSalesSlipNumber($salesSlipNumber)
     {
-      $this->salesSlipNumber = $salesSlipNumber;
-      return $this;
+        $this->salesSlipNumber = $salesSlipNumber;
+
+        return $this;
     }
 
     /**
@@ -4284,7 +4457,7 @@ class RequestMessage
      */
     public function getMerchandiseCode()
     {
-      return $this->merchandiseCode;
+        return $this->merchandiseCode;
     }
 
     /**
@@ -4293,8 +4466,9 @@ class RequestMessage
      */
     public function setMerchandiseCode($merchandiseCode)
     {
-      $this->merchandiseCode = $merchandiseCode;
-      return $this;
+        $this->merchandiseCode = $merchandiseCode;
+
+        return $this;
     }
 
     /**
@@ -4302,7 +4476,7 @@ class RequestMessage
      */
     public function getMerchandiseDescription()
     {
-      return $this->merchandiseDescription;
+        return $this->merchandiseDescription;
     }
 
     /**
@@ -4311,8 +4485,9 @@ class RequestMessage
      */
     public function setMerchandiseDescription($merchandiseDescription)
     {
-      $this->merchandiseDescription = $merchandiseDescription;
-      return $this;
+        $this->merchandiseDescription = $merchandiseDescription;
+
+        return $this;
     }
 
     /**
@@ -4320,7 +4495,7 @@ class RequestMessage
      */
     public function getPaymentInitiationChannel()
     {
-      return $this->paymentInitiationChannel;
+        return $this->paymentInitiationChannel;
     }
 
     /**
@@ -4329,8 +4504,9 @@ class RequestMessage
      */
     public function setPaymentInitiationChannel($paymentInitiationChannel)
     {
-      $this->paymentInitiationChannel = $paymentInitiationChannel;
-      return $this;
+        $this->paymentInitiationChannel = $paymentInitiationChannel;
+
+        return $this;
     }
 
     /**
@@ -4338,7 +4514,7 @@ class RequestMessage
      */
     public function getExtendedCreditTotalCount()
     {
-      return $this->extendedCreditTotalCount;
+        return $this->extendedCreditTotalCount;
     }
 
     /**
@@ -4347,8 +4523,9 @@ class RequestMessage
      */
     public function setExtendedCreditTotalCount($extendedCreditTotalCount)
     {
-      $this->extendedCreditTotalCount = $extendedCreditTotalCount;
-      return $this;
+        $this->extendedCreditTotalCount = $extendedCreditTotalCount;
+
+        return $this;
     }
 
     /**
@@ -4356,7 +4533,7 @@ class RequestMessage
      */
     public function getAuthIndicator()
     {
-      return $this->authIndicator;
+        return $this->authIndicator;
     }
 
     /**
@@ -4365,8 +4542,9 @@ class RequestMessage
      */
     public function setAuthIndicator($authIndicator)
     {
-      $this->authIndicator = $authIndicator;
-      return $this;
+        $this->authIndicator = $authIndicator;
+
+        return $this;
     }
 
     /**
@@ -4374,7 +4552,7 @@ class RequestMessage
      */
     public function getPaymentNetworkToken()
     {
-      return $this->paymentNetworkToken;
+        return $this->paymentNetworkToken;
     }
 
     /**
@@ -4383,8 +4561,9 @@ class RequestMessage
      */
     public function setPaymentNetworkToken($paymentNetworkToken)
     {
-      $this->paymentNetworkToken = $paymentNetworkToken;
-      return $this;
+        $this->paymentNetworkToken = $paymentNetworkToken;
+
+        return $this;
     }
 
     /**
@@ -4392,7 +4571,7 @@ class RequestMessage
      */
     public function getRecipient()
     {
-      return $this->recipient;
+        return $this->recipient;
     }
 
     /**
@@ -4401,8 +4580,9 @@ class RequestMessage
      */
     public function setRecipient($recipient)
     {
-      $this->recipient = $recipient;
-      return $this;
+        $this->recipient = $recipient;
+
+        return $this;
     }
 
     /**
@@ -4410,7 +4590,7 @@ class RequestMessage
      */
     public function getSender()
     {
-      return $this->sender;
+        return $this->sender;
     }
 
     /**
@@ -4419,8 +4599,9 @@ class RequestMessage
      */
     public function setSender($sender)
     {
-      $this->sender = $sender;
-      return $this;
+        $this->sender = $sender;
+
+        return $this;
     }
 
     /**
@@ -4428,7 +4609,7 @@ class RequestMessage
      */
     public function getAutoRentalData()
     {
-      return $this->autoRentalData;
+        return $this->autoRentalData;
     }
 
     /**
@@ -4437,8 +4618,9 @@ class RequestMessage
      */
     public function setAutoRentalData($autoRentalData)
     {
-      $this->autoRentalData = $autoRentalData;
-      return $this;
+        $this->autoRentalData = $autoRentalData;
+
+        return $this;
     }
 
     /**
@@ -4446,7 +4628,7 @@ class RequestMessage
      */
     public function getPaymentSolution()
     {
-      return $this->paymentSolution;
+        return $this->paymentSolution;
     }
 
     /**
@@ -4455,8 +4637,9 @@ class RequestMessage
      */
     public function setPaymentSolution($paymentSolution)
     {
-      $this->paymentSolution = $paymentSolution;
-      return $this;
+        $this->paymentSolution = $paymentSolution;
+
+        return $this;
     }
 
     /**
@@ -4464,7 +4647,7 @@ class RequestMessage
      */
     public function getVc()
     {
-      return $this->vc;
+        return $this->vc;
     }
 
     /**
@@ -4473,8 +4656,9 @@ class RequestMessage
      */
     public function setVc($vc)
     {
-      $this->vc = $vc;
-      return $this;
+        $this->vc = $vc;
+
+        return $this;
     }
 
     /**
@@ -4482,7 +4666,7 @@ class RequestMessage
      */
     public function getDecryptVisaCheckoutDataService()
     {
-      return $this->decryptVisaCheckoutDataService;
+        return $this->decryptVisaCheckoutDataService;
     }
 
     /**
@@ -4491,8 +4675,9 @@ class RequestMessage
      */
     public function setDecryptVisaCheckoutDataService($decryptVisaCheckoutDataService)
     {
-      $this->decryptVisaCheckoutDataService = $decryptVisaCheckoutDataService;
-      return $this;
+        $this->decryptVisaCheckoutDataService = $decryptVisaCheckoutDataService;
+
+        return $this;
     }
 
     /**
@@ -4500,7 +4685,7 @@ class RequestMessage
      */
     public function getTaxManagementIndicator()
     {
-      return $this->taxManagementIndicator;
+        return $this->taxManagementIndicator;
     }
 
     /**
@@ -4509,8 +4694,9 @@ class RequestMessage
      */
     public function setTaxManagementIndicator($taxManagementIndicator)
     {
-      $this->taxManagementIndicator = $taxManagementIndicator;
-      return $this;
+        $this->taxManagementIndicator = $taxManagementIndicator;
+
+        return $this;
     }
 
     /**
@@ -4518,7 +4704,7 @@ class RequestMessage
      */
     public function getPromotionGroup()
     {
-      return $this->promotionGroup;
+        return $this->promotionGroup;
     }
 
     /**
@@ -4527,8 +4713,9 @@ class RequestMessage
      */
     public function setPromotionGroup(array $promotionGroup = null)
     {
-      $this->promotionGroup = $promotionGroup;
-      return $this;
+        $this->promotionGroup = $promotionGroup;
+
+        return $this;
     }
 
     /**
@@ -4536,7 +4723,7 @@ class RequestMessage
      */
     public function getWallet()
     {
-      return $this->wallet;
+        return $this->wallet;
     }
 
     /**
@@ -4545,8 +4732,9 @@ class RequestMessage
      */
     public function setWallet($wallet)
     {
-      $this->wallet = $wallet;
-      return $this;
+        $this->wallet = $wallet;
+
+        return $this;
     }
 
     /**
@@ -4554,7 +4742,7 @@ class RequestMessage
      */
     public function getAft()
     {
-      return $this->aft;
+        return $this->aft;
     }
 
     /**
@@ -4563,8 +4751,9 @@ class RequestMessage
      */
     public function setAft($aft)
     {
-      $this->aft = $aft;
-      return $this;
+        $this->aft = $aft;
+
+        return $this;
     }
 
     /**
@@ -4572,7 +4761,7 @@ class RequestMessage
      */
     public function getBalanceInquiry()
     {
-      return $this->balanceInquiry;
+        return $this->balanceInquiry;
     }
 
     /**
@@ -4581,8 +4770,9 @@ class RequestMessage
      */
     public function setBalanceInquiry($balanceInquiry)
     {
-      $this->balanceInquiry = $balanceInquiry;
-      return $this;
+        $this->balanceInquiry = $balanceInquiry;
+
+        return $this;
     }
 
     /**
@@ -4590,7 +4780,7 @@ class RequestMessage
      */
     public function getPrenoteTransaction()
     {
-      return $this->prenoteTransaction;
+        return $this->prenoteTransaction;
     }
 
     /**
@@ -4599,8 +4789,9 @@ class RequestMessage
      */
     public function setPrenoteTransaction($prenoteTransaction)
     {
-      $this->prenoteTransaction = $prenoteTransaction;
-      return $this;
+        $this->prenoteTransaction = $prenoteTransaction;
+
+        return $this;
     }
 
     /**
@@ -4608,7 +4799,7 @@ class RequestMessage
      */
     public function getEncryptPaymentDataService()
     {
-      return $this->encryptPaymentDataService;
+        return $this->encryptPaymentDataService;
     }
 
     /**
@@ -4617,8 +4808,9 @@ class RequestMessage
      */
     public function setEncryptPaymentDataService($encryptPaymentDataService)
     {
-      $this->encryptPaymentDataService = $encryptPaymentDataService;
-      return $this;
+        $this->encryptPaymentDataService = $encryptPaymentDataService;
+
+        return $this;
     }
 
     /**
@@ -4626,7 +4818,7 @@ class RequestMessage
      */
     public function getNationalNetDomesticData()
     {
-      return $this->nationalNetDomesticData;
+        return $this->nationalNetDomesticData;
     }
 
     /**
@@ -4635,8 +4827,9 @@ class RequestMessage
      */
     public function setNationalNetDomesticData($nationalNetDomesticData)
     {
-      $this->nationalNetDomesticData = $nationalNetDomesticData;
-      return $this;
+        $this->nationalNetDomesticData = $nationalNetDomesticData;
+
+        return $this;
     }
 
     /**
@@ -4644,7 +4837,7 @@ class RequestMessage
      */
     public function getSubsequentAuth()
     {
-      return $this->subsequentAuth;
+        return $this->subsequentAuth;
     }
 
     /**
@@ -4653,8 +4846,9 @@ class RequestMessage
      */
     public function setSubsequentAuth($subsequentAuth)
     {
-      $this->subsequentAuth = $subsequentAuth;
-      return $this;
+        $this->subsequentAuth = $subsequentAuth;
+
+        return $this;
     }
 
     /**
@@ -4662,7 +4856,7 @@ class RequestMessage
      */
     public function getSubsequentAuthOriginalAmount()
     {
-      return $this->subsequentAuthOriginalAmount;
+        return $this->subsequentAuthOriginalAmount;
     }
 
     /**
@@ -4671,8 +4865,9 @@ class RequestMessage
      */
     public function setSubsequentAuthOriginalAmount($subsequentAuthOriginalAmount)
     {
-      $this->subsequentAuthOriginalAmount = $subsequentAuthOriginalAmount;
-      return $this;
+        $this->subsequentAuthOriginalAmount = $subsequentAuthOriginalAmount;
+
+        return $this;
     }
 
     /**
@@ -4680,7 +4875,7 @@ class RequestMessage
      */
     public function getBinLookupService()
     {
-      return $this->binLookupService;
+        return $this->binLookupService;
     }
 
     /**
@@ -4689,8 +4884,9 @@ class RequestMessage
      */
     public function setBinLookupService($binLookupService)
     {
-      $this->binLookupService = $binLookupService;
-      return $this;
+        $this->binLookupService = $binLookupService;
+
+        return $this;
     }
 
     /**
@@ -4698,7 +4894,7 @@ class RequestMessage
      */
     public function getVerificationCode()
     {
-      return $this->verificationCode;
+        return $this->verificationCode;
     }
 
     /**
@@ -4707,8 +4903,9 @@ class RequestMessage
      */
     public function setVerificationCode($verificationCode)
     {
-      $this->verificationCode = $verificationCode;
-      return $this;
+        $this->verificationCode = $verificationCode;
+
+        return $this;
     }
 
     /**
@@ -4716,7 +4913,7 @@ class RequestMessage
      */
     public function getMobileNumber()
     {
-      return $this->mobileNumber;
+        return $this->mobileNumber;
     }
 
     /**
@@ -4725,8 +4922,9 @@ class RequestMessage
      */
     public function setMobileNumber($mobileNumber)
     {
-      $this->mobileNumber = $mobileNumber;
-      return $this;
+        $this->mobileNumber = $mobileNumber;
+
+        return $this;
     }
 
     /**
@@ -4734,7 +4932,7 @@ class RequestMessage
      */
     public function getIssuer()
     {
-      return $this->issuer;
+        return $this->issuer;
     }
 
     /**
@@ -4743,8 +4941,9 @@ class RequestMessage
      */
     public function setIssuer($issuer)
     {
-      $this->issuer = $issuer;
-      return $this;
+        $this->issuer = $issuer;
+
+        return $this;
     }
 
     /**
@@ -4752,7 +4951,7 @@ class RequestMessage
      */
     public function getPartnerSolutionID()
     {
-      return $this->partnerSolutionID;
+        return $this->partnerSolutionID;
     }
 
     /**
@@ -4761,8 +4960,9 @@ class RequestMessage
      */
     public function setPartnerSolutionID($partnerSolutionID)
     {
-      $this->partnerSolutionID = $partnerSolutionID;
-      return $this;
+        $this->partnerSolutionID = $partnerSolutionID;
+
+        return $this;
     }
 
     /**
@@ -4770,7 +4970,7 @@ class RequestMessage
      */
     public function getDeveloperID()
     {
-      return $this->developerID;
+        return $this->developerID;
     }
 
     /**
@@ -4779,8 +4979,9 @@ class RequestMessage
      */
     public function setDeveloperID($developerID)
     {
-      $this->developerID = $developerID;
-      return $this;
+        $this->developerID = $developerID;
+
+        return $this;
     }
 
     /**
@@ -4788,7 +4989,7 @@ class RequestMessage
      */
     public function getGetVisaCheckoutDataService()
     {
-      return $this->getVisaCheckoutDataService;
+        return $this->getVisaCheckoutDataService;
     }
 
     /**
@@ -4797,8 +4998,9 @@ class RequestMessage
      */
     public function setGetVisaCheckoutDataService($getVisaCheckoutDataService)
     {
-      $this->getVisaCheckoutDataService = $getVisaCheckoutDataService;
-      return $this;
+        $this->getVisaCheckoutDataService = $getVisaCheckoutDataService;
+
+        return $this;
     }
 
     /**
@@ -4806,7 +5008,7 @@ class RequestMessage
      */
     public function getCustomerSignatureImage()
     {
-      return $this->customerSignatureImage;
+        return $this->customerSignatureImage;
     }
 
     /**
@@ -4815,8 +5017,9 @@ class RequestMessage
      */
     public function setCustomerSignatureImage($customerSignatureImage)
     {
-      $this->customerSignatureImage = $customerSignatureImage;
-      return $this;
+        $this->customerSignatureImage = $customerSignatureImage;
+
+        return $this;
     }
 
     /**
@@ -4824,7 +5027,7 @@ class RequestMessage
      */
     public function getTransactionMetadataService()
     {
-      return $this->transactionMetadataService;
+        return $this->transactionMetadataService;
     }
 
     /**
@@ -4833,8 +5036,9 @@ class RequestMessage
      */
     public function setTransactionMetadataService($transactionMetadataService)
     {
-      $this->transactionMetadataService = $transactionMetadataService;
-      return $this;
+        $this->transactionMetadataService = $transactionMetadataService;
+
+        return $this;
     }
 
     /**
@@ -4842,7 +5046,7 @@ class RequestMessage
      */
     public function getSubsequentAuthFirst()
     {
-      return $this->subsequentAuthFirst;
+        return $this->subsequentAuthFirst;
     }
 
     /**
@@ -4851,8 +5055,9 @@ class RequestMessage
      */
     public function setSubsequentAuthFirst($subsequentAuthFirst)
     {
-      $this->subsequentAuthFirst = $subsequentAuthFirst;
-      return $this;
+        $this->subsequentAuthFirst = $subsequentAuthFirst;
+
+        return $this;
     }
 
     /**
@@ -4860,7 +5065,7 @@ class RequestMessage
      */
     public function getSubsequentAuthReason()
     {
-      return $this->subsequentAuthReason;
+        return $this->subsequentAuthReason;
     }
 
     /**
@@ -4869,8 +5074,9 @@ class RequestMessage
      */
     public function setSubsequentAuthReason($subsequentAuthReason)
     {
-      $this->subsequentAuthReason = $subsequentAuthReason;
-      return $this;
+        $this->subsequentAuthReason = $subsequentAuthReason;
+
+        return $this;
     }
 
     /**
@@ -4878,7 +5084,7 @@ class RequestMessage
      */
     public function getSubsequentAuthTransactionID()
     {
-      return $this->subsequentAuthTransactionID;
+        return $this->subsequentAuthTransactionID;
     }
 
     /**
@@ -4887,8 +5093,9 @@ class RequestMessage
      */
     public function setSubsequentAuthTransactionID($subsequentAuthTransactionID)
     {
-      $this->subsequentAuthTransactionID = $subsequentAuthTransactionID;
-      return $this;
+        $this->subsequentAuthTransactionID = $subsequentAuthTransactionID;
+
+        return $this;
     }
 
     /**
@@ -4896,7 +5103,7 @@ class RequestMessage
      */
     public function getSubsequentAuthStoredCredential()
     {
-      return $this->subsequentAuthStoredCredential;
+        return $this->subsequentAuthStoredCredential;
     }
 
     /**
@@ -4905,8 +5112,9 @@ class RequestMessage
      */
     public function setSubsequentAuthStoredCredential($subsequentAuthStoredCredential)
     {
-      $this->subsequentAuthStoredCredential = $subsequentAuthStoredCredential;
-      return $this;
+        $this->subsequentAuthStoredCredential = $subsequentAuthStoredCredential;
+
+        return $this;
     }
 
     /**
@@ -4914,7 +5122,7 @@ class RequestMessage
      */
     public function getLoan()
     {
-      return $this->loan;
+        return $this->loan;
     }
 
     /**
@@ -4923,8 +5131,9 @@ class RequestMessage
      */
     public function setLoan($loan)
     {
-      $this->loan = $loan;
-      return $this;
+        $this->loan = $loan;
+
+        return $this;
     }
 
     /**
@@ -4932,7 +5141,7 @@ class RequestMessage
      */
     public function getEligibilityInquiry()
     {
-      return $this->eligibilityInquiry;
+        return $this->eligibilityInquiry;
     }
 
     /**
@@ -4941,8 +5150,9 @@ class RequestMessage
      */
     public function setEligibilityInquiry($eligibilityInquiry)
     {
-      $this->eligibilityInquiry = $eligibilityInquiry;
-      return $this;
+        $this->eligibilityInquiry = $eligibilityInquiry;
+
+        return $this;
     }
 
     /**
@@ -4950,7 +5160,7 @@ class RequestMessage
      */
     public function getRedemptionInquiry()
     {
-      return $this->redemptionInquiry;
+        return $this->redemptionInquiry;
     }
 
     /**
@@ -4959,8 +5169,9 @@ class RequestMessage
      */
     public function setRedemptionInquiry($redemptionInquiry)
     {
-      $this->redemptionInquiry = $redemptionInquiry;
-      return $this;
+        $this->redemptionInquiry = $redemptionInquiry;
+
+        return $this;
     }
 
     /**
@@ -4968,7 +5179,7 @@ class RequestMessage
      */
     public function getFeeProgramIndicator()
     {
-      return $this->feeProgramIndicator;
+        return $this->feeProgramIndicator;
     }
 
     /**
@@ -4977,8 +5188,9 @@ class RequestMessage
      */
     public function setFeeProgramIndicator($feeProgramIndicator)
     {
-      $this->feeProgramIndicator = $feeProgramIndicator;
-      return $this;
+        $this->feeProgramIndicator = $feeProgramIndicator;
+
+        return $this;
     }
 
     /**
@@ -4986,7 +5198,7 @@ class RequestMessage
      */
     public function getApOrderService()
     {
-      return $this->apOrderService;
+        return $this->apOrderService;
     }
 
     /**
@@ -4995,8 +5207,9 @@ class RequestMessage
      */
     public function setApOrderService($apOrderService)
     {
-      $this->apOrderService = $apOrderService;
-      return $this;
+        $this->apOrderService = $apOrderService;
+
+        return $this;
     }
 
     /**
@@ -5004,7 +5217,7 @@ class RequestMessage
      */
     public function getApCancelService()
     {
-      return $this->apCancelService;
+        return $this->apCancelService;
     }
 
     /**
@@ -5013,8 +5226,9 @@ class RequestMessage
      */
     public function setApCancelService($apCancelService)
     {
-      $this->apCancelService = $apCancelService;
-      return $this;
+        $this->apCancelService = $apCancelService;
+
+        return $this;
     }
 
     /**
@@ -5022,7 +5236,7 @@ class RequestMessage
      */
     public function getApBillingAgreementService()
     {
-      return $this->apBillingAgreementService;
+        return $this->apBillingAgreementService;
     }
 
     /**
@@ -5031,8 +5245,9 @@ class RequestMessage
      */
     public function setApBillingAgreementService($apBillingAgreementService)
     {
-      $this->apBillingAgreementService = $apBillingAgreementService;
-      return $this;
+        $this->apBillingAgreementService = $apBillingAgreementService;
+
+        return $this;
     }
 
     /**
@@ -5040,7 +5255,7 @@ class RequestMessage
      */
     public function getNote_toPayee()
     {
-      return $this->note_toPayee;
+        return $this->note_toPayee;
     }
 
     /**
@@ -5049,8 +5264,9 @@ class RequestMessage
      */
     public function setNote_toPayee($note_toPayee)
     {
-      $this->note_toPayee = $note_toPayee;
-      return $this;
+        $this->note_toPayee = $note_toPayee;
+
+        return $this;
     }
 
     /**
@@ -5058,7 +5274,7 @@ class RequestMessage
      */
     public function getNote_toPayer()
     {
-      return $this->note_toPayer;
+        return $this->note_toPayer;
     }
 
     /**
@@ -5067,8 +5283,9 @@ class RequestMessage
      */
     public function setNote_toPayer($note_toPayer)
     {
-      $this->note_toPayer = $note_toPayer;
-      return $this;
+        $this->note_toPayer = $note_toPayer;
+
+        return $this;
     }
 
     /**
@@ -5076,7 +5293,7 @@ class RequestMessage
      */
     public function getClientMetadataID()
     {
-      return $this->clientMetadataID;
+        return $this->clientMetadataID;
     }
 
     /**
@@ -5085,8 +5302,9 @@ class RequestMessage
      */
     public function setClientMetadataID($clientMetadataID)
     {
-      $this->clientMetadataID = $clientMetadataID;
-      return $this;
+        $this->clientMetadataID = $clientMetadataID;
+
+        return $this;
     }
 
     /**
@@ -5094,7 +5312,7 @@ class RequestMessage
      */
     public function getPartnerSDKversion()
     {
-      return $this->partnerSDKversion;
+        return $this->partnerSDKversion;
     }
 
     /**
@@ -5103,8 +5321,9 @@ class RequestMessage
      */
     public function setPartnerSDKversion($partnerSDKversion)
     {
-      $this->partnerSDKversion = $partnerSDKversion;
-      return $this;
+        $this->partnerSDKversion = $partnerSDKversion;
+
+        return $this;
     }
 
     /**
@@ -5112,7 +5331,7 @@ class RequestMessage
      */
     public function getPartnerOriginalTransactionID()
     {
-      return $this->partnerOriginalTransactionID;
+        return $this->partnerOriginalTransactionID;
     }
 
     /**
@@ -5121,8 +5340,9 @@ class RequestMessage
      */
     public function setPartnerOriginalTransactionID($partnerOriginalTransactionID)
     {
-      $this->partnerOriginalTransactionID = $partnerOriginalTransactionID;
-      return $this;
+        $this->partnerOriginalTransactionID = $partnerOriginalTransactionID;
+
+        return $this;
     }
 
     /**
@@ -5130,7 +5350,7 @@ class RequestMessage
      */
     public function getCardTypeSelectionIndicator()
     {
-      return $this->cardTypeSelectionIndicator;
+        return $this->cardTypeSelectionIndicator;
     }
 
     /**
@@ -5139,8 +5359,9 @@ class RequestMessage
      */
     public function setCardTypeSelectionIndicator($cardTypeSelectionIndicator)
     {
-      $this->cardTypeSelectionIndicator = $cardTypeSelectionIndicator;
-      return $this;
+        $this->cardTypeSelectionIndicator = $cardTypeSelectionIndicator;
+
+        return $this;
     }
 
     /**
@@ -5148,7 +5369,7 @@ class RequestMessage
      */
     public function getApCreateMandateService()
     {
-      return $this->apCreateMandateService;
+        return $this->apCreateMandateService;
     }
 
     /**
@@ -5157,8 +5378,9 @@ class RequestMessage
      */
     public function setApCreateMandateService($apCreateMandateService)
     {
-      $this->apCreateMandateService = $apCreateMandateService;
-      return $this;
+        $this->apCreateMandateService = $apCreateMandateService;
+
+        return $this;
     }
 
     /**
@@ -5166,7 +5388,7 @@ class RequestMessage
      */
     public function getApMandateStatusService()
     {
-      return $this->apMandateStatusService;
+        return $this->apMandateStatusService;
     }
 
     /**
@@ -5175,8 +5397,9 @@ class RequestMessage
      */
     public function setApMandateStatusService($apMandateStatusService)
     {
-      $this->apMandateStatusService = $apMandateStatusService;
-      return $this;
+        $this->apMandateStatusService = $apMandateStatusService;
+
+        return $this;
     }
 
     /**
@@ -5184,7 +5407,7 @@ class RequestMessage
      */
     public function getApUpdateMandateService()
     {
-      return $this->apUpdateMandateService;
+        return $this->apUpdateMandateService;
     }
 
     /**
@@ -5193,8 +5416,9 @@ class RequestMessage
      */
     public function setApUpdateMandateService($apUpdateMandateService)
     {
-      $this->apUpdateMandateService = $apUpdateMandateService;
-      return $this;
+        $this->apUpdateMandateService = $apUpdateMandateService;
+
+        return $this;
     }
 
     /**
@@ -5202,7 +5426,7 @@ class RequestMessage
      */
     public function getApImportMandateService()
     {
-      return $this->apImportMandateService;
+        return $this->apImportMandateService;
     }
 
     /**
@@ -5211,8 +5435,9 @@ class RequestMessage
      */
     public function setApImportMandateService($apImportMandateService)
     {
-      $this->apImportMandateService = $apImportMandateService;
-      return $this;
+        $this->apImportMandateService = $apImportMandateService;
+
+        return $this;
     }
 
     /**
@@ -5220,7 +5445,7 @@ class RequestMessage
      */
     public function getApRevokeMandateService()
     {
-      return $this->apRevokeMandateService;
+        return $this->apRevokeMandateService;
     }
 
     /**
@@ -5229,8 +5454,9 @@ class RequestMessage
      */
     public function setApRevokeMandateService($apRevokeMandateService)
     {
-      $this->apRevokeMandateService = $apRevokeMandateService;
-      return $this;
+        $this->apRevokeMandateService = $apRevokeMandateService;
+
+        return $this;
     }
 
     /**
@@ -5238,7 +5464,7 @@ class RequestMessage
      */
     public function getBillPaymentType()
     {
-      return $this->billPaymentType;
+        return $this->billPaymentType;
     }
 
     /**
@@ -5247,8 +5473,9 @@ class RequestMessage
      */
     public function setBillPaymentType($billPaymentType)
     {
-      $this->billPaymentType = $billPaymentType;
-      return $this;
+        $this->billPaymentType = $billPaymentType;
+
+        return $this;
     }
 
     /**
@@ -5256,7 +5483,7 @@ class RequestMessage
      */
     public function getPostdatedTransaction()
     {
-      return $this->postdatedTransaction;
+        return $this->postdatedTransaction;
     }
 
     /**
@@ -5265,8 +5492,9 @@ class RequestMessage
      */
     public function setPostdatedTransaction($postdatedTransaction)
     {
-      $this->postdatedTransaction = $postdatedTransaction;
-      return $this;
+        $this->postdatedTransaction = $postdatedTransaction;
+
+        return $this;
     }
 
     /**
@@ -5274,7 +5502,7 @@ class RequestMessage
      */
     public function getGetMasterpassDataService()
     {
-      return $this->getMasterpassDataService;
+        return $this->getMasterpassDataService;
     }
 
     /**
@@ -5283,8 +5511,9 @@ class RequestMessage
      */
     public function setGetMasterpassDataService($getMasterpassDataService)
     {
-      $this->getMasterpassDataService = $getMasterpassDataService;
-      return $this;
+        $this->getMasterpassDataService = $getMasterpassDataService;
+
+        return $this;
     }
 
     /**
@@ -5292,7 +5521,7 @@ class RequestMessage
      */
     public function getCcCheckStatusService()
     {
-      return $this->ccCheckStatusService;
+        return $this->ccCheckStatusService;
     }
 
     /**
@@ -5301,8 +5530,9 @@ class RequestMessage
      */
     public function setCcCheckStatusService($ccCheckStatusService)
     {
-      $this->ccCheckStatusService = $ccCheckStatusService;
-      return $this;
+        $this->ccCheckStatusService = $ccCheckStatusService;
+
+        return $this;
     }
 
     /**
@@ -5310,7 +5540,7 @@ class RequestMessage
      */
     public function getMPOS()
     {
-      return $this->mPOS;
+        return $this->mPOS;
     }
 
     /**
@@ -5319,8 +5549,9 @@ class RequestMessage
      */
     public function setMPOS($mPOS)
     {
-      $this->mPOS = $mPOS;
-      return $this;
+        $this->mPOS = $mPOS;
+
+        return $this;
     }
 
     /**
@@ -5328,7 +5559,7 @@ class RequestMessage
      */
     public function getAbortService()
     {
-      return $this->abortService;
+        return $this->abortService;
     }
 
     /**
@@ -5337,8 +5568,9 @@ class RequestMessage
      */
     public function setAbortService($abortService)
     {
-      $this->abortService = $abortService;
-      return $this;
+        $this->abortService = $abortService;
+
+        return $this;
     }
 
     /**
@@ -5346,7 +5578,7 @@ class RequestMessage
      */
     public function getIgnoreRelaxAVS()
     {
-      return $this->ignoreRelaxAVS;
+        return $this->ignoreRelaxAVS;
     }
 
     /**
@@ -5355,8 +5587,9 @@ class RequestMessage
      */
     public function setIgnoreRelaxAVS($ignoreRelaxAVS)
     {
-      $this->ignoreRelaxAVS = $ignoreRelaxAVS;
-      return $this;
+        $this->ignoreRelaxAVS = $ignoreRelaxAVS;
+
+        return $this;
     }
 
 }

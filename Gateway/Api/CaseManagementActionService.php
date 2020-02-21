@@ -30,7 +30,7 @@ class CaseManagementActionService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class CaseManagementActionService
      */
     public function getActionCode()
     {
-      return $this->actionCode;
+        return $this->actionCode;
     }
 
     /**
@@ -47,8 +47,9 @@ class CaseManagementActionService
      */
     public function setActionCode($actionCode)
     {
-      $this->actionCode = $actionCode;
-      return $this;
+        $this->actionCode = $actionCode;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class CaseManagementActionService
      */
     public function getRequestID()
     {
-      return $this->requestID;
+        return $this->requestID;
     }
 
     /**
@@ -65,8 +66,9 @@ class CaseManagementActionService
      */
     public function setRequestID($requestID)
     {
-      $this->requestID = $requestID;
-      return $this;
+        $this->requestID = $requestID;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class CaseManagementActionService
      */
     public function getComments()
     {
-      return $this->comments;
+        return $this->comments;
     }
 
     /**
@@ -83,8 +85,9 @@ class CaseManagementActionService
      */
     public function setComments($comments)
     {
-      $this->comments = $comments;
-      return $this;
+        $this->comments = $comments;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class CaseManagementActionService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class CaseManagementActionService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -10,10 +10,8 @@ class VC
      */
     protected $orderID = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class VC
      */
     public function getOrderID()
     {
-      return $this->orderID;
+        return $this->orderID;
     }
 
     /**
@@ -30,8 +28,9 @@ class VC
      */
     public function setOrderID($orderID)
     {
-      $this->orderID = $orderID;
-      return $this;
+        $this->orderID = $orderID;
+
+        return $this;
     }
 
 }

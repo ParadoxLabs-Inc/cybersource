@@ -20,10 +20,8 @@ class UCAF
      */
     protected $downgradeReasonCode = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class UCAF
      */
     public function getAuthenticationData()
     {
-      return $this->authenticationData;
+        return $this->authenticationData;
     }
 
     /**
@@ -40,8 +38,9 @@ class UCAF
      */
     public function setAuthenticationData($authenticationData)
     {
-      $this->authenticationData = $authenticationData;
-      return $this;
+        $this->authenticationData = $authenticationData;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class UCAF
      */
     public function getCollectionIndicator()
     {
-      return $this->collectionIndicator;
+        return $this->collectionIndicator;
     }
 
     /**
@@ -58,8 +57,9 @@ class UCAF
      */
     public function setCollectionIndicator($collectionIndicator)
     {
-      $this->collectionIndicator = $collectionIndicator;
-      return $this;
+        $this->collectionIndicator = $collectionIndicator;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class UCAF
      */
     public function getDowngradeReasonCode()
     {
-      return $this->downgradeReasonCode;
+        return $this->downgradeReasonCode;
     }
 
     /**
@@ -76,8 +76,9 @@ class UCAF
      */
     public function setDowngradeReasonCode($downgradeReasonCode)
     {
-      $this->downgradeReasonCode = $downgradeReasonCode;
-      return $this;
+        $this->downgradeReasonCode = $downgradeReasonCode;
+
+        return $this;
     }
 
 }

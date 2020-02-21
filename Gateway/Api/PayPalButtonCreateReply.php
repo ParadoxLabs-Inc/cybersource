@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PayPalButtonCreateReply
 {
 
@@ -40,7 +43,7 @@ class PayPalButtonCreateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -48,7 +51,7 @@ class PayPalButtonCreateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -57,8 +60,9 @@ class PayPalButtonCreateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -66,7 +70,7 @@ class PayPalButtonCreateReply
      */
     public function getEncryptedFormData()
     {
-      return $this->encryptedFormData;
+        return $this->encryptedFormData;
     }
 
     /**
@@ -75,8 +79,9 @@ class PayPalButtonCreateReply
      */
     public function setEncryptedFormData($encryptedFormData)
     {
-      $this->encryptedFormData = $encryptedFormData;
-      return $this;
+        $this->encryptedFormData = $encryptedFormData;
+
+        return $this;
     }
 
     /**
@@ -84,7 +89,7 @@ class PayPalButtonCreateReply
      */
     public function getUnencryptedFormData()
     {
-      return $this->unencryptedFormData;
+        return $this->unencryptedFormData;
     }
 
     /**
@@ -93,8 +98,9 @@ class PayPalButtonCreateReply
      */
     public function setUnencryptedFormData($unencryptedFormData)
     {
-      $this->unencryptedFormData = $unencryptedFormData;
-      return $this;
+        $this->unencryptedFormData = $unencryptedFormData;
+
+        return $this;
     }
 
     /**
@@ -102,29 +108,30 @@ class PayPalButtonCreateReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayPalButtonCreateReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -132,7 +139,7 @@ class PayPalButtonCreateReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -141,8 +148,9 @@ class PayPalButtonCreateReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -150,7 +158,7 @@ class PayPalButtonCreateReply
      */
     public function getButtonType()
     {
-      return $this->buttonType;
+        return $this->buttonType;
     }
 
     /**
@@ -159,8 +167,9 @@ class PayPalButtonCreateReply
      */
     public function setButtonType($buttonType)
     {
-      $this->buttonType = $buttonType;
-      return $this;
+        $this->buttonType = $buttonType;
+
+        return $this;
     }
 
 }

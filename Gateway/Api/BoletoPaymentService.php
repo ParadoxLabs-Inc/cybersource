@@ -30,7 +30,7 @@ class BoletoPaymentService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class BoletoPaymentService
      */
     public function getInstruction()
     {
-      return $this->instruction;
+        return $this->instruction;
     }
 
     /**
@@ -47,8 +47,9 @@ class BoletoPaymentService
      */
     public function setInstruction($instruction)
     {
-      $this->instruction = $instruction;
-      return $this;
+        $this->instruction = $instruction;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class BoletoPaymentService
      */
     public function getExpirationDate()
     {
-      return $this->expirationDate;
+        return $this->expirationDate;
     }
 
     /**
@@ -65,8 +66,9 @@ class BoletoPaymentService
      */
     public function setExpirationDate($expirationDate)
     {
-      $this->expirationDate = $expirationDate;
-      return $this;
+        $this->expirationDate = $expirationDate;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class BoletoPaymentService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -83,8 +85,9 @@ class BoletoPaymentService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class BoletoPaymentService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class BoletoPaymentService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

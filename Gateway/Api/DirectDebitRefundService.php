@@ -50,7 +50,7 @@ class DirectDebitRefundService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -58,7 +58,7 @@ class DirectDebitRefundService
      */
     public function getDirectDebitRequestID()
     {
-      return $this->directDebitRequestID;
+        return $this->directDebitRequestID;
     }
 
     /**
@@ -67,8 +67,9 @@ class DirectDebitRefundService
      */
     public function setDirectDebitRequestID($directDebitRequestID)
     {
-      $this->directDebitRequestID = $directDebitRequestID;
-      return $this;
+        $this->directDebitRequestID = $directDebitRequestID;
+
+        return $this;
     }
 
     /**
@@ -76,7 +77,7 @@ class DirectDebitRefundService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -85,8 +86,9 @@ class DirectDebitRefundService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -94,7 +96,7 @@ class DirectDebitRefundService
      */
     public function getDirectDebitRequestToken()
     {
-      return $this->directDebitRequestToken;
+        return $this->directDebitRequestToken;
     }
 
     /**
@@ -103,8 +105,9 @@ class DirectDebitRefundService
      */
     public function setDirectDebitRequestToken($directDebitRequestToken)
     {
-      $this->directDebitRequestToken = $directDebitRequestToken;
-      return $this;
+        $this->directDebitRequestToken = $directDebitRequestToken;
+
+        return $this;
     }
 
     /**
@@ -112,7 +115,7 @@ class DirectDebitRefundService
      */
     public function getDirectDebitType()
     {
-      return $this->directDebitType;
+        return $this->directDebitType;
     }
 
     /**
@@ -121,8 +124,9 @@ class DirectDebitRefundService
      */
     public function setDirectDebitType($directDebitType)
     {
-      $this->directDebitType = $directDebitType;
-      return $this;
+        $this->directDebitType = $directDebitType;
+
+        return $this;
     }
 
     /**
@@ -130,7 +134,7 @@ class DirectDebitRefundService
      */
     public function getRecurringType()
     {
-      return $this->recurringType;
+        return $this->recurringType;
     }
 
     /**
@@ -139,8 +143,9 @@ class DirectDebitRefundService
      */
     public function setRecurringType($recurringType)
     {
-      $this->recurringType = $recurringType;
-      return $this;
+        $this->recurringType = $recurringType;
+
+        return $this;
     }
 
     /**
@@ -148,7 +153,7 @@ class DirectDebitRefundService
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -157,8 +162,9 @@ class DirectDebitRefundService
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -166,7 +172,7 @@ class DirectDebitRefundService
      */
     public function getMandateAuthenticationDate()
     {
-      return $this->mandateAuthenticationDate;
+        return $this->mandateAuthenticationDate;
     }
 
     /**
@@ -175,8 +181,9 @@ class DirectDebitRefundService
      */
     public function setMandateAuthenticationDate($mandateAuthenticationDate)
     {
-      $this->mandateAuthenticationDate = $mandateAuthenticationDate;
-      return $this;
+        $this->mandateAuthenticationDate = $mandateAuthenticationDate;
+
+        return $this;
     }
 
     /**
@@ -184,7 +191,7 @@ class DirectDebitRefundService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -193,8 +200,9 @@ class DirectDebitRefundService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

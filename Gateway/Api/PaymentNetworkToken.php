@@ -35,10 +35,8 @@ class PaymentNetworkToken
      */
     protected $deviceTechType = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class PaymentNetworkToken
      */
     public function getRequestorID()
     {
-      return $this->requestorID;
+        return $this->requestorID;
     }
 
     /**
@@ -55,8 +53,9 @@ class PaymentNetworkToken
      */
     public function setRequestorID($requestorID)
     {
-      $this->requestorID = $requestorID;
-      return $this;
+        $this->requestorID = $requestorID;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class PaymentNetworkToken
      */
     public function getTransactionType()
     {
-      return $this->transactionType;
+        return $this->transactionType;
     }
 
     /**
@@ -73,8 +72,9 @@ class PaymentNetworkToken
      */
     public function setTransactionType($transactionType)
     {
-      $this->transactionType = $transactionType;
-      return $this;
+        $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class PaymentNetworkToken
      */
     public function getAssuranceLevel()
     {
-      return $this->assuranceLevel;
+        return $this->assuranceLevel;
     }
 
     /**
@@ -91,8 +91,9 @@ class PaymentNetworkToken
      */
     public function setAssuranceLevel($assuranceLevel)
     {
-      $this->assuranceLevel = $assuranceLevel;
-      return $this;
+        $this->assuranceLevel = $assuranceLevel;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class PaymentNetworkToken
      */
     public function getAccountStatus()
     {
-      return $this->accountStatus;
+        return $this->accountStatus;
     }
 
     /**
@@ -109,8 +110,9 @@ class PaymentNetworkToken
      */
     public function setAccountStatus($accountStatus)
     {
-      $this->accountStatus = $accountStatus;
-      return $this;
+        $this->accountStatus = $accountStatus;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class PaymentNetworkToken
      */
     public function getOriginalCardCategory()
     {
-      return $this->originalCardCategory;
+        return $this->originalCardCategory;
     }
 
     /**
@@ -127,8 +129,9 @@ class PaymentNetworkToken
      */
     public function setOriginalCardCategory($originalCardCategory)
     {
-      $this->originalCardCategory = $originalCardCategory;
-      return $this;
+        $this->originalCardCategory = $originalCardCategory;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class PaymentNetworkToken
      */
     public function getDeviceTechType()
     {
-      return $this->deviceTechType;
+        return $this->deviceTechType;
     }
 
     /**
@@ -145,8 +148,9 @@ class PaymentNetworkToken
      */
     public function setDeviceTechType($deviceTechType)
     {
-      $this->deviceTechType = $deviceTechType;
-      return $this;
+        $this->deviceTechType = $deviceTechType;
+
+        return $this;
     }
 
 }

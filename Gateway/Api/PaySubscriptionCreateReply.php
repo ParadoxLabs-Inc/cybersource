@@ -41,8 +41,8 @@ class PaySubscriptionCreateReply
      */
     public function __construct($reasonCode, $subscriptionID)
     {
-      $this->reasonCode = $reasonCode;
-      $this->subscriptionID = $subscriptionID;
+        $this->reasonCode     = $reasonCode;
+        $this->subscriptionID = $subscriptionID;
     }
 
     /**
@@ -50,7 +50,7 @@ class PaySubscriptionCreateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -59,8 +59,9 @@ class PaySubscriptionCreateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -68,7 +69,7 @@ class PaySubscriptionCreateReply
      */
     public function getSubscriptionID()
     {
-      return $this->subscriptionID;
+        return $this->subscriptionID;
     }
 
     /**
@@ -77,8 +78,9 @@ class PaySubscriptionCreateReply
      */
     public function setSubscriptionID($subscriptionID)
     {
-      $this->subscriptionID = $subscriptionID;
-      return $this;
+        $this->subscriptionID = $subscriptionID;
+
+        return $this;
     }
 
     /**
@@ -86,7 +88,7 @@ class PaySubscriptionCreateReply
      */
     public function getInstrumentIdentifierID()
     {
-      return $this->instrumentIdentifierID;
+        return $this->instrumentIdentifierID;
     }
 
     /**
@@ -95,8 +97,9 @@ class PaySubscriptionCreateReply
      */
     public function setInstrumentIdentifierID($instrumentIdentifierID)
     {
-      $this->instrumentIdentifierID = $instrumentIdentifierID;
-      return $this;
+        $this->instrumentIdentifierID = $instrumentIdentifierID;
+
+        return $this;
     }
 
     /**
@@ -104,7 +107,7 @@ class PaySubscriptionCreateReply
      */
     public function getInstrumentIdentifierStatus()
     {
-      return $this->instrumentIdentifierStatus;
+        return $this->instrumentIdentifierStatus;
     }
 
     /**
@@ -113,8 +116,9 @@ class PaySubscriptionCreateReply
      */
     public function setInstrumentIdentifierStatus($instrumentIdentifierStatus)
     {
-      $this->instrumentIdentifierStatus = $instrumentIdentifierStatus;
-      return $this;
+        $this->instrumentIdentifierStatus = $instrumentIdentifierStatus;
+
+        return $this;
     }
 
     /**
@@ -122,7 +126,7 @@ class PaySubscriptionCreateReply
      */
     public function getInstrumentIdentifierNew()
     {
-      return $this->instrumentIdentifierNew;
+        return $this->instrumentIdentifierNew;
     }
 
     /**
@@ -131,8 +135,9 @@ class PaySubscriptionCreateReply
      */
     public function setInstrumentIdentifierNew($instrumentIdentifierNew)
     {
-      $this->instrumentIdentifierNew = $instrumentIdentifierNew;
-      return $this;
+        $this->instrumentIdentifierNew = $instrumentIdentifierNew;
+
+        return $this;
     }
 
     /**
@@ -140,7 +145,7 @@ class PaySubscriptionCreateReply
      */
     public function getInstrumentIdentifierSuccessorID()
     {
-      return $this->instrumentIdentifierSuccessorID;
+        return $this->instrumentIdentifierSuccessorID;
     }
 
     /**
@@ -149,8 +154,9 @@ class PaySubscriptionCreateReply
      */
     public function setInstrumentIdentifierSuccessorID($instrumentIdentifierSuccessorID)
     {
-      $this->instrumentIdentifierSuccessorID = $instrumentIdentifierSuccessorID;
-      return $this;
+        $this->instrumentIdentifierSuccessorID = $instrumentIdentifierSuccessorID;
+
+        return $this;
     }
 
 }

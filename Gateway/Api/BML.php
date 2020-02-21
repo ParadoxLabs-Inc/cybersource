@@ -435,10 +435,8 @@ class BML
      */
     protected $pgTitle = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -446,7 +444,7 @@ class BML
      */
     public function getCustomerBillingAddressChange()
     {
-      return $this->customerBillingAddressChange;
+        return $this->customerBillingAddressChange;
     }
 
     /**
@@ -455,8 +453,9 @@ class BML
      */
     public function setCustomerBillingAddressChange($customerBillingAddressChange)
     {
-      $this->customerBillingAddressChange = $customerBillingAddressChange;
-      return $this;
+        $this->customerBillingAddressChange = $customerBillingAddressChange;
+
+        return $this;
     }
 
     /**
@@ -464,7 +463,7 @@ class BML
      */
     public function getCustomerEmailChange()
     {
-      return $this->customerEmailChange;
+        return $this->customerEmailChange;
     }
 
     /**
@@ -473,8 +472,9 @@ class BML
      */
     public function setCustomerEmailChange($customerEmailChange)
     {
-      $this->customerEmailChange = $customerEmailChange;
-      return $this;
+        $this->customerEmailChange = $customerEmailChange;
+
+        return $this;
     }
 
     /**
@@ -482,7 +482,7 @@ class BML
      */
     public function getCustomerHasCheckingAccount()
     {
-      return $this->customerHasCheckingAccount;
+        return $this->customerHasCheckingAccount;
     }
 
     /**
@@ -491,8 +491,9 @@ class BML
      */
     public function setCustomerHasCheckingAccount($customerHasCheckingAccount)
     {
-      $this->customerHasCheckingAccount = $customerHasCheckingAccount;
-      return $this;
+        $this->customerHasCheckingAccount = $customerHasCheckingAccount;
+
+        return $this;
     }
 
     /**
@@ -500,7 +501,7 @@ class BML
      */
     public function getCustomerHasSavingsAccount()
     {
-      return $this->customerHasSavingsAccount;
+        return $this->customerHasSavingsAccount;
     }
 
     /**
@@ -509,8 +510,9 @@ class BML
      */
     public function setCustomerHasSavingsAccount($customerHasSavingsAccount)
     {
-      $this->customerHasSavingsAccount = $customerHasSavingsAccount;
-      return $this;
+        $this->customerHasSavingsAccount = $customerHasSavingsAccount;
+
+        return $this;
     }
 
     /**
@@ -518,7 +520,7 @@ class BML
      */
     public function getCustomerPasswordChange()
     {
-      return $this->customerPasswordChange;
+        return $this->customerPasswordChange;
     }
 
     /**
@@ -527,8 +529,9 @@ class BML
      */
     public function setCustomerPasswordChange($customerPasswordChange)
     {
-      $this->customerPasswordChange = $customerPasswordChange;
-      return $this;
+        $this->customerPasswordChange = $customerPasswordChange;
+
+        return $this;
     }
 
     /**
@@ -536,7 +539,7 @@ class BML
      */
     public function getCustomerPhoneChange()
     {
-      return $this->customerPhoneChange;
+        return $this->customerPhoneChange;
     }
 
     /**
@@ -545,8 +548,9 @@ class BML
      */
     public function setCustomerPhoneChange($customerPhoneChange)
     {
-      $this->customerPhoneChange = $customerPhoneChange;
-      return $this;
+        $this->customerPhoneChange = $customerPhoneChange;
+
+        return $this;
     }
 
     /**
@@ -554,7 +558,7 @@ class BML
      */
     public function getCustomerRegistrationDate()
     {
-      return $this->customerRegistrationDate;
+        return $this->customerRegistrationDate;
     }
 
     /**
@@ -563,8 +567,9 @@ class BML
      */
     public function setCustomerRegistrationDate($customerRegistrationDate)
     {
-      $this->customerRegistrationDate = $customerRegistrationDate;
-      return $this;
+        $this->customerRegistrationDate = $customerRegistrationDate;
+
+        return $this;
     }
 
     /**
@@ -572,7 +577,7 @@ class BML
      */
     public function getCustomerTypeFlag()
     {
-      return $this->customerTypeFlag;
+        return $this->customerTypeFlag;
     }
 
     /**
@@ -581,8 +586,9 @@ class BML
      */
     public function setCustomerTypeFlag($customerTypeFlag)
     {
-      $this->customerTypeFlag = $customerTypeFlag;
-      return $this;
+        $this->customerTypeFlag = $customerTypeFlag;
+
+        return $this;
     }
 
     /**
@@ -590,7 +596,7 @@ class BML
      */
     public function getGrossHouseholdIncome()
     {
-      return $this->grossHouseholdIncome;
+        return $this->grossHouseholdIncome;
     }
 
     /**
@@ -599,8 +605,9 @@ class BML
      */
     public function setGrossHouseholdIncome($grossHouseholdIncome)
     {
-      $this->grossHouseholdIncome = $grossHouseholdIncome;
-      return $this;
+        $this->grossHouseholdIncome = $grossHouseholdIncome;
+
+        return $this;
     }
 
     /**
@@ -608,7 +615,7 @@ class BML
      */
     public function getHouseholdIncomeCurrency()
     {
-      return $this->householdIncomeCurrency;
+        return $this->householdIncomeCurrency;
     }
 
     /**
@@ -617,8 +624,9 @@ class BML
      */
     public function setHouseholdIncomeCurrency($householdIncomeCurrency)
     {
-      $this->householdIncomeCurrency = $householdIncomeCurrency;
-      return $this;
+        $this->householdIncomeCurrency = $householdIncomeCurrency;
+
+        return $this;
     }
 
     /**
@@ -626,7 +634,7 @@ class BML
      */
     public function getItemCategory()
     {
-      return $this->itemCategory;
+        return $this->itemCategory;
     }
 
     /**
@@ -635,8 +643,9 @@ class BML
      */
     public function setItemCategory($itemCategory)
     {
-      $this->itemCategory = $itemCategory;
-      return $this;
+        $this->itemCategory = $itemCategory;
+
+        return $this;
     }
 
     /**
@@ -644,7 +653,7 @@ class BML
      */
     public function getMerchantPromotionCode()
     {
-      return $this->merchantPromotionCode;
+        return $this->merchantPromotionCode;
     }
 
     /**
@@ -653,8 +662,9 @@ class BML
      */
     public function setMerchantPromotionCode($merchantPromotionCode)
     {
-      $this->merchantPromotionCode = $merchantPromotionCode;
-      return $this;
+        $this->merchantPromotionCode = $merchantPromotionCode;
+
+        return $this;
     }
 
     /**
@@ -662,7 +672,7 @@ class BML
      */
     public function getPreapprovalNumber()
     {
-      return $this->preapprovalNumber;
+        return $this->preapprovalNumber;
     }
 
     /**
@@ -671,8 +681,9 @@ class BML
      */
     public function setPreapprovalNumber($preapprovalNumber)
     {
-      $this->preapprovalNumber = $preapprovalNumber;
-      return $this;
+        $this->preapprovalNumber = $preapprovalNumber;
+
+        return $this;
     }
 
     /**
@@ -680,7 +691,7 @@ class BML
      */
     public function getProductDeliveryTypeIndicator()
     {
-      return $this->productDeliveryTypeIndicator;
+        return $this->productDeliveryTypeIndicator;
     }
 
     /**
@@ -689,8 +700,9 @@ class BML
      */
     public function setProductDeliveryTypeIndicator($productDeliveryTypeIndicator)
     {
-      $this->productDeliveryTypeIndicator = $productDeliveryTypeIndicator;
-      return $this;
+        $this->productDeliveryTypeIndicator = $productDeliveryTypeIndicator;
+
+        return $this;
     }
 
     /**
@@ -698,7 +710,7 @@ class BML
      */
     public function getResidenceStatus()
     {
-      return $this->residenceStatus;
+        return $this->residenceStatus;
     }
 
     /**
@@ -707,8 +719,9 @@ class BML
      */
     public function setResidenceStatus($residenceStatus)
     {
-      $this->residenceStatus = $residenceStatus;
-      return $this;
+        $this->residenceStatus = $residenceStatus;
+
+        return $this;
     }
 
     /**
@@ -716,7 +729,7 @@ class BML
      */
     public function getTcVersion()
     {
-      return $this->tcVersion;
+        return $this->tcVersion;
     }
 
     /**
@@ -725,8 +738,9 @@ class BML
      */
     public function setTcVersion($tcVersion)
     {
-      $this->tcVersion = $tcVersion;
-      return $this;
+        $this->tcVersion = $tcVersion;
+
+        return $this;
     }
 
     /**
@@ -734,7 +748,7 @@ class BML
      */
     public function getYearsAtCurrentResidence()
     {
-      return $this->yearsAtCurrentResidence;
+        return $this->yearsAtCurrentResidence;
     }
 
     /**
@@ -743,8 +757,9 @@ class BML
      */
     public function setYearsAtCurrentResidence($yearsAtCurrentResidence)
     {
-      $this->yearsAtCurrentResidence = $yearsAtCurrentResidence;
-      return $this;
+        $this->yearsAtCurrentResidence = $yearsAtCurrentResidence;
+
+        return $this;
     }
 
     /**
@@ -752,7 +767,7 @@ class BML
      */
     public function getYearsWithCurrentEmployer()
     {
-      return $this->yearsWithCurrentEmployer;
+        return $this->yearsWithCurrentEmployer;
     }
 
     /**
@@ -761,8 +776,9 @@ class BML
      */
     public function setYearsWithCurrentEmployer($yearsWithCurrentEmployer)
     {
-      $this->yearsWithCurrentEmployer = $yearsWithCurrentEmployer;
-      return $this;
+        $this->yearsWithCurrentEmployer = $yearsWithCurrentEmployer;
+
+        return $this;
     }
 
     /**
@@ -770,7 +786,7 @@ class BML
      */
     public function getEmployerStreet1()
     {
-      return $this->employerStreet1;
+        return $this->employerStreet1;
     }
 
     /**
@@ -779,8 +795,9 @@ class BML
      */
     public function setEmployerStreet1($employerStreet1)
     {
-      $this->employerStreet1 = $employerStreet1;
-      return $this;
+        $this->employerStreet1 = $employerStreet1;
+
+        return $this;
     }
 
     /**
@@ -788,7 +805,7 @@ class BML
      */
     public function getEmployerStreet2()
     {
-      return $this->employerStreet2;
+        return $this->employerStreet2;
     }
 
     /**
@@ -797,8 +814,9 @@ class BML
      */
     public function setEmployerStreet2($employerStreet2)
     {
-      $this->employerStreet2 = $employerStreet2;
-      return $this;
+        $this->employerStreet2 = $employerStreet2;
+
+        return $this;
     }
 
     /**
@@ -806,7 +824,7 @@ class BML
      */
     public function getEmployerCity()
     {
-      return $this->employerCity;
+        return $this->employerCity;
     }
 
     /**
@@ -815,8 +833,9 @@ class BML
      */
     public function setEmployerCity($employerCity)
     {
-      $this->employerCity = $employerCity;
-      return $this;
+        $this->employerCity = $employerCity;
+
+        return $this;
     }
 
     /**
@@ -824,7 +843,7 @@ class BML
      */
     public function getEmployerCompanyName()
     {
-      return $this->employerCompanyName;
+        return $this->employerCompanyName;
     }
 
     /**
@@ -833,8 +852,9 @@ class BML
      */
     public function setEmployerCompanyName($employerCompanyName)
     {
-      $this->employerCompanyName = $employerCompanyName;
-      return $this;
+        $this->employerCompanyName = $employerCompanyName;
+
+        return $this;
     }
 
     /**
@@ -842,7 +862,7 @@ class BML
      */
     public function getEmployerCountry()
     {
-      return $this->employerCountry;
+        return $this->employerCountry;
     }
 
     /**
@@ -851,8 +871,9 @@ class BML
      */
     public function setEmployerCountry($employerCountry)
     {
-      $this->employerCountry = $employerCountry;
-      return $this;
+        $this->employerCountry = $employerCountry;
+
+        return $this;
     }
 
     /**
@@ -860,7 +881,7 @@ class BML
      */
     public function getEmployerPhoneNumber()
     {
-      return $this->employerPhoneNumber;
+        return $this->employerPhoneNumber;
     }
 
     /**
@@ -869,8 +890,9 @@ class BML
      */
     public function setEmployerPhoneNumber($employerPhoneNumber)
     {
-      $this->employerPhoneNumber = $employerPhoneNumber;
-      return $this;
+        $this->employerPhoneNumber = $employerPhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -878,7 +900,7 @@ class BML
      */
     public function getEmployerPhoneType()
     {
-      return $this->employerPhoneType;
+        return $this->employerPhoneType;
     }
 
     /**
@@ -887,8 +909,9 @@ class BML
      */
     public function setEmployerPhoneType($employerPhoneType)
     {
-      $this->employerPhoneType = $employerPhoneType;
-      return $this;
+        $this->employerPhoneType = $employerPhoneType;
+
+        return $this;
     }
 
     /**
@@ -896,7 +919,7 @@ class BML
      */
     public function getEmployerState()
     {
-      return $this->employerState;
+        return $this->employerState;
     }
 
     /**
@@ -905,8 +928,9 @@ class BML
      */
     public function setEmployerState($employerState)
     {
-      $this->employerState = $employerState;
-      return $this;
+        $this->employerState = $employerState;
+
+        return $this;
     }
 
     /**
@@ -914,7 +938,7 @@ class BML
      */
     public function getEmployerPostalCode()
     {
-      return $this->employerPostalCode;
+        return $this->employerPostalCode;
     }
 
     /**
@@ -923,8 +947,9 @@ class BML
      */
     public function setEmployerPostalCode($employerPostalCode)
     {
-      $this->employerPostalCode = $employerPostalCode;
-      return $this;
+        $this->employerPostalCode = $employerPostalCode;
+
+        return $this;
     }
 
     /**
@@ -932,7 +957,7 @@ class BML
      */
     public function getShipToPhoneType()
     {
-      return $this->shipToPhoneType;
+        return $this->shipToPhoneType;
     }
 
     /**
@@ -941,8 +966,9 @@ class BML
      */
     public function setShipToPhoneType($shipToPhoneType)
     {
-      $this->shipToPhoneType = $shipToPhoneType;
-      return $this;
+        $this->shipToPhoneType = $shipToPhoneType;
+
+        return $this;
     }
 
     /**
@@ -950,7 +976,7 @@ class BML
      */
     public function getBillToPhoneType()
     {
-      return $this->billToPhoneType;
+        return $this->billToPhoneType;
     }
 
     /**
@@ -959,8 +985,9 @@ class BML
      */
     public function setBillToPhoneType($billToPhoneType)
     {
-      $this->billToPhoneType = $billToPhoneType;
-      return $this;
+        $this->billToPhoneType = $billToPhoneType;
+
+        return $this;
     }
 
     /**
@@ -968,7 +995,7 @@ class BML
      */
     public function getMethodOfPayment()
     {
-      return $this->methodOfPayment;
+        return $this->methodOfPayment;
     }
 
     /**
@@ -977,8 +1004,9 @@ class BML
      */
     public function setMethodOfPayment($methodOfPayment)
     {
-      $this->methodOfPayment = $methodOfPayment;
-      return $this;
+        $this->methodOfPayment = $methodOfPayment;
+
+        return $this;
     }
 
     /**
@@ -986,7 +1014,7 @@ class BML
      */
     public function getProductType()
     {
-      return $this->productType;
+        return $this->productType;
     }
 
     /**
@@ -995,8 +1023,9 @@ class BML
      */
     public function setProductType($productType)
     {
-      $this->productType = $productType;
-      return $this;
+        $this->productType = $productType;
+
+        return $this;
     }
 
     /**
@@ -1004,7 +1033,7 @@ class BML
      */
     public function getCustomerAuthenticatedByMerchant()
     {
-      return $this->customerAuthenticatedByMerchant;
+        return $this->customerAuthenticatedByMerchant;
     }
 
     /**
@@ -1013,8 +1042,9 @@ class BML
      */
     public function setCustomerAuthenticatedByMerchant($customerAuthenticatedByMerchant)
     {
-      $this->customerAuthenticatedByMerchant = $customerAuthenticatedByMerchant;
-      return $this;
+        $this->customerAuthenticatedByMerchant = $customerAuthenticatedByMerchant;
+
+        return $this;
     }
 
     /**
@@ -1022,7 +1052,7 @@ class BML
      */
     public function getBackOfficeIndicator()
     {
-      return $this->backOfficeIndicator;
+        return $this->backOfficeIndicator;
     }
 
     /**
@@ -1031,8 +1061,9 @@ class BML
      */
     public function setBackOfficeIndicator($backOfficeIndicator)
     {
-      $this->backOfficeIndicator = $backOfficeIndicator;
-      return $this;
+        $this->backOfficeIndicator = $backOfficeIndicator;
+
+        return $this;
     }
 
     /**
@@ -1040,7 +1071,7 @@ class BML
      */
     public function getShipToEqualsBillToNameIndicator()
     {
-      return $this->shipToEqualsBillToNameIndicator;
+        return $this->shipToEqualsBillToNameIndicator;
     }
 
     /**
@@ -1049,8 +1080,9 @@ class BML
      */
     public function setShipToEqualsBillToNameIndicator($shipToEqualsBillToNameIndicator)
     {
-      $this->shipToEqualsBillToNameIndicator = $shipToEqualsBillToNameIndicator;
-      return $this;
+        $this->shipToEqualsBillToNameIndicator = $shipToEqualsBillToNameIndicator;
+
+        return $this;
     }
 
     /**
@@ -1058,7 +1090,7 @@ class BML
      */
     public function getShipToEqualsBillToAddressIndicator()
     {
-      return $this->shipToEqualsBillToAddressIndicator;
+        return $this->shipToEqualsBillToAddressIndicator;
     }
 
     /**
@@ -1067,8 +1099,9 @@ class BML
      */
     public function setShipToEqualsBillToAddressIndicator($shipToEqualsBillToAddressIndicator)
     {
-      $this->shipToEqualsBillToAddressIndicator = $shipToEqualsBillToAddressIndicator;
-      return $this;
+        $this->shipToEqualsBillToAddressIndicator = $shipToEqualsBillToAddressIndicator;
+
+        return $this;
     }
 
     /**
@@ -1076,7 +1109,7 @@ class BML
      */
     public function getAlternateIPAddress()
     {
-      return $this->alternateIPAddress;
+        return $this->alternateIPAddress;
     }
 
     /**
@@ -1085,8 +1118,9 @@ class BML
      */
     public function setAlternateIPAddress($alternateIPAddress)
     {
-      $this->alternateIPAddress = $alternateIPAddress;
-      return $this;
+        $this->alternateIPAddress = $alternateIPAddress;
+
+        return $this;
     }
 
     /**
@@ -1094,7 +1128,7 @@ class BML
      */
     public function getBusinessLegalName()
     {
-      return $this->businessLegalName;
+        return $this->businessLegalName;
     }
 
     /**
@@ -1103,8 +1137,9 @@ class BML
      */
     public function setBusinessLegalName($businessLegalName)
     {
-      $this->businessLegalName = $businessLegalName;
-      return $this;
+        $this->businessLegalName = $businessLegalName;
+
+        return $this;
     }
 
     /**
@@ -1112,7 +1147,7 @@ class BML
      */
     public function getDbaName()
     {
-      return $this->dbaName;
+        return $this->dbaName;
     }
 
     /**
@@ -1121,8 +1156,9 @@ class BML
      */
     public function setDbaName($dbaName)
     {
-      $this->dbaName = $dbaName;
-      return $this;
+        $this->dbaName = $dbaName;
+
+        return $this;
     }
 
     /**
@@ -1130,7 +1166,7 @@ class BML
      */
     public function getBusinessAddress1()
     {
-      return $this->businessAddress1;
+        return $this->businessAddress1;
     }
 
     /**
@@ -1139,8 +1175,9 @@ class BML
      */
     public function setBusinessAddress1($businessAddress1)
     {
-      $this->businessAddress1 = $businessAddress1;
-      return $this;
+        $this->businessAddress1 = $businessAddress1;
+
+        return $this;
     }
 
     /**
@@ -1148,7 +1185,7 @@ class BML
      */
     public function getBusinessAddress2()
     {
-      return $this->businessAddress2;
+        return $this->businessAddress2;
     }
 
     /**
@@ -1157,8 +1194,9 @@ class BML
      */
     public function setBusinessAddress2($businessAddress2)
     {
-      $this->businessAddress2 = $businessAddress2;
-      return $this;
+        $this->businessAddress2 = $businessAddress2;
+
+        return $this;
     }
 
     /**
@@ -1166,7 +1204,7 @@ class BML
      */
     public function getBusinessCity()
     {
-      return $this->businessCity;
+        return $this->businessCity;
     }
 
     /**
@@ -1175,8 +1213,9 @@ class BML
      */
     public function setBusinessCity($businessCity)
     {
-      $this->businessCity = $businessCity;
-      return $this;
+        $this->businessCity = $businessCity;
+
+        return $this;
     }
 
     /**
@@ -1184,7 +1223,7 @@ class BML
      */
     public function getBusinessState()
     {
-      return $this->businessState;
+        return $this->businessState;
     }
 
     /**
@@ -1193,8 +1232,9 @@ class BML
      */
     public function setBusinessState($businessState)
     {
-      $this->businessState = $businessState;
-      return $this;
+        $this->businessState = $businessState;
+
+        return $this;
     }
 
     /**
@@ -1202,7 +1242,7 @@ class BML
      */
     public function getBusinessPostalCode()
     {
-      return $this->businessPostalCode;
+        return $this->businessPostalCode;
     }
 
     /**
@@ -1211,8 +1251,9 @@ class BML
      */
     public function setBusinessPostalCode($businessPostalCode)
     {
-      $this->businessPostalCode = $businessPostalCode;
-      return $this;
+        $this->businessPostalCode = $businessPostalCode;
+
+        return $this;
     }
 
     /**
@@ -1220,7 +1261,7 @@ class BML
      */
     public function getBusinessCountry()
     {
-      return $this->businessCountry;
+        return $this->businessCountry;
     }
 
     /**
@@ -1229,8 +1270,9 @@ class BML
      */
     public function setBusinessCountry($businessCountry)
     {
-      $this->businessCountry = $businessCountry;
-      return $this;
+        $this->businessCountry = $businessCountry;
+
+        return $this;
     }
 
     /**
@@ -1238,7 +1280,7 @@ class BML
      */
     public function getBusinessMainPhone()
     {
-      return $this->businessMainPhone;
+        return $this->businessMainPhone;
     }
 
     /**
@@ -1247,8 +1289,9 @@ class BML
      */
     public function setBusinessMainPhone($businessMainPhone)
     {
-      $this->businessMainPhone = $businessMainPhone;
-      return $this;
+        $this->businessMainPhone = $businessMainPhone;
+
+        return $this;
     }
 
     /**
@@ -1256,7 +1299,7 @@ class BML
      */
     public function getUserID()
     {
-      return $this->userID;
+        return $this->userID;
     }
 
     /**
@@ -1265,8 +1308,9 @@ class BML
      */
     public function setUserID($userID)
     {
-      $this->userID = $userID;
-      return $this;
+        $this->userID = $userID;
+
+        return $this;
     }
 
     /**
@@ -1274,7 +1318,7 @@ class BML
      */
     public function getPin()
     {
-      return $this->pin;
+        return $this->pin;
     }
 
     /**
@@ -1283,8 +1327,9 @@ class BML
      */
     public function setPin($pin)
     {
-      $this->pin = $pin;
-      return $this;
+        $this->pin = $pin;
+
+        return $this;
     }
 
     /**
@@ -1292,7 +1337,7 @@ class BML
      */
     public function getAdminLastName()
     {
-      return $this->adminLastName;
+        return $this->adminLastName;
     }
 
     /**
@@ -1301,8 +1346,9 @@ class BML
      */
     public function setAdminLastName($adminLastName)
     {
-      $this->adminLastName = $adminLastName;
-      return $this;
+        $this->adminLastName = $adminLastName;
+
+        return $this;
     }
 
     /**
@@ -1310,7 +1356,7 @@ class BML
      */
     public function getAdminFirstName()
     {
-      return $this->adminFirstName;
+        return $this->adminFirstName;
     }
 
     /**
@@ -1319,8 +1365,9 @@ class BML
      */
     public function setAdminFirstName($adminFirstName)
     {
-      $this->adminFirstName = $adminFirstName;
-      return $this;
+        $this->adminFirstName = $adminFirstName;
+
+        return $this;
     }
 
     /**
@@ -1328,7 +1375,7 @@ class BML
      */
     public function getAdminPhone()
     {
-      return $this->adminPhone;
+        return $this->adminPhone;
     }
 
     /**
@@ -1337,8 +1384,9 @@ class BML
      */
     public function setAdminPhone($adminPhone)
     {
-      $this->adminPhone = $adminPhone;
-      return $this;
+        $this->adminPhone = $adminPhone;
+
+        return $this;
     }
 
     /**
@@ -1346,7 +1394,7 @@ class BML
      */
     public function getAdminFax()
     {
-      return $this->adminFax;
+        return $this->adminFax;
     }
 
     /**
@@ -1355,8 +1403,9 @@ class BML
      */
     public function setAdminFax($adminFax)
     {
-      $this->adminFax = $adminFax;
-      return $this;
+        $this->adminFax = $adminFax;
+
+        return $this;
     }
 
     /**
@@ -1364,7 +1413,7 @@ class BML
      */
     public function getAdminEmailAddress()
     {
-      return $this->adminEmailAddress;
+        return $this->adminEmailAddress;
     }
 
     /**
@@ -1373,8 +1422,9 @@ class BML
      */
     public function setAdminEmailAddress($adminEmailAddress)
     {
-      $this->adminEmailAddress = $adminEmailAddress;
-      return $this;
+        $this->adminEmailAddress = $adminEmailAddress;
+
+        return $this;
     }
 
     /**
@@ -1382,7 +1432,7 @@ class BML
      */
     public function getAdminTitle()
     {
-      return $this->adminTitle;
+        return $this->adminTitle;
     }
 
     /**
@@ -1391,8 +1441,9 @@ class BML
      */
     public function setAdminTitle($adminTitle)
     {
-      $this->adminTitle = $adminTitle;
-      return $this;
+        $this->adminTitle = $adminTitle;
+
+        return $this;
     }
 
     /**
@@ -1400,7 +1451,7 @@ class BML
      */
     public function getSupervisorLastName()
     {
-      return $this->supervisorLastName;
+        return $this->supervisorLastName;
     }
 
     /**
@@ -1409,8 +1460,9 @@ class BML
      */
     public function setSupervisorLastName($supervisorLastName)
     {
-      $this->supervisorLastName = $supervisorLastName;
-      return $this;
+        $this->supervisorLastName = $supervisorLastName;
+
+        return $this;
     }
 
     /**
@@ -1418,7 +1470,7 @@ class BML
      */
     public function getSupervisorFirstName()
     {
-      return $this->supervisorFirstName;
+        return $this->supervisorFirstName;
     }
 
     /**
@@ -1427,8 +1479,9 @@ class BML
      */
     public function setSupervisorFirstName($supervisorFirstName)
     {
-      $this->supervisorFirstName = $supervisorFirstName;
-      return $this;
+        $this->supervisorFirstName = $supervisorFirstName;
+
+        return $this;
     }
 
     /**
@@ -1436,7 +1489,7 @@ class BML
      */
     public function getSupervisorEmailAddress()
     {
-      return $this->supervisorEmailAddress;
+        return $this->supervisorEmailAddress;
     }
 
     /**
@@ -1445,8 +1498,9 @@ class BML
      */
     public function setSupervisorEmailAddress($supervisorEmailAddress)
     {
-      $this->supervisorEmailAddress = $supervisorEmailAddress;
-      return $this;
+        $this->supervisorEmailAddress = $supervisorEmailAddress;
+
+        return $this;
     }
 
     /**
@@ -1454,7 +1508,7 @@ class BML
      */
     public function getBusinessDAndBNumber()
     {
-      return $this->businessDAndBNumber;
+        return $this->businessDAndBNumber;
     }
 
     /**
@@ -1463,8 +1517,9 @@ class BML
      */
     public function setBusinessDAndBNumber($businessDAndBNumber)
     {
-      $this->businessDAndBNumber = $businessDAndBNumber;
-      return $this;
+        $this->businessDAndBNumber = $businessDAndBNumber;
+
+        return $this;
     }
 
     /**
@@ -1472,7 +1527,7 @@ class BML
      */
     public function getBusinessTaxID()
     {
-      return $this->businessTaxID;
+        return $this->businessTaxID;
     }
 
     /**
@@ -1481,8 +1536,9 @@ class BML
      */
     public function setBusinessTaxID($businessTaxID)
     {
-      $this->businessTaxID = $businessTaxID;
-      return $this;
+        $this->businessTaxID = $businessTaxID;
+
+        return $this;
     }
 
     /**
@@ -1490,7 +1546,7 @@ class BML
      */
     public function getBusinessNAICSCode()
     {
-      return $this->businessNAICSCode;
+        return $this->businessNAICSCode;
     }
 
     /**
@@ -1499,8 +1555,9 @@ class BML
      */
     public function setBusinessNAICSCode($businessNAICSCode)
     {
-      $this->businessNAICSCode = $businessNAICSCode;
-      return $this;
+        $this->businessNAICSCode = $businessNAICSCode;
+
+        return $this;
     }
 
     /**
@@ -1508,7 +1565,7 @@ class BML
      */
     public function getBusinessType()
     {
-      return $this->businessType;
+        return $this->businessType;
     }
 
     /**
@@ -1517,8 +1574,9 @@ class BML
      */
     public function setBusinessType($businessType)
     {
-      $this->businessType = $businessType;
-      return $this;
+        $this->businessType = $businessType;
+
+        return $this;
     }
 
     /**
@@ -1526,7 +1584,7 @@ class BML
      */
     public function getBusinessYearsInBusiness()
     {
-      return $this->businessYearsInBusiness;
+        return $this->businessYearsInBusiness;
     }
 
     /**
@@ -1535,8 +1593,9 @@ class BML
      */
     public function setBusinessYearsInBusiness($businessYearsInBusiness)
     {
-      $this->businessYearsInBusiness = $businessYearsInBusiness;
-      return $this;
+        $this->businessYearsInBusiness = $businessYearsInBusiness;
+
+        return $this;
     }
 
     /**
@@ -1544,7 +1603,7 @@ class BML
      */
     public function getBusinessNumberOfEmployees()
     {
-      return $this->businessNumberOfEmployees;
+        return $this->businessNumberOfEmployees;
     }
 
     /**
@@ -1553,8 +1612,9 @@ class BML
      */
     public function setBusinessNumberOfEmployees($businessNumberOfEmployees)
     {
-      $this->businessNumberOfEmployees = $businessNumberOfEmployees;
-      return $this;
+        $this->businessNumberOfEmployees = $businessNumberOfEmployees;
+
+        return $this;
     }
 
     /**
@@ -1562,7 +1622,7 @@ class BML
      */
     public function getBusinessPONumber()
     {
-      return $this->businessPONumber;
+        return $this->businessPONumber;
     }
 
     /**
@@ -1571,8 +1631,9 @@ class BML
      */
     public function setBusinessPONumber($businessPONumber)
     {
-      $this->businessPONumber = $businessPONumber;
-      return $this;
+        $this->businessPONumber = $businessPONumber;
+
+        return $this;
     }
 
     /**
@@ -1580,7 +1641,7 @@ class BML
      */
     public function getBusinessLoanType()
     {
-      return $this->businessLoanType;
+        return $this->businessLoanType;
     }
 
     /**
@@ -1589,8 +1650,9 @@ class BML
      */
     public function setBusinessLoanType($businessLoanType)
     {
-      $this->businessLoanType = $businessLoanType;
-      return $this;
+        $this->businessLoanType = $businessLoanType;
+
+        return $this;
     }
 
     /**
@@ -1598,7 +1660,7 @@ class BML
      */
     public function getBusinessApplicationID()
     {
-      return $this->businessApplicationID;
+        return $this->businessApplicationID;
     }
 
     /**
@@ -1607,8 +1669,9 @@ class BML
      */
     public function setBusinessApplicationID($businessApplicationID)
     {
-      $this->businessApplicationID = $businessApplicationID;
-      return $this;
+        $this->businessApplicationID = $businessApplicationID;
+
+        return $this;
     }
 
     /**
@@ -1616,7 +1679,7 @@ class BML
      */
     public function getBusinessProductCode()
     {
-      return $this->businessProductCode;
+        return $this->businessProductCode;
     }
 
     /**
@@ -1625,8 +1688,9 @@ class BML
      */
     public function setBusinessProductCode($businessProductCode)
     {
-      $this->businessProductCode = $businessProductCode;
-      return $this;
+        $this->businessProductCode = $businessProductCode;
+
+        return $this;
     }
 
     /**
@@ -1634,7 +1698,7 @@ class BML
      */
     public function getPgLastName()
     {
-      return $this->pgLastName;
+        return $this->pgLastName;
     }
 
     /**
@@ -1643,8 +1707,9 @@ class BML
      */
     public function setPgLastName($pgLastName)
     {
-      $this->pgLastName = $pgLastName;
-      return $this;
+        $this->pgLastName = $pgLastName;
+
+        return $this;
     }
 
     /**
@@ -1652,7 +1717,7 @@ class BML
      */
     public function getPgFirstName()
     {
-      return $this->pgFirstName;
+        return $this->pgFirstName;
     }
 
     /**
@@ -1661,8 +1726,9 @@ class BML
      */
     public function setPgFirstName($pgFirstName)
     {
-      $this->pgFirstName = $pgFirstName;
-      return $this;
+        $this->pgFirstName = $pgFirstName;
+
+        return $this;
     }
 
     /**
@@ -1670,7 +1736,7 @@ class BML
      */
     public function getPgSSN()
     {
-      return $this->pgSSN;
+        return $this->pgSSN;
     }
 
     /**
@@ -1679,8 +1745,9 @@ class BML
      */
     public function setPgSSN($pgSSN)
     {
-      $this->pgSSN = $pgSSN;
-      return $this;
+        $this->pgSSN = $pgSSN;
+
+        return $this;
     }
 
     /**
@@ -1688,7 +1755,7 @@ class BML
      */
     public function getPgDateOfBirth()
     {
-      return $this->pgDateOfBirth;
+        return $this->pgDateOfBirth;
     }
 
     /**
@@ -1697,8 +1764,9 @@ class BML
      */
     public function setPgDateOfBirth($pgDateOfBirth)
     {
-      $this->pgDateOfBirth = $pgDateOfBirth;
-      return $this;
+        $this->pgDateOfBirth = $pgDateOfBirth;
+
+        return $this;
     }
 
     /**
@@ -1706,7 +1774,7 @@ class BML
      */
     public function getPgAnnualIncome()
     {
-      return $this->pgAnnualIncome;
+        return $this->pgAnnualIncome;
     }
 
     /**
@@ -1715,8 +1783,9 @@ class BML
      */
     public function setPgAnnualIncome($pgAnnualIncome)
     {
-      $this->pgAnnualIncome = $pgAnnualIncome;
-      return $this;
+        $this->pgAnnualIncome = $pgAnnualIncome;
+
+        return $this;
     }
 
     /**
@@ -1724,7 +1793,7 @@ class BML
      */
     public function getPgIncomeCurrencyType()
     {
-      return $this->pgIncomeCurrencyType;
+        return $this->pgIncomeCurrencyType;
     }
 
     /**
@@ -1733,8 +1802,9 @@ class BML
      */
     public function setPgIncomeCurrencyType($pgIncomeCurrencyType)
     {
-      $this->pgIncomeCurrencyType = $pgIncomeCurrencyType;
-      return $this;
+        $this->pgIncomeCurrencyType = $pgIncomeCurrencyType;
+
+        return $this;
     }
 
     /**
@@ -1742,7 +1812,7 @@ class BML
      */
     public function getPgResidenceStatus()
     {
-      return $this->pgResidenceStatus;
+        return $this->pgResidenceStatus;
     }
 
     /**
@@ -1751,8 +1821,9 @@ class BML
      */
     public function setPgResidenceStatus($pgResidenceStatus)
     {
-      $this->pgResidenceStatus = $pgResidenceStatus;
-      return $this;
+        $this->pgResidenceStatus = $pgResidenceStatus;
+
+        return $this;
     }
 
     /**
@@ -1760,7 +1831,7 @@ class BML
      */
     public function getPgCheckingAccountIndicator()
     {
-      return $this->pgCheckingAccountIndicator;
+        return $this->pgCheckingAccountIndicator;
     }
 
     /**
@@ -1769,8 +1840,9 @@ class BML
      */
     public function setPgCheckingAccountIndicator($pgCheckingAccountIndicator)
     {
-      $this->pgCheckingAccountIndicator = $pgCheckingAccountIndicator;
-      return $this;
+        $this->pgCheckingAccountIndicator = $pgCheckingAccountIndicator;
+
+        return $this;
     }
 
     /**
@@ -1778,7 +1850,7 @@ class BML
      */
     public function getPgSavingsAccountIndicator()
     {
-      return $this->pgSavingsAccountIndicator;
+        return $this->pgSavingsAccountIndicator;
     }
 
     /**
@@ -1787,8 +1859,9 @@ class BML
      */
     public function setPgSavingsAccountIndicator($pgSavingsAccountIndicator)
     {
-      $this->pgSavingsAccountIndicator = $pgSavingsAccountIndicator;
-      return $this;
+        $this->pgSavingsAccountIndicator = $pgSavingsAccountIndicator;
+
+        return $this;
     }
 
     /**
@@ -1796,7 +1869,7 @@ class BML
      */
     public function getPgYearsAtEmployer()
     {
-      return $this->pgYearsAtEmployer;
+        return $this->pgYearsAtEmployer;
     }
 
     /**
@@ -1805,8 +1878,9 @@ class BML
      */
     public function setPgYearsAtEmployer($pgYearsAtEmployer)
     {
-      $this->pgYearsAtEmployer = $pgYearsAtEmployer;
-      return $this;
+        $this->pgYearsAtEmployer = $pgYearsAtEmployer;
+
+        return $this;
     }
 
     /**
@@ -1814,7 +1888,7 @@ class BML
      */
     public function getPgYearsAtResidence()
     {
-      return $this->pgYearsAtResidence;
+        return $this->pgYearsAtResidence;
     }
 
     /**
@@ -1823,8 +1897,9 @@ class BML
      */
     public function setPgYearsAtResidence($pgYearsAtResidence)
     {
-      $this->pgYearsAtResidence = $pgYearsAtResidence;
-      return $this;
+        $this->pgYearsAtResidence = $pgYearsAtResidence;
+
+        return $this;
     }
 
     /**
@@ -1832,7 +1907,7 @@ class BML
      */
     public function getPgHomeAddress1()
     {
-      return $this->pgHomeAddress1;
+        return $this->pgHomeAddress1;
     }
 
     /**
@@ -1841,8 +1916,9 @@ class BML
      */
     public function setPgHomeAddress1($pgHomeAddress1)
     {
-      $this->pgHomeAddress1 = $pgHomeAddress1;
-      return $this;
+        $this->pgHomeAddress1 = $pgHomeAddress1;
+
+        return $this;
     }
 
     /**
@@ -1850,7 +1926,7 @@ class BML
      */
     public function getPgHomeAddress2()
     {
-      return $this->pgHomeAddress2;
+        return $this->pgHomeAddress2;
     }
 
     /**
@@ -1859,8 +1935,9 @@ class BML
      */
     public function setPgHomeAddress2($pgHomeAddress2)
     {
-      $this->pgHomeAddress2 = $pgHomeAddress2;
-      return $this;
+        $this->pgHomeAddress2 = $pgHomeAddress2;
+
+        return $this;
     }
 
     /**
@@ -1868,7 +1945,7 @@ class BML
      */
     public function getPgHomeCity()
     {
-      return $this->pgHomeCity;
+        return $this->pgHomeCity;
     }
 
     /**
@@ -1877,8 +1954,9 @@ class BML
      */
     public function setPgHomeCity($pgHomeCity)
     {
-      $this->pgHomeCity = $pgHomeCity;
-      return $this;
+        $this->pgHomeCity = $pgHomeCity;
+
+        return $this;
     }
 
     /**
@@ -1886,7 +1964,7 @@ class BML
      */
     public function getPgHomeState()
     {
-      return $this->pgHomeState;
+        return $this->pgHomeState;
     }
 
     /**
@@ -1895,8 +1973,9 @@ class BML
      */
     public function setPgHomeState($pgHomeState)
     {
-      $this->pgHomeState = $pgHomeState;
-      return $this;
+        $this->pgHomeState = $pgHomeState;
+
+        return $this;
     }
 
     /**
@@ -1904,7 +1983,7 @@ class BML
      */
     public function getPgHomePostalCode()
     {
-      return $this->pgHomePostalCode;
+        return $this->pgHomePostalCode;
     }
 
     /**
@@ -1913,8 +1992,9 @@ class BML
      */
     public function setPgHomePostalCode($pgHomePostalCode)
     {
-      $this->pgHomePostalCode = $pgHomePostalCode;
-      return $this;
+        $this->pgHomePostalCode = $pgHomePostalCode;
+
+        return $this;
     }
 
     /**
@@ -1922,7 +2002,7 @@ class BML
      */
     public function getPgHomeCountry()
     {
-      return $this->pgHomeCountry;
+        return $this->pgHomeCountry;
     }
 
     /**
@@ -1931,8 +2011,9 @@ class BML
      */
     public function setPgHomeCountry($pgHomeCountry)
     {
-      $this->pgHomeCountry = $pgHomeCountry;
-      return $this;
+        $this->pgHomeCountry = $pgHomeCountry;
+
+        return $this;
     }
 
     /**
@@ -1940,7 +2021,7 @@ class BML
      */
     public function getPgEmailAddress()
     {
-      return $this->pgEmailAddress;
+        return $this->pgEmailAddress;
     }
 
     /**
@@ -1949,8 +2030,9 @@ class BML
      */
     public function setPgEmailAddress($pgEmailAddress)
     {
-      $this->pgEmailAddress = $pgEmailAddress;
-      return $this;
+        $this->pgEmailAddress = $pgEmailAddress;
+
+        return $this;
     }
 
     /**
@@ -1958,7 +2040,7 @@ class BML
      */
     public function getPgHomePhone()
     {
-      return $this->pgHomePhone;
+        return $this->pgHomePhone;
     }
 
     /**
@@ -1967,8 +2049,9 @@ class BML
      */
     public function setPgHomePhone($pgHomePhone)
     {
-      $this->pgHomePhone = $pgHomePhone;
-      return $this;
+        $this->pgHomePhone = $pgHomePhone;
+
+        return $this;
     }
 
     /**
@@ -1976,7 +2059,7 @@ class BML
      */
     public function getPgTitle()
     {
-      return $this->pgTitle;
+        return $this->pgTitle;
     }
 
     /**
@@ -1985,8 +2068,9 @@ class BML
      */
     public function setPgTitle($pgTitle)
     {
-      $this->pgTitle = $pgTitle;
-      return $this;
+        $this->pgTitle = $pgTitle;
+
+        return $this;
     }
 
 }

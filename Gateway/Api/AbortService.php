@@ -25,7 +25,7 @@ class AbortService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class AbortService
      */
     public function getCardholderVerificationMethod()
     {
-      return $this->cardholderVerificationMethod;
+        return $this->cardholderVerificationMethod;
     }
 
     /**
@@ -42,8 +42,9 @@ class AbortService
      */
     public function setCardholderVerificationMethod($cardholderVerificationMethod)
     {
-      $this->cardholderVerificationMethod = $cardholderVerificationMethod;
-      return $this;
+        $this->cardholderVerificationMethod = $cardholderVerificationMethod;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class AbortService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -60,8 +61,9 @@ class AbortService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class AbortService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class AbortService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

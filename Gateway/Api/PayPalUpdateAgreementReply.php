@@ -100,7 +100,7 @@ class PayPalUpdateAgreementReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -108,7 +108,7 @@ class PayPalUpdateAgreementReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -117,8 +117,9 @@ class PayPalUpdateAgreementReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -126,7 +127,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPaypalBillingAgreementId()
     {
-      return $this->paypalBillingAgreementId;
+        return $this->paypalBillingAgreementId;
     }
 
     /**
@@ -135,8 +136,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPaypalBillingAgreementId($paypalBillingAgreementId)
     {
-      $this->paypalBillingAgreementId = $paypalBillingAgreementId;
-      return $this;
+        $this->paypalBillingAgreementId = $paypalBillingAgreementId;
+
+        return $this;
     }
 
     /**
@@ -144,7 +146,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPaypalBillingAgreementDesc()
     {
-      return $this->paypalBillingAgreementDesc;
+        return $this->paypalBillingAgreementDesc;
     }
 
     /**
@@ -153,8 +155,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPaypalBillingAgreementDesc($paypalBillingAgreementDesc)
     {
-      $this->paypalBillingAgreementDesc = $paypalBillingAgreementDesc;
-      return $this;
+        $this->paypalBillingAgreementDesc = $paypalBillingAgreementDesc;
+
+        return $this;
     }
 
     /**
@@ -162,7 +165,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPaypalBillingAgreementCustom()
     {
-      return $this->paypalBillingAgreementCustom;
+        return $this->paypalBillingAgreementCustom;
     }
 
     /**
@@ -171,8 +174,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPaypalBillingAgreementCustom($paypalBillingAgreementCustom)
     {
-      $this->paypalBillingAgreementCustom = $paypalBillingAgreementCustom;
-      return $this;
+        $this->paypalBillingAgreementCustom = $paypalBillingAgreementCustom;
+
+        return $this;
     }
 
     /**
@@ -180,7 +184,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPaypalBillingAgreementStatus()
     {
-      return $this->paypalBillingAgreementStatus;
+        return $this->paypalBillingAgreementStatus;
     }
 
     /**
@@ -189,8 +193,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPaypalBillingAgreementStatus($paypalBillingAgreementStatus)
     {
-      $this->paypalBillingAgreementStatus = $paypalBillingAgreementStatus;
-      return $this;
+        $this->paypalBillingAgreementStatus = $paypalBillingAgreementStatus;
+
+        return $this;
     }
 
     /**
@@ -198,7 +203,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayer()
     {
-      return $this->payer;
+        return $this->payer;
     }
 
     /**
@@ -207,8 +212,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayer($payer)
     {
-      $this->payer = $payer;
-      return $this;
+        $this->payer = $payer;
+
+        return $this;
     }
 
     /**
@@ -216,7 +222,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerId()
     {
-      return $this->payerId;
+        return $this->payerId;
     }
 
     /**
@@ -225,8 +231,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerId($payerId)
     {
-      $this->payerId = $payerId;
-      return $this;
+        $this->payerId = $payerId;
+
+        return $this;
     }
 
     /**
@@ -234,7 +241,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerStatus()
     {
-      return $this->payerStatus;
+        return $this->payerStatus;
     }
 
     /**
@@ -243,8 +250,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerStatus($payerStatus)
     {
-      $this->payerStatus = $payerStatus;
-      return $this;
+        $this->payerStatus = $payerStatus;
+
+        return $this;
     }
 
     /**
@@ -252,7 +260,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerCountry()
     {
-      return $this->payerCountry;
+        return $this->payerCountry;
     }
 
     /**
@@ -261,8 +269,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerCountry($payerCountry)
     {
-      $this->payerCountry = $payerCountry;
-      return $this;
+        $this->payerCountry = $payerCountry;
+
+        return $this;
     }
 
     /**
@@ -270,7 +279,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerBusiness()
     {
-      return $this->payerBusiness;
+        return $this->payerBusiness;
     }
 
     /**
@@ -279,8 +288,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerBusiness($payerBusiness)
     {
-      $this->payerBusiness = $payerBusiness;
-      return $this;
+        $this->payerBusiness = $payerBusiness;
+
+        return $this;
     }
 
     /**
@@ -288,7 +298,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerSalutation()
     {
-      return $this->payerSalutation;
+        return $this->payerSalutation;
     }
 
     /**
@@ -297,8 +307,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerSalutation($payerSalutation)
     {
-      $this->payerSalutation = $payerSalutation;
-      return $this;
+        $this->payerSalutation = $payerSalutation;
+
+        return $this;
     }
 
     /**
@@ -306,7 +317,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerFirstname()
     {
-      return $this->payerFirstname;
+        return $this->payerFirstname;
     }
 
     /**
@@ -315,8 +326,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerFirstname($payerFirstname)
     {
-      $this->payerFirstname = $payerFirstname;
-      return $this;
+        $this->payerFirstname = $payerFirstname;
+
+        return $this;
     }
 
     /**
@@ -324,7 +336,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerMiddlename()
     {
-      return $this->payerMiddlename;
+        return $this->payerMiddlename;
     }
 
     /**
@@ -333,8 +345,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerMiddlename($payerMiddlename)
     {
-      $this->payerMiddlename = $payerMiddlename;
-      return $this;
+        $this->payerMiddlename = $payerMiddlename;
+
+        return $this;
     }
 
     /**
@@ -342,7 +355,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerLastname()
     {
-      return $this->payerLastname;
+        return $this->payerLastname;
     }
 
     /**
@@ -351,8 +364,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerLastname($payerLastname)
     {
-      $this->payerLastname = $payerLastname;
-      return $this;
+        $this->payerLastname = $payerLastname;
+
+        return $this;
     }
 
     /**
@@ -360,7 +374,7 @@ class PayPalUpdateAgreementReply
      */
     public function getPayerSuffix()
     {
-      return $this->payerSuffix;
+        return $this->payerSuffix;
     }
 
     /**
@@ -369,8 +383,9 @@ class PayPalUpdateAgreementReply
      */
     public function setPayerSuffix($payerSuffix)
     {
-      $this->payerSuffix = $payerSuffix;
-      return $this;
+        $this->payerSuffix = $payerSuffix;
+
+        return $this;
     }
 
     /**
@@ -378,7 +393,7 @@ class PayPalUpdateAgreementReply
      */
     public function getAddressStatus()
     {
-      return $this->addressStatus;
+        return $this->addressStatus;
     }
 
     /**
@@ -387,8 +402,9 @@ class PayPalUpdateAgreementReply
      */
     public function setAddressStatus($addressStatus)
     {
-      $this->addressStatus = $addressStatus;
-      return $this;
+        $this->addressStatus = $addressStatus;
+
+        return $this;
     }
 
     /**
@@ -396,7 +412,7 @@ class PayPalUpdateAgreementReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -405,8 +421,9 @@ class PayPalUpdateAgreementReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
     /**
@@ -414,7 +431,7 @@ class PayPalUpdateAgreementReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -423,8 +440,9 @@ class PayPalUpdateAgreementReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
 }

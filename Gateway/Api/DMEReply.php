@@ -70,10 +70,8 @@ class DMEReply
      */
     protected $providerFields = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -81,7 +79,7 @@ class DMEReply
      */
     public function getEventType()
     {
-      return $this->eventType;
+        return $this->eventType;
     }
 
     /**
@@ -90,8 +88,9 @@ class DMEReply
      */
     public function setEventType($eventType)
     {
-      $this->eventType = $eventType;
-      return $this;
+        $this->eventType = $eventType;
+
+        return $this;
     }
 
     /**
@@ -99,7 +98,7 @@ class DMEReply
      */
     public function getEventInfo()
     {
-      return $this->eventInfo;
+        return $this->eventInfo;
     }
 
     /**
@@ -108,8 +107,9 @@ class DMEReply
      */
     public function setEventInfo($eventInfo)
     {
-      $this->eventInfo = $eventInfo;
-      return $this;
+        $this->eventInfo = $eventInfo;
+
+        return $this;
     }
 
     /**
@@ -117,7 +117,7 @@ class DMEReply
      */
     public function getEventHotlistInfo()
     {
-      return $this->eventHotlistInfo;
+        return $this->eventHotlistInfo;
     }
 
     /**
@@ -126,8 +126,9 @@ class DMEReply
      */
     public function setEventHotlistInfo($eventHotlistInfo)
     {
-      $this->eventHotlistInfo = $eventHotlistInfo;
-      return $this;
+        $this->eventHotlistInfo = $eventHotlistInfo;
+
+        return $this;
     }
 
     /**
@@ -135,7 +136,7 @@ class DMEReply
      */
     public function getEventPolicy()
     {
-      return $this->eventPolicy;
+        return $this->eventPolicy;
     }
 
     /**
@@ -144,8 +145,9 @@ class DMEReply
      */
     public function setEventPolicy($eventPolicy)
     {
-      $this->eventPolicy = $eventPolicy;
-      return $this;
+        $this->eventPolicy = $eventPolicy;
+
+        return $this;
     }
 
     /**
@@ -153,7 +155,7 @@ class DMEReply
      */
     public function getEventVelocityInfoCode()
     {
-      return $this->eventVelocityInfoCode;
+        return $this->eventVelocityInfoCode;
     }
 
     /**
@@ -162,8 +164,9 @@ class DMEReply
      */
     public function setEventVelocityInfoCode($eventVelocityInfoCode)
     {
-      $this->eventVelocityInfoCode = $eventVelocityInfoCode;
-      return $this;
+        $this->eventVelocityInfoCode = $eventVelocityInfoCode;
+
+        return $this;
     }
 
     /**
@@ -171,7 +174,7 @@ class DMEReply
      */
     public function getAdditionalFields()
     {
-      return $this->additionalFields;
+        return $this->additionalFields;
     }
 
     /**
@@ -180,8 +183,9 @@ class DMEReply
      */
     public function setAdditionalFields($additionalFields)
     {
-      $this->additionalFields = $additionalFields;
-      return $this;
+        $this->additionalFields = $additionalFields;
+
+        return $this;
     }
 
     /**
@@ -189,7 +193,7 @@ class DMEReply
      */
     public function getMorphingElement()
     {
-      return $this->morphingElement;
+        return $this->morphingElement;
     }
 
     /**
@@ -198,8 +202,9 @@ class DMEReply
      */
     public function setMorphingElement($morphingElement)
     {
-      $this->morphingElement = $morphingElement;
-      return $this;
+        $this->morphingElement = $morphingElement;
+
+        return $this;
     }
 
     /**
@@ -207,7 +212,7 @@ class DMEReply
      */
     public function getCardBin()
     {
-      return $this->cardBin;
+        return $this->cardBin;
     }
 
     /**
@@ -216,8 +221,9 @@ class DMEReply
      */
     public function setCardBin($cardBin)
     {
-      $this->cardBin = $cardBin;
-      return $this;
+        $this->cardBin = $cardBin;
+
+        return $this;
     }
 
     /**
@@ -225,7 +231,7 @@ class DMEReply
      */
     public function getBinCountry()
     {
-      return $this->binCountry;
+        return $this->binCountry;
     }
 
     /**
@@ -234,8 +240,9 @@ class DMEReply
      */
     public function setBinCountry($binCountry)
     {
-      $this->binCountry = $binCountry;
-      return $this;
+        $this->binCountry = $binCountry;
+
+        return $this;
     }
 
     /**
@@ -243,7 +250,7 @@ class DMEReply
      */
     public function getCardAccountType()
     {
-      return $this->cardAccountType;
+        return $this->cardAccountType;
     }
 
     /**
@@ -252,8 +259,9 @@ class DMEReply
      */
     public function setCardAccountType($cardAccountType)
     {
-      $this->cardAccountType = $cardAccountType;
-      return $this;
+        $this->cardAccountType = $cardAccountType;
+
+        return $this;
     }
 
     /**
@@ -261,7 +269,7 @@ class DMEReply
      */
     public function getCardScheme()
     {
-      return $this->cardScheme;
+        return $this->cardScheme;
     }
 
     /**
@@ -270,8 +278,9 @@ class DMEReply
      */
     public function setCardScheme($cardScheme)
     {
-      $this->cardScheme = $cardScheme;
-      return $this;
+        $this->cardScheme = $cardScheme;
+
+        return $this;
     }
 
     /**
@@ -279,7 +288,7 @@ class DMEReply
      */
     public function getCardIssuer()
     {
-      return $this->cardIssuer;
+        return $this->cardIssuer;
     }
 
     /**
@@ -288,8 +297,9 @@ class DMEReply
      */
     public function setCardIssuer($cardIssuer)
     {
-      $this->cardIssuer = $cardIssuer;
-      return $this;
+        $this->cardIssuer = $cardIssuer;
+
+        return $this;
     }
 
     /**
@@ -297,7 +307,7 @@ class DMEReply
      */
     public function getProviderFields()
     {
-      return $this->providerFields;
+        return $this->providerFields;
     }
 
     /**
@@ -306,8 +316,9 @@ class DMEReply
      */
     public function setProviderFields($providerFields)
     {
-      $this->providerFields = $providerFields;
-      return $this;
+        $this->providerFields = $providerFields;
+
+        return $this;
     }
 
 }

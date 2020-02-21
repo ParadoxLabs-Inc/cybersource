@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PaypalTransaction
 {
 
@@ -70,7 +73,7 @@ class PaypalTransaction
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -78,29 +81,30 @@ class PaypalTransaction
      */
     public function getTransactionTime()
     {
-      if ($this->transactionTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->transactionTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->transactionTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->transactionTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $transactionTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PaypalTransaction
      */
-    public function setTransactionTime(\DateTime $transactionTime = null)
+    public function setTransactionTime(DateTime $transactionTime = null)
     {
-      if ($transactionTime == null) {
-       $this->transactionTime = null;
-      } else {
-        $this->transactionTime = $transactionTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($transactionTime == null) {
+            $this->transactionTime = null;
+        } else {
+            $this->transactionTime = $transactionTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -108,7 +112,7 @@ class PaypalTransaction
      */
     public function getTransactionTimeZone()
     {
-      return $this->transactionTimeZone;
+        return $this->transactionTimeZone;
     }
 
     /**
@@ -117,8 +121,9 @@ class PaypalTransaction
      */
     public function setTransactionTimeZone($transactionTimeZone)
     {
-      $this->transactionTimeZone = $transactionTimeZone;
-      return $this;
+        $this->transactionTimeZone = $transactionTimeZone;
+
+        return $this;
     }
 
     /**
@@ -126,7 +131,7 @@ class PaypalTransaction
      */
     public function getTransactionType()
     {
-      return $this->transactionType;
+        return $this->transactionType;
     }
 
     /**
@@ -135,8 +140,9 @@ class PaypalTransaction
      */
     public function setTransactionType($transactionType)
     {
-      $this->transactionType = $transactionType;
-      return $this;
+        $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
@@ -144,7 +150,7 @@ class PaypalTransaction
      */
     public function getPaypalPayerOrPayeeEmail()
     {
-      return $this->paypalPayerOrPayeeEmail;
+        return $this->paypalPayerOrPayeeEmail;
     }
 
     /**
@@ -153,8 +159,9 @@ class PaypalTransaction
      */
     public function setPaypalPayerOrPayeeEmail($paypalPayerOrPayeeEmail)
     {
-      $this->paypalPayerOrPayeeEmail = $paypalPayerOrPayeeEmail;
-      return $this;
+        $this->paypalPayerOrPayeeEmail = $paypalPayerOrPayeeEmail;
+
+        return $this;
     }
 
     /**
@@ -162,7 +169,7 @@ class PaypalTransaction
      */
     public function getCustomerDisplayName()
     {
-      return $this->customerDisplayName;
+        return $this->customerDisplayName;
     }
 
     /**
@@ -171,8 +178,9 @@ class PaypalTransaction
      */
     public function setCustomerDisplayName($customerDisplayName)
     {
-      $this->customerDisplayName = $customerDisplayName;
-      return $this;
+        $this->customerDisplayName = $customerDisplayName;
+
+        return $this;
     }
 
     /**
@@ -180,7 +188,7 @@ class PaypalTransaction
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -189,8 +197,9 @@ class PaypalTransaction
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -198,7 +207,7 @@ class PaypalTransaction
      */
     public function getPaypalPaymentStatus()
     {
-      return $this->paypalPaymentStatus;
+        return $this->paypalPaymentStatus;
     }
 
     /**
@@ -207,8 +216,9 @@ class PaypalTransaction
      */
     public function setPaypalPaymentStatus($paypalPaymentStatus)
     {
-      $this->paypalPaymentStatus = $paypalPaymentStatus;
-      return $this;
+        $this->paypalPaymentStatus = $paypalPaymentStatus;
+
+        return $this;
     }
 
     /**
@@ -216,7 +226,7 @@ class PaypalTransaction
      */
     public function getGrandTotalAmount()
     {
-      return $this->grandTotalAmount;
+        return $this->grandTotalAmount;
     }
 
     /**
@@ -225,8 +235,9 @@ class PaypalTransaction
      */
     public function setGrandTotalAmount($grandTotalAmount)
     {
-      $this->grandTotalAmount = $grandTotalAmount;
-      return $this;
+        $this->grandTotalAmount = $grandTotalAmount;
+
+        return $this;
     }
 
     /**
@@ -234,7 +245,7 @@ class PaypalTransaction
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -243,8 +254,9 @@ class PaypalTransaction
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -252,7 +264,7 @@ class PaypalTransaction
      */
     public function getPaypalFeeAmount()
     {
-      return $this->paypalFeeAmount;
+        return $this->paypalFeeAmount;
     }
 
     /**
@@ -261,8 +273,9 @@ class PaypalTransaction
      */
     public function setPaypalFeeAmount($paypalFeeAmount)
     {
-      $this->paypalFeeAmount = $paypalFeeAmount;
-      return $this;
+        $this->paypalFeeAmount = $paypalFeeAmount;
+
+        return $this;
     }
 
     /**
@@ -270,7 +283,7 @@ class PaypalTransaction
      */
     public function getPaypalNetAmount()
     {
-      return $this->paypalNetAmount;
+        return $this->paypalNetAmount;
     }
 
     /**
@@ -279,8 +292,9 @@ class PaypalTransaction
      */
     public function setPaypalNetAmount($paypalNetAmount)
     {
-      $this->paypalNetAmount = $paypalNetAmount;
-      return $this;
+        $this->paypalNetAmount = $paypalNetAmount;
+
+        return $this;
     }
 
     /**
@@ -288,7 +302,7 @@ class PaypalTransaction
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -297,8 +311,9 @@ class PaypalTransaction
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

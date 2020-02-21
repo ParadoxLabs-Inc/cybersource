@@ -35,7 +35,7 @@ class APCheckStatusService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -43,7 +43,7 @@ class APCheckStatusService
      */
     public function getApInitiateRequestID()
     {
-      return $this->apInitiateRequestID;
+        return $this->apInitiateRequestID;
     }
 
     /**
@@ -52,8 +52,9 @@ class APCheckStatusService
      */
     public function setApInitiateRequestID($apInitiateRequestID)
     {
-      $this->apInitiateRequestID = $apInitiateRequestID;
-      return $this;
+        $this->apInitiateRequestID = $apInitiateRequestID;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class APCheckStatusService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -70,8 +71,9 @@ class APCheckStatusService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class APCheckStatusService
      */
     public function getCheckStatusRequestID()
     {
-      return $this->checkStatusRequestID;
+        return $this->checkStatusRequestID;
     }
 
     /**
@@ -88,8 +90,9 @@ class APCheckStatusService
      */
     public function setCheckStatusRequestID($checkStatusRequestID)
     {
-      $this->checkStatusRequestID = $checkStatusRequestID;
-      return $this;
+        $this->checkStatusRequestID = $checkStatusRequestID;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class APCheckStatusService
      */
     public function getSessionsRequestID()
     {
-      return $this->sessionsRequestID;
+        return $this->sessionsRequestID;
     }
 
     /**
@@ -106,8 +109,9 @@ class APCheckStatusService
      */
     public function setSessionsRequestID($sessionsRequestID)
     {
-      $this->sessionsRequestID = $sessionsRequestID;
-      return $this;
+        $this->sessionsRequestID = $sessionsRequestID;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class APCheckStatusService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -124,8 +128,9 @@ class APCheckStatusService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

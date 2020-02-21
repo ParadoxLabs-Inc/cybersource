@@ -40,7 +40,7 @@ class CCSaleCreditService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -48,7 +48,7 @@ class CCSaleCreditService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -57,8 +57,9 @@ class CCSaleCreditService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -66,7 +67,7 @@ class CCSaleCreditService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -75,8 +76,9 @@ class CCSaleCreditService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -84,7 +86,7 @@ class CCSaleCreditService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -93,8 +95,9 @@ class CCSaleCreditService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -102,7 +105,7 @@ class CCSaleCreditService
      */
     public function getRefundReason()
     {
-      return $this->refundReason;
+        return $this->refundReason;
     }
 
     /**
@@ -111,8 +114,9 @@ class CCSaleCreditService
      */
     public function setRefundReason($refundReason)
     {
-      $this->refundReason = $refundReason;
-      return $this;
+        $this->refundReason = $refundReason;
+
+        return $this;
     }
 
     /**
@@ -120,7 +124,7 @@ class CCSaleCreditService
      */
     public function getSaleRequestID()
     {
-      return $this->saleRequestID;
+        return $this->saleRequestID;
     }
 
     /**
@@ -129,8 +133,9 @@ class CCSaleCreditService
      */
     public function setSaleRequestID($saleRequestID)
     {
-      $this->saleRequestID = $saleRequestID;
-      return $this;
+        $this->saleRequestID = $saleRequestID;
+
+        return $this;
     }
 
     /**
@@ -138,7 +143,7 @@ class CCSaleCreditService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -147,8 +152,9 @@ class CCSaleCreditService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

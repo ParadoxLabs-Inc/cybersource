@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APAuthReply
 {
 
@@ -75,7 +78,7 @@ class APAuthReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -83,7 +86,7 @@ class APAuthReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -92,8 +95,9 @@ class APAuthReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -101,7 +105,7 @@ class APAuthReply
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -110,8 +114,9 @@ class APAuthReply
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -119,7 +124,7 @@ class APAuthReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -128,8 +133,9 @@ class APAuthReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -137,7 +143,7 @@ class APAuthReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -146,8 +152,9 @@ class APAuthReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -155,7 +162,7 @@ class APAuthReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -164,8 +171,9 @@ class APAuthReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -173,29 +181,30 @@ class APAuthReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -203,7 +212,7 @@ class APAuthReply
      */
     public function getProviderResponse()
     {
-      return $this->providerResponse;
+        return $this->providerResponse;
     }
 
     /**
@@ -212,8 +221,9 @@ class APAuthReply
      */
     public function setProviderResponse($providerResponse)
     {
-      $this->providerResponse = $providerResponse;
-      return $this;
+        $this->providerResponse = $providerResponse;
+
+        return $this;
     }
 
     /**
@@ -221,7 +231,7 @@ class APAuthReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -230,8 +240,9 @@ class APAuthReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -239,7 +250,7 @@ class APAuthReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -248,8 +259,9 @@ class APAuthReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -257,7 +269,7 @@ class APAuthReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -266,8 +278,9 @@ class APAuthReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -275,7 +288,7 @@ class APAuthReply
      */
     public function getMerchantURL()
     {
-      return $this->merchantURL;
+        return $this->merchantURL;
     }
 
     /**
@@ -284,8 +297,9 @@ class APAuthReply
      */
     public function setMerchantURL($merchantURL)
     {
-      $this->merchantURL = $merchantURL;
-      return $this;
+        $this->merchantURL = $merchantURL;
+
+        return $this;
     }
 
     /**
@@ -293,7 +307,7 @@ class APAuthReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -302,8 +316,9 @@ class APAuthReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -311,7 +326,7 @@ class APAuthReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -320,8 +335,9 @@ class APAuthReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
 }

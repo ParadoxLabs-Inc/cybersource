@@ -15,10 +15,8 @@ class DCC
      */
     protected $referenceNumber = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -26,7 +24,7 @@ class DCC
      */
     public function getDccIndicator()
     {
-      return $this->dccIndicator;
+        return $this->dccIndicator;
     }
 
     /**
@@ -35,8 +33,9 @@ class DCC
      */
     public function setDccIndicator($dccIndicator)
     {
-      $this->dccIndicator = $dccIndicator;
-      return $this;
+        $this->dccIndicator = $dccIndicator;
+
+        return $this;
     }
 
     /**
@@ -44,7 +43,7 @@ class DCC
      */
     public function getReferenceNumber()
     {
-      return $this->referenceNumber;
+        return $this->referenceNumber;
     }
 
     /**
@@ -53,8 +52,9 @@ class DCC
      */
     public function setReferenceNumber($referenceNumber)
     {
-      $this->referenceNumber = $referenceNumber;
-      return $this;
+        $this->referenceNumber = $referenceNumber;
+
+        return $this;
     }
 
 }

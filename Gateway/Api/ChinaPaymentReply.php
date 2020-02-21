@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class ChinaPaymentReply
 {
 
@@ -55,7 +58,7 @@ class ChinaPaymentReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -63,7 +66,7 @@ class ChinaPaymentReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -72,8 +75,9 @@ class ChinaPaymentReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -81,29 +85,30 @@ class ChinaPaymentReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ChinaPaymentReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -111,7 +116,7 @@ class ChinaPaymentReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -120,8 +125,9 @@ class ChinaPaymentReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -129,7 +135,7 @@ class ChinaPaymentReply
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -138,8 +144,9 @@ class ChinaPaymentReply
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -147,7 +154,7 @@ class ChinaPaymentReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -156,8 +163,9 @@ class ChinaPaymentReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -165,7 +173,7 @@ class ChinaPaymentReply
      */
     public function getFormData()
     {
-      return $this->formData;
+        return $this->formData;
     }
 
     /**
@@ -174,8 +182,9 @@ class ChinaPaymentReply
      */
     public function setFormData($formData)
     {
-      $this->formData = $formData;
-      return $this;
+        $this->formData = $formData;
+
+        return $this;
     }
 
     /**
@@ -183,7 +192,7 @@ class ChinaPaymentReply
      */
     public function getVerifyFailure()
     {
-      return $this->verifyFailure;
+        return $this->verifyFailure;
     }
 
     /**
@@ -192,8 +201,9 @@ class ChinaPaymentReply
      */
     public function setVerifyFailure($verifyFailure)
     {
-      $this->verifyFailure = $verifyFailure;
-      return $this;
+        $this->verifyFailure = $verifyFailure;
+
+        return $this;
     }
 
     /**
@@ -201,7 +211,7 @@ class ChinaPaymentReply
      */
     public function getVerifyInProcess()
     {
-      return $this->verifyInProcess;
+        return $this->verifyInProcess;
     }
 
     /**
@@ -210,8 +220,9 @@ class ChinaPaymentReply
      */
     public function setVerifyInProcess($verifyInProcess)
     {
-      $this->verifyInProcess = $verifyInProcess;
-      return $this;
+        $this->verifyInProcess = $verifyInProcess;
+
+        return $this;
     }
 
     /**
@@ -219,7 +230,7 @@ class ChinaPaymentReply
      */
     public function getVerifySuccess()
     {
-      return $this->verifySuccess;
+        return $this->verifySuccess;
     }
 
     /**
@@ -228,8 +239,9 @@ class ChinaPaymentReply
      */
     public function setVerifySuccess($verifySuccess)
     {
-      $this->verifySuccess = $verifySuccess;
-      return $this;
+        $this->verifySuccess = $verifySuccess;
+
+        return $this;
     }
 
 }

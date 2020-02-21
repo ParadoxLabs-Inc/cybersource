@@ -30,7 +30,7 @@ class APCancelService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class APCancelService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -47,8 +47,9 @@ class APCancelService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class APCancelService
      */
     public function getOrderRequestID()
     {
-      return $this->orderRequestID;
+        return $this->orderRequestID;
     }
 
     /**
@@ -65,8 +66,9 @@ class APCancelService
      */
     public function setOrderRequestID($orderRequestID)
     {
-      $this->orderRequestID = $orderRequestID;
-      return $this;
+        $this->orderRequestID = $orderRequestID;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class APCancelService
      */
     public function getSaleRequestID()
     {
-      return $this->saleRequestID;
+        return $this->saleRequestID;
     }
 
     /**
@@ -83,8 +85,9 @@ class APCancelService
      */
     public function setSaleRequestID($saleRequestID)
     {
-      $this->saleRequestID = $saleRequestID;
-      return $this;
+        $this->saleRequestID = $saleRequestID;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class APCancelService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class APCancelService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

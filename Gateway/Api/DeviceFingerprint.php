@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class DeviceFingerprint
 {
 
@@ -170,10 +173,8 @@ class DeviceFingerprint
      */
     protected $jbRootReason = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -181,7 +182,7 @@ class DeviceFingerprint
      */
     public function getCookiesEnabled()
     {
-      return $this->cookiesEnabled;
+        return $this->cookiesEnabled;
     }
 
     /**
@@ -190,8 +191,9 @@ class DeviceFingerprint
      */
     public function setCookiesEnabled($cookiesEnabled)
     {
-      $this->cookiesEnabled = $cookiesEnabled;
-      return $this;
+        $this->cookiesEnabled = $cookiesEnabled;
+
+        return $this;
     }
 
     /**
@@ -199,7 +201,7 @@ class DeviceFingerprint
      */
     public function getFlashEnabled()
     {
-      return $this->flashEnabled;
+        return $this->flashEnabled;
     }
 
     /**
@@ -208,8 +210,9 @@ class DeviceFingerprint
      */
     public function setFlashEnabled($flashEnabled)
     {
-      $this->flashEnabled = $flashEnabled;
-      return $this;
+        $this->flashEnabled = $flashEnabled;
+
+        return $this;
     }
 
     /**
@@ -217,7 +220,7 @@ class DeviceFingerprint
      */
     public function getHash()
     {
-      return $this->hash;
+        return $this->hash;
     }
 
     /**
@@ -226,8 +229,9 @@ class DeviceFingerprint
      */
     public function setHash($hash)
     {
-      $this->hash = $hash;
-      return $this;
+        $this->hash = $hash;
+
+        return $this;
     }
 
     /**
@@ -235,7 +239,7 @@ class DeviceFingerprint
      */
     public function getImagesEnabled()
     {
-      return $this->imagesEnabled;
+        return $this->imagesEnabled;
     }
 
     /**
@@ -244,8 +248,9 @@ class DeviceFingerprint
      */
     public function setImagesEnabled($imagesEnabled)
     {
-      $this->imagesEnabled = $imagesEnabled;
-      return $this;
+        $this->imagesEnabled = $imagesEnabled;
+
+        return $this;
     }
 
     /**
@@ -253,7 +258,7 @@ class DeviceFingerprint
      */
     public function getJavascriptEnabled()
     {
-      return $this->javascriptEnabled;
+        return $this->javascriptEnabled;
     }
 
     /**
@@ -262,8 +267,9 @@ class DeviceFingerprint
      */
     public function setJavascriptEnabled($javascriptEnabled)
     {
-      $this->javascriptEnabled = $javascriptEnabled;
-      return $this;
+        $this->javascriptEnabled = $javascriptEnabled;
+
+        return $this;
     }
 
     /**
@@ -271,7 +277,7 @@ class DeviceFingerprint
      */
     public function getProxyIPAddress()
     {
-      return $this->proxyIPAddress;
+        return $this->proxyIPAddress;
     }
 
     /**
@@ -280,8 +286,9 @@ class DeviceFingerprint
      */
     public function setProxyIPAddress($proxyIPAddress)
     {
-      $this->proxyIPAddress = $proxyIPAddress;
-      return $this;
+        $this->proxyIPAddress = $proxyIPAddress;
+
+        return $this;
     }
 
     /**
@@ -289,7 +296,7 @@ class DeviceFingerprint
      */
     public function getProxyIPAddressActivities()
     {
-      return $this->proxyIPAddressActivities;
+        return $this->proxyIPAddressActivities;
     }
 
     /**
@@ -298,8 +305,9 @@ class DeviceFingerprint
      */
     public function setProxyIPAddressActivities($proxyIPAddressActivities)
     {
-      $this->proxyIPAddressActivities = $proxyIPAddressActivities;
-      return $this;
+        $this->proxyIPAddressActivities = $proxyIPAddressActivities;
+
+        return $this;
     }
 
     /**
@@ -307,7 +315,7 @@ class DeviceFingerprint
      */
     public function getProxyIPAddressAttributes()
     {
-      return $this->proxyIPAddressAttributes;
+        return $this->proxyIPAddressAttributes;
     }
 
     /**
@@ -316,8 +324,9 @@ class DeviceFingerprint
      */
     public function setProxyIPAddressAttributes($proxyIPAddressAttributes)
     {
-      $this->proxyIPAddressAttributes = $proxyIPAddressAttributes;
-      return $this;
+        $this->proxyIPAddressAttributes = $proxyIPAddressAttributes;
+
+        return $this;
     }
 
     /**
@@ -325,7 +334,7 @@ class DeviceFingerprint
      */
     public function getProxyServerType()
     {
-      return $this->proxyServerType;
+        return $this->proxyServerType;
     }
 
     /**
@@ -334,8 +343,9 @@ class DeviceFingerprint
      */
     public function setProxyServerType($proxyServerType)
     {
-      $this->proxyServerType = $proxyServerType;
-      return $this;
+        $this->proxyServerType = $proxyServerType;
+
+        return $this;
     }
 
     /**
@@ -343,7 +353,7 @@ class DeviceFingerprint
      */
     public function getTrueIPAddress()
     {
-      return $this->trueIPAddress;
+        return $this->trueIPAddress;
     }
 
     /**
@@ -352,8 +362,9 @@ class DeviceFingerprint
      */
     public function setTrueIPAddress($trueIPAddress)
     {
-      $this->trueIPAddress = $trueIPAddress;
-      return $this;
+        $this->trueIPAddress = $trueIPAddress;
+
+        return $this;
     }
 
     /**
@@ -361,7 +372,7 @@ class DeviceFingerprint
      */
     public function getTrueIPAddressActivities()
     {
-      return $this->trueIPAddressActivities;
+        return $this->trueIPAddressActivities;
     }
 
     /**
@@ -370,8 +381,9 @@ class DeviceFingerprint
      */
     public function setTrueIPAddressActivities($trueIPAddressActivities)
     {
-      $this->trueIPAddressActivities = $trueIPAddressActivities;
-      return $this;
+        $this->trueIPAddressActivities = $trueIPAddressActivities;
+
+        return $this;
     }
 
     /**
@@ -379,7 +391,7 @@ class DeviceFingerprint
      */
     public function getTrueIPAddressAttributes()
     {
-      return $this->trueIPAddressAttributes;
+        return $this->trueIPAddressAttributes;
     }
 
     /**
@@ -388,8 +400,9 @@ class DeviceFingerprint
      */
     public function setTrueIPAddressAttributes($trueIPAddressAttributes)
     {
-      $this->trueIPAddressAttributes = $trueIPAddressAttributes;
-      return $this;
+        $this->trueIPAddressAttributes = $trueIPAddressAttributes;
+
+        return $this;
     }
 
     /**
@@ -397,7 +410,7 @@ class DeviceFingerprint
      */
     public function getTrueIPAddressCity()
     {
-      return $this->trueIPAddressCity;
+        return $this->trueIPAddressCity;
     }
 
     /**
@@ -406,8 +419,9 @@ class DeviceFingerprint
      */
     public function setTrueIPAddressCity($trueIPAddressCity)
     {
-      $this->trueIPAddressCity = $trueIPAddressCity;
-      return $this;
+        $this->trueIPAddressCity = $trueIPAddressCity;
+
+        return $this;
     }
 
     /**
@@ -415,7 +429,7 @@ class DeviceFingerprint
      */
     public function getTrueIPAddressState()
     {
-      return $this->trueIPAddressState;
+        return $this->trueIPAddressState;
     }
 
     /**
@@ -424,8 +438,9 @@ class DeviceFingerprint
      */
     public function setTrueIPAddressState($trueIPAddressState)
     {
-      $this->trueIPAddressState = $trueIPAddressState;
-      return $this;
+        $this->trueIPAddressState = $trueIPAddressState;
+
+        return $this;
     }
 
     /**
@@ -433,7 +448,7 @@ class DeviceFingerprint
      */
     public function getTrueIPAddressCountry()
     {
-      return $this->trueIPAddressCountry;
+        return $this->trueIPAddressCountry;
     }
 
     /**
@@ -442,8 +457,9 @@ class DeviceFingerprint
      */
     public function setTrueIPAddressCountry($trueIPAddressCountry)
     {
-      $this->trueIPAddressCountry = $trueIPAddressCountry;
-      return $this;
+        $this->trueIPAddressCountry = $trueIPAddressCountry;
+
+        return $this;
     }
 
     /**
@@ -451,7 +467,7 @@ class DeviceFingerprint
      */
     public function getSmartID()
     {
-      return $this->smartID;
+        return $this->smartID;
     }
 
     /**
@@ -460,8 +476,9 @@ class DeviceFingerprint
      */
     public function setSmartID($smartID)
     {
-      $this->smartID = $smartID;
-      return $this;
+        $this->smartID = $smartID;
+
+        return $this;
     }
 
     /**
@@ -469,7 +486,7 @@ class DeviceFingerprint
      */
     public function getSmartIDConfidenceLevel()
     {
-      return $this->smartIDConfidenceLevel;
+        return $this->smartIDConfidenceLevel;
     }
 
     /**
@@ -478,8 +495,9 @@ class DeviceFingerprint
      */
     public function setSmartIDConfidenceLevel($smartIDConfidenceLevel)
     {
-      $this->smartIDConfidenceLevel = $smartIDConfidenceLevel;
-      return $this;
+        $this->smartIDConfidenceLevel = $smartIDConfidenceLevel;
+
+        return $this;
     }
 
     /**
@@ -487,7 +505,7 @@ class DeviceFingerprint
      */
     public function getScreenResolution()
     {
-      return $this->screenResolution;
+        return $this->screenResolution;
     }
 
     /**
@@ -496,8 +514,9 @@ class DeviceFingerprint
      */
     public function setScreenResolution($screenResolution)
     {
-      $this->screenResolution = $screenResolution;
-      return $this;
+        $this->screenResolution = $screenResolution;
+
+        return $this;
     }
 
     /**
@@ -505,7 +524,7 @@ class DeviceFingerprint
      */
     public function getBrowserLanguage()
     {
-      return $this->browserLanguage;
+        return $this->browserLanguage;
     }
 
     /**
@@ -514,8 +533,9 @@ class DeviceFingerprint
      */
     public function setBrowserLanguage($browserLanguage)
     {
-      $this->browserLanguage = $browserLanguage;
-      return $this;
+        $this->browserLanguage = $browserLanguage;
+
+        return $this;
     }
 
     /**
@@ -523,7 +543,7 @@ class DeviceFingerprint
      */
     public function getAgentType()
     {
-      return $this->agentType;
+        return $this->agentType;
     }
 
     /**
@@ -532,8 +552,9 @@ class DeviceFingerprint
      */
     public function setAgentType($agentType)
     {
-      $this->agentType = $agentType;
-      return $this;
+        $this->agentType = $agentType;
+
+        return $this;
     }
 
     /**
@@ -541,29 +562,30 @@ class DeviceFingerprint
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DeviceFingerprint
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -571,7 +593,7 @@ class DeviceFingerprint
      */
     public function getProfileDuration()
     {
-      return $this->profileDuration;
+        return $this->profileDuration;
     }
 
     /**
@@ -580,8 +602,9 @@ class DeviceFingerprint
      */
     public function setProfileDuration($profileDuration)
     {
-      $this->profileDuration = $profileDuration;
-      return $this;
+        $this->profileDuration = $profileDuration;
+
+        return $this;
     }
 
     /**
@@ -589,7 +612,7 @@ class DeviceFingerprint
      */
     public function getProfiledURL()
     {
-      return $this->profiledURL;
+        return $this->profiledURL;
     }
 
     /**
@@ -598,8 +621,9 @@ class DeviceFingerprint
      */
     public function setProfiledURL($profiledURL)
     {
-      $this->profiledURL = $profiledURL;
-      return $this;
+        $this->profiledURL = $profiledURL;
+
+        return $this;
     }
 
     /**
@@ -607,7 +631,7 @@ class DeviceFingerprint
      */
     public function getTimeOnPage()
     {
-      return $this->timeOnPage;
+        return $this->timeOnPage;
     }
 
     /**
@@ -616,8 +640,9 @@ class DeviceFingerprint
      */
     public function setTimeOnPage($timeOnPage)
     {
-      $this->timeOnPage = $timeOnPage;
-      return $this;
+        $this->timeOnPage = $timeOnPage;
+
+        return $this;
     }
 
     /**
@@ -625,7 +650,7 @@ class DeviceFingerprint
      */
     public function getDeviceMatch()
     {
-      return $this->deviceMatch;
+        return $this->deviceMatch;
     }
 
     /**
@@ -634,8 +659,9 @@ class DeviceFingerprint
      */
     public function setDeviceMatch($deviceMatch)
     {
-      $this->deviceMatch = $deviceMatch;
-      return $this;
+        $this->deviceMatch = $deviceMatch;
+
+        return $this;
     }
 
     /**
@@ -643,7 +669,7 @@ class DeviceFingerprint
      */
     public function getFirstEncounter()
     {
-      return $this->firstEncounter;
+        return $this->firstEncounter;
     }
 
     /**
@@ -652,8 +678,9 @@ class DeviceFingerprint
      */
     public function setFirstEncounter($firstEncounter)
     {
-      $this->firstEncounter = $firstEncounter;
-      return $this;
+        $this->firstEncounter = $firstEncounter;
+
+        return $this;
     }
 
     /**
@@ -661,7 +688,7 @@ class DeviceFingerprint
      */
     public function getFlashOS()
     {
-      return $this->flashOS;
+        return $this->flashOS;
     }
 
     /**
@@ -670,8 +697,9 @@ class DeviceFingerprint
      */
     public function setFlashOS($flashOS)
     {
-      $this->flashOS = $flashOS;
-      return $this;
+        $this->flashOS = $flashOS;
+
+        return $this;
     }
 
     /**
@@ -679,7 +707,7 @@ class DeviceFingerprint
      */
     public function getFlashVersion()
     {
-      return $this->flashVersion;
+        return $this->flashVersion;
     }
 
     /**
@@ -688,8 +716,9 @@ class DeviceFingerprint
      */
     public function setFlashVersion($flashVersion)
     {
-      $this->flashVersion = $flashVersion;
-      return $this;
+        $this->flashVersion = $flashVersion;
+
+        return $this;
     }
 
     /**
@@ -697,7 +726,7 @@ class DeviceFingerprint
      */
     public function getDeviceLatitude()
     {
-      return $this->deviceLatitude;
+        return $this->deviceLatitude;
     }
 
     /**
@@ -706,8 +735,9 @@ class DeviceFingerprint
      */
     public function setDeviceLatitude($deviceLatitude)
     {
-      $this->deviceLatitude = $deviceLatitude;
-      return $this;
+        $this->deviceLatitude = $deviceLatitude;
+
+        return $this;
     }
 
     /**
@@ -715,7 +745,7 @@ class DeviceFingerprint
      */
     public function getDeviceLongitude()
     {
-      return $this->deviceLongitude;
+        return $this->deviceLongitude;
     }
 
     /**
@@ -724,8 +754,9 @@ class DeviceFingerprint
      */
     public function setDeviceLongitude($deviceLongitude)
     {
-      $this->deviceLongitude = $deviceLongitude;
-      return $this;
+        $this->deviceLongitude = $deviceLongitude;
+
+        return $this;
     }
 
     /**
@@ -733,7 +764,7 @@ class DeviceFingerprint
      */
     public function getGpsAccuracy()
     {
-      return $this->gpsAccuracy;
+        return $this->gpsAccuracy;
     }
 
     /**
@@ -742,8 +773,9 @@ class DeviceFingerprint
      */
     public function setGpsAccuracy($gpsAccuracy)
     {
-      $this->gpsAccuracy = $gpsAccuracy;
-      return $this;
+        $this->gpsAccuracy = $gpsAccuracy;
+
+        return $this;
     }
 
     /**
@@ -751,7 +783,7 @@ class DeviceFingerprint
      */
     public function getJbRoot()
     {
-      return $this->jbRoot;
+        return $this->jbRoot;
     }
 
     /**
@@ -760,8 +792,9 @@ class DeviceFingerprint
      */
     public function setJbRoot($jbRoot)
     {
-      $this->jbRoot = $jbRoot;
-      return $this;
+        $this->jbRoot = $jbRoot;
+
+        return $this;
     }
 
     /**
@@ -769,7 +802,7 @@ class DeviceFingerprint
      */
     public function getJbRootReason()
     {
-      return $this->jbRootReason;
+        return $this->jbRootReason;
     }
 
     /**
@@ -778,8 +811,9 @@ class DeviceFingerprint
      */
     public function setJbRootReason($jbRootReason)
     {
-      $this->jbRootReason = $jbRootReason;
-      return $this;
+        $this->jbRootReason = $jbRootReason;
+
+        return $this;
     }
 
 }

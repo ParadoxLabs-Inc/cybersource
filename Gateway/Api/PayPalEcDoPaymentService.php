@@ -55,7 +55,7 @@ class PayPalEcDoPaymentService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -63,7 +63,7 @@ class PayPalEcDoPaymentService
      */
     public function getPaypalToken()
     {
-      return $this->paypalToken;
+        return $this->paypalToken;
     }
 
     /**
@@ -72,8 +72,9 @@ class PayPalEcDoPaymentService
      */
     public function setPaypalToken($paypalToken)
     {
-      $this->paypalToken = $paypalToken;
-      return $this;
+        $this->paypalToken = $paypalToken;
+
+        return $this;
     }
 
     /**
@@ -81,7 +82,7 @@ class PayPalEcDoPaymentService
      */
     public function getPaypalPayerId()
     {
-      return $this->paypalPayerId;
+        return $this->paypalPayerId;
     }
 
     /**
@@ -90,8 +91,9 @@ class PayPalEcDoPaymentService
      */
     public function setPaypalPayerId($paypalPayerId)
     {
-      $this->paypalPayerId = $paypalPayerId;
-      return $this;
+        $this->paypalPayerId = $paypalPayerId;
+
+        return $this;
     }
 
     /**
@@ -99,7 +101,7 @@ class PayPalEcDoPaymentService
      */
     public function getPaypalCustomerEmail()
     {
-      return $this->paypalCustomerEmail;
+        return $this->paypalCustomerEmail;
     }
 
     /**
@@ -108,8 +110,9 @@ class PayPalEcDoPaymentService
      */
     public function setPaypalCustomerEmail($paypalCustomerEmail)
     {
-      $this->paypalCustomerEmail = $paypalCustomerEmail;
-      return $this;
+        $this->paypalCustomerEmail = $paypalCustomerEmail;
+
+        return $this;
     }
 
     /**
@@ -117,7 +120,7 @@ class PayPalEcDoPaymentService
      */
     public function getPaypalDesc()
     {
-      return $this->paypalDesc;
+        return $this->paypalDesc;
     }
 
     /**
@@ -126,8 +129,9 @@ class PayPalEcDoPaymentService
      */
     public function setPaypalDesc($paypalDesc)
     {
-      $this->paypalDesc = $paypalDesc;
-      return $this;
+        $this->paypalDesc = $paypalDesc;
+
+        return $this;
     }
 
     /**
@@ -135,7 +139,7 @@ class PayPalEcDoPaymentService
      */
     public function getPaypalEcSetRequestID()
     {
-      return $this->paypalEcSetRequestID;
+        return $this->paypalEcSetRequestID;
     }
 
     /**
@@ -144,8 +148,9 @@ class PayPalEcDoPaymentService
      */
     public function setPaypalEcSetRequestID($paypalEcSetRequestID)
     {
-      $this->paypalEcSetRequestID = $paypalEcSetRequestID;
-      return $this;
+        $this->paypalEcSetRequestID = $paypalEcSetRequestID;
+
+        return $this;
     }
 
     /**
@@ -153,7 +158,7 @@ class PayPalEcDoPaymentService
      */
     public function getPaypalEcSetRequestToken()
     {
-      return $this->paypalEcSetRequestToken;
+        return $this->paypalEcSetRequestToken;
     }
 
     /**
@@ -162,8 +167,9 @@ class PayPalEcDoPaymentService
      */
     public function setPaypalEcSetRequestToken($paypalEcSetRequestToken)
     {
-      $this->paypalEcSetRequestToken = $paypalEcSetRequestToken;
-      return $this;
+        $this->paypalEcSetRequestToken = $paypalEcSetRequestToken;
+
+        return $this;
     }
 
     /**
@@ -171,7 +177,7 @@ class PayPalEcDoPaymentService
      */
     public function getPromoCode0()
     {
-      return $this->promoCode0;
+        return $this->promoCode0;
     }
 
     /**
@@ -180,8 +186,9 @@ class PayPalEcDoPaymentService
      */
     public function setPromoCode0($promoCode0)
     {
-      $this->promoCode0 = $promoCode0;
-      return $this;
+        $this->promoCode0 = $promoCode0;
+
+        return $this;
     }
 
     /**
@@ -189,7 +196,7 @@ class PayPalEcDoPaymentService
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -198,8 +205,9 @@ class PayPalEcDoPaymentService
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -207,7 +215,7 @@ class PayPalEcDoPaymentService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -216,8 +224,9 @@ class PayPalEcDoPaymentService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

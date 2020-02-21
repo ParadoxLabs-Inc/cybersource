@@ -30,7 +30,7 @@ class HostedDataCreateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -38,7 +38,7 @@ class HostedDataCreateReply
      */
     public function getResponseMessage()
     {
-      return $this->responseMessage;
+        return $this->responseMessage;
     }
 
     /**
@@ -47,8 +47,9 @@ class HostedDataCreateReply
      */
     public function setResponseMessage($responseMessage)
     {
-      $this->responseMessage = $responseMessage;
-      return $this;
+        $this->responseMessage = $responseMessage;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class HostedDataCreateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -65,8 +66,9 @@ class HostedDataCreateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class HostedDataCreateReply
      */
     public function getCardAccountNumberToken()
     {
-      return $this->cardAccountNumberToken;
+        return $this->cardAccountNumberToken;
     }
 
     /**
@@ -83,8 +85,9 @@ class HostedDataCreateReply
      */
     public function setCardAccountNumberToken($cardAccountNumberToken)
     {
-      $this->cardAccountNumberToken = $cardAccountNumberToken;
-      return $this;
+        $this->cardAccountNumberToken = $cardAccountNumberToken;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class HostedDataCreateReply
      */
     public function getCustomerID()
     {
-      return $this->customerID;
+        return $this->customerID;
     }
 
     /**
@@ -101,8 +104,9 @@ class HostedDataCreateReply
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = $customerID;
-      return $this;
+        $this->customerID = $customerID;
+
+        return $this;
     }
 
 }

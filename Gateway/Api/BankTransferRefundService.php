@@ -45,7 +45,7 @@ class BankTransferRefundService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -53,7 +53,7 @@ class BankTransferRefundService
      */
     public function getBankTransferRequestID()
     {
-      return $this->bankTransferRequestID;
+        return $this->bankTransferRequestID;
     }
 
     /**
@@ -62,8 +62,9 @@ class BankTransferRefundService
      */
     public function setBankTransferRequestID($bankTransferRequestID)
     {
-      $this->bankTransferRequestID = $bankTransferRequestID;
-      return $this;
+        $this->bankTransferRequestID = $bankTransferRequestID;
+
+        return $this;
     }
 
     /**
@@ -71,7 +72,7 @@ class BankTransferRefundService
      */
     public function getBankTransferRealTimeRequestID()
     {
-      return $this->bankTransferRealTimeRequestID;
+        return $this->bankTransferRealTimeRequestID;
     }
 
     /**
@@ -80,8 +81,9 @@ class BankTransferRefundService
      */
     public function setBankTransferRealTimeRequestID($bankTransferRealTimeRequestID)
     {
-      $this->bankTransferRealTimeRequestID = $bankTransferRealTimeRequestID;
-      return $this;
+        $this->bankTransferRealTimeRequestID = $bankTransferRealTimeRequestID;
+
+        return $this;
     }
 
     /**
@@ -89,7 +91,7 @@ class BankTransferRefundService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -98,8 +100,9 @@ class BankTransferRefundService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -107,7 +110,7 @@ class BankTransferRefundService
      */
     public function getBankTransferRealTimeReconciliationID()
     {
-      return $this->bankTransferRealTimeReconciliationID;
+        return $this->bankTransferRealTimeReconciliationID;
     }
 
     /**
@@ -116,8 +119,9 @@ class BankTransferRefundService
      */
     public function setBankTransferRealTimeReconciliationID($bankTransferRealTimeReconciliationID)
     {
-      $this->bankTransferRealTimeReconciliationID = $bankTransferRealTimeReconciliationID;
-      return $this;
+        $this->bankTransferRealTimeReconciliationID = $bankTransferRealTimeReconciliationID;
+
+        return $this;
     }
 
     /**
@@ -125,7 +129,7 @@ class BankTransferRefundService
      */
     public function getBankTransferRequestToken()
     {
-      return $this->bankTransferRequestToken;
+        return $this->bankTransferRequestToken;
     }
 
     /**
@@ -134,8 +138,9 @@ class BankTransferRefundService
      */
     public function setBankTransferRequestToken($bankTransferRequestToken)
     {
-      $this->bankTransferRequestToken = $bankTransferRequestToken;
-      return $this;
+        $this->bankTransferRequestToken = $bankTransferRequestToken;
+
+        return $this;
     }
 
     /**
@@ -143,7 +148,7 @@ class BankTransferRefundService
      */
     public function getBankTransferRealTimeRequestToken()
     {
-      return $this->bankTransferRealTimeRequestToken;
+        return $this->bankTransferRealTimeRequestToken;
     }
 
     /**
@@ -152,8 +157,9 @@ class BankTransferRefundService
      */
     public function setBankTransferRealTimeRequestToken($bankTransferRealTimeRequestToken)
     {
-      $this->bankTransferRealTimeRequestToken = $bankTransferRealTimeRequestToken;
-      return $this;
+        $this->bankTransferRealTimeRequestToken = $bankTransferRealTimeRequestToken;
+
+        return $this;
     }
 
     /**
@@ -161,7 +167,7 @@ class BankTransferRefundService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -170,8 +176,9 @@ class BankTransferRefundService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

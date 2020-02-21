@@ -20,7 +20,7 @@ class APBillingAgreementService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class APBillingAgreementService
      */
     public function getSessionsRequestID()
     {
-      return $this->sessionsRequestID;
+        return $this->sessionsRequestID;
     }
 
     /**
@@ -37,8 +37,9 @@ class APBillingAgreementService
      */
     public function setSessionsRequestID($sessionsRequestID)
     {
-      $this->sessionsRequestID = $sessionsRequestID;
-      return $this;
+        $this->sessionsRequestID = $sessionsRequestID;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class APBillingAgreementService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class APBillingAgreementService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

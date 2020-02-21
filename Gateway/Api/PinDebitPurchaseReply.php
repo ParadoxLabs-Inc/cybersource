@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PinDebitPurchaseReply
 {
 
@@ -85,7 +88,7 @@ class PinDebitPurchaseReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -93,7 +96,7 @@ class PinDebitPurchaseReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -102,8 +105,9 @@ class PinDebitPurchaseReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -111,7 +115,7 @@ class PinDebitPurchaseReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -120,8 +124,9 @@ class PinDebitPurchaseReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -129,7 +134,7 @@ class PinDebitPurchaseReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -138,8 +143,9 @@ class PinDebitPurchaseReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -147,7 +153,7 @@ class PinDebitPurchaseReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -156,8 +162,9 @@ class PinDebitPurchaseReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -165,7 +172,7 @@ class PinDebitPurchaseReply
      */
     public function getNetworkCode()
     {
-      return $this->networkCode;
+        return $this->networkCode;
     }
 
     /**
@@ -174,8 +181,9 @@ class PinDebitPurchaseReply
      */
     public function setNetworkCode($networkCode)
     {
-      $this->networkCode = $networkCode;
-      return $this;
+        $this->networkCode = $networkCode;
+
+        return $this;
     }
 
     /**
@@ -183,7 +191,7 @@ class PinDebitPurchaseReply
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -192,8 +200,9 @@ class PinDebitPurchaseReply
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -201,7 +210,7 @@ class PinDebitPurchaseReply
      */
     public function getRequestAmount()
     {
-      return $this->requestAmount;
+        return $this->requestAmount;
     }
 
     /**
@@ -210,8 +219,9 @@ class PinDebitPurchaseReply
      */
     public function setRequestAmount($requestAmount)
     {
-      $this->requestAmount = $requestAmount;
-      return $this;
+        $this->requestAmount = $requestAmount;
+
+        return $this;
     }
 
     /**
@@ -219,7 +229,7 @@ class PinDebitPurchaseReply
      */
     public function getRequestCurrency()
     {
-      return $this->requestCurrency;
+        return $this->requestCurrency;
     }
 
     /**
@@ -228,8 +238,9 @@ class PinDebitPurchaseReply
      */
     public function setRequestCurrency($requestCurrency)
     {
-      $this->requestCurrency = $requestCurrency;
-      return $this;
+        $this->requestCurrency = $requestCurrency;
+
+        return $this;
     }
 
     /**
@@ -237,7 +248,7 @@ class PinDebitPurchaseReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -246,8 +257,9 @@ class PinDebitPurchaseReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -255,29 +267,30 @@ class PinDebitPurchaseReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PinDebitPurchaseReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -285,7 +298,7 @@ class PinDebitPurchaseReply
      */
     public function getAccountType()
     {
-      return $this->accountType;
+        return $this->accountType;
     }
 
     /**
@@ -294,8 +307,9 @@ class PinDebitPurchaseReply
      */
     public function setAccountType($accountType)
     {
-      $this->accountType = $accountType;
-      return $this;
+        $this->accountType = $accountType;
+
+        return $this;
     }
 
     /**
@@ -303,7 +317,7 @@ class PinDebitPurchaseReply
      */
     public function getAmountType()
     {
-      return $this->amountType;
+        return $this->amountType;
     }
 
     /**
@@ -312,8 +326,9 @@ class PinDebitPurchaseReply
      */
     public function setAmountType($amountType)
     {
-      $this->amountType = $amountType;
-      return $this;
+        $this->amountType = $amountType;
+
+        return $this;
     }
 
     /**
@@ -321,7 +336,7 @@ class PinDebitPurchaseReply
      */
     public function getAccountBalance()
     {
-      return $this->accountBalance;
+        return $this->accountBalance;
     }
 
     /**
@@ -330,8 +345,9 @@ class PinDebitPurchaseReply
      */
     public function setAccountBalance($accountBalance)
     {
-      $this->accountBalance = $accountBalance;
-      return $this;
+        $this->accountBalance = $accountBalance;
+
+        return $this;
     }
 
     /**
@@ -339,7 +355,7 @@ class PinDebitPurchaseReply
      */
     public function getAccountBalanceCurrency()
     {
-      return $this->accountBalanceCurrency;
+        return $this->accountBalanceCurrency;
     }
 
     /**
@@ -348,8 +364,9 @@ class PinDebitPurchaseReply
      */
     public function setAccountBalanceCurrency($accountBalanceCurrency)
     {
-      $this->accountBalanceCurrency = $accountBalanceCurrency;
-      return $this;
+        $this->accountBalanceCurrency = $accountBalanceCurrency;
+
+        return $this;
     }
 
     /**
@@ -357,7 +374,7 @@ class PinDebitPurchaseReply
      */
     public function getAccountBalanceSign()
     {
-      return $this->accountBalanceSign;
+        return $this->accountBalanceSign;
     }
 
     /**
@@ -366,8 +383,9 @@ class PinDebitPurchaseReply
      */
     public function setAccountBalanceSign($accountBalanceSign)
     {
-      $this->accountBalanceSign = $accountBalanceSign;
-      return $this;
+        $this->accountBalanceSign = $accountBalanceSign;
+
+        return $this;
     }
 
 }

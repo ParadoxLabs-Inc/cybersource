@@ -55,7 +55,7 @@ class ECCreditService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -63,7 +63,7 @@ class ECCreditService
      */
     public function getReferenceNumber()
     {
-      return $this->referenceNumber;
+        return $this->referenceNumber;
     }
 
     /**
@@ -72,8 +72,9 @@ class ECCreditService
      */
     public function setReferenceNumber($referenceNumber)
     {
-      $this->referenceNumber = $referenceNumber;
-      return $this;
+        $this->referenceNumber = $referenceNumber;
+
+        return $this;
     }
 
     /**
@@ -81,7 +82,7 @@ class ECCreditService
      */
     public function getSettlementMethod()
     {
-      return $this->settlementMethod;
+        return $this->settlementMethod;
     }
 
     /**
@@ -90,8 +91,9 @@ class ECCreditService
      */
     public function setSettlementMethod($settlementMethod)
     {
-      $this->settlementMethod = $settlementMethod;
-      return $this;
+        $this->settlementMethod = $settlementMethod;
+
+        return $this;
     }
 
     /**
@@ -99,7 +101,7 @@ class ECCreditService
      */
     public function getTransactionToken()
     {
-      return $this->transactionToken;
+        return $this->transactionToken;
     }
 
     /**
@@ -108,8 +110,9 @@ class ECCreditService
      */
     public function setTransactionToken($transactionToken)
     {
-      $this->transactionToken = $transactionToken;
-      return $this;
+        $this->transactionToken = $transactionToken;
+
+        return $this;
     }
 
     /**
@@ -117,7 +120,7 @@ class ECCreditService
      */
     public function getDebitRequestID()
     {
-      return $this->debitRequestID;
+        return $this->debitRequestID;
     }
 
     /**
@@ -126,8 +129,9 @@ class ECCreditService
      */
     public function setDebitRequestID($debitRequestID)
     {
-      $this->debitRequestID = $debitRequestID;
-      return $this;
+        $this->debitRequestID = $debitRequestID;
+
+        return $this;
     }
 
     /**
@@ -135,7 +139,7 @@ class ECCreditService
      */
     public function getPartialPaymentID()
     {
-      return $this->partialPaymentID;
+        return $this->partialPaymentID;
     }
 
     /**
@@ -144,8 +148,9 @@ class ECCreditService
      */
     public function setPartialPaymentID($partialPaymentID)
     {
-      $this->partialPaymentID = $partialPaymentID;
-      return $this;
+        $this->partialPaymentID = $partialPaymentID;
+
+        return $this;
     }
 
     /**
@@ -153,7 +158,7 @@ class ECCreditService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -162,8 +167,9 @@ class ECCreditService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -171,7 +177,7 @@ class ECCreditService
      */
     public function getDebitRequestToken()
     {
-      return $this->debitRequestToken;
+        return $this->debitRequestToken;
     }
 
     /**
@@ -180,8 +186,9 @@ class ECCreditService
      */
     public function setDebitRequestToken($debitRequestToken)
     {
-      $this->debitRequestToken = $debitRequestToken;
-      return $this;
+        $this->debitRequestToken = $debitRequestToken;
+
+        return $this;
     }
 
     /**
@@ -189,7 +196,7 @@ class ECCreditService
      */
     public function getEffectiveDate()
     {
-      return $this->effectiveDate;
+        return $this->effectiveDate;
     }
 
     /**
@@ -198,8 +205,9 @@ class ECCreditService
      */
     public function setEffectiveDate($effectiveDate)
     {
-      $this->effectiveDate = $effectiveDate;
-      return $this;
+        $this->effectiveDate = $effectiveDate;
+
+        return $this;
     }
 
     /**
@@ -207,7 +215,7 @@ class ECCreditService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -216,8 +224,9 @@ class ECCreditService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

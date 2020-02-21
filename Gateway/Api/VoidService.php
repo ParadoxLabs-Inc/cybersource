@@ -30,7 +30,7 @@ class VoidService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class VoidService
      */
     public function getVoidRequestID()
     {
-      return $this->voidRequestID;
+        return $this->voidRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class VoidService
      */
     public function setVoidRequestID($voidRequestID)
     {
-      $this->voidRequestID = $voidRequestID;
-      return $this;
+        $this->voidRequestID = $voidRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class VoidService
      */
     public function getVoidRequestToken()
     {
-      return $this->voidRequestToken;
+        return $this->voidRequestToken;
     }
 
     /**
@@ -65,8 +66,9 @@ class VoidService
      */
     public function setVoidRequestToken($voidRequestToken)
     {
-      $this->voidRequestToken = $voidRequestToken;
-      return $this;
+        $this->voidRequestToken = $voidRequestToken;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class VoidService
      */
     public function getVoidReason()
     {
-      return $this->voidReason;
+        return $this->voidReason;
     }
 
     /**
@@ -83,8 +85,9 @@ class VoidService
      */
     public function setVoidReason($voidReason)
     {
-      $this->voidReason = $voidReason;
-      return $this;
+        $this->voidReason = $voidReason;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class VoidService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class VoidService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

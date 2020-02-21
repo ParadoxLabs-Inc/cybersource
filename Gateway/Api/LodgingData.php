@@ -255,10 +255,8 @@ class LodgingData
      */
     protected $travelAgencyName = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -266,7 +264,7 @@ class LodgingData
      */
     public function getCheckInDate()
     {
-      return $this->checkInDate;
+        return $this->checkInDate;
     }
 
     /**
@@ -275,8 +273,9 @@ class LodgingData
      */
     public function setCheckInDate($checkInDate)
     {
-      $this->checkInDate = $checkInDate;
-      return $this;
+        $this->checkInDate = $checkInDate;
+
+        return $this;
     }
 
     /**
@@ -284,7 +283,7 @@ class LodgingData
      */
     public function getCheckOutDate()
     {
-      return $this->checkOutDate;
+        return $this->checkOutDate;
     }
 
     /**
@@ -293,8 +292,9 @@ class LodgingData
      */
     public function setCheckOutDate($checkOutDate)
     {
-      $this->checkOutDate = $checkOutDate;
-      return $this;
+        $this->checkOutDate = $checkOutDate;
+
+        return $this;
     }
 
     /**
@@ -302,7 +302,7 @@ class LodgingData
      */
     public function getDailyRoomRate1()
     {
-      return $this->dailyRoomRate1;
+        return $this->dailyRoomRate1;
     }
 
     /**
@@ -311,8 +311,9 @@ class LodgingData
      */
     public function setDailyRoomRate1($dailyRoomRate1)
     {
-      $this->dailyRoomRate1 = $dailyRoomRate1;
-      return $this;
+        $this->dailyRoomRate1 = $dailyRoomRate1;
+
+        return $this;
     }
 
     /**
@@ -320,7 +321,7 @@ class LodgingData
      */
     public function getDailyRoomRate2()
     {
-      return $this->dailyRoomRate2;
+        return $this->dailyRoomRate2;
     }
 
     /**
@@ -329,8 +330,9 @@ class LodgingData
      */
     public function setDailyRoomRate2($dailyRoomRate2)
     {
-      $this->dailyRoomRate2 = $dailyRoomRate2;
-      return $this;
+        $this->dailyRoomRate2 = $dailyRoomRate2;
+
+        return $this;
     }
 
     /**
@@ -338,7 +340,7 @@ class LodgingData
      */
     public function getDailyRoomRate3()
     {
-      return $this->dailyRoomRate3;
+        return $this->dailyRoomRate3;
     }
 
     /**
@@ -347,8 +349,9 @@ class LodgingData
      */
     public function setDailyRoomRate3($dailyRoomRate3)
     {
-      $this->dailyRoomRate3 = $dailyRoomRate3;
-      return $this;
+        $this->dailyRoomRate3 = $dailyRoomRate3;
+
+        return $this;
     }
 
     /**
@@ -356,7 +359,7 @@ class LodgingData
      */
     public function getRoomNights1()
     {
-      return $this->roomNights1;
+        return $this->roomNights1;
     }
 
     /**
@@ -365,8 +368,9 @@ class LodgingData
      */
     public function setRoomNights1($roomNights1)
     {
-      $this->roomNights1 = $roomNights1;
-      return $this;
+        $this->roomNights1 = $roomNights1;
+
+        return $this;
     }
 
     /**
@@ -374,7 +378,7 @@ class LodgingData
      */
     public function getRoomNights2()
     {
-      return $this->roomNights2;
+        return $this->roomNights2;
     }
 
     /**
@@ -383,8 +387,9 @@ class LodgingData
      */
     public function setRoomNights2($roomNights2)
     {
-      $this->roomNights2 = $roomNights2;
-      return $this;
+        $this->roomNights2 = $roomNights2;
+
+        return $this;
     }
 
     /**
@@ -392,7 +397,7 @@ class LodgingData
      */
     public function getRoomNights3()
     {
-      return $this->roomNights3;
+        return $this->roomNights3;
     }
 
     /**
@@ -401,8 +406,9 @@ class LodgingData
      */
     public function setRoomNights3($roomNights3)
     {
-      $this->roomNights3 = $roomNights3;
-      return $this;
+        $this->roomNights3 = $roomNights3;
+
+        return $this;
     }
 
     /**
@@ -410,7 +416,7 @@ class LodgingData
      */
     public function getGuestSmokingPreference()
     {
-      return $this->guestSmokingPreference;
+        return $this->guestSmokingPreference;
     }
 
     /**
@@ -419,8 +425,9 @@ class LodgingData
      */
     public function setGuestSmokingPreference($guestSmokingPreference)
     {
-      $this->guestSmokingPreference = $guestSmokingPreference;
-      return $this;
+        $this->guestSmokingPreference = $guestSmokingPreference;
+
+        return $this;
     }
 
     /**
@@ -428,7 +435,7 @@ class LodgingData
      */
     public function getNumberOfRoomsBooked()
     {
-      return $this->numberOfRoomsBooked;
+        return $this->numberOfRoomsBooked;
     }
 
     /**
@@ -437,8 +444,9 @@ class LodgingData
      */
     public function setNumberOfRoomsBooked($numberOfRoomsBooked)
     {
-      $this->numberOfRoomsBooked = $numberOfRoomsBooked;
-      return $this;
+        $this->numberOfRoomsBooked = $numberOfRoomsBooked;
+
+        return $this;
     }
 
     /**
@@ -446,7 +454,7 @@ class LodgingData
      */
     public function getNumberOfGuests()
     {
-      return $this->numberOfGuests;
+        return $this->numberOfGuests;
     }
 
     /**
@@ -455,8 +463,9 @@ class LodgingData
      */
     public function setNumberOfGuests($numberOfGuests)
     {
-      $this->numberOfGuests = $numberOfGuests;
-      return $this;
+        $this->numberOfGuests = $numberOfGuests;
+
+        return $this;
     }
 
     /**
@@ -464,7 +473,7 @@ class LodgingData
      */
     public function getRoomBedType()
     {
-      return $this->roomBedType;
+        return $this->roomBedType;
     }
 
     /**
@@ -473,8 +482,9 @@ class LodgingData
      */
     public function setRoomBedType($roomBedType)
     {
-      $this->roomBedType = $roomBedType;
-      return $this;
+        $this->roomBedType = $roomBedType;
+
+        return $this;
     }
 
     /**
@@ -482,7 +492,7 @@ class LodgingData
      */
     public function getRoomTaxElements()
     {
-      return $this->roomTaxElements;
+        return $this->roomTaxElements;
     }
 
     /**
@@ -491,8 +501,9 @@ class LodgingData
      */
     public function setRoomTaxElements($roomTaxElements)
     {
-      $this->roomTaxElements = $roomTaxElements;
-      return $this;
+        $this->roomTaxElements = $roomTaxElements;
+
+        return $this;
     }
 
     /**
@@ -500,7 +511,7 @@ class LodgingData
      */
     public function getRoomRateType()
     {
-      return $this->roomRateType;
+        return $this->roomRateType;
     }
 
     /**
@@ -509,8 +520,9 @@ class LodgingData
      */
     public function setRoomRateType($roomRateType)
     {
-      $this->roomRateType = $roomRateType;
-      return $this;
+        $this->roomRateType = $roomRateType;
+
+        return $this;
     }
 
     /**
@@ -518,7 +530,7 @@ class LodgingData
      */
     public function getGuestName()
     {
-      return $this->guestName;
+        return $this->guestName;
     }
 
     /**
@@ -527,8 +539,9 @@ class LodgingData
      */
     public function setGuestName($guestName)
     {
-      $this->guestName = $guestName;
-      return $this;
+        $this->guestName = $guestName;
+
+        return $this;
     }
 
     /**
@@ -536,7 +549,7 @@ class LodgingData
      */
     public function getCustomerServicePhoneNumber()
     {
-      return $this->customerServicePhoneNumber;
+        return $this->customerServicePhoneNumber;
     }
 
     /**
@@ -545,8 +558,9 @@ class LodgingData
      */
     public function setCustomerServicePhoneNumber($customerServicePhoneNumber)
     {
-      $this->customerServicePhoneNumber = $customerServicePhoneNumber;
-      return $this;
+        $this->customerServicePhoneNumber = $customerServicePhoneNumber;
+
+        return $this;
     }
 
     /**
@@ -554,7 +568,7 @@ class LodgingData
      */
     public function getCorporateClientCode()
     {
-      return $this->corporateClientCode;
+        return $this->corporateClientCode;
     }
 
     /**
@@ -563,8 +577,9 @@ class LodgingData
      */
     public function setCorporateClientCode($corporateClientCode)
     {
-      $this->corporateClientCode = $corporateClientCode;
-      return $this;
+        $this->corporateClientCode = $corporateClientCode;
+
+        return $this;
     }
 
     /**
@@ -572,7 +587,7 @@ class LodgingData
      */
     public function getPromotionalCode()
     {
-      return $this->promotionalCode;
+        return $this->promotionalCode;
     }
 
     /**
@@ -581,8 +596,9 @@ class LodgingData
      */
     public function setPromotionalCode($promotionalCode)
     {
-      $this->promotionalCode = $promotionalCode;
-      return $this;
+        $this->promotionalCode = $promotionalCode;
+
+        return $this;
     }
 
     /**
@@ -590,7 +606,7 @@ class LodgingData
      */
     public function getAdditionalCoupon()
     {
-      return $this->additionalCoupon;
+        return $this->additionalCoupon;
     }
 
     /**
@@ -599,8 +615,9 @@ class LodgingData
      */
     public function setAdditionalCoupon($additionalCoupon)
     {
-      $this->additionalCoupon = $additionalCoupon;
-      return $this;
+        $this->additionalCoupon = $additionalCoupon;
+
+        return $this;
     }
 
     /**
@@ -608,7 +625,7 @@ class LodgingData
      */
     public function getRoomLocation()
     {
-      return $this->roomLocation;
+        return $this->roomLocation;
     }
 
     /**
@@ -617,8 +634,9 @@ class LodgingData
      */
     public function setRoomLocation($roomLocation)
     {
-      $this->roomLocation = $roomLocation;
-      return $this;
+        $this->roomLocation = $roomLocation;
+
+        return $this;
     }
 
     /**
@@ -626,7 +644,7 @@ class LodgingData
      */
     public function getSpecialProgramCode()
     {
-      return $this->specialProgramCode;
+        return $this->specialProgramCode;
     }
 
     /**
@@ -635,8 +653,9 @@ class LodgingData
      */
     public function setSpecialProgramCode($specialProgramCode)
     {
-      $this->specialProgramCode = $specialProgramCode;
-      return $this;
+        $this->specialProgramCode = $specialProgramCode;
+
+        return $this;
     }
 
     /**
@@ -644,7 +663,7 @@ class LodgingData
      */
     public function getTax()
     {
-      return $this->tax;
+        return $this->tax;
     }
 
     /**
@@ -653,8 +672,9 @@ class LodgingData
      */
     public function setTax($tax)
     {
-      $this->tax = $tax;
-      return $this;
+        $this->tax = $tax;
+
+        return $this;
     }
 
     /**
@@ -662,7 +682,7 @@ class LodgingData
      */
     public function getPrepaidCost()
     {
-      return $this->prepaidCost;
+        return $this->prepaidCost;
     }
 
     /**
@@ -671,8 +691,9 @@ class LodgingData
      */
     public function setPrepaidCost($prepaidCost)
     {
-      $this->prepaidCost = $prepaidCost;
-      return $this;
+        $this->prepaidCost = $prepaidCost;
+
+        return $this;
     }
 
     /**
@@ -680,7 +701,7 @@ class LodgingData
      */
     public function getFoodAndBeverageCost()
     {
-      return $this->foodAndBeverageCost;
+        return $this->foodAndBeverageCost;
     }
 
     /**
@@ -689,8 +710,9 @@ class LodgingData
      */
     public function setFoodAndBeverageCost($foodAndBeverageCost)
     {
-      $this->foodAndBeverageCost = $foodAndBeverageCost;
-      return $this;
+        $this->foodAndBeverageCost = $foodAndBeverageCost;
+
+        return $this;
     }
 
     /**
@@ -698,7 +720,7 @@ class LodgingData
      */
     public function getRoomTax()
     {
-      return $this->roomTax;
+        return $this->roomTax;
     }
 
     /**
@@ -707,8 +729,9 @@ class LodgingData
      */
     public function setRoomTax($roomTax)
     {
-      $this->roomTax = $roomTax;
-      return $this;
+        $this->roomTax = $roomTax;
+
+        return $this;
     }
 
     /**
@@ -716,7 +739,7 @@ class LodgingData
      */
     public function getAdjustmentAmount()
     {
-      return $this->adjustmentAmount;
+        return $this->adjustmentAmount;
     }
 
     /**
@@ -725,8 +748,9 @@ class LodgingData
      */
     public function setAdjustmentAmount($adjustmentAmount)
     {
-      $this->adjustmentAmount = $adjustmentAmount;
-      return $this;
+        $this->adjustmentAmount = $adjustmentAmount;
+
+        return $this;
     }
 
     /**
@@ -734,7 +758,7 @@ class LodgingData
      */
     public function getPhoneCost()
     {
-      return $this->phoneCost;
+        return $this->phoneCost;
     }
 
     /**
@@ -743,8 +767,9 @@ class LodgingData
      */
     public function setPhoneCost($phoneCost)
     {
-      $this->phoneCost = $phoneCost;
-      return $this;
+        $this->phoneCost = $phoneCost;
+
+        return $this;
     }
 
     /**
@@ -752,7 +777,7 @@ class LodgingData
      */
     public function getRestaurantCost()
     {
-      return $this->restaurantCost;
+        return $this->restaurantCost;
     }
 
     /**
@@ -761,8 +786,9 @@ class LodgingData
      */
     public function setRestaurantCost($restaurantCost)
     {
-      $this->restaurantCost = $restaurantCost;
-      return $this;
+        $this->restaurantCost = $restaurantCost;
+
+        return $this;
     }
 
     /**
@@ -770,7 +796,7 @@ class LodgingData
      */
     public function getRoomServiceCost()
     {
-      return $this->roomServiceCost;
+        return $this->roomServiceCost;
     }
 
     /**
@@ -779,8 +805,9 @@ class LodgingData
      */
     public function setRoomServiceCost($roomServiceCost)
     {
-      $this->roomServiceCost = $roomServiceCost;
-      return $this;
+        $this->roomServiceCost = $roomServiceCost;
+
+        return $this;
     }
 
     /**
@@ -788,7 +815,7 @@ class LodgingData
      */
     public function getMiniBarCost()
     {
-      return $this->miniBarCost;
+        return $this->miniBarCost;
     }
 
     /**
@@ -797,8 +824,9 @@ class LodgingData
      */
     public function setMiniBarCost($miniBarCost)
     {
-      $this->miniBarCost = $miniBarCost;
-      return $this;
+        $this->miniBarCost = $miniBarCost;
+
+        return $this;
     }
 
     /**
@@ -806,7 +834,7 @@ class LodgingData
      */
     public function getLaundryCost()
     {
-      return $this->laundryCost;
+        return $this->laundryCost;
     }
 
     /**
@@ -815,8 +843,9 @@ class LodgingData
      */
     public function setLaundryCost($laundryCost)
     {
-      $this->laundryCost = $laundryCost;
-      return $this;
+        $this->laundryCost = $laundryCost;
+
+        return $this;
     }
 
     /**
@@ -824,7 +853,7 @@ class LodgingData
      */
     public function getMiscellaneousCost()
     {
-      return $this->miscellaneousCost;
+        return $this->miscellaneousCost;
     }
 
     /**
@@ -833,8 +862,9 @@ class LodgingData
      */
     public function setMiscellaneousCost($miscellaneousCost)
     {
-      $this->miscellaneousCost = $miscellaneousCost;
-      return $this;
+        $this->miscellaneousCost = $miscellaneousCost;
+
+        return $this;
     }
 
     /**
@@ -842,7 +872,7 @@ class LodgingData
      */
     public function getGiftShopCost()
     {
-      return $this->giftShopCost;
+        return $this->giftShopCost;
     }
 
     /**
@@ -851,8 +881,9 @@ class LodgingData
      */
     public function setGiftShopCost($giftShopCost)
     {
-      $this->giftShopCost = $giftShopCost;
-      return $this;
+        $this->giftShopCost = $giftShopCost;
+
+        return $this;
     }
 
     /**
@@ -860,7 +891,7 @@ class LodgingData
      */
     public function getMovieCost()
     {
-      return $this->movieCost;
+        return $this->movieCost;
     }
 
     /**
@@ -869,8 +900,9 @@ class LodgingData
      */
     public function setMovieCost($movieCost)
     {
-      $this->movieCost = $movieCost;
-      return $this;
+        $this->movieCost = $movieCost;
+
+        return $this;
     }
 
     /**
@@ -878,7 +910,7 @@ class LodgingData
      */
     public function getHealthClubCost()
     {
-      return $this->healthClubCost;
+        return $this->healthClubCost;
     }
 
     /**
@@ -887,8 +919,9 @@ class LodgingData
      */
     public function setHealthClubCost($healthClubCost)
     {
-      $this->healthClubCost = $healthClubCost;
-      return $this;
+        $this->healthClubCost = $healthClubCost;
+
+        return $this;
     }
 
     /**
@@ -896,7 +929,7 @@ class LodgingData
      */
     public function getValetParkingCost()
     {
-      return $this->valetParkingCost;
+        return $this->valetParkingCost;
     }
 
     /**
@@ -905,8 +938,9 @@ class LodgingData
      */
     public function setValetParkingCost($valetParkingCost)
     {
-      $this->valetParkingCost = $valetParkingCost;
-      return $this;
+        $this->valetParkingCost = $valetParkingCost;
+
+        return $this;
     }
 
     /**
@@ -914,7 +948,7 @@ class LodgingData
      */
     public function getCashDisbursementCost()
     {
-      return $this->cashDisbursementCost;
+        return $this->cashDisbursementCost;
     }
 
     /**
@@ -923,8 +957,9 @@ class LodgingData
      */
     public function setCashDisbursementCost($cashDisbursementCost)
     {
-      $this->cashDisbursementCost = $cashDisbursementCost;
-      return $this;
+        $this->cashDisbursementCost = $cashDisbursementCost;
+
+        return $this;
     }
 
     /**
@@ -932,7 +967,7 @@ class LodgingData
      */
     public function getNonRoomCost()
     {
-      return $this->nonRoomCost;
+        return $this->nonRoomCost;
     }
 
     /**
@@ -941,8 +976,9 @@ class LodgingData
      */
     public function setNonRoomCost($nonRoomCost)
     {
-      $this->nonRoomCost = $nonRoomCost;
-      return $this;
+        $this->nonRoomCost = $nonRoomCost;
+
+        return $this;
     }
 
     /**
@@ -950,7 +986,7 @@ class LodgingData
      */
     public function getBusinessCenterCost()
     {
-      return $this->businessCenterCost;
+        return $this->businessCenterCost;
     }
 
     /**
@@ -959,8 +995,9 @@ class LodgingData
      */
     public function setBusinessCenterCost($businessCenterCost)
     {
-      $this->businessCenterCost = $businessCenterCost;
-      return $this;
+        $this->businessCenterCost = $businessCenterCost;
+
+        return $this;
     }
 
     /**
@@ -968,7 +1005,7 @@ class LodgingData
      */
     public function getLoungeBarCost()
     {
-      return $this->loungeBarCost;
+        return $this->loungeBarCost;
     }
 
     /**
@@ -977,8 +1014,9 @@ class LodgingData
      */
     public function setLoungeBarCost($loungeBarCost)
     {
-      $this->loungeBarCost = $loungeBarCost;
-      return $this;
+        $this->loungeBarCost = $loungeBarCost;
+
+        return $this;
     }
 
     /**
@@ -986,7 +1024,7 @@ class LodgingData
      */
     public function getTransportationCost()
     {
-      return $this->transportationCost;
+        return $this->transportationCost;
     }
 
     /**
@@ -995,8 +1033,9 @@ class LodgingData
      */
     public function setTransportationCost($transportationCost)
     {
-      $this->transportationCost = $transportationCost;
-      return $this;
+        $this->transportationCost = $transportationCost;
+
+        return $this;
     }
 
     /**
@@ -1004,7 +1043,7 @@ class LodgingData
      */
     public function getGratuityCost()
     {
-      return $this->gratuityCost;
+        return $this->gratuityCost;
     }
 
     /**
@@ -1013,8 +1052,9 @@ class LodgingData
      */
     public function setGratuityCost($gratuityCost)
     {
-      $this->gratuityCost = $gratuityCost;
-      return $this;
+        $this->gratuityCost = $gratuityCost;
+
+        return $this;
     }
 
     /**
@@ -1022,7 +1062,7 @@ class LodgingData
      */
     public function getConferenceRoomCost()
     {
-      return $this->conferenceRoomCost;
+        return $this->conferenceRoomCost;
     }
 
     /**
@@ -1031,8 +1071,9 @@ class LodgingData
      */
     public function setConferenceRoomCost($conferenceRoomCost)
     {
-      $this->conferenceRoomCost = $conferenceRoomCost;
-      return $this;
+        $this->conferenceRoomCost = $conferenceRoomCost;
+
+        return $this;
     }
 
     /**
@@ -1040,7 +1081,7 @@ class LodgingData
      */
     public function getAudioVisualCost()
     {
-      return $this->audioVisualCost;
+        return $this->audioVisualCost;
     }
 
     /**
@@ -1049,8 +1090,9 @@ class LodgingData
      */
     public function setAudioVisualCost($audioVisualCost)
     {
-      $this->audioVisualCost = $audioVisualCost;
-      return $this;
+        $this->audioVisualCost = $audioVisualCost;
+
+        return $this;
     }
 
     /**
@@ -1058,7 +1100,7 @@ class LodgingData
      */
     public function getBanquetCost()
     {
-      return $this->banquetCost;
+        return $this->banquetCost;
     }
 
     /**
@@ -1067,8 +1109,9 @@ class LodgingData
      */
     public function setBanquetCost($banquetCost)
     {
-      $this->banquetCost = $banquetCost;
-      return $this;
+        $this->banquetCost = $banquetCost;
+
+        return $this;
     }
 
     /**
@@ -1076,7 +1119,7 @@ class LodgingData
      */
     public function getInternetAccessCost()
     {
-      return $this->internetAccessCost;
+        return $this->internetAccessCost;
     }
 
     /**
@@ -1085,8 +1128,9 @@ class LodgingData
      */
     public function setInternetAccessCost($internetAccessCost)
     {
-      $this->internetAccessCost = $internetAccessCost;
-      return $this;
+        $this->internetAccessCost = $internetAccessCost;
+
+        return $this;
     }
 
     /**
@@ -1094,7 +1138,7 @@ class LodgingData
      */
     public function getEarlyCheckOutCost()
     {
-      return $this->earlyCheckOutCost;
+        return $this->earlyCheckOutCost;
     }
 
     /**
@@ -1103,8 +1147,9 @@ class LodgingData
      */
     public function setEarlyCheckOutCost($earlyCheckOutCost)
     {
-      $this->earlyCheckOutCost = $earlyCheckOutCost;
-      return $this;
+        $this->earlyCheckOutCost = $earlyCheckOutCost;
+
+        return $this;
     }
 
     /**
@@ -1112,7 +1157,7 @@ class LodgingData
      */
     public function getNonRoomTax()
     {
-      return $this->nonRoomTax;
+        return $this->nonRoomTax;
     }
 
     /**
@@ -1121,8 +1166,9 @@ class LodgingData
      */
     public function setNonRoomTax($nonRoomTax)
     {
-      $this->nonRoomTax = $nonRoomTax;
-      return $this;
+        $this->nonRoomTax = $nonRoomTax;
+
+        return $this;
     }
 
     /**
@@ -1130,7 +1176,7 @@ class LodgingData
      */
     public function getTravelAgencyCode()
     {
-      return $this->travelAgencyCode;
+        return $this->travelAgencyCode;
     }
 
     /**
@@ -1139,8 +1185,9 @@ class LodgingData
      */
     public function setTravelAgencyCode($travelAgencyCode)
     {
-      $this->travelAgencyCode = $travelAgencyCode;
-      return $this;
+        $this->travelAgencyCode = $travelAgencyCode;
+
+        return $this;
     }
 
     /**
@@ -1148,7 +1195,7 @@ class LodgingData
      */
     public function getTravelAgencyName()
     {
-      return $this->travelAgencyName;
+        return $this->travelAgencyName;
     }
 
     /**
@@ -1157,8 +1204,9 @@ class LodgingData
      */
     public function setTravelAgencyName($travelAgencyName)
     {
-      $this->travelAgencyName = $travelAgencyName;
-      return $this;
+        $this->travelAgencyName = $travelAgencyName;
+
+        return $this;
     }
 
 }

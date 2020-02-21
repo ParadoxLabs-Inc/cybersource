@@ -25,7 +25,7 @@ class Service
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -33,7 +33,7 @@ class Service
      */
     public function getCategoryCode()
     {
-      return $this->categoryCode;
+        return $this->categoryCode;
     }
 
     /**
@@ -42,8 +42,9 @@ class Service
      */
     public function setCategoryCode($categoryCode)
     {
-      $this->categoryCode = $categoryCode;
-      return $this;
+        $this->categoryCode = $categoryCode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class Service
      */
     public function getSubcategoryCode()
     {
-      return $this->subcategoryCode;
+        return $this->subcategoryCode;
     }
 
     /**
@@ -60,8 +61,9 @@ class Service
      */
     public function setSubcategoryCode($subcategoryCode)
     {
-      $this->subcategoryCode = $subcategoryCode;
-      return $this;
+        $this->subcategoryCode = $subcategoryCode;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class Service
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -78,8 +80,9 @@ class Service
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

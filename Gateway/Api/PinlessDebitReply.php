@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PinlessDebitReply
 {
 
@@ -50,7 +53,7 @@ class PinlessDebitReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -58,7 +61,7 @@ class PinlessDebitReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -67,8 +70,9 @@ class PinlessDebitReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -76,7 +80,7 @@ class PinlessDebitReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -85,8 +89,9 @@ class PinlessDebitReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -94,7 +99,7 @@ class PinlessDebitReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -103,8 +108,9 @@ class PinlessDebitReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -112,29 +118,30 @@ class PinlessDebitReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PinlessDebitReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -142,7 +149,7 @@ class PinlessDebitReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -151,8 +158,9 @@ class PinlessDebitReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -160,7 +168,7 @@ class PinlessDebitReply
      */
     public function getReceiptNumber()
     {
-      return $this->receiptNumber;
+        return $this->receiptNumber;
     }
 
     /**
@@ -169,8 +177,9 @@ class PinlessDebitReply
      */
     public function setReceiptNumber($receiptNumber)
     {
-      $this->receiptNumber = $receiptNumber;
-      return $this;
+        $this->receiptNumber = $receiptNumber;
+
+        return $this;
     }
 
     /**
@@ -178,7 +187,7 @@ class PinlessDebitReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -187,8 +196,9 @@ class PinlessDebitReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -196,7 +206,7 @@ class PinlessDebitReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -205,8 +215,9 @@ class PinlessDebitReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
 }

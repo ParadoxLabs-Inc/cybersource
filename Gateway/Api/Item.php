@@ -690,7 +690,7 @@ class Item
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -698,7 +698,7 @@ class Item
      */
     public function getUnitPrice()
     {
-      return $this->unitPrice;
+        return $this->unitPrice;
     }
 
     /**
@@ -707,8 +707,9 @@ class Item
      */
     public function setUnitPrice($unitPrice)
     {
-      $this->unitPrice = (float)$unitPrice;
-      return $this;
+        $this->unitPrice = (float)$unitPrice;
+
+        return $this;
     }
 
     /**
@@ -716,7 +717,7 @@ class Item
      */
     public function getQuantity()
     {
-      return $this->quantity;
+        return $this->quantity;
     }
 
     /**
@@ -725,8 +726,9 @@ class Item
      */
     public function setQuantity($quantity)
     {
-      $this->quantity = (int)$quantity;
-      return $this;
+        $this->quantity = (int)$quantity;
+
+        return $this;
     }
 
     /**
@@ -734,7 +736,7 @@ class Item
      */
     public function getProductCode()
     {
-      return $this->productCode;
+        return $this->productCode;
     }
 
     /**
@@ -743,8 +745,9 @@ class Item
      */
     public function setProductCode($productCode)
     {
-      $this->productCode = substr(str_replace(['^', ':'], '', $productCode), 0, 255);
-      return $this;
+        $this->productCode = substr(str_replace(['^', ':'], '', $productCode), 0, 255);
+
+        return $this;
     }
 
     /**
@@ -752,7 +755,7 @@ class Item
      */
     public function getProductName()
     {
-      return $this->productName;
+        return $this->productName;
     }
 
     /**
@@ -761,8 +764,9 @@ class Item
      */
     public function setProductName($productName)
     {
-      $this->productName = substr(str_replace(['^', ':'], '', $productName), 0, 255);
-      return $this;
+        $this->productName = substr(str_replace(['^', ':'], '', $productName), 0, 255);
+
+        return $this;
     }
 
     /**
@@ -770,7 +774,7 @@ class Item
      */
     public function getProductSKU()
     {
-      return $this->productSKU;
+        return $this->productSKU;
     }
 
     /**
@@ -779,8 +783,9 @@ class Item
      */
     public function setProductSKU($productSKU)
     {
-      $this->productSKU = substr(str_replace(['^', ':'], '', $productSKU), 0, 255);
-      return $this;
+        $this->productSKU = substr(str_replace(['^', ':'], '', $productSKU), 0, 255);
+
+        return $this;
     }
 
     /**
@@ -788,7 +793,7 @@ class Item
      */
     public function getProductRisk()
     {
-      return $this->productRisk;
+        return $this->productRisk;
     }
 
     /**
@@ -797,8 +802,9 @@ class Item
      */
     public function setProductRisk($productRisk)
     {
-      $this->productRisk = $productRisk;
-      return $this;
+        $this->productRisk = $productRisk;
+
+        return $this;
     }
 
     /**
@@ -806,7 +812,7 @@ class Item
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -815,8 +821,9 @@ class Item
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = max((float)$taxAmount, 0);
-      return $this;
+        $this->taxAmount = max((float)$taxAmount, 0);
+
+        return $this;
     }
 
     /**
@@ -824,7 +831,7 @@ class Item
      */
     public function getCityOverrideAmount()
     {
-      return $this->cityOverrideAmount;
+        return $this->cityOverrideAmount;
     }
 
     /**
@@ -833,8 +840,9 @@ class Item
      */
     public function setCityOverrideAmount($cityOverrideAmount)
     {
-      $this->cityOverrideAmount = $cityOverrideAmount;
-      return $this;
+        $this->cityOverrideAmount = $cityOverrideAmount;
+
+        return $this;
     }
 
     /**
@@ -842,7 +850,7 @@ class Item
      */
     public function getCityOverrideRate()
     {
-      return $this->cityOverrideRate;
+        return $this->cityOverrideRate;
     }
 
     /**
@@ -851,8 +859,9 @@ class Item
      */
     public function setCityOverrideRate($cityOverrideRate)
     {
-      $this->cityOverrideRate = $cityOverrideRate;
-      return $this;
+        $this->cityOverrideRate = $cityOverrideRate;
+
+        return $this;
     }
 
     /**
@@ -860,7 +869,7 @@ class Item
      */
     public function getCountyOverrideAmount()
     {
-      return $this->countyOverrideAmount;
+        return $this->countyOverrideAmount;
     }
 
     /**
@@ -869,8 +878,9 @@ class Item
      */
     public function setCountyOverrideAmount($countyOverrideAmount)
     {
-      $this->countyOverrideAmount = $countyOverrideAmount;
-      return $this;
+        $this->countyOverrideAmount = $countyOverrideAmount;
+
+        return $this;
     }
 
     /**
@@ -878,7 +888,7 @@ class Item
      */
     public function getCountyOverrideRate()
     {
-      return $this->countyOverrideRate;
+        return $this->countyOverrideRate;
     }
 
     /**
@@ -887,8 +897,9 @@ class Item
      */
     public function setCountyOverrideRate($countyOverrideRate)
     {
-      $this->countyOverrideRate = $countyOverrideRate;
-      return $this;
+        $this->countyOverrideRate = $countyOverrideRate;
+
+        return $this;
     }
 
     /**
@@ -896,7 +907,7 @@ class Item
      */
     public function getDistrictOverrideAmount()
     {
-      return $this->districtOverrideAmount;
+        return $this->districtOverrideAmount;
     }
 
     /**
@@ -905,8 +916,9 @@ class Item
      */
     public function setDistrictOverrideAmount($districtOverrideAmount)
     {
-      $this->districtOverrideAmount = $districtOverrideAmount;
-      return $this;
+        $this->districtOverrideAmount = $districtOverrideAmount;
+
+        return $this;
     }
 
     /**
@@ -914,7 +926,7 @@ class Item
      */
     public function getDistrictOverrideRate()
     {
-      return $this->districtOverrideRate;
+        return $this->districtOverrideRate;
     }
 
     /**
@@ -923,8 +935,9 @@ class Item
      */
     public function setDistrictOverrideRate($districtOverrideRate)
     {
-      $this->districtOverrideRate = $districtOverrideRate;
-      return $this;
+        $this->districtOverrideRate = $districtOverrideRate;
+
+        return $this;
     }
 
     /**
@@ -932,7 +945,7 @@ class Item
      */
     public function getStateOverrideAmount()
     {
-      return $this->stateOverrideAmount;
+        return $this->stateOverrideAmount;
     }
 
     /**
@@ -941,8 +954,9 @@ class Item
      */
     public function setStateOverrideAmount($stateOverrideAmount)
     {
-      $this->stateOverrideAmount = $stateOverrideAmount;
-      return $this;
+        $this->stateOverrideAmount = $stateOverrideAmount;
+
+        return $this;
     }
 
     /**
@@ -950,7 +964,7 @@ class Item
      */
     public function getStateOverrideRate()
     {
-      return $this->stateOverrideRate;
+        return $this->stateOverrideRate;
     }
 
     /**
@@ -959,8 +973,9 @@ class Item
      */
     public function setStateOverrideRate($stateOverrideRate)
     {
-      $this->stateOverrideRate = $stateOverrideRate;
-      return $this;
+        $this->stateOverrideRate = $stateOverrideRate;
+
+        return $this;
     }
 
     /**
@@ -968,7 +983,7 @@ class Item
      */
     public function getCountryOverrideAmount()
     {
-      return $this->countryOverrideAmount;
+        return $this->countryOverrideAmount;
     }
 
     /**
@@ -977,8 +992,9 @@ class Item
      */
     public function setCountryOverrideAmount($countryOverrideAmount)
     {
-      $this->countryOverrideAmount = $countryOverrideAmount;
-      return $this;
+        $this->countryOverrideAmount = $countryOverrideAmount;
+
+        return $this;
     }
 
     /**
@@ -986,7 +1002,7 @@ class Item
      */
     public function getCountryOverrideRate()
     {
-      return $this->countryOverrideRate;
+        return $this->countryOverrideRate;
     }
 
     /**
@@ -995,8 +1011,9 @@ class Item
      */
     public function setCountryOverrideRate($countryOverrideRate)
     {
-      $this->countryOverrideRate = $countryOverrideRate;
-      return $this;
+        $this->countryOverrideRate = $countryOverrideRate;
+
+        return $this;
     }
 
     /**
@@ -1004,7 +1021,7 @@ class Item
      */
     public function getOrderAcceptanceCity()
     {
-      return $this->orderAcceptanceCity;
+        return $this->orderAcceptanceCity;
     }
 
     /**
@@ -1013,8 +1030,9 @@ class Item
      */
     public function setOrderAcceptanceCity($orderAcceptanceCity)
     {
-      $this->orderAcceptanceCity = $orderAcceptanceCity;
-      return $this;
+        $this->orderAcceptanceCity = $orderAcceptanceCity;
+
+        return $this;
     }
 
     /**
@@ -1022,7 +1040,7 @@ class Item
      */
     public function getOrderAcceptanceCounty()
     {
-      return $this->orderAcceptanceCounty;
+        return $this->orderAcceptanceCounty;
     }
 
     /**
@@ -1031,8 +1049,9 @@ class Item
      */
     public function setOrderAcceptanceCounty($orderAcceptanceCounty)
     {
-      $this->orderAcceptanceCounty = $orderAcceptanceCounty;
-      return $this;
+        $this->orderAcceptanceCounty = $orderAcceptanceCounty;
+
+        return $this;
     }
 
     /**
@@ -1040,7 +1059,7 @@ class Item
      */
     public function getOrderAcceptanceCountry()
     {
-      return $this->orderAcceptanceCountry;
+        return $this->orderAcceptanceCountry;
     }
 
     /**
@@ -1049,8 +1068,9 @@ class Item
      */
     public function setOrderAcceptanceCountry($orderAcceptanceCountry)
     {
-      $this->orderAcceptanceCountry = $orderAcceptanceCountry;
-      return $this;
+        $this->orderAcceptanceCountry = $orderAcceptanceCountry;
+
+        return $this;
     }
 
     /**
@@ -1058,7 +1078,7 @@ class Item
      */
     public function getOrderAcceptanceState()
     {
-      return $this->orderAcceptanceState;
+        return $this->orderAcceptanceState;
     }
 
     /**
@@ -1067,8 +1087,9 @@ class Item
      */
     public function setOrderAcceptanceState($orderAcceptanceState)
     {
-      $this->orderAcceptanceState = $orderAcceptanceState;
-      return $this;
+        $this->orderAcceptanceState = $orderAcceptanceState;
+
+        return $this;
     }
 
     /**
@@ -1076,7 +1097,7 @@ class Item
      */
     public function getOrderAcceptancePostalCode()
     {
-      return $this->orderAcceptancePostalCode;
+        return $this->orderAcceptancePostalCode;
     }
 
     /**
@@ -1085,8 +1106,9 @@ class Item
      */
     public function setOrderAcceptancePostalCode($orderAcceptancePostalCode)
     {
-      $this->orderAcceptancePostalCode = $orderAcceptancePostalCode;
-      return $this;
+        $this->orderAcceptancePostalCode = $orderAcceptancePostalCode;
+
+        return $this;
     }
 
     /**
@@ -1094,7 +1116,7 @@ class Item
      */
     public function getOrderOriginCity()
     {
-      return $this->orderOriginCity;
+        return $this->orderOriginCity;
     }
 
     /**
@@ -1103,8 +1125,9 @@ class Item
      */
     public function setOrderOriginCity($orderOriginCity)
     {
-      $this->orderOriginCity = $orderOriginCity;
-      return $this;
+        $this->orderOriginCity = $orderOriginCity;
+
+        return $this;
     }
 
     /**
@@ -1112,7 +1135,7 @@ class Item
      */
     public function getOrderOriginCounty()
     {
-      return $this->orderOriginCounty;
+        return $this->orderOriginCounty;
     }
 
     /**
@@ -1121,8 +1144,9 @@ class Item
      */
     public function setOrderOriginCounty($orderOriginCounty)
     {
-      $this->orderOriginCounty = $orderOriginCounty;
-      return $this;
+        $this->orderOriginCounty = $orderOriginCounty;
+
+        return $this;
     }
 
     /**
@@ -1130,7 +1154,7 @@ class Item
      */
     public function getOrderOriginCountry()
     {
-      return $this->orderOriginCountry;
+        return $this->orderOriginCountry;
     }
 
     /**
@@ -1139,8 +1163,9 @@ class Item
      */
     public function setOrderOriginCountry($orderOriginCountry)
     {
-      $this->orderOriginCountry = $orderOriginCountry;
-      return $this;
+        $this->orderOriginCountry = $orderOriginCountry;
+
+        return $this;
     }
 
     /**
@@ -1148,7 +1173,7 @@ class Item
      */
     public function getOrderOriginState()
     {
-      return $this->orderOriginState;
+        return $this->orderOriginState;
     }
 
     /**
@@ -1157,8 +1182,9 @@ class Item
      */
     public function setOrderOriginState($orderOriginState)
     {
-      $this->orderOriginState = $orderOriginState;
-      return $this;
+        $this->orderOriginState = $orderOriginState;
+
+        return $this;
     }
 
     /**
@@ -1166,7 +1192,7 @@ class Item
      */
     public function getOrderOriginPostalCode()
     {
-      return $this->orderOriginPostalCode;
+        return $this->orderOriginPostalCode;
     }
 
     /**
@@ -1175,8 +1201,9 @@ class Item
      */
     public function setOrderOriginPostalCode($orderOriginPostalCode)
     {
-      $this->orderOriginPostalCode = $orderOriginPostalCode;
-      return $this;
+        $this->orderOriginPostalCode = $orderOriginPostalCode;
+
+        return $this;
     }
 
     /**
@@ -1184,7 +1211,7 @@ class Item
      */
     public function getShipFromCity()
     {
-      return $this->shipFromCity;
+        return $this->shipFromCity;
     }
 
     /**
@@ -1193,8 +1220,9 @@ class Item
      */
     public function setShipFromCity($shipFromCity)
     {
-      $this->shipFromCity = $shipFromCity;
-      return $this;
+        $this->shipFromCity = $shipFromCity;
+
+        return $this;
     }
 
     /**
@@ -1202,7 +1230,7 @@ class Item
      */
     public function getShipFromCounty()
     {
-      return $this->shipFromCounty;
+        return $this->shipFromCounty;
     }
 
     /**
@@ -1211,8 +1239,9 @@ class Item
      */
     public function setShipFromCounty($shipFromCounty)
     {
-      $this->shipFromCounty = $shipFromCounty;
-      return $this;
+        $this->shipFromCounty = $shipFromCounty;
+
+        return $this;
     }
 
     /**
@@ -1220,7 +1249,7 @@ class Item
      */
     public function getShipFromCountry()
     {
-      return $this->shipFromCountry;
+        return $this->shipFromCountry;
     }
 
     /**
@@ -1229,8 +1258,9 @@ class Item
      */
     public function setShipFromCountry($shipFromCountry)
     {
-      $this->shipFromCountry = $shipFromCountry;
-      return $this;
+        $this->shipFromCountry = $shipFromCountry;
+
+        return $this;
     }
 
     /**
@@ -1238,7 +1268,7 @@ class Item
      */
     public function getShipFromState()
     {
-      return $this->shipFromState;
+        return $this->shipFromState;
     }
 
     /**
@@ -1247,8 +1277,9 @@ class Item
      */
     public function setShipFromState($shipFromState)
     {
-      $this->shipFromState = $shipFromState;
-      return $this;
+        $this->shipFromState = $shipFromState;
+
+        return $this;
     }
 
     /**
@@ -1256,7 +1287,7 @@ class Item
      */
     public function getShipFromPostalCode()
     {
-      return $this->shipFromPostalCode;
+        return $this->shipFromPostalCode;
     }
 
     /**
@@ -1265,8 +1296,9 @@ class Item
      */
     public function setShipFromPostalCode($shipFromPostalCode)
     {
-      $this->shipFromPostalCode = $shipFromPostalCode;
-      return $this;
+        $this->shipFromPostalCode = $shipFromPostalCode;
+
+        return $this;
     }
 
     /**
@@ -1274,7 +1306,7 @@ class Item
      */
     public function getExport()
     {
-      return $this->export;
+        return $this->export;
     }
 
     /**
@@ -1283,8 +1315,9 @@ class Item
      */
     public function setExport($export)
     {
-      $this->export = $export;
-      return $this;
+        $this->export = $export;
+
+        return $this;
     }
 
     /**
@@ -1292,7 +1325,7 @@ class Item
      */
     public function getNoExport()
     {
-      return $this->noExport;
+        return $this->noExport;
     }
 
     /**
@@ -1301,8 +1334,9 @@ class Item
      */
     public function setNoExport($noExport)
     {
-      $this->noExport = $noExport;
-      return $this;
+        $this->noExport = $noExport;
+
+        return $this;
     }
 
     /**
@@ -1310,7 +1344,7 @@ class Item
      */
     public function getNationalTax()
     {
-      return $this->nationalTax;
+        return $this->nationalTax;
     }
 
     /**
@@ -1319,8 +1353,9 @@ class Item
      */
     public function setNationalTax($nationalTax)
     {
-      $this->nationalTax = $nationalTax;
-      return $this;
+        $this->nationalTax = $nationalTax;
+
+        return $this;
     }
 
     /**
@@ -1328,7 +1363,7 @@ class Item
      */
     public function getVatRate()
     {
-      return $this->vatRate;
+        return $this->vatRate;
     }
 
     /**
@@ -1337,8 +1372,9 @@ class Item
      */
     public function setVatRate($vatRate)
     {
-      $this->vatRate = $vatRate;
-      return $this;
+        $this->vatRate = $vatRate;
+
+        return $this;
     }
 
     /**
@@ -1346,7 +1382,7 @@ class Item
      */
     public function getSellerRegistration()
     {
-      return $this->sellerRegistration;
+        return $this->sellerRegistration;
     }
 
     /**
@@ -1355,8 +1391,9 @@ class Item
      */
     public function setSellerRegistration($sellerRegistration)
     {
-      $this->sellerRegistration = $sellerRegistration;
-      return $this;
+        $this->sellerRegistration = $sellerRegistration;
+
+        return $this;
     }
 
     /**
@@ -1364,7 +1401,7 @@ class Item
      */
     public function getSellerRegistration0()
     {
-      return $this->sellerRegistration0;
+        return $this->sellerRegistration0;
     }
 
     /**
@@ -1373,8 +1410,9 @@ class Item
      */
     public function setSellerRegistration0($sellerRegistration0)
     {
-      $this->sellerRegistration0 = $sellerRegistration0;
-      return $this;
+        $this->sellerRegistration0 = $sellerRegistration0;
+
+        return $this;
     }
 
     /**
@@ -1382,7 +1420,7 @@ class Item
      */
     public function getSellerRegistration1()
     {
-      return $this->sellerRegistration1;
+        return $this->sellerRegistration1;
     }
 
     /**
@@ -1391,8 +1429,9 @@ class Item
      */
     public function setSellerRegistration1($sellerRegistration1)
     {
-      $this->sellerRegistration1 = $sellerRegistration1;
-      return $this;
+        $this->sellerRegistration1 = $sellerRegistration1;
+
+        return $this;
     }
 
     /**
@@ -1400,7 +1439,7 @@ class Item
      */
     public function getSellerRegistration2()
     {
-      return $this->sellerRegistration2;
+        return $this->sellerRegistration2;
     }
 
     /**
@@ -1409,8 +1448,9 @@ class Item
      */
     public function setSellerRegistration2($sellerRegistration2)
     {
-      $this->sellerRegistration2 = $sellerRegistration2;
-      return $this;
+        $this->sellerRegistration2 = $sellerRegistration2;
+
+        return $this;
     }
 
     /**
@@ -1418,7 +1458,7 @@ class Item
      */
     public function getSellerRegistration3()
     {
-      return $this->sellerRegistration3;
+        return $this->sellerRegistration3;
     }
 
     /**
@@ -1427,8 +1467,9 @@ class Item
      */
     public function setSellerRegistration3($sellerRegistration3)
     {
-      $this->sellerRegistration3 = $sellerRegistration3;
-      return $this;
+        $this->sellerRegistration3 = $sellerRegistration3;
+
+        return $this;
     }
 
     /**
@@ -1436,7 +1477,7 @@ class Item
      */
     public function getSellerRegistration4()
     {
-      return $this->sellerRegistration4;
+        return $this->sellerRegistration4;
     }
 
     /**
@@ -1445,8 +1486,9 @@ class Item
      */
     public function setSellerRegistration4($sellerRegistration4)
     {
-      $this->sellerRegistration4 = $sellerRegistration4;
-      return $this;
+        $this->sellerRegistration4 = $sellerRegistration4;
+
+        return $this;
     }
 
     /**
@@ -1454,7 +1496,7 @@ class Item
      */
     public function getSellerRegistration5()
     {
-      return $this->sellerRegistration5;
+        return $this->sellerRegistration5;
     }
 
     /**
@@ -1463,8 +1505,9 @@ class Item
      */
     public function setSellerRegistration5($sellerRegistration5)
     {
-      $this->sellerRegistration5 = $sellerRegistration5;
-      return $this;
+        $this->sellerRegistration5 = $sellerRegistration5;
+
+        return $this;
     }
 
     /**
@@ -1472,7 +1515,7 @@ class Item
      */
     public function getSellerRegistration6()
     {
-      return $this->sellerRegistration6;
+        return $this->sellerRegistration6;
     }
 
     /**
@@ -1481,8 +1524,9 @@ class Item
      */
     public function setSellerRegistration6($sellerRegistration6)
     {
-      $this->sellerRegistration6 = $sellerRegistration6;
-      return $this;
+        $this->sellerRegistration6 = $sellerRegistration6;
+
+        return $this;
     }
 
     /**
@@ -1490,7 +1534,7 @@ class Item
      */
     public function getSellerRegistration7()
     {
-      return $this->sellerRegistration7;
+        return $this->sellerRegistration7;
     }
 
     /**
@@ -1499,8 +1543,9 @@ class Item
      */
     public function setSellerRegistration7($sellerRegistration7)
     {
-      $this->sellerRegistration7 = $sellerRegistration7;
-      return $this;
+        $this->sellerRegistration7 = $sellerRegistration7;
+
+        return $this;
     }
 
     /**
@@ -1508,7 +1553,7 @@ class Item
      */
     public function getSellerRegistration8()
     {
-      return $this->sellerRegistration8;
+        return $this->sellerRegistration8;
     }
 
     /**
@@ -1517,8 +1562,9 @@ class Item
      */
     public function setSellerRegistration8($sellerRegistration8)
     {
-      $this->sellerRegistration8 = $sellerRegistration8;
-      return $this;
+        $this->sellerRegistration8 = $sellerRegistration8;
+
+        return $this;
     }
 
     /**
@@ -1526,7 +1572,7 @@ class Item
      */
     public function getSellerRegistration9()
     {
-      return $this->sellerRegistration9;
+        return $this->sellerRegistration9;
     }
 
     /**
@@ -1535,8 +1581,9 @@ class Item
      */
     public function setSellerRegistration9($sellerRegistration9)
     {
-      $this->sellerRegistration9 = $sellerRegistration9;
-      return $this;
+        $this->sellerRegistration9 = $sellerRegistration9;
+
+        return $this;
     }
 
     /**
@@ -1544,7 +1591,7 @@ class Item
      */
     public function getBuyerRegistration()
     {
-      return $this->buyerRegistration;
+        return $this->buyerRegistration;
     }
 
     /**
@@ -1553,8 +1600,9 @@ class Item
      */
     public function setBuyerRegistration($buyerRegistration)
     {
-      $this->buyerRegistration = $buyerRegistration;
-      return $this;
+        $this->buyerRegistration = $buyerRegistration;
+
+        return $this;
     }
 
     /**
@@ -1562,7 +1610,7 @@ class Item
      */
     public function getMiddlemanRegistration()
     {
-      return $this->middlemanRegistration;
+        return $this->middlemanRegistration;
     }
 
     /**
@@ -1571,8 +1619,9 @@ class Item
      */
     public function setMiddlemanRegistration($middlemanRegistration)
     {
-      $this->middlemanRegistration = $middlemanRegistration;
-      return $this;
+        $this->middlemanRegistration = $middlemanRegistration;
+
+        return $this;
     }
 
     /**
@@ -1580,7 +1629,7 @@ class Item
      */
     public function getPointOfTitleTransfer()
     {
-      return $this->pointOfTitleTransfer;
+        return $this->pointOfTitleTransfer;
     }
 
     /**
@@ -1589,8 +1638,9 @@ class Item
      */
     public function setPointOfTitleTransfer($pointOfTitleTransfer)
     {
-      $this->pointOfTitleTransfer = $pointOfTitleTransfer;
-      return $this;
+        $this->pointOfTitleTransfer = $pointOfTitleTransfer;
+
+        return $this;
     }
 
     /**
@@ -1598,7 +1648,7 @@ class Item
      */
     public function getGiftCategory()
     {
-      return $this->giftCategory;
+        return $this->giftCategory;
     }
 
     /**
@@ -1607,8 +1657,9 @@ class Item
      */
     public function setGiftCategory($giftCategory)
     {
-      $this->giftCategory = $giftCategory;
-      return $this;
+        $this->giftCategory = $giftCategory;
+
+        return $this;
     }
 
     /**
@@ -1616,7 +1667,7 @@ class Item
      */
     public function getTimeCategory()
     {
-      return $this->timeCategory;
+        return $this->timeCategory;
     }
 
     /**
@@ -1625,8 +1676,9 @@ class Item
      */
     public function setTimeCategory($timeCategory)
     {
-      $this->timeCategory = $timeCategory;
-      return $this;
+        $this->timeCategory = $timeCategory;
+
+        return $this;
     }
 
     /**
@@ -1634,7 +1686,7 @@ class Item
      */
     public function getHostHedge()
     {
-      return $this->hostHedge;
+        return $this->hostHedge;
     }
 
     /**
@@ -1643,8 +1695,9 @@ class Item
      */
     public function setHostHedge($hostHedge)
     {
-      $this->hostHedge = $hostHedge;
-      return $this;
+        $this->hostHedge = $hostHedge;
+
+        return $this;
     }
 
     /**
@@ -1652,7 +1705,7 @@ class Item
      */
     public function getTimeHedge()
     {
-      return $this->timeHedge;
+        return $this->timeHedge;
     }
 
     /**
@@ -1661,8 +1714,9 @@ class Item
      */
     public function setTimeHedge($timeHedge)
     {
-      $this->timeHedge = $timeHedge;
-      return $this;
+        $this->timeHedge = $timeHedge;
+
+        return $this;
     }
 
     /**
@@ -1670,7 +1724,7 @@ class Item
      */
     public function getVelocityHedge()
     {
-      return $this->velocityHedge;
+        return $this->velocityHedge;
     }
 
     /**
@@ -1679,8 +1733,9 @@ class Item
      */
     public function setVelocityHedge($velocityHedge)
     {
-      $this->velocityHedge = $velocityHedge;
-      return $this;
+        $this->velocityHedge = $velocityHedge;
+
+        return $this;
     }
 
     /**
@@ -1688,7 +1743,7 @@ class Item
      */
     public function getNonsensicalHedge()
     {
-      return $this->nonsensicalHedge;
+        return $this->nonsensicalHedge;
     }
 
     /**
@@ -1697,8 +1752,9 @@ class Item
      */
     public function setNonsensicalHedge($nonsensicalHedge)
     {
-      $this->nonsensicalHedge = $nonsensicalHedge;
-      return $this;
+        $this->nonsensicalHedge = $nonsensicalHedge;
+
+        return $this;
     }
 
     /**
@@ -1706,7 +1762,7 @@ class Item
      */
     public function getPhoneHedge()
     {
-      return $this->phoneHedge;
+        return $this->phoneHedge;
     }
 
     /**
@@ -1715,8 +1771,9 @@ class Item
      */
     public function setPhoneHedge($phoneHedge)
     {
-      $this->phoneHedge = $phoneHedge;
-      return $this;
+        $this->phoneHedge = $phoneHedge;
+
+        return $this;
     }
 
     /**
@@ -1724,7 +1781,7 @@ class Item
      */
     public function getObscenitiesHedge()
     {
-      return $this->obscenitiesHedge;
+        return $this->obscenitiesHedge;
     }
 
     /**
@@ -1733,8 +1790,9 @@ class Item
      */
     public function setObscenitiesHedge($obscenitiesHedge)
     {
-      $this->obscenitiesHedge = $obscenitiesHedge;
-      return $this;
+        $this->obscenitiesHedge = $obscenitiesHedge;
+
+        return $this;
     }
 
     /**
@@ -1742,7 +1800,7 @@ class Item
      */
     public function getUnitOfMeasure()
     {
-      return $this->unitOfMeasure;
+        return $this->unitOfMeasure;
     }
 
     /**
@@ -1751,8 +1809,9 @@ class Item
      */
     public function setUnitOfMeasure($unitOfMeasure)
     {
-      $this->unitOfMeasure = $unitOfMeasure;
-      return $this;
+        $this->unitOfMeasure = $unitOfMeasure;
+
+        return $this;
     }
 
     /**
@@ -1760,7 +1819,7 @@ class Item
      */
     public function getTaxRate()
     {
-      return $this->taxRate;
+        return $this->taxRate;
     }
 
     /**
@@ -1769,8 +1828,9 @@ class Item
      */
     public function setTaxRate($taxRate)
     {
-      $this->taxRate = $taxRate;
-      return $this;
+        $this->taxRate = $taxRate;
+
+        return $this;
     }
 
     /**
@@ -1778,7 +1838,7 @@ class Item
      */
     public function getTotalAmount()
     {
-      return $this->totalAmount;
+        return $this->totalAmount;
     }
 
     /**
@@ -1787,8 +1847,9 @@ class Item
      */
     public function setTotalAmount($totalAmount)
     {
-      $this->totalAmount = (float)$totalAmount ?: null;
-      return $this;
+        $this->totalAmount = (float)$totalAmount ?: null;
+
+        return $this;
     }
 
     /**
@@ -1796,7 +1857,7 @@ class Item
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -1805,8 +1866,9 @@ class Item
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = (float)$discountAmount ?: null;
-      return $this;
+        $this->discountAmount = (float)$discountAmount ?: null;
+
+        return $this;
     }
 
     /**
@@ -1814,7 +1876,7 @@ class Item
      */
     public function getDiscountRate()
     {
-      return $this->discountRate;
+        return $this->discountRate;
     }
 
     /**
@@ -1823,8 +1885,9 @@ class Item
      */
     public function setDiscountRate($discountRate)
     {
-      $this->discountRate = $discountRate;
-      return $this;
+        $this->discountRate = $discountRate;
+
+        return $this;
     }
 
     /**
@@ -1832,7 +1895,7 @@ class Item
      */
     public function getCommodityCode()
     {
-      return $this->commodityCode;
+        return $this->commodityCode;
     }
 
     /**
@@ -1841,8 +1904,9 @@ class Item
      */
     public function setCommodityCode($commodityCode)
     {
-      $this->commodityCode = $commodityCode;
-      return $this;
+        $this->commodityCode = $commodityCode;
+
+        return $this;
     }
 
     /**
@@ -1850,7 +1914,7 @@ class Item
      */
     public function getGrossNetIndicator()
     {
-      return $this->grossNetIndicator;
+        return $this->grossNetIndicator;
     }
 
     /**
@@ -1859,8 +1923,9 @@ class Item
      */
     public function setGrossNetIndicator($grossNetIndicator)
     {
-      $this->grossNetIndicator = $grossNetIndicator;
-      return $this;
+        $this->grossNetIndicator = $grossNetIndicator;
+
+        return $this;
     }
 
     /**
@@ -1868,7 +1933,7 @@ class Item
      */
     public function getTaxTypeApplied()
     {
-      return $this->taxTypeApplied;
+        return $this->taxTypeApplied;
     }
 
     /**
@@ -1877,8 +1942,9 @@ class Item
      */
     public function setTaxTypeApplied($taxTypeApplied)
     {
-      $this->taxTypeApplied = $taxTypeApplied;
-      return $this;
+        $this->taxTypeApplied = $taxTypeApplied;
+
+        return $this;
     }
 
     /**
@@ -1886,7 +1952,7 @@ class Item
      */
     public function getDiscountIndicator()
     {
-      return $this->discountIndicator;
+        return $this->discountIndicator;
     }
 
     /**
@@ -1895,8 +1961,9 @@ class Item
      */
     public function setDiscountIndicator($discountIndicator)
     {
-      $this->discountIndicator = $discountIndicator;
-      return $this;
+        $this->discountIndicator = $discountIndicator;
+
+        return $this;
     }
 
     /**
@@ -1904,7 +1971,7 @@ class Item
      */
     public function getAlternateTaxID()
     {
-      return $this->alternateTaxID;
+        return $this->alternateTaxID;
     }
 
     /**
@@ -1913,8 +1980,9 @@ class Item
      */
     public function setAlternateTaxID($alternateTaxID)
     {
-      $this->alternateTaxID = $alternateTaxID;
-      return $this;
+        $this->alternateTaxID = $alternateTaxID;
+
+        return $this;
     }
 
     /**
@@ -1922,7 +1990,7 @@ class Item
      */
     public function getAlternateTaxAmount()
     {
-      return $this->alternateTaxAmount;
+        return $this->alternateTaxAmount;
     }
 
     /**
@@ -1931,8 +1999,9 @@ class Item
      */
     public function setAlternateTaxAmount($alternateTaxAmount)
     {
-      $this->alternateTaxAmount = $alternateTaxAmount;
-      return $this;
+        $this->alternateTaxAmount = $alternateTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -1940,7 +2009,7 @@ class Item
      */
     public function getAlternateTaxTypeApplied()
     {
-      return $this->alternateTaxTypeApplied;
+        return $this->alternateTaxTypeApplied;
     }
 
     /**
@@ -1949,8 +2018,9 @@ class Item
      */
     public function setAlternateTaxTypeApplied($alternateTaxTypeApplied)
     {
-      $this->alternateTaxTypeApplied = $alternateTaxTypeApplied;
-      return $this;
+        $this->alternateTaxTypeApplied = $alternateTaxTypeApplied;
+
+        return $this;
     }
 
     /**
@@ -1958,7 +2028,7 @@ class Item
      */
     public function getAlternateTaxRate()
     {
-      return $this->alternateTaxRate;
+        return $this->alternateTaxRate;
     }
 
     /**
@@ -1967,8 +2037,9 @@ class Item
      */
     public function setAlternateTaxRate($alternateTaxRate)
     {
-      $this->alternateTaxRate = $alternateTaxRate;
-      return $this;
+        $this->alternateTaxRate = $alternateTaxRate;
+
+        return $this;
     }
 
     /**
@@ -1976,7 +2047,7 @@ class Item
      */
     public function getAlternateTaxType()
     {
-      return $this->alternateTaxType;
+        return $this->alternateTaxType;
     }
 
     /**
@@ -1985,8 +2056,9 @@ class Item
      */
     public function setAlternateTaxType($alternateTaxType)
     {
-      $this->alternateTaxType = $alternateTaxType;
-      return $this;
+        $this->alternateTaxType = $alternateTaxType;
+
+        return $this;
     }
 
     /**
@@ -1994,7 +2066,7 @@ class Item
      */
     public function getLocalTax()
     {
-      return $this->localTax;
+        return $this->localTax;
     }
 
     /**
@@ -2003,8 +2075,9 @@ class Item
      */
     public function setLocalTax($localTax)
     {
-      $this->localTax = $localTax;
-      return $this;
+        $this->localTax = $localTax;
+
+        return $this;
     }
 
     /**
@@ -2012,7 +2085,7 @@ class Item
      */
     public function getZeroCostToCustomerIndicator()
     {
-      return $this->zeroCostToCustomerIndicator;
+        return $this->zeroCostToCustomerIndicator;
     }
 
     /**
@@ -2021,8 +2094,9 @@ class Item
      */
     public function setZeroCostToCustomerIndicator($zeroCostToCustomerIndicator)
     {
-      $this->zeroCostToCustomerIndicator = $zeroCostToCustomerIndicator;
-      return $this;
+        $this->zeroCostToCustomerIndicator = $zeroCostToCustomerIndicator;
+
+        return $this;
     }
 
     /**
@@ -2030,7 +2104,7 @@ class Item
      */
     public function getPassengerFirstName()
     {
-      return $this->passengerFirstName;
+        return $this->passengerFirstName;
     }
 
     /**
@@ -2039,8 +2113,9 @@ class Item
      */
     public function setPassengerFirstName($passengerFirstName)
     {
-      $this->passengerFirstName = $passengerFirstName;
-      return $this;
+        $this->passengerFirstName = $passengerFirstName;
+
+        return $this;
     }
 
     /**
@@ -2048,7 +2123,7 @@ class Item
      */
     public function getPassengerLastName()
     {
-      return $this->passengerLastName;
+        return $this->passengerLastName;
     }
 
     /**
@@ -2057,8 +2132,9 @@ class Item
      */
     public function setPassengerLastName($passengerLastName)
     {
-      $this->passengerLastName = $passengerLastName;
-      return $this;
+        $this->passengerLastName = $passengerLastName;
+
+        return $this;
     }
 
     /**
@@ -2066,7 +2142,7 @@ class Item
      */
     public function getPassengerID()
     {
-      return $this->passengerID;
+        return $this->passengerID;
     }
 
     /**
@@ -2075,8 +2151,9 @@ class Item
      */
     public function setPassengerID($passengerID)
     {
-      $this->passengerID = $passengerID;
-      return $this;
+        $this->passengerID = $passengerID;
+
+        return $this;
     }
 
     /**
@@ -2084,7 +2161,7 @@ class Item
      */
     public function getPassengerStatus()
     {
-      return $this->passengerStatus;
+        return $this->passengerStatus;
     }
 
     /**
@@ -2093,8 +2170,9 @@ class Item
      */
     public function setPassengerStatus($passengerStatus)
     {
-      $this->passengerStatus = $passengerStatus;
-      return $this;
+        $this->passengerStatus = $passengerStatus;
+
+        return $this;
     }
 
     /**
@@ -2102,7 +2180,7 @@ class Item
      */
     public function getPassengerType()
     {
-      return $this->passengerType;
+        return $this->passengerType;
     }
 
     /**
@@ -2111,8 +2189,9 @@ class Item
      */
     public function setPassengerType($passengerType)
     {
-      $this->passengerType = $passengerType;
-      return $this;
+        $this->passengerType = $passengerType;
+
+        return $this;
     }
 
     /**
@@ -2120,7 +2199,7 @@ class Item
      */
     public function getPassengerEmail()
     {
-      return $this->passengerEmail;
+        return $this->passengerEmail;
     }
 
     /**
@@ -2129,8 +2208,9 @@ class Item
      */
     public function setPassengerEmail($passengerEmail)
     {
-      $this->passengerEmail = $passengerEmail;
-      return $this;
+        $this->passengerEmail = $passengerEmail;
+
+        return $this;
     }
 
     /**
@@ -2138,7 +2218,7 @@ class Item
      */
     public function getPassengerPhone()
     {
-      return $this->passengerPhone;
+        return $this->passengerPhone;
     }
 
     /**
@@ -2147,8 +2227,9 @@ class Item
      */
     public function setPassengerPhone($passengerPhone)
     {
-      $this->passengerPhone = $passengerPhone;
-      return $this;
+        $this->passengerPhone = $passengerPhone;
+
+        return $this;
     }
 
     /**
@@ -2156,7 +2237,7 @@ class Item
      */
     public function getPassengerNationality()
     {
-      return $this->passengerNationality;
+        return $this->passengerNationality;
     }
 
     /**
@@ -2165,8 +2246,9 @@ class Item
      */
     public function setPassengerNationality($passengerNationality)
     {
-      $this->passengerNationality = $passengerNationality;
-      return $this;
+        $this->passengerNationality = $passengerNationality;
+
+        return $this;
     }
 
     /**
@@ -2174,7 +2256,7 @@ class Item
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -2183,8 +2265,9 @@ class Item
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -2192,7 +2275,7 @@ class Item
      */
     public function getProductDescription()
     {
-      return $this->productDescription;
+        return $this->productDescription;
     }
 
     /**
@@ -2201,8 +2284,9 @@ class Item
      */
     public function setProductDescription($productDescription)
     {
-      $this->productDescription = substr(str_replace(['^', ':'], '', $productDescription), 0, 255);
-      return $this;
+        $this->productDescription = substr(str_replace(['^', ':'], '', $productDescription), 0, 255);
+
+        return $this;
     }
 
     /**
@@ -2210,7 +2294,7 @@ class Item
      */
     public function getTaxStatusIndicator()
     {
-      return $this->taxStatusIndicator;
+        return $this->taxStatusIndicator;
     }
 
     /**
@@ -2219,8 +2303,9 @@ class Item
      */
     public function setTaxStatusIndicator($taxStatusIndicator)
     {
-      $this->taxStatusIndicator = $taxStatusIndicator;
-      return $this;
+        $this->taxStatusIndicator = $taxStatusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2228,7 +2313,7 @@ class Item
      */
     public function getDiscountManagementIndicator()
     {
-      return $this->discountManagementIndicator;
+        return $this->discountManagementIndicator;
     }
 
     /**
@@ -2237,8 +2322,9 @@ class Item
      */
     public function setDiscountManagementIndicator($discountManagementIndicator)
     {
-      $this->discountManagementIndicator = $discountManagementIndicator;
-      return $this;
+        $this->discountManagementIndicator = $discountManagementIndicator;
+
+        return $this;
     }
 
     /**
@@ -2246,7 +2332,7 @@ class Item
      */
     public function getTypeOfSupply()
     {
-      return $this->typeOfSupply;
+        return $this->typeOfSupply;
     }
 
     /**
@@ -2255,8 +2341,9 @@ class Item
      */
     public function setTypeOfSupply($typeOfSupply)
     {
-      $this->typeOfSupply = $typeOfSupply;
-      return $this;
+        $this->typeOfSupply = $typeOfSupply;
+
+        return $this;
     }
 
     /**
@@ -2264,7 +2351,7 @@ class Item
      */
     public function getSign()
     {
-      return $this->sign;
+        return $this->sign;
     }
 
     /**
@@ -2273,8 +2360,9 @@ class Item
      */
     public function setSign($sign)
     {
-      $this->sign = $sign;
-      return $this;
+        $this->sign = $sign;
+
+        return $this;
     }
 
     /**
@@ -2282,7 +2370,7 @@ class Item
      */
     public function getUnitTaxAmount()
     {
-      return $this->unitTaxAmount;
+        return $this->unitTaxAmount;
     }
 
     /**
@@ -2291,8 +2379,9 @@ class Item
      */
     public function setUnitTaxAmount($unitTaxAmount)
     {
-      $this->unitTaxAmount = $unitTaxAmount;
-      return $this;
+        $this->unitTaxAmount = $unitTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -2300,7 +2389,7 @@ class Item
      */
     public function getWeightAmount()
     {
-      return $this->weightAmount;
+        return $this->weightAmount;
     }
 
     /**
@@ -2309,8 +2398,9 @@ class Item
      */
     public function setWeightAmount($weightAmount)
     {
-      $this->weightAmount = $weightAmount;
-      return $this;
+        $this->weightAmount = $weightAmount;
+
+        return $this;
     }
 
     /**
@@ -2318,7 +2408,7 @@ class Item
      */
     public function getWeightID()
     {
-      return $this->weightID;
+        return $this->weightID;
     }
 
     /**
@@ -2327,8 +2417,9 @@ class Item
      */
     public function setWeightID($weightID)
     {
-      $this->weightID = $weightID;
-      return $this;
+        $this->weightID = $weightID;
+
+        return $this;
     }
 
     /**
@@ -2336,7 +2427,7 @@ class Item
      */
     public function getWeightUnitMeasurement()
     {
-      return $this->weightUnitMeasurement;
+        return $this->weightUnitMeasurement;
     }
 
     /**
@@ -2345,8 +2436,9 @@ class Item
      */
     public function setWeightUnitMeasurement($weightUnitMeasurement)
     {
-      $this->weightUnitMeasurement = $weightUnitMeasurement;
-      return $this;
+        $this->weightUnitMeasurement = $weightUnitMeasurement;
+
+        return $this;
     }
 
     /**
@@ -2354,7 +2446,7 @@ class Item
      */
     public function getOtherTax_1_type()
     {
-      return $this->otherTax_1_type;
+        return $this->otherTax_1_type;
     }
 
     /**
@@ -2363,8 +2455,9 @@ class Item
      */
     public function setOtherTax_1_type($otherTax_1_type)
     {
-      $this->otherTax_1_type = $otherTax_1_type;
-      return $this;
+        $this->otherTax_1_type = $otherTax_1_type;
+
+        return $this;
     }
 
     /**
@@ -2372,7 +2465,7 @@ class Item
      */
     public function getOtherTax_1_amount()
     {
-      return $this->otherTax_1_amount;
+        return $this->otherTax_1_amount;
     }
 
     /**
@@ -2381,8 +2474,9 @@ class Item
      */
     public function setOtherTax_1_amount($otherTax_1_amount)
     {
-      $this->otherTax_1_amount = $otherTax_1_amount;
-      return $this;
+        $this->otherTax_1_amount = $otherTax_1_amount;
+
+        return $this;
     }
 
     /**
@@ -2390,7 +2484,7 @@ class Item
      */
     public function getOtherTax_1_rate()
     {
-      return $this->otherTax_1_rate;
+        return $this->otherTax_1_rate;
     }
 
     /**
@@ -2399,8 +2493,9 @@ class Item
      */
     public function setOtherTax_1_rate($otherTax_1_rate)
     {
-      $this->otherTax_1_rate = $otherTax_1_rate;
-      return $this;
+        $this->otherTax_1_rate = $otherTax_1_rate;
+
+        return $this;
     }
 
     /**
@@ -2408,7 +2503,7 @@ class Item
      */
     public function getOtherTax_1_statusIndicator()
     {
-      return $this->otherTax_1_statusIndicator;
+        return $this->otherTax_1_statusIndicator;
     }
 
     /**
@@ -2417,8 +2512,9 @@ class Item
      */
     public function setOtherTax_1_statusIndicator($otherTax_1_statusIndicator)
     {
-      $this->otherTax_1_statusIndicator = $otherTax_1_statusIndicator;
-      return $this;
+        $this->otherTax_1_statusIndicator = $otherTax_1_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2426,7 +2522,7 @@ class Item
      */
     public function getOtherTax_2_type()
     {
-      return $this->otherTax_2_type;
+        return $this->otherTax_2_type;
     }
 
     /**
@@ -2435,8 +2531,9 @@ class Item
      */
     public function setOtherTax_2_type($otherTax_2_type)
     {
-      $this->otherTax_2_type = $otherTax_2_type;
-      return $this;
+        $this->otherTax_2_type = $otherTax_2_type;
+
+        return $this;
     }
 
     /**
@@ -2444,7 +2541,7 @@ class Item
      */
     public function getOtherTax_2_amount()
     {
-      return $this->otherTax_2_amount;
+        return $this->otherTax_2_amount;
     }
 
     /**
@@ -2453,8 +2550,9 @@ class Item
      */
     public function setOtherTax_2_amount($otherTax_2_amount)
     {
-      $this->otherTax_2_amount = $otherTax_2_amount;
-      return $this;
+        $this->otherTax_2_amount = $otherTax_2_amount;
+
+        return $this;
     }
 
     /**
@@ -2462,7 +2560,7 @@ class Item
      */
     public function getOtherTax_2_rate()
     {
-      return $this->otherTax_2_rate;
+        return $this->otherTax_2_rate;
     }
 
     /**
@@ -2471,8 +2569,9 @@ class Item
      */
     public function setOtherTax_2_rate($otherTax_2_rate)
     {
-      $this->otherTax_2_rate = $otherTax_2_rate;
-      return $this;
+        $this->otherTax_2_rate = $otherTax_2_rate;
+
+        return $this;
     }
 
     /**
@@ -2480,7 +2579,7 @@ class Item
      */
     public function getOtherTax_2_statusIndicator()
     {
-      return $this->otherTax_2_statusIndicator;
+        return $this->otherTax_2_statusIndicator;
     }
 
     /**
@@ -2489,8 +2588,9 @@ class Item
      */
     public function setOtherTax_2_statusIndicator($otherTax_2_statusIndicator)
     {
-      $this->otherTax_2_statusIndicator = $otherTax_2_statusIndicator;
-      return $this;
+        $this->otherTax_2_statusIndicator = $otherTax_2_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2498,7 +2598,7 @@ class Item
      */
     public function getOtherTax_3_type()
     {
-      return $this->otherTax_3_type;
+        return $this->otherTax_3_type;
     }
 
     /**
@@ -2507,8 +2607,9 @@ class Item
      */
     public function setOtherTax_3_type($otherTax_3_type)
     {
-      $this->otherTax_3_type = $otherTax_3_type;
-      return $this;
+        $this->otherTax_3_type = $otherTax_3_type;
+
+        return $this;
     }
 
     /**
@@ -2516,7 +2617,7 @@ class Item
      */
     public function getOtherTax_3_amount()
     {
-      return $this->otherTax_3_amount;
+        return $this->otherTax_3_amount;
     }
 
     /**
@@ -2525,8 +2626,9 @@ class Item
      */
     public function setOtherTax_3_amount($otherTax_3_amount)
     {
-      $this->otherTax_3_amount = $otherTax_3_amount;
-      return $this;
+        $this->otherTax_3_amount = $otherTax_3_amount;
+
+        return $this;
     }
 
     /**
@@ -2534,7 +2636,7 @@ class Item
      */
     public function getOtherTax_3_rate()
     {
-      return $this->otherTax_3_rate;
+        return $this->otherTax_3_rate;
     }
 
     /**
@@ -2543,8 +2645,9 @@ class Item
      */
     public function setOtherTax_3_rate($otherTax_3_rate)
     {
-      $this->otherTax_3_rate = $otherTax_3_rate;
-      return $this;
+        $this->otherTax_3_rate = $otherTax_3_rate;
+
+        return $this;
     }
 
     /**
@@ -2552,7 +2655,7 @@ class Item
      */
     public function getOtherTax_3_statusIndicator()
     {
-      return $this->otherTax_3_statusIndicator;
+        return $this->otherTax_3_statusIndicator;
     }
 
     /**
@@ -2561,8 +2664,9 @@ class Item
      */
     public function setOtherTax_3_statusIndicator($otherTax_3_statusIndicator)
     {
-      $this->otherTax_3_statusIndicator = $otherTax_3_statusIndicator;
-      return $this;
+        $this->otherTax_3_statusIndicator = $otherTax_3_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2570,7 +2674,7 @@ class Item
      */
     public function getOtherTax_4_type()
     {
-      return $this->otherTax_4_type;
+        return $this->otherTax_4_type;
     }
 
     /**
@@ -2579,8 +2683,9 @@ class Item
      */
     public function setOtherTax_4_type($otherTax_4_type)
     {
-      $this->otherTax_4_type = $otherTax_4_type;
-      return $this;
+        $this->otherTax_4_type = $otherTax_4_type;
+
+        return $this;
     }
 
     /**
@@ -2588,7 +2693,7 @@ class Item
      */
     public function getOtherTax_4_amount()
     {
-      return $this->otherTax_4_amount;
+        return $this->otherTax_4_amount;
     }
 
     /**
@@ -2597,8 +2702,9 @@ class Item
      */
     public function setOtherTax_4_amount($otherTax_4_amount)
     {
-      $this->otherTax_4_amount = $otherTax_4_amount;
-      return $this;
+        $this->otherTax_4_amount = $otherTax_4_amount;
+
+        return $this;
     }
 
     /**
@@ -2606,7 +2712,7 @@ class Item
      */
     public function getOtherTax_4_rate()
     {
-      return $this->otherTax_4_rate;
+        return $this->otherTax_4_rate;
     }
 
     /**
@@ -2615,8 +2721,9 @@ class Item
      */
     public function setOtherTax_4_rate($otherTax_4_rate)
     {
-      $this->otherTax_4_rate = $otherTax_4_rate;
-      return $this;
+        $this->otherTax_4_rate = $otherTax_4_rate;
+
+        return $this;
     }
 
     /**
@@ -2624,7 +2731,7 @@ class Item
      */
     public function getOtherTax_4_statusIndicator()
     {
-      return $this->otherTax_4_statusIndicator;
+        return $this->otherTax_4_statusIndicator;
     }
 
     /**
@@ -2633,8 +2740,9 @@ class Item
      */
     public function setOtherTax_4_statusIndicator($otherTax_4_statusIndicator)
     {
-      $this->otherTax_4_statusIndicator = $otherTax_4_statusIndicator;
-      return $this;
+        $this->otherTax_4_statusIndicator = $otherTax_4_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2642,7 +2750,7 @@ class Item
      */
     public function getOtherTax_5_type()
     {
-      return $this->otherTax_5_type;
+        return $this->otherTax_5_type;
     }
 
     /**
@@ -2651,8 +2759,9 @@ class Item
      */
     public function setOtherTax_5_type($otherTax_5_type)
     {
-      $this->otherTax_5_type = $otherTax_5_type;
-      return $this;
+        $this->otherTax_5_type = $otherTax_5_type;
+
+        return $this;
     }
 
     /**
@@ -2660,7 +2769,7 @@ class Item
      */
     public function getOtherTax_5_amount()
     {
-      return $this->otherTax_5_amount;
+        return $this->otherTax_5_amount;
     }
 
     /**
@@ -2669,8 +2778,9 @@ class Item
      */
     public function setOtherTax_5_amount($otherTax_5_amount)
     {
-      $this->otherTax_5_amount = $otherTax_5_amount;
-      return $this;
+        $this->otherTax_5_amount = $otherTax_5_amount;
+
+        return $this;
     }
 
     /**
@@ -2678,7 +2788,7 @@ class Item
      */
     public function getOtherTax_5_rate()
     {
-      return $this->otherTax_5_rate;
+        return $this->otherTax_5_rate;
     }
 
     /**
@@ -2687,8 +2797,9 @@ class Item
      */
     public function setOtherTax_5_rate($otherTax_5_rate)
     {
-      $this->otherTax_5_rate = $otherTax_5_rate;
-      return $this;
+        $this->otherTax_5_rate = $otherTax_5_rate;
+
+        return $this;
     }
 
     /**
@@ -2696,7 +2807,7 @@ class Item
      */
     public function getOtherTax_5_statusIndicator()
     {
-      return $this->otherTax_5_statusIndicator;
+        return $this->otherTax_5_statusIndicator;
     }
 
     /**
@@ -2705,8 +2816,9 @@ class Item
      */
     public function setOtherTax_5_statusIndicator($otherTax_5_statusIndicator)
     {
-      $this->otherTax_5_statusIndicator = $otherTax_5_statusIndicator;
-      return $this;
+        $this->otherTax_5_statusIndicator = $otherTax_5_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2714,7 +2826,7 @@ class Item
      */
     public function getOtherTax_6_type()
     {
-      return $this->otherTax_6_type;
+        return $this->otherTax_6_type;
     }
 
     /**
@@ -2723,8 +2835,9 @@ class Item
      */
     public function setOtherTax_6_type($otherTax_6_type)
     {
-      $this->otherTax_6_type = $otherTax_6_type;
-      return $this;
+        $this->otherTax_6_type = $otherTax_6_type;
+
+        return $this;
     }
 
     /**
@@ -2732,7 +2845,7 @@ class Item
      */
     public function getOtherTax_6_amount()
     {
-      return $this->otherTax_6_amount;
+        return $this->otherTax_6_amount;
     }
 
     /**
@@ -2741,8 +2854,9 @@ class Item
      */
     public function setOtherTax_6_amount($otherTax_6_amount)
     {
-      $this->otherTax_6_amount = $otherTax_6_amount;
-      return $this;
+        $this->otherTax_6_amount = $otherTax_6_amount;
+
+        return $this;
     }
 
     /**
@@ -2750,7 +2864,7 @@ class Item
      */
     public function getOtherTax_6_rate()
     {
-      return $this->otherTax_6_rate;
+        return $this->otherTax_6_rate;
     }
 
     /**
@@ -2759,8 +2873,9 @@ class Item
      */
     public function setOtherTax_6_rate($otherTax_6_rate)
     {
-      $this->otherTax_6_rate = $otherTax_6_rate;
-      return $this;
+        $this->otherTax_6_rate = $otherTax_6_rate;
+
+        return $this;
     }
 
     /**
@@ -2768,7 +2883,7 @@ class Item
      */
     public function getOtherTax_6_statusIndicator()
     {
-      return $this->otherTax_6_statusIndicator;
+        return $this->otherTax_6_statusIndicator;
     }
 
     /**
@@ -2777,8 +2892,9 @@ class Item
      */
     public function setOtherTax_6_statusIndicator($otherTax_6_statusIndicator)
     {
-      $this->otherTax_6_statusIndicator = $otherTax_6_statusIndicator;
-      return $this;
+        $this->otherTax_6_statusIndicator = $otherTax_6_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2786,7 +2902,7 @@ class Item
      */
     public function getOtherTax_7_type()
     {
-      return $this->otherTax_7_type;
+        return $this->otherTax_7_type;
     }
 
     /**
@@ -2795,8 +2911,9 @@ class Item
      */
     public function setOtherTax_7_type($otherTax_7_type)
     {
-      $this->otherTax_7_type = $otherTax_7_type;
-      return $this;
+        $this->otherTax_7_type = $otherTax_7_type;
+
+        return $this;
     }
 
     /**
@@ -2804,7 +2921,7 @@ class Item
      */
     public function getOtherTax_7_amount()
     {
-      return $this->otherTax_7_amount;
+        return $this->otherTax_7_amount;
     }
 
     /**
@@ -2813,8 +2930,9 @@ class Item
      */
     public function setOtherTax_7_amount($otherTax_7_amount)
     {
-      $this->otherTax_7_amount = $otherTax_7_amount;
-      return $this;
+        $this->otherTax_7_amount = $otherTax_7_amount;
+
+        return $this;
     }
 
     /**
@@ -2822,7 +2940,7 @@ class Item
      */
     public function getOtherTax_7_rate()
     {
-      return $this->otherTax_7_rate;
+        return $this->otherTax_7_rate;
     }
 
     /**
@@ -2831,8 +2949,9 @@ class Item
      */
     public function setOtherTax_7_rate($otherTax_7_rate)
     {
-      $this->otherTax_7_rate = $otherTax_7_rate;
-      return $this;
+        $this->otherTax_7_rate = $otherTax_7_rate;
+
+        return $this;
     }
 
     /**
@@ -2840,7 +2959,7 @@ class Item
      */
     public function getOtherTax_7_statusIndicator()
     {
-      return $this->otherTax_7_statusIndicator;
+        return $this->otherTax_7_statusIndicator;
     }
 
     /**
@@ -2849,8 +2968,9 @@ class Item
      */
     public function setOtherTax_7_statusIndicator($otherTax_7_statusIndicator)
     {
-      $this->otherTax_7_statusIndicator = $otherTax_7_statusIndicator;
-      return $this;
+        $this->otherTax_7_statusIndicator = $otherTax_7_statusIndicator;
+
+        return $this;
     }
 
     /**
@@ -2858,7 +2978,7 @@ class Item
      */
     public function getReferenceData_1_number()
     {
-      return $this->referenceData_1_number;
+        return $this->referenceData_1_number;
     }
 
     /**
@@ -2867,8 +2987,9 @@ class Item
      */
     public function setReferenceData_1_number($referenceData_1_number)
     {
-      $this->referenceData_1_number = $referenceData_1_number;
-      return $this;
+        $this->referenceData_1_number = $referenceData_1_number;
+
+        return $this;
     }
 
     /**
@@ -2876,7 +2997,7 @@ class Item
      */
     public function getReferenceData_1_code()
     {
-      return $this->referenceData_1_code;
+        return $this->referenceData_1_code;
     }
 
     /**
@@ -2885,8 +3006,9 @@ class Item
      */
     public function setReferenceData_1_code($referenceData_1_code)
     {
-      $this->referenceData_1_code = $referenceData_1_code;
-      return $this;
+        $this->referenceData_1_code = $referenceData_1_code;
+
+        return $this;
     }
 
     /**
@@ -2894,7 +3016,7 @@ class Item
      */
     public function getReferenceData_2_number()
     {
-      return $this->referenceData_2_number;
+        return $this->referenceData_2_number;
     }
 
     /**
@@ -2903,8 +3025,9 @@ class Item
      */
     public function setReferenceData_2_number($referenceData_2_number)
     {
-      $this->referenceData_2_number = $referenceData_2_number;
-      return $this;
+        $this->referenceData_2_number = $referenceData_2_number;
+
+        return $this;
     }
 
     /**
@@ -2912,7 +3035,7 @@ class Item
      */
     public function getReferenceData_2_code()
     {
-      return $this->referenceData_2_code;
+        return $this->referenceData_2_code;
     }
 
     /**
@@ -2921,8 +3044,9 @@ class Item
      */
     public function setReferenceData_2_code($referenceData_2_code)
     {
-      $this->referenceData_2_code = $referenceData_2_code;
-      return $this;
+        $this->referenceData_2_code = $referenceData_2_code;
+
+        return $this;
     }
 
     /**
@@ -2930,7 +3054,7 @@ class Item
      */
     public function getReferenceData_3_number()
     {
-      return $this->referenceData_3_number;
+        return $this->referenceData_3_number;
     }
 
     /**
@@ -2939,8 +3063,9 @@ class Item
      */
     public function setReferenceData_3_number($referenceData_3_number)
     {
-      $this->referenceData_3_number = $referenceData_3_number;
-      return $this;
+        $this->referenceData_3_number = $referenceData_3_number;
+
+        return $this;
     }
 
     /**
@@ -2948,7 +3073,7 @@ class Item
      */
     public function getReferenceData_3_code()
     {
-      return $this->referenceData_3_code;
+        return $this->referenceData_3_code;
     }
 
     /**
@@ -2957,8 +3082,9 @@ class Item
      */
     public function setReferenceData_3_code($referenceData_3_code)
     {
-      $this->referenceData_3_code = $referenceData_3_code;
-      return $this;
+        $this->referenceData_3_code = $referenceData_3_code;
+
+        return $this;
     }
 
     /**
@@ -2966,7 +3092,7 @@ class Item
      */
     public function getReferenceData_4_number()
     {
-      return $this->referenceData_4_number;
+        return $this->referenceData_4_number;
     }
 
     /**
@@ -2975,8 +3101,9 @@ class Item
      */
     public function setReferenceData_4_number($referenceData_4_number)
     {
-      $this->referenceData_4_number = $referenceData_4_number;
-      return $this;
+        $this->referenceData_4_number = $referenceData_4_number;
+
+        return $this;
     }
 
     /**
@@ -2984,7 +3111,7 @@ class Item
      */
     public function getReferenceData_4_code()
     {
-      return $this->referenceData_4_code;
+        return $this->referenceData_4_code;
     }
 
     /**
@@ -2993,8 +3120,9 @@ class Item
      */
     public function setReferenceData_4_code($referenceData_4_code)
     {
-      $this->referenceData_4_code = $referenceData_4_code;
-      return $this;
+        $this->referenceData_4_code = $referenceData_4_code;
+
+        return $this;
     }
 
     /**
@@ -3002,7 +3130,7 @@ class Item
      */
     public function getReferenceData_5_number()
     {
-      return $this->referenceData_5_number;
+        return $this->referenceData_5_number;
     }
 
     /**
@@ -3011,8 +3139,9 @@ class Item
      */
     public function setReferenceData_5_number($referenceData_5_number)
     {
-      $this->referenceData_5_number = $referenceData_5_number;
-      return $this;
+        $this->referenceData_5_number = $referenceData_5_number;
+
+        return $this;
     }
 
     /**
@@ -3020,7 +3149,7 @@ class Item
      */
     public function getReferenceData_5_code()
     {
-      return $this->referenceData_5_code;
+        return $this->referenceData_5_code;
     }
 
     /**
@@ -3029,8 +3158,9 @@ class Item
      */
     public function setReferenceData_5_code($referenceData_5_code)
     {
-      $this->referenceData_5_code = $referenceData_5_code;
-      return $this;
+        $this->referenceData_5_code = $referenceData_5_code;
+
+        return $this;
     }
 
     /**
@@ -3038,7 +3168,7 @@ class Item
      */
     public function getReferenceData_6_number()
     {
-      return $this->referenceData_6_number;
+        return $this->referenceData_6_number;
     }
 
     /**
@@ -3047,8 +3177,9 @@ class Item
      */
     public function setReferenceData_6_number($referenceData_6_number)
     {
-      $this->referenceData_6_number = $referenceData_6_number;
-      return $this;
+        $this->referenceData_6_number = $referenceData_6_number;
+
+        return $this;
     }
 
     /**
@@ -3056,7 +3187,7 @@ class Item
      */
     public function getReferenceData_6_code()
     {
-      return $this->referenceData_6_code;
+        return $this->referenceData_6_code;
     }
 
     /**
@@ -3065,8 +3196,9 @@ class Item
      */
     public function setReferenceData_6_code($referenceData_6_code)
     {
-      $this->referenceData_6_code = $referenceData_6_code;
-      return $this;
+        $this->referenceData_6_code = $referenceData_6_code;
+
+        return $this;
     }
 
     /**
@@ -3074,7 +3206,7 @@ class Item
      */
     public function getReferenceData_7_number()
     {
-      return $this->referenceData_7_number;
+        return $this->referenceData_7_number;
     }
 
     /**
@@ -3083,8 +3215,9 @@ class Item
      */
     public function setReferenceData_7_number($referenceData_7_number)
     {
-      $this->referenceData_7_number = $referenceData_7_number;
-      return $this;
+        $this->referenceData_7_number = $referenceData_7_number;
+
+        return $this;
     }
 
     /**
@@ -3092,7 +3225,7 @@ class Item
      */
     public function getReferenceData_7_code()
     {
-      return $this->referenceData_7_code;
+        return $this->referenceData_7_code;
     }
 
     /**
@@ -3101,8 +3234,9 @@ class Item
      */
     public function setReferenceData_7_code($referenceData_7_code)
     {
-      $this->referenceData_7_code = $referenceData_7_code;
-      return $this;
+        $this->referenceData_7_code = $referenceData_7_code;
+
+        return $this;
     }
 
     /**
@@ -3110,7 +3244,7 @@ class Item
      */
     public function getShippingDestinationTypes()
     {
-      return $this->shippingDestinationTypes;
+        return $this->shippingDestinationTypes;
     }
 
     /**
@@ -3119,8 +3253,9 @@ class Item
      */
     public function setShippingDestinationTypes($shippingDestinationTypes)
     {
-      $this->shippingDestinationTypes = $shippingDestinationTypes;
-      return $this;
+        $this->shippingDestinationTypes = $shippingDestinationTypes;
+
+        return $this;
     }
 
     /**
@@ -3128,7 +3263,7 @@ class Item
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -3137,8 +3272,9 @@ class Item
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

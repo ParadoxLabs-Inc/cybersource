@@ -35,10 +35,8 @@ class PersonalID
      */
     protected $issuedBy = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class PersonalID
      */
     public function getNumber()
     {
-      return $this->number;
+        return $this->number;
     }
 
     /**
@@ -55,8 +53,9 @@ class PersonalID
      */
     public function setNumber($number)
     {
-      $this->number = $number;
-      return $this;
+        $this->number = $number;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class PersonalID
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -73,8 +72,9 @@ class PersonalID
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class PersonalID
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -91,8 +91,9 @@ class PersonalID
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class PersonalID
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -109,8 +110,9 @@ class PersonalID
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class PersonalID
      */
     public function getAddress()
     {
-      return $this->address;
+        return $this->address;
     }
 
     /**
@@ -127,8 +129,9 @@ class PersonalID
      */
     public function setAddress($address)
     {
-      $this->address = $address;
-      return $this;
+        $this->address = $address;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class PersonalID
      */
     public function getIssuedBy()
     {
-      return $this->issuedBy;
+        return $this->issuedBy;
     }
 
     /**
@@ -145,8 +148,9 @@ class PersonalID
      */
     public function setIssuedBy($issuedBy)
     {
-      $this->issuedBy = $issuedBy;
-      return $this;
+        $this->issuedBy = $issuedBy;
+
+        return $this;
     }
 
 }

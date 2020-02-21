@@ -20,10 +20,8 @@ class Routing
      */
     protected $signatureCVMRequired = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class Routing
      */
     public function getNetworkType()
     {
-      return $this->networkType;
+        return $this->networkType;
     }
 
     /**
@@ -40,8 +38,9 @@ class Routing
      */
     public function setNetworkType($networkType)
     {
-      $this->networkType = $networkType;
-      return $this;
+        $this->networkType = $networkType;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class Routing
      */
     public function getNetworkLabel()
     {
-      return $this->networkLabel;
+        return $this->networkLabel;
     }
 
     /**
@@ -58,8 +57,9 @@ class Routing
      */
     public function setNetworkLabel($networkLabel)
     {
-      $this->networkLabel = $networkLabel;
-      return $this;
+        $this->networkLabel = $networkLabel;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class Routing
      */
     public function getSignatureCVMRequired()
     {
-      return $this->signatureCVMRequired;
+        return $this->signatureCVMRequired;
     }
 
     /**
@@ -76,8 +76,9 @@ class Routing
      */
     public function setSignatureCVMRequired($signatureCVMRequired)
     {
-      $this->signatureCVMRequired = $signatureCVMRequired;
-      return $this;
+        $this->signatureCVMRequired = $signatureCVMRequired;
+
+        return $this;
     }
 
 }

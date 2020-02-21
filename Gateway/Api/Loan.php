@@ -15,10 +15,8 @@ class Loan
      */
     protected $type = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -26,7 +24,7 @@ class Loan
      */
     public function getAssetType()
     {
-      return $this->assetType;
+        return $this->assetType;
     }
 
     /**
@@ -35,8 +33,9 @@ class Loan
      */
     public function setAssetType($assetType)
     {
-      $this->assetType = $assetType;
-      return $this;
+        $this->assetType = $assetType;
+
+        return $this;
     }
 
     /**
@@ -44,7 +43,7 @@ class Loan
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -53,8 +52,9 @@ class Loan
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
 }

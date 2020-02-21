@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APCaptureReply
 {
 
@@ -65,7 +68,7 @@ class APCaptureReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -73,7 +76,7 @@ class APCaptureReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -82,8 +85,9 @@ class APCaptureReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -91,7 +95,7 @@ class APCaptureReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -100,8 +104,9 @@ class APCaptureReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -109,7 +114,7 @@ class APCaptureReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -118,8 +123,9 @@ class APCaptureReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -127,7 +133,7 @@ class APCaptureReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -136,8 +142,9 @@ class APCaptureReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -145,7 +152,7 @@ class APCaptureReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -154,8 +161,9 @@ class APCaptureReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -163,29 +171,30 @@ class APCaptureReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCaptureReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -193,7 +202,7 @@ class APCaptureReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -202,8 +211,9 @@ class APCaptureReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -211,7 +221,7 @@ class APCaptureReply
      */
     public function getProviderResponse()
     {
-      return $this->providerResponse;
+        return $this->providerResponse;
     }
 
     /**
@@ -220,8 +230,9 @@ class APCaptureReply
      */
     public function setProviderResponse($providerResponse)
     {
-      $this->providerResponse = $providerResponse;
-      return $this;
+        $this->providerResponse = $providerResponse;
+
+        return $this;
     }
 
     /**
@@ -229,7 +240,7 @@ class APCaptureReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -238,8 +249,9 @@ class APCaptureReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -247,7 +259,7 @@ class APCaptureReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -256,8 +268,9 @@ class APCaptureReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -265,7 +278,7 @@ class APCaptureReply
      */
     public function getProcessorTransactionFee()
     {
-      return $this->processorTransactionFee;
+        return $this->processorTransactionFee;
     }
 
     /**
@@ -274,8 +287,9 @@ class APCaptureReply
      */
     public function setProcessorTransactionFee($processorTransactionFee)
     {
-      $this->processorTransactionFee = $processorTransactionFee;
-      return $this;
+        $this->processorTransactionFee = $processorTransactionFee;
+
+        return $this;
     }
 
 }

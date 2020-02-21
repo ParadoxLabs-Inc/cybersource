@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APRevokeMandateReply
 {
 
@@ -57,9 +60,9 @@ class APRevokeMandateReply
      */
     public function __construct($reasonCode, $mandateID, $status)
     {
-      $this->reasonCode = $reasonCode;
-      $this->mandateID = $mandateID;
-      $this->status = $status;
+        $this->reasonCode = $reasonCode;
+        $this->mandateID  = $mandateID;
+        $this->status     = $status;
     }
 
     /**
@@ -67,7 +70,7 @@ class APRevokeMandateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -76,8 +79,9 @@ class APRevokeMandateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -85,7 +89,7 @@ class APRevokeMandateReply
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -94,8 +98,9 @@ class APRevokeMandateReply
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -103,7 +108,7 @@ class APRevokeMandateReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -112,8 +117,9 @@ class APRevokeMandateReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -121,7 +127,7 @@ class APRevokeMandateReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -130,8 +136,9 @@ class APRevokeMandateReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -139,7 +146,7 @@ class APRevokeMandateReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -148,8 +155,9 @@ class APRevokeMandateReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -157,29 +165,30 @@ class APRevokeMandateReply
      */
     public function getDateSigned()
     {
-      if ($this->dateSigned == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateSigned);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateSigned == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateSigned);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateSigned
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateSigned(\DateTime $dateSigned = null)
+    public function setDateSigned(DateTime $dateSigned = null)
     {
-      if ($dateSigned == null) {
-       $this->dateSigned = null;
-      } else {
-        $this->dateSigned = $dateSigned->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateSigned == null) {
+            $this->dateSigned = null;
+        } else {
+            $this->dateSigned = $dateSigned->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -187,29 +196,30 @@ class APRevokeMandateReply
      */
     public function getDateCreated()
     {
-      if ($this->dateCreated == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateCreated);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateCreated == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateCreated);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateCreated
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateCreated(\DateTime $dateCreated = null)
+    public function setDateCreated(DateTime $dateCreated = null)
     {
-      if ($dateCreated == null) {
-       $this->dateCreated = null;
-      } else {
-        $this->dateCreated = $dateCreated->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateCreated == null) {
+            $this->dateCreated = null;
+        } else {
+            $this->dateCreated = $dateCreated->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -217,29 +227,30 @@ class APRevokeMandateReply
      */
     public function getDateRevoked()
     {
-      if ($this->dateRevoked == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateRevoked);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateRevoked == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateRevoked);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateRevoked
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateRevoked(\DateTime $dateRevoked = null)
+    public function setDateRevoked(DateTime $dateRevoked = null)
     {
-      if ($dateRevoked == null) {
-       $this->dateRevoked = null;
-      } else {
-        $this->dateRevoked = $dateRevoked->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateRevoked == null) {
+            $this->dateRevoked = null;
+        } else {
+            $this->dateRevoked = $dateRevoked->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -247,29 +258,30 @@ class APRevokeMandateReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

@@ -20,10 +20,8 @@ class PostdatedTransaction
      */
     protected $settlementDate = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class PostdatedTransaction
      */
     public function getGuaranteeIndicator()
     {
-      return $this->guaranteeIndicator;
+        return $this->guaranteeIndicator;
     }
 
     /**
@@ -40,8 +38,9 @@ class PostdatedTransaction
      */
     public function setGuaranteeIndicator($guaranteeIndicator)
     {
-      $this->guaranteeIndicator = $guaranteeIndicator;
-      return $this;
+        $this->guaranteeIndicator = $guaranteeIndicator;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class PostdatedTransaction
      */
     public function getGuaranteeAmount()
     {
-      return $this->guaranteeAmount;
+        return $this->guaranteeAmount;
     }
 
     /**
@@ -58,8 +57,9 @@ class PostdatedTransaction
      */
     public function setGuaranteeAmount($guaranteeAmount)
     {
-      $this->guaranteeAmount = $guaranteeAmount;
-      return $this;
+        $this->guaranteeAmount = $guaranteeAmount;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class PostdatedTransaction
      */
     public function getSettlementDate()
     {
-      return $this->settlementDate;
+        return $this->settlementDate;
     }
 
     /**
@@ -76,8 +76,9 @@ class PostdatedTransaction
      */
     public function setSettlementDate($settlementDate)
     {
-      $this->settlementDate = $settlementDate;
-      return $this;
+        $this->settlementDate = $settlementDate;
+
+        return $this;
     }
 
 }

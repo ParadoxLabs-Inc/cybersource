@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class DecisionManagerTravelLeg
 {
 
@@ -30,7 +33,7 @@ class DecisionManagerTravelLeg
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -38,7 +41,7 @@ class DecisionManagerTravelLeg
      */
     public function getOrigin()
     {
-      return $this->origin;
+        return $this->origin;
     }
 
     /**
@@ -47,8 +50,9 @@ class DecisionManagerTravelLeg
      */
     public function setOrigin($origin)
     {
-      $this->origin = $origin;
-      return $this;
+        $this->origin = $origin;
+
+        return $this;
     }
 
     /**
@@ -56,7 +60,7 @@ class DecisionManagerTravelLeg
      */
     public function getDestination()
     {
-      return $this->destination;
+        return $this->destination;
     }
 
     /**
@@ -65,8 +69,9 @@ class DecisionManagerTravelLeg
      */
     public function setDestination($destination)
     {
-      $this->destination = $destination;
-      return $this;
+        $this->destination = $destination;
+
+        return $this;
     }
 
     /**
@@ -74,29 +79,30 @@ class DecisionManagerTravelLeg
      */
     public function getDepartureDateTime()
     {
-      if ($this->departureDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->departureDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->departureDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->departureDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $departureDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManagerTravelLeg
      */
-    public function setDepartureDateTime(\DateTime $departureDateTime = null)
+    public function setDepartureDateTime(DateTime $departureDateTime = null)
     {
-      if ($departureDateTime == null) {
-       $this->departureDateTime = null;
-      } else {
-        $this->departureDateTime = $departureDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($departureDateTime == null) {
+            $this->departureDateTime = null;
+        } else {
+            $this->departureDateTime = $departureDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -104,7 +110,7 @@ class DecisionManagerTravelLeg
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -113,8 +119,9 @@ class DecisionManagerTravelLeg
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

@@ -15,10 +15,8 @@ class Subscription
      */
     protected $paymentMethod = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -26,7 +24,7 @@ class Subscription
      */
     public function getTitle()
     {
-      return $this->title;
+        return $this->title;
     }
 
     /**
@@ -35,8 +33,9 @@ class Subscription
      */
     public function setTitle($title)
     {
-      $this->title = $title;
-      return $this;
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -44,7 +43,7 @@ class Subscription
      */
     public function getPaymentMethod()
     {
-      return $this->paymentMethod;
+        return $this->paymentMethod;
     }
 
     /**
@@ -53,8 +52,9 @@ class Subscription
      */
     public function setPaymentMethod($paymentMethod)
     {
-      $this->paymentMethod = $paymentMethod;
-      return $this;
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 
 }

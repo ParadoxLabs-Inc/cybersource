@@ -15,10 +15,8 @@ class FundingTotals
      */
     protected $grandTotalAmount = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -26,7 +24,7 @@ class FundingTotals
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -35,8 +33,9 @@ class FundingTotals
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -44,7 +43,7 @@ class FundingTotals
      */
     public function getGrandTotalAmount()
     {
-      return $this->grandTotalAmount;
+        return $this->grandTotalAmount;
     }
 
     /**
@@ -53,8 +52,9 @@ class FundingTotals
      */
     public function setGrandTotalAmount($grandTotalAmount)
     {
-      $this->grandTotalAmount = $grandTotalAmount;
-      return $this;
+        $this->grandTotalAmount = $grandTotalAmount;
+
+        return $this;
     }
 
 }

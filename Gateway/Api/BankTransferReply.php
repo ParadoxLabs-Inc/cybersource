@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class BankTransferReply
 {
 
@@ -95,7 +98,7 @@ class BankTransferReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -103,7 +106,7 @@ class BankTransferReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -112,8 +115,9 @@ class BankTransferReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -121,7 +125,7 @@ class BankTransferReply
      */
     public function getAccountHolder()
     {
-      return $this->accountHolder;
+        return $this->accountHolder;
     }
 
     /**
@@ -130,8 +134,9 @@ class BankTransferReply
      */
     public function setAccountHolder($accountHolder)
     {
-      $this->accountHolder = $accountHolder;
-      return $this;
+        $this->accountHolder = $accountHolder;
+
+        return $this;
     }
 
     /**
@@ -139,7 +144,7 @@ class BankTransferReply
      */
     public function getAccountNumber()
     {
-      return $this->accountNumber;
+        return $this->accountNumber;
     }
 
     /**
@@ -148,8 +153,9 @@ class BankTransferReply
      */
     public function setAccountNumber($accountNumber)
     {
-      $this->accountNumber = $accountNumber;
-      return $this;
+        $this->accountNumber = $accountNumber;
+
+        return $this;
     }
 
     /**
@@ -157,7 +163,7 @@ class BankTransferReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -166,8 +172,9 @@ class BankTransferReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -175,7 +182,7 @@ class BankTransferReply
      */
     public function getBankName()
     {
-      return $this->bankName;
+        return $this->bankName;
     }
 
     /**
@@ -184,8 +191,9 @@ class BankTransferReply
      */
     public function setBankName($bankName)
     {
-      $this->bankName = $bankName;
-      return $this;
+        $this->bankName = $bankName;
+
+        return $this;
     }
 
     /**
@@ -193,7 +201,7 @@ class BankTransferReply
      */
     public function getBankCity()
     {
-      return $this->bankCity;
+        return $this->bankCity;
     }
 
     /**
@@ -202,8 +210,9 @@ class BankTransferReply
      */
     public function setBankCity($bankCity)
     {
-      $this->bankCity = $bankCity;
-      return $this;
+        $this->bankCity = $bankCity;
+
+        return $this;
     }
 
     /**
@@ -211,7 +220,7 @@ class BankTransferReply
      */
     public function getBankCountry()
     {
-      return $this->bankCountry;
+        return $this->bankCountry;
     }
 
     /**
@@ -220,8 +229,9 @@ class BankTransferReply
      */
     public function setBankCountry($bankCountry)
     {
-      $this->bankCountry = $bankCountry;
-      return $this;
+        $this->bankCountry = $bankCountry;
+
+        return $this;
     }
 
     /**
@@ -229,7 +239,7 @@ class BankTransferReply
      */
     public function getPaymentReference()
     {
-      return $this->paymentReference;
+        return $this->paymentReference;
     }
 
     /**
@@ -238,8 +248,9 @@ class BankTransferReply
      */
     public function setPaymentReference($paymentReference)
     {
-      $this->paymentReference = $paymentReference;
-      return $this;
+        $this->paymentReference = $paymentReference;
+
+        return $this;
     }
 
     /**
@@ -247,7 +258,7 @@ class BankTransferReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -256,8 +267,9 @@ class BankTransferReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -265,7 +277,7 @@ class BankTransferReply
      */
     public function getBankSwiftCode()
     {
-      return $this->bankSwiftCode;
+        return $this->bankSwiftCode;
     }
 
     /**
@@ -274,8 +286,9 @@ class BankTransferReply
      */
     public function setBankSwiftCode($bankSwiftCode)
     {
-      $this->bankSwiftCode = $bankSwiftCode;
-      return $this;
+        $this->bankSwiftCode = $bankSwiftCode;
+
+        return $this;
     }
 
     /**
@@ -283,7 +296,7 @@ class BankTransferReply
      */
     public function getBankSpecialID()
     {
-      return $this->bankSpecialID;
+        return $this->bankSpecialID;
     }
 
     /**
@@ -292,8 +305,9 @@ class BankTransferReply
      */
     public function setBankSpecialID($bankSpecialID)
     {
-      $this->bankSpecialID = $bankSpecialID;
-      return $this;
+        $this->bankSpecialID = $bankSpecialID;
+
+        return $this;
     }
 
     /**
@@ -301,29 +315,30 @@ class BankTransferReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\BankTransferReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -331,7 +346,7 @@ class BankTransferReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -340,8 +355,9 @@ class BankTransferReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -349,7 +365,7 @@ class BankTransferReply
      */
     public function getIban()
     {
-      return $this->iban;
+        return $this->iban;
     }
 
     /**
@@ -358,8 +374,9 @@ class BankTransferReply
      */
     public function setIban($iban)
     {
-      $this->iban = $iban;
-      return $this;
+        $this->iban = $iban;
+
+        return $this;
     }
 
     /**
@@ -367,7 +384,7 @@ class BankTransferReply
      */
     public function getBankCode()
     {
-      return $this->bankCode;
+        return $this->bankCode;
     }
 
     /**
@@ -376,8 +393,9 @@ class BankTransferReply
      */
     public function setBankCode($bankCode)
     {
-      $this->bankCode = $bankCode;
-      return $this;
+        $this->bankCode = $bankCode;
+
+        return $this;
     }
 
     /**
@@ -385,7 +403,7 @@ class BankTransferReply
      */
     public function getBranchCode()
     {
-      return $this->branchCode;
+        return $this->branchCode;
     }
 
     /**
@@ -394,8 +412,9 @@ class BankTransferReply
      */
     public function setBranchCode($branchCode)
     {
-      $this->branchCode = $branchCode;
-      return $this;
+        $this->branchCode = $branchCode;
+
+        return $this;
     }
 
     /**
@@ -403,7 +422,7 @@ class BankTransferReply
      */
     public function getReconciliationReferenceNumber()
     {
-      return $this->reconciliationReferenceNumber;
+        return $this->reconciliationReferenceNumber;
     }
 
     /**
@@ -412,8 +431,9 @@ class BankTransferReply
      */
     public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
     {
-      $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
-      return $this;
+        $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
+
+        return $this;
     }
 
 }

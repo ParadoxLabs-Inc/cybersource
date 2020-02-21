@@ -40,10 +40,8 @@ class EncryptedPayment
      */
     protected $keySerialNumber = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -51,7 +49,7 @@ class EncryptedPayment
      */
     public function getDescriptor()
     {
-      return $this->descriptor;
+        return $this->descriptor;
     }
 
     /**
@@ -60,8 +58,9 @@ class EncryptedPayment
      */
     public function setDescriptor($descriptor)
     {
-      $this->descriptor = $descriptor;
-      return $this;
+        $this->descriptor = $descriptor;
+
+        return $this;
     }
 
     /**
@@ -69,7 +68,7 @@ class EncryptedPayment
      */
     public function getData()
     {
-      return $this->data;
+        return $this->data;
     }
 
     /**
@@ -78,8 +77,9 @@ class EncryptedPayment
      */
     public function setData($data)
     {
-      $this->data = $data;
-      return $this;
+        $this->data = $data;
+
+        return $this;
     }
 
     /**
@@ -87,7 +87,7 @@ class EncryptedPayment
      */
     public function getEncoding()
     {
-      return $this->encoding;
+        return $this->encoding;
     }
 
     /**
@@ -96,8 +96,9 @@ class EncryptedPayment
      */
     public function setEncoding($encoding)
     {
-      $this->encoding = $encoding;
-      return $this;
+        $this->encoding = $encoding;
+
+        return $this;
     }
 
     /**
@@ -105,7 +106,7 @@ class EncryptedPayment
      */
     public function getWrappedKey()
     {
-      return $this->wrappedKey;
+        return $this->wrappedKey;
     }
 
     /**
@@ -114,8 +115,9 @@ class EncryptedPayment
      */
     public function setWrappedKey($wrappedKey)
     {
-      $this->wrappedKey = $wrappedKey;
-      return $this;
+        $this->wrappedKey = $wrappedKey;
+
+        return $this;
     }
 
     /**
@@ -123,7 +125,7 @@ class EncryptedPayment
      */
     public function getReferenceID()
     {
-      return $this->referenceID;
+        return $this->referenceID;
     }
 
     /**
@@ -132,8 +134,9 @@ class EncryptedPayment
      */
     public function setReferenceID($referenceID)
     {
-      $this->referenceID = $referenceID;
-      return $this;
+        $this->referenceID = $referenceID;
+
+        return $this;
     }
 
     /**
@@ -141,7 +144,7 @@ class EncryptedPayment
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -150,8 +153,9 @@ class EncryptedPayment
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
     /**
@@ -159,7 +163,7 @@ class EncryptedPayment
      */
     public function getKeySerialNumber()
     {
-      return $this->keySerialNumber;
+        return $this->keySerialNumber;
     }
 
     /**
@@ -168,8 +172,9 @@ class EncryptedPayment
      */
     public function setKeySerialNumber($keySerialNumber)
     {
-      $this->keySerialNumber = $keySerialNumber;
-      return $this;
+        $this->keySerialNumber = $keySerialNumber;
+
+        return $this;
     }
 
 }

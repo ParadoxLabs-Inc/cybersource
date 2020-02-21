@@ -125,10 +125,8 @@ class AP
      */
     protected $shippingAddressImmutable = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -136,7 +134,7 @@ class AP
      */
     public function getOrderID()
     {
-      return $this->orderID;
+        return $this->orderID;
     }
 
     /**
@@ -145,8 +143,9 @@ class AP
      */
     public function setOrderID($orderID)
     {
-      $this->orderID = $orderID;
-      return $this;
+        $this->orderID = $orderID;
+
+        return $this;
     }
 
     /**
@@ -154,7 +153,7 @@ class AP
      */
     public function getPspBarcodeID()
     {
-      return $this->pspBarcodeID;
+        return $this->pspBarcodeID;
     }
 
     /**
@@ -163,8 +162,9 @@ class AP
      */
     public function setPspBarcodeID($pspBarcodeID)
     {
-      $this->pspBarcodeID = $pspBarcodeID;
-      return $this;
+        $this->pspBarcodeID = $pspBarcodeID;
+
+        return $this;
     }
 
     /**
@@ -172,7 +172,7 @@ class AP
      */
     public function getCustomerRepresentativeID()
     {
-      return $this->customerRepresentativeID;
+        return $this->customerRepresentativeID;
     }
 
     /**
@@ -181,8 +181,9 @@ class AP
      */
     public function setCustomerRepresentativeID($customerRepresentativeID)
     {
-      $this->customerRepresentativeID = $customerRepresentativeID;
-      return $this;
+        $this->customerRepresentativeID = $customerRepresentativeID;
+
+        return $this;
     }
 
     /**
@@ -190,7 +191,7 @@ class AP
      */
     public function getProductDescription()
     {
-      return $this->productDescription;
+        return $this->productDescription;
     }
 
     /**
@@ -199,8 +200,9 @@ class AP
      */
     public function setProductDescription($productDescription)
     {
-      $this->productDescription = $productDescription;
-      return $this;
+        $this->productDescription = $productDescription;
+
+        return $this;
     }
 
     /**
@@ -208,7 +210,7 @@ class AP
      */
     public function getSettlementCurrency()
     {
-      return $this->settlementCurrency;
+        return $this->settlementCurrency;
     }
 
     /**
@@ -217,8 +219,9 @@ class AP
      */
     public function setSettlementCurrency($settlementCurrency)
     {
-      $this->settlementCurrency = $settlementCurrency;
-      return $this;
+        $this->settlementCurrency = $settlementCurrency;
+
+        return $this;
     }
 
     /**
@@ -226,7 +229,7 @@ class AP
      */
     public function getSubtotalAmount()
     {
-      return $this->subtotalAmount;
+        return $this->subtotalAmount;
     }
 
     /**
@@ -235,8 +238,9 @@ class AP
      */
     public function setSubtotalAmount($subtotalAmount)
     {
-      $this->subtotalAmount = $subtotalAmount;
-      return $this;
+        $this->subtotalAmount = $subtotalAmount;
+
+        return $this;
     }
 
     /**
@@ -244,7 +248,7 @@ class AP
      */
     public function getShippingAmount()
     {
-      return $this->shippingAmount;
+        return $this->shippingAmount;
     }
 
     /**
@@ -253,8 +257,9 @@ class AP
      */
     public function setShippingAmount($shippingAmount)
     {
-      $this->shippingAmount = $shippingAmount;
-      return $this;
+        $this->shippingAmount = $shippingAmount;
+
+        return $this;
     }
 
     /**
@@ -262,7 +267,7 @@ class AP
      */
     public function getHandlingAmount()
     {
-      return $this->handlingAmount;
+        return $this->handlingAmount;
     }
 
     /**
@@ -271,8 +276,9 @@ class AP
      */
     public function setHandlingAmount($handlingAmount)
     {
-      $this->handlingAmount = $handlingAmount;
-      return $this;
+        $this->handlingAmount = $handlingAmount;
+
+        return $this;
     }
 
     /**
@@ -280,7 +286,7 @@ class AP
      */
     public function getShippingHandlingAmount()
     {
-      return $this->shippingHandlingAmount;
+        return $this->shippingHandlingAmount;
     }
 
     /**
@@ -289,8 +295,9 @@ class AP
      */
     public function setShippingHandlingAmount($shippingHandlingAmount)
     {
-      $this->shippingHandlingAmount = $shippingHandlingAmount;
-      return $this;
+        $this->shippingHandlingAmount = $shippingHandlingAmount;
+
+        return $this;
     }
 
     /**
@@ -298,7 +305,7 @@ class AP
      */
     public function getAdditionalAmount()
     {
-      return $this->additionalAmount;
+        return $this->additionalAmount;
     }
 
     /**
@@ -307,8 +314,9 @@ class AP
      */
     public function setAdditionalAmount($additionalAmount)
     {
-      $this->additionalAmount = $additionalAmount;
-      return $this;
+        $this->additionalAmount = $additionalAmount;
+
+        return $this;
     }
 
     /**
@@ -316,7 +324,7 @@ class AP
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -325,8 +333,9 @@ class AP
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
-      return $this;
+        $this->taxAmount = $taxAmount;
+
+        return $this;
     }
 
     /**
@@ -334,7 +343,7 @@ class AP
      */
     public function getGiftWrapAmount()
     {
-      return $this->giftWrapAmount;
+        return $this->giftWrapAmount;
     }
 
     /**
@@ -343,8 +352,9 @@ class AP
      */
     public function setGiftWrapAmount($giftWrapAmount)
     {
-      $this->giftWrapAmount = $giftWrapAmount;
-      return $this;
+        $this->giftWrapAmount = $giftWrapAmount;
+
+        return $this;
     }
 
     /**
@@ -352,7 +362,7 @@ class AP
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -361,8 +371,9 @@ class AP
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
     /**
@@ -370,7 +381,7 @@ class AP
      */
     public function getPurchaseID()
     {
-      return $this->purchaseID;
+        return $this->purchaseID;
     }
 
     /**
@@ -379,8 +390,9 @@ class AP
      */
     public function setPurchaseID($purchaseID)
     {
-      $this->purchaseID = $purchaseID;
-      return $this;
+        $this->purchaseID = $purchaseID;
+
+        return $this;
     }
 
     /**
@@ -388,7 +400,7 @@ class AP
      */
     public function getProductID()
     {
-      return $this->productID;
+        return $this->productID;
     }
 
     /**
@@ -397,8 +409,9 @@ class AP
      */
     public function setProductID($productID)
     {
-      $this->productID = $productID;
-      return $this;
+        $this->productID = $productID;
+
+        return $this;
     }
 
     /**
@@ -406,7 +419,7 @@ class AP
      */
     public function getDevice()
     {
-      return $this->device;
+        return $this->device;
     }
 
     /**
@@ -415,8 +428,9 @@ class AP
      */
     public function setDevice($device)
     {
-      $this->device = $device;
-      return $this;
+        $this->device = $device;
+
+        return $this;
     }
 
     /**
@@ -424,7 +438,7 @@ class AP
      */
     public function getApiKey()
     {
-      return $this->apiKey;
+        return $this->apiKey;
     }
 
     /**
@@ -433,8 +447,9 @@ class AP
      */
     public function setApiKey($apiKey)
     {
-      $this->apiKey = $apiKey;
-      return $this;
+        $this->apiKey = $apiKey;
+
+        return $this;
     }
 
     /**
@@ -442,7 +457,7 @@ class AP
      */
     public function getInsuranceAmount()
     {
-      return $this->insuranceAmount;
+        return $this->insuranceAmount;
     }
 
     /**
@@ -451,8 +466,9 @@ class AP
      */
     public function setInsuranceAmount($insuranceAmount)
     {
-      $this->insuranceAmount = $insuranceAmount;
-      return $this;
+        $this->insuranceAmount = $insuranceAmount;
+
+        return $this;
     }
 
     /**
@@ -460,7 +476,7 @@ class AP
      */
     public function getBillingAgreementIndicator()
     {
-      return $this->billingAgreementIndicator;
+        return $this->billingAgreementIndicator;
     }
 
     /**
@@ -469,8 +485,9 @@ class AP
      */
     public function setBillingAgreementIndicator($billingAgreementIndicator)
     {
-      $this->billingAgreementIndicator = $billingAgreementIndicator;
-      return $this;
+        $this->billingAgreementIndicator = $billingAgreementIndicator;
+
+        return $this;
     }
 
     /**
@@ -478,7 +495,7 @@ class AP
      */
     public function getBillingAgreementID()
     {
-      return $this->billingAgreementID;
+        return $this->billingAgreementID;
     }
 
     /**
@@ -487,8 +504,9 @@ class AP
      */
     public function setBillingAgreementID($billingAgreementID)
     {
-      $this->billingAgreementID = $billingAgreementID;
-      return $this;
+        $this->billingAgreementID = $billingAgreementID;
+
+        return $this;
     }
 
     /**
@@ -496,7 +514,7 @@ class AP
      */
     public function getBillingAgreementDescription()
     {
-      return $this->billingAgreementDescription;
+        return $this->billingAgreementDescription;
     }
 
     /**
@@ -505,8 +523,9 @@ class AP
      */
     public function setBillingAgreementDescription($billingAgreementDescription)
     {
-      $this->billingAgreementDescription = $billingAgreementDescription;
-      return $this;
+        $this->billingAgreementDescription = $billingAgreementDescription;
+
+        return $this;
     }
 
     /**
@@ -514,7 +533,7 @@ class AP
      */
     public function getPayerID()
     {
-      return $this->payerID;
+        return $this->payerID;
     }
 
     /**
@@ -523,8 +542,9 @@ class AP
      */
     public function setPayerID($payerID)
     {
-      $this->payerID = $payerID;
-      return $this;
+        $this->payerID = $payerID;
+
+        return $this;
     }
 
     /**
@@ -532,7 +552,7 @@ class AP
      */
     public function getFundingSource()
     {
-      return $this->fundingSource;
+        return $this->fundingSource;
     }
 
     /**
@@ -541,8 +561,9 @@ class AP
      */
     public function setFundingSource($fundingSource)
     {
-      $this->fundingSource = $fundingSource;
-      return $this;
+        $this->fundingSource = $fundingSource;
+
+        return $this;
     }
 
     /**
@@ -550,7 +571,7 @@ class AP
      */
     public function getShippingAddressImmutable()
     {
-      return $this->shippingAddressImmutable;
+        return $this->shippingAddressImmutable;
     }
 
     /**
@@ -559,8 +580,9 @@ class AP
      */
     public function setShippingAddressImmutable($shippingAddressImmutable)
     {
-      $this->shippingAddressImmutable = $shippingAddressImmutable;
-      return $this;
+        $this->shippingAddressImmutable = $shippingAddressImmutable;
+
+        return $this;
     }
 
 }

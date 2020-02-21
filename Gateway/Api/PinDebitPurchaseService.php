@@ -65,7 +65,7 @@ class PinDebitPurchaseService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -73,7 +73,7 @@ class PinDebitPurchaseService
      */
     public function getNetworkOrder()
     {
-      return $this->networkOrder;
+        return $this->networkOrder;
     }
 
     /**
@@ -82,8 +82,9 @@ class PinDebitPurchaseService
      */
     public function setNetworkOrder($networkOrder)
     {
-      $this->networkOrder = $networkOrder;
-      return $this;
+        $this->networkOrder = $networkOrder;
+
+        return $this;
     }
 
     /**
@@ -91,7 +92,7 @@ class PinDebitPurchaseService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -100,8 +101,9 @@ class PinDebitPurchaseService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -109,7 +111,7 @@ class PinDebitPurchaseService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -118,8 +120,9 @@ class PinDebitPurchaseService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -127,7 +130,7 @@ class PinDebitPurchaseService
      */
     public function getPartialAuthIndicator()
     {
-      return $this->partialAuthIndicator;
+        return $this->partialAuthIndicator;
     }
 
     /**
@@ -136,8 +139,9 @@ class PinDebitPurchaseService
      */
     public function setPartialAuthIndicator($partialAuthIndicator)
     {
-      $this->partialAuthIndicator = $partialAuthIndicator;
-      return $this;
+        $this->partialAuthIndicator = $partialAuthIndicator;
+
+        return $this;
     }
 
     /**
@@ -145,7 +149,7 @@ class PinDebitPurchaseService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -154,8 +158,9 @@ class PinDebitPurchaseService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -163,7 +168,7 @@ class PinDebitPurchaseService
      */
     public function getPaymentType()
     {
-      return $this->paymentType;
+        return $this->paymentType;
     }
 
     /**
@@ -172,8 +177,9 @@ class PinDebitPurchaseService
      */
     public function setPaymentType($paymentType)
     {
-      $this->paymentType = $paymentType;
-      return $this;
+        $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -181,7 +187,7 @@ class PinDebitPurchaseService
      */
     public function getEbtCategory()
     {
-      return $this->ebtCategory;
+        return $this->ebtCategory;
     }
 
     /**
@@ -190,8 +196,9 @@ class PinDebitPurchaseService
      */
     public function setEbtCategory($ebtCategory)
     {
-      $this->ebtCategory = $ebtCategory;
-      return $this;
+        $this->ebtCategory = $ebtCategory;
+
+        return $this;
     }
 
     /**
@@ -199,7 +206,7 @@ class PinDebitPurchaseService
      */
     public function getTransactionType()
     {
-      return $this->transactionType;
+        return $this->transactionType;
     }
 
     /**
@@ -208,8 +215,9 @@ class PinDebitPurchaseService
      */
     public function setTransactionType($transactionType)
     {
-      $this->transactionType = $transactionType;
-      return $this;
+        $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
@@ -217,7 +225,7 @@ class PinDebitPurchaseService
      */
     public function getEbtVoucherSerialNumber()
     {
-      return $this->ebtVoucherSerialNumber;
+        return $this->ebtVoucherSerialNumber;
     }
 
     /**
@@ -226,8 +234,9 @@ class PinDebitPurchaseService
      */
     public function setEbtVoucherSerialNumber($ebtVoucherSerialNumber)
     {
-      $this->ebtVoucherSerialNumber = $ebtVoucherSerialNumber;
-      return $this;
+        $this->ebtVoucherSerialNumber = $ebtVoucherSerialNumber;
+
+        return $this;
     }
 
     /**
@@ -235,7 +244,7 @@ class PinDebitPurchaseService
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -244,8 +253,9 @@ class PinDebitPurchaseService
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -253,7 +263,7 @@ class PinDebitPurchaseService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -262,8 +272,9 @@ class PinDebitPurchaseService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

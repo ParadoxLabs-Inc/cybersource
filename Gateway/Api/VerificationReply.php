@@ -35,7 +35,7 @@ class VerificationReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -43,7 +43,7 @@ class VerificationReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -52,8 +52,9 @@ class VerificationReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class VerificationReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -70,8 +71,9 @@ class VerificationReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class VerificationReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -88,8 +90,9 @@ class VerificationReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class VerificationReply
      */
     public function getVerifiedDateTime()
     {
-      return $this->verifiedDateTime;
+        return $this->verifiedDateTime;
     }
 
     /**
@@ -106,8 +109,9 @@ class VerificationReply
      */
     public function setVerifiedDateTime($verifiedDateTime)
     {
-      $this->verifiedDateTime = $verifiedDateTime;
-      return $this;
+        $this->verifiedDateTime = $verifiedDateTime;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class VerificationReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -124,8 +128,9 @@ class VerificationReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
 }

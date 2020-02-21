@@ -65,10 +65,8 @@ class RecurringSubscriptionInfo
      */
     protected $billPayment = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -76,7 +74,7 @@ class RecurringSubscriptionInfo
      */
     public function getSubscriptionID()
     {
-      return $this->subscriptionID;
+        return $this->subscriptionID;
     }
 
     /**
@@ -85,8 +83,9 @@ class RecurringSubscriptionInfo
      */
     public function setSubscriptionID($subscriptionID)
     {
-      $this->subscriptionID = $subscriptionID;
-      return $this;
+        $this->subscriptionID = $subscriptionID;
+
+        return $this;
     }
 
     /**
@@ -94,7 +93,7 @@ class RecurringSubscriptionInfo
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -103,8 +102,9 @@ class RecurringSubscriptionInfo
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -112,7 +112,7 @@ class RecurringSubscriptionInfo
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -121,8 +121,9 @@ class RecurringSubscriptionInfo
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -130,7 +131,7 @@ class RecurringSubscriptionInfo
      */
     public function getNumberOfPayments()
     {
-      return $this->numberOfPayments;
+        return $this->numberOfPayments;
     }
 
     /**
@@ -139,8 +140,9 @@ class RecurringSubscriptionInfo
      */
     public function setNumberOfPayments($numberOfPayments)
     {
-      $this->numberOfPayments = $numberOfPayments;
-      return $this;
+        $this->numberOfPayments = $numberOfPayments;
+
+        return $this;
     }
 
     /**
@@ -148,7 +150,7 @@ class RecurringSubscriptionInfo
      */
     public function getNumberOfPaymentsToAdd()
     {
-      return $this->numberOfPaymentsToAdd;
+        return $this->numberOfPaymentsToAdd;
     }
 
     /**
@@ -157,8 +159,9 @@ class RecurringSubscriptionInfo
      */
     public function setNumberOfPaymentsToAdd($numberOfPaymentsToAdd)
     {
-      $this->numberOfPaymentsToAdd = $numberOfPaymentsToAdd;
-      return $this;
+        $this->numberOfPaymentsToAdd = $numberOfPaymentsToAdd;
+
+        return $this;
     }
 
     /**
@@ -166,7 +169,7 @@ class RecurringSubscriptionInfo
      */
     public function getAutomaticRenew()
     {
-      return $this->automaticRenew;
+        return $this->automaticRenew;
     }
 
     /**
@@ -175,8 +178,9 @@ class RecurringSubscriptionInfo
      */
     public function setAutomaticRenew($automaticRenew)
     {
-      $this->automaticRenew = $automaticRenew;
-      return $this;
+        $this->automaticRenew = $automaticRenew;
+
+        return $this;
     }
 
     /**
@@ -184,7 +188,7 @@ class RecurringSubscriptionInfo
      */
     public function getFrequency()
     {
-      return $this->frequency;
+        return $this->frequency;
     }
 
     /**
@@ -193,8 +197,9 @@ class RecurringSubscriptionInfo
      */
     public function setFrequency($frequency)
     {
-      $this->frequency = $frequency;
-      return $this;
+        $this->frequency = $frequency;
+
+        return $this;
     }
 
     /**
@@ -202,7 +207,7 @@ class RecurringSubscriptionInfo
      */
     public function getStartDate()
     {
-      return $this->startDate;
+        return $this->startDate;
     }
 
     /**
@@ -211,8 +216,9 @@ class RecurringSubscriptionInfo
      */
     public function setStartDate($startDate)
     {
-      $this->startDate = $startDate;
-      return $this;
+        $this->startDate = $startDate;
+
+        return $this;
     }
 
     /**
@@ -220,7 +226,7 @@ class RecurringSubscriptionInfo
      */
     public function getEndDate()
     {
-      return $this->endDate;
+        return $this->endDate;
     }
 
     /**
@@ -229,8 +235,9 @@ class RecurringSubscriptionInfo
      */
     public function setEndDate($endDate)
     {
-      $this->endDate = $endDate;
-      return $this;
+        $this->endDate = $endDate;
+
+        return $this;
     }
 
     /**
@@ -238,7 +245,7 @@ class RecurringSubscriptionInfo
      */
     public function getApprovalRequired()
     {
-      return $this->approvalRequired;
+        return $this->approvalRequired;
     }
 
     /**
@@ -247,8 +254,9 @@ class RecurringSubscriptionInfo
      */
     public function setApprovalRequired($approvalRequired)
     {
-      $this->approvalRequired = $approvalRequired;
-      return $this;
+        $this->approvalRequired = $approvalRequired;
+
+        return $this;
     }
 
     /**
@@ -256,7 +264,7 @@ class RecurringSubscriptionInfo
      */
     public function getEvent()
     {
-      return $this->event;
+        return $this->event;
     }
 
     /**
@@ -265,8 +273,9 @@ class RecurringSubscriptionInfo
      */
     public function setEvent($event)
     {
-      $this->event = $event;
-      return $this;
+        $this->event = $event;
+
+        return $this;
     }
 
     /**
@@ -274,7 +283,7 @@ class RecurringSubscriptionInfo
      */
     public function getBillPayment()
     {
-      return $this->billPayment;
+        return $this->billPayment;
     }
 
     /**
@@ -283,8 +292,9 @@ class RecurringSubscriptionInfo
      */
     public function setBillPayment($billPayment)
     {
-      $this->billPayment = $billPayment;
-      return $this;
+        $this->billPayment = $billPayment;
+
+        return $this;
     }
 
 }

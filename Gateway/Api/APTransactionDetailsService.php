@@ -20,7 +20,7 @@ class APTransactionDetailsService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class APTransactionDetailsService
      */
     public function getTransactionDetailsRequestID()
     {
-      return $this->transactionDetailsRequestID;
+        return $this->transactionDetailsRequestID;
     }
 
     /**
@@ -37,8 +37,9 @@ class APTransactionDetailsService
      */
     public function setTransactionDetailsRequestID($transactionDetailsRequestID)
     {
-      $this->transactionDetailsRequestID = $transactionDetailsRequestID;
-      return $this;
+        $this->transactionDetailsRequestID = $transactionDetailsRequestID;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class APTransactionDetailsService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class APTransactionDetailsService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -20,7 +20,7 @@ class DirectDebitValidateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class DirectDebitValidateService
      */
     public function getDirectDebitValidateText()
     {
-      return $this->directDebitValidateText;
+        return $this->directDebitValidateText;
     }
 
     /**
@@ -37,8 +37,9 @@ class DirectDebitValidateService
      */
     public function setDirectDebitValidateText($directDebitValidateText)
     {
-      $this->directDebitValidateText = $directDebitValidateText;
-      return $this;
+        $this->directDebitValidateText = $directDebitValidateText;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class DirectDebitValidateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class DirectDebitValidateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

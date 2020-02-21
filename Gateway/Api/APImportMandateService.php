@@ -20,7 +20,7 @@ class APImportMandateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class APImportMandateService
      */
     public function getDateSigned()
     {
-      return $this->dateSigned;
+        return $this->dateSigned;
     }
 
     /**
@@ -37,8 +37,9 @@ class APImportMandateService
      */
     public function setDateSigned($dateSigned)
     {
-      $this->dateSigned = $dateSigned;
-      return $this;
+        $this->dateSigned = $dateSigned;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class APImportMandateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class APImportMandateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

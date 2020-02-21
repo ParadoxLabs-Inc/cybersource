@@ -15,7 +15,7 @@ class EncryptPaymentDataService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -23,7 +23,7 @@ class EncryptPaymentDataService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -32,8 +32,9 @@ class EncryptPaymentDataService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

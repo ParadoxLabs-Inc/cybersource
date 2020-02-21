@@ -20,7 +20,7 @@ class PromotionGroupReply
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -28,7 +28,7 @@ class PromotionGroupReply
      */
     public function getDiscountApplied()
     {
-      return $this->discountApplied;
+        return $this->discountApplied;
     }
 
     /**
@@ -37,8 +37,9 @@ class PromotionGroupReply
      */
     public function setDiscountApplied($discountApplied)
     {
-      $this->discountApplied = $discountApplied;
-      return $this;
+        $this->discountApplied = $discountApplied;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class PromotionGroupReply
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -55,8 +56,9 @@ class PromotionGroupReply
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

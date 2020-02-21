@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class DirectDebitValidateReply
 {
 
@@ -45,7 +48,7 @@ class DirectDebitValidateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -53,7 +56,7 @@ class DirectDebitValidateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -62,8 +65,9 @@ class DirectDebitValidateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -71,7 +75,7 @@ class DirectDebitValidateReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -80,8 +84,9 @@ class DirectDebitValidateReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -89,29 +94,30 @@ class DirectDebitValidateReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DirectDebitValidateReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -119,7 +125,7 @@ class DirectDebitValidateReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -128,8 +134,9 @@ class DirectDebitValidateReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -137,7 +144,7 @@ class DirectDebitValidateReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -146,8 +153,9 @@ class DirectDebitValidateReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -155,7 +163,7 @@ class DirectDebitValidateReply
      */
     public function getIban()
     {
-      return $this->iban;
+        return $this->iban;
     }
 
     /**
@@ -164,8 +172,9 @@ class DirectDebitValidateReply
      */
     public function setIban($iban)
     {
-      $this->iban = $iban;
-      return $this;
+        $this->iban = $iban;
+
+        return $this;
     }
 
     /**
@@ -173,7 +182,7 @@ class DirectDebitValidateReply
      */
     public function getBankSwiftCode()
     {
-      return $this->bankSwiftCode;
+        return $this->bankSwiftCode;
     }
 
     /**
@@ -182,8 +191,9 @@ class DirectDebitValidateReply
      */
     public function setBankSwiftCode($bankSwiftCode)
     {
-      $this->bankSwiftCode = $bankSwiftCode;
-      return $this;
+        $this->bankSwiftCode = $bankSwiftCode;
+
+        return $this;
     }
 
 }

@@ -20,7 +20,7 @@ class PinDebitReversalService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class PinDebitReversalService
      */
     public function getPinDebitRequestID()
     {
-      return $this->pinDebitRequestID;
+        return $this->pinDebitRequestID;
     }
 
     /**
@@ -37,8 +37,9 @@ class PinDebitReversalService
      */
     public function setPinDebitRequestID($pinDebitRequestID)
     {
-      $this->pinDebitRequestID = $pinDebitRequestID;
-      return $this;
+        $this->pinDebitRequestID = $pinDebitRequestID;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class PinDebitReversalService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class PinDebitReversalService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

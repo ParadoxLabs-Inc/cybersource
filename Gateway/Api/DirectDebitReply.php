@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class DirectDebitReply
 {
 
@@ -60,7 +63,7 @@ class DirectDebitReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -68,7 +71,7 @@ class DirectDebitReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -77,8 +80,9 @@ class DirectDebitReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -86,7 +90,7 @@ class DirectDebitReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -95,8 +99,9 @@ class DirectDebitReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -104,29 +109,30 @@ class DirectDebitReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DirectDebitReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -134,7 +140,7 @@ class DirectDebitReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -143,8 +149,9 @@ class DirectDebitReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -152,7 +159,7 @@ class DirectDebitReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -161,8 +168,9 @@ class DirectDebitReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -170,7 +178,7 @@ class DirectDebitReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -179,8 +187,9 @@ class DirectDebitReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -188,7 +197,7 @@ class DirectDebitReply
      */
     public function getMandateAuthenticationDate()
     {
-      return $this->mandateAuthenticationDate;
+        return $this->mandateAuthenticationDate;
     }
 
     /**
@@ -197,8 +206,9 @@ class DirectDebitReply
      */
     public function setMandateAuthenticationDate($mandateAuthenticationDate)
     {
-      $this->mandateAuthenticationDate = $mandateAuthenticationDate;
-      return $this;
+        $this->mandateAuthenticationDate = $mandateAuthenticationDate;
+
+        return $this;
     }
 
     /**
@@ -206,7 +216,7 @@ class DirectDebitReply
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -215,8 +225,9 @@ class DirectDebitReply
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -224,7 +235,7 @@ class DirectDebitReply
      */
     public function getIban()
     {
-      return $this->iban;
+        return $this->iban;
     }
 
     /**
@@ -233,8 +244,9 @@ class DirectDebitReply
      */
     public function setIban($iban)
     {
-      $this->iban = $iban;
-      return $this;
+        $this->iban = $iban;
+
+        return $this;
     }
 
     /**
@@ -242,7 +254,7 @@ class DirectDebitReply
      */
     public function getReconciliationReferenceNumber()
     {
-      return $this->reconciliationReferenceNumber;
+        return $this->reconciliationReferenceNumber;
     }
 
     /**
@@ -251,8 +263,9 @@ class DirectDebitReply
      */
     public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
     {
-      $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
-      return $this;
+        $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
+
+        return $this;
     }
 
 }

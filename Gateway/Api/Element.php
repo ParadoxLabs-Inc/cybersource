@@ -27,9 +27,9 @@ class Element
      */
     public function __construct($infoCode, $fieldName, $count)
     {
-      $this->infoCode = $infoCode;
-      $this->fieldName = $fieldName;
-      $this->count = $count;
+        $this->infoCode  = $infoCode;
+        $this->fieldName = $fieldName;
+        $this->count     = $count;
     }
 
     /**
@@ -37,7 +37,7 @@ class Element
      */
     public function getInfoCode()
     {
-      return $this->infoCode;
+        return $this->infoCode;
     }
 
     /**
@@ -46,8 +46,9 @@ class Element
      */
     public function setInfoCode($infoCode)
     {
-      $this->infoCode = $infoCode;
-      return $this;
+        $this->infoCode = $infoCode;
+
+        return $this;
     }
 
     /**
@@ -55,7 +56,7 @@ class Element
      */
     public function getFieldName()
     {
-      return $this->fieldName;
+        return $this->fieldName;
     }
 
     /**
@@ -64,8 +65,9 @@ class Element
      */
     public function setFieldName($fieldName)
     {
-      $this->fieldName = $fieldName;
-      return $this;
+        $this->fieldName = $fieldName;
+
+        return $this;
     }
 
     /**
@@ -73,7 +75,7 @@ class Element
      */
     public function getCount()
     {
-      return $this->count;
+        return $this->count;
     }
 
     /**
@@ -82,8 +84,9 @@ class Element
      */
     public function setCount($count)
     {
-      $this->count = $count;
-      return $this;
+        $this->count = $count;
+
+        return $this;
     }
 
 }

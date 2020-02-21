@@ -20,7 +20,7 @@ class PaySubscriptionEventUpdateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -28,7 +28,7 @@ class PaySubscriptionEventUpdateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -37,8 +37,9 @@ class PaySubscriptionEventUpdateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class PaySubscriptionEventUpdateReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -55,8 +56,9 @@ class PaySubscriptionEventUpdateReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
 }

@@ -55,7 +55,7 @@ class APSessionsService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -63,7 +63,7 @@ class APSessionsService
      */
     public function getCancelURL()
     {
-      return $this->cancelURL;
+        return $this->cancelURL;
     }
 
     /**
@@ -72,8 +72,9 @@ class APSessionsService
      */
     public function setCancelURL($cancelURL)
     {
-      $this->cancelURL = $cancelURL;
-      return $this;
+        $this->cancelURL = $cancelURL;
+
+        return $this;
     }
 
     /**
@@ -81,7 +82,7 @@ class APSessionsService
      */
     public function getSuccessURL()
     {
-      return $this->successURL;
+        return $this->successURL;
     }
 
     /**
@@ -90,8 +91,9 @@ class APSessionsService
      */
     public function setSuccessURL($successURL)
     {
-      $this->successURL = $successURL;
-      return $this;
+        $this->successURL = $successURL;
+
+        return $this;
     }
 
     /**
@@ -99,7 +101,7 @@ class APSessionsService
      */
     public function getFailureURL()
     {
-      return $this->failureURL;
+        return $this->failureURL;
     }
 
     /**
@@ -108,8 +110,9 @@ class APSessionsService
      */
     public function setFailureURL($failureURL)
     {
-      $this->failureURL = $failureURL;
-      return $this;
+        $this->failureURL = $failureURL;
+
+        return $this;
     }
 
     /**
@@ -117,7 +120,7 @@ class APSessionsService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -126,8 +129,9 @@ class APSessionsService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -135,7 +139,7 @@ class APSessionsService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -144,8 +148,9 @@ class APSessionsService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -153,7 +158,7 @@ class APSessionsService
      */
     public function getPaymentOptionID()
     {
-      return $this->paymentOptionID;
+        return $this->paymentOptionID;
     }
 
     /**
@@ -162,8 +167,9 @@ class APSessionsService
      */
     public function setPaymentOptionID($paymentOptionID)
     {
-      $this->paymentOptionID = $paymentOptionID;
-      return $this;
+        $this->paymentOptionID = $paymentOptionID;
+
+        return $this;
     }
 
     /**
@@ -171,7 +177,7 @@ class APSessionsService
      */
     public function getSessionsType()
     {
-      return $this->sessionsType;
+        return $this->sessionsType;
     }
 
     /**
@@ -180,8 +186,9 @@ class APSessionsService
      */
     public function setSessionsType($sessionsType)
     {
-      $this->sessionsType = $sessionsType;
-      return $this;
+        $this->sessionsType = $sessionsType;
+
+        return $this;
     }
 
     /**
@@ -189,7 +196,7 @@ class APSessionsService
      */
     public function getSessionsRequestID()
     {
-      return $this->sessionsRequestID;
+        return $this->sessionsRequestID;
     }
 
     /**
@@ -198,8 +205,9 @@ class APSessionsService
      */
     public function setSessionsRequestID($sessionsRequestID)
     {
-      $this->sessionsRequestID = $sessionsRequestID;
-      return $this;
+        $this->sessionsRequestID = $sessionsRequestID;
+
+        return $this;
     }
 
     /**
@@ -207,7 +215,7 @@ class APSessionsService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -216,8 +224,9 @@ class APSessionsService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

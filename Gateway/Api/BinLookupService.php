@@ -25,7 +25,7 @@ class BinLookupService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class BinLookupService
      */
     public function getMode()
     {
-      return $this->mode;
+        return $this->mode;
     }
 
     /**
@@ -42,8 +42,9 @@ class BinLookupService
      */
     public function setMode($mode)
     {
-      $this->mode = $mode;
-      return $this;
+        $this->mode = $mode;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class BinLookupService
      */
     public function getNetworkOrder()
     {
-      return $this->networkOrder;
+        return $this->networkOrder;
     }
 
     /**
@@ -60,8 +61,9 @@ class BinLookupService
      */
     public function setNetworkOrder($networkOrder)
     {
-      $this->networkOrder = $networkOrder;
-      return $this;
+        $this->networkOrder = $networkOrder;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class BinLookupService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class BinLookupService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

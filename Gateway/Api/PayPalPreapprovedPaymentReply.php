@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class PayPalPreapprovedPaymentReply
 {
 
@@ -130,7 +133,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -138,7 +141,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -147,8 +150,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -156,29 +160,30 @@ class PayPalPreapprovedPaymentReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayPalPreapprovedPaymentReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -186,7 +191,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -195,8 +200,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -204,7 +210,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPayerStatus()
     {
-      return $this->payerStatus;
+        return $this->payerStatus;
     }
 
     /**
@@ -213,8 +219,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPayerStatus($payerStatus)
     {
-      $this->payerStatus = $payerStatus;
-      return $this;
+        $this->payerStatus = $payerStatus;
+
+        return $this;
     }
 
     /**
@@ -222,7 +229,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPayerName()
     {
-      return $this->payerName;
+        return $this->payerName;
     }
 
     /**
@@ -231,8 +238,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPayerName($payerName)
     {
-      $this->payerName = $payerName;
-      return $this;
+        $this->payerName = $payerName;
+
+        return $this;
     }
 
     /**
@@ -240,7 +248,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getTransactionType()
     {
-      return $this->transactionType;
+        return $this->transactionType;
     }
 
     /**
@@ -249,8 +257,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setTransactionType($transactionType)
     {
-      $this->transactionType = $transactionType;
-      return $this;
+        $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
@@ -258,7 +267,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getFeeAmount()
     {
-      return $this->feeAmount;
+        return $this->feeAmount;
     }
 
     /**
@@ -267,8 +276,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setFeeAmount($feeAmount)
     {
-      $this->feeAmount = $feeAmount;
-      return $this;
+        $this->feeAmount = $feeAmount;
+
+        return $this;
     }
 
     /**
@@ -276,7 +286,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPayerCountry()
     {
-      return $this->payerCountry;
+        return $this->payerCountry;
     }
 
     /**
@@ -285,8 +295,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPayerCountry($payerCountry)
     {
-      $this->payerCountry = $payerCountry;
-      return $this;
+        $this->payerCountry = $payerCountry;
+
+        return $this;
     }
 
     /**
@@ -294,7 +305,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPendingReason()
     {
-      return $this->pendingReason;
+        return $this->pendingReason;
     }
 
     /**
@@ -303,8 +314,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPendingReason($pendingReason)
     {
-      $this->pendingReason = $pendingReason;
-      return $this;
+        $this->pendingReason = $pendingReason;
+
+        return $this;
     }
 
     /**
@@ -312,7 +324,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -321,8 +333,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -330,7 +343,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getMpStatus()
     {
-      return $this->mpStatus;
+        return $this->mpStatus;
     }
 
     /**
@@ -339,8 +352,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setMpStatus($mpStatus)
     {
-      $this->mpStatus = $mpStatus;
-      return $this;
+        $this->mpStatus = $mpStatus;
+
+        return $this;
     }
 
     /**
@@ -348,7 +362,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPayer()
     {
-      return $this->payer;
+        return $this->payer;
     }
 
     /**
@@ -357,8 +371,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPayer($payer)
     {
-      $this->payer = $payer;
-      return $this;
+        $this->payer = $payer;
+
+        return $this;
     }
 
     /**
@@ -366,7 +381,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPayerID()
     {
-      return $this->payerID;
+        return $this->payerID;
     }
 
     /**
@@ -375,8 +390,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPayerID($payerID)
     {
-      $this->payerID = $payerID;
-      return $this;
+        $this->payerID = $payerID;
+
+        return $this;
     }
 
     /**
@@ -384,7 +400,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPayerBusiness()
     {
-      return $this->payerBusiness;
+        return $this->payerBusiness;
     }
 
     /**
@@ -393,8 +409,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPayerBusiness($payerBusiness)
     {
-      $this->payerBusiness = $payerBusiness;
-      return $this;
+        $this->payerBusiness = $payerBusiness;
+
+        return $this;
     }
 
     /**
@@ -402,7 +419,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getTransactionID()
     {
-      return $this->transactionID;
+        return $this->transactionID;
     }
 
     /**
@@ -411,8 +428,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setTransactionID($transactionID)
     {
-      $this->transactionID = $transactionID;
-      return $this;
+        $this->transactionID = $transactionID;
+
+        return $this;
     }
 
     /**
@@ -420,7 +438,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getDesc()
     {
-      return $this->desc;
+        return $this->desc;
     }
 
     /**
@@ -429,8 +447,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setDesc($desc)
     {
-      $this->desc = $desc;
-      return $this;
+        $this->desc = $desc;
+
+        return $this;
     }
 
     /**
@@ -438,7 +457,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getMpMax()
     {
-      return $this->mpMax;
+        return $this->mpMax;
     }
 
     /**
@@ -447,8 +466,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setMpMax($mpMax)
     {
-      $this->mpMax = $mpMax;
-      return $this;
+        $this->mpMax = $mpMax;
+
+        return $this;
     }
 
     /**
@@ -456,7 +476,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPaymentType()
     {
-      return $this->paymentType;
+        return $this->paymentType;
     }
 
     /**
@@ -465,8 +485,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPaymentType($paymentType)
     {
-      $this->paymentType = $paymentType;
-      return $this;
+        $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -474,7 +495,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPaymentDate()
     {
-      return $this->paymentDate;
+        return $this->paymentDate;
     }
 
     /**
@@ -483,8 +504,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPaymentDate($paymentDate)
     {
-      $this->paymentDate = $paymentDate;
-      return $this;
+        $this->paymentDate = $paymentDate;
+
+        return $this;
     }
 
     /**
@@ -492,7 +514,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPaymentGrossAmount()
     {
-      return $this->paymentGrossAmount;
+        return $this->paymentGrossAmount;
     }
 
     /**
@@ -501,8 +523,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPaymentGrossAmount($paymentGrossAmount)
     {
-      $this->paymentGrossAmount = $paymentGrossAmount;
-      return $this;
+        $this->paymentGrossAmount = $paymentGrossAmount;
+
+        return $this;
     }
 
     /**
@@ -510,7 +533,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getSettleAmount()
     {
-      return $this->settleAmount;
+        return $this->settleAmount;
     }
 
     /**
@@ -519,8 +542,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setSettleAmount($settleAmount)
     {
-      $this->settleAmount = $settleAmount;
-      return $this;
+        $this->settleAmount = $settleAmount;
+
+        return $this;
     }
 
     /**
@@ -528,7 +552,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -537,8 +561,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
-      return $this;
+        $this->taxAmount = $taxAmount;
+
+        return $this;
     }
 
     /**
@@ -546,7 +571,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getExchangeRate()
     {
-      return $this->exchangeRate;
+        return $this->exchangeRate;
     }
 
     /**
@@ -555,8 +580,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setExchangeRate($exchangeRate)
     {
-      $this->exchangeRate = $exchangeRate;
-      return $this;
+        $this->exchangeRate = $exchangeRate;
+
+        return $this;
     }
 
     /**
@@ -564,7 +590,7 @@ class PayPalPreapprovedPaymentReply
      */
     public function getPaymentSourceID()
     {
-      return $this->paymentSourceID;
+        return $this->paymentSourceID;
     }
 
     /**
@@ -573,8 +599,9 @@ class PayPalPreapprovedPaymentReply
      */
     public function setPaymentSourceID($paymentSourceID)
     {
-      $this->paymentSourceID = $paymentSourceID;
-      return $this;
+        $this->paymentSourceID = $paymentSourceID;
+
+        return $this;
     }
 
 }

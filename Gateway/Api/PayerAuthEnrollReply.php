@@ -250,7 +250,7 @@ class PayerAuthEnrollReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -258,7 +258,7 @@ class PayerAuthEnrollReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -267,8 +267,9 @@ class PayerAuthEnrollReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -276,7 +277,7 @@ class PayerAuthEnrollReply
      */
     public function getAcsURL()
     {
-      return $this->acsURL;
+        return $this->acsURL;
     }
 
     /**
@@ -285,8 +286,9 @@ class PayerAuthEnrollReply
      */
     public function setAcsURL($acsURL)
     {
-      $this->acsURL = $acsURL;
-      return $this;
+        $this->acsURL = $acsURL;
+
+        return $this;
     }
 
     /**
@@ -294,7 +296,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthenticationResult()
     {
-      return $this->authenticationResult;
+        return $this->authenticationResult;
     }
 
     /**
@@ -303,8 +305,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthenticationResult($authenticationResult)
     {
-      $this->authenticationResult = $authenticationResult;
-      return $this;
+        $this->authenticationResult = $authenticationResult;
+
+        return $this;
     }
 
     /**
@@ -312,7 +315,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthenticationStatusMessage()
     {
-      return $this->authenticationStatusMessage;
+        return $this->authenticationStatusMessage;
     }
 
     /**
@@ -321,8 +324,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthenticationStatusMessage($authenticationStatusMessage)
     {
-      $this->authenticationStatusMessage = $authenticationStatusMessage;
-      return $this;
+        $this->authenticationStatusMessage = $authenticationStatusMessage;
+
+        return $this;
     }
 
     /**
@@ -330,7 +334,7 @@ class PayerAuthEnrollReply
      */
     public function getCavv()
     {
-      return $this->cavv;
+        return $this->cavv;
     }
 
     /**
@@ -339,8 +343,9 @@ class PayerAuthEnrollReply
      */
     public function setCavv($cavv)
     {
-      $this->cavv = $cavv;
-      return $this;
+        $this->cavv = $cavv;
+
+        return $this;
     }
 
     /**
@@ -348,7 +353,7 @@ class PayerAuthEnrollReply
      */
     public function getCavvAlgorithm()
     {
-      return $this->cavvAlgorithm;
+        return $this->cavvAlgorithm;
     }
 
     /**
@@ -357,8 +362,9 @@ class PayerAuthEnrollReply
      */
     public function setCavvAlgorithm($cavvAlgorithm)
     {
-      $this->cavvAlgorithm = $cavvAlgorithm;
-      return $this;
+        $this->cavvAlgorithm = $cavvAlgorithm;
+
+        return $this;
     }
 
     /**
@@ -366,7 +372,7 @@ class PayerAuthEnrollReply
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -375,8 +381,9 @@ class PayerAuthEnrollReply
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -384,7 +391,7 @@ class PayerAuthEnrollReply
      */
     public function getEci()
     {
-      return $this->eci;
+        return $this->eci;
     }
 
     /**
@@ -393,8 +400,9 @@ class PayerAuthEnrollReply
      */
     public function setEci($eci)
     {
-      $this->eci = $eci;
-      return $this;
+        $this->eci = $eci;
+
+        return $this;
     }
 
     /**
@@ -402,7 +410,7 @@ class PayerAuthEnrollReply
      */
     public function getEciRaw()
     {
-      return $this->eciRaw;
+        return $this->eciRaw;
     }
 
     /**
@@ -411,8 +419,9 @@ class PayerAuthEnrollReply
      */
     public function setEciRaw($eciRaw)
     {
-      $this->eciRaw = $eciRaw;
-      return $this;
+        $this->eciRaw = $eciRaw;
+
+        return $this;
     }
 
     /**
@@ -420,7 +429,7 @@ class PayerAuthEnrollReply
      */
     public function getPaReq()
     {
-      return $this->paReq;
+        return $this->paReq;
     }
 
     /**
@@ -429,8 +438,9 @@ class PayerAuthEnrollReply
      */
     public function setPaReq($paReq)
     {
-      $this->paReq = $paReq;
-      return $this;
+        $this->paReq = $paReq;
+
+        return $this;
     }
 
     /**
@@ -438,7 +448,7 @@ class PayerAuthEnrollReply
      */
     public function getProxyPAN()
     {
-      return $this->proxyPAN;
+        return $this->proxyPAN;
     }
 
     /**
@@ -447,8 +457,9 @@ class PayerAuthEnrollReply
      */
     public function setProxyPAN($proxyPAN)
     {
-      $this->proxyPAN = $proxyPAN;
-      return $this;
+        $this->proxyPAN = $proxyPAN;
+
+        return $this;
     }
 
     /**
@@ -456,7 +467,7 @@ class PayerAuthEnrollReply
      */
     public function getXid()
     {
-      return $this->xid;
+        return $this->xid;
     }
 
     /**
@@ -465,8 +476,9 @@ class PayerAuthEnrollReply
      */
     public function setXid($xid)
     {
-      $this->xid = $xid;
-      return $this;
+        $this->xid = $xid;
+
+        return $this;
     }
 
     /**
@@ -474,7 +486,7 @@ class PayerAuthEnrollReply
      */
     public function getProofXML()
     {
-      return $this->proofXML;
+        return $this->proofXML;
     }
 
     /**
@@ -483,8 +495,9 @@ class PayerAuthEnrollReply
      */
     public function setProofXML($proofXML)
     {
-      $this->proofXML = $proofXML;
-      return $this;
+        $this->proofXML = $proofXML;
+
+        return $this;
     }
 
     /**
@@ -492,7 +505,7 @@ class PayerAuthEnrollReply
      */
     public function getUcafAuthenticationData()
     {
-      return $this->ucafAuthenticationData;
+        return $this->ucafAuthenticationData;
     }
 
     /**
@@ -501,8 +514,9 @@ class PayerAuthEnrollReply
      */
     public function setUcafAuthenticationData($ucafAuthenticationData)
     {
-      $this->ucafAuthenticationData = $ucafAuthenticationData;
-      return $this;
+        $this->ucafAuthenticationData = $ucafAuthenticationData;
+
+        return $this;
     }
 
     /**
@@ -510,7 +524,7 @@ class PayerAuthEnrollReply
      */
     public function getUcafCollectionIndicator()
     {
-      return $this->ucafCollectionIndicator;
+        return $this->ucafCollectionIndicator;
     }
 
     /**
@@ -519,8 +533,9 @@ class PayerAuthEnrollReply
      */
     public function setUcafCollectionIndicator($ucafCollectionIndicator)
     {
-      $this->ucafCollectionIndicator = $ucafCollectionIndicator;
-      return $this;
+        $this->ucafCollectionIndicator = $ucafCollectionIndicator;
+
+        return $this;
     }
 
     /**
@@ -528,7 +543,7 @@ class PayerAuthEnrollReply
      */
     public function getParesStatus()
     {
-      return $this->paresStatus;
+        return $this->paresStatus;
     }
 
     /**
@@ -537,8 +552,9 @@ class PayerAuthEnrollReply
      */
     public function setParesStatus($paresStatus)
     {
-      $this->paresStatus = $paresStatus;
-      return $this;
+        $this->paresStatus = $paresStatus;
+
+        return $this;
     }
 
     /**
@@ -546,7 +562,7 @@ class PayerAuthEnrollReply
      */
     public function getVeresEnrolled()
     {
-      return $this->veresEnrolled;
+        return $this->veresEnrolled;
     }
 
     /**
@@ -555,8 +571,9 @@ class PayerAuthEnrollReply
      */
     public function setVeresEnrolled($veresEnrolled)
     {
-      $this->veresEnrolled = $veresEnrolled;
-      return $this;
+        $this->veresEnrolled = $veresEnrolled;
+
+        return $this;
     }
 
     /**
@@ -564,7 +581,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthenticationPath()
     {
-      return $this->authenticationPath;
+        return $this->authenticationPath;
     }
 
     /**
@@ -573,8 +590,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthenticationPath($authenticationPath)
     {
-      $this->authenticationPath = $authenticationPath;
-      return $this;
+        $this->authenticationPath = $authenticationPath;
+
+        return $this;
     }
 
     /**
@@ -582,7 +600,7 @@ class PayerAuthEnrollReply
      */
     public function getSpecificationVersion()
     {
-      return $this->specificationVersion;
+        return $this->specificationVersion;
     }
 
     /**
@@ -591,8 +609,9 @@ class PayerAuthEnrollReply
      */
     public function setSpecificationVersion($specificationVersion)
     {
-      $this->specificationVersion = $specificationVersion;
-      return $this;
+        $this->specificationVersion = $specificationVersion;
+
+        return $this;
     }
 
     /**
@@ -600,7 +619,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthenticationTransactionID()
     {
-      return $this->authenticationTransactionID;
+        return $this->authenticationTransactionID;
     }
 
     /**
@@ -609,8 +628,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthenticationTransactionID($authenticationTransactionID)
     {
-      $this->authenticationTransactionID = $authenticationTransactionID;
-      return $this;
+        $this->authenticationTransactionID = $authenticationTransactionID;
+
+        return $this;
     }
 
     /**
@@ -618,7 +638,7 @@ class PayerAuthEnrollReply
      */
     public function getDirectoryServerTransactionID()
     {
-      return $this->directoryServerTransactionID;
+        return $this->directoryServerTransactionID;
     }
 
     /**
@@ -627,8 +647,9 @@ class PayerAuthEnrollReply
      */
     public function setDirectoryServerTransactionID($directoryServerTransactionID)
     {
-      $this->directoryServerTransactionID = $directoryServerTransactionID;
-      return $this;
+        $this->directoryServerTransactionID = $directoryServerTransactionID;
+
+        return $this;
     }
 
     /**
@@ -636,7 +657,7 @@ class PayerAuthEnrollReply
      */
     public function getChallengeRequired()
     {
-      return $this->challengeRequired;
+        return $this->challengeRequired;
     }
 
     /**
@@ -645,8 +666,9 @@ class PayerAuthEnrollReply
      */
     public function setChallengeRequired($challengeRequired)
     {
-      $this->challengeRequired = $challengeRequired;
-      return $this;
+        $this->challengeRequired = $challengeRequired;
+
+        return $this;
     }
 
     /**
@@ -654,7 +676,7 @@ class PayerAuthEnrollReply
      */
     public function getThreeDSServerTransactionID()
     {
-      return $this->threeDSServerTransactionID;
+        return $this->threeDSServerTransactionID;
     }
 
     /**
@@ -663,8 +685,9 @@ class PayerAuthEnrollReply
      */
     public function setThreeDSServerTransactionID($threeDSServerTransactionID)
     {
-      $this->threeDSServerTransactionID = $threeDSServerTransactionID;
-      return $this;
+        $this->threeDSServerTransactionID = $threeDSServerTransactionID;
+
+        return $this;
     }
 
     /**
@@ -672,7 +695,7 @@ class PayerAuthEnrollReply
      */
     public function getAcsRenderingType()
     {
-      return $this->acsRenderingType;
+        return $this->acsRenderingType;
     }
 
     /**
@@ -681,8 +704,9 @@ class PayerAuthEnrollReply
      */
     public function setAcsRenderingType($acsRenderingType)
     {
-      $this->acsRenderingType = $acsRenderingType;
-      return $this;
+        $this->acsRenderingType = $acsRenderingType;
+
+        return $this;
     }
 
     /**
@@ -690,7 +714,7 @@ class PayerAuthEnrollReply
      */
     public function getAcsTransactionID()
     {
-      return $this->acsTransactionID;
+        return $this->acsTransactionID;
     }
 
     /**
@@ -699,8 +723,9 @@ class PayerAuthEnrollReply
      */
     public function setAcsTransactionID($acsTransactionID)
     {
-      $this->acsTransactionID = $acsTransactionID;
-      return $this;
+        $this->acsTransactionID = $acsTransactionID;
+
+        return $this;
     }
 
     /**
@@ -708,7 +733,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthenticationType()
     {
-      return $this->authenticationType;
+        return $this->authenticationType;
     }
 
     /**
@@ -717,8 +742,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthenticationType($authenticationType)
     {
-      $this->authenticationType = $authenticationType;
-      return $this;
+        $this->authenticationType = $authenticationType;
+
+        return $this;
     }
 
     /**
@@ -726,7 +752,7 @@ class PayerAuthEnrollReply
      */
     public function getCardholderMessage()
     {
-      return $this->cardholderMessage;
+        return $this->cardholderMessage;
     }
 
     /**
@@ -735,8 +761,9 @@ class PayerAuthEnrollReply
      */
     public function setCardholderMessage($cardholderMessage)
     {
-      $this->cardholderMessage = $cardholderMessage;
-      return $this;
+        $this->cardholderMessage = $cardholderMessage;
+
+        return $this;
     }
 
     /**
@@ -744,7 +771,7 @@ class PayerAuthEnrollReply
      */
     public function getDirectoryServerErrorCode()
     {
-      return $this->directoryServerErrorCode;
+        return $this->directoryServerErrorCode;
     }
 
     /**
@@ -753,8 +780,9 @@ class PayerAuthEnrollReply
      */
     public function setDirectoryServerErrorCode($directoryServerErrorCode)
     {
-      $this->directoryServerErrorCode = $directoryServerErrorCode;
-      return $this;
+        $this->directoryServerErrorCode = $directoryServerErrorCode;
+
+        return $this;
     }
 
     /**
@@ -762,7 +790,7 @@ class PayerAuthEnrollReply
      */
     public function getDirectoryServerErrorDescription()
     {
-      return $this->directoryServerErrorDescription;
+        return $this->directoryServerErrorDescription;
     }
 
     /**
@@ -771,8 +799,9 @@ class PayerAuthEnrollReply
      */
     public function setDirectoryServerErrorDescription($directoryServerErrorDescription)
     {
-      $this->directoryServerErrorDescription = $directoryServerErrorDescription;
-      return $this;
+        $this->directoryServerErrorDescription = $directoryServerErrorDescription;
+
+        return $this;
     }
 
     /**
@@ -780,7 +809,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrEnabledMessage()
     {
-      return $this->ivrEnabledMessage;
+        return $this->ivrEnabledMessage;
     }
 
     /**
@@ -789,8 +818,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrEnabledMessage($ivrEnabledMessage)
     {
-      $this->ivrEnabledMessage = $ivrEnabledMessage;
-      return $this;
+        $this->ivrEnabledMessage = $ivrEnabledMessage;
+
+        return $this;
     }
 
     /**
@@ -798,7 +828,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrEncryptionKey()
     {
-      return $this->ivrEncryptionKey;
+        return $this->ivrEncryptionKey;
     }
 
     /**
@@ -807,8 +837,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrEncryptionKey($ivrEncryptionKey)
     {
-      $this->ivrEncryptionKey = $ivrEncryptionKey;
-      return $this;
+        $this->ivrEncryptionKey = $ivrEncryptionKey;
+
+        return $this;
     }
 
     /**
@@ -816,7 +847,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrEncryptionMandatory()
     {
-      return $this->ivrEncryptionMandatory;
+        return $this->ivrEncryptionMandatory;
     }
 
     /**
@@ -825,8 +856,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrEncryptionMandatory($ivrEncryptionMandatory)
     {
-      $this->ivrEncryptionMandatory = $ivrEncryptionMandatory;
-      return $this;
+        $this->ivrEncryptionMandatory = $ivrEncryptionMandatory;
+
+        return $this;
     }
 
     /**
@@ -834,7 +866,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrEncryptionType()
     {
-      return $this->ivrEncryptionType;
+        return $this->ivrEncryptionType;
     }
 
     /**
@@ -843,8 +875,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrEncryptionType($ivrEncryptionType)
     {
-      $this->ivrEncryptionType = $ivrEncryptionType;
-      return $this;
+        $this->ivrEncryptionType = $ivrEncryptionType;
+
+        return $this;
     }
 
     /**
@@ -852,7 +885,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrLabel()
     {
-      return $this->ivrLabel;
+        return $this->ivrLabel;
     }
 
     /**
@@ -861,8 +894,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrLabel($ivrLabel)
     {
-      $this->ivrLabel = $ivrLabel;
-      return $this;
+        $this->ivrLabel = $ivrLabel;
+
+        return $this;
     }
 
     /**
@@ -870,7 +904,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrPrompt()
     {
-      return $this->ivrPrompt;
+        return $this->ivrPrompt;
     }
 
     /**
@@ -879,8 +913,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrPrompt($ivrPrompt)
     {
-      $this->ivrPrompt = $ivrPrompt;
-      return $this;
+        $this->ivrPrompt = $ivrPrompt;
+
+        return $this;
     }
 
     /**
@@ -888,7 +923,7 @@ class PayerAuthEnrollReply
      */
     public function getIvrStatusMessage()
     {
-      return $this->ivrStatusMessage;
+        return $this->ivrStatusMessage;
     }
 
     /**
@@ -897,8 +932,9 @@ class PayerAuthEnrollReply
      */
     public function setIvrStatusMessage($ivrStatusMessage)
     {
-      $this->ivrStatusMessage = $ivrStatusMessage;
-      return $this;
+        $this->ivrStatusMessage = $ivrStatusMessage;
+
+        return $this;
     }
 
     /**
@@ -906,7 +942,7 @@ class PayerAuthEnrollReply
      */
     public function getSdkTransactionID()
     {
-      return $this->sdkTransactionID;
+        return $this->sdkTransactionID;
     }
 
     /**
@@ -915,8 +951,9 @@ class PayerAuthEnrollReply
      */
     public function setSdkTransactionID($sdkTransactionID)
     {
-      $this->sdkTransactionID = $sdkTransactionID;
-      return $this;
+        $this->sdkTransactionID = $sdkTransactionID;
+
+        return $this;
     }
 
     /**
@@ -924,7 +961,7 @@ class PayerAuthEnrollReply
      */
     public function getStepUpUrl()
     {
-      return $this->stepUpUrl;
+        return $this->stepUpUrl;
     }
 
     /**
@@ -933,8 +970,9 @@ class PayerAuthEnrollReply
      */
     public function setStepUpUrl($stepUpUrl)
     {
-      $this->stepUpUrl = $stepUpUrl;
-      return $this;
+        $this->stepUpUrl = $stepUpUrl;
+
+        return $this;
     }
 
     /**
@@ -942,7 +980,7 @@ class PayerAuthEnrollReply
      */
     public function getWhiteListStatus()
     {
-      return $this->whiteListStatus;
+        return $this->whiteListStatus;
     }
 
     /**
@@ -951,8 +989,9 @@ class PayerAuthEnrollReply
      */
     public function setWhiteListStatus($whiteListStatus)
     {
-      $this->whiteListStatus = $whiteListStatus;
-      return $this;
+        $this->whiteListStatus = $whiteListStatus;
+
+        return $this;
     }
 
     /**
@@ -960,7 +999,7 @@ class PayerAuthEnrollReply
      */
     public function getWhiteListStatusSource()
     {
-      return $this->whiteListStatusSource;
+        return $this->whiteListStatusSource;
     }
 
     /**
@@ -969,8 +1008,9 @@ class PayerAuthEnrollReply
      */
     public function setWhiteListStatusSource($whiteListStatusSource)
     {
-      $this->whiteListStatusSource = $whiteListStatusSource;
-      return $this;
+        $this->whiteListStatusSource = $whiteListStatusSource;
+
+        return $this;
     }
 
     /**
@@ -978,7 +1018,7 @@ class PayerAuthEnrollReply
      */
     public function getEffectiveAuthenticationType()
     {
-      return $this->effectiveAuthenticationType;
+        return $this->effectiveAuthenticationType;
     }
 
     /**
@@ -987,8 +1027,9 @@ class PayerAuthEnrollReply
      */
     public function setEffectiveAuthenticationType($effectiveAuthenticationType)
     {
-      $this->effectiveAuthenticationType = $effectiveAuthenticationType;
-      return $this;
+        $this->effectiveAuthenticationType = $effectiveAuthenticationType;
+
+        return $this;
     }
 
     /**
@@ -996,7 +1037,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthenticationStatusReason()
     {
-      return $this->authenticationStatusReason;
+        return $this->authenticationStatusReason;
     }
 
     /**
@@ -1005,8 +1046,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthenticationStatusReason($authenticationStatusReason)
     {
-      $this->authenticationStatusReason = $authenticationStatusReason;
-      return $this;
+        $this->authenticationStatusReason = $authenticationStatusReason;
+
+        return $this;
     }
 
     /**
@@ -1014,7 +1056,7 @@ class PayerAuthEnrollReply
      */
     public function getNetworkScore()
     {
-      return $this->networkScore;
+        return $this->networkScore;
     }
 
     /**
@@ -1023,8 +1065,9 @@ class PayerAuthEnrollReply
      */
     public function setNetworkScore($networkScore)
     {
-      $this->networkScore = $networkScore;
-      return $this;
+        $this->networkScore = $networkScore;
+
+        return $this;
     }
 
     /**
@@ -1032,7 +1075,7 @@ class PayerAuthEnrollReply
      */
     public function getAuthorizationPayload()
     {
-      return $this->authorizationPayload;
+        return $this->authorizationPayload;
     }
 
     /**
@@ -1041,8 +1084,9 @@ class PayerAuthEnrollReply
      */
     public function setAuthorizationPayload($authorizationPayload)
     {
-      $this->authorizationPayload = $authorizationPayload;
-      return $this;
+        $this->authorizationPayload = $authorizationPayload;
+
+        return $this;
     }
 
     /**
@@ -1050,7 +1094,7 @@ class PayerAuthEnrollReply
      */
     public function getChallengeCancelCode()
     {
-      return $this->challengeCancelCode;
+        return $this->challengeCancelCode;
     }
 
     /**
@@ -1059,8 +1103,9 @@ class PayerAuthEnrollReply
      */
     public function setChallengeCancelCode($challengeCancelCode)
     {
-      $this->challengeCancelCode = $challengeCancelCode;
-      return $this;
+        $this->challengeCancelCode = $challengeCancelCode;
+
+        return $this;
     }
 
     /**
@@ -1068,7 +1113,7 @@ class PayerAuthEnrollReply
      */
     public function getDecoupledAuthenticationIndicator()
     {
-      return $this->decoupledAuthenticationIndicator;
+        return $this->decoupledAuthenticationIndicator;
     }
 
     /**
@@ -1077,8 +1122,9 @@ class PayerAuthEnrollReply
      */
     public function setDecoupledAuthenticationIndicator($decoupledAuthenticationIndicator)
     {
-      $this->decoupledAuthenticationIndicator = $decoupledAuthenticationIndicator;
-      return $this;
+        $this->decoupledAuthenticationIndicator = $decoupledAuthenticationIndicator;
+
+        return $this;
     }
 
     /**
@@ -1086,7 +1132,7 @@ class PayerAuthEnrollReply
      */
     public function getCardBin()
     {
-      return $this->cardBin;
+        return $this->cardBin;
     }
 
     /**
@@ -1095,8 +1141,9 @@ class PayerAuthEnrollReply
      */
     public function setCardBin($cardBin)
     {
-      $this->cardBin = $cardBin;
-      return $this;
+        $this->cardBin = $cardBin;
+
+        return $this;
     }
 
     /**
@@ -1104,7 +1151,7 @@ class PayerAuthEnrollReply
      */
     public function getCardTypeName()
     {
-      return $this->cardTypeName;
+        return $this->cardTypeName;
     }
 
     /**
@@ -1113,8 +1160,9 @@ class PayerAuthEnrollReply
      */
     public function setCardTypeName($cardTypeName)
     {
-      $this->cardTypeName = $cardTypeName;
-      return $this;
+        $this->cardTypeName = $cardTypeName;
+
+        return $this;
     }
 
 }

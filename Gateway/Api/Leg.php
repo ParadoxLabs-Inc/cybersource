@@ -115,7 +115,7 @@ class Leg
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -123,7 +123,7 @@ class Leg
      */
     public function getCarrierCode()
     {
-      return $this->carrierCode;
+        return $this->carrierCode;
     }
 
     /**
@@ -132,8 +132,9 @@ class Leg
      */
     public function setCarrierCode($carrierCode)
     {
-      $this->carrierCode = $carrierCode;
-      return $this;
+        $this->carrierCode = $carrierCode;
+
+        return $this;
     }
 
     /**
@@ -141,7 +142,7 @@ class Leg
      */
     public function getFlightNumber()
     {
-      return $this->flightNumber;
+        return $this->flightNumber;
     }
 
     /**
@@ -150,8 +151,9 @@ class Leg
      */
     public function setFlightNumber($flightNumber)
     {
-      $this->flightNumber = $flightNumber;
-      return $this;
+        $this->flightNumber = $flightNumber;
+
+        return $this;
     }
 
     /**
@@ -159,7 +161,7 @@ class Leg
      */
     public function getOriginatingAirportCode()
     {
-      return $this->originatingAirportCode;
+        return $this->originatingAirportCode;
     }
 
     /**
@@ -168,8 +170,9 @@ class Leg
      */
     public function setOriginatingAirportCode($originatingAirportCode)
     {
-      $this->originatingAirportCode = $originatingAirportCode;
-      return $this;
+        $this->originatingAirportCode = $originatingAirportCode;
+
+        return $this;
     }
 
     /**
@@ -177,7 +180,7 @@ class Leg
      */
     public function getClass()
     {
-      return $this->class;
+        return $this->class;
     }
 
     /**
@@ -186,8 +189,9 @@ class Leg
      */
     public function setClass($class)
     {
-      $this->class = $class;
-      return $this;
+        $this->class = $class;
+
+        return $this;
     }
 
     /**
@@ -195,7 +199,7 @@ class Leg
      */
     public function getStopoverCode()
     {
-      return $this->stopoverCode;
+        return $this->stopoverCode;
     }
 
     /**
@@ -204,8 +208,9 @@ class Leg
      */
     public function setStopoverCode($stopoverCode)
     {
-      $this->stopoverCode = $stopoverCode;
-      return $this;
+        $this->stopoverCode = $stopoverCode;
+
+        return $this;
     }
 
     /**
@@ -213,7 +218,7 @@ class Leg
      */
     public function getDepartureDate()
     {
-      return $this->departureDate;
+        return $this->departureDate;
     }
 
     /**
@@ -222,8 +227,9 @@ class Leg
      */
     public function setDepartureDate($departureDate)
     {
-      $this->departureDate = $departureDate;
-      return $this;
+        $this->departureDate = $departureDate;
+
+        return $this;
     }
 
     /**
@@ -231,7 +237,7 @@ class Leg
      */
     public function getDestination()
     {
-      return $this->destination;
+        return $this->destination;
     }
 
     /**
@@ -240,8 +246,9 @@ class Leg
      */
     public function setDestination($destination)
     {
-      $this->destination = $destination;
-      return $this;
+        $this->destination = $destination;
+
+        return $this;
     }
 
     /**
@@ -249,7 +256,7 @@ class Leg
      */
     public function getFareBasis()
     {
-      return $this->fareBasis;
+        return $this->fareBasis;
     }
 
     /**
@@ -258,8 +265,9 @@ class Leg
      */
     public function setFareBasis($fareBasis)
     {
-      $this->fareBasis = $fareBasis;
-      return $this;
+        $this->fareBasis = $fareBasis;
+
+        return $this;
     }
 
     /**
@@ -267,7 +275,7 @@ class Leg
      */
     public function getDepartTax()
     {
-      return $this->departTax;
+        return $this->departTax;
     }
 
     /**
@@ -276,8 +284,9 @@ class Leg
      */
     public function setDepartTax($departTax)
     {
-      $this->departTax = $departTax;
-      return $this;
+        $this->departTax = $departTax;
+
+        return $this;
     }
 
     /**
@@ -285,7 +294,7 @@ class Leg
      */
     public function getConjunctionTicket()
     {
-      return $this->conjunctionTicket;
+        return $this->conjunctionTicket;
     }
 
     /**
@@ -294,8 +303,9 @@ class Leg
      */
     public function setConjunctionTicket($conjunctionTicket)
     {
-      $this->conjunctionTicket = $conjunctionTicket;
-      return $this;
+        $this->conjunctionTicket = $conjunctionTicket;
+
+        return $this;
     }
 
     /**
@@ -303,7 +313,7 @@ class Leg
      */
     public function getExchangeTicket()
     {
-      return $this->exchangeTicket;
+        return $this->exchangeTicket;
     }
 
     /**
@@ -312,8 +322,9 @@ class Leg
      */
     public function setExchangeTicket($exchangeTicket)
     {
-      $this->exchangeTicket = $exchangeTicket;
-      return $this;
+        $this->exchangeTicket = $exchangeTicket;
+
+        return $this;
     }
 
     /**
@@ -321,7 +332,7 @@ class Leg
      */
     public function getCouponNumber()
     {
-      return $this->couponNumber;
+        return $this->couponNumber;
     }
 
     /**
@@ -330,8 +341,9 @@ class Leg
      */
     public function setCouponNumber($couponNumber)
     {
-      $this->couponNumber = $couponNumber;
-      return $this;
+        $this->couponNumber = $couponNumber;
+
+        return $this;
     }
 
     /**
@@ -339,7 +351,7 @@ class Leg
      */
     public function getDepartureTime()
     {
-      return $this->departureTime;
+        return $this->departureTime;
     }
 
     /**
@@ -348,8 +360,9 @@ class Leg
      */
     public function setDepartureTime($departureTime)
     {
-      $this->departureTime = $departureTime;
-      return $this;
+        $this->departureTime = $departureTime;
+
+        return $this;
     }
 
     /**
@@ -357,7 +370,7 @@ class Leg
      */
     public function getDepartureTimeSegment()
     {
-      return $this->departureTimeSegment;
+        return $this->departureTimeSegment;
     }
 
     /**
@@ -366,8 +379,9 @@ class Leg
      */
     public function setDepartureTimeSegment($departureTimeSegment)
     {
-      $this->departureTimeSegment = $departureTimeSegment;
-      return $this;
+        $this->departureTimeSegment = $departureTimeSegment;
+
+        return $this;
     }
 
     /**
@@ -375,7 +389,7 @@ class Leg
      */
     public function getArrivalTime()
     {
-      return $this->arrivalTime;
+        return $this->arrivalTime;
     }
 
     /**
@@ -384,8 +398,9 @@ class Leg
      */
     public function setArrivalTime($arrivalTime)
     {
-      $this->arrivalTime = $arrivalTime;
-      return $this;
+        $this->arrivalTime = $arrivalTime;
+
+        return $this;
     }
 
     /**
@@ -393,7 +408,7 @@ class Leg
      */
     public function getArrivalTimeSegment()
     {
-      return $this->arrivalTimeSegment;
+        return $this->arrivalTimeSegment;
     }
 
     /**
@@ -402,8 +417,9 @@ class Leg
      */
     public function setArrivalTimeSegment($arrivalTimeSegment)
     {
-      $this->arrivalTimeSegment = $arrivalTimeSegment;
-      return $this;
+        $this->arrivalTimeSegment = $arrivalTimeSegment;
+
+        return $this;
     }
 
     /**
@@ -411,7 +427,7 @@ class Leg
      */
     public function getEndorsementsRestrictions()
     {
-      return $this->endorsementsRestrictions;
+        return $this->endorsementsRestrictions;
     }
 
     /**
@@ -420,8 +436,9 @@ class Leg
      */
     public function setEndorsementsRestrictions($endorsementsRestrictions)
     {
-      $this->endorsementsRestrictions = $endorsementsRestrictions;
-      return $this;
+        $this->endorsementsRestrictions = $endorsementsRestrictions;
+
+        return $this;
     }
 
     /**
@@ -429,7 +446,7 @@ class Leg
      */
     public function getFare()
     {
-      return $this->fare;
+        return $this->fare;
     }
 
     /**
@@ -438,8 +455,9 @@ class Leg
      */
     public function setFare($fare)
     {
-      $this->fare = $fare;
-      return $this;
+        $this->fare = $fare;
+
+        return $this;
     }
 
     /**
@@ -447,7 +465,7 @@ class Leg
      */
     public function getFee()
     {
-      return $this->fee;
+        return $this->fee;
     }
 
     /**
@@ -456,8 +474,9 @@ class Leg
      */
     public function setFee($fee)
     {
-      $this->fee = $fee;
-      return $this;
+        $this->fee = $fee;
+
+        return $this;
     }
 
     /**
@@ -465,7 +484,7 @@ class Leg
      */
     public function getTax()
     {
-      return $this->tax;
+        return $this->tax;
     }
 
     /**
@@ -474,8 +493,9 @@ class Leg
      */
     public function setTax($tax)
     {
-      $this->tax = $tax;
-      return $this;
+        $this->tax = $tax;
+
+        return $this;
     }
 
     /**
@@ -483,7 +503,7 @@ class Leg
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -492,8 +512,9 @@ class Leg
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

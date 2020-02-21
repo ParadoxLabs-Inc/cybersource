@@ -60,7 +60,7 @@ class APRefundService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -68,7 +68,7 @@ class APRefundService
      */
     public function getCaptureRequestID()
     {
-      return $this->captureRequestID;
+        return $this->captureRequestID;
     }
 
     /**
@@ -77,8 +77,9 @@ class APRefundService
      */
     public function setCaptureRequestID($captureRequestID)
     {
-      $this->captureRequestID = $captureRequestID;
-      return $this;
+        $this->captureRequestID = $captureRequestID;
+
+        return $this;
     }
 
     /**
@@ -86,7 +87,7 @@ class APRefundService
      */
     public function getRefundRequestID()
     {
-      return $this->refundRequestID;
+        return $this->refundRequestID;
     }
 
     /**
@@ -95,8 +96,9 @@ class APRefundService
      */
     public function setRefundRequestID($refundRequestID)
     {
-      $this->refundRequestID = $refundRequestID;
-      return $this;
+        $this->refundRequestID = $refundRequestID;
+
+        return $this;
     }
 
     /**
@@ -104,7 +106,7 @@ class APRefundService
      */
     public function getReason()
     {
-      return $this->reason;
+        return $this->reason;
     }
 
     /**
@@ -113,8 +115,9 @@ class APRefundService
      */
     public function setReason($reason)
     {
-      $this->reason = $reason;
-      return $this;
+        $this->reason = $reason;
+
+        return $this;
     }
 
     /**
@@ -122,7 +125,7 @@ class APRefundService
      */
     public function getInstant()
     {
-      return $this->instant;
+        return $this->instant;
     }
 
     /**
@@ -131,8 +134,9 @@ class APRefundService
      */
     public function setInstant($instant)
     {
-      $this->instant = $instant;
-      return $this;
+        $this->instant = $instant;
+
+        return $this;
     }
 
     /**
@@ -140,7 +144,7 @@ class APRefundService
      */
     public function getNote()
     {
-      return $this->note;
+        return $this->note;
     }
 
     /**
@@ -149,8 +153,9 @@ class APRefundService
      */
     public function setNote($note)
     {
-      $this->note = $note;
-      return $this;
+        $this->note = $note;
+
+        return $this;
     }
 
     /**
@@ -158,7 +163,7 @@ class APRefundService
      */
     public function getApInitiateRequestID()
     {
-      return $this->apInitiateRequestID;
+        return $this->apInitiateRequestID;
     }
 
     /**
@@ -167,8 +172,9 @@ class APRefundService
      */
     public function setApInitiateRequestID($apInitiateRequestID)
     {
-      $this->apInitiateRequestID = $apInitiateRequestID;
-      return $this;
+        $this->apInitiateRequestID = $apInitiateRequestID;
+
+        return $this;
     }
 
     /**
@@ -176,7 +182,7 @@ class APRefundService
      */
     public function getReturnRef()
     {
-      return $this->returnRef;
+        return $this->returnRef;
     }
 
     /**
@@ -185,8 +191,9 @@ class APRefundService
      */
     public function setReturnRef($returnRef)
     {
-      $this->returnRef = $returnRef;
-      return $this;
+        $this->returnRef = $returnRef;
+
+        return $this;
     }
 
     /**
@@ -194,7 +201,7 @@ class APRefundService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -203,8 +210,9 @@ class APRefundService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -212,7 +220,7 @@ class APRefundService
      */
     public function getSaleRequestID()
     {
-      return $this->saleRequestID;
+        return $this->saleRequestID;
     }
 
     /**
@@ -221,8 +229,9 @@ class APRefundService
      */
     public function setSaleRequestID($saleRequestID)
     {
-      $this->saleRequestID = $saleRequestID;
-      return $this;
+        $this->saleRequestID = $saleRequestID;
+
+        return $this;
     }
 
     /**
@@ -230,7 +239,7 @@ class APRefundService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -239,8 +248,9 @@ class APRefundService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

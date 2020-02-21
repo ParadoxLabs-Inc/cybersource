@@ -25,7 +25,7 @@ class VCCustomData
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -33,7 +33,7 @@ class VCCustomData
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -42,8 +42,9 @@ class VCCustomData
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class VCCustomData
      */
     public function getValue()
     {
-      return $this->value;
+        return $this->value;
     }
 
     /**
@@ -60,8 +61,9 @@ class VCCustomData
      */
     public function setValue($value)
     {
-      $this->value = $value;
-      return $this;
+        $this->value = $value;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class VCCustomData
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -78,8 +80,9 @@ class VCCustomData
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

@@ -62,9 +62,9 @@ class TaxReplyItemJurisdiction
      */
     public function __construct($name, $taxName, $jurisId)
     {
-      $this->name = $name;
-      $this->taxName = $taxName;
-      $this->jurisId = $jurisId;
+        $this->name    = $name;
+        $this->taxName = $taxName;
+        $this->jurisId = $jurisId;
     }
 
     /**
@@ -72,7 +72,7 @@ class TaxReplyItemJurisdiction
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -81,8 +81,9 @@ class TaxReplyItemJurisdiction
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class TaxReplyItemJurisdiction
      */
     public function getRegion()
     {
-      return $this->region;
+        return $this->region;
     }
 
     /**
@@ -99,8 +100,9 @@ class TaxReplyItemJurisdiction
      */
     public function setRegion($region)
     {
-      $this->region = $region;
-      return $this;
+        $this->region = $region;
+
+        return $this;
     }
 
     /**
@@ -108,7 +110,7 @@ class TaxReplyItemJurisdiction
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -117,8 +119,9 @@ class TaxReplyItemJurisdiction
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -126,7 +129,7 @@ class TaxReplyItemJurisdiction
      */
     public function getCode()
     {
-      return $this->code;
+        return $this->code;
     }
 
     /**
@@ -135,8 +138,9 @@ class TaxReplyItemJurisdiction
      */
     public function setCode($code)
     {
-      $this->code = $code;
-      return $this;
+        $this->code = $code;
+
+        return $this;
     }
 
     /**
@@ -144,7 +148,7 @@ class TaxReplyItemJurisdiction
      */
     public function getTaxable()
     {
-      return $this->taxable;
+        return $this->taxable;
     }
 
     /**
@@ -153,8 +157,9 @@ class TaxReplyItemJurisdiction
      */
     public function setTaxable($taxable)
     {
-      $this->taxable = $taxable;
-      return $this;
+        $this->taxable = $taxable;
+
+        return $this;
     }
 
     /**
@@ -162,7 +167,7 @@ class TaxReplyItemJurisdiction
      */
     public function getRate()
     {
-      return $this->rate;
+        return $this->rate;
     }
 
     /**
@@ -171,8 +176,9 @@ class TaxReplyItemJurisdiction
      */
     public function setRate($rate)
     {
-      $this->rate = $rate;
-      return $this;
+        $this->rate = $rate;
+
+        return $this;
     }
 
     /**
@@ -180,7 +186,7 @@ class TaxReplyItemJurisdiction
      */
     public function getTaxAmount()
     {
-      return $this->taxAmount;
+        return $this->taxAmount;
     }
 
     /**
@@ -189,8 +195,9 @@ class TaxReplyItemJurisdiction
      */
     public function setTaxAmount($taxAmount)
     {
-      $this->taxAmount = $taxAmount;
-      return $this;
+        $this->taxAmount = $taxAmount;
+
+        return $this;
     }
 
     /**
@@ -198,7 +205,7 @@ class TaxReplyItemJurisdiction
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -207,8 +214,9 @@ class TaxReplyItemJurisdiction
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -216,7 +224,7 @@ class TaxReplyItemJurisdiction
      */
     public function getTaxName()
     {
-      return $this->taxName;
+        return $this->taxName;
     }
 
     /**
@@ -225,8 +233,9 @@ class TaxReplyItemJurisdiction
      */
     public function setTaxName($taxName)
     {
-      $this->taxName = $taxName;
-      return $this;
+        $this->taxName = $taxName;
+
+        return $this;
     }
 
     /**
@@ -234,7 +243,7 @@ class TaxReplyItemJurisdiction
      */
     public function getJurisId()
     {
-      return $this->jurisId;
+        return $this->jurisId;
     }
 
     /**
@@ -243,8 +252,9 @@ class TaxReplyItemJurisdiction
      */
     public function setJurisId($jurisId)
     {
-      $this->jurisId = $jurisId;
-      return $this;
+        $this->jurisId = $jurisId;
+
+        return $this;
     }
 
 }

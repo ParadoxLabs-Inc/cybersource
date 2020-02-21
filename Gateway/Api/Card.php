@@ -175,10 +175,8 @@ class Card
      */
     protected $brands = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -186,7 +184,7 @@ class Card
      */
     public function getFullName()
     {
-      return $this->fullName;
+        return $this->fullName;
     }
 
     /**
@@ -195,8 +193,9 @@ class Card
      */
     public function setFullName($fullName)
     {
-      $this->fullName = $fullName;
-      return $this;
+        $this->fullName = $fullName;
+
+        return $this;
     }
 
     /**
@@ -204,7 +203,7 @@ class Card
      */
     public function getAccountNumber()
     {
-      return $this->accountNumber;
+        return $this->accountNumber;
     }
 
     /**
@@ -213,8 +212,9 @@ class Card
      */
     public function setAccountNumber($accountNumber)
     {
-      $this->accountNumber = $accountNumber;
-      return $this;
+        $this->accountNumber = $accountNumber;
+
+        return $this;
     }
 
     /**
@@ -222,7 +222,7 @@ class Card
      */
     public function getExpirationMonth()
     {
-      return $this->expirationMonth;
+        return $this->expirationMonth;
     }
 
     /**
@@ -231,8 +231,9 @@ class Card
      */
     public function setExpirationMonth($expirationMonth)
     {
-      $this->expirationMonth = $expirationMonth;
-      return $this;
+        $this->expirationMonth = $expirationMonth;
+
+        return $this;
     }
 
     /**
@@ -240,7 +241,7 @@ class Card
      */
     public function getExpirationYear()
     {
-      return $this->expirationYear;
+        return $this->expirationYear;
     }
 
     /**
@@ -249,8 +250,9 @@ class Card
      */
     public function setExpirationYear($expirationYear)
     {
-      $this->expirationYear = $expirationYear;
-      return $this;
+        $this->expirationYear = $expirationYear;
+
+        return $this;
     }
 
     /**
@@ -258,7 +260,7 @@ class Card
      */
     public function getCvIndicator()
     {
-      return $this->cvIndicator;
+        return $this->cvIndicator;
     }
 
     /**
@@ -267,8 +269,9 @@ class Card
      */
     public function setCvIndicator($cvIndicator)
     {
-      $this->cvIndicator = $cvIndicator;
-      return $this;
+        $this->cvIndicator = $cvIndicator;
+
+        return $this;
     }
 
     /**
@@ -276,7 +279,7 @@ class Card
      */
     public function getCvNumber()
     {
-      return $this->cvNumber;
+        return $this->cvNumber;
     }
 
     /**
@@ -285,8 +288,9 @@ class Card
      */
     public function setCvNumber($cvNumber)
     {
-      $this->cvNumber = $cvNumber;
-      return $this;
+        $this->cvNumber = $cvNumber;
+
+        return $this;
     }
 
     /**
@@ -294,7 +298,7 @@ class Card
      */
     public function getCardType()
     {
-      return $this->cardType;
+        return $this->cardType;
     }
 
     /**
@@ -303,8 +307,9 @@ class Card
      */
     public function setCardType($cardType)
     {
-      $this->cardType = $cardType;
-      return $this;
+        $this->cardType = $cardType;
+
+        return $this;
     }
 
     /**
@@ -312,7 +317,7 @@ class Card
      */
     public function getIssueNumber()
     {
-      return $this->issueNumber;
+        return $this->issueNumber;
     }
 
     /**
@@ -321,8 +326,9 @@ class Card
      */
     public function setIssueNumber($issueNumber)
     {
-      $this->issueNumber = $issueNumber;
-      return $this;
+        $this->issueNumber = $issueNumber;
+
+        return $this;
     }
 
     /**
@@ -330,7 +336,7 @@ class Card
      */
     public function getStartMonth()
     {
-      return $this->startMonth;
+        return $this->startMonth;
     }
 
     /**
@@ -339,8 +345,9 @@ class Card
      */
     public function setStartMonth($startMonth)
     {
-      $this->startMonth = $startMonth;
-      return $this;
+        $this->startMonth = $startMonth;
+
+        return $this;
     }
 
     /**
@@ -348,7 +355,7 @@ class Card
      */
     public function getStartYear()
     {
-      return $this->startYear;
+        return $this->startYear;
     }
 
     /**
@@ -357,8 +364,9 @@ class Card
      */
     public function setStartYear($startYear)
     {
-      $this->startYear = $startYear;
-      return $this;
+        $this->startYear = $startYear;
+
+        return $this;
     }
 
     /**
@@ -366,7 +374,7 @@ class Card
      */
     public function getPin()
     {
-      return $this->pin;
+        return $this->pin;
     }
 
     /**
@@ -375,8 +383,9 @@ class Card
      */
     public function setPin($pin)
     {
-      $this->pin = $pin;
-      return $this;
+        $this->pin = $pin;
+
+        return $this;
     }
 
     /**
@@ -384,7 +393,7 @@ class Card
      */
     public function getAccountEncoderID()
     {
-      return $this->accountEncoderID;
+        return $this->accountEncoderID;
     }
 
     /**
@@ -393,8 +402,9 @@ class Card
      */
     public function setAccountEncoderID($accountEncoderID)
     {
-      $this->accountEncoderID = $accountEncoderID;
-      return $this;
+        $this->accountEncoderID = $accountEncoderID;
+
+        return $this;
     }
 
     /**
@@ -402,7 +412,7 @@ class Card
      */
     public function getBin()
     {
-      return $this->bin;
+        return $this->bin;
     }
 
     /**
@@ -411,8 +421,9 @@ class Card
      */
     public function setBin($bin)
     {
-      $this->bin = $bin;
-      return $this;
+        $this->bin = $bin;
+
+        return $this;
     }
 
     /**
@@ -420,7 +431,7 @@ class Card
      */
     public function getEncryptedData()
     {
-      return $this->encryptedData;
+        return $this->encryptedData;
     }
 
     /**
@@ -429,8 +440,9 @@ class Card
      */
     public function setEncryptedData($encryptedData)
     {
-      $this->encryptedData = $encryptedData;
-      return $this;
+        $this->encryptedData = $encryptedData;
+
+        return $this;
     }
 
     /**
@@ -438,7 +450,7 @@ class Card
      */
     public function getSuffix()
     {
-      return $this->suffix;
+        return $this->suffix;
     }
 
     /**
@@ -447,8 +459,9 @@ class Card
      */
     public function setSuffix($suffix)
     {
-      $this->suffix = $suffix;
-      return $this;
+        $this->suffix = $suffix;
+
+        return $this;
     }
 
     /**
@@ -456,7 +469,7 @@ class Card
      */
     public function getVirtual()
     {
-      return $this->virtual;
+        return $this->virtual;
     }
 
     /**
@@ -465,8 +478,9 @@ class Card
      */
     public function setVirtual($virtual)
     {
-      $this->virtual = $virtual;
-      return $this;
+        $this->virtual = $virtual;
+
+        return $this;
     }
 
     /**
@@ -474,7 +488,7 @@ class Card
      */
     public function getPrefix()
     {
-      return $this->prefix;
+        return $this->prefix;
     }
 
     /**
@@ -483,8 +497,9 @@ class Card
      */
     public function setPrefix($prefix)
     {
-      $this->prefix = $prefix;
-      return $this;
+        $this->prefix = $prefix;
+
+        return $this;
     }
 
     /**
@@ -492,7 +507,7 @@ class Card
      */
     public function getCardTypeName()
     {
-      return $this->cardTypeName;
+        return $this->cardTypeName;
     }
 
     /**
@@ -501,8 +516,9 @@ class Card
      */
     public function setCardTypeName($cardTypeName)
     {
-      $this->cardTypeName = $cardTypeName;
-      return $this;
+        $this->cardTypeName = $cardTypeName;
+
+        return $this;
     }
 
     /**
@@ -510,7 +526,7 @@ class Card
      */
     public function getCardSubType()
     {
-      return $this->cardSubType;
+        return $this->cardSubType;
     }
 
     /**
@@ -519,8 +535,9 @@ class Card
      */
     public function setCardSubType($cardSubType)
     {
-      $this->cardSubType = $cardSubType;
-      return $this;
+        $this->cardSubType = $cardSubType;
+
+        return $this;
     }
 
     /**
@@ -528,7 +545,7 @@ class Card
      */
     public function getLevel2Eligible()
     {
-      return $this->level2Eligible;
+        return $this->level2Eligible;
     }
 
     /**
@@ -537,8 +554,9 @@ class Card
      */
     public function setLevel2Eligible($level2Eligible)
     {
-      $this->level2Eligible = $level2Eligible;
-      return $this;
+        $this->level2Eligible = $level2Eligible;
+
+        return $this;
     }
 
     /**
@@ -546,7 +564,7 @@ class Card
      */
     public function getLevel3Eligible()
     {
-      return $this->level3Eligible;
+        return $this->level3Eligible;
     }
 
     /**
@@ -555,8 +573,9 @@ class Card
      */
     public function setLevel3Eligible($level3Eligible)
     {
-      $this->level3Eligible = $level3Eligible;
-      return $this;
+        $this->level3Eligible = $level3Eligible;
+
+        return $this;
     }
 
     /**
@@ -564,7 +583,7 @@ class Card
      */
     public function getProductCategory()
     {
-      return $this->productCategory;
+        return $this->productCategory;
     }
 
     /**
@@ -573,8 +592,9 @@ class Card
      */
     public function setProductCategory($productCategory)
     {
-      $this->productCategory = $productCategory;
-      return $this;
+        $this->productCategory = $productCategory;
+
+        return $this;
     }
 
     /**
@@ -582,7 +602,7 @@ class Card
      */
     public function getCrossBorderIndicator()
     {
-      return $this->crossBorderIndicator;
+        return $this->crossBorderIndicator;
     }
 
     /**
@@ -591,8 +611,9 @@ class Card
      */
     public function setCrossBorderIndicator($crossBorderIndicator)
     {
-      $this->crossBorderIndicator = $crossBorderIndicator;
-      return $this;
+        $this->crossBorderIndicator = $crossBorderIndicator;
+
+        return $this;
     }
 
     /**
@@ -600,7 +621,7 @@ class Card
      */
     public function getBillingCurrency()
     {
-      return $this->billingCurrency;
+        return $this->billingCurrency;
     }
 
     /**
@@ -609,8 +630,9 @@ class Card
      */
     public function setBillingCurrency($billingCurrency)
     {
-      $this->billingCurrency = $billingCurrency;
-      return $this;
+        $this->billingCurrency = $billingCurrency;
+
+        return $this;
     }
 
     /**
@@ -618,7 +640,7 @@ class Card
      */
     public function getBillingCurrencyNumericCode()
     {
-      return $this->billingCurrencyNumericCode;
+        return $this->billingCurrencyNumericCode;
     }
 
     /**
@@ -627,8 +649,9 @@ class Card
      */
     public function setBillingCurrencyNumericCode($billingCurrencyNumericCode)
     {
-      $this->billingCurrencyNumericCode = $billingCurrencyNumericCode;
-      return $this;
+        $this->billingCurrencyNumericCode = $billingCurrencyNumericCode;
+
+        return $this;
     }
 
     /**
@@ -636,7 +659,7 @@ class Card
      */
     public function getBillingCurrencyMinorDigits()
     {
-      return $this->billingCurrencyMinorDigits;
+        return $this->billingCurrencyMinorDigits;
     }
 
     /**
@@ -645,8 +668,9 @@ class Card
      */
     public function setBillingCurrencyMinorDigits($billingCurrencyMinorDigits)
     {
-      $this->billingCurrencyMinorDigits = $billingCurrencyMinorDigits;
-      return $this;
+        $this->billingCurrencyMinorDigits = $billingCurrencyMinorDigits;
+
+        return $this;
     }
 
     /**
@@ -654,7 +678,7 @@ class Card
      */
     public function getOctFastFundsIndicator()
     {
-      return $this->octFastFundsIndicator;
+        return $this->octFastFundsIndicator;
     }
 
     /**
@@ -663,8 +687,9 @@ class Card
      */
     public function setOctFastFundsIndicator($octFastFundsIndicator)
     {
-      $this->octFastFundsIndicator = $octFastFundsIndicator;
-      return $this;
+        $this->octFastFundsIndicator = $octFastFundsIndicator;
+
+        return $this;
     }
 
     /**
@@ -672,7 +697,7 @@ class Card
      */
     public function getOctBlockIndicator()
     {
-      return $this->octBlockIndicator;
+        return $this->octBlockIndicator;
     }
 
     /**
@@ -681,8 +706,9 @@ class Card
      */
     public function setOctBlockIndicator($octBlockIndicator)
     {
-      $this->octBlockIndicator = $octBlockIndicator;
-      return $this;
+        $this->octBlockIndicator = $octBlockIndicator;
+
+        return $this;
     }
 
     /**
@@ -690,7 +716,7 @@ class Card
      */
     public function getOnlineGamblingBlockIndicator()
     {
-      return $this->onlineGamblingBlockIndicator;
+        return $this->onlineGamblingBlockIndicator;
     }
 
     /**
@@ -699,8 +725,9 @@ class Card
      */
     public function setOnlineGamblingBlockIndicator($onlineGamblingBlockIndicator)
     {
-      $this->onlineGamblingBlockIndicator = $onlineGamblingBlockIndicator;
-      return $this;
+        $this->onlineGamblingBlockIndicator = $onlineGamblingBlockIndicator;
+
+        return $this;
     }
 
     /**
@@ -708,7 +735,7 @@ class Card
      */
     public function getProductName()
     {
-      return $this->productName;
+        return $this->productName;
     }
 
     /**
@@ -717,8 +744,9 @@ class Card
      */
     public function setProductName($productName)
     {
-      $this->productName = $productName;
-      return $this;
+        $this->productName = $productName;
+
+        return $this;
     }
 
     /**
@@ -726,7 +754,7 @@ class Card
      */
     public function getUsage()
     {
-      return $this->usage;
+        return $this->usage;
     }
 
     /**
@@ -735,8 +763,9 @@ class Card
      */
     public function setUsage($usage)
     {
-      $this->usage = $usage;
-      return $this;
+        $this->usage = $usage;
+
+        return $this;
     }
 
     /**
@@ -744,7 +773,7 @@ class Card
      */
     public function getPrepaidReloadable()
     {
-      return $this->prepaidReloadable;
+        return $this->prepaidReloadable;
     }
 
     /**
@@ -753,8 +782,9 @@ class Card
      */
     public function setPrepaidReloadable($prepaidReloadable)
     {
-      $this->prepaidReloadable = $prepaidReloadable;
-      return $this;
+        $this->prepaidReloadable = $prepaidReloadable;
+
+        return $this;
     }
 
     /**
@@ -762,7 +792,7 @@ class Card
      */
     public function getPrepaidType()
     {
-      return $this->prepaidType;
+        return $this->prepaidType;
     }
 
     /**
@@ -771,8 +801,9 @@ class Card
      */
     public function setPrepaidType($prepaidType)
     {
-      $this->prepaidType = $prepaidType;
-      return $this;
+        $this->prepaidType = $prepaidType;
+
+        return $this;
     }
 
     /**
@@ -780,7 +811,7 @@ class Card
      */
     public function getBrands()
     {
-      return $this->brands;
+        return $this->brands;
     }
 
     /**
@@ -789,8 +820,9 @@ class Card
      */
     public function setBrands(array $brands = null)
     {
-      $this->brands = $brands;
-      return $this;
+        $this->brands = $brands;
+
+        return $this;
     }
 
 }

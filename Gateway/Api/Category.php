@@ -20,10 +20,8 @@ class Category
      */
     protected $group = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class Category
      */
     public function getAffiliate()
     {
-      return $this->affiliate;
+        return $this->affiliate;
     }
 
     /**
@@ -40,8 +38,9 @@ class Category
      */
     public function setAffiliate($affiliate)
     {
-      $this->affiliate = $affiliate;
-      return $this;
+        $this->affiliate = $affiliate;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class Category
      */
     public function getCampaign()
     {
-      return $this->campaign;
+        return $this->campaign;
     }
 
     /**
@@ -58,8 +57,9 @@ class Category
      */
     public function setCampaign($campaign)
     {
-      $this->campaign = $campaign;
-      return $this;
+        $this->campaign = $campaign;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class Category
      */
     public function getGroup()
     {
-      return $this->group;
+        return $this->group;
     }
 
     /**
@@ -76,8 +76,9 @@ class Category
      */
     public function setGroup($group)
     {
-      $this->group = $group;
-      return $this;
+        $this->group = $group;
+
+        return $this;
     }
 
 }

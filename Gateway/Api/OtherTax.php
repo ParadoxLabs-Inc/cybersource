@@ -55,10 +55,8 @@ class OtherTax
      */
     protected $nationalTaxIndicator = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -66,7 +64,7 @@ class OtherTax
      */
     public function getVatTaxAmount()
     {
-      return $this->vatTaxAmount;
+        return $this->vatTaxAmount;
     }
 
     /**
@@ -75,8 +73,9 @@ class OtherTax
      */
     public function setVatTaxAmount($vatTaxAmount)
     {
-      $this->vatTaxAmount = $vatTaxAmount;
-      return $this;
+        $this->vatTaxAmount = $vatTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -84,7 +83,7 @@ class OtherTax
      */
     public function getVatTaxRate()
     {
-      return $this->vatTaxRate;
+        return $this->vatTaxRate;
     }
 
     /**
@@ -93,8 +92,9 @@ class OtherTax
      */
     public function setVatTaxRate($vatTaxRate)
     {
-      $this->vatTaxRate = $vatTaxRate;
-      return $this;
+        $this->vatTaxRate = $vatTaxRate;
+
+        return $this;
     }
 
     /**
@@ -102,7 +102,7 @@ class OtherTax
      */
     public function getVatTaxAmountSign()
     {
-      return $this->vatTaxAmountSign;
+        return $this->vatTaxAmountSign;
     }
 
     /**
@@ -111,8 +111,9 @@ class OtherTax
      */
     public function setVatTaxAmountSign($vatTaxAmountSign)
     {
-      $this->vatTaxAmountSign = $vatTaxAmountSign;
-      return $this;
+        $this->vatTaxAmountSign = $vatTaxAmountSign;
+
+        return $this;
     }
 
     /**
@@ -120,7 +121,7 @@ class OtherTax
      */
     public function getAlternateTaxAmount()
     {
-      return $this->alternateTaxAmount;
+        return $this->alternateTaxAmount;
     }
 
     /**
@@ -129,8 +130,9 @@ class OtherTax
      */
     public function setAlternateTaxAmount($alternateTaxAmount)
     {
-      $this->alternateTaxAmount = $alternateTaxAmount;
-      return $this;
+        $this->alternateTaxAmount = $alternateTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -138,7 +140,7 @@ class OtherTax
      */
     public function getAlternateTaxIndicator()
     {
-      return $this->alternateTaxIndicator;
+        return $this->alternateTaxIndicator;
     }
 
     /**
@@ -147,8 +149,9 @@ class OtherTax
      */
     public function setAlternateTaxIndicator($alternateTaxIndicator)
     {
-      $this->alternateTaxIndicator = $alternateTaxIndicator;
-      return $this;
+        $this->alternateTaxIndicator = $alternateTaxIndicator;
+
+        return $this;
     }
 
     /**
@@ -156,7 +159,7 @@ class OtherTax
      */
     public function getAlternateTaxID()
     {
-      return $this->alternateTaxID;
+        return $this->alternateTaxID;
     }
 
     /**
@@ -165,8 +168,9 @@ class OtherTax
      */
     public function setAlternateTaxID($alternateTaxID)
     {
-      $this->alternateTaxID = $alternateTaxID;
-      return $this;
+        $this->alternateTaxID = $alternateTaxID;
+
+        return $this;
     }
 
     /**
@@ -174,7 +178,7 @@ class OtherTax
      */
     public function getLocalTaxAmount()
     {
-      return $this->localTaxAmount;
+        return $this->localTaxAmount;
     }
 
     /**
@@ -183,8 +187,9 @@ class OtherTax
      */
     public function setLocalTaxAmount($localTaxAmount)
     {
-      $this->localTaxAmount = $localTaxAmount;
-      return $this;
+        $this->localTaxAmount = $localTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -192,7 +197,7 @@ class OtherTax
      */
     public function getLocalTaxIndicator()
     {
-      return $this->localTaxIndicator;
+        return $this->localTaxIndicator;
     }
 
     /**
@@ -201,8 +206,9 @@ class OtherTax
      */
     public function setLocalTaxIndicator($localTaxIndicator)
     {
-      $this->localTaxIndicator = $localTaxIndicator;
-      return $this;
+        $this->localTaxIndicator = $localTaxIndicator;
+
+        return $this;
     }
 
     /**
@@ -210,7 +216,7 @@ class OtherTax
      */
     public function getNationalTaxAmount()
     {
-      return $this->nationalTaxAmount;
+        return $this->nationalTaxAmount;
     }
 
     /**
@@ -219,8 +225,9 @@ class OtherTax
      */
     public function setNationalTaxAmount($nationalTaxAmount)
     {
-      $this->nationalTaxAmount = $nationalTaxAmount;
-      return $this;
+        $this->nationalTaxAmount = $nationalTaxAmount;
+
+        return $this;
     }
 
     /**
@@ -228,7 +235,7 @@ class OtherTax
      */
     public function getNationalTaxIndicator()
     {
-      return $this->nationalTaxIndicator;
+        return $this->nationalTaxIndicator;
     }
 
     /**
@@ -237,8 +244,9 @@ class OtherTax
      */
     public function setNationalTaxIndicator($nationalTaxIndicator)
     {
-      $this->nationalTaxIndicator = $nationalTaxIndicator;
-      return $this;
+        $this->nationalTaxIndicator = $nationalTaxIndicator;
+
+        return $this;
     }
 
 }

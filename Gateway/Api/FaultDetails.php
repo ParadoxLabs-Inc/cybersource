@@ -15,7 +15,7 @@ class FaultDetails
      */
     public function __construct($requestID)
     {
-      $this->requestID = $requestID;
+        $this->requestID = $requestID;
     }
 
     /**
@@ -23,7 +23,7 @@ class FaultDetails
      */
     public function getRequestID()
     {
-      return $this->requestID;
+        return $this->requestID;
     }
 
     /**
@@ -32,8 +32,9 @@ class FaultDetails
      */
     public function setRequestID($requestID)
     {
-      $this->requestID = $requestID;
-      return $this;
+        $this->requestID = $requestID;
+
+        return $this;
     }
 
 }

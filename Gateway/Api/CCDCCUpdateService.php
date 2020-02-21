@@ -40,7 +40,7 @@ class CCDCCUpdateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -48,7 +48,7 @@ class CCDCCUpdateService
      */
     public function getReason()
     {
-      return $this->reason;
+        return $this->reason;
     }
 
     /**
@@ -57,8 +57,9 @@ class CCDCCUpdateService
      */
     public function setReason($reason)
     {
-      $this->reason = $reason;
-      return $this;
+        $this->reason = $reason;
+
+        return $this;
     }
 
     /**
@@ -66,7 +67,7 @@ class CCDCCUpdateService
      */
     public function getAction()
     {
-      return $this->action;
+        return $this->action;
     }
 
     /**
@@ -75,8 +76,9 @@ class CCDCCUpdateService
      */
     public function setAction($action)
     {
-      $this->action = $action;
-      return $this;
+        $this->action = $action;
+
+        return $this;
     }
 
     /**
@@ -84,7 +86,7 @@ class CCDCCUpdateService
      */
     public function getDccRequestID()
     {
-      return $this->dccRequestID;
+        return $this->dccRequestID;
     }
 
     /**
@@ -93,8 +95,9 @@ class CCDCCUpdateService
      */
     public function setDccRequestID($dccRequestID)
     {
-      $this->dccRequestID = $dccRequestID;
-      return $this;
+        $this->dccRequestID = $dccRequestID;
+
+        return $this;
     }
 
     /**
@@ -102,7 +105,7 @@ class CCDCCUpdateService
      */
     public function getCaptureRequestID()
     {
-      return $this->captureRequestID;
+        return $this->captureRequestID;
     }
 
     /**
@@ -111,8 +114,9 @@ class CCDCCUpdateService
      */
     public function setCaptureRequestID($captureRequestID)
     {
-      $this->captureRequestID = $captureRequestID;
-      return $this;
+        $this->captureRequestID = $captureRequestID;
+
+        return $this;
     }
 
     /**
@@ -120,7 +124,7 @@ class CCDCCUpdateService
      */
     public function getCreditRequestID()
     {
-      return $this->creditRequestID;
+        return $this->creditRequestID;
     }
 
     /**
@@ -129,8 +133,9 @@ class CCDCCUpdateService
      */
     public function setCreditRequestID($creditRequestID)
     {
-      $this->creditRequestID = $creditRequestID;
-      return $this;
+        $this->creditRequestID = $creditRequestID;
+
+        return $this;
     }
 
     /**
@@ -138,7 +143,7 @@ class CCDCCUpdateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -147,8 +152,9 @@ class CCDCCUpdateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

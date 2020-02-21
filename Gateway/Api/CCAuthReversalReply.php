@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class CCAuthReversalReply
 {
 
@@ -60,7 +63,7 @@ class CCAuthReversalReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -68,7 +71,7 @@ class CCAuthReversalReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -77,8 +80,9 @@ class CCAuthReversalReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -86,7 +90,7 @@ class CCAuthReversalReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -95,8 +99,9 @@ class CCAuthReversalReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -104,7 +109,7 @@ class CCAuthReversalReply
      */
     public function getAuthorizationCode()
     {
-      return $this->authorizationCode;
+        return $this->authorizationCode;
     }
 
     /**
@@ -113,8 +118,9 @@ class CCAuthReversalReply
      */
     public function setAuthorizationCode($authorizationCode)
     {
-      $this->authorizationCode = $authorizationCode;
-      return $this;
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
     }
 
     /**
@@ -122,7 +128,7 @@ class CCAuthReversalReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -131,8 +137,9 @@ class CCAuthReversalReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -140,29 +147,30 @@ class CCAuthReversalReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -170,7 +178,7 @@ class CCAuthReversalReply
      */
     public function getForwardCode()
     {
-      return $this->forwardCode;
+        return $this->forwardCode;
     }
 
     /**
@@ -179,8 +187,9 @@ class CCAuthReversalReply
      */
     public function setForwardCode($forwardCode)
     {
-      $this->forwardCode = $forwardCode;
-      return $this;
+        $this->forwardCode = $forwardCode;
+
+        return $this;
     }
 
     /**
@@ -188,7 +197,7 @@ class CCAuthReversalReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -197,8 +206,9 @@ class CCAuthReversalReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -206,7 +216,7 @@ class CCAuthReversalReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -215,8 +225,9 @@ class CCAuthReversalReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -224,7 +235,7 @@ class CCAuthReversalReply
      */
     public function getPaymentCardService()
     {
-      return $this->paymentCardService;
+        return $this->paymentCardService;
     }
 
     /**
@@ -233,8 +244,9 @@ class CCAuthReversalReply
      */
     public function setPaymentCardService($paymentCardService)
     {
-      $this->paymentCardService = $paymentCardService;
-      return $this;
+        $this->paymentCardService = $paymentCardService;
+
+        return $this;
     }
 
     /**
@@ -242,7 +254,7 @@ class CCAuthReversalReply
      */
     public function getPaymentCardServiceResult()
     {
-      return $this->paymentCardServiceResult;
+        return $this->paymentCardServiceResult;
     }
 
     /**
@@ -251,8 +263,9 @@ class CCAuthReversalReply
      */
     public function setPaymentCardServiceResult($paymentCardServiceResult)
     {
-      $this->paymentCardServiceResult = $paymentCardServiceResult;
-      return $this;
+        $this->paymentCardServiceResult = $paymentCardServiceResult;
+
+        return $this;
     }
 
 }

@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APSaleReply
 {
 
@@ -80,7 +83,7 @@ class APSaleReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -88,7 +91,7 @@ class APSaleReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -97,8 +100,9 @@ class APSaleReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -106,7 +110,7 @@ class APSaleReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -115,8 +119,9 @@ class APSaleReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -124,7 +129,7 @@ class APSaleReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -133,8 +138,9 @@ class APSaleReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -142,7 +148,7 @@ class APSaleReply
      */
     public function getMerchantURL()
     {
-      return $this->merchantURL;
+        return $this->merchantURL;
     }
 
     /**
@@ -151,8 +157,9 @@ class APSaleReply
      */
     public function setMerchantURL($merchantURL)
     {
-      $this->merchantURL = $merchantURL;
-      return $this;
+        $this->merchantURL = $merchantURL;
+
+        return $this;
     }
 
     /**
@@ -160,7 +167,7 @@ class APSaleReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -169,8 +176,9 @@ class APSaleReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -178,7 +186,7 @@ class APSaleReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -187,8 +195,9 @@ class APSaleReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -196,7 +205,7 @@ class APSaleReply
      */
     public function getProcessorTransactionFee()
     {
-      return $this->processorTransactionFee;
+        return $this->processorTransactionFee;
     }
 
     /**
@@ -205,8 +214,9 @@ class APSaleReply
      */
     public function setProcessorTransactionFee($processorTransactionFee)
     {
-      $this->processorTransactionFee = $processorTransactionFee;
-      return $this;
+        $this->processorTransactionFee = $processorTransactionFee;
+
+        return $this;
     }
 
     /**
@@ -214,7 +224,7 @@ class APSaleReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -223,8 +233,9 @@ class APSaleReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -232,7 +243,7 @@ class APSaleReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -241,8 +252,9 @@ class APSaleReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -250,7 +262,7 @@ class APSaleReply
      */
     public function getExchangeRate()
     {
-      return $this->exchangeRate;
+        return $this->exchangeRate;
     }
 
     /**
@@ -259,8 +271,9 @@ class APSaleReply
      */
     public function setExchangeRate($exchangeRate)
     {
-      $this->exchangeRate = $exchangeRate;
-      return $this;
+        $this->exchangeRate = $exchangeRate;
+
+        return $this;
     }
 
     /**
@@ -268,7 +281,7 @@ class APSaleReply
      */
     public function getForeignCurrency()
     {
-      return $this->foreignCurrency;
+        return $this->foreignCurrency;
     }
 
     /**
@@ -277,8 +290,9 @@ class APSaleReply
      */
     public function setForeignCurrency($foreignCurrency)
     {
-      $this->foreignCurrency = $foreignCurrency;
-      return $this;
+        $this->foreignCurrency = $foreignCurrency;
+
+        return $this;
     }
 
     /**
@@ -286,7 +300,7 @@ class APSaleReply
      */
     public function getForeignAmount()
     {
-      return $this->foreignAmount;
+        return $this->foreignAmount;
     }
 
     /**
@@ -295,8 +309,9 @@ class APSaleReply
      */
     public function setForeignAmount($foreignAmount)
     {
-      $this->foreignAmount = $foreignAmount;
-      return $this;
+        $this->foreignAmount = $foreignAmount;
+
+        return $this;
     }
 
     /**
@@ -304,7 +319,7 @@ class APSaleReply
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -313,8 +328,9 @@ class APSaleReply
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
     /**
@@ -322,29 +338,30 @@ class APSaleReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APSaleReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

@@ -80,7 +80,7 @@ class APInitiateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -88,7 +88,7 @@ class APInitiateService
      */
     public function getReturnURL()
     {
-      return $this->returnURL;
+        return $this->returnURL;
     }
 
     /**
@@ -97,8 +97,9 @@ class APInitiateService
      */
     public function setReturnURL($returnURL)
     {
-      $this->returnURL = $returnURL;
-      return $this;
+        $this->returnURL = $returnURL;
+
+        return $this;
     }
 
     /**
@@ -106,7 +107,7 @@ class APInitiateService
      */
     public function getProductName()
     {
-      return $this->productName;
+        return $this->productName;
     }
 
     /**
@@ -115,8 +116,9 @@ class APInitiateService
      */
     public function setProductName($productName)
     {
-      $this->productName = $productName;
-      return $this;
+        $this->productName = $productName;
+
+        return $this;
     }
 
     /**
@@ -124,7 +126,7 @@ class APInitiateService
      */
     public function getProductDescription()
     {
-      return $this->productDescription;
+        return $this->productDescription;
     }
 
     /**
@@ -133,8 +135,9 @@ class APInitiateService
      */
     public function setProductDescription($productDescription)
     {
-      $this->productDescription = $productDescription;
-      return $this;
+        $this->productDescription = $productDescription;
+
+        return $this;
     }
 
     /**
@@ -142,7 +145,7 @@ class APInitiateService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -151,8 +154,9 @@ class APInitiateService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -160,7 +164,7 @@ class APInitiateService
      */
     public function getBankID()
     {
-      return $this->bankID;
+        return $this->bankID;
     }
 
     /**
@@ -169,8 +173,9 @@ class APInitiateService
      */
     public function setBankID($bankID)
     {
-      $this->bankID = $bankID;
-      return $this;
+        $this->bankID = $bankID;
+
+        return $this;
     }
 
     /**
@@ -178,7 +183,7 @@ class APInitiateService
      */
     public function getCountryCode()
     {
-      return $this->countryCode;
+        return $this->countryCode;
     }
 
     /**
@@ -187,8 +192,9 @@ class APInitiateService
      */
     public function setCountryCode($countryCode)
     {
-      $this->countryCode = $countryCode;
-      return $this;
+        $this->countryCode = $countryCode;
+
+        return $this;
     }
 
     /**
@@ -196,7 +202,7 @@ class APInitiateService
      */
     public function getEscrowAgreement()
     {
-      return $this->escrowAgreement;
+        return $this->escrowAgreement;
     }
 
     /**
@@ -205,8 +211,9 @@ class APInitiateService
      */
     public function setEscrowAgreement($escrowAgreement)
     {
-      $this->escrowAgreement = $escrowAgreement;
-      return $this;
+        $this->escrowAgreement = $escrowAgreement;
+
+        return $this;
     }
 
     /**
@@ -214,7 +221,7 @@ class APInitiateService
      */
     public function getLanguageInterface()
     {
-      return $this->languageInterface;
+        return $this->languageInterface;
     }
 
     /**
@@ -223,8 +230,9 @@ class APInitiateService
      */
     public function setLanguageInterface($languageInterface)
     {
-      $this->languageInterface = $languageInterface;
-      return $this;
+        $this->languageInterface = $languageInterface;
+
+        return $this;
     }
 
     /**
@@ -232,7 +240,7 @@ class APInitiateService
      */
     public function getIntent()
     {
-      return $this->intent;
+        return $this->intent;
     }
 
     /**
@@ -241,8 +249,9 @@ class APInitiateService
      */
     public function setIntent($intent)
     {
-      $this->intent = $intent;
-      return $this;
+        $this->intent = $intent;
+
+        return $this;
     }
 
     /**
@@ -250,7 +259,7 @@ class APInitiateService
      */
     public function getSuccessURL()
     {
-      return $this->successURL;
+        return $this->successURL;
     }
 
     /**
@@ -259,8 +268,9 @@ class APInitiateService
      */
     public function setSuccessURL($successURL)
     {
-      $this->successURL = $successURL;
-      return $this;
+        $this->successURL = $successURL;
+
+        return $this;
     }
 
     /**
@@ -268,7 +278,7 @@ class APInitiateService
      */
     public function getCancelURL()
     {
-      return $this->cancelURL;
+        return $this->cancelURL;
     }
 
     /**
@@ -277,8 +287,9 @@ class APInitiateService
      */
     public function setCancelURL($cancelURL)
     {
-      $this->cancelURL = $cancelURL;
-      return $this;
+        $this->cancelURL = $cancelURL;
+
+        return $this;
     }
 
     /**
@@ -286,7 +297,7 @@ class APInitiateService
      */
     public function getFailureURL()
     {
-      return $this->failureURL;
+        return $this->failureURL;
     }
 
     /**
@@ -295,8 +306,9 @@ class APInitiateService
      */
     public function setFailureURL($failureURL)
     {
-      $this->failureURL = $failureURL;
-      return $this;
+        $this->failureURL = $failureURL;
+
+        return $this;
     }
 
     /**
@@ -304,7 +316,7 @@ class APInitiateService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -313,8 +325,9 @@ class APInitiateService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -322,7 +335,7 @@ class APInitiateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -331,8 +344,9 @@ class APInitiateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

@@ -45,7 +45,7 @@ class PayPalAuthorizationService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -53,7 +53,7 @@ class PayPalAuthorizationService
      */
     public function getPaypalOrderId()
     {
-      return $this->paypalOrderId;
+        return $this->paypalOrderId;
     }
 
     /**
@@ -62,8 +62,9 @@ class PayPalAuthorizationService
      */
     public function setPaypalOrderId($paypalOrderId)
     {
-      $this->paypalOrderId = $paypalOrderId;
-      return $this;
+        $this->paypalOrderId = $paypalOrderId;
+
+        return $this;
     }
 
     /**
@@ -71,7 +72,7 @@ class PayPalAuthorizationService
      */
     public function getPaypalEcOrderSetupRequestID()
     {
-      return $this->paypalEcOrderSetupRequestID;
+        return $this->paypalEcOrderSetupRequestID;
     }
 
     /**
@@ -80,8 +81,9 @@ class PayPalAuthorizationService
      */
     public function setPaypalEcOrderSetupRequestID($paypalEcOrderSetupRequestID)
     {
-      $this->paypalEcOrderSetupRequestID = $paypalEcOrderSetupRequestID;
-      return $this;
+        $this->paypalEcOrderSetupRequestID = $paypalEcOrderSetupRequestID;
+
+        return $this;
     }
 
     /**
@@ -89,7 +91,7 @@ class PayPalAuthorizationService
      */
     public function getPaypalEcOrderSetupRequestToken()
     {
-      return $this->paypalEcOrderSetupRequestToken;
+        return $this->paypalEcOrderSetupRequestToken;
     }
 
     /**
@@ -98,8 +100,9 @@ class PayPalAuthorizationService
      */
     public function setPaypalEcOrderSetupRequestToken($paypalEcOrderSetupRequestToken)
     {
-      $this->paypalEcOrderSetupRequestToken = $paypalEcOrderSetupRequestToken;
-      return $this;
+        $this->paypalEcOrderSetupRequestToken = $paypalEcOrderSetupRequestToken;
+
+        return $this;
     }
 
     /**
@@ -107,7 +110,7 @@ class PayPalAuthorizationService
      */
     public function getPaypalDoRefTransactionRequestID()
     {
-      return $this->paypalDoRefTransactionRequestID;
+        return $this->paypalDoRefTransactionRequestID;
     }
 
     /**
@@ -116,8 +119,9 @@ class PayPalAuthorizationService
      */
     public function setPaypalDoRefTransactionRequestID($paypalDoRefTransactionRequestID)
     {
-      $this->paypalDoRefTransactionRequestID = $paypalDoRefTransactionRequestID;
-      return $this;
+        $this->paypalDoRefTransactionRequestID = $paypalDoRefTransactionRequestID;
+
+        return $this;
     }
 
     /**
@@ -125,7 +129,7 @@ class PayPalAuthorizationService
      */
     public function getPaypalDoRefTransactionRequestToken()
     {
-      return $this->paypalDoRefTransactionRequestToken;
+        return $this->paypalDoRefTransactionRequestToken;
     }
 
     /**
@@ -134,8 +138,9 @@ class PayPalAuthorizationService
      */
     public function setPaypalDoRefTransactionRequestToken($paypalDoRefTransactionRequestToken)
     {
-      $this->paypalDoRefTransactionRequestToken = $paypalDoRefTransactionRequestToken;
-      return $this;
+        $this->paypalDoRefTransactionRequestToken = $paypalDoRefTransactionRequestToken;
+
+        return $this;
     }
 
     /**
@@ -143,7 +148,7 @@ class PayPalAuthorizationService
      */
     public function getPaypalCustomerEmail()
     {
-      return $this->paypalCustomerEmail;
+        return $this->paypalCustomerEmail;
     }
 
     /**
@@ -152,8 +157,9 @@ class PayPalAuthorizationService
      */
     public function setPaypalCustomerEmail($paypalCustomerEmail)
     {
-      $this->paypalCustomerEmail = $paypalCustomerEmail;
-      return $this;
+        $this->paypalCustomerEmail = $paypalCustomerEmail;
+
+        return $this;
     }
 
     /**
@@ -161,7 +167,7 @@ class PayPalAuthorizationService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -170,8 +176,9 @@ class PayPalAuthorizationService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

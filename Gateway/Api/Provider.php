@@ -20,7 +20,7 @@ class Provider
      */
     public function __construct($name)
     {
-      $this->name = $name;
+        $this->name = $name;
     }
 
     /**
@@ -28,7 +28,7 @@ class Provider
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -37,8 +37,9 @@ class Provider
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class Provider
      */
     public function getField()
     {
-      return $this->field;
+        return $this->field;
     }
 
     /**
@@ -55,8 +56,9 @@ class Provider
      */
     public function setField(array $field = null)
     {
-      $this->field = $field;
-      return $this;
+        $this->field = $field;
+
+        return $this;
     }
 
 }

@@ -20,10 +20,8 @@ class PaySubscriptionEvent
      */
     protected $number = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class PaySubscriptionEvent
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -40,8 +38,9 @@ class PaySubscriptionEvent
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class PaySubscriptionEvent
      */
     public function getApprovedBy()
     {
-      return $this->approvedBy;
+        return $this->approvedBy;
     }
 
     /**
@@ -58,8 +57,9 @@ class PaySubscriptionEvent
      */
     public function setApprovedBy($approvedBy)
     {
-      $this->approvedBy = $approvedBy;
-      return $this;
+        $this->approvedBy = $approvedBy;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class PaySubscriptionEvent
      */
     public function getNumber()
     {
-      return $this->number;
+        return $this->number;
     }
 
     /**
@@ -76,8 +76,9 @@ class PaySubscriptionEvent
      */
     public function setNumber($number)
     {
-      $this->number = $number;
-      return $this;
+        $this->number = $number;
+
+        return $this;
     }
 
 }

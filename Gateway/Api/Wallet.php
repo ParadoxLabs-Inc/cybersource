@@ -125,10 +125,8 @@ class Wallet
      */
     protected $errorDescription = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -136,7 +134,7 @@ class Wallet
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -145,8 +143,9 @@ class Wallet
      */
     public function setType($type)
     {
-      $this->type = $type;
-      return $this;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -154,7 +153,7 @@ class Wallet
      */
     public function getOrderID()
     {
-      return $this->orderID;
+        return $this->orderID;
     }
 
     /**
@@ -163,8 +162,9 @@ class Wallet
      */
     public function setOrderID($orderID)
     {
-      $this->orderID = $orderID;
-      return $this;
+        $this->orderID = $orderID;
+
+        return $this;
     }
 
     /**
@@ -172,7 +172,7 @@ class Wallet
      */
     public function getMerchantReferenceID()
     {
-      return $this->merchantReferenceID;
+        return $this->merchantReferenceID;
     }
 
     /**
@@ -181,8 +181,9 @@ class Wallet
      */
     public function setMerchantReferenceID($merchantReferenceID)
     {
-      $this->merchantReferenceID = $merchantReferenceID;
-      return $this;
+        $this->merchantReferenceID = $merchantReferenceID;
+
+        return $this;
     }
 
     /**
@@ -190,7 +191,7 @@ class Wallet
      */
     public function getUserPhone()
     {
-      return $this->userPhone;
+        return $this->userPhone;
     }
 
     /**
@@ -199,8 +200,9 @@ class Wallet
      */
     public function setUserPhone($userPhone)
     {
-      $this->userPhone = $userPhone;
-      return $this;
+        $this->userPhone = $userPhone;
+
+        return $this;
     }
 
     /**
@@ -208,7 +210,7 @@ class Wallet
      */
     public function getAvv()
     {
-      return $this->avv;
+        return $this->avv;
     }
 
     /**
@@ -217,8 +219,9 @@ class Wallet
      */
     public function setAvv($avv)
     {
-      $this->avv = $avv;
-      return $this;
+        $this->avv = $avv;
+
+        return $this;
     }
 
     /**
@@ -226,7 +229,7 @@ class Wallet
      */
     public function getEciRaw()
     {
-      return $this->eciRaw;
+        return $this->eciRaw;
     }
 
     /**
@@ -235,8 +238,9 @@ class Wallet
      */
     public function setEciRaw($eciRaw)
     {
-      $this->eciRaw = $eciRaw;
-      return $this;
+        $this->eciRaw = $eciRaw;
+
+        return $this;
     }
 
     /**
@@ -244,7 +248,7 @@ class Wallet
      */
     public function getAuthenticatonMethod()
     {
-      return $this->authenticatonMethod;
+        return $this->authenticatonMethod;
     }
 
     /**
@@ -253,8 +257,9 @@ class Wallet
      */
     public function setAuthenticatonMethod($authenticatonMethod)
     {
-      $this->authenticatonMethod = $authenticatonMethod;
-      return $this;
+        $this->authenticatonMethod = $authenticatonMethod;
+
+        return $this;
     }
 
     /**
@@ -262,7 +267,7 @@ class Wallet
      */
     public function getCardEnrollmentMethod()
     {
-      return $this->cardEnrollmentMethod;
+        return $this->cardEnrollmentMethod;
     }
 
     /**
@@ -271,8 +276,9 @@ class Wallet
      */
     public function setCardEnrollmentMethod($cardEnrollmentMethod)
     {
-      $this->cardEnrollmentMethod = $cardEnrollmentMethod;
-      return $this;
+        $this->cardEnrollmentMethod = $cardEnrollmentMethod;
+
+        return $this;
     }
 
     /**
@@ -280,7 +286,7 @@ class Wallet
      */
     public function getParesStatus()
     {
-      return $this->paresStatus;
+        return $this->paresStatus;
     }
 
     /**
@@ -289,8 +295,9 @@ class Wallet
      */
     public function setParesStatus($paresStatus)
     {
-      $this->paresStatus = $paresStatus;
-      return $this;
+        $this->paresStatus = $paresStatus;
+
+        return $this;
     }
 
     /**
@@ -298,7 +305,7 @@ class Wallet
      */
     public function getVeresEnrolled()
     {
-      return $this->veresEnrolled;
+        return $this->veresEnrolled;
     }
 
     /**
@@ -307,8 +314,9 @@ class Wallet
      */
     public function setVeresEnrolled($veresEnrolled)
     {
-      $this->veresEnrolled = $veresEnrolled;
-      return $this;
+        $this->veresEnrolled = $veresEnrolled;
+
+        return $this;
     }
 
     /**
@@ -316,7 +324,7 @@ class Wallet
      */
     public function getXid()
     {
-      return $this->xid;
+        return $this->xid;
     }
 
     /**
@@ -325,8 +333,9 @@ class Wallet
      */
     public function setXid($xid)
     {
-      $this->xid = $xid;
-      return $this;
+        $this->xid = $xid;
+
+        return $this;
     }
 
     /**
@@ -334,7 +343,7 @@ class Wallet
      */
     public function getTotalPurchaseAmount()
     {
-      return $this->totalPurchaseAmount;
+        return $this->totalPurchaseAmount;
     }
 
     /**
@@ -343,8 +352,9 @@ class Wallet
      */
     public function setTotalPurchaseAmount($totalPurchaseAmount)
     {
-      $this->totalPurchaseAmount = $totalPurchaseAmount;
-      return $this;
+        $this->totalPurchaseAmount = $totalPurchaseAmount;
+
+        return $this;
     }
 
     /**
@@ -352,7 +362,7 @@ class Wallet
      */
     public function getSubtotalAmount()
     {
-      return $this->subtotalAmount;
+        return $this->subtotalAmount;
     }
 
     /**
@@ -361,8 +371,9 @@ class Wallet
      */
     public function setSubtotalAmount($subtotalAmount)
     {
-      $this->subtotalAmount = $subtotalAmount;
-      return $this;
+        $this->subtotalAmount = $subtotalAmount;
+
+        return $this;
     }
 
     /**
@@ -370,7 +381,7 @@ class Wallet
      */
     public function getDiscountAmount()
     {
-      return $this->discountAmount;
+        return $this->discountAmount;
     }
 
     /**
@@ -379,8 +390,9 @@ class Wallet
      */
     public function setDiscountAmount($discountAmount)
     {
-      $this->discountAmount = $discountAmount;
-      return $this;
+        $this->discountAmount = $discountAmount;
+
+        return $this;
     }
 
     /**
@@ -388,7 +400,7 @@ class Wallet
      */
     public function getGiftWrapAmount()
     {
-      return $this->giftWrapAmount;
+        return $this->giftWrapAmount;
     }
 
     /**
@@ -397,8 +409,9 @@ class Wallet
      */
     public function setGiftWrapAmount($giftWrapAmount)
     {
-      $this->giftWrapAmount = $giftWrapAmount;
-      return $this;
+        $this->giftWrapAmount = $giftWrapAmount;
+
+        return $this;
     }
 
     /**
@@ -406,7 +419,7 @@ class Wallet
      */
     public function getEventType()
     {
-      return $this->eventType;
+        return $this->eventType;
     }
 
     /**
@@ -415,8 +428,9 @@ class Wallet
      */
     public function setEventType($eventType)
     {
-      $this->eventType = $eventType;
-      return $this;
+        $this->eventType = $eventType;
+
+        return $this;
     }
 
     /**
@@ -424,7 +438,7 @@ class Wallet
      */
     public function getPromotionCode()
     {
-      return $this->promotionCode;
+        return $this->promotionCode;
     }
 
     /**
@@ -433,8 +447,9 @@ class Wallet
      */
     public function setPromotionCode($promotionCode)
     {
-      $this->promotionCode = $promotionCode;
-      return $this;
+        $this->promotionCode = $promotionCode;
+
+        return $this;
     }
 
     /**
@@ -442,7 +457,7 @@ class Wallet
      */
     public function getEnrollmentID()
     {
-      return $this->enrollmentID;
+        return $this->enrollmentID;
     }
 
     /**
@@ -451,8 +466,9 @@ class Wallet
      */
     public function setEnrollmentID($enrollmentID)
     {
-      $this->enrollmentID = $enrollmentID;
-      return $this;
+        $this->enrollmentID = $enrollmentID;
+
+        return $this;
     }
 
     /**
@@ -460,7 +476,7 @@ class Wallet
      */
     public function getStaySignedInIndicator()
     {
-      return $this->staySignedInIndicator;
+        return $this->staySignedInIndicator;
     }
 
     /**
@@ -469,8 +485,9 @@ class Wallet
      */
     public function setStaySignedInIndicator($staySignedInIndicator)
     {
-      $this->staySignedInIndicator = $staySignedInIndicator;
-      return $this;
+        $this->staySignedInIndicator = $staySignedInIndicator;
+
+        return $this;
     }
 
     /**
@@ -478,7 +495,7 @@ class Wallet
      */
     public function getAuthenticationData()
     {
-      return $this->authenticationData;
+        return $this->authenticationData;
     }
 
     /**
@@ -487,8 +504,9 @@ class Wallet
      */
     public function setAuthenticationData($authenticationData)
     {
-      $this->authenticationData = $authenticationData;
-      return $this;
+        $this->authenticationData = $authenticationData;
+
+        return $this;
     }
 
     /**
@@ -496,7 +514,7 @@ class Wallet
      */
     public function getDeviceID()
     {
-      return $this->deviceID;
+        return $this->deviceID;
     }
 
     /**
@@ -505,8 +523,9 @@ class Wallet
      */
     public function setDeviceID($deviceID)
     {
-      $this->deviceID = $deviceID;
-      return $this;
+        $this->deviceID = $deviceID;
+
+        return $this;
     }
 
     /**
@@ -514,7 +533,7 @@ class Wallet
      */
     public function getHttpResponse()
     {
-      return $this->httpResponse;
+        return $this->httpResponse;
     }
 
     /**
@@ -523,8 +542,9 @@ class Wallet
      */
     public function setHttpResponse($httpResponse)
     {
-      $this->httpResponse = $httpResponse;
-      return $this;
+        $this->httpResponse = $httpResponse;
+
+        return $this;
     }
 
     /**
@@ -532,7 +552,7 @@ class Wallet
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -541,8 +561,9 @@ class Wallet
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
     /**
@@ -550,7 +571,7 @@ class Wallet
      */
     public function getErrorDescription()
     {
-      return $this->errorDescription;
+        return $this->errorDescription;
     }
 
     /**
@@ -559,8 +580,9 @@ class Wallet
      */
     public function setErrorDescription($errorDescription)
     {
-      $this->errorDescription = $errorDescription;
-      return $this;
+        $this->errorDescription = $errorDescription;
+
+        return $this;
     }
 
 }

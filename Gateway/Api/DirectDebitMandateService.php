@@ -25,7 +25,7 @@ class DirectDebitMandateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class DirectDebitMandateService
      */
     public function getMandateDescriptor()
     {
-      return $this->mandateDescriptor;
+        return $this->mandateDescriptor;
     }
 
     /**
@@ -42,8 +42,9 @@ class DirectDebitMandateService
      */
     public function setMandateDescriptor($mandateDescriptor)
     {
-      $this->mandateDescriptor = $mandateDescriptor;
-      return $this;
+        $this->mandateDescriptor = $mandateDescriptor;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class DirectDebitMandateService
      */
     public function getFirstDebitDate()
     {
-      return $this->firstDebitDate;
+        return $this->firstDebitDate;
     }
 
     /**
@@ -60,8 +61,9 @@ class DirectDebitMandateService
      */
     public function setFirstDebitDate($firstDebitDate)
     {
-      $this->firstDebitDate = $firstDebitDate;
-      return $this;
+        $this->firstDebitDate = $firstDebitDate;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class DirectDebitMandateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class DirectDebitMandateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

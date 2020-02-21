@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class OCTReply
 {
 
@@ -65,7 +68,7 @@ class OCTReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -73,7 +76,7 @@ class OCTReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -82,8 +85,9 @@ class OCTReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -91,29 +95,30 @@ class OCTReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\OCTReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -121,7 +126,7 @@ class OCTReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -130,8 +135,9 @@ class OCTReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -139,7 +145,7 @@ class OCTReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -148,8 +154,9 @@ class OCTReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -157,7 +164,7 @@ class OCTReply
      */
     public function getApprovalCode()
     {
-      return $this->approvalCode;
+        return $this->approvalCode;
     }
 
     /**
@@ -166,8 +173,9 @@ class OCTReply
      */
     public function setApprovalCode($approvalCode)
     {
-      $this->approvalCode = $approvalCode;
-      return $this;
+        $this->approvalCode = $approvalCode;
+
+        return $this;
     }
 
     /**
@@ -175,7 +183,7 @@ class OCTReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -184,8 +192,9 @@ class OCTReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -193,7 +202,7 @@ class OCTReply
      */
     public function getPaymentNetworkTransactionID()
     {
-      return $this->paymentNetworkTransactionID;
+        return $this->paymentNetworkTransactionID;
     }
 
     /**
@@ -202,8 +211,9 @@ class OCTReply
      */
     public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
     {
-      $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
-      return $this;
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
     }
 
     /**
@@ -211,7 +221,7 @@ class OCTReply
      */
     public function getPrepaidBalanceCurrency()
     {
-      return $this->prepaidBalanceCurrency;
+        return $this->prepaidBalanceCurrency;
     }
 
     /**
@@ -220,8 +230,9 @@ class OCTReply
      */
     public function setPrepaidBalanceCurrency($prepaidBalanceCurrency)
     {
-      $this->prepaidBalanceCurrency = $prepaidBalanceCurrency;
-      return $this;
+        $this->prepaidBalanceCurrency = $prepaidBalanceCurrency;
+
+        return $this;
     }
 
     /**
@@ -229,7 +240,7 @@ class OCTReply
      */
     public function getPrepaidBalanceAmount()
     {
-      return $this->prepaidBalanceAmount;
+        return $this->prepaidBalanceAmount;
     }
 
     /**
@@ -238,8 +249,9 @@ class OCTReply
      */
     public function setPrepaidBalanceAmount($prepaidBalanceAmount)
     {
-      $this->prepaidBalanceAmount = $prepaidBalanceAmount;
-      return $this;
+        $this->prepaidBalanceAmount = $prepaidBalanceAmount;
+
+        return $this;
     }
 
     /**
@@ -247,7 +259,7 @@ class OCTReply
      */
     public function getProcessorResponseSource()
     {
-      return $this->processorResponseSource;
+        return $this->processorResponseSource;
     }
 
     /**
@@ -256,8 +268,9 @@ class OCTReply
      */
     public function setProcessorResponseSource($processorResponseSource)
     {
-      $this->processorResponseSource = $processorResponseSource;
-      return $this;
+        $this->processorResponseSource = $processorResponseSource;
+
+        return $this;
     }
 
     /**
@@ -265,7 +278,7 @@ class OCTReply
      */
     public function getReconciliationIdType()
     {
-      return $this->reconciliationIdType;
+        return $this->reconciliationIdType;
     }
 
     /**
@@ -274,8 +287,9 @@ class OCTReply
      */
     public function setReconciliationIdType($reconciliationIdType)
     {
-      $this->reconciliationIdType = $reconciliationIdType;
-      return $this;
+        $this->reconciliationIdType = $reconciliationIdType;
+
+        return $this;
     }
 
 }

@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class ECCreditReply
 {
 
@@ -70,7 +73,7 @@ class ECCreditReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -78,7 +81,7 @@ class ECCreditReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -87,8 +90,9 @@ class ECCreditReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -96,7 +100,7 @@ class ECCreditReply
      */
     public function getSettlementMethod()
     {
-      return $this->settlementMethod;
+        return $this->settlementMethod;
     }
 
     /**
@@ -105,8 +109,9 @@ class ECCreditReply
      */
     public function setSettlementMethod($settlementMethod)
     {
-      $this->settlementMethod = $settlementMethod;
-      return $this;
+        $this->settlementMethod = $settlementMethod;
+
+        return $this;
     }
 
     /**
@@ -114,29 +119,30 @@ class ECCreditReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ECCreditReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -144,7 +150,7 @@ class ECCreditReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -153,8 +159,9 @@ class ECCreditReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -162,7 +169,7 @@ class ECCreditReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -171,8 +178,9 @@ class ECCreditReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -180,7 +188,7 @@ class ECCreditReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -189,8 +197,9 @@ class ECCreditReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -198,7 +207,7 @@ class ECCreditReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -207,8 +216,9 @@ class ECCreditReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -216,7 +226,7 @@ class ECCreditReply
      */
     public function getVerificationCode()
     {
-      return $this->verificationCode;
+        return $this->verificationCode;
     }
 
     /**
@@ -225,8 +235,9 @@ class ECCreditReply
      */
     public function setVerificationCode($verificationCode)
     {
-      $this->verificationCode = $verificationCode;
-      return $this;
+        $this->verificationCode = $verificationCode;
+
+        return $this;
     }
 
     /**
@@ -234,7 +245,7 @@ class ECCreditReply
      */
     public function getVerificationCodeRaw()
     {
-      return $this->verificationCodeRaw;
+        return $this->verificationCodeRaw;
     }
 
     /**
@@ -243,8 +254,9 @@ class ECCreditReply
      */
     public function setVerificationCodeRaw($verificationCodeRaw)
     {
-      $this->verificationCodeRaw = $verificationCodeRaw;
-      return $this;
+        $this->verificationCodeRaw = $verificationCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -252,7 +264,7 @@ class ECCreditReply
      */
     public function getCorrectedAccountNumber()
     {
-      return $this->correctedAccountNumber;
+        return $this->correctedAccountNumber;
     }
 
     /**
@@ -261,8 +273,9 @@ class ECCreditReply
      */
     public function setCorrectedAccountNumber($correctedAccountNumber)
     {
-      $this->correctedAccountNumber = $correctedAccountNumber;
-      return $this;
+        $this->correctedAccountNumber = $correctedAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -270,7 +283,7 @@ class ECCreditReply
      */
     public function getCorrectedRoutingNumber()
     {
-      return $this->correctedRoutingNumber;
+        return $this->correctedRoutingNumber;
     }
 
     /**
@@ -279,8 +292,9 @@ class ECCreditReply
      */
     public function setCorrectedRoutingNumber($correctedRoutingNumber)
     {
-      $this->correctedRoutingNumber = $correctedRoutingNumber;
-      return $this;
+        $this->correctedRoutingNumber = $correctedRoutingNumber;
+
+        return $this;
     }
 
     /**
@@ -288,7 +302,7 @@ class ECCreditReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -297,8 +311,9 @@ class ECCreditReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
 }

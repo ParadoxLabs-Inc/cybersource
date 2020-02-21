@@ -25,7 +25,7 @@ class CCIncrementalAuthService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -33,7 +33,7 @@ class CCIncrementalAuthService
      */
     public function getAuthRequestID()
     {
-      return $this->authRequestID;
+        return $this->authRequestID;
     }
 
     /**
@@ -42,8 +42,9 @@ class CCIncrementalAuthService
      */
     public function setAuthRequestID($authRequestID)
     {
-      $this->authRequestID = $authRequestID;
-      return $this;
+        $this->authRequestID = $authRequestID;
+
+        return $this;
     }
 
     /**
@@ -51,7 +52,7 @@ class CCIncrementalAuthService
      */
     public function getDuration()
     {
-      return $this->duration;
+        return $this->duration;
     }
 
     /**
@@ -60,8 +61,9 @@ class CCIncrementalAuthService
      */
     public function setDuration($duration)
     {
-      $this->duration = $duration;
-      return $this;
+        $this->duration = $duration;
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,7 @@ class CCIncrementalAuthService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -78,8 +80,9 @@ class CCIncrementalAuthService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

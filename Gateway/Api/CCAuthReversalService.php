@@ -30,7 +30,7 @@ class CCAuthReversalService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class CCAuthReversalService
      */
     public function getAuthRequestID()
     {
-      return $this->authRequestID;
+        return $this->authRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class CCAuthReversalService
      */
     public function setAuthRequestID($authRequestID)
     {
-      $this->authRequestID = $authRequestID;
-      return $this;
+        $this->authRequestID = $authRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class CCAuthReversalService
      */
     public function getAuthRequestToken()
     {
-      return $this->authRequestToken;
+        return $this->authRequestToken;
     }
 
     /**
@@ -65,8 +66,9 @@ class CCAuthReversalService
      */
     public function setAuthRequestToken($authRequestToken)
     {
-      $this->authRequestToken = $authRequestToken;
-      return $this;
+        $this->authRequestToken = $authRequestToken;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class CCAuthReversalService
      */
     public function getReversalReason()
     {
-      return $this->reversalReason;
+        return $this->reversalReason;
     }
 
     /**
@@ -83,8 +85,9 @@ class CCAuthReversalService
      */
     public function setReversalReason($reversalReason)
     {
-      $this->reversalReason = $reversalReason;
-      return $this;
+        $this->reversalReason = $reversalReason;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class CCAuthReversalService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class CCAuthReversalService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

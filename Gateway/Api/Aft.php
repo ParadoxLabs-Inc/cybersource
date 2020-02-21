@@ -20,10 +20,8 @@ class Aft
      */
     protected $foreignExchangeFee = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class Aft
      */
     public function getIndicator()
     {
-      return $this->indicator;
+        return $this->indicator;
     }
 
     /**
@@ -40,8 +38,9 @@ class Aft
      */
     public function setIndicator($indicator)
     {
-      $this->indicator = $indicator;
-      return $this;
+        $this->indicator = $indicator;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class Aft
      */
     public function getServiceFee()
     {
-      return $this->serviceFee;
+        return $this->serviceFee;
     }
 
     /**
@@ -58,8 +57,9 @@ class Aft
      */
     public function setServiceFee($serviceFee)
     {
-      $this->serviceFee = $serviceFee;
-      return $this;
+        $this->serviceFee = $serviceFee;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class Aft
      */
     public function getForeignExchangeFee()
     {
-      return $this->foreignExchangeFee;
+        return $this->foreignExchangeFee;
     }
 
     /**
@@ -76,8 +76,9 @@ class Aft
      */
     public function setForeignExchangeFee($foreignExchangeFee)
     {
-      $this->foreignExchangeFee = $foreignExchangeFee;
-      return $this;
+        $this->foreignExchangeFee = $foreignExchangeFee;
+
+        return $this;
     }
 
 }

@@ -45,10 +45,8 @@ class DecisionReply
      */
     protected $unavailableInfoCode = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -56,7 +54,7 @@ class DecisionReply
      */
     public function getCasePriority()
     {
-      return $this->casePriority;
+        return $this->casePriority;
     }
 
     /**
@@ -65,8 +63,9 @@ class DecisionReply
      */
     public function setCasePriority($casePriority)
     {
-      $this->casePriority = $casePriority;
-      return $this;
+        $this->casePriority = $casePriority;
+
+        return $this;
     }
 
     /**
@@ -74,7 +73,7 @@ class DecisionReply
      */
     public function getActiveProfileReply()
     {
-      return $this->activeProfileReply;
+        return $this->activeProfileReply;
     }
 
     /**
@@ -83,8 +82,9 @@ class DecisionReply
      */
     public function setActiveProfileReply($activeProfileReply)
     {
-      $this->activeProfileReply = $activeProfileReply;
-      return $this;
+        $this->activeProfileReply = $activeProfileReply;
+
+        return $this;
     }
 
     /**
@@ -92,7 +92,7 @@ class DecisionReply
      */
     public function getVelocityInfoCode()
     {
-      return $this->velocityInfoCode;
+        return $this->velocityInfoCode;
     }
 
     /**
@@ -101,8 +101,9 @@ class DecisionReply
      */
     public function setVelocityInfoCode($velocityInfoCode)
     {
-      $this->velocityInfoCode = $velocityInfoCode;
-      return $this;
+        $this->velocityInfoCode = $velocityInfoCode;
+
+        return $this;
     }
 
     /**
@@ -110,7 +111,7 @@ class DecisionReply
      */
     public function getAdditionalFields()
     {
-      return $this->additionalFields;
+        return $this->additionalFields;
     }
 
     /**
@@ -119,8 +120,9 @@ class DecisionReply
      */
     public function setAdditionalFields($additionalFields)
     {
-      $this->additionalFields = $additionalFields;
-      return $this;
+        $this->additionalFields = $additionalFields;
+
+        return $this;
     }
 
     /**
@@ -128,7 +130,7 @@ class DecisionReply
      */
     public function getMorphingElement()
     {
-      return $this->morphingElement;
+        return $this->morphingElement;
     }
 
     /**
@@ -137,8 +139,9 @@ class DecisionReply
      */
     public function setMorphingElement($morphingElement)
     {
-      $this->morphingElement = $morphingElement;
-      return $this;
+        $this->morphingElement = $morphingElement;
+
+        return $this;
     }
 
     /**
@@ -146,7 +149,7 @@ class DecisionReply
      */
     public function getProviderFields()
     {
-      return $this->providerFields;
+        return $this->providerFields;
     }
 
     /**
@@ -155,8 +158,9 @@ class DecisionReply
      */
     public function setProviderFields($providerFields)
     {
-      $this->providerFields = $providerFields;
-      return $this;
+        $this->providerFields = $providerFields;
+
+        return $this;
     }
 
     /**
@@ -164,7 +168,7 @@ class DecisionReply
      */
     public function getTravel()
     {
-      return $this->travel;
+        return $this->travel;
     }
 
     /**
@@ -173,8 +177,9 @@ class DecisionReply
      */
     public function setTravel($travel)
     {
-      $this->travel = $travel;
-      return $this;
+        $this->travel = $travel;
+
+        return $this;
     }
 
     /**
@@ -182,7 +187,7 @@ class DecisionReply
      */
     public function getUnavailableInfoCode()
     {
-      return $this->unavailableInfoCode;
+        return $this->unavailableInfoCode;
     }
 
     /**
@@ -191,8 +196,9 @@ class DecisionReply
      */
     public function setUnavailableInfoCode($unavailableInfoCode)
     {
-      $this->unavailableInfoCode = $unavailableInfoCode;
-      return $this;
+        $this->unavailableInfoCode = $unavailableInfoCode;
+
+        return $this;
     }
 
 }

@@ -30,7 +30,7 @@ class PaySubscriptionCreateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class PaySubscriptionCreateService
      */
     public function getPaymentRequestID()
     {
-      return $this->paymentRequestID;
+        return $this->paymentRequestID;
     }
 
     /**
@@ -47,8 +47,9 @@ class PaySubscriptionCreateService
      */
     public function setPaymentRequestID($paymentRequestID)
     {
-      $this->paymentRequestID = $paymentRequestID;
-      return $this;
+        $this->paymentRequestID = $paymentRequestID;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PaySubscriptionCreateService
      */
     public function getPaymentRequestToken()
     {
-      return $this->paymentRequestToken;
+        return $this->paymentRequestToken;
     }
 
     /**
@@ -65,8 +66,9 @@ class PaySubscriptionCreateService
      */
     public function setPaymentRequestToken($paymentRequestToken)
     {
-      $this->paymentRequestToken = $paymentRequestToken;
-      return $this;
+        $this->paymentRequestToken = $paymentRequestToken;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PaySubscriptionCreateService
      */
     public function getDisableAutoAuth()
     {
-      return $this->disableAutoAuth;
+        return $this->disableAutoAuth;
     }
 
     /**
@@ -83,8 +85,9 @@ class PaySubscriptionCreateService
      */
     public function setDisableAutoAuth($disableAutoAuth)
     {
-      $this->disableAutoAuth = $disableAutoAuth;
-      return $this;
+        $this->disableAutoAuth = $disableAutoAuth;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PaySubscriptionCreateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class PaySubscriptionCreateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

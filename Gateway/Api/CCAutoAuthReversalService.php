@@ -65,7 +65,7 @@ class CCAutoAuthReversalService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -73,7 +73,7 @@ class CCAutoAuthReversalService
      */
     public function getAuthPaymentServiceData()
     {
-      return $this->authPaymentServiceData;
+        return $this->authPaymentServiceData;
     }
 
     /**
@@ -82,8 +82,9 @@ class CCAutoAuthReversalService
      */
     public function setAuthPaymentServiceData($authPaymentServiceData)
     {
-      $this->authPaymentServiceData = $authPaymentServiceData;
-      return $this;
+        $this->authPaymentServiceData = $authPaymentServiceData;
+
+        return $this;
     }
 
     /**
@@ -91,7 +92,7 @@ class CCAutoAuthReversalService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -100,8 +101,9 @@ class CCAutoAuthReversalService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -109,7 +111,7 @@ class CCAutoAuthReversalService
      */
     public function getAuthAmount()
     {
-      return $this->authAmount;
+        return $this->authAmount;
     }
 
     /**
@@ -118,8 +120,9 @@ class CCAutoAuthReversalService
      */
     public function setAuthAmount($authAmount)
     {
-      $this->authAmount = $authAmount;
-      return $this;
+        $this->authAmount = $authAmount;
+
+        return $this;
     }
 
     /**
@@ -127,7 +130,7 @@ class CCAutoAuthReversalService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -136,8 +139,9 @@ class CCAutoAuthReversalService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -145,7 +149,7 @@ class CCAutoAuthReversalService
      */
     public function getAuthRequestID()
     {
-      return $this->authRequestID;
+        return $this->authRequestID;
     }
 
     /**
@@ -154,8 +158,9 @@ class CCAutoAuthReversalService
      */
     public function setAuthRequestID($authRequestID)
     {
-      $this->authRequestID = $authRequestID;
-      return $this;
+        $this->authRequestID = $authRequestID;
+
+        return $this;
     }
 
     /**
@@ -163,7 +168,7 @@ class CCAutoAuthReversalService
      */
     public function getBillAmount()
     {
-      return $this->billAmount;
+        return $this->billAmount;
     }
 
     /**
@@ -172,8 +177,9 @@ class CCAutoAuthReversalService
      */
     public function setBillAmount($billAmount)
     {
-      $this->billAmount = $billAmount;
-      return $this;
+        $this->billAmount = $billAmount;
+
+        return $this;
     }
 
     /**
@@ -181,7 +187,7 @@ class CCAutoAuthReversalService
      */
     public function getAuthCode()
     {
-      return $this->authCode;
+        return $this->authCode;
     }
 
     /**
@@ -190,8 +196,9 @@ class CCAutoAuthReversalService
      */
     public function setAuthCode($authCode)
     {
-      $this->authCode = $authCode;
-      return $this;
+        $this->authCode = $authCode;
+
+        return $this;
     }
 
     /**
@@ -199,7 +206,7 @@ class CCAutoAuthReversalService
      */
     public function getAuthType()
     {
-      return $this->authType;
+        return $this->authType;
     }
 
     /**
@@ -208,8 +215,9 @@ class CCAutoAuthReversalService
      */
     public function setAuthType($authType)
     {
-      $this->authType = $authType;
-      return $this;
+        $this->authType = $authType;
+
+        return $this;
     }
 
     /**
@@ -217,7 +225,7 @@ class CCAutoAuthReversalService
      */
     public function getBillPayment()
     {
-      return $this->billPayment;
+        return $this->billPayment;
     }
 
     /**
@@ -226,8 +234,9 @@ class CCAutoAuthReversalService
      */
     public function setBillPayment($billPayment)
     {
-      $this->billPayment = $billPayment;
-      return $this;
+        $this->billPayment = $billPayment;
+
+        return $this;
     }
 
     /**
@@ -235,7 +244,7 @@ class CCAutoAuthReversalService
      */
     public function getDateAdded()
     {
-      return $this->dateAdded;
+        return $this->dateAdded;
     }
 
     /**
@@ -244,8 +253,9 @@ class CCAutoAuthReversalService
      */
     public function setDateAdded($dateAdded)
     {
-      $this->dateAdded = $dateAdded;
-      return $this;
+        $this->dateAdded = $dateAdded;
+
+        return $this;
     }
 
     /**
@@ -253,7 +263,7 @@ class CCAutoAuthReversalService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -262,8 +272,9 @@ class CCAutoAuthReversalService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

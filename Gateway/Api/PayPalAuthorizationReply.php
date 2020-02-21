@@ -55,7 +55,7 @@ class PayPalAuthorizationReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -63,7 +63,7 @@ class PayPalAuthorizationReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -72,8 +72,9 @@ class PayPalAuthorizationReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -81,7 +82,7 @@ class PayPalAuthorizationReply
      */
     public function getTransactionId()
     {
-      return $this->transactionId;
+        return $this->transactionId;
     }
 
     /**
@@ -90,8 +91,9 @@ class PayPalAuthorizationReply
      */
     public function setTransactionId($transactionId)
     {
-      $this->transactionId = $transactionId;
-      return $this;
+        $this->transactionId = $transactionId;
+
+        return $this;
     }
 
     /**
@@ -99,7 +101,7 @@ class PayPalAuthorizationReply
      */
     public function getPaypalAmount()
     {
-      return $this->paypalAmount;
+        return $this->paypalAmount;
     }
 
     /**
@@ -108,8 +110,9 @@ class PayPalAuthorizationReply
      */
     public function setPaypalAmount($paypalAmount)
     {
-      $this->paypalAmount = $paypalAmount;
-      return $this;
+        $this->paypalAmount = $paypalAmount;
+
+        return $this;
     }
 
     /**
@@ -117,7 +120,7 @@ class PayPalAuthorizationReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -126,8 +129,9 @@ class PayPalAuthorizationReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -135,7 +139,7 @@ class PayPalAuthorizationReply
      */
     public function getCurrency()
     {
-      return $this->currency;
+        return $this->currency;
     }
 
     /**
@@ -144,8 +148,9 @@ class PayPalAuthorizationReply
      */
     public function setCurrency($currency)
     {
-      $this->currency = $currency;
-      return $this;
+        $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -153,7 +158,7 @@ class PayPalAuthorizationReply
      */
     public function getCorrelationID()
     {
-      return $this->correlationID;
+        return $this->correlationID;
     }
 
     /**
@@ -162,8 +167,9 @@ class PayPalAuthorizationReply
      */
     public function setCorrelationID($correlationID)
     {
-      $this->correlationID = $correlationID;
-      return $this;
+        $this->correlationID = $correlationID;
+
+        return $this;
     }
 
     /**
@@ -171,7 +177,7 @@ class PayPalAuthorizationReply
      */
     public function getErrorCode()
     {
-      return $this->errorCode;
+        return $this->errorCode;
     }
 
     /**
@@ -180,8 +186,9 @@ class PayPalAuthorizationReply
      */
     public function setErrorCode($errorCode)
     {
-      $this->errorCode = $errorCode;
-      return $this;
+        $this->errorCode = $errorCode;
+
+        return $this;
     }
 
     /**
@@ -189,7 +196,7 @@ class PayPalAuthorizationReply
      */
     public function getProtectionEligibility()
     {
-      return $this->protectionEligibility;
+        return $this->protectionEligibility;
     }
 
     /**
@@ -198,8 +205,9 @@ class PayPalAuthorizationReply
      */
     public function setProtectionEligibility($protectionEligibility)
     {
-      $this->protectionEligibility = $protectionEligibility;
-      return $this;
+        $this->protectionEligibility = $protectionEligibility;
+
+        return $this;
     }
 
     /**
@@ -207,7 +215,7 @@ class PayPalAuthorizationReply
      */
     public function getProtectionEligibilityType()
     {
-      return $this->protectionEligibilityType;
+        return $this->protectionEligibilityType;
     }
 
     /**
@@ -216,8 +224,9 @@ class PayPalAuthorizationReply
      */
     public function setProtectionEligibilityType($protectionEligibilityType)
     {
-      $this->protectionEligibilityType = $protectionEligibilityType;
-      return $this;
+        $this->protectionEligibilityType = $protectionEligibilityType;
+
+        return $this;
     }
 
 }

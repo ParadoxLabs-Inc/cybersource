@@ -30,7 +30,7 @@ class PayPalEcGetDetailsService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -38,7 +38,7 @@ class PayPalEcGetDetailsService
      */
     public function getPaypalToken()
     {
-      return $this->paypalToken;
+        return $this->paypalToken;
     }
 
     /**
@@ -47,8 +47,9 @@ class PayPalEcGetDetailsService
      */
     public function setPaypalToken($paypalToken)
     {
-      $this->paypalToken = $paypalToken;
-      return $this;
+        $this->paypalToken = $paypalToken;
+
+        return $this;
     }
 
     /**
@@ -56,7 +57,7 @@ class PayPalEcGetDetailsService
      */
     public function getPaypalEcSetRequestID()
     {
-      return $this->paypalEcSetRequestID;
+        return $this->paypalEcSetRequestID;
     }
 
     /**
@@ -65,8 +66,9 @@ class PayPalEcGetDetailsService
      */
     public function setPaypalEcSetRequestID($paypalEcSetRequestID)
     {
-      $this->paypalEcSetRequestID = $paypalEcSetRequestID;
-      return $this;
+        $this->paypalEcSetRequestID = $paypalEcSetRequestID;
+
+        return $this;
     }
 
     /**
@@ -74,7 +76,7 @@ class PayPalEcGetDetailsService
      */
     public function getPaypalEcSetRequestToken()
     {
-      return $this->paypalEcSetRequestToken;
+        return $this->paypalEcSetRequestToken;
     }
 
     /**
@@ -83,8 +85,9 @@ class PayPalEcGetDetailsService
      */
     public function setPaypalEcSetRequestToken($paypalEcSetRequestToken)
     {
-      $this->paypalEcSetRequestToken = $paypalEcSetRequestToken;
-      return $this;
+        $this->paypalEcSetRequestToken = $paypalEcSetRequestToken;
+
+        return $this;
     }
 
     /**
@@ -92,7 +95,7 @@ class PayPalEcGetDetailsService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -101,8 +104,9 @@ class PayPalEcGetDetailsService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

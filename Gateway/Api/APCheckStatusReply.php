@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APCheckStatusReply
 {
 
@@ -50,7 +53,7 @@ class APCheckStatusReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -58,7 +61,7 @@ class APCheckStatusReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -67,8 +70,9 @@ class APCheckStatusReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -76,7 +80,7 @@ class APCheckStatusReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -85,8 +89,9 @@ class APCheckStatusReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -94,7 +99,7 @@ class APCheckStatusReply
      */
     public function getPaymentStatus()
     {
-      return $this->paymentStatus;
+        return $this->paymentStatus;
     }
 
     /**
@@ -103,8 +108,9 @@ class APCheckStatusReply
      */
     public function setPaymentStatus($paymentStatus)
     {
-      $this->paymentStatus = $paymentStatus;
-      return $this;
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -112,7 +118,7 @@ class APCheckStatusReply
      */
     public function getProcessorTradeNo()
     {
-      return $this->processorTradeNo;
+        return $this->processorTradeNo;
     }
 
     /**
@@ -121,8 +127,9 @@ class APCheckStatusReply
      */
     public function setProcessorTradeNo($processorTradeNo)
     {
-      $this->processorTradeNo = $processorTradeNo;
-      return $this;
+        $this->processorTradeNo = $processorTradeNo;
+
+        return $this;
     }
 
     /**
@@ -130,7 +137,7 @@ class APCheckStatusReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -139,8 +146,9 @@ class APCheckStatusReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -148,7 +156,7 @@ class APCheckStatusReply
      */
     public function getIbanSuffix()
     {
-      return $this->ibanSuffix;
+        return $this->ibanSuffix;
     }
 
     /**
@@ -157,8 +165,9 @@ class APCheckStatusReply
      */
     public function setIbanSuffix($ibanSuffix)
     {
-      $this->ibanSuffix = $ibanSuffix;
-      return $this;
+        $this->ibanSuffix = $ibanSuffix;
+
+        return $this;
     }
 
     /**
@@ -166,7 +175,7 @@ class APCheckStatusReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -175,8 +184,9 @@ class APCheckStatusReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -184,29 +194,30 @@ class APCheckStatusReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

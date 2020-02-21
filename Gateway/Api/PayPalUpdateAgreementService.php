@@ -35,7 +35,7 @@ class PayPalUpdateAgreementService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -43,7 +43,7 @@ class PayPalUpdateAgreementService
      */
     public function getPaypalBillingAgreementId()
     {
-      return $this->paypalBillingAgreementId;
+        return $this->paypalBillingAgreementId;
     }
 
     /**
@@ -52,8 +52,9 @@ class PayPalUpdateAgreementService
      */
     public function setPaypalBillingAgreementId($paypalBillingAgreementId)
     {
-      $this->paypalBillingAgreementId = $paypalBillingAgreementId;
-      return $this;
+        $this->paypalBillingAgreementId = $paypalBillingAgreementId;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class PayPalUpdateAgreementService
      */
     public function getPaypalBillingAgreementStatus()
     {
-      return $this->paypalBillingAgreementStatus;
+        return $this->paypalBillingAgreementStatus;
     }
 
     /**
@@ -70,8 +71,9 @@ class PayPalUpdateAgreementService
      */
     public function setPaypalBillingAgreementStatus($paypalBillingAgreementStatus)
     {
-      $this->paypalBillingAgreementStatus = $paypalBillingAgreementStatus;
-      return $this;
+        $this->paypalBillingAgreementStatus = $paypalBillingAgreementStatus;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class PayPalUpdateAgreementService
      */
     public function getPaypalBillingAgreementDesc()
     {
-      return $this->paypalBillingAgreementDesc;
+        return $this->paypalBillingAgreementDesc;
     }
 
     /**
@@ -88,8 +90,9 @@ class PayPalUpdateAgreementService
      */
     public function setPaypalBillingAgreementDesc($paypalBillingAgreementDesc)
     {
-      $this->paypalBillingAgreementDesc = $paypalBillingAgreementDesc;
-      return $this;
+        $this->paypalBillingAgreementDesc = $paypalBillingAgreementDesc;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class PayPalUpdateAgreementService
      */
     public function getPaypalBillingAgreementCustom()
     {
-      return $this->paypalBillingAgreementCustom;
+        return $this->paypalBillingAgreementCustom;
     }
 
     /**
@@ -106,8 +109,9 @@ class PayPalUpdateAgreementService
      */
     public function setPaypalBillingAgreementCustom($paypalBillingAgreementCustom)
     {
-      $this->paypalBillingAgreementCustom = $paypalBillingAgreementCustom;
-      return $this;
+        $this->paypalBillingAgreementCustom = $paypalBillingAgreementCustom;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class PayPalUpdateAgreementService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -124,8 +128,9 @@ class PayPalUpdateAgreementService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

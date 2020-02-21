@@ -90,10 +90,8 @@ class ShipFrom
      */
     protected $email = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -101,7 +99,7 @@ class ShipFrom
      */
     public function getTitle()
     {
-      return $this->title;
+        return $this->title;
     }
 
     /**
@@ -110,8 +108,9 @@ class ShipFrom
      */
     public function setTitle($title)
     {
-      $this->title = $title;
-      return $this;
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -119,7 +118,7 @@ class ShipFrom
      */
     public function getFirstName()
     {
-      return $this->firstName;
+        return $this->firstName;
     }
 
     /**
@@ -128,8 +127,9 @@ class ShipFrom
      */
     public function setFirstName($firstName)
     {
-      $this->firstName = $firstName;
-      return $this;
+        $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -137,7 +137,7 @@ class ShipFrom
      */
     public function getMiddleName()
     {
-      return $this->middleName;
+        return $this->middleName;
     }
 
     /**
@@ -146,8 +146,9 @@ class ShipFrom
      */
     public function setMiddleName($middleName)
     {
-      $this->middleName = $middleName;
-      return $this;
+        $this->middleName = $middleName;
+
+        return $this;
     }
 
     /**
@@ -155,7 +156,7 @@ class ShipFrom
      */
     public function getLastName()
     {
-      return $this->lastName;
+        return $this->lastName;
     }
 
     /**
@@ -164,8 +165,9 @@ class ShipFrom
      */
     public function setLastName($lastName)
     {
-      $this->lastName = $lastName;
-      return $this;
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
@@ -173,7 +175,7 @@ class ShipFrom
      */
     public function getSuffix()
     {
-      return $this->suffix;
+        return $this->suffix;
     }
 
     /**
@@ -182,8 +184,9 @@ class ShipFrom
      */
     public function setSuffix($suffix)
     {
-      $this->suffix = $suffix;
-      return $this;
+        $this->suffix = $suffix;
+
+        return $this;
     }
 
     /**
@@ -191,7 +194,7 @@ class ShipFrom
      */
     public function getStreet1()
     {
-      return $this->street1;
+        return $this->street1;
     }
 
     /**
@@ -200,8 +203,9 @@ class ShipFrom
      */
     public function setStreet1($street1)
     {
-      $this->street1 = $street1;
-      return $this;
+        $this->street1 = $street1;
+
+        return $this;
     }
 
     /**
@@ -209,7 +213,7 @@ class ShipFrom
      */
     public function getStreet2()
     {
-      return $this->street2;
+        return $this->street2;
     }
 
     /**
@@ -218,8 +222,9 @@ class ShipFrom
      */
     public function setStreet2($street2)
     {
-      $this->street2 = $street2;
-      return $this;
+        $this->street2 = $street2;
+
+        return $this;
     }
 
     /**
@@ -227,7 +232,7 @@ class ShipFrom
      */
     public function getStreet3()
     {
-      return $this->street3;
+        return $this->street3;
     }
 
     /**
@@ -236,8 +241,9 @@ class ShipFrom
      */
     public function setStreet3($street3)
     {
-      $this->street3 = $street3;
-      return $this;
+        $this->street3 = $street3;
+
+        return $this;
     }
 
     /**
@@ -245,7 +251,7 @@ class ShipFrom
      */
     public function getStreet4()
     {
-      return $this->street4;
+        return $this->street4;
     }
 
     /**
@@ -254,8 +260,9 @@ class ShipFrom
      */
     public function setStreet4($street4)
     {
-      $this->street4 = $street4;
-      return $this;
+        $this->street4 = $street4;
+
+        return $this;
     }
 
     /**
@@ -263,7 +270,7 @@ class ShipFrom
      */
     public function getCity()
     {
-      return $this->city;
+        return $this->city;
     }
 
     /**
@@ -272,8 +279,9 @@ class ShipFrom
      */
     public function setCity($city)
     {
-      $this->city = $city;
-      return $this;
+        $this->city = $city;
+
+        return $this;
     }
 
     /**
@@ -281,7 +289,7 @@ class ShipFrom
      */
     public function getCounty()
     {
-      return $this->county;
+        return $this->county;
     }
 
     /**
@@ -290,8 +298,9 @@ class ShipFrom
      */
     public function setCounty($county)
     {
-      $this->county = $county;
-      return $this;
+        $this->county = $county;
+
+        return $this;
     }
 
     /**
@@ -299,7 +308,7 @@ class ShipFrom
      */
     public function getState()
     {
-      return $this->state;
+        return $this->state;
     }
 
     /**
@@ -308,8 +317,9 @@ class ShipFrom
      */
     public function setState($state)
     {
-      $this->state = $state;
-      return $this;
+        $this->state = $state;
+
+        return $this;
     }
 
     /**
@@ -317,7 +327,7 @@ class ShipFrom
      */
     public function getPostalCode()
     {
-      return $this->postalCode;
+        return $this->postalCode;
     }
 
     /**
@@ -326,8 +336,9 @@ class ShipFrom
      */
     public function setPostalCode($postalCode)
     {
-      $this->postalCode = $postalCode;
-      return $this;
+        $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
@@ -335,7 +346,7 @@ class ShipFrom
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -344,8 +355,9 @@ class ShipFrom
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -353,7 +365,7 @@ class ShipFrom
      */
     public function getCompany()
     {
-      return $this->company;
+        return $this->company;
     }
 
     /**
@@ -362,8 +374,9 @@ class ShipFrom
      */
     public function setCompany($company)
     {
-      $this->company = $company;
-      return $this;
+        $this->company = $company;
+
+        return $this;
     }
 
     /**
@@ -371,7 +384,7 @@ class ShipFrom
      */
     public function getPhoneNumber()
     {
-      return $this->phoneNumber;
+        return $this->phoneNumber;
     }
 
     /**
@@ -380,8 +393,9 @@ class ShipFrom
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = $phoneNumber;
-      return $this;
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
     }
 
     /**
@@ -389,7 +403,7 @@ class ShipFrom
      */
     public function getEmail()
     {
-      return $this->email;
+        return $this->email;
     }
 
     /**
@@ -398,8 +412,9 @@ class ShipFrom
      */
     public function setEmail($email)
     {
-      $this->email = $email;
-      return $this;
+        $this->email = $email;
+
+        return $this;
     }
 
 }

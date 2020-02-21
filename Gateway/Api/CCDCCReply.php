@@ -35,7 +35,7 @@ class CCDCCReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -43,7 +43,7 @@ class CCDCCReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -52,8 +52,9 @@ class CCDCCReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class CCDCCReply
      */
     public function getDccSupported()
     {
-      return $this->dccSupported;
+        return $this->dccSupported;
     }
 
     /**
@@ -70,8 +71,9 @@ class CCDCCReply
      */
     public function setDccSupported($dccSupported)
     {
-      $this->dccSupported = $dccSupported;
-      return $this;
+        $this->dccSupported = $dccSupported;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class CCDCCReply
      */
     public function getValidHours()
     {
-      return $this->validHours;
+        return $this->validHours;
     }
 
     /**
@@ -88,8 +90,9 @@ class CCDCCReply
      */
     public function setValidHours($validHours)
     {
-      $this->validHours = $validHours;
-      return $this;
+        $this->validHours = $validHours;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class CCDCCReply
      */
     public function getMarginRatePercentage()
     {
-      return $this->marginRatePercentage;
+        return $this->marginRatePercentage;
     }
 
     /**
@@ -106,8 +109,9 @@ class CCDCCReply
      */
     public function setMarginRatePercentage($marginRatePercentage)
     {
-      $this->marginRatePercentage = $marginRatePercentage;
-      return $this;
+        $this->marginRatePercentage = $marginRatePercentage;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class CCDCCReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -124,8 +128,9 @@ class CCDCCReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
 }

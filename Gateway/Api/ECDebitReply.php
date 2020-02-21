@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class ECDebitReply
 {
 
@@ -85,7 +88,7 @@ class ECDebitReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -93,7 +96,7 @@ class ECDebitReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -102,8 +105,9 @@ class ECDebitReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -111,7 +115,7 @@ class ECDebitReply
      */
     public function getSettlementMethod()
     {
-      return $this->settlementMethod;
+        return $this->settlementMethod;
     }
 
     /**
@@ -120,8 +124,9 @@ class ECDebitReply
      */
     public function setSettlementMethod($settlementMethod)
     {
-      $this->settlementMethod = $settlementMethod;
-      return $this;
+        $this->settlementMethod = $settlementMethod;
+
+        return $this;
     }
 
     /**
@@ -129,29 +134,30 @@ class ECDebitReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ECDebitReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -159,7 +165,7 @@ class ECDebitReply
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -168,8 +174,9 @@ class ECDebitReply
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -177,7 +184,7 @@ class ECDebitReply
      */
     public function getVerificationLevel()
     {
-      return $this->verificationLevel;
+        return $this->verificationLevel;
     }
 
     /**
@@ -186,8 +193,9 @@ class ECDebitReply
      */
     public function setVerificationLevel($verificationLevel)
     {
-      $this->verificationLevel = $verificationLevel;
-      return $this;
+        $this->verificationLevel = $verificationLevel;
+
+        return $this;
     }
 
     /**
@@ -195,7 +203,7 @@ class ECDebitReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -204,8 +212,9 @@ class ECDebitReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -213,7 +222,7 @@ class ECDebitReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -222,8 +231,9 @@ class ECDebitReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -231,7 +241,7 @@ class ECDebitReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -240,8 +250,9 @@ class ECDebitReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -249,7 +260,7 @@ class ECDebitReply
      */
     public function getAvsCode()
     {
-      return $this->avsCode;
+        return $this->avsCode;
     }
 
     /**
@@ -258,8 +269,9 @@ class ECDebitReply
      */
     public function setAvsCode($avsCode)
     {
-      $this->avsCode = $avsCode;
-      return $this;
+        $this->avsCode = $avsCode;
+
+        return $this;
     }
 
     /**
@@ -267,7 +279,7 @@ class ECDebitReply
      */
     public function getAvsCodeRaw()
     {
-      return $this->avsCodeRaw;
+        return $this->avsCodeRaw;
     }
 
     /**
@@ -276,8 +288,9 @@ class ECDebitReply
      */
     public function setAvsCodeRaw($avsCodeRaw)
     {
-      $this->avsCodeRaw = $avsCodeRaw;
-      return $this;
+        $this->avsCodeRaw = $avsCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -285,7 +298,7 @@ class ECDebitReply
      */
     public function getVerificationCode()
     {
-      return $this->verificationCode;
+        return $this->verificationCode;
     }
 
     /**
@@ -294,8 +307,9 @@ class ECDebitReply
      */
     public function setVerificationCode($verificationCode)
     {
-      $this->verificationCode = $verificationCode;
-      return $this;
+        $this->verificationCode = $verificationCode;
+
+        return $this;
     }
 
     /**
@@ -303,7 +317,7 @@ class ECDebitReply
      */
     public function getVerificationCodeRaw()
     {
-      return $this->verificationCodeRaw;
+        return $this->verificationCodeRaw;
     }
 
     /**
@@ -312,8 +326,9 @@ class ECDebitReply
      */
     public function setVerificationCodeRaw($verificationCodeRaw)
     {
-      $this->verificationCodeRaw = $verificationCodeRaw;
-      return $this;
+        $this->verificationCodeRaw = $verificationCodeRaw;
+
+        return $this;
     }
 
     /**
@@ -321,7 +336,7 @@ class ECDebitReply
      */
     public function getCorrectedAccountNumber()
     {
-      return $this->correctedAccountNumber;
+        return $this->correctedAccountNumber;
     }
 
     /**
@@ -330,8 +345,9 @@ class ECDebitReply
      */
     public function setCorrectedAccountNumber($correctedAccountNumber)
     {
-      $this->correctedAccountNumber = $correctedAccountNumber;
-      return $this;
+        $this->correctedAccountNumber = $correctedAccountNumber;
+
+        return $this;
     }
 
     /**
@@ -339,7 +355,7 @@ class ECDebitReply
      */
     public function getCorrectedRoutingNumber()
     {
-      return $this->correctedRoutingNumber;
+        return $this->correctedRoutingNumber;
     }
 
     /**
@@ -348,8 +364,9 @@ class ECDebitReply
      */
     public function setCorrectedRoutingNumber($correctedRoutingNumber)
     {
-      $this->correctedRoutingNumber = $correctedRoutingNumber;
-      return $this;
+        $this->correctedRoutingNumber = $correctedRoutingNumber;
+
+        return $this;
     }
 
     /**
@@ -357,7 +374,7 @@ class ECDebitReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -366,8 +383,9 @@ class ECDebitReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
 }

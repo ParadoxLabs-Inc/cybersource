@@ -35,10 +35,8 @@ class EmvRequest
      */
     protected $fallbackCondition = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class EmvRequest
      */
     public function getCombinedTags()
     {
-      return $this->combinedTags;
+        return $this->combinedTags;
     }
 
     /**
@@ -55,8 +53,9 @@ class EmvRequest
      */
     public function setCombinedTags($combinedTags)
     {
-      $this->combinedTags = $combinedTags;
-      return $this;
+        $this->combinedTags = $combinedTags;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class EmvRequest
      */
     public function getRepeat()
     {
-      return $this->repeat;
+        return $this->repeat;
     }
 
     /**
@@ -73,8 +72,9 @@ class EmvRequest
      */
     public function setRepeat($repeat)
     {
-      $this->repeat = $repeat;
-      return $this;
+        $this->repeat = $repeat;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class EmvRequest
      */
     public function getCardSequenceNumber()
     {
-      return $this->cardSequenceNumber;
+        return $this->cardSequenceNumber;
     }
 
     /**
@@ -91,8 +91,9 @@ class EmvRequest
      */
     public function setCardSequenceNumber($cardSequenceNumber)
     {
-      $this->cardSequenceNumber = $cardSequenceNumber;
-      return $this;
+        $this->cardSequenceNumber = $cardSequenceNumber;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class EmvRequest
      */
     public function getAidAndDFname()
     {
-      return $this->aidAndDFname;
+        return $this->aidAndDFname;
     }
 
     /**
@@ -109,8 +110,9 @@ class EmvRequest
      */
     public function setAidAndDFname($aidAndDFname)
     {
-      $this->aidAndDFname = $aidAndDFname;
-      return $this;
+        $this->aidAndDFname = $aidAndDFname;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class EmvRequest
      */
     public function getFallback()
     {
-      return $this->fallback;
+        return $this->fallback;
     }
 
     /**
@@ -127,8 +129,9 @@ class EmvRequest
      */
     public function setFallback($fallback)
     {
-      $this->fallback = $fallback;
-      return $this;
+        $this->fallback = $fallback;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class EmvRequest
      */
     public function getFallbackCondition()
     {
-      return $this->fallbackCondition;
+        return $this->fallbackCondition;
     }
 
     /**
@@ -145,8 +148,9 @@ class EmvRequest
      */
     public function setFallbackCondition($fallbackCondition)
     {
-      $this->fallbackCondition = $fallbackCondition;
-      return $this;
+        $this->fallbackCondition = $fallbackCondition;
+
+        return $this;
     }
 
 }

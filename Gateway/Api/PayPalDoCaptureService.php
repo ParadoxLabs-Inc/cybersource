@@ -50,7 +50,7 @@ class PayPalDoCaptureService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -58,7 +58,7 @@ class PayPalDoCaptureService
      */
     public function getPaypalAuthorizationId()
     {
-      return $this->paypalAuthorizationId;
+        return $this->paypalAuthorizationId;
     }
 
     /**
@@ -67,8 +67,9 @@ class PayPalDoCaptureService
      */
     public function setPaypalAuthorizationId($paypalAuthorizationId)
     {
-      $this->paypalAuthorizationId = $paypalAuthorizationId;
-      return $this;
+        $this->paypalAuthorizationId = $paypalAuthorizationId;
+
+        return $this;
     }
 
     /**
@@ -76,7 +77,7 @@ class PayPalDoCaptureService
      */
     public function getCompleteType()
     {
-      return $this->completeType;
+        return $this->completeType;
     }
 
     /**
@@ -85,8 +86,9 @@ class PayPalDoCaptureService
      */
     public function setCompleteType($completeType)
     {
-      $this->completeType = $completeType;
-      return $this;
+        $this->completeType = $completeType;
+
+        return $this;
     }
 
     /**
@@ -94,7 +96,7 @@ class PayPalDoCaptureService
      */
     public function getPaypalEcDoPaymentRequestID()
     {
-      return $this->paypalEcDoPaymentRequestID;
+        return $this->paypalEcDoPaymentRequestID;
     }
 
     /**
@@ -103,8 +105,9 @@ class PayPalDoCaptureService
      */
     public function setPaypalEcDoPaymentRequestID($paypalEcDoPaymentRequestID)
     {
-      $this->paypalEcDoPaymentRequestID = $paypalEcDoPaymentRequestID;
-      return $this;
+        $this->paypalEcDoPaymentRequestID = $paypalEcDoPaymentRequestID;
+
+        return $this;
     }
 
     /**
@@ -112,7 +115,7 @@ class PayPalDoCaptureService
      */
     public function getPaypalEcDoPaymentRequestToken()
     {
-      return $this->paypalEcDoPaymentRequestToken;
+        return $this->paypalEcDoPaymentRequestToken;
     }
 
     /**
@@ -121,8 +124,9 @@ class PayPalDoCaptureService
      */
     public function setPaypalEcDoPaymentRequestToken($paypalEcDoPaymentRequestToken)
     {
-      $this->paypalEcDoPaymentRequestToken = $paypalEcDoPaymentRequestToken;
-      return $this;
+        $this->paypalEcDoPaymentRequestToken = $paypalEcDoPaymentRequestToken;
+
+        return $this;
     }
 
     /**
@@ -130,7 +134,7 @@ class PayPalDoCaptureService
      */
     public function getPaypalAuthorizationRequestID()
     {
-      return $this->paypalAuthorizationRequestID;
+        return $this->paypalAuthorizationRequestID;
     }
 
     /**
@@ -139,8 +143,9 @@ class PayPalDoCaptureService
      */
     public function setPaypalAuthorizationRequestID($paypalAuthorizationRequestID)
     {
-      $this->paypalAuthorizationRequestID = $paypalAuthorizationRequestID;
-      return $this;
+        $this->paypalAuthorizationRequestID = $paypalAuthorizationRequestID;
+
+        return $this;
     }
 
     /**
@@ -148,7 +153,7 @@ class PayPalDoCaptureService
      */
     public function getPaypalAuthorizationRequestToken()
     {
-      return $this->paypalAuthorizationRequestToken;
+        return $this->paypalAuthorizationRequestToken;
     }
 
     /**
@@ -157,8 +162,9 @@ class PayPalDoCaptureService
      */
     public function setPaypalAuthorizationRequestToken($paypalAuthorizationRequestToken)
     {
-      $this->paypalAuthorizationRequestToken = $paypalAuthorizationRequestToken;
-      return $this;
+        $this->paypalAuthorizationRequestToken = $paypalAuthorizationRequestToken;
+
+        return $this;
     }
 
     /**
@@ -166,7 +172,7 @@ class PayPalDoCaptureService
      */
     public function getInvoiceNumber()
     {
-      return $this->invoiceNumber;
+        return $this->invoiceNumber;
     }
 
     /**
@@ -175,8 +181,9 @@ class PayPalDoCaptureService
      */
     public function setInvoiceNumber($invoiceNumber)
     {
-      $this->invoiceNumber = $invoiceNumber;
-      return $this;
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
     }
 
     /**
@@ -184,7 +191,7 @@ class PayPalDoCaptureService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -193,8 +200,9 @@ class PayPalDoCaptureService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

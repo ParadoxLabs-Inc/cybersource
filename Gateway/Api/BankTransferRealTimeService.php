@@ -20,7 +20,7 @@ class BankTransferRealTimeService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class BankTransferRealTimeService
      */
     public function getBankTransferRealTimeType()
     {
-      return $this->bankTransferRealTimeType;
+        return $this->bankTransferRealTimeType;
     }
 
     /**
@@ -37,8 +37,9 @@ class BankTransferRealTimeService
      */
     public function setBankTransferRealTimeType($bankTransferRealTimeType)
     {
-      $this->bankTransferRealTimeType = $bankTransferRealTimeType;
-      return $this;
+        $this->bankTransferRealTimeType = $bankTransferRealTimeType;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class BankTransferRealTimeService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class BankTransferRealTimeService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

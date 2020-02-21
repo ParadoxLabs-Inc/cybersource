@@ -15,7 +15,7 @@ class GETVisaCheckoutDataService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -23,7 +23,7 @@ class GETVisaCheckoutDataService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -32,8 +32,9 @@ class GETVisaCheckoutDataService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

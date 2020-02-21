@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class DecisionManagerTravelData
 {
 
@@ -30,10 +33,8 @@ class DecisionManagerTravelData
      */
     protected $actualFinalDestination = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -41,7 +42,7 @@ class DecisionManagerTravelData
      */
     public function getLeg()
     {
-      return $this->leg;
+        return $this->leg;
     }
 
     /**
@@ -50,8 +51,9 @@ class DecisionManagerTravelData
      */
     public function setLeg(array $leg = null)
     {
-      $this->leg = $leg;
-      return $this;
+        $this->leg = $leg;
+
+        return $this;
     }
 
     /**
@@ -59,29 +61,30 @@ class DecisionManagerTravelData
      */
     public function getDepartureDateTime()
     {
-      if ($this->departureDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->departureDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->departureDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->departureDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $departureDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManagerTravelData
      */
-    public function setDepartureDateTime(\DateTime $departureDateTime = null)
+    public function setDepartureDateTime(DateTime $departureDateTime = null)
     {
-      if ($departureDateTime == null) {
-       $this->departureDateTime = null;
-      } else {
-        $this->departureDateTime = $departureDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($departureDateTime == null) {
+            $this->departureDateTime = null;
+        } else {
+            $this->departureDateTime = $departureDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -89,7 +92,7 @@ class DecisionManagerTravelData
      */
     public function getCompleteRoute()
     {
-      return $this->completeRoute;
+        return $this->completeRoute;
     }
 
     /**
@@ -98,8 +101,9 @@ class DecisionManagerTravelData
      */
     public function setCompleteRoute($completeRoute)
     {
-      $this->completeRoute = $completeRoute;
-      return $this;
+        $this->completeRoute = $completeRoute;
+
+        return $this;
     }
 
     /**
@@ -107,7 +111,7 @@ class DecisionManagerTravelData
      */
     public function getJourneyType()
     {
-      return $this->journeyType;
+        return $this->journeyType;
     }
 
     /**
@@ -116,8 +120,9 @@ class DecisionManagerTravelData
      */
     public function setJourneyType($journeyType)
     {
-      $this->journeyType = $journeyType;
-      return $this;
+        $this->journeyType = $journeyType;
+
+        return $this;
     }
 
     /**
@@ -125,7 +130,7 @@ class DecisionManagerTravelData
      */
     public function getActualFinalDestination()
     {
-      return $this->actualFinalDestination;
+        return $this->actualFinalDestination;
     }
 
     /**
@@ -134,8 +139,9 @@ class DecisionManagerTravelData
      */
     public function setActualFinalDestination($actualFinalDestination)
     {
-      $this->actualFinalDestination = $actualFinalDestination;
-      return $this;
+        $this->actualFinalDestination = $actualFinalDestination;
+
+        return $this;
     }
 
 }

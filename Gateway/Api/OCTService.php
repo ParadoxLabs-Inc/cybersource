@@ -35,7 +35,7 @@ class OCTService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -43,7 +43,7 @@ class OCTService
      */
     public function getCommerceIndicator()
     {
-      return $this->commerceIndicator;
+        return $this->commerceIndicator;
     }
 
     /**
@@ -52,8 +52,9 @@ class OCTService
      */
     public function setCommerceIndicator($commerceIndicator)
     {
-      $this->commerceIndicator = $commerceIndicator;
-      return $this;
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class OCTService
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -70,8 +71,9 @@ class OCTService
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class OCTService
      */
     public function getNetworkOrder()
     {
-      return $this->networkOrder;
+        return $this->networkOrder;
     }
 
     /**
@@ -88,8 +90,9 @@ class OCTService
      */
     public function setNetworkOrder($networkOrder)
     {
-      $this->networkOrder = $networkOrder;
-      return $this;
+        $this->networkOrder = $networkOrder;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class OCTService
      */
     public function getOverridePaymentMethod()
     {
-      return $this->overridePaymentMethod;
+        return $this->overridePaymentMethod;
     }
 
     /**
@@ -106,8 +109,9 @@ class OCTService
      */
     public function setOverridePaymentMethod($overridePaymentMethod)
     {
-      $this->overridePaymentMethod = $overridePaymentMethod;
-      return $this;
+        $this->overridePaymentMethod = $overridePaymentMethod;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class OCTService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -124,8 +128,9 @@ class OCTService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

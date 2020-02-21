@@ -40,7 +40,7 @@ class APOptionsReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -48,7 +48,7 @@ class APOptionsReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -57,8 +57,9 @@ class APOptionsReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -66,7 +67,7 @@ class APOptionsReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -75,8 +76,9 @@ class APOptionsReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -84,7 +86,7 @@ class APOptionsReply
      */
     public function getOffset()
     {
-      return $this->offset;
+        return $this->offset;
     }
 
     /**
@@ -93,8 +95,9 @@ class APOptionsReply
      */
     public function setOffset($offset)
     {
-      $this->offset = $offset;
-      return $this;
+        $this->offset = $offset;
+
+        return $this;
     }
 
     /**
@@ -102,7 +105,7 @@ class APOptionsReply
      */
     public function getCount()
     {
-      return $this->count;
+        return $this->count;
     }
 
     /**
@@ -111,8 +114,9 @@ class APOptionsReply
      */
     public function setCount($count)
     {
-      $this->count = $count;
-      return $this;
+        $this->count = $count;
+
+        return $this;
     }
 
     /**
@@ -120,7 +124,7 @@ class APOptionsReply
      */
     public function getTotalCount()
     {
-      return $this->totalCount;
+        return $this->totalCount;
     }
 
     /**
@@ -129,8 +133,9 @@ class APOptionsReply
      */
     public function setTotalCount($totalCount)
     {
-      $this->totalCount = $totalCount;
-      return $this;
+        $this->totalCount = $totalCount;
+
+        return $this;
     }
 
     /**
@@ -138,7 +143,7 @@ class APOptionsReply
      */
     public function getOption()
     {
-      return $this->option;
+        return $this->option;
     }
 
     /**
@@ -147,8 +152,9 @@ class APOptionsReply
      */
     public function setOption(array $option = null)
     {
-      $this->option = $option;
-      return $this;
+        $this->option = $option;
+
+        return $this;
     }
 
 }

@@ -25,10 +25,8 @@ class MerchantSecureData
      */
     protected $field4 = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class MerchantSecureData
      */
     public function getField1()
     {
-      return $this->field1;
+        return $this->field1;
     }
 
     /**
@@ -45,8 +43,9 @@ class MerchantSecureData
      */
     public function setField1($field1)
     {
-      $this->field1 = $field1;
-      return $this;
+        $this->field1 = $field1;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class MerchantSecureData
      */
     public function getField2()
     {
-      return $this->field2;
+        return $this->field2;
     }
 
     /**
@@ -63,8 +62,9 @@ class MerchantSecureData
      */
     public function setField2($field2)
     {
-      $this->field2 = $field2;
-      return $this;
+        $this->field2 = $field2;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class MerchantSecureData
      */
     public function getField3()
     {
-      return $this->field3;
+        return $this->field3;
     }
 
     /**
@@ -81,8 +81,9 @@ class MerchantSecureData
      */
     public function setField3($field3)
     {
-      $this->field3 = $field3;
-      return $this;
+        $this->field3 = $field3;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class MerchantSecureData
      */
     public function getField4()
     {
-      return $this->field4;
+        return $this->field4;
     }
 
     /**
@@ -99,8 +100,9 @@ class MerchantSecureData
      */
     public function setField4($field4)
     {
-      $this->field4 = $field4;
-      return $this;
+        $this->field4 = $field4;
+
+        return $this;
     }
 
 }

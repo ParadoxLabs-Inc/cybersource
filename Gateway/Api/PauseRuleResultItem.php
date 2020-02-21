@@ -25,10 +25,8 @@ class PauseRuleResultItem
      */
     protected $evaluation = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class PauseRuleResultItem
      */
     public function getRuleID()
     {
-      return $this->ruleID;
+        return $this->ruleID;
     }
 
     /**
@@ -45,8 +43,9 @@ class PauseRuleResultItem
      */
     public function setRuleID($ruleID)
     {
-      $this->ruleID = $ruleID;
-      return $this;
+        $this->ruleID = $ruleID;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class PauseRuleResultItem
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -63,8 +62,9 @@ class PauseRuleResultItem
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class PauseRuleResultItem
      */
     public function getAction()
     {
-      return $this->action;
+        return $this->action;
     }
 
     /**
@@ -81,8 +81,9 @@ class PauseRuleResultItem
      */
     public function setAction($action)
     {
-      $this->action = $action;
-      return $this;
+        $this->action = $action;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class PauseRuleResultItem
      */
     public function getEvaluation()
     {
-      return $this->evaluation;
+        return $this->evaluation;
     }
 
     /**
@@ -99,8 +100,9 @@ class PauseRuleResultItem
      */
     public function setEvaluation($evaluation)
     {
-      $this->evaluation = $evaluation;
-      return $this;
+        $this->evaluation = $evaluation;
+
+        return $this;
     }
 
 }

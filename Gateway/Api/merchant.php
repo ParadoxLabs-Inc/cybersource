@@ -20,10 +20,8 @@ class merchant
      */
     protected $visaMerchantID = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class merchant
      */
     public function getAcquirerBIN()
     {
-      return $this->acquirerBIN;
+        return $this->acquirerBIN;
     }
 
     /**
@@ -40,8 +38,9 @@ class merchant
      */
     public function setAcquirerBIN($acquirerBIN)
     {
-      $this->acquirerBIN = $acquirerBIN;
-      return $this;
+        $this->acquirerBIN = $acquirerBIN;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class merchant
      */
     public function getCardAcceptorID()
     {
-      return $this->cardAcceptorID;
+        return $this->cardAcceptorID;
     }
 
     /**
@@ -58,8 +57,9 @@ class merchant
      */
     public function setCardAcceptorID($cardAcceptorID)
     {
-      $this->cardAcceptorID = $cardAcceptorID;
-      return $this;
+        $this->cardAcceptorID = $cardAcceptorID;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class merchant
      */
     public function getVisaMerchantID()
     {
-      return $this->visaMerchantID;
+        return $this->visaMerchantID;
     }
 
     /**
@@ -76,8 +76,9 @@ class merchant
      */
     public function setVisaMerchantID($visaMerchantID)
     {
-      $this->visaMerchantID = $visaMerchantID;
-      return $this;
+        $this->visaMerchantID = $visaMerchantID;
+
+        return $this;
     }
 
 }

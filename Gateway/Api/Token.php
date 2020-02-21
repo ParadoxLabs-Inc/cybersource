@@ -25,10 +25,8 @@ class Token
      */
     protected $expirationYear = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class Token
      */
     public function getPrefix()
     {
-      return $this->prefix;
+        return $this->prefix;
     }
 
     /**
@@ -45,8 +43,9 @@ class Token
      */
     public function setPrefix($prefix)
     {
-      $this->prefix = $prefix;
-      return $this;
+        $this->prefix = $prefix;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class Token
      */
     public function getSuffix()
     {
-      return $this->suffix;
+        return $this->suffix;
     }
 
     /**
@@ -63,8 +62,9 @@ class Token
      */
     public function setSuffix($suffix)
     {
-      $this->suffix = $suffix;
-      return $this;
+        $this->suffix = $suffix;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class Token
      */
     public function getExpirationMonth()
     {
-      return $this->expirationMonth;
+        return $this->expirationMonth;
     }
 
     /**
@@ -81,8 +81,9 @@ class Token
      */
     public function setExpirationMonth($expirationMonth)
     {
-      $this->expirationMonth = $expirationMonth;
-      return $this;
+        $this->expirationMonth = $expirationMonth;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class Token
      */
     public function getExpirationYear()
     {
-      return $this->expirationYear;
+        return $this->expirationYear;
     }
 
     /**
@@ -99,8 +100,9 @@ class Token
      */
     public function setExpirationYear($expirationYear)
     {
-      $this->expirationYear = $expirationYear;
-      return $this;
+        $this->expirationYear = $expirationYear;
+
+        return $this;
     }
 
 }

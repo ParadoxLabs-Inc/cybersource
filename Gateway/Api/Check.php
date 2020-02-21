@@ -75,10 +75,8 @@ class Check
      */
     protected $checkTransactionCode = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -86,7 +84,7 @@ class Check
      */
     public function getFullName()
     {
-      return $this->fullName;
+        return $this->fullName;
     }
 
     /**
@@ -95,8 +93,9 @@ class Check
      */
     public function setFullName($fullName)
     {
-      $this->fullName = $fullName;
-      return $this;
+        $this->fullName = $fullName;
+
+        return $this;
     }
 
     /**
@@ -104,7 +103,7 @@ class Check
      */
     public function getAccountNumber()
     {
-      return $this->accountNumber;
+        return $this->accountNumber;
     }
 
     /**
@@ -113,8 +112,9 @@ class Check
      */
     public function setAccountNumber($accountNumber)
     {
-      $this->accountNumber = $accountNumber;
-      return $this;
+        $this->accountNumber = $accountNumber;
+
+        return $this;
     }
 
     /**
@@ -122,7 +122,7 @@ class Check
      */
     public function getAccountType()
     {
-      return $this->accountType;
+        return $this->accountType;
     }
 
     /**
@@ -131,8 +131,9 @@ class Check
      */
     public function setAccountType($accountType)
     {
-      $this->accountType = $accountType;
-      return $this;
+        $this->accountType = $accountType;
+
+        return $this;
     }
 
     /**
@@ -140,7 +141,7 @@ class Check
      */
     public function getBankTransitNumber()
     {
-      return $this->bankTransitNumber;
+        return $this->bankTransitNumber;
     }
 
     /**
@@ -149,8 +150,9 @@ class Check
      */
     public function setBankTransitNumber($bankTransitNumber)
     {
-      $this->bankTransitNumber = $bankTransitNumber;
-      return $this;
+        $this->bankTransitNumber = $bankTransitNumber;
+
+        return $this;
     }
 
     /**
@@ -158,7 +160,7 @@ class Check
      */
     public function getCheckNumber()
     {
-      return $this->checkNumber;
+        return $this->checkNumber;
     }
 
     /**
@@ -167,8 +169,9 @@ class Check
      */
     public function setCheckNumber($checkNumber)
     {
-      $this->checkNumber = $checkNumber;
-      return $this;
+        $this->checkNumber = $checkNumber;
+
+        return $this;
     }
 
     /**
@@ -176,7 +179,7 @@ class Check
      */
     public function getSecCode()
     {
-      return $this->secCode;
+        return $this->secCode;
     }
 
     /**
@@ -185,8 +188,9 @@ class Check
      */
     public function setSecCode($secCode)
     {
-      $this->secCode = $secCode;
-      return $this;
+        $this->secCode = $secCode;
+
+        return $this;
     }
 
     /**
@@ -194,7 +198,7 @@ class Check
      */
     public function getAccountEncoderID()
     {
-      return $this->accountEncoderID;
+        return $this->accountEncoderID;
     }
 
     /**
@@ -203,8 +207,9 @@ class Check
      */
     public function setAccountEncoderID($accountEncoderID)
     {
-      $this->accountEncoderID = $accountEncoderID;
-      return $this;
+        $this->accountEncoderID = $accountEncoderID;
+
+        return $this;
     }
 
     /**
@@ -212,7 +217,7 @@ class Check
      */
     public function getAuthenticateID()
     {
-      return $this->authenticateID;
+        return $this->authenticateID;
     }
 
     /**
@@ -221,8 +226,9 @@ class Check
      */
     public function setAuthenticateID($authenticateID)
     {
-      $this->authenticateID = $authenticateID;
-      return $this;
+        $this->authenticateID = $authenticateID;
+
+        return $this;
     }
 
     /**
@@ -230,7 +236,7 @@ class Check
      */
     public function getPaymentInfo()
     {
-      return $this->paymentInfo;
+        return $this->paymentInfo;
     }
 
     /**
@@ -239,8 +245,9 @@ class Check
      */
     public function setPaymentInfo($paymentInfo)
     {
-      $this->paymentInfo = $paymentInfo;
-      return $this;
+        $this->paymentInfo = $paymentInfo;
+
+        return $this;
     }
 
     /**
@@ -248,7 +255,7 @@ class Check
      */
     public function getImageReferenceNumber()
     {
-      return $this->imageReferenceNumber;
+        return $this->imageReferenceNumber;
     }
 
     /**
@@ -257,8 +264,9 @@ class Check
      */
     public function setImageReferenceNumber($imageReferenceNumber)
     {
-      $this->imageReferenceNumber = $imageReferenceNumber;
-      return $this;
+        $this->imageReferenceNumber = $imageReferenceNumber;
+
+        return $this;
     }
 
     /**
@@ -266,7 +274,7 @@ class Check
      */
     public function getTerminalCity()
     {
-      return $this->terminalCity;
+        return $this->terminalCity;
     }
 
     /**
@@ -275,8 +283,9 @@ class Check
      */
     public function setTerminalCity($terminalCity)
     {
-      $this->terminalCity = $terminalCity;
-      return $this;
+        $this->terminalCity = $terminalCity;
+
+        return $this;
     }
 
     /**
@@ -284,7 +293,7 @@ class Check
      */
     public function getTerminalState()
     {
-      return $this->terminalState;
+        return $this->terminalState;
     }
 
     /**
@@ -293,8 +302,9 @@ class Check
      */
     public function setTerminalState($terminalState)
     {
-      $this->terminalState = $terminalState;
-      return $this;
+        $this->terminalState = $terminalState;
+
+        return $this;
     }
 
     /**
@@ -302,7 +312,7 @@ class Check
      */
     public function getCustomerPresent()
     {
-      return $this->customerPresent;
+        return $this->customerPresent;
     }
 
     /**
@@ -311,8 +321,9 @@ class Check
      */
     public function setCustomerPresent($customerPresent)
     {
-      $this->customerPresent = $customerPresent;
-      return $this;
+        $this->customerPresent = $customerPresent;
+
+        return $this;
     }
 
     /**
@@ -320,7 +331,7 @@ class Check
      */
     public function getCheckTransactionCode()
     {
-      return $this->checkTransactionCode;
+        return $this->checkTransactionCode;
     }
 
     /**
@@ -329,8 +340,9 @@ class Check
      */
     public function setCheckTransactionCode($checkTransactionCode)
     {
-      $this->checkTransactionCode = $checkTransactionCode;
-      return $this;
+        $this->checkTransactionCode = $checkTransactionCode;
+
+        return $this;
     }
 
 }

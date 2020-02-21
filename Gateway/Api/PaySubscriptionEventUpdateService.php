@@ -20,7 +20,7 @@ class PaySubscriptionEventUpdateService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -28,7 +28,7 @@ class PaySubscriptionEventUpdateService
      */
     public function getAction()
     {
-      return $this->action;
+        return $this->action;
     }
 
     /**
@@ -37,8 +37,9 @@ class PaySubscriptionEventUpdateService
      */
     public function setAction($action)
     {
-      $this->action = $action;
-      return $this;
+        $this->action = $action;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class PaySubscriptionEventUpdateService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -55,8 +56,9 @@ class PaySubscriptionEventUpdateService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

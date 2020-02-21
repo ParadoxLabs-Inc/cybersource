@@ -60,10 +60,8 @@ class JPO
      */
     protected $businessNameKatakana = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -71,7 +69,7 @@ class JPO
      */
     public function getPaymentMethod()
     {
-      return $this->paymentMethod;
+        return $this->paymentMethod;
     }
 
     /**
@@ -80,8 +78,9 @@ class JPO
      */
     public function setPaymentMethod($paymentMethod)
     {
-      $this->paymentMethod = $paymentMethod;
-      return $this;
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 
     /**
@@ -89,7 +88,7 @@ class JPO
      */
     public function getBonusAmount()
     {
-      return $this->bonusAmount;
+        return $this->bonusAmount;
     }
 
     /**
@@ -98,8 +97,9 @@ class JPO
      */
     public function setBonusAmount($bonusAmount)
     {
-      $this->bonusAmount = $bonusAmount;
-      return $this;
+        $this->bonusAmount = $bonusAmount;
+
+        return $this;
     }
 
     /**
@@ -107,7 +107,7 @@ class JPO
      */
     public function getBonuses()
     {
-      return $this->bonuses;
+        return $this->bonuses;
     }
 
     /**
@@ -116,8 +116,9 @@ class JPO
      */
     public function setBonuses($bonuses)
     {
-      $this->bonuses = $bonuses;
-      return $this;
+        $this->bonuses = $bonuses;
+
+        return $this;
     }
 
     /**
@@ -125,7 +126,7 @@ class JPO
      */
     public function getInstallments()
     {
-      return $this->installments;
+        return $this->installments;
     }
 
     /**
@@ -134,8 +135,9 @@ class JPO
      */
     public function setInstallments($installments)
     {
-      $this->installments = $installments;
-      return $this;
+        $this->installments = $installments;
+
+        return $this;
     }
 
     /**
@@ -143,7 +145,7 @@ class JPO
      */
     public function getFirstBillingMonth()
     {
-      return $this->firstBillingMonth;
+        return $this->firstBillingMonth;
     }
 
     /**
@@ -152,8 +154,9 @@ class JPO
      */
     public function setFirstBillingMonth($firstBillingMonth)
     {
-      $this->firstBillingMonth = $firstBillingMonth;
-      return $this;
+        $this->firstBillingMonth = $firstBillingMonth;
+
+        return $this;
     }
 
     /**
@@ -161,7 +164,7 @@ class JPO
      */
     public function getJccaTerminalID()
     {
-      return $this->jccaTerminalID;
+        return $this->jccaTerminalID;
     }
 
     /**
@@ -170,8 +173,9 @@ class JPO
      */
     public function setJccaTerminalID($jccaTerminalID)
     {
-      $this->jccaTerminalID = $jccaTerminalID;
-      return $this;
+        $this->jccaTerminalID = $jccaTerminalID;
+
+        return $this;
     }
 
     /**
@@ -179,7 +183,7 @@ class JPO
      */
     public function getIssuerMessage()
     {
-      return $this->issuerMessage;
+        return $this->issuerMessage;
     }
 
     /**
@@ -188,8 +192,9 @@ class JPO
      */
     public function setIssuerMessage($issuerMessage)
     {
-      $this->issuerMessage = $issuerMessage;
-      return $this;
+        $this->issuerMessage = $issuerMessage;
+
+        return $this;
     }
 
     /**
@@ -197,7 +202,7 @@ class JPO
      */
     public function getJis2TrackData()
     {
-      return $this->jis2TrackData;
+        return $this->jis2TrackData;
     }
 
     /**
@@ -206,8 +211,9 @@ class JPO
      */
     public function setJis2TrackData($jis2TrackData)
     {
-      $this->jis2TrackData = $jis2TrackData;
-      return $this;
+        $this->jis2TrackData = $jis2TrackData;
+
+        return $this;
     }
 
     /**
@@ -215,7 +221,7 @@ class JPO
      */
     public function getBusinessNameAlphanumeric()
     {
-      return $this->businessNameAlphanumeric;
+        return $this->businessNameAlphanumeric;
     }
 
     /**
@@ -224,8 +230,9 @@ class JPO
      */
     public function setBusinessNameAlphanumeric($businessNameAlphanumeric)
     {
-      $this->businessNameAlphanumeric = $businessNameAlphanumeric;
-      return $this;
+        $this->businessNameAlphanumeric = $businessNameAlphanumeric;
+
+        return $this;
     }
 
     /**
@@ -233,7 +240,7 @@ class JPO
      */
     public function getBusinessNameJapanese()
     {
-      return $this->businessNameJapanese;
+        return $this->businessNameJapanese;
     }
 
     /**
@@ -242,8 +249,9 @@ class JPO
      */
     public function setBusinessNameJapanese($businessNameJapanese)
     {
-      $this->businessNameJapanese = $businessNameJapanese;
-      return $this;
+        $this->businessNameJapanese = $businessNameJapanese;
+
+        return $this;
     }
 
     /**
@@ -251,7 +259,7 @@ class JPO
      */
     public function getBusinessNameKatakana()
     {
-      return $this->businessNameKatakana;
+        return $this->businessNameKatakana;
     }
 
     /**
@@ -260,8 +268,9 @@ class JPO
      */
     public function setBusinessNameKatakana($businessNameKatakana)
     {
-      $this->businessNameKatakana = $businessNameKatakana;
-      return $this;
+        $this->businessNameKatakana = $businessNameKatakana;
+
+        return $this;
     }
 
 }

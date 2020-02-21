@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class ECAuthenticateReply
 {
 
@@ -40,7 +43,7 @@ class ECAuthenticateReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -48,7 +51,7 @@ class ECAuthenticateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -57,8 +60,9 @@ class ECAuthenticateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -66,29 +70,30 @@ class ECAuthenticateReply
      */
     public function getRequestDateTime()
     {
-      if ($this->requestDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->requestDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->requestDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->requestDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAuthenticateReply
      */
-    public function setRequestDateTime(\DateTime $requestDateTime = null)
+    public function setRequestDateTime(DateTime $requestDateTime = null)
     {
-      if ($requestDateTime == null) {
-       $this->requestDateTime = null;
-      } else {
-        $this->requestDateTime = $requestDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($requestDateTime == null) {
+            $this->requestDateTime = null;
+        } else {
+            $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -96,7 +101,7 @@ class ECAuthenticateReply
      */
     public function getProcessorResponse()
     {
-      return $this->processorResponse;
+        return $this->processorResponse;
     }
 
     /**
@@ -105,8 +110,9 @@ class ECAuthenticateReply
      */
     public function setProcessorResponse($processorResponse)
     {
-      $this->processorResponse = $processorResponse;
-      return $this;
+        $this->processorResponse = $processorResponse;
+
+        return $this;
     }
 
     /**
@@ -114,7 +120,7 @@ class ECAuthenticateReply
      */
     public function getReconciliationID()
     {
-      return $this->reconciliationID;
+        return $this->reconciliationID;
     }
 
     /**
@@ -123,8 +129,9 @@ class ECAuthenticateReply
      */
     public function setReconciliationID($reconciliationID)
     {
-      $this->reconciliationID = $reconciliationID;
-      return $this;
+        $this->reconciliationID = $reconciliationID;
+
+        return $this;
     }
 
     /**
@@ -132,7 +139,7 @@ class ECAuthenticateReply
      */
     public function getCheckpointSummary()
     {
-      return $this->checkpointSummary;
+        return $this->checkpointSummary;
     }
 
     /**
@@ -141,8 +148,9 @@ class ECAuthenticateReply
      */
     public function setCheckpointSummary($checkpointSummary)
     {
-      $this->checkpointSummary = $checkpointSummary;
-      return $this;
+        $this->checkpointSummary = $checkpointSummary;
+
+        return $this;
     }
 
     /**
@@ -150,7 +158,7 @@ class ECAuthenticateReply
      */
     public function getFraudShieldIndicators()
     {
-      return $this->fraudShieldIndicators;
+        return $this->fraudShieldIndicators;
     }
 
     /**
@@ -159,8 +167,9 @@ class ECAuthenticateReply
      */
     public function setFraudShieldIndicators($fraudShieldIndicators)
     {
-      $this->fraudShieldIndicators = $fraudShieldIndicators;
-      return $this;
+        $this->fraudShieldIndicators = $fraudShieldIndicators;
+
+        return $this;
     }
 
 }

@@ -190,10 +190,8 @@ class Pos
      */
     protected $terminalModel = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -201,7 +199,7 @@ class Pos
      */
     public function getEntryMode()
     {
-      return $this->entryMode;
+        return $this->entryMode;
     }
 
     /**
@@ -210,8 +208,9 @@ class Pos
      */
     public function setEntryMode($entryMode)
     {
-      $this->entryMode = $entryMode;
-      return $this;
+        $this->entryMode = $entryMode;
+
+        return $this;
     }
 
     /**
@@ -219,7 +218,7 @@ class Pos
      */
     public function getCardPresent()
     {
-      return $this->cardPresent;
+        return $this->cardPresent;
     }
 
     /**
@@ -228,8 +227,9 @@ class Pos
      */
     public function setCardPresent($cardPresent)
     {
-      $this->cardPresent = $cardPresent;
-      return $this;
+        $this->cardPresent = $cardPresent;
+
+        return $this;
     }
 
     /**
@@ -237,7 +237,7 @@ class Pos
      */
     public function getTerminalCapability()
     {
-      return $this->terminalCapability;
+        return $this->terminalCapability;
     }
 
     /**
@@ -246,8 +246,9 @@ class Pos
      */
     public function setTerminalCapability($terminalCapability)
     {
-      $this->terminalCapability = $terminalCapability;
-      return $this;
+        $this->terminalCapability = $terminalCapability;
+
+        return $this;
     }
 
     /**
@@ -255,7 +256,7 @@ class Pos
      */
     public function getTrackData()
     {
-      return $this->trackData;
+        return $this->trackData;
     }
 
     /**
@@ -264,8 +265,9 @@ class Pos
      */
     public function setTrackData($trackData)
     {
-      $this->trackData = $trackData;
-      return $this;
+        $this->trackData = $trackData;
+
+        return $this;
     }
 
     /**
@@ -273,7 +275,7 @@ class Pos
      */
     public function getTerminalID()
     {
-      return $this->terminalID;
+        return $this->terminalID;
     }
 
     /**
@@ -282,8 +284,9 @@ class Pos
      */
     public function setTerminalID($terminalID)
     {
-      $this->terminalID = $terminalID;
-      return $this;
+        $this->terminalID = $terminalID;
+
+        return $this;
     }
 
     /**
@@ -291,7 +294,7 @@ class Pos
      */
     public function getTerminalType()
     {
-      return $this->terminalType;
+        return $this->terminalType;
     }
 
     /**
@@ -300,8 +303,9 @@ class Pos
      */
     public function setTerminalType($terminalType)
     {
-      $this->terminalType = $terminalType;
-      return $this;
+        $this->terminalType = $terminalType;
+
+        return $this;
     }
 
     /**
@@ -309,7 +313,7 @@ class Pos
      */
     public function getTerminalLocation()
     {
-      return $this->terminalLocation;
+        return $this->terminalLocation;
     }
 
     /**
@@ -318,8 +322,9 @@ class Pos
      */
     public function setTerminalLocation($terminalLocation)
     {
-      $this->terminalLocation = $terminalLocation;
-      return $this;
+        $this->terminalLocation = $terminalLocation;
+
+        return $this;
     }
 
     /**
@@ -327,7 +332,7 @@ class Pos
      */
     public function getTransactionSecurity()
     {
-      return $this->transactionSecurity;
+        return $this->transactionSecurity;
     }
 
     /**
@@ -336,8 +341,9 @@ class Pos
      */
     public function setTransactionSecurity($transactionSecurity)
     {
-      $this->transactionSecurity = $transactionSecurity;
-      return $this;
+        $this->transactionSecurity = $transactionSecurity;
+
+        return $this;
     }
 
     /**
@@ -345,7 +351,7 @@ class Pos
      */
     public function getCatLevel()
     {
-      return $this->catLevel;
+        return $this->catLevel;
     }
 
     /**
@@ -354,8 +360,9 @@ class Pos
      */
     public function setCatLevel($catLevel)
     {
-      $this->catLevel = $catLevel;
-      return $this;
+        $this->catLevel = $catLevel;
+
+        return $this;
     }
 
     /**
@@ -363,7 +370,7 @@ class Pos
      */
     public function getConditionCode()
     {
-      return $this->conditionCode;
+        return $this->conditionCode;
     }
 
     /**
@@ -372,8 +379,9 @@ class Pos
      */
     public function setConditionCode($conditionCode)
     {
-      $this->conditionCode = $conditionCode;
-      return $this;
+        $this->conditionCode = $conditionCode;
+
+        return $this;
     }
 
     /**
@@ -381,7 +389,7 @@ class Pos
      */
     public function getEnvironment()
     {
-      return $this->environment;
+        return $this->environment;
     }
 
     /**
@@ -390,8 +398,9 @@ class Pos
      */
     public function setEnvironment($environment)
     {
-      $this->environment = $environment;
-      return $this;
+        $this->environment = $environment;
+
+        return $this;
     }
 
     /**
@@ -399,7 +408,7 @@ class Pos
      */
     public function getPaymentData()
     {
-      return $this->paymentData;
+        return $this->paymentData;
     }
 
     /**
@@ -408,8 +417,9 @@ class Pos
      */
     public function setPaymentData($paymentData)
     {
-      $this->paymentData = $paymentData;
-      return $this;
+        $this->paymentData = $paymentData;
+
+        return $this;
     }
 
     /**
@@ -417,7 +427,7 @@ class Pos
      */
     public function getDeviceReaderData()
     {
-      return $this->deviceReaderData;
+        return $this->deviceReaderData;
     }
 
     /**
@@ -426,8 +436,9 @@ class Pos
      */
     public function setDeviceReaderData($deviceReaderData)
     {
-      $this->deviceReaderData = $deviceReaderData;
-      return $this;
+        $this->deviceReaderData = $deviceReaderData;
+
+        return $this;
     }
 
     /**
@@ -435,7 +446,7 @@ class Pos
      */
     public function getEncryptionAlgorithm()
     {
-      return $this->encryptionAlgorithm;
+        return $this->encryptionAlgorithm;
     }
 
     /**
@@ -444,8 +455,9 @@ class Pos
      */
     public function setEncryptionAlgorithm($encryptionAlgorithm)
     {
-      $this->encryptionAlgorithm = $encryptionAlgorithm;
-      return $this;
+        $this->encryptionAlgorithm = $encryptionAlgorithm;
+
+        return $this;
     }
 
     /**
@@ -453,7 +465,7 @@ class Pos
      */
     public function getEncodingMethod()
     {
-      return $this->encodingMethod;
+        return $this->encodingMethod;
     }
 
     /**
@@ -462,8 +474,9 @@ class Pos
      */
     public function setEncodingMethod($encodingMethod)
     {
-      $this->encodingMethod = $encodingMethod;
-      return $this;
+        $this->encodingMethod = $encodingMethod;
+
+        return $this;
     }
 
     /**
@@ -471,7 +484,7 @@ class Pos
      */
     public function getDeviceID()
     {
-      return $this->deviceID;
+        return $this->deviceID;
     }
 
     /**
@@ -480,8 +493,9 @@ class Pos
      */
     public function setDeviceID($deviceID)
     {
-      $this->deviceID = $deviceID;
-      return $this;
+        $this->deviceID = $deviceID;
+
+        return $this;
     }
 
     /**
@@ -489,7 +503,7 @@ class Pos
      */
     public function getServiceCode()
     {
-      return $this->serviceCode;
+        return $this->serviceCode;
     }
 
     /**
@@ -498,8 +512,9 @@ class Pos
      */
     public function setServiceCode($serviceCode)
     {
-      $this->serviceCode = $serviceCode;
-      return $this;
+        $this->serviceCode = $serviceCode;
+
+        return $this;
     }
 
     /**
@@ -507,7 +522,7 @@ class Pos
      */
     public function getTerminalIDAlternate()
     {
-      return $this->terminalIDAlternate;
+        return $this->terminalIDAlternate;
     }
 
     /**
@@ -516,8 +531,9 @@ class Pos
      */
     public function setTerminalIDAlternate($terminalIDAlternate)
     {
-      $this->terminalIDAlternate = $terminalIDAlternate;
-      return $this;
+        $this->terminalIDAlternate = $terminalIDAlternate;
+
+        return $this;
     }
 
     /**
@@ -525,7 +541,7 @@ class Pos
      */
     public function getTerminalCompliance()
     {
-      return $this->terminalCompliance;
+        return $this->terminalCompliance;
     }
 
     /**
@@ -534,8 +550,9 @@ class Pos
      */
     public function setTerminalCompliance($terminalCompliance)
     {
-      $this->terminalCompliance = $terminalCompliance;
-      return $this;
+        $this->terminalCompliance = $terminalCompliance;
+
+        return $this;
     }
 
     /**
@@ -543,7 +560,7 @@ class Pos
      */
     public function getTerminalCardCaptureCapability()
     {
-      return $this->terminalCardCaptureCapability;
+        return $this->terminalCardCaptureCapability;
     }
 
     /**
@@ -552,8 +569,9 @@ class Pos
      */
     public function setTerminalCardCaptureCapability($terminalCardCaptureCapability)
     {
-      $this->terminalCardCaptureCapability = $terminalCardCaptureCapability;
-      return $this;
+        $this->terminalCardCaptureCapability = $terminalCardCaptureCapability;
+
+        return $this;
     }
 
     /**
@@ -561,7 +579,7 @@ class Pos
      */
     public function getTerminalOutputCapability()
     {
-      return $this->terminalOutputCapability;
+        return $this->terminalOutputCapability;
     }
 
     /**
@@ -570,8 +588,9 @@ class Pos
      */
     public function setTerminalOutputCapability($terminalOutputCapability)
     {
-      $this->terminalOutputCapability = $terminalOutputCapability;
-      return $this;
+        $this->terminalOutputCapability = $terminalOutputCapability;
+
+        return $this;
     }
 
     /**
@@ -579,7 +598,7 @@ class Pos
      */
     public function getTerminalPINcapability()
     {
-      return $this->terminalPINcapability;
+        return $this->terminalPINcapability;
     }
 
     /**
@@ -588,8 +607,9 @@ class Pos
      */
     public function setTerminalPINcapability($terminalPINcapability)
     {
-      $this->terminalPINcapability = $terminalPINcapability;
-      return $this;
+        $this->terminalPINcapability = $terminalPINcapability;
+
+        return $this;
     }
 
     /**
@@ -597,7 +617,7 @@ class Pos
      */
     public function getTerminalCVMcapabilities_0()
     {
-      return $this->terminalCVMcapabilities_0;
+        return $this->terminalCVMcapabilities_0;
     }
 
     /**
@@ -606,8 +626,9 @@ class Pos
      */
     public function setTerminalCVMcapabilities_0($terminalCVMcapabilities_0)
     {
-      $this->terminalCVMcapabilities_0 = $terminalCVMcapabilities_0;
-      return $this;
+        $this->terminalCVMcapabilities_0 = $terminalCVMcapabilities_0;
+
+        return $this;
     }
 
     /**
@@ -615,7 +636,7 @@ class Pos
      */
     public function getTerminalCVMcapabilities_1()
     {
-      return $this->terminalCVMcapabilities_1;
+        return $this->terminalCVMcapabilities_1;
     }
 
     /**
@@ -624,8 +645,9 @@ class Pos
      */
     public function setTerminalCVMcapabilities_1($terminalCVMcapabilities_1)
     {
-      $this->terminalCVMcapabilities_1 = $terminalCVMcapabilities_1;
-      return $this;
+        $this->terminalCVMcapabilities_1 = $terminalCVMcapabilities_1;
+
+        return $this;
     }
 
     /**
@@ -633,7 +655,7 @@ class Pos
      */
     public function getTerminalCVMcapabilities_2()
     {
-      return $this->terminalCVMcapabilities_2;
+        return $this->terminalCVMcapabilities_2;
     }
 
     /**
@@ -642,8 +664,9 @@ class Pos
      */
     public function setTerminalCVMcapabilities_2($terminalCVMcapabilities_2)
     {
-      $this->terminalCVMcapabilities_2 = $terminalCVMcapabilities_2;
-      return $this;
+        $this->terminalCVMcapabilities_2 = $terminalCVMcapabilities_2;
+
+        return $this;
     }
 
     /**
@@ -651,7 +674,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_0()
     {
-      return $this->terminalInputCapabilities_0;
+        return $this->terminalInputCapabilities_0;
     }
 
     /**
@@ -660,8 +683,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_0($terminalInputCapabilities_0)
     {
-      $this->terminalInputCapabilities_0 = $terminalInputCapabilities_0;
-      return $this;
+        $this->terminalInputCapabilities_0 = $terminalInputCapabilities_0;
+
+        return $this;
     }
 
     /**
@@ -669,7 +693,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_1()
     {
-      return $this->terminalInputCapabilities_1;
+        return $this->terminalInputCapabilities_1;
     }
 
     /**
@@ -678,8 +702,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_1($terminalInputCapabilities_1)
     {
-      $this->terminalInputCapabilities_1 = $terminalInputCapabilities_1;
-      return $this;
+        $this->terminalInputCapabilities_1 = $terminalInputCapabilities_1;
+
+        return $this;
     }
 
     /**
@@ -687,7 +712,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_2()
     {
-      return $this->terminalInputCapabilities_2;
+        return $this->terminalInputCapabilities_2;
     }
 
     /**
@@ -696,8 +721,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_2($terminalInputCapabilities_2)
     {
-      $this->terminalInputCapabilities_2 = $terminalInputCapabilities_2;
-      return $this;
+        $this->terminalInputCapabilities_2 = $terminalInputCapabilities_2;
+
+        return $this;
     }
 
     /**
@@ -705,7 +731,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_3()
     {
-      return $this->terminalInputCapabilities_3;
+        return $this->terminalInputCapabilities_3;
     }
 
     /**
@@ -714,8 +740,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_3($terminalInputCapabilities_3)
     {
-      $this->terminalInputCapabilities_3 = $terminalInputCapabilities_3;
-      return $this;
+        $this->terminalInputCapabilities_3 = $terminalInputCapabilities_3;
+
+        return $this;
     }
 
     /**
@@ -723,7 +750,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_4()
     {
-      return $this->terminalInputCapabilities_4;
+        return $this->terminalInputCapabilities_4;
     }
 
     /**
@@ -732,8 +759,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_4($terminalInputCapabilities_4)
     {
-      $this->terminalInputCapabilities_4 = $terminalInputCapabilities_4;
-      return $this;
+        $this->terminalInputCapabilities_4 = $terminalInputCapabilities_4;
+
+        return $this;
     }
 
     /**
@@ -741,7 +769,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_5()
     {
-      return $this->terminalInputCapabilities_5;
+        return $this->terminalInputCapabilities_5;
     }
 
     /**
@@ -750,8 +778,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_5($terminalInputCapabilities_5)
     {
-      $this->terminalInputCapabilities_5 = $terminalInputCapabilities_5;
-      return $this;
+        $this->terminalInputCapabilities_5 = $terminalInputCapabilities_5;
+
+        return $this;
     }
 
     /**
@@ -759,7 +788,7 @@ class Pos
      */
     public function getTerminalInputCapabilities_6()
     {
-      return $this->terminalInputCapabilities_6;
+        return $this->terminalInputCapabilities_6;
     }
 
     /**
@@ -768,8 +797,9 @@ class Pos
      */
     public function setTerminalInputCapabilities_6($terminalInputCapabilities_6)
     {
-      $this->terminalInputCapabilities_6 = $terminalInputCapabilities_6;
-      return $this;
+        $this->terminalInputCapabilities_6 = $terminalInputCapabilities_6;
+
+        return $this;
     }
 
     /**
@@ -777,7 +807,7 @@ class Pos
      */
     public function getTerminalSerialNumber()
     {
-      return $this->terminalSerialNumber;
+        return $this->terminalSerialNumber;
     }
 
     /**
@@ -786,8 +816,9 @@ class Pos
      */
     public function setTerminalSerialNumber($terminalSerialNumber)
     {
-      $this->terminalSerialNumber = $terminalSerialNumber;
-      return $this;
+        $this->terminalSerialNumber = $terminalSerialNumber;
+
+        return $this;
     }
 
     /**
@@ -795,7 +826,7 @@ class Pos
      */
     public function getStoreAndForwardIndicator()
     {
-      return $this->storeAndForwardIndicator;
+        return $this->storeAndForwardIndicator;
     }
 
     /**
@@ -804,8 +835,9 @@ class Pos
      */
     public function setStoreAndForwardIndicator($storeAndForwardIndicator)
     {
-      $this->storeAndForwardIndicator = $storeAndForwardIndicator;
-      return $this;
+        $this->storeAndForwardIndicator = $storeAndForwardIndicator;
+
+        return $this;
     }
 
     /**
@@ -813,7 +845,7 @@ class Pos
      */
     public function getPanEntryMode()
     {
-      return $this->panEntryMode;
+        return $this->panEntryMode;
     }
 
     /**
@@ -822,8 +854,9 @@ class Pos
      */
     public function setPanEntryMode($panEntryMode)
     {
-      $this->panEntryMode = $panEntryMode;
-      return $this;
+        $this->panEntryMode = $panEntryMode;
+
+        return $this;
     }
 
     /**
@@ -831,7 +864,7 @@ class Pos
      */
     public function getEndlessAisleTransactionIndicator()
     {
-      return $this->endlessAisleTransactionIndicator;
+        return $this->endlessAisleTransactionIndicator;
     }
 
     /**
@@ -840,8 +873,9 @@ class Pos
      */
     public function setEndlessAisleTransactionIndicator($endlessAisleTransactionIndicator)
     {
-      $this->endlessAisleTransactionIndicator = $endlessAisleTransactionIndicator;
-      return $this;
+        $this->endlessAisleTransactionIndicator = $endlessAisleTransactionIndicator;
+
+        return $this;
     }
 
     /**
@@ -849,7 +883,7 @@ class Pos
      */
     public function getTerminalModel()
     {
-      return $this->terminalModel;
+        return $this->terminalModel;
     }
 
     /**
@@ -858,8 +892,9 @@ class Pos
      */
     public function setTerminalModel($terminalModel)
     {
-      $this->terminalModel = $terminalModel;
-      return $this;
+        $this->terminalModel = $terminalModel;
+
+        return $this;
     }
 
 }

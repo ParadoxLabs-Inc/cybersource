@@ -20,10 +20,8 @@ class ServiceFee
      */
     protected $merchantDescriptorState = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -31,7 +29,7 @@ class ServiceFee
      */
     public function getMerchantDescriptor()
     {
-      return $this->merchantDescriptor;
+        return $this->merchantDescriptor;
     }
 
     /**
@@ -40,8 +38,9 @@ class ServiceFee
      */
     public function setMerchantDescriptor($merchantDescriptor)
     {
-      $this->merchantDescriptor = $merchantDescriptor;
-      return $this;
+        $this->merchantDescriptor = $merchantDescriptor;
+
+        return $this;
     }
 
     /**
@@ -49,7 +48,7 @@ class ServiceFee
      */
     public function getMerchantDescriptorContact()
     {
-      return $this->merchantDescriptorContact;
+        return $this->merchantDescriptorContact;
     }
 
     /**
@@ -58,8 +57,9 @@ class ServiceFee
      */
     public function setMerchantDescriptorContact($merchantDescriptorContact)
     {
-      $this->merchantDescriptorContact = $merchantDescriptorContact;
-      return $this;
+        $this->merchantDescriptorContact = $merchantDescriptorContact;
+
+        return $this;
     }
 
     /**
@@ -67,7 +67,7 @@ class ServiceFee
      */
     public function getMerchantDescriptorState()
     {
-      return $this->merchantDescriptorState;
+        return $this->merchantDescriptorState;
     }
 
     /**
@@ -76,8 +76,9 @@ class ServiceFee
      */
     public function setMerchantDescriptorState($merchantDescriptorState)
     {
-      $this->merchantDescriptorState = $merchantDescriptorState;
-      return $this;
+        $this->merchantDescriptorState = $merchantDescriptorState;
+
+        return $this;
     }
 
 }

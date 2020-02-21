@@ -155,10 +155,8 @@ class Installment
      */
     protected $gracePeriodDurationType = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -166,7 +164,7 @@ class Installment
      */
     public function getSequence()
     {
-      return $this->sequence;
+        return $this->sequence;
     }
 
     /**
@@ -175,8 +173,9 @@ class Installment
      */
     public function setSequence($sequence)
     {
-      $this->sequence = $sequence;
-      return $this;
+        $this->sequence = $sequence;
+
+        return $this;
     }
 
     /**
@@ -184,7 +183,7 @@ class Installment
      */
     public function getTotalCount()
     {
-      return $this->totalCount;
+        return $this->totalCount;
     }
 
     /**
@@ -193,8 +192,9 @@ class Installment
      */
     public function setTotalCount($totalCount)
     {
-      $this->totalCount = $totalCount;
-      return $this;
+        $this->totalCount = $totalCount;
+
+        return $this;
     }
 
     /**
@@ -202,7 +202,7 @@ class Installment
      */
     public function getTotalAmount()
     {
-      return $this->totalAmount;
+        return $this->totalAmount;
     }
 
     /**
@@ -211,8 +211,9 @@ class Installment
      */
     public function setTotalAmount($totalAmount)
     {
-      $this->totalAmount = $totalAmount;
-      return $this;
+        $this->totalAmount = $totalAmount;
+
+        return $this;
     }
 
     /**
@@ -220,7 +221,7 @@ class Installment
      */
     public function getFrequency()
     {
-      return $this->frequency;
+        return $this->frequency;
     }
 
     /**
@@ -229,8 +230,9 @@ class Installment
      */
     public function setFrequency($frequency)
     {
-      $this->frequency = $frequency;
-      return $this;
+        $this->frequency = $frequency;
+
+        return $this;
     }
 
     /**
@@ -238,7 +240,7 @@ class Installment
      */
     public function getAmount()
     {
-      return $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -247,8 +249,9 @@ class Installment
      */
     public function setAmount($amount)
     {
-      $this->amount = $amount;
-      return $this;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -256,7 +259,7 @@ class Installment
      */
     public function getPlanType()
     {
-      return $this->planType;
+        return $this->planType;
     }
 
     /**
@@ -265,8 +268,9 @@ class Installment
      */
     public function setPlanType($planType)
     {
-      $this->planType = $planType;
-      return $this;
+        $this->planType = $planType;
+
+        return $this;
     }
 
     /**
@@ -274,7 +278,7 @@ class Installment
      */
     public function getFirstInstallmentDate()
     {
-      return $this->firstInstallmentDate;
+        return $this->firstInstallmentDate;
     }
 
     /**
@@ -283,8 +287,9 @@ class Installment
      */
     public function setFirstInstallmentDate($firstInstallmentDate)
     {
-      $this->firstInstallmentDate = $firstInstallmentDate;
-      return $this;
+        $this->firstInstallmentDate = $firstInstallmentDate;
+
+        return $this;
     }
 
     /**
@@ -292,7 +297,7 @@ class Installment
      */
     public function getAmountFunded()
     {
-      return $this->amountFunded;
+        return $this->amountFunded;
     }
 
     /**
@@ -301,8 +306,9 @@ class Installment
      */
     public function setAmountFunded($amountFunded)
     {
-      $this->amountFunded = $amountFunded;
-      return $this;
+        $this->amountFunded = $amountFunded;
+
+        return $this;
     }
 
     /**
@@ -310,7 +316,7 @@ class Installment
      */
     public function getAmountRequestedPercentage()
     {
-      return $this->amountRequestedPercentage;
+        return $this->amountRequestedPercentage;
     }
 
     /**
@@ -319,8 +325,9 @@ class Installment
      */
     public function setAmountRequestedPercentage($amountRequestedPercentage)
     {
-      $this->amountRequestedPercentage = $amountRequestedPercentage;
-      return $this;
+        $this->amountRequestedPercentage = $amountRequestedPercentage;
+
+        return $this;
     }
 
     /**
@@ -328,7 +335,7 @@ class Installment
      */
     public function getExpenses()
     {
-      return $this->expenses;
+        return $this->expenses;
     }
 
     /**
@@ -337,8 +344,9 @@ class Installment
      */
     public function setExpenses($expenses)
     {
-      $this->expenses = $expenses;
-      return $this;
+        $this->expenses = $expenses;
+
+        return $this;
     }
 
     /**
@@ -346,7 +354,7 @@ class Installment
      */
     public function getExpensesPercentage()
     {
-      return $this->expensesPercentage;
+        return $this->expensesPercentage;
     }
 
     /**
@@ -355,8 +363,9 @@ class Installment
      */
     public function setExpensesPercentage($expensesPercentage)
     {
-      $this->expensesPercentage = $expensesPercentage;
-      return $this;
+        $this->expensesPercentage = $expensesPercentage;
+
+        return $this;
     }
 
     /**
@@ -364,7 +373,7 @@ class Installment
      */
     public function getFees()
     {
-      return $this->fees;
+        return $this->fees;
     }
 
     /**
@@ -373,8 +382,9 @@ class Installment
      */
     public function setFees($fees)
     {
-      $this->fees = $fees;
-      return $this;
+        $this->fees = $fees;
+
+        return $this;
     }
 
     /**
@@ -382,7 +392,7 @@ class Installment
      */
     public function getFeesPercentage()
     {
-      return $this->feesPercentage;
+        return $this->feesPercentage;
     }
 
     /**
@@ -391,8 +401,9 @@ class Installment
      */
     public function setFeesPercentage($feesPercentage)
     {
-      $this->feesPercentage = $feesPercentage;
-      return $this;
+        $this->feesPercentage = $feesPercentage;
+
+        return $this;
     }
 
     /**
@@ -400,7 +411,7 @@ class Installment
      */
     public function getTaxes()
     {
-      return $this->taxes;
+        return $this->taxes;
     }
 
     /**
@@ -409,8 +420,9 @@ class Installment
      */
     public function setTaxes($taxes)
     {
-      $this->taxes = $taxes;
-      return $this;
+        $this->taxes = $taxes;
+
+        return $this;
     }
 
     /**
@@ -418,7 +430,7 @@ class Installment
      */
     public function getTaxesPercentage()
     {
-      return $this->taxesPercentage;
+        return $this->taxesPercentage;
     }
 
     /**
@@ -427,8 +439,9 @@ class Installment
      */
     public function setTaxesPercentage($taxesPercentage)
     {
-      $this->taxesPercentage = $taxesPercentage;
-      return $this;
+        $this->taxesPercentage = $taxesPercentage;
+
+        return $this;
     }
 
     /**
@@ -436,7 +449,7 @@ class Installment
      */
     public function getInsurance()
     {
-      return $this->insurance;
+        return $this->insurance;
     }
 
     /**
@@ -445,8 +458,9 @@ class Installment
      */
     public function setInsurance($insurance)
     {
-      $this->insurance = $insurance;
-      return $this;
+        $this->insurance = $insurance;
+
+        return $this;
     }
 
     /**
@@ -454,7 +468,7 @@ class Installment
      */
     public function getInsurancePercentage()
     {
-      return $this->insurancePercentage;
+        return $this->insurancePercentage;
     }
 
     /**
@@ -463,8 +477,9 @@ class Installment
      */
     public function setInsurancePercentage($insurancePercentage)
     {
-      $this->insurancePercentage = $insurancePercentage;
-      return $this;
+        $this->insurancePercentage = $insurancePercentage;
+
+        return $this;
     }
 
     /**
@@ -472,7 +487,7 @@ class Installment
      */
     public function getAdditionalCosts()
     {
-      return $this->additionalCosts;
+        return $this->additionalCosts;
     }
 
     /**
@@ -481,8 +496,9 @@ class Installment
      */
     public function setAdditionalCosts($additionalCosts)
     {
-      $this->additionalCosts = $additionalCosts;
-      return $this;
+        $this->additionalCosts = $additionalCosts;
+
+        return $this;
     }
 
     /**
@@ -490,7 +506,7 @@ class Installment
      */
     public function getAdditionalCostsPercentage()
     {
-      return $this->additionalCostsPercentage;
+        return $this->additionalCostsPercentage;
     }
 
     /**
@@ -499,8 +515,9 @@ class Installment
      */
     public function setAdditionalCostsPercentage($additionalCostsPercentage)
     {
-      $this->additionalCostsPercentage = $additionalCostsPercentage;
-      return $this;
+        $this->additionalCostsPercentage = $additionalCostsPercentage;
+
+        return $this;
     }
 
     /**
@@ -508,7 +525,7 @@ class Installment
      */
     public function getMonthlyInterestRate()
     {
-      return $this->monthlyInterestRate;
+        return $this->monthlyInterestRate;
     }
 
     /**
@@ -517,8 +534,9 @@ class Installment
      */
     public function setMonthlyInterestRate($monthlyInterestRate)
     {
-      $this->monthlyInterestRate = $monthlyInterestRate;
-      return $this;
+        $this->monthlyInterestRate = $monthlyInterestRate;
+
+        return $this;
     }
 
     /**
@@ -526,7 +544,7 @@ class Installment
      */
     public function getAnnualInterestRate()
     {
-      return $this->annualInterestRate;
+        return $this->annualInterestRate;
     }
 
     /**
@@ -535,8 +553,9 @@ class Installment
      */
     public function setAnnualInterestRate($annualInterestRate)
     {
-      $this->annualInterestRate = $annualInterestRate;
-      return $this;
+        $this->annualInterestRate = $annualInterestRate;
+
+        return $this;
     }
 
     /**
@@ -544,7 +563,7 @@ class Installment
      */
     public function getAnnualFinancingCost()
     {
-      return $this->annualFinancingCost;
+        return $this->annualFinancingCost;
     }
 
     /**
@@ -553,8 +572,9 @@ class Installment
      */
     public function setAnnualFinancingCost($annualFinancingCost)
     {
-      $this->annualFinancingCost = $annualFinancingCost;
-      return $this;
+        $this->annualFinancingCost = $annualFinancingCost;
+
+        return $this;
     }
 
     /**
@@ -562,7 +582,7 @@ class Installment
      */
     public function getPaymentType()
     {
-      return $this->paymentType;
+        return $this->paymentType;
     }
 
     /**
@@ -571,8 +591,9 @@ class Installment
      */
     public function setPaymentType($paymentType)
     {
-      $this->paymentType = $paymentType;
-      return $this;
+        $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -580,7 +601,7 @@ class Installment
      */
     public function getInvoiceData()
     {
-      return $this->invoiceData;
+        return $this->invoiceData;
     }
 
     /**
@@ -589,8 +610,9 @@ class Installment
      */
     public function setInvoiceData($invoiceData)
     {
-      $this->invoiceData = $invoiceData;
-      return $this;
+        $this->invoiceData = $invoiceData;
+
+        return $this;
     }
 
     /**
@@ -598,7 +620,7 @@ class Installment
      */
     public function getDownPayment()
     {
-      return $this->downPayment;
+        return $this->downPayment;
     }
 
     /**
@@ -607,8 +629,9 @@ class Installment
      */
     public function setDownPayment($downPayment)
     {
-      $this->downPayment = $downPayment;
-      return $this;
+        $this->downPayment = $downPayment;
+
+        return $this;
     }
 
     /**
@@ -616,7 +639,7 @@ class Installment
      */
     public function getFirstInstallmentAmount()
     {
-      return $this->firstInstallmentAmount;
+        return $this->firstInstallmentAmount;
     }
 
     /**
@@ -625,8 +648,9 @@ class Installment
      */
     public function setFirstInstallmentAmount($firstInstallmentAmount)
     {
-      $this->firstInstallmentAmount = $firstInstallmentAmount;
-      return $this;
+        $this->firstInstallmentAmount = $firstInstallmentAmount;
+
+        return $this;
     }
 
     /**
@@ -634,7 +658,7 @@ class Installment
      */
     public function getMinimumTotalCount()
     {
-      return $this->minimumTotalCount;
+        return $this->minimumTotalCount;
     }
 
     /**
@@ -643,8 +667,9 @@ class Installment
      */
     public function setMinimumTotalCount($minimumTotalCount)
     {
-      $this->minimumTotalCount = $minimumTotalCount;
-      return $this;
+        $this->minimumTotalCount = $minimumTotalCount;
+
+        return $this;
     }
 
     /**
@@ -652,7 +677,7 @@ class Installment
      */
     public function getMaximumTotalCount()
     {
-      return $this->maximumTotalCount;
+        return $this->maximumTotalCount;
     }
 
     /**
@@ -661,8 +686,9 @@ class Installment
      */
     public function setMaximumTotalCount($maximumTotalCount)
     {
-      $this->maximumTotalCount = $maximumTotalCount;
-      return $this;
+        $this->maximumTotalCount = $maximumTotalCount;
+
+        return $this;
     }
 
     /**
@@ -670,7 +696,7 @@ class Installment
      */
     public function getGracePeriodDuration()
     {
-      return $this->gracePeriodDuration;
+        return $this->gracePeriodDuration;
     }
 
     /**
@@ -679,8 +705,9 @@ class Installment
      */
     public function setGracePeriodDuration($gracePeriodDuration)
     {
-      $this->gracePeriodDuration = $gracePeriodDuration;
-      return $this;
+        $this->gracePeriodDuration = $gracePeriodDuration;
+
+        return $this;
     }
 
     /**
@@ -688,7 +715,7 @@ class Installment
      */
     public function getGracePeriodDurationType()
     {
-      return $this->gracePeriodDurationType;
+        return $this->gracePeriodDurationType;
     }
 
     /**
@@ -697,8 +724,9 @@ class Installment
      */
     public function setGracePeriodDurationType($gracePeriodDurationType)
     {
-      $this->gracePeriodDurationType = $gracePeriodDurationType;
-      return $this;
+        $this->gracePeriodDurationType = $gracePeriodDurationType;
+
+        return $this;
     }
 
 }

@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class APImportMandateReply
 {
 
@@ -52,9 +55,9 @@ class APImportMandateReply
      */
     public function __construct($reasonCode, $mandateID, $status)
     {
-      $this->reasonCode = $reasonCode;
-      $this->mandateID = $mandateID;
-      $this->status = $status;
+        $this->reasonCode = $reasonCode;
+        $this->mandateID  = $mandateID;
+        $this->status     = $status;
     }
 
     /**
@@ -62,7 +65,7 @@ class APImportMandateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -71,8 +74,9 @@ class APImportMandateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -80,7 +84,7 @@ class APImportMandateReply
      */
     public function getMandateID()
     {
-      return $this->mandateID;
+        return $this->mandateID;
     }
 
     /**
@@ -89,8 +93,9 @@ class APImportMandateReply
      */
     public function setMandateID($mandateID)
     {
-      $this->mandateID = $mandateID;
-      return $this;
+        $this->mandateID = $mandateID;
+
+        return $this;
     }
 
     /**
@@ -98,7 +103,7 @@ class APImportMandateReply
      */
     public function getStatus()
     {
-      return $this->status;
+        return $this->status;
     }
 
     /**
@@ -107,8 +112,9 @@ class APImportMandateReply
      */
     public function setStatus($status)
     {
-      $this->status = $status;
-      return $this;
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -116,7 +122,7 @@ class APImportMandateReply
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -125,8 +131,9 @@ class APImportMandateReply
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
     /**
@@ -134,7 +141,7 @@ class APImportMandateReply
      */
     public function getProcessorTransactionID()
     {
-      return $this->processorTransactionID;
+        return $this->processorTransactionID;
     }
 
     /**
@@ -143,8 +150,9 @@ class APImportMandateReply
      */
     public function setProcessorTransactionID($processorTransactionID)
     {
-      $this->processorTransactionID = $processorTransactionID;
-      return $this;
+        $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
     }
 
     /**
@@ -152,29 +160,30 @@ class APImportMandateReply
      */
     public function getDateSigned()
     {
-      if ($this->dateSigned == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateSigned);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateSigned == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateSigned);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateSigned
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateReply
      */
-    public function setDateSigned(\DateTime $dateSigned = null)
+    public function setDateSigned(DateTime $dateSigned = null)
     {
-      if ($dateSigned == null) {
-       $this->dateSigned = null;
-      } else {
-        $this->dateSigned = $dateSigned->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateSigned == null) {
+            $this->dateSigned = null;
+        } else {
+            $this->dateSigned = $dateSigned->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -182,29 +191,30 @@ class APImportMandateReply
      */
     public function getDateCreated()
     {
-      if ($this->dateCreated == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateCreated);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateCreated == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateCreated);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateCreated
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateReply
      */
-    public function setDateCreated(\DateTime $dateCreated = null)
+    public function setDateCreated(DateTime $dateCreated = null)
     {
-      if ($dateCreated == null) {
-       $this->dateCreated = null;
-      } else {
-        $this->dateCreated = $dateCreated->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateCreated == null) {
+            $this->dateCreated = null;
+        } else {
+            $this->dateCreated = $dateCreated->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -212,29 +222,30 @@ class APImportMandateReply
      */
     public function getDateTime()
     {
-      if ($this->dateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->dateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->dateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->dateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateReply
      */
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(DateTime $dateTime = null)
     {
-      if ($dateTime == null) {
-       $this->dateTime = null;
-      } else {
-        $this->dateTime = $dateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($dateTime == null) {
+            $this->dateTime = null;
+        } else {
+            $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
 }

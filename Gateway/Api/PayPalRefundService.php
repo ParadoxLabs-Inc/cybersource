@@ -35,7 +35,7 @@ class PayPalRefundService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -43,7 +43,7 @@ class PayPalRefundService
      */
     public function getPaypalDoCaptureRequestID()
     {
-      return $this->paypalDoCaptureRequestID;
+        return $this->paypalDoCaptureRequestID;
     }
 
     /**
@@ -52,8 +52,9 @@ class PayPalRefundService
      */
     public function setPaypalDoCaptureRequestID($paypalDoCaptureRequestID)
     {
-      $this->paypalDoCaptureRequestID = $paypalDoCaptureRequestID;
-      return $this;
+        $this->paypalDoCaptureRequestID = $paypalDoCaptureRequestID;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class PayPalRefundService
      */
     public function getPaypalDoCaptureRequestToken()
     {
-      return $this->paypalDoCaptureRequestToken;
+        return $this->paypalDoCaptureRequestToken;
     }
 
     /**
@@ -70,8 +71,9 @@ class PayPalRefundService
      */
     public function setPaypalDoCaptureRequestToken($paypalDoCaptureRequestToken)
     {
-      $this->paypalDoCaptureRequestToken = $paypalDoCaptureRequestToken;
-      return $this;
+        $this->paypalDoCaptureRequestToken = $paypalDoCaptureRequestToken;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class PayPalRefundService
      */
     public function getPaypalCaptureId()
     {
-      return $this->paypalCaptureId;
+        return $this->paypalCaptureId;
     }
 
     /**
@@ -88,8 +90,9 @@ class PayPalRefundService
      */
     public function setPaypalCaptureId($paypalCaptureId)
     {
-      $this->paypalCaptureId = $paypalCaptureId;
-      return $this;
+        $this->paypalCaptureId = $paypalCaptureId;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class PayPalRefundService
      */
     public function getPaypalNote()
     {
-      return $this->paypalNote;
+        return $this->paypalNote;
     }
 
     /**
@@ -106,8 +109,9 @@ class PayPalRefundService
      */
     public function setPaypalNote($paypalNote)
     {
-      $this->paypalNote = $paypalNote;
-      return $this;
+        $this->paypalNote = $paypalNote;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class PayPalRefundService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -124,8 +128,9 @@ class PayPalRefundService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

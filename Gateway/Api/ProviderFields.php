@@ -10,10 +10,8 @@ class ProviderFields
      */
     protected $provider = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class ProviderFields
      */
     public function getProvider()
     {
-      return $this->provider;
+        return $this->provider;
     }
 
     /**
@@ -30,8 +28,9 @@ class ProviderFields
      */
     public function setProvider(array $provider = null)
     {
-      $this->provider = $provider;
-      return $this;
+        $this->provider = $provider;
+
+        return $this;
     }
 
 }

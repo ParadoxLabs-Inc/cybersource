@@ -8,10 +8,8 @@ class TokenSourceCustom
      */
     protected $transientToken = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -19,7 +17,7 @@ class TokenSourceCustom
      */
     public function getTransientToken()
     {
-      return $this->transientToken;
+        return $this->transientToken;
     }
 
     /**
@@ -28,8 +26,9 @@ class TokenSourceCustom
      */
     public function setTransientToken($transientToken)
     {
-      $this->transientToken = $transientToken;
-      return $this;
+        $this->transientToken = $transientToken;
+
+        return $this;
     }
 
 }

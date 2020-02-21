@@ -2,6 +2,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DateTime;
+use Exception;
+
 class ReplyMessage
 {
 
@@ -788,10 +791,10 @@ class ReplyMessage
      */
     public function __construct($requestID, $decision, $reasonCode, $requestToken)
     {
-      $this->requestID = $requestID;
-      $this->decision = $decision;
-      $this->reasonCode = $reasonCode;
-      $this->requestToken = $requestToken;
+        $this->requestID    = $requestID;
+        $this->decision     = $decision;
+        $this->reasonCode   = $reasonCode;
+        $this->requestToken = $requestToken;
     }
 
     /**
@@ -799,7 +802,7 @@ class ReplyMessage
      */
     public function getMerchantReferenceCode()
     {
-      return $this->merchantReferenceCode;
+        return $this->merchantReferenceCode;
     }
 
     /**
@@ -808,8 +811,9 @@ class ReplyMessage
      */
     public function setMerchantReferenceCode($merchantReferenceCode)
     {
-      $this->merchantReferenceCode = $merchantReferenceCode;
-      return $this;
+        $this->merchantReferenceCode = $merchantReferenceCode;
+
+        return $this;
     }
 
     /**
@@ -817,7 +821,7 @@ class ReplyMessage
      */
     public function getRequestID()
     {
-      return $this->requestID;
+        return $this->requestID;
     }
 
     /**
@@ -826,8 +830,9 @@ class ReplyMessage
      */
     public function setRequestID($requestID)
     {
-      $this->requestID = $requestID;
-      return $this;
+        $this->requestID = $requestID;
+
+        return $this;
     }
 
     /**
@@ -835,7 +840,7 @@ class ReplyMessage
      */
     public function getDecision()
     {
-      return $this->decision;
+        return $this->decision;
     }
 
     /**
@@ -844,8 +849,9 @@ class ReplyMessage
      */
     public function setDecision($decision)
     {
-      $this->decision = $decision;
-      return $this;
+        $this->decision = $decision;
+
+        return $this;
     }
 
     /**
@@ -853,7 +859,7 @@ class ReplyMessage
      */
     public function getReasonCode()
     {
-      return (int)$this->reasonCode;
+        return (int)$this->reasonCode;
     }
 
     /**
@@ -862,8 +868,9 @@ class ReplyMessage
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -871,7 +878,7 @@ class ReplyMessage
      */
     public function getMissingField()
     {
-      return $this->missingField;
+        return $this->missingField;
     }
 
     /**
@@ -880,8 +887,9 @@ class ReplyMessage
      */
     public function setMissingField(array $missingField = null)
     {
-      $this->missingField = $missingField;
-      return $this;
+        $this->missingField = $missingField;
+
+        return $this;
     }
 
     /**
@@ -889,7 +897,7 @@ class ReplyMessage
      */
     public function getInvalidField()
     {
-      return $this->invalidField;
+        return $this->invalidField;
     }
 
     /**
@@ -898,8 +906,9 @@ class ReplyMessage
      */
     public function setInvalidField(array $invalidField = null)
     {
-      $this->invalidField = $invalidField;
-      return $this;
+        $this->invalidField = $invalidField;
+
+        return $this;
     }
 
     /**
@@ -907,7 +916,7 @@ class ReplyMessage
      */
     public function getRequestToken()
     {
-      return $this->requestToken;
+        return $this->requestToken;
     }
 
     /**
@@ -916,8 +925,9 @@ class ReplyMessage
      */
     public function setRequestToken($requestToken)
     {
-      $this->requestToken = $requestToken;
-      return $this;
+        $this->requestToken = $requestToken;
+
+        return $this;
     }
 
     /**
@@ -925,7 +935,7 @@ class ReplyMessage
      */
     public function getPurchaseTotals()
     {
-      return $this->purchaseTotals;
+        return $this->purchaseTotals;
     }
 
     /**
@@ -934,8 +944,9 @@ class ReplyMessage
      */
     public function setPurchaseTotals($purchaseTotals)
     {
-      $this->purchaseTotals = $purchaseTotals;
-      return $this;
+        $this->purchaseTotals = $purchaseTotals;
+
+        return $this;
     }
 
     /**
@@ -943,7 +954,7 @@ class ReplyMessage
      */
     public function getDeniedPartiesMatch()
     {
-      return $this->deniedPartiesMatch;
+        return $this->deniedPartiesMatch;
     }
 
     /**
@@ -952,8 +963,9 @@ class ReplyMessage
      */
     public function setDeniedPartiesMatch(array $deniedPartiesMatch = null)
     {
-      $this->deniedPartiesMatch = $deniedPartiesMatch;
-      return $this;
+        $this->deniedPartiesMatch = $deniedPartiesMatch;
+
+        return $this;
     }
 
     /**
@@ -961,7 +973,7 @@ class ReplyMessage
      */
     public function getCcAuthReply()
     {
-      return $this->ccAuthReply;
+        return $this->ccAuthReply;
     }
 
     /**
@@ -970,8 +982,9 @@ class ReplyMessage
      */
     public function setCcAuthReply($ccAuthReply)
     {
-      $this->ccAuthReply = $ccAuthReply;
-      return $this;
+        $this->ccAuthReply = $ccAuthReply;
+
+        return $this;
     }
 
     /**
@@ -979,7 +992,7 @@ class ReplyMessage
      */
     public function getOctReply()
     {
-      return $this->octReply;
+        return $this->octReply;
     }
 
     /**
@@ -988,8 +1001,9 @@ class ReplyMessage
      */
     public function setOctReply($octReply)
     {
-      $this->octReply = $octReply;
-      return $this;
+        $this->octReply = $octReply;
+
+        return $this;
     }
 
     /**
@@ -997,7 +1011,7 @@ class ReplyMessage
      */
     public function getVerificationReply()
     {
-      return $this->verificationReply;
+        return $this->verificationReply;
     }
 
     /**
@@ -1006,8 +1020,9 @@ class ReplyMessage
      */
     public function setVerificationReply($verificationReply)
     {
-      $this->verificationReply = $verificationReply;
-      return $this;
+        $this->verificationReply = $verificationReply;
+
+        return $this;
     }
 
     /**
@@ -1015,7 +1030,7 @@ class ReplyMessage
      */
     public function getCcSaleReply()
     {
-      return $this->ccSaleReply;
+        return $this->ccSaleReply;
     }
 
     /**
@@ -1024,8 +1039,9 @@ class ReplyMessage
      */
     public function setCcSaleReply($ccSaleReply)
     {
-      $this->ccSaleReply = $ccSaleReply;
-      return $this;
+        $this->ccSaleReply = $ccSaleReply;
+
+        return $this;
     }
 
     /**
@@ -1033,7 +1049,7 @@ class ReplyMessage
      */
     public function getCcSaleCreditReply()
     {
-      return $this->ccSaleCreditReply;
+        return $this->ccSaleCreditReply;
     }
 
     /**
@@ -1042,8 +1058,9 @@ class ReplyMessage
      */
     public function setCcSaleCreditReply($ccSaleCreditReply)
     {
-      $this->ccSaleCreditReply = $ccSaleCreditReply;
-      return $this;
+        $this->ccSaleCreditReply = $ccSaleCreditReply;
+
+        return $this;
     }
 
     /**
@@ -1051,7 +1068,7 @@ class ReplyMessage
      */
     public function getCcSaleReversalReply()
     {
-      return $this->ccSaleReversalReply;
+        return $this->ccSaleReversalReply;
     }
 
     /**
@@ -1060,8 +1077,9 @@ class ReplyMessage
      */
     public function setCcSaleReversalReply($ccSaleReversalReply)
     {
-      $this->ccSaleReversalReply = $ccSaleReversalReply;
-      return $this;
+        $this->ccSaleReversalReply = $ccSaleReversalReply;
+
+        return $this;
     }
 
     /**
@@ -1069,7 +1087,7 @@ class ReplyMessage
      */
     public function getCcIncrementalAuthReply()
     {
-      return $this->ccIncrementalAuthReply;
+        return $this->ccIncrementalAuthReply;
     }
 
     /**
@@ -1078,8 +1096,9 @@ class ReplyMessage
      */
     public function setCcIncrementalAuthReply($ccIncrementalAuthReply)
     {
-      $this->ccIncrementalAuthReply = $ccIncrementalAuthReply;
-      return $this;
+        $this->ccIncrementalAuthReply = $ccIncrementalAuthReply;
+
+        return $this;
     }
 
     /**
@@ -1087,7 +1106,7 @@ class ReplyMessage
      */
     public function getServiceFeeCalculateReply()
     {
-      return $this->serviceFeeCalculateReply;
+        return $this->serviceFeeCalculateReply;
     }
 
     /**
@@ -1096,8 +1115,9 @@ class ReplyMessage
      */
     public function setServiceFeeCalculateReply($serviceFeeCalculateReply)
     {
-      $this->serviceFeeCalculateReply = $serviceFeeCalculateReply;
-      return $this;
+        $this->serviceFeeCalculateReply = $serviceFeeCalculateReply;
+
+        return $this;
     }
 
     /**
@@ -1105,7 +1125,7 @@ class ReplyMessage
      */
     public function getCcCaptureReply()
     {
-      return $this->ccCaptureReply;
+        return $this->ccCaptureReply;
     }
 
     /**
@@ -1114,8 +1134,9 @@ class ReplyMessage
      */
     public function setCcCaptureReply($ccCaptureReply)
     {
-      $this->ccCaptureReply = $ccCaptureReply;
-      return $this;
+        $this->ccCaptureReply = $ccCaptureReply;
+
+        return $this;
     }
 
     /**
@@ -1123,7 +1144,7 @@ class ReplyMessage
      */
     public function getCcCreditReply()
     {
-      return $this->ccCreditReply;
+        return $this->ccCreditReply;
     }
 
     /**
@@ -1132,8 +1153,9 @@ class ReplyMessage
      */
     public function setCcCreditReply($ccCreditReply)
     {
-      $this->ccCreditReply = $ccCreditReply;
-      return $this;
+        $this->ccCreditReply = $ccCreditReply;
+
+        return $this;
     }
 
     /**
@@ -1141,7 +1163,7 @@ class ReplyMessage
      */
     public function getCcAuthReversalReply()
     {
-      return $this->ccAuthReversalReply;
+        return $this->ccAuthReversalReply;
     }
 
     /**
@@ -1150,8 +1172,9 @@ class ReplyMessage
      */
     public function setCcAuthReversalReply($ccAuthReversalReply)
     {
-      $this->ccAuthReversalReply = $ccAuthReversalReply;
-      return $this;
+        $this->ccAuthReversalReply = $ccAuthReversalReply;
+
+        return $this;
     }
 
     /**
@@ -1159,7 +1182,7 @@ class ReplyMessage
      */
     public function getCcAutoAuthReversalReply()
     {
-      return $this->ccAutoAuthReversalReply;
+        return $this->ccAutoAuthReversalReply;
     }
 
     /**
@@ -1168,8 +1191,9 @@ class ReplyMessage
      */
     public function setCcAutoAuthReversalReply($ccAutoAuthReversalReply)
     {
-      $this->ccAutoAuthReversalReply = $ccAutoAuthReversalReply;
-      return $this;
+        $this->ccAutoAuthReversalReply = $ccAutoAuthReversalReply;
+
+        return $this;
     }
 
     /**
@@ -1177,7 +1201,7 @@ class ReplyMessage
      */
     public function getCcDCCReply()
     {
-      return $this->ccDCCReply;
+        return $this->ccDCCReply;
     }
 
     /**
@@ -1186,8 +1210,9 @@ class ReplyMessage
      */
     public function setCcDCCReply($ccDCCReply)
     {
-      $this->ccDCCReply = $ccDCCReply;
-      return $this;
+        $this->ccDCCReply = $ccDCCReply;
+
+        return $this;
     }
 
     /**
@@ -1195,7 +1220,7 @@ class ReplyMessage
      */
     public function getCcDCCUpdateReply()
     {
-      return $this->ccDCCUpdateReply;
+        return $this->ccDCCUpdateReply;
     }
 
     /**
@@ -1204,8 +1229,9 @@ class ReplyMessage
      */
     public function setCcDCCUpdateReply($ccDCCUpdateReply)
     {
-      $this->ccDCCUpdateReply = $ccDCCUpdateReply;
-      return $this;
+        $this->ccDCCUpdateReply = $ccDCCUpdateReply;
+
+        return $this;
     }
 
     /**
@@ -1213,7 +1239,7 @@ class ReplyMessage
      */
     public function getEcDebitReply()
     {
-      return $this->ecDebitReply;
+        return $this->ecDebitReply;
     }
 
     /**
@@ -1222,8 +1248,9 @@ class ReplyMessage
      */
     public function setEcDebitReply($ecDebitReply)
     {
-      $this->ecDebitReply = $ecDebitReply;
-      return $this;
+        $this->ecDebitReply = $ecDebitReply;
+
+        return $this;
     }
 
     /**
@@ -1231,7 +1258,7 @@ class ReplyMessage
      */
     public function getEcCreditReply()
     {
-      return $this->ecCreditReply;
+        return $this->ecCreditReply;
     }
 
     /**
@@ -1240,8 +1267,9 @@ class ReplyMessage
      */
     public function setEcCreditReply($ecCreditReply)
     {
-      $this->ecCreditReply = $ecCreditReply;
-      return $this;
+        $this->ecCreditReply = $ecCreditReply;
+
+        return $this;
     }
 
     /**
@@ -1249,7 +1277,7 @@ class ReplyMessage
      */
     public function getEcAuthenticateReply()
     {
-      return $this->ecAuthenticateReply;
+        return $this->ecAuthenticateReply;
     }
 
     /**
@@ -1258,8 +1286,9 @@ class ReplyMessage
      */
     public function setEcAuthenticateReply($ecAuthenticateReply)
     {
-      $this->ecAuthenticateReply = $ecAuthenticateReply;
-      return $this;
+        $this->ecAuthenticateReply = $ecAuthenticateReply;
+
+        return $this;
     }
 
     /**
@@ -1267,7 +1296,7 @@ class ReplyMessage
      */
     public function getPayerAuthEnrollReply()
     {
-      return $this->payerAuthEnrollReply;
+        return $this->payerAuthEnrollReply;
     }
 
     /**
@@ -1276,8 +1305,9 @@ class ReplyMessage
      */
     public function setPayerAuthEnrollReply($payerAuthEnrollReply)
     {
-      $this->payerAuthEnrollReply = $payerAuthEnrollReply;
-      return $this;
+        $this->payerAuthEnrollReply = $payerAuthEnrollReply;
+
+        return $this;
     }
 
     /**
@@ -1285,7 +1315,7 @@ class ReplyMessage
      */
     public function getPayerAuthValidateReply()
     {
-      return $this->payerAuthValidateReply;
+        return $this->payerAuthValidateReply;
     }
 
     /**
@@ -1294,8 +1324,9 @@ class ReplyMessage
      */
     public function setPayerAuthValidateReply($payerAuthValidateReply)
     {
-      $this->payerAuthValidateReply = $payerAuthValidateReply;
-      return $this;
+        $this->payerAuthValidateReply = $payerAuthValidateReply;
+
+        return $this;
     }
 
     /**
@@ -1303,7 +1334,7 @@ class ReplyMessage
      */
     public function getTaxReply()
     {
-      return $this->taxReply;
+        return $this->taxReply;
     }
 
     /**
@@ -1312,8 +1343,9 @@ class ReplyMessage
      */
     public function setTaxReply($taxReply)
     {
-      $this->taxReply = $taxReply;
-      return $this;
+        $this->taxReply = $taxReply;
+
+        return $this;
     }
 
     /**
@@ -1321,7 +1353,7 @@ class ReplyMessage
      */
     public function getEncryptedPayment()
     {
-      return $this->encryptedPayment;
+        return $this->encryptedPayment;
     }
 
     /**
@@ -1330,8 +1362,9 @@ class ReplyMessage
      */
     public function setEncryptedPayment($encryptedPayment)
     {
-      $this->encryptedPayment = $encryptedPayment;
-      return $this;
+        $this->encryptedPayment = $encryptedPayment;
+
+        return $this;
     }
 
     /**
@@ -1339,7 +1372,7 @@ class ReplyMessage
      */
     public function getEncryptPaymentDataReply()
     {
-      return $this->encryptPaymentDataReply;
+        return $this->encryptPaymentDataReply;
     }
 
     /**
@@ -1348,8 +1381,9 @@ class ReplyMessage
      */
     public function setEncryptPaymentDataReply($encryptPaymentDataReply)
     {
-      $this->encryptPaymentDataReply = $encryptPaymentDataReply;
-      return $this;
+        $this->encryptPaymentDataReply = $encryptPaymentDataReply;
+
+        return $this;
     }
 
     /**
@@ -1357,7 +1391,7 @@ class ReplyMessage
      */
     public function getDmeReply()
     {
-      return $this->dmeReply;
+        return $this->dmeReply;
     }
 
     /**
@@ -1366,8 +1400,9 @@ class ReplyMessage
      */
     public function setDmeReply($dmeReply)
     {
-      $this->dmeReply = $dmeReply;
-      return $this;
+        $this->dmeReply = $dmeReply;
+
+        return $this;
     }
 
     /**
@@ -1375,7 +1410,7 @@ class ReplyMessage
      */
     public function getAfsReply()
     {
-      return $this->afsReply;
+        return $this->afsReply;
     }
 
     /**
@@ -1384,8 +1419,9 @@ class ReplyMessage
      */
     public function setAfsReply($afsReply)
     {
-      $this->afsReply = $afsReply;
-      return $this;
+        $this->afsReply = $afsReply;
+
+        return $this;
     }
 
     /**
@@ -1393,7 +1429,7 @@ class ReplyMessage
      */
     public function getDavReply()
     {
-      return $this->davReply;
+        return $this->davReply;
     }
 
     /**
@@ -1402,8 +1438,9 @@ class ReplyMessage
      */
     public function setDavReply($davReply)
     {
-      $this->davReply = $davReply;
-      return $this;
+        $this->davReply = $davReply;
+
+        return $this;
     }
 
     /**
@@ -1411,7 +1448,7 @@ class ReplyMessage
      */
     public function getExportReply()
     {
-      return $this->exportReply;
+        return $this->exportReply;
     }
 
     /**
@@ -1420,8 +1457,9 @@ class ReplyMessage
      */
     public function setExportReply($exportReply)
     {
-      $this->exportReply = $exportReply;
-      return $this;
+        $this->exportReply = $exportReply;
+
+        return $this;
     }
 
     /**
@@ -1429,7 +1467,7 @@ class ReplyMessage
      */
     public function getFxRatesReply()
     {
-      return $this->fxRatesReply;
+        return $this->fxRatesReply;
     }
 
     /**
@@ -1438,8 +1476,9 @@ class ReplyMessage
      */
     public function setFxRatesReply($fxRatesReply)
     {
-      $this->fxRatesReply = $fxRatesReply;
-      return $this;
+        $this->fxRatesReply = $fxRatesReply;
+
+        return $this;
     }
 
     /**
@@ -1447,7 +1486,7 @@ class ReplyMessage
      */
     public function getBankTransferReply()
     {
-      return $this->bankTransferReply;
+        return $this->bankTransferReply;
     }
 
     /**
@@ -1456,8 +1495,9 @@ class ReplyMessage
      */
     public function setBankTransferReply($bankTransferReply)
     {
-      $this->bankTransferReply = $bankTransferReply;
-      return $this;
+        $this->bankTransferReply = $bankTransferReply;
+
+        return $this;
     }
 
     /**
@@ -1465,7 +1505,7 @@ class ReplyMessage
      */
     public function getBankTransferRefundReply()
     {
-      return $this->bankTransferRefundReply;
+        return $this->bankTransferRefundReply;
     }
 
     /**
@@ -1474,8 +1514,9 @@ class ReplyMessage
      */
     public function setBankTransferRefundReply($bankTransferRefundReply)
     {
-      $this->bankTransferRefundReply = $bankTransferRefundReply;
-      return $this;
+        $this->bankTransferRefundReply = $bankTransferRefundReply;
+
+        return $this;
     }
 
     /**
@@ -1483,7 +1524,7 @@ class ReplyMessage
      */
     public function getBankTransferRealTimeReply()
     {
-      return $this->bankTransferRealTimeReply;
+        return $this->bankTransferRealTimeReply;
     }
 
     /**
@@ -1492,8 +1533,9 @@ class ReplyMessage
      */
     public function setBankTransferRealTimeReply($bankTransferRealTimeReply)
     {
-      $this->bankTransferRealTimeReply = $bankTransferRealTimeReply;
-      return $this;
+        $this->bankTransferRealTimeReply = $bankTransferRealTimeReply;
+
+        return $this;
     }
 
     /**
@@ -1501,7 +1543,7 @@ class ReplyMessage
      */
     public function getDirectDebitMandateReply()
     {
-      return $this->directDebitMandateReply;
+        return $this->directDebitMandateReply;
     }
 
     /**
@@ -1510,8 +1552,9 @@ class ReplyMessage
      */
     public function setDirectDebitMandateReply($directDebitMandateReply)
     {
-      $this->directDebitMandateReply = $directDebitMandateReply;
-      return $this;
+        $this->directDebitMandateReply = $directDebitMandateReply;
+
+        return $this;
     }
 
     /**
@@ -1519,7 +1562,7 @@ class ReplyMessage
      */
     public function getDirectDebitReply()
     {
-      return $this->directDebitReply;
+        return $this->directDebitReply;
     }
 
     /**
@@ -1528,8 +1571,9 @@ class ReplyMessage
      */
     public function setDirectDebitReply($directDebitReply)
     {
-      $this->directDebitReply = $directDebitReply;
-      return $this;
+        $this->directDebitReply = $directDebitReply;
+
+        return $this;
     }
 
     /**
@@ -1537,7 +1581,7 @@ class ReplyMessage
      */
     public function getDirectDebitValidateReply()
     {
-      return $this->directDebitValidateReply;
+        return $this->directDebitValidateReply;
     }
 
     /**
@@ -1546,8 +1590,9 @@ class ReplyMessage
      */
     public function setDirectDebitValidateReply($directDebitValidateReply)
     {
-      $this->directDebitValidateReply = $directDebitValidateReply;
-      return $this;
+        $this->directDebitValidateReply = $directDebitValidateReply;
+
+        return $this;
     }
 
     /**
@@ -1555,7 +1600,7 @@ class ReplyMessage
      */
     public function getDirectDebitRefundReply()
     {
-      return $this->directDebitRefundReply;
+        return $this->directDebitRefundReply;
     }
 
     /**
@@ -1564,8 +1609,9 @@ class ReplyMessage
      */
     public function setDirectDebitRefundReply($directDebitRefundReply)
     {
-      $this->directDebitRefundReply = $directDebitRefundReply;
-      return $this;
+        $this->directDebitRefundReply = $directDebitRefundReply;
+
+        return $this;
     }
 
     /**
@@ -1573,7 +1619,7 @@ class ReplyMessage
      */
     public function getPaySubscriptionCreateReply()
     {
-      return $this->paySubscriptionCreateReply;
+        return $this->paySubscriptionCreateReply;
     }
 
     /**
@@ -1582,8 +1628,9 @@ class ReplyMessage
      */
     public function setPaySubscriptionCreateReply($paySubscriptionCreateReply)
     {
-      $this->paySubscriptionCreateReply = $paySubscriptionCreateReply;
-      return $this;
+        $this->paySubscriptionCreateReply = $paySubscriptionCreateReply;
+
+        return $this;
     }
 
     /**
@@ -1591,7 +1638,7 @@ class ReplyMessage
      */
     public function getPaySubscriptionUpdateReply()
     {
-      return $this->paySubscriptionUpdateReply;
+        return $this->paySubscriptionUpdateReply;
     }
 
     /**
@@ -1600,8 +1647,9 @@ class ReplyMessage
      */
     public function setPaySubscriptionUpdateReply($paySubscriptionUpdateReply)
     {
-      $this->paySubscriptionUpdateReply = $paySubscriptionUpdateReply;
-      return $this;
+        $this->paySubscriptionUpdateReply = $paySubscriptionUpdateReply;
+
+        return $this;
     }
 
     /**
@@ -1609,7 +1657,7 @@ class ReplyMessage
      */
     public function getPaySubscriptionEventUpdateReply()
     {
-      return $this->paySubscriptionEventUpdateReply;
+        return $this->paySubscriptionEventUpdateReply;
     }
 
     /**
@@ -1618,8 +1666,9 @@ class ReplyMessage
      */
     public function setPaySubscriptionEventUpdateReply($paySubscriptionEventUpdateReply)
     {
-      $this->paySubscriptionEventUpdateReply = $paySubscriptionEventUpdateReply;
-      return $this;
+        $this->paySubscriptionEventUpdateReply = $paySubscriptionEventUpdateReply;
+
+        return $this;
     }
 
     /**
@@ -1627,7 +1676,7 @@ class ReplyMessage
      */
     public function getPaySubscriptionRetrieveReply()
     {
-      return $this->paySubscriptionRetrieveReply;
+        return $this->paySubscriptionRetrieveReply;
     }
 
     /**
@@ -1636,8 +1685,9 @@ class ReplyMessage
      */
     public function setPaySubscriptionRetrieveReply($paySubscriptionRetrieveReply)
     {
-      $this->paySubscriptionRetrieveReply = $paySubscriptionRetrieveReply;
-      return $this;
+        $this->paySubscriptionRetrieveReply = $paySubscriptionRetrieveReply;
+
+        return $this;
     }
 
     /**
@@ -1645,7 +1695,7 @@ class ReplyMessage
      */
     public function getPaySubscriptionDeleteReply()
     {
-      return $this->paySubscriptionDeleteReply;
+        return $this->paySubscriptionDeleteReply;
     }
 
     /**
@@ -1654,8 +1704,9 @@ class ReplyMessage
      */
     public function setPaySubscriptionDeleteReply($paySubscriptionDeleteReply)
     {
-      $this->paySubscriptionDeleteReply = $paySubscriptionDeleteReply;
-      return $this;
+        $this->paySubscriptionDeleteReply = $paySubscriptionDeleteReply;
+
+        return $this;
     }
 
     /**
@@ -1663,7 +1714,7 @@ class ReplyMessage
      */
     public function getPayPalPaymentReply()
     {
-      return $this->payPalPaymentReply;
+        return $this->payPalPaymentReply;
     }
 
     /**
@@ -1672,8 +1723,9 @@ class ReplyMessage
      */
     public function setPayPalPaymentReply($payPalPaymentReply)
     {
-      $this->payPalPaymentReply = $payPalPaymentReply;
-      return $this;
+        $this->payPalPaymentReply = $payPalPaymentReply;
+
+        return $this;
     }
 
     /**
@@ -1681,7 +1733,7 @@ class ReplyMessage
      */
     public function getPayPalCreditReply()
     {
-      return $this->payPalCreditReply;
+        return $this->payPalCreditReply;
     }
 
     /**
@@ -1690,8 +1742,9 @@ class ReplyMessage
      */
     public function setPayPalCreditReply($payPalCreditReply)
     {
-      $this->payPalCreditReply = $payPalCreditReply;
-      return $this;
+        $this->payPalCreditReply = $payPalCreditReply;
+
+        return $this;
     }
 
     /**
@@ -1699,7 +1752,7 @@ class ReplyMessage
      */
     public function getVoidReply()
     {
-      return $this->voidReply;
+        return $this->voidReply;
     }
 
     /**
@@ -1708,8 +1761,9 @@ class ReplyMessage
      */
     public function setVoidReply($voidReply)
     {
-      $this->voidReply = $voidReply;
-      return $this;
+        $this->voidReply = $voidReply;
+
+        return $this;
     }
 
     /**
@@ -1717,7 +1771,7 @@ class ReplyMessage
      */
     public function getPinlessDebitReply()
     {
-      return $this->pinlessDebitReply;
+        return $this->pinlessDebitReply;
     }
 
     /**
@@ -1726,8 +1780,9 @@ class ReplyMessage
      */
     public function setPinlessDebitReply($pinlessDebitReply)
     {
-      $this->pinlessDebitReply = $pinlessDebitReply;
-      return $this;
+        $this->pinlessDebitReply = $pinlessDebitReply;
+
+        return $this;
     }
 
     /**
@@ -1735,7 +1790,7 @@ class ReplyMessage
      */
     public function getPinlessDebitValidateReply()
     {
-      return $this->pinlessDebitValidateReply;
+        return $this->pinlessDebitValidateReply;
     }
 
     /**
@@ -1744,8 +1799,9 @@ class ReplyMessage
      */
     public function setPinlessDebitValidateReply($pinlessDebitValidateReply)
     {
-      $this->pinlessDebitValidateReply = $pinlessDebitValidateReply;
-      return $this;
+        $this->pinlessDebitValidateReply = $pinlessDebitValidateReply;
+
+        return $this;
     }
 
     /**
@@ -1753,7 +1809,7 @@ class ReplyMessage
      */
     public function getPinlessDebitReversalReply()
     {
-      return $this->pinlessDebitReversalReply;
+        return $this->pinlessDebitReversalReply;
     }
 
     /**
@@ -1762,8 +1818,9 @@ class ReplyMessage
      */
     public function setPinlessDebitReversalReply($pinlessDebitReversalReply)
     {
-      $this->pinlessDebitReversalReply = $pinlessDebitReversalReply;
-      return $this;
+        $this->pinlessDebitReversalReply = $pinlessDebitReversalReply;
+
+        return $this;
     }
 
     /**
@@ -1771,7 +1828,7 @@ class ReplyMessage
      */
     public function getPayPalButtonCreateReply()
     {
-      return $this->payPalButtonCreateReply;
+        return $this->payPalButtonCreateReply;
     }
 
     /**
@@ -1780,8 +1837,9 @@ class ReplyMessage
      */
     public function setPayPalButtonCreateReply($payPalButtonCreateReply)
     {
-      $this->payPalButtonCreateReply = $payPalButtonCreateReply;
-      return $this;
+        $this->payPalButtonCreateReply = $payPalButtonCreateReply;
+
+        return $this;
     }
 
     /**
@@ -1789,7 +1847,7 @@ class ReplyMessage
      */
     public function getPayPalPreapprovedPaymentReply()
     {
-      return $this->payPalPreapprovedPaymentReply;
+        return $this->payPalPreapprovedPaymentReply;
     }
 
     /**
@@ -1798,8 +1856,9 @@ class ReplyMessage
      */
     public function setPayPalPreapprovedPaymentReply($payPalPreapprovedPaymentReply)
     {
-      $this->payPalPreapprovedPaymentReply = $payPalPreapprovedPaymentReply;
-      return $this;
+        $this->payPalPreapprovedPaymentReply = $payPalPreapprovedPaymentReply;
+
+        return $this;
     }
 
     /**
@@ -1807,7 +1866,7 @@ class ReplyMessage
      */
     public function getPayPalPreapprovedUpdateReply()
     {
-      return $this->payPalPreapprovedUpdateReply;
+        return $this->payPalPreapprovedUpdateReply;
     }
 
     /**
@@ -1816,8 +1875,9 @@ class ReplyMessage
      */
     public function setPayPalPreapprovedUpdateReply($payPalPreapprovedUpdateReply)
     {
-      $this->payPalPreapprovedUpdateReply = $payPalPreapprovedUpdateReply;
-      return $this;
+        $this->payPalPreapprovedUpdateReply = $payPalPreapprovedUpdateReply;
+
+        return $this;
     }
 
     /**
@@ -1825,7 +1885,7 @@ class ReplyMessage
      */
     public function getRiskUpdateReply()
     {
-      return $this->riskUpdateReply;
+        return $this->riskUpdateReply;
     }
 
     /**
@@ -1834,8 +1894,9 @@ class ReplyMessage
      */
     public function setRiskUpdateReply($riskUpdateReply)
     {
-      $this->riskUpdateReply = $riskUpdateReply;
-      return $this;
+        $this->riskUpdateReply = $riskUpdateReply;
+
+        return $this;
     }
 
     /**
@@ -1843,7 +1904,7 @@ class ReplyMessage
      */
     public function getFraudUpdateReply()
     {
-      return $this->fraudUpdateReply;
+        return $this->fraudUpdateReply;
     }
 
     /**
@@ -1852,8 +1913,9 @@ class ReplyMessage
      */
     public function setFraudUpdateReply($fraudUpdateReply)
     {
-      $this->fraudUpdateReply = $fraudUpdateReply;
-      return $this;
+        $this->fraudUpdateReply = $fraudUpdateReply;
+
+        return $this;
     }
 
     /**
@@ -1861,7 +1923,7 @@ class ReplyMessage
      */
     public function getCaseManagementActionReply()
     {
-      return $this->caseManagementActionReply;
+        return $this->caseManagementActionReply;
     }
 
     /**
@@ -1870,8 +1932,9 @@ class ReplyMessage
      */
     public function setCaseManagementActionReply($caseManagementActionReply)
     {
-      $this->caseManagementActionReply = $caseManagementActionReply;
-      return $this;
+        $this->caseManagementActionReply = $caseManagementActionReply;
+
+        return $this;
     }
 
     /**
@@ -1879,7 +1942,7 @@ class ReplyMessage
      */
     public function getDecisionEarlyReply()
     {
-      return $this->decisionEarlyReply;
+        return $this->decisionEarlyReply;
     }
 
     /**
@@ -1888,8 +1951,9 @@ class ReplyMessage
      */
     public function setDecisionEarlyReply($decisionEarlyReply)
     {
-      $this->decisionEarlyReply = $decisionEarlyReply;
-      return $this;
+        $this->decisionEarlyReply = $decisionEarlyReply;
+
+        return $this;
     }
 
     /**
@@ -1897,7 +1961,7 @@ class ReplyMessage
      */
     public function getDecisionReply()
     {
-      return $this->decisionReply;
+        return $this->decisionReply;
     }
 
     /**
@@ -1906,8 +1970,9 @@ class ReplyMessage
      */
     public function setDecisionReply($decisionReply)
     {
-      $this->decisionReply = $decisionReply;
-      return $this;
+        $this->decisionReply = $decisionReply;
+
+        return $this;
     }
 
     /**
@@ -1915,7 +1980,7 @@ class ReplyMessage
      */
     public function getPayPalRefundReply()
     {
-      return $this->payPalRefundReply;
+        return $this->payPalRefundReply;
     }
 
     /**
@@ -1924,8 +1989,9 @@ class ReplyMessage
      */
     public function setPayPalRefundReply($payPalRefundReply)
     {
-      $this->payPalRefundReply = $payPalRefundReply;
-      return $this;
+        $this->payPalRefundReply = $payPalRefundReply;
+
+        return $this;
     }
 
     /**
@@ -1933,7 +1999,7 @@ class ReplyMessage
      */
     public function getPayPalAuthReversalReply()
     {
-      return $this->payPalAuthReversalReply;
+        return $this->payPalAuthReversalReply;
     }
 
     /**
@@ -1942,8 +2008,9 @@ class ReplyMessage
      */
     public function setPayPalAuthReversalReply($payPalAuthReversalReply)
     {
-      $this->payPalAuthReversalReply = $payPalAuthReversalReply;
-      return $this;
+        $this->payPalAuthReversalReply = $payPalAuthReversalReply;
+
+        return $this;
     }
 
     /**
@@ -1951,7 +2018,7 @@ class ReplyMessage
      */
     public function getPayPalDoCaptureReply()
     {
-      return $this->payPalDoCaptureReply;
+        return $this->payPalDoCaptureReply;
     }
 
     /**
@@ -1960,8 +2027,9 @@ class ReplyMessage
      */
     public function setPayPalDoCaptureReply($payPalDoCaptureReply)
     {
-      $this->payPalDoCaptureReply = $payPalDoCaptureReply;
-      return $this;
+        $this->payPalDoCaptureReply = $payPalDoCaptureReply;
+
+        return $this;
     }
 
     /**
@@ -1969,7 +2037,7 @@ class ReplyMessage
      */
     public function getPayPalEcDoPaymentReply()
     {
-      return $this->payPalEcDoPaymentReply;
+        return $this->payPalEcDoPaymentReply;
     }
 
     /**
@@ -1978,8 +2046,9 @@ class ReplyMessage
      */
     public function setPayPalEcDoPaymentReply($payPalEcDoPaymentReply)
     {
-      $this->payPalEcDoPaymentReply = $payPalEcDoPaymentReply;
-      return $this;
+        $this->payPalEcDoPaymentReply = $payPalEcDoPaymentReply;
+
+        return $this;
     }
 
     /**
@@ -1987,7 +2056,7 @@ class ReplyMessage
      */
     public function getPayPalEcGetDetailsReply()
     {
-      return $this->payPalEcGetDetailsReply;
+        return $this->payPalEcGetDetailsReply;
     }
 
     /**
@@ -1996,8 +2065,9 @@ class ReplyMessage
      */
     public function setPayPalEcGetDetailsReply($payPalEcGetDetailsReply)
     {
-      $this->payPalEcGetDetailsReply = $payPalEcGetDetailsReply;
-      return $this;
+        $this->payPalEcGetDetailsReply = $payPalEcGetDetailsReply;
+
+        return $this;
     }
 
     /**
@@ -2005,7 +2075,7 @@ class ReplyMessage
      */
     public function getPayPalEcSetReply()
     {
-      return $this->payPalEcSetReply;
+        return $this->payPalEcSetReply;
     }
 
     /**
@@ -2014,8 +2084,9 @@ class ReplyMessage
      */
     public function setPayPalEcSetReply($payPalEcSetReply)
     {
-      $this->payPalEcSetReply = $payPalEcSetReply;
-      return $this;
+        $this->payPalEcSetReply = $payPalEcSetReply;
+
+        return $this;
     }
 
     /**
@@ -2023,7 +2094,7 @@ class ReplyMessage
      */
     public function getPayPalAuthorizationReply()
     {
-      return $this->payPalAuthorizationReply;
+        return $this->payPalAuthorizationReply;
     }
 
     /**
@@ -2032,8 +2103,9 @@ class ReplyMessage
      */
     public function setPayPalAuthorizationReply($payPalAuthorizationReply)
     {
-      $this->payPalAuthorizationReply = $payPalAuthorizationReply;
-      return $this;
+        $this->payPalAuthorizationReply = $payPalAuthorizationReply;
+
+        return $this;
     }
 
     /**
@@ -2041,7 +2113,7 @@ class ReplyMessage
      */
     public function getPayPalEcOrderSetupReply()
     {
-      return $this->payPalEcOrderSetupReply;
+        return $this->payPalEcOrderSetupReply;
     }
 
     /**
@@ -2050,8 +2122,9 @@ class ReplyMessage
      */
     public function setPayPalEcOrderSetupReply($payPalEcOrderSetupReply)
     {
-      $this->payPalEcOrderSetupReply = $payPalEcOrderSetupReply;
-      return $this;
+        $this->payPalEcOrderSetupReply = $payPalEcOrderSetupReply;
+
+        return $this;
     }
 
     /**
@@ -2059,7 +2132,7 @@ class ReplyMessage
      */
     public function getPayPalUpdateAgreementReply()
     {
-      return $this->payPalUpdateAgreementReply;
+        return $this->payPalUpdateAgreementReply;
     }
 
     /**
@@ -2068,8 +2141,9 @@ class ReplyMessage
      */
     public function setPayPalUpdateAgreementReply($payPalUpdateAgreementReply)
     {
-      $this->payPalUpdateAgreementReply = $payPalUpdateAgreementReply;
-      return $this;
+        $this->payPalUpdateAgreementReply = $payPalUpdateAgreementReply;
+
+        return $this;
     }
 
     /**
@@ -2077,7 +2151,7 @@ class ReplyMessage
      */
     public function getPayPalCreateAgreementReply()
     {
-      return $this->payPalCreateAgreementReply;
+        return $this->payPalCreateAgreementReply;
     }
 
     /**
@@ -2086,8 +2160,9 @@ class ReplyMessage
      */
     public function setPayPalCreateAgreementReply($payPalCreateAgreementReply)
     {
-      $this->payPalCreateAgreementReply = $payPalCreateAgreementReply;
-      return $this;
+        $this->payPalCreateAgreementReply = $payPalCreateAgreementReply;
+
+        return $this;
     }
 
     /**
@@ -2095,7 +2170,7 @@ class ReplyMessage
      */
     public function getPayPalDoRefTransactionReply()
     {
-      return $this->payPalDoRefTransactionReply;
+        return $this->payPalDoRefTransactionReply;
     }
 
     /**
@@ -2104,8 +2179,9 @@ class ReplyMessage
      */
     public function setPayPalDoRefTransactionReply($payPalDoRefTransactionReply)
     {
-      $this->payPalDoRefTransactionReply = $payPalDoRefTransactionReply;
-      return $this;
+        $this->payPalDoRefTransactionReply = $payPalDoRefTransactionReply;
+
+        return $this;
     }
 
     /**
@@ -2113,7 +2189,7 @@ class ReplyMessage
      */
     public function getChinaPaymentReply()
     {
-      return $this->chinaPaymentReply;
+        return $this->chinaPaymentReply;
     }
 
     /**
@@ -2122,8 +2198,9 @@ class ReplyMessage
      */
     public function setChinaPaymentReply($chinaPaymentReply)
     {
-      $this->chinaPaymentReply = $chinaPaymentReply;
-      return $this;
+        $this->chinaPaymentReply = $chinaPaymentReply;
+
+        return $this;
     }
 
     /**
@@ -2131,7 +2208,7 @@ class ReplyMessage
      */
     public function getChinaRefundReply()
     {
-      return $this->chinaRefundReply;
+        return $this->chinaRefundReply;
     }
 
     /**
@@ -2140,8 +2217,9 @@ class ReplyMessage
      */
     public function setChinaRefundReply($chinaRefundReply)
     {
-      $this->chinaRefundReply = $chinaRefundReply;
-      return $this;
+        $this->chinaRefundReply = $chinaRefundReply;
+
+        return $this;
     }
 
     /**
@@ -2149,7 +2227,7 @@ class ReplyMessage
      */
     public function getBoletoPaymentReply()
     {
-      return $this->boletoPaymentReply;
+        return $this->boletoPaymentReply;
     }
 
     /**
@@ -2158,8 +2236,9 @@ class ReplyMessage
      */
     public function setBoletoPaymentReply($boletoPaymentReply)
     {
-      $this->boletoPaymentReply = $boletoPaymentReply;
-      return $this;
+        $this->boletoPaymentReply = $boletoPaymentReply;
+
+        return $this;
     }
 
     /**
@@ -2167,7 +2246,7 @@ class ReplyMessage
      */
     public function getPinDebitPurchaseReply()
     {
-      return $this->pinDebitPurchaseReply;
+        return $this->pinDebitPurchaseReply;
     }
 
     /**
@@ -2176,8 +2255,9 @@ class ReplyMessage
      */
     public function setPinDebitPurchaseReply($pinDebitPurchaseReply)
     {
-      $this->pinDebitPurchaseReply = $pinDebitPurchaseReply;
-      return $this;
+        $this->pinDebitPurchaseReply = $pinDebitPurchaseReply;
+
+        return $this;
     }
 
     /**
@@ -2185,7 +2265,7 @@ class ReplyMessage
      */
     public function getPinDebitCreditReply()
     {
-      return $this->pinDebitCreditReply;
+        return $this->pinDebitCreditReply;
     }
 
     /**
@@ -2194,8 +2274,9 @@ class ReplyMessage
      */
     public function setPinDebitCreditReply($pinDebitCreditReply)
     {
-      $this->pinDebitCreditReply = $pinDebitCreditReply;
-      return $this;
+        $this->pinDebitCreditReply = $pinDebitCreditReply;
+
+        return $this;
     }
 
     /**
@@ -2203,7 +2284,7 @@ class ReplyMessage
      */
     public function getPinDebitReversalReply()
     {
-      return $this->pinDebitReversalReply;
+        return $this->pinDebitReversalReply;
     }
 
     /**
@@ -2212,8 +2293,9 @@ class ReplyMessage
      */
     public function setPinDebitReversalReply($pinDebitReversalReply)
     {
-      $this->pinDebitReversalReply = $pinDebitReversalReply;
-      return $this;
+        $this->pinDebitReversalReply = $pinDebitReversalReply;
+
+        return $this;
     }
 
     /**
@@ -2221,7 +2303,7 @@ class ReplyMessage
      */
     public function getApInitiateReply()
     {
-      return $this->apInitiateReply;
+        return $this->apInitiateReply;
     }
 
     /**
@@ -2230,8 +2312,9 @@ class ReplyMessage
      */
     public function setApInitiateReply($apInitiateReply)
     {
-      $this->apInitiateReply = $apInitiateReply;
-      return $this;
+        $this->apInitiateReply = $apInitiateReply;
+
+        return $this;
     }
 
     /**
@@ -2239,7 +2322,7 @@ class ReplyMessage
      */
     public function getApCheckStatusReply()
     {
-      return $this->apCheckStatusReply;
+        return $this->apCheckStatusReply;
     }
 
     /**
@@ -2248,8 +2331,9 @@ class ReplyMessage
      */
     public function setApCheckStatusReply($apCheckStatusReply)
     {
-      $this->apCheckStatusReply = $apCheckStatusReply;
-      return $this;
+        $this->apCheckStatusReply = $apCheckStatusReply;
+
+        return $this;
     }
 
     /**
@@ -2257,7 +2341,7 @@ class ReplyMessage
      */
     public function getReceiptNumber()
     {
-      return $this->receiptNumber;
+        return $this->receiptNumber;
     }
 
     /**
@@ -2266,8 +2350,9 @@ class ReplyMessage
      */
     public function setReceiptNumber($receiptNumber)
     {
-      $this->receiptNumber = $receiptNumber;
-      return $this;
+        $this->receiptNumber = $receiptNumber;
+
+        return $this;
     }
 
     /**
@@ -2275,7 +2360,7 @@ class ReplyMessage
      */
     public function getAdditionalData()
     {
-      return $this->additionalData;
+        return $this->additionalData;
     }
 
     /**
@@ -2284,8 +2369,9 @@ class ReplyMessage
      */
     public function setAdditionalData($additionalData)
     {
-      $this->additionalData = $additionalData;
-      return $this;
+        $this->additionalData = $additionalData;
+
+        return $this;
     }
 
     /**
@@ -2293,7 +2379,7 @@ class ReplyMessage
      */
     public function getSolutionProviderTransactionID()
     {
-      return $this->solutionProviderTransactionID;
+        return $this->solutionProviderTransactionID;
     }
 
     /**
@@ -2302,8 +2388,9 @@ class ReplyMessage
      */
     public function setSolutionProviderTransactionID($solutionProviderTransactionID)
     {
-      $this->solutionProviderTransactionID = $solutionProviderTransactionID;
-      return $this;
+        $this->solutionProviderTransactionID = $solutionProviderTransactionID;
+
+        return $this;
     }
 
     /**
@@ -2311,7 +2398,7 @@ class ReplyMessage
      */
     public function getApReply()
     {
-      return $this->apReply;
+        return $this->apReply;
     }
 
     /**
@@ -2320,8 +2407,9 @@ class ReplyMessage
      */
     public function setApReply($apReply)
     {
-      $this->apReply = $apReply;
-      return $this;
+        $this->apReply = $apReply;
+
+        return $this;
     }
 
     /**
@@ -2329,7 +2417,7 @@ class ReplyMessage
      */
     public function getShipTo()
     {
-      return $this->shipTo;
+        return $this->shipTo;
     }
 
     /**
@@ -2338,8 +2426,9 @@ class ReplyMessage
      */
     public function setShipTo($shipTo)
     {
-      $this->shipTo = $shipTo;
-      return $this;
+        $this->shipTo = $shipTo;
+
+        return $this;
     }
 
     /**
@@ -2347,7 +2436,7 @@ class ReplyMessage
      */
     public function getBillTo()
     {
-      return $this->billTo;
+        return $this->billTo;
     }
 
     /**
@@ -2356,8 +2445,9 @@ class ReplyMessage
      */
     public function setBillTo($billTo)
     {
-      $this->billTo = $billTo;
-      return $this;
+        $this->billTo = $billTo;
+
+        return $this;
     }
 
     /**
@@ -2365,7 +2455,7 @@ class ReplyMessage
      */
     public function getApAuthReply()
     {
-      return $this->apAuthReply;
+        return $this->apAuthReply;
     }
 
     /**
@@ -2374,8 +2464,9 @@ class ReplyMessage
      */
     public function setApAuthReply($apAuthReply)
     {
-      $this->apAuthReply = $apAuthReply;
-      return $this;
+        $this->apAuthReply = $apAuthReply;
+
+        return $this;
     }
 
     /**
@@ -2383,7 +2474,7 @@ class ReplyMessage
      */
     public function getApSessionsReply()
     {
-      return $this->apSessionsReply;
+        return $this->apSessionsReply;
     }
 
     /**
@@ -2392,8 +2483,9 @@ class ReplyMessage
      */
     public function setApSessionsReply($apSessionsReply)
     {
-      $this->apSessionsReply = $apSessionsReply;
-      return $this;
+        $this->apSessionsReply = $apSessionsReply;
+
+        return $this;
     }
 
     /**
@@ -2401,7 +2493,7 @@ class ReplyMessage
      */
     public function getApAuthReversalReply()
     {
-      return $this->apAuthReversalReply;
+        return $this->apAuthReversalReply;
     }
 
     /**
@@ -2410,8 +2502,9 @@ class ReplyMessage
      */
     public function setApAuthReversalReply($apAuthReversalReply)
     {
-      $this->apAuthReversalReply = $apAuthReversalReply;
-      return $this;
+        $this->apAuthReversalReply = $apAuthReversalReply;
+
+        return $this;
     }
 
     /**
@@ -2419,7 +2512,7 @@ class ReplyMessage
      */
     public function getApCaptureReply()
     {
-      return $this->apCaptureReply;
+        return $this->apCaptureReply;
     }
 
     /**
@@ -2428,8 +2521,9 @@ class ReplyMessage
      */
     public function setApCaptureReply($apCaptureReply)
     {
-      $this->apCaptureReply = $apCaptureReply;
-      return $this;
+        $this->apCaptureReply = $apCaptureReply;
+
+        return $this;
     }
 
     /**
@@ -2437,7 +2531,7 @@ class ReplyMessage
      */
     public function getApOptionsReply()
     {
-      return $this->apOptionsReply;
+        return $this->apOptionsReply;
     }
 
     /**
@@ -2446,8 +2540,9 @@ class ReplyMessage
      */
     public function setApOptionsReply($apOptionsReply)
     {
-      $this->apOptionsReply = $apOptionsReply;
-      return $this;
+        $this->apOptionsReply = $apOptionsReply;
+
+        return $this;
     }
 
     /**
@@ -2455,7 +2550,7 @@ class ReplyMessage
      */
     public function getApRefundReply()
     {
-      return $this->apRefundReply;
+        return $this->apRefundReply;
     }
 
     /**
@@ -2464,8 +2559,9 @@ class ReplyMessage
      */
     public function setApRefundReply($apRefundReply)
     {
-      $this->apRefundReply = $apRefundReply;
-      return $this;
+        $this->apRefundReply = $apRefundReply;
+
+        return $this;
     }
 
     /**
@@ -2473,7 +2569,7 @@ class ReplyMessage
      */
     public function getApSaleReply()
     {
-      return $this->apSaleReply;
+        return $this->apSaleReply;
     }
 
     /**
@@ -2482,8 +2578,9 @@ class ReplyMessage
      */
     public function setApSaleReply($apSaleReply)
     {
-      $this->apSaleReply = $apSaleReply;
-      return $this;
+        $this->apSaleReply = $apSaleReply;
+
+        return $this;
     }
 
     /**
@@ -2491,7 +2588,7 @@ class ReplyMessage
      */
     public function getApCheckoutDetailsReply()
     {
-      return $this->apCheckoutDetailsReply;
+        return $this->apCheckoutDetailsReply;
     }
 
     /**
@@ -2500,8 +2597,9 @@ class ReplyMessage
      */
     public function setApCheckoutDetailsReply($apCheckoutDetailsReply)
     {
-      $this->apCheckoutDetailsReply = $apCheckoutDetailsReply;
-      return $this;
+        $this->apCheckoutDetailsReply = $apCheckoutDetailsReply;
+
+        return $this;
     }
 
     /**
@@ -2509,7 +2607,7 @@ class ReplyMessage
      */
     public function getApTransactionDetailsReply()
     {
-      return $this->apTransactionDetailsReply;
+        return $this->apTransactionDetailsReply;
     }
 
     /**
@@ -2518,8 +2616,9 @@ class ReplyMessage
      */
     public function setApTransactionDetailsReply($apTransactionDetailsReply)
     {
-      $this->apTransactionDetailsReply = $apTransactionDetailsReply;
-      return $this;
+        $this->apTransactionDetailsReply = $apTransactionDetailsReply;
+
+        return $this;
     }
 
     /**
@@ -2527,7 +2626,7 @@ class ReplyMessage
      */
     public function getApConfirmPurchaseReply()
     {
-      return $this->apConfirmPurchaseReply;
+        return $this->apConfirmPurchaseReply;
     }
 
     /**
@@ -2536,8 +2635,9 @@ class ReplyMessage
      */
     public function setApConfirmPurchaseReply($apConfirmPurchaseReply)
     {
-      $this->apConfirmPurchaseReply = $apConfirmPurchaseReply;
-      return $this;
+        $this->apConfirmPurchaseReply = $apConfirmPurchaseReply;
+
+        return $this;
     }
 
     /**
@@ -2545,7 +2645,7 @@ class ReplyMessage
      */
     public function getPromotion()
     {
-      return $this->promotion;
+        return $this->promotion;
     }
 
     /**
@@ -2554,8 +2654,9 @@ class ReplyMessage
      */
     public function setPromotion($promotion)
     {
-      $this->promotion = $promotion;
-      return $this;
+        $this->promotion = $promotion;
+
+        return $this;
     }
 
     /**
@@ -2563,7 +2664,7 @@ class ReplyMessage
      */
     public function getPromotionGroup()
     {
-      return $this->promotionGroup;
+        return $this->promotionGroup;
     }
 
     /**
@@ -2572,8 +2673,9 @@ class ReplyMessage
      */
     public function setPromotionGroup(array $promotionGroup = null)
     {
-      $this->promotionGroup = $promotionGroup;
-      return $this;
+        $this->promotionGroup = $promotionGroup;
+
+        return $this;
     }
 
     /**
@@ -2581,7 +2683,7 @@ class ReplyMessage
      */
     public function getPayPalGetTxnDetailsReply()
     {
-      return $this->payPalGetTxnDetailsReply;
+        return $this->payPalGetTxnDetailsReply;
     }
 
     /**
@@ -2590,8 +2692,9 @@ class ReplyMessage
      */
     public function setPayPalGetTxnDetailsReply($payPalGetTxnDetailsReply)
     {
-      $this->payPalGetTxnDetailsReply = $payPalGetTxnDetailsReply;
-      return $this;
+        $this->payPalGetTxnDetailsReply = $payPalGetTxnDetailsReply;
+
+        return $this;
     }
 
     /**
@@ -2599,7 +2702,7 @@ class ReplyMessage
      */
     public function getPayPalTransactionSearchReply()
     {
-      return $this->payPalTransactionSearchReply;
+        return $this->payPalTransactionSearchReply;
     }
 
     /**
@@ -2608,8 +2711,9 @@ class ReplyMessage
      */
     public function setPayPalTransactionSearchReply($payPalTransactionSearchReply)
     {
-      $this->payPalTransactionSearchReply = $payPalTransactionSearchReply;
-      return $this;
+        $this->payPalTransactionSearchReply = $payPalTransactionSearchReply;
+
+        return $this;
     }
 
     /**
@@ -2617,7 +2721,7 @@ class ReplyMessage
      */
     public function getEmvReply()
     {
-      return $this->emvReply;
+        return $this->emvReply;
     }
 
     /**
@@ -2626,8 +2730,9 @@ class ReplyMessage
      */
     public function setEmvReply($emvReply)
     {
-      $this->emvReply = $emvReply;
-      return $this;
+        $this->emvReply = $emvReply;
+
+        return $this;
     }
 
     /**
@@ -2635,7 +2740,7 @@ class ReplyMessage
      */
     public function getOriginalTransaction()
     {
-      return $this->originalTransaction;
+        return $this->originalTransaction;
     }
 
     /**
@@ -2644,8 +2749,9 @@ class ReplyMessage
      */
     public function setOriginalTransaction($originalTransaction)
     {
-      $this->originalTransaction = $originalTransaction;
-      return $this;
+        $this->originalTransaction = $originalTransaction;
+
+        return $this;
     }
 
     /**
@@ -2653,7 +2759,7 @@ class ReplyMessage
      */
     public function getHostedDataCreateReply()
     {
-      return $this->hostedDataCreateReply;
+        return $this->hostedDataCreateReply;
     }
 
     /**
@@ -2662,8 +2768,9 @@ class ReplyMessage
      */
     public function setHostedDataCreateReply($hostedDataCreateReply)
     {
-      $this->hostedDataCreateReply = $hostedDataCreateReply;
-      return $this;
+        $this->hostedDataCreateReply = $hostedDataCreateReply;
+
+        return $this;
     }
 
     /**
@@ -2671,7 +2778,7 @@ class ReplyMessage
      */
     public function getHostedDataRetrieveReply()
     {
-      return $this->hostedDataRetrieveReply;
+        return $this->hostedDataRetrieveReply;
     }
 
     /**
@@ -2680,8 +2787,9 @@ class ReplyMessage
      */
     public function setHostedDataRetrieveReply($hostedDataRetrieveReply)
     {
-      $this->hostedDataRetrieveReply = $hostedDataRetrieveReply;
-      return $this;
+        $this->hostedDataRetrieveReply = $hostedDataRetrieveReply;
+
+        return $this;
     }
 
     /**
@@ -2689,7 +2797,7 @@ class ReplyMessage
      */
     public function getSalesSlipNumber()
     {
-      return $this->salesSlipNumber;
+        return $this->salesSlipNumber;
     }
 
     /**
@@ -2698,8 +2806,9 @@ class ReplyMessage
      */
     public function setSalesSlipNumber($salesSlipNumber)
     {
-      $this->salesSlipNumber = $salesSlipNumber;
-      return $this;
+        $this->salesSlipNumber = $salesSlipNumber;
+
+        return $this;
     }
 
     /**
@@ -2707,7 +2816,7 @@ class ReplyMessage
      */
     public function getAdditionalProcessorResponse()
     {
-      return $this->additionalProcessorResponse;
+        return $this->additionalProcessorResponse;
     }
 
     /**
@@ -2716,8 +2825,9 @@ class ReplyMessage
      */
     public function setAdditionalProcessorResponse($additionalProcessorResponse)
     {
-      $this->additionalProcessorResponse = $additionalProcessorResponse;
-      return $this;
+        $this->additionalProcessorResponse = $additionalProcessorResponse;
+
+        return $this;
     }
 
     /**
@@ -2725,7 +2835,7 @@ class ReplyMessage
      */
     public function getJpo()
     {
-      return $this->jpo;
+        return $this->jpo;
     }
 
     /**
@@ -2734,8 +2844,9 @@ class ReplyMessage
      */
     public function setJpo($jpo)
     {
-      $this->jpo = $jpo;
-      return $this;
+        $this->jpo = $jpo;
+
+        return $this;
     }
 
     /**
@@ -2743,7 +2854,7 @@ class ReplyMessage
      */
     public function getCard()
     {
-      return $this->card;
+        return $this->card;
     }
 
     /**
@@ -2752,8 +2863,9 @@ class ReplyMessage
      */
     public function setCard($card)
     {
-      $this->card = $card;
-      return $this;
+        $this->card = $card;
+
+        return $this;
     }
 
     /**
@@ -2761,7 +2873,7 @@ class ReplyMessage
      */
     public function getPaymentNetworkToken()
     {
-      return $this->paymentNetworkToken;
+        return $this->paymentNetworkToken;
     }
 
     /**
@@ -2770,8 +2882,9 @@ class ReplyMessage
      */
     public function setPaymentNetworkToken($paymentNetworkToken)
     {
-      $this->paymentNetworkToken = $paymentNetworkToken;
-      return $this;
+        $this->paymentNetworkToken = $paymentNetworkToken;
+
+        return $this;
     }
 
     /**
@@ -2779,7 +2892,7 @@ class ReplyMessage
      */
     public function getVcReply()
     {
-      return $this->vcReply;
+        return $this->vcReply;
     }
 
     /**
@@ -2788,8 +2901,9 @@ class ReplyMessage
      */
     public function setVcReply($vcReply)
     {
-      $this->vcReply = $vcReply;
-      return $this;
+        $this->vcReply = $vcReply;
+
+        return $this;
     }
 
     /**
@@ -2797,7 +2911,7 @@ class ReplyMessage
      */
     public function getDecryptVisaCheckoutDataReply()
     {
-      return $this->decryptVisaCheckoutDataReply;
+        return $this->decryptVisaCheckoutDataReply;
     }
 
     /**
@@ -2806,8 +2920,9 @@ class ReplyMessage
      */
     public function setDecryptVisaCheckoutDataReply($decryptVisaCheckoutDataReply)
     {
-      $this->decryptVisaCheckoutDataReply = $decryptVisaCheckoutDataReply;
-      return $this;
+        $this->decryptVisaCheckoutDataReply = $decryptVisaCheckoutDataReply;
+
+        return $this;
     }
 
     /**
@@ -2815,7 +2930,7 @@ class ReplyMessage
      */
     public function getGetVisaCheckoutDataReply()
     {
-      return $this->getVisaCheckoutDataReply;
+        return $this->getVisaCheckoutDataReply;
     }
 
     /**
@@ -2824,8 +2939,9 @@ class ReplyMessage
      */
     public function setGetVisaCheckoutDataReply($getVisaCheckoutDataReply)
     {
-      $this->getVisaCheckoutDataReply = $getVisaCheckoutDataReply;
-      return $this;
+        $this->getVisaCheckoutDataReply = $getVisaCheckoutDataReply;
+
+        return $this;
     }
 
     /**
@@ -2833,7 +2949,7 @@ class ReplyMessage
      */
     public function getBinLookupReply()
     {
-      return $this->binLookupReply;
+        return $this->binLookupReply;
     }
 
     /**
@@ -2842,8 +2958,9 @@ class ReplyMessage
      */
     public function setBinLookupReply($binLookupReply)
     {
-      $this->binLookupReply = $binLookupReply;
-      return $this;
+        $this->binLookupReply = $binLookupReply;
+
+        return $this;
     }
 
     /**
@@ -2851,7 +2968,7 @@ class ReplyMessage
      */
     public function getIssuerMessage()
     {
-      return $this->issuerMessage;
+        return $this->issuerMessage;
     }
 
     /**
@@ -2860,8 +2977,9 @@ class ReplyMessage
      */
     public function setIssuerMessage($issuerMessage)
     {
-      $this->issuerMessage = $issuerMessage;
-      return $this;
+        $this->issuerMessage = $issuerMessage;
+
+        return $this;
     }
 
     /**
@@ -2869,7 +2987,7 @@ class ReplyMessage
      */
     public function getToken()
     {
-      return $this->token;
+        return $this->token;
     }
 
     /**
@@ -2878,8 +2996,9 @@ class ReplyMessage
      */
     public function setToken($token)
     {
-      $this->token = $token;
-      return $this;
+        $this->token = $token;
+
+        return $this;
     }
 
     /**
@@ -2887,7 +3006,7 @@ class ReplyMessage
      */
     public function getIssuer()
     {
-      return $this->issuer;
+        return $this->issuer;
     }
 
     /**
@@ -2896,8 +3015,9 @@ class ReplyMessage
      */
     public function setIssuer($issuer)
     {
-      $this->issuer = $issuer;
-      return $this;
+        $this->issuer = $issuer;
+
+        return $this;
     }
 
     /**
@@ -2905,7 +3025,7 @@ class ReplyMessage
      */
     public function getRecipient()
     {
-      return $this->recipient;
+        return $this->recipient;
     }
 
     /**
@@ -2914,8 +3034,9 @@ class ReplyMessage
      */
     public function setRecipient($recipient)
     {
-      $this->recipient = $recipient;
-      return $this;
+        $this->recipient = $recipient;
+
+        return $this;
     }
 
     /**
@@ -2923,7 +3044,7 @@ class ReplyMessage
      */
     public function getFeeProgramIndicator()
     {
-      return $this->feeProgramIndicator;
+        return $this->feeProgramIndicator;
     }
 
     /**
@@ -2932,8 +3053,9 @@ class ReplyMessage
      */
     public function setFeeProgramIndicator($feeProgramIndicator)
     {
-      $this->feeProgramIndicator = $feeProgramIndicator;
-      return $this;
+        $this->feeProgramIndicator = $feeProgramIndicator;
+
+        return $this;
     }
 
     /**
@@ -2941,7 +3063,7 @@ class ReplyMessage
      */
     public function getInstallment()
     {
-      return $this->installment;
+        return $this->installment;
     }
 
     /**
@@ -2950,8 +3072,9 @@ class ReplyMessage
      */
     public function setInstallment($installment)
     {
-      $this->installment = $installment;
-      return $this;
+        $this->installment = $installment;
+
+        return $this;
     }
 
     /**
@@ -2959,7 +3082,7 @@ class ReplyMessage
      */
     public function getPaymentAccountReference()
     {
-      return $this->paymentAccountReference;
+        return $this->paymentAccountReference;
     }
 
     /**
@@ -2968,8 +3091,9 @@ class ReplyMessage
      */
     public function setPaymentAccountReference($paymentAccountReference)
     {
-      $this->paymentAccountReference = $paymentAccountReference;
-      return $this;
+        $this->paymentAccountReference = $paymentAccountReference;
+
+        return $this;
     }
 
     /**
@@ -2977,7 +3101,7 @@ class ReplyMessage
      */
     public function getAuthIndicator()
     {
-      return $this->authIndicator;
+        return $this->authIndicator;
     }
 
     /**
@@ -2986,8 +3110,9 @@ class ReplyMessage
      */
     public function setAuthIndicator($authIndicator)
     {
-      $this->authIndicator = $authIndicator;
-      return $this;
+        $this->authIndicator = $authIndicator;
+
+        return $this;
     }
 
     /**
@@ -2995,7 +3120,7 @@ class ReplyMessage
      */
     public function getUcaf()
     {
-      return $this->ucaf;
+        return $this->ucaf;
     }
 
     /**
@@ -3004,8 +3129,9 @@ class ReplyMessage
      */
     public function setUcaf($ucaf)
     {
-      $this->ucaf = $ucaf;
-      return $this;
+        $this->ucaf = $ucaf;
+
+        return $this;
     }
 
     /**
@@ -3013,7 +3139,7 @@ class ReplyMessage
      */
     public function getNetwork()
     {
-      return $this->network;
+        return $this->network;
     }
 
     /**
@@ -3022,8 +3148,9 @@ class ReplyMessage
      */
     public function setNetwork(array $network = null)
     {
-      $this->network = $network;
-      return $this;
+        $this->network = $network;
+
+        return $this;
     }
 
     /**
@@ -3031,7 +3158,7 @@ class ReplyMessage
      */
     public function getInvoiceHeader()
     {
-      return $this->invoiceHeader;
+        return $this->invoiceHeader;
     }
 
     /**
@@ -3040,8 +3167,9 @@ class ReplyMessage
      */
     public function setInvoiceHeader($invoiceHeader)
     {
-      $this->invoiceHeader = $invoiceHeader;
-      return $this;
+        $this->invoiceHeader = $invoiceHeader;
+
+        return $this;
     }
 
     /**
@@ -3049,7 +3177,7 @@ class ReplyMessage
      */
     public function getApOrderReply()
     {
-      return $this->apOrderReply;
+        return $this->apOrderReply;
     }
 
     /**
@@ -3058,8 +3186,9 @@ class ReplyMessage
      */
     public function setApOrderReply($apOrderReply)
     {
-      $this->apOrderReply = $apOrderReply;
-      return $this;
+        $this->apOrderReply = $apOrderReply;
+
+        return $this;
     }
 
     /**
@@ -3067,7 +3196,7 @@ class ReplyMessage
      */
     public function getApCancelReply()
     {
-      return $this->apCancelReply;
+        return $this->apCancelReply;
     }
 
     /**
@@ -3076,8 +3205,9 @@ class ReplyMessage
      */
     public function setApCancelReply($apCancelReply)
     {
-      $this->apCancelReply = $apCancelReply;
-      return $this;
+        $this->apCancelReply = $apCancelReply;
+
+        return $this;
     }
 
     /**
@@ -3085,7 +3215,7 @@ class ReplyMessage
      */
     public function getApBillingAgreementReply()
     {
-      return $this->apBillingAgreementReply;
+        return $this->apBillingAgreementReply;
     }
 
     /**
@@ -3094,8 +3224,9 @@ class ReplyMessage
      */
     public function setApBillingAgreementReply($apBillingAgreementReply)
     {
-      $this->apBillingAgreementReply = $apBillingAgreementReply;
-      return $this;
+        $this->apBillingAgreementReply = $apBillingAgreementReply;
+
+        return $this;
     }
 
     /**
@@ -3103,7 +3234,7 @@ class ReplyMessage
      */
     public function getCustomerVerificationStatus()
     {
-      return $this->customerVerificationStatus;
+        return $this->customerVerificationStatus;
     }
 
     /**
@@ -3112,8 +3243,9 @@ class ReplyMessage
      */
     public function setCustomerVerificationStatus($customerVerificationStatus)
     {
-      $this->customerVerificationStatus = $customerVerificationStatus;
-      return $this;
+        $this->customerVerificationStatus = $customerVerificationStatus;
+
+        return $this;
     }
 
     /**
@@ -3121,7 +3253,7 @@ class ReplyMessage
      */
     public function getPersonalID()
     {
-      return $this->personalID;
+        return $this->personalID;
     }
 
     /**
@@ -3130,8 +3262,9 @@ class ReplyMessage
      */
     public function setPersonalID($personalID)
     {
-      $this->personalID = $personalID;
-      return $this;
+        $this->personalID = $personalID;
+
+        return $this;
     }
 
     /**
@@ -3139,7 +3272,7 @@ class ReplyMessage
      */
     public function getAcquirerMerchantNumber()
     {
-      return $this->acquirerMerchantNumber;
+        return $this->acquirerMerchantNumber;
     }
 
     /**
@@ -3148,8 +3281,9 @@ class ReplyMessage
      */
     public function setAcquirerMerchantNumber($acquirerMerchantNumber)
     {
-      $this->acquirerMerchantNumber = $acquirerMerchantNumber;
-      return $this;
+        $this->acquirerMerchantNumber = $acquirerMerchantNumber;
+
+        return $this;
     }
 
     /**
@@ -3157,7 +3291,7 @@ class ReplyMessage
      */
     public function getPos()
     {
-      return $this->pos;
+        return $this->pos;
     }
 
     /**
@@ -3166,8 +3300,9 @@ class ReplyMessage
      */
     public function setPos($pos)
     {
-      $this->pos = $pos;
-      return $this;
+        $this->pos = $pos;
+
+        return $this;
     }
 
     /**
@@ -3175,7 +3310,7 @@ class ReplyMessage
      */
     public function getIssuerMessageAction()
     {
-      return $this->issuerMessageAction;
+        return $this->issuerMessageAction;
     }
 
     /**
@@ -3184,8 +3319,9 @@ class ReplyMessage
      */
     public function setIssuerMessageAction($issuerMessageAction)
     {
-      $this->issuerMessageAction = $issuerMessageAction;
-      return $this;
+        $this->issuerMessageAction = $issuerMessageAction;
+
+        return $this;
     }
 
     /**
@@ -3193,7 +3329,7 @@ class ReplyMessage
      */
     public function getCustomerID()
     {
-      return $this->customerID;
+        return $this->customerID;
     }
 
     /**
@@ -3202,8 +3338,9 @@ class ReplyMessage
      */
     public function setCustomerID($customerID)
     {
-      $this->customerID = $customerID;
-      return $this;
+        $this->customerID = $customerID;
+
+        return $this;
     }
 
     /**
@@ -3211,7 +3348,7 @@ class ReplyMessage
      */
     public function getRouting()
     {
-      return $this->routing;
+        return $this->routing;
     }
 
     /**
@@ -3220,8 +3357,9 @@ class ReplyMessage
      */
     public function setRouting($routing)
     {
-      $this->routing = $routing;
-      return $this;
+        $this->routing = $routing;
+
+        return $this;
     }
 
     /**
@@ -3229,29 +3367,30 @@ class ReplyMessage
      */
     public function getTransactionLocalDateTime()
     {
-      if ($this->transactionLocalDateTime == null) {
-        return null;
-      } else {
-        try {
-          return new \DateTime($this->transactionLocalDateTime);
-        } catch (\Exception $e) {
-          return false;
+        if ($this->transactionLocalDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->transactionLocalDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
         }
-      }
     }
 
     /**
      * @param \DateTime $transactionLocalDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setTransactionLocalDateTime(\DateTime $transactionLocalDateTime = null)
+    public function setTransactionLocalDateTime(DateTime $transactionLocalDateTime = null)
     {
-      if ($transactionLocalDateTime == null) {
-       $this->transactionLocalDateTime = null;
-      } else {
-        $this->transactionLocalDateTime = $transactionLocalDateTime->format(\DateTime::ATOM);
-      }
-      return $this;
+        if ($transactionLocalDateTime == null) {
+            $this->transactionLocalDateTime = null;
+        } else {
+            $this->transactionLocalDateTime = $transactionLocalDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
     }
 
     /**
@@ -3259,7 +3398,7 @@ class ReplyMessage
      */
     public function getApCreateMandateReply()
     {
-      return $this->apCreateMandateReply;
+        return $this->apCreateMandateReply;
     }
 
     /**
@@ -3268,8 +3407,9 @@ class ReplyMessage
      */
     public function setApCreateMandateReply($apCreateMandateReply)
     {
-      $this->apCreateMandateReply = $apCreateMandateReply;
-      return $this;
+        $this->apCreateMandateReply = $apCreateMandateReply;
+
+        return $this;
     }
 
     /**
@@ -3277,7 +3417,7 @@ class ReplyMessage
      */
     public function getApMandateStatusReply()
     {
-      return $this->apMandateStatusReply;
+        return $this->apMandateStatusReply;
     }
 
     /**
@@ -3286,8 +3426,9 @@ class ReplyMessage
      */
     public function setApMandateStatusReply($apMandateStatusReply)
     {
-      $this->apMandateStatusReply = $apMandateStatusReply;
-      return $this;
+        $this->apMandateStatusReply = $apMandateStatusReply;
+
+        return $this;
     }
 
     /**
@@ -3295,7 +3436,7 @@ class ReplyMessage
      */
     public function getApUpdateMandateReply()
     {
-      return $this->apUpdateMandateReply;
+        return $this->apUpdateMandateReply;
     }
 
     /**
@@ -3304,8 +3445,9 @@ class ReplyMessage
      */
     public function setApUpdateMandateReply($apUpdateMandateReply)
     {
-      $this->apUpdateMandateReply = $apUpdateMandateReply;
-      return $this;
+        $this->apUpdateMandateReply = $apUpdateMandateReply;
+
+        return $this;
     }
 
     /**
@@ -3313,7 +3455,7 @@ class ReplyMessage
      */
     public function getApImportMandateReply()
     {
-      return $this->apImportMandateReply;
+        return $this->apImportMandateReply;
     }
 
     /**
@@ -3322,8 +3464,9 @@ class ReplyMessage
      */
     public function setApImportMandateReply($apImportMandateReply)
     {
-      $this->apImportMandateReply = $apImportMandateReply;
-      return $this;
+        $this->apImportMandateReply = $apImportMandateReply;
+
+        return $this;
     }
 
     /**
@@ -3331,7 +3474,7 @@ class ReplyMessage
      */
     public function getApRevokeMandateReply()
     {
-      return $this->apRevokeMandateReply;
+        return $this->apRevokeMandateReply;
     }
 
     /**
@@ -3340,8 +3483,9 @@ class ReplyMessage
      */
     public function setApRevokeMandateReply($apRevokeMandateReply)
     {
-      $this->apRevokeMandateReply = $apRevokeMandateReply;
-      return $this;
+        $this->apRevokeMandateReply = $apRevokeMandateReply;
+
+        return $this;
     }
 
     /**
@@ -3349,7 +3493,7 @@ class ReplyMessage
      */
     public function getGetMasterpassDataReply()
     {
-      return $this->getMasterpassDataReply;
+        return $this->getMasterpassDataReply;
     }
 
     /**
@@ -3358,8 +3502,9 @@ class ReplyMessage
      */
     public function setGetMasterpassDataReply($getMasterpassDataReply)
     {
-      $this->getMasterpassDataReply = $getMasterpassDataReply;
-      return $this;
+        $this->getMasterpassDataReply = $getMasterpassDataReply;
+
+        return $this;
     }
 
     /**
@@ -3367,7 +3512,7 @@ class ReplyMessage
      */
     public function getPaymentNetworkMerchantID()
     {
-      return $this->paymentNetworkMerchantID;
+        return $this->paymentNetworkMerchantID;
     }
 
     /**
@@ -3376,8 +3521,9 @@ class ReplyMessage
      */
     public function setPaymentNetworkMerchantID($paymentNetworkMerchantID)
     {
-      $this->paymentNetworkMerchantID = $paymentNetworkMerchantID;
-      return $this;
+        $this->paymentNetworkMerchantID = $paymentNetworkMerchantID;
+
+        return $this;
     }
 
     /**
@@ -3385,7 +3531,7 @@ class ReplyMessage
      */
     public function getWallet()
     {
-      return $this->wallet;
+        return $this->wallet;
     }
 
     /**
@@ -3394,8 +3540,9 @@ class ReplyMessage
      */
     public function setWallet($wallet)
     {
-      $this->wallet = $wallet;
-      return $this;
+        $this->wallet = $wallet;
+
+        return $this;
     }
 
     /**
@@ -3403,7 +3550,7 @@ class ReplyMessage
      */
     public function getCashbackAmount()
     {
-      return $this->cashbackAmount;
+        return $this->cashbackAmount;
     }
 
     /**
@@ -3412,8 +3559,9 @@ class ReplyMessage
      */
     public function setCashbackAmount($cashbackAmount)
     {
-      $this->cashbackAmount = $cashbackAmount;
-      return $this;
+        $this->cashbackAmount = $cashbackAmount;
+
+        return $this;
     }
 
     /**
@@ -3421,7 +3569,7 @@ class ReplyMessage
      */
     public function getGiftCard()
     {
-      return $this->giftCard;
+        return $this->giftCard;
     }
 
     /**
@@ -3430,8 +3578,9 @@ class ReplyMessage
      */
     public function setGiftCard($giftCard)
     {
-      $this->giftCard = $giftCard;
-      return $this;
+        $this->giftCard = $giftCard;
+
+        return $this;
     }
 
     /**
@@ -3439,7 +3588,7 @@ class ReplyMessage
      */
     public function getGiftCardActivationReply()
     {
-      return $this->giftCardActivationReply;
+        return $this->giftCardActivationReply;
     }
 
     /**
@@ -3448,8 +3597,9 @@ class ReplyMessage
      */
     public function setGiftCardActivationReply($giftCardActivationReply)
     {
-      $this->giftCardActivationReply = $giftCardActivationReply;
-      return $this;
+        $this->giftCardActivationReply = $giftCardActivationReply;
+
+        return $this;
     }
 
     /**
@@ -3457,7 +3607,7 @@ class ReplyMessage
      */
     public function getGiftCardBalanceInquiryReply()
     {
-      return $this->giftCardBalanceInquiryReply;
+        return $this->giftCardBalanceInquiryReply;
     }
 
     /**
@@ -3466,8 +3616,9 @@ class ReplyMessage
      */
     public function setGiftCardBalanceInquiryReply($giftCardBalanceInquiryReply)
     {
-      $this->giftCardBalanceInquiryReply = $giftCardBalanceInquiryReply;
-      return $this;
+        $this->giftCardBalanceInquiryReply = $giftCardBalanceInquiryReply;
+
+        return $this;
     }
 
     /**
@@ -3475,7 +3626,7 @@ class ReplyMessage
      */
     public function getGiftCardRedemptionReply()
     {
-      return $this->giftCardRedemptionReply;
+        return $this->giftCardRedemptionReply;
     }
 
     /**
@@ -3484,8 +3635,9 @@ class ReplyMessage
      */
     public function setGiftCardRedemptionReply($giftCardRedemptionReply)
     {
-      $this->giftCardRedemptionReply = $giftCardRedemptionReply;
-      return $this;
+        $this->giftCardRedemptionReply = $giftCardRedemptionReply;
+
+        return $this;
     }
 
     /**
@@ -3493,7 +3645,7 @@ class ReplyMessage
      */
     public function getGiftCardVoidReply()
     {
-      return $this->giftCardVoidReply;
+        return $this->giftCardVoidReply;
     }
 
     /**
@@ -3502,8 +3654,9 @@ class ReplyMessage
      */
     public function setGiftCardVoidReply($giftCardVoidReply)
     {
-      $this->giftCardVoidReply = $giftCardVoidReply;
-      return $this;
+        $this->giftCardVoidReply = $giftCardVoidReply;
+
+        return $this;
     }
 
     /**
@@ -3511,7 +3664,7 @@ class ReplyMessage
      */
     public function getGiftCardReversalReply()
     {
-      return $this->giftCardReversalReply;
+        return $this->giftCardReversalReply;
     }
 
     /**
@@ -3520,8 +3673,9 @@ class ReplyMessage
      */
     public function setGiftCardReversalReply($giftCardReversalReply)
     {
-      $this->giftCardReversalReply = $giftCardReversalReply;
-      return $this;
+        $this->giftCardReversalReply = $giftCardReversalReply;
+
+        return $this;
     }
 
     /**
@@ -3529,7 +3683,7 @@ class ReplyMessage
      */
     public function getCcCheckStatusReply()
     {
-      return $this->ccCheckStatusReply;
+        return $this->ccCheckStatusReply;
     }
 
     /**
@@ -3538,8 +3692,9 @@ class ReplyMessage
      */
     public function setCcCheckStatusReply($ccCheckStatusReply)
     {
-      $this->ccCheckStatusReply = $ccCheckStatusReply;
-      return $this;
+        $this->ccCheckStatusReply = $ccCheckStatusReply;
+
+        return $this;
     }
 
     /**
@@ -3547,7 +3702,7 @@ class ReplyMessage
      */
     public function getEcAVSReply()
     {
-      return $this->ecAVSReply;
+        return $this->ecAVSReply;
     }
 
     /**
@@ -3556,8 +3711,9 @@ class ReplyMessage
      */
     public function setEcAVSReply($ecAVSReply)
     {
-      $this->ecAVSReply = $ecAVSReply;
-      return $this;
+        $this->ecAVSReply = $ecAVSReply;
+
+        return $this;
     }
 
     /**
@@ -3565,7 +3721,7 @@ class ReplyMessage
      */
     public function getAbortReply()
     {
-      return $this->abortReply;
+        return $this->abortReply;
     }
 
     /**
@@ -3574,8 +3730,9 @@ class ReplyMessage
      */
     public function setAbortReply($abortReply)
     {
-      $this->abortReply = $abortReply;
-      return $this;
+        $this->abortReply = $abortReply;
+
+        return $this;
     }
 
     /**
@@ -3583,7 +3740,7 @@ class ReplyMessage
      */
     public function getReserved()
     {
-      return $this->reserved;
+        return $this->reserved;
     }
 
     /**
@@ -3592,8 +3749,9 @@ class ReplyMessage
      */
     public function setReserved($reserved)
     {
-      $this->reserved = $reserved;
-      return $this;
+        $this->reserved = $reserved;
+
+        return $this;
     }
 
 }

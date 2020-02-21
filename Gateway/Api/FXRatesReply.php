@@ -20,7 +20,7 @@ class FXRatesReply
      */
     public function __construct($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
+        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -28,7 +28,7 @@ class FXRatesReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -37,8 +37,9 @@ class FXRatesReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -46,7 +47,7 @@ class FXRatesReply
      */
     public function getQuote()
     {
-      return $this->quote;
+        return $this->quote;
     }
 
     /**
@@ -55,8 +56,9 @@ class FXRatesReply
      */
     public function setQuote(array $quote = null)
     {
-      $this->quote = $quote;
-      return $this;
+        $this->quote = $quote;
+
+        return $this;
     }
 
 }

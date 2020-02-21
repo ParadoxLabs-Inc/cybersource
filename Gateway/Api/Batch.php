@@ -15,10 +15,8 @@ class Batch
      */
     protected $recordID = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -26,7 +24,7 @@ class Batch
      */
     public function getBatchID()
     {
-      return $this->batchID;
+        return $this->batchID;
     }
 
     /**
@@ -35,8 +33,9 @@ class Batch
      */
     public function setBatchID($batchID)
     {
-      $this->batchID = $batchID;
-      return $this;
+        $this->batchID = $batchID;
+
+        return $this;
     }
 
     /**
@@ -44,7 +43,7 @@ class Batch
      */
     public function getRecordID()
     {
-      return $this->recordID;
+        return $this->recordID;
     }
 
     /**
@@ -53,8 +52,9 @@ class Batch
      */
     public function setRecordID($recordID)
     {
-      $this->recordID = $recordID;
-      return $this;
+        $this->recordID = $recordID;
+
+        return $this;
     }
 
 }

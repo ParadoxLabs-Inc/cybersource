@@ -45,7 +45,7 @@ class Network
      */
     public function __construct($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -53,7 +53,7 @@ class Network
      */
     public function getOctDomesticIndicator()
     {
-      return $this->octDomesticIndicator;
+        return $this->octDomesticIndicator;
     }
 
     /**
@@ -62,8 +62,9 @@ class Network
      */
     public function setOctDomesticIndicator($octDomesticIndicator)
     {
-      $this->octDomesticIndicator = $octDomesticIndicator;
-      return $this;
+        $this->octDomesticIndicator = $octDomesticIndicator;
+
+        return $this;
     }
 
     /**
@@ -71,7 +72,7 @@ class Network
      */
     public function getOctCrossBorderIndicator()
     {
-      return $this->octCrossBorderIndicator;
+        return $this->octCrossBorderIndicator;
     }
 
     /**
@@ -80,8 +81,9 @@ class Network
      */
     public function setOctCrossBorderIndicator($octCrossBorderIndicator)
     {
-      $this->octCrossBorderIndicator = $octCrossBorderIndicator;
-      return $this;
+        $this->octCrossBorderIndicator = $octCrossBorderIndicator;
+
+        return $this;
     }
 
     /**
@@ -89,7 +91,7 @@ class Network
      */
     public function getAftDomesticIndicator()
     {
-      return $this->aftDomesticIndicator;
+        return $this->aftDomesticIndicator;
     }
 
     /**
@@ -98,8 +100,9 @@ class Network
      */
     public function setAftDomesticIndicator($aftDomesticIndicator)
     {
-      $this->aftDomesticIndicator = $aftDomesticIndicator;
-      return $this;
+        $this->aftDomesticIndicator = $aftDomesticIndicator;
+
+        return $this;
     }
 
     /**
@@ -107,7 +110,7 @@ class Network
      */
     public function getAftCrossBorderIndicator()
     {
-      return $this->aftCrossBorderIndicator;
+        return $this->aftCrossBorderIndicator;
     }
 
     /**
@@ -116,8 +119,9 @@ class Network
      */
     public function setAftCrossBorderIndicator($aftCrossBorderIndicator)
     {
-      $this->aftCrossBorderIndicator = $aftCrossBorderIndicator;
-      return $this;
+        $this->aftCrossBorderIndicator = $aftCrossBorderIndicator;
+
+        return $this;
     }
 
     /**
@@ -125,7 +129,7 @@ class Network
      */
     public function getNetworkID()
     {
-      return $this->networkID;
+        return $this->networkID;
     }
 
     /**
@@ -134,8 +138,9 @@ class Network
      */
     public function setNetworkID($networkID)
     {
-      $this->networkID = $networkID;
-      return $this;
+        $this->networkID = $networkID;
+
+        return $this;
     }
 
     /**
@@ -143,7 +148,7 @@ class Network
      */
     public function getNetworkOrder()
     {
-      return $this->networkOrder;
+        return $this->networkOrder;
     }
 
     /**
@@ -152,8 +157,9 @@ class Network
      */
     public function setNetworkOrder($networkOrder)
     {
-      $this->networkOrder = $networkOrder;
-      return $this;
+        $this->networkOrder = $networkOrder;
+
+        return $this;
     }
 
     /**
@@ -161,7 +167,7 @@ class Network
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -170,8 +176,9 @@ class Network
      */
     public function setId($id)
     {
-      $this->id = $id;
-      return $this;
+        $this->id = $id;
+
+        return $this;
     }
 
 }

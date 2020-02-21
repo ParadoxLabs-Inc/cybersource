@@ -35,7 +35,7 @@ class AFSService
      */
     public function __construct($run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -43,7 +43,7 @@ class AFSService
      */
     public function getAvsCode()
     {
-      return $this->avsCode;
+        return $this->avsCode;
     }
 
     /**
@@ -52,8 +52,9 @@ class AFSService
      */
     public function setAvsCode($avsCode)
     {
-      $this->avsCode = $avsCode;
-      return $this;
+        $this->avsCode = $avsCode;
+
+        return $this;
     }
 
     /**
@@ -61,7 +62,7 @@ class AFSService
      */
     public function getCvCode()
     {
-      return $this->cvCode;
+        return $this->cvCode;
     }
 
     /**
@@ -70,8 +71,9 @@ class AFSService
      */
     public function setCvCode($cvCode)
     {
-      $this->cvCode = $cvCode;
-      return $this;
+        $this->cvCode = $cvCode;
+
+        return $this;
     }
 
     /**
@@ -79,7 +81,7 @@ class AFSService
      */
     public function getDisableAVSScoring()
     {
-      return $this->disableAVSScoring;
+        return $this->disableAVSScoring;
     }
 
     /**
@@ -88,8 +90,9 @@ class AFSService
      */
     public function setDisableAVSScoring($disableAVSScoring)
     {
-      $this->disableAVSScoring = $disableAVSScoring;
-      return $this;
+        $this->disableAVSScoring = $disableAVSScoring;
+
+        return $this;
     }
 
     /**
@@ -97,7 +100,7 @@ class AFSService
      */
     public function getCustomRiskModel()
     {
-      return $this->customRiskModel;
+        return $this->customRiskModel;
     }
 
     /**
@@ -106,8 +109,9 @@ class AFSService
      */
     public function setCustomRiskModel($customRiskModel)
     {
-      $this->customRiskModel = $customRiskModel;
-      return $this;
+        $this->customRiskModel = $customRiskModel;
+
+        return $this;
     }
 
     /**
@@ -115,7 +119,7 @@ class AFSService
      */
     public function getRun()
     {
-      return $this->run;
+        return $this->run;
     }
 
     /**
@@ -124,8 +128,9 @@ class AFSService
      */
     public function setRun($run)
     {
-      $this->run = $run;
-      return $this;
+        $this->run = $run;
+
+        return $this;
     }
 
 }

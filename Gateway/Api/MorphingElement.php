@@ -10,10 +10,8 @@ class MorphingElement
      */
     protected $element = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class MorphingElement
      */
     public function getElement()
     {
-      return $this->element;
+        return $this->element;
     }
 
     /**
@@ -30,8 +28,9 @@ class MorphingElement
      */
     public function setElement(array $element = null)
     {
-      $this->element = $element;
-      return $this;
+        $this->element = $element;
+
+        return $this;
     }
 
 }

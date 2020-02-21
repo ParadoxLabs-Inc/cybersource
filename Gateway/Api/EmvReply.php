@@ -25,10 +25,8 @@ class EmvReply
      */
     protected $chipValidationType = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class EmvReply
      */
     public function getCombinedTags()
     {
-      return $this->combinedTags;
+        return $this->combinedTags;
     }
 
     /**
@@ -45,8 +43,9 @@ class EmvReply
      */
     public function setCombinedTags($combinedTags)
     {
-      $this->combinedTags = $combinedTags;
-      return $this;
+        $this->combinedTags = $combinedTags;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class EmvReply
      */
     public function getDecryptedRequestTags()
     {
-      return $this->decryptedRequestTags;
+        return $this->decryptedRequestTags;
     }
 
     /**
@@ -63,8 +62,9 @@ class EmvReply
      */
     public function setDecryptedRequestTags($decryptedRequestTags)
     {
-      $this->decryptedRequestTags = $decryptedRequestTags;
-      return $this;
+        $this->decryptedRequestTags = $decryptedRequestTags;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class EmvReply
      */
     public function getChipValidationResults()
     {
-      return $this->chipValidationResults;
+        return $this->chipValidationResults;
     }
 
     /**
@@ -81,8 +81,9 @@ class EmvReply
      */
     public function setChipValidationResults($chipValidationResults)
     {
-      $this->chipValidationResults = $chipValidationResults;
-      return $this;
+        $this->chipValidationResults = $chipValidationResults;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class EmvReply
      */
     public function getChipValidationType()
     {
-      return $this->chipValidationType;
+        return $this->chipValidationType;
     }
 
     /**
@@ -99,8 +100,9 @@ class EmvReply
      */
     public function setChipValidationType($chipValidationType)
     {
-      $this->chipValidationType = $chipValidationType;
-      return $this;
+        $this->chipValidationType = $chipValidationType;
+
+        return $this;
     }
 
 }

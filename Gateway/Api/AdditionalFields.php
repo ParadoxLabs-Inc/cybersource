@@ -10,10 +10,8 @@ class AdditionalFields
      */
     protected $field = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -21,7 +19,7 @@ class AdditionalFields
      */
     public function getField()
     {
-      return $this->field;
+        return $this->field;
     }
 
     /**
@@ -30,8 +28,9 @@ class AdditionalFields
      */
     public function setField(array $field = null)
     {
-      $this->field = $field;
-      return $this;
+        $this->field = $field;
+
+        return $this;
     }
 
 }

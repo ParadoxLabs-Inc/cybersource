@@ -25,10 +25,8 @@ class ProfileReplyEarly
      */
     protected $rulesTriggered = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -36,7 +34,7 @@ class ProfileReplyEarly
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -45,8 +43,9 @@ class ProfileReplyEarly
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -54,7 +53,7 @@ class ProfileReplyEarly
      */
     public function getSelectedBy()
     {
-      return $this->selectedBy;
+        return $this->selectedBy;
     }
 
     /**
@@ -63,8 +62,9 @@ class ProfileReplyEarly
      */
     public function setSelectedBy($selectedBy)
     {
-      $this->selectedBy = $selectedBy;
-      return $this;
+        $this->selectedBy = $selectedBy;
+
+        return $this;
     }
 
     /**
@@ -72,7 +72,7 @@ class ProfileReplyEarly
      */
     public function getPauseRulesTriggered()
     {
-      return $this->pauseRulesTriggered;
+        return $this->pauseRulesTriggered;
     }
 
     /**
@@ -81,8 +81,9 @@ class ProfileReplyEarly
      */
     public function setPauseRulesTriggered($pauseRulesTriggered)
     {
-      $this->pauseRulesTriggered = $pauseRulesTriggered;
-      return $this;
+        $this->pauseRulesTriggered = $pauseRulesTriggered;
+
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class ProfileReplyEarly
      */
     public function getRulesTriggered()
     {
-      return $this->rulesTriggered;
+        return $this->rulesTriggered;
     }
 
     /**
@@ -99,8 +100,9 @@ class ProfileReplyEarly
      */
     public function setRulesTriggered($rulesTriggered)
     {
-      $this->rulesTriggered = $rulesTriggered;
-      return $this;
+        $this->rulesTriggered = $rulesTriggered;
+
+        return $this;
     }
 
 }

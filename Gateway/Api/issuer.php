@@ -35,10 +35,8 @@ class issuer
      */
     protected $responseCode = null;
 
-    
     public function __construct()
     {
-    
     }
 
     /**
@@ -46,7 +44,7 @@ class issuer
      */
     public function getAdditionalData()
     {
-      return $this->additionalData;
+        return $this->additionalData;
     }
 
     /**
@@ -55,8 +53,9 @@ class issuer
      */
     public function setAdditionalData($additionalData)
     {
-      $this->additionalData = $additionalData;
-      return $this;
+        $this->additionalData = $additionalData;
+
+        return $this;
     }
 
     /**
@@ -64,7 +63,7 @@ class issuer
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -73,8 +72,9 @@ class issuer
      */
     public function setName($name)
     {
-      $this->name = $name;
-      return $this;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -82,7 +82,7 @@ class issuer
      */
     public function getCountry()
     {
-      return $this->country;
+        return $this->country;
     }
 
     /**
@@ -91,8 +91,9 @@ class issuer
      */
     public function setCountry($country)
     {
-      $this->country = $country;
-      return $this;
+        $this->country = $country;
+
+        return $this;
     }
 
     /**
@@ -100,7 +101,7 @@ class issuer
      */
     public function getCountryNumericCode()
     {
-      return $this->countryNumericCode;
+        return $this->countryNumericCode;
     }
 
     /**
@@ -109,8 +110,9 @@ class issuer
      */
     public function setCountryNumericCode($countryNumericCode)
     {
-      $this->countryNumericCode = $countryNumericCode;
-      return $this;
+        $this->countryNumericCode = $countryNumericCode;
+
+        return $this;
     }
 
     /**
@@ -118,7 +120,7 @@ class issuer
      */
     public function getPhoneNumber()
     {
-      return $this->phoneNumber;
+        return $this->phoneNumber;
     }
 
     /**
@@ -127,8 +129,9 @@ class issuer
      */
     public function setPhoneNumber($phoneNumber)
     {
-      $this->phoneNumber = $phoneNumber;
-      return $this;
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
     }
 
     /**
@@ -136,7 +139,7 @@ class issuer
      */
     public function getResponseCode()
     {
-      return $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
@@ -145,8 +148,9 @@ class issuer
      */
     public function setResponseCode($responseCode)
     {
-      $this->responseCode = $responseCode;
-      return $this;
+        $this->responseCode = $responseCode;
+
+        return $this;
     }
 
 }

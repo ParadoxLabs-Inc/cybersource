@@ -51,8 +51,8 @@ class PaySubscriptionUpdateReply
      */
     public function __construct($reasonCode, $subscriptionID)
     {
-      $this->reasonCode = $reasonCode;
-      $this->subscriptionID = $subscriptionID;
+        $this->reasonCode     = $reasonCode;
+        $this->subscriptionID = $subscriptionID;
     }
 
     /**
@@ -60,7 +60,7 @@ class PaySubscriptionUpdateReply
      */
     public function getReasonCode()
     {
-      return $this->reasonCode;
+        return $this->reasonCode;
     }
 
     /**
@@ -69,8 +69,9 @@ class PaySubscriptionUpdateReply
      */
     public function setReasonCode($reasonCode)
     {
-      $this->reasonCode = $reasonCode;
-      return $this;
+        $this->reasonCode = $reasonCode;
+
+        return $this;
     }
 
     /**
@@ -78,7 +79,7 @@ class PaySubscriptionUpdateReply
      */
     public function getSubscriptionID()
     {
-      return $this->subscriptionID;
+        return $this->subscriptionID;
     }
 
     /**
@@ -87,8 +88,9 @@ class PaySubscriptionUpdateReply
      */
     public function setSubscriptionID($subscriptionID)
     {
-      $this->subscriptionID = $subscriptionID;
-      return $this;
+        $this->subscriptionID = $subscriptionID;
+
+        return $this;
     }
 
     /**
@@ -96,7 +98,7 @@ class PaySubscriptionUpdateReply
      */
     public function getSubscriptionIDNew()
     {
-      return $this->subscriptionIDNew;
+        return $this->subscriptionIDNew;
     }
 
     /**
@@ -105,8 +107,9 @@ class PaySubscriptionUpdateReply
      */
     public function setSubscriptionIDNew($subscriptionIDNew)
     {
-      $this->subscriptionIDNew = $subscriptionIDNew;
-      return $this;
+        $this->subscriptionIDNew = $subscriptionIDNew;
+
+        return $this;
     }
 
     /**
@@ -114,7 +117,7 @@ class PaySubscriptionUpdateReply
      */
     public function getOwnerMerchantID()
     {
-      return $this->ownerMerchantID;
+        return $this->ownerMerchantID;
     }
 
     /**
@@ -123,8 +126,9 @@ class PaySubscriptionUpdateReply
      */
     public function setOwnerMerchantID($ownerMerchantID)
     {
-      $this->ownerMerchantID = $ownerMerchantID;
-      return $this;
+        $this->ownerMerchantID = $ownerMerchantID;
+
+        return $this;
     }
 
     /**
@@ -132,7 +136,7 @@ class PaySubscriptionUpdateReply
      */
     public function getInstrumentIdentifierID()
     {
-      return $this->instrumentIdentifierID;
+        return $this->instrumentIdentifierID;
     }
 
     /**
@@ -141,8 +145,9 @@ class PaySubscriptionUpdateReply
      */
     public function setInstrumentIdentifierID($instrumentIdentifierID)
     {
-      $this->instrumentIdentifierID = $instrumentIdentifierID;
-      return $this;
+        $this->instrumentIdentifierID = $instrumentIdentifierID;
+
+        return $this;
     }
 
     /**
@@ -150,7 +155,7 @@ class PaySubscriptionUpdateReply
      */
     public function getInstrumentIdentifierStatus()
     {
-      return $this->instrumentIdentifierStatus;
+        return $this->instrumentIdentifierStatus;
     }
 
     /**
@@ -159,8 +164,9 @@ class PaySubscriptionUpdateReply
      */
     public function setInstrumentIdentifierStatus($instrumentIdentifierStatus)
     {
-      $this->instrumentIdentifierStatus = $instrumentIdentifierStatus;
-      return $this;
+        $this->instrumentIdentifierStatus = $instrumentIdentifierStatus;
+
+        return $this;
     }
 
     /**
@@ -168,7 +174,7 @@ class PaySubscriptionUpdateReply
      */
     public function getInstrumentIdentifierNew()
     {
-      return $this->instrumentIdentifierNew;
+        return $this->instrumentIdentifierNew;
     }
 
     /**
@@ -177,8 +183,9 @@ class PaySubscriptionUpdateReply
      */
     public function setInstrumentIdentifierNew($instrumentIdentifierNew)
     {
-      $this->instrumentIdentifierNew = $instrumentIdentifierNew;
-      return $this;
+        $this->instrumentIdentifierNew = $instrumentIdentifierNew;
+
+        return $this;
     }
 
     /**
@@ -186,7 +193,7 @@ class PaySubscriptionUpdateReply
      */
     public function getInstrumentIdentifierSuccessorID()
     {
-      return $this->instrumentIdentifierSuccessorID;
+        return $this->instrumentIdentifierSuccessorID;
     }
 
     /**
@@ -195,8 +202,9 @@ class PaySubscriptionUpdateReply
      */
     public function setInstrumentIdentifierSuccessorID($instrumentIdentifierSuccessorID)
     {
-      $this->instrumentIdentifierSuccessorID = $instrumentIdentifierSuccessorID;
-      return $this;
+        $this->instrumentIdentifierSuccessorID = $instrumentIdentifierSuccessorID;
+
+        return $this;
     }
 
 }
