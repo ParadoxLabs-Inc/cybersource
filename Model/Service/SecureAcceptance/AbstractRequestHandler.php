@@ -79,7 +79,7 @@ abstract class AbstractRequestHandler
      */
     public function getIframeUrl()
     {
-        if (!empty($this->request->getParam('id'))) {
+        if (!empty($this->request->getParam('card_id'))) {
             return $this->config->getSecureAcceptEndpoint('/embedded/token/update');
         }
 
@@ -260,7 +260,7 @@ abstract class AbstractRequestHandler
     protected function getCard()
     {
         try {
-            return $this->cardRepository->getByHash($this->request->getParam('id'));
+            return $this->cardRepository->getByHash($this->request->getParam('card_id'));
         } catch (\Exception $exception) {
             return null;
         }

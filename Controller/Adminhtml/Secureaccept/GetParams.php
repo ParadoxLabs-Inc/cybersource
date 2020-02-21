@@ -26,16 +26,32 @@ class GetParams extends \Magento\Backend\App\Action
     protected $secureAcceptRequest;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $registry;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest,
+        \Magento\Framework\Registry $registry,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         parent::__construct($context);
 
         $this->secureAcceptRequest = $secureAcceptRequest;
+        $this->registry = $registry;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -49,6 +65,8 @@ class GetParams extends \Magento\Backend\App\Action
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         try {
+            $this->initCustomer();
+
             $payload = [
                 'iframeAction' => $this->secureAcceptRequest->getIframeUrl(),
                 'iframeParams' => $this->secureAcceptRequest->getIframeParams(),
@@ -63,5 +81,21 @@ class GetParams extends \Magento\Backend\App\Action
         }
 
         return $result;
+    }
+
+    /**
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    protected function initCustomer()
+    {
+        if (is_numeric($this->getRequest()->getParam('id'))) {
+            $customer = $this->customerRepository->getById(
+                $this->getRequest()->getParam('id')
+            );
+
+            $this->registry->register('current_customer', $customer);
+        }
     }
 }

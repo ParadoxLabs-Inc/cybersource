@@ -16,7 +16,7 @@
 
 <form action="<?= $block->escapeUrl($block->getAction()); ?>" method="post" id="form-validate" class="checkout-payment-method" data-hasrequired="<?= $block->escapeQuote(__('* Required Fields')) ?>">
     <?= $block->getBlockHtml('formkey'); ?>
-    <input type="hidden" name="id" value="<?= $block->getCard()->getId() ? $block->escapeQuote($block->getCard()->getHash()) : ''; ?>" />
+    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $block->escapeQuote($block->getCard()->getHash()) : ''; ?>" />
     <input type="hidden" name="method" value="<?= $code; ?>" />
     <input type="hidden" name="source" value="paymentinfo" />
     <input type="hidden" id="<?= $code ?>-communicator" value="" />
@@ -115,7 +115,7 @@
             </button>
         </div>
     </fieldset>
-    <fieldset class="fieldset payment" style="display:none">
+    <fieldset class="fieldset payment <?php echo $code ?>" style="display:none">
         <div class="field required">
             <div class="control">
                 <!-- TODO: Fix width/height -->
