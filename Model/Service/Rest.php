@@ -34,6 +34,11 @@ class Rest
     protected $helper;
 
     /**
+     * @var int|null
+     */
+    protected $storeId;
+
+    /**
      * Rest constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
@@ -90,7 +95,7 @@ class Rest
 
         /** @var \Magento\Framework\HTTP\ZendClient $httpClient */
         $httpClient = $this->httpClientFactory->create();
-        $httpClient->setUri($this->config->getRestEndpoint($path));
+        $httpClient->setUri($this->config->getRestEndpoint($path, $this->storeId));
         $httpClient->setConfig($clientConfig);
 
         return $httpClient;
@@ -110,7 +115,7 @@ class Rest
 
         $client->setHeaders('Date', $date);
         $client->setHeaders('Host', $host);
-        $client->setHeaders('v-c-merchant-id', $this->config->getMerchantId());
+        $client->setHeaders('v-c-merchant-id', $this->config->getMerchantId($this->storeId));
 
         /**
          * Note: POST signing requires additional Digest of payload. Not implemented yet.
@@ -123,23 +128,34 @@ class Rest
             'date' => 'date: ' . $date,
             '(request-target)' => '(request-target): ' . strtolower($httpMethod) . ' ' . $path
                 . (!empty($params) ? '?' . http_build_query($params) : ''),
-            'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId(),
+            'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId($this->storeId),
         ];
 
         $signature = base64_encode(
             hash_hmac(
                 'sha256',
                 utf8_encode(implode("\n", $signatureParts)),
-                base64_decode($this->config->getRestSecretKey()),
+                base64_decode($this->config->getRestSecretKey($this->storeId)),
                 true
             )
         );
         $signatureHeader = [
-            'keyid="' . $this->config->getRestSecretKeyId() . '"',
+            'keyid="' . $this->config->getRestSecretKeyId($this->storeId) . '"',
             'algorithm="HmacSHA256"',
             'headers="' . implode(' ', array_keys($signatureParts)) . '"',
             'signature="' . $signature . '"',
         ];
         $client->setHeaders('Signature', implode(', ', $signatureHeader));
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return $this
+     */
+    public function setStoreId($storeId)
+    {
+        $this->storeId = $storeId;
+
+        return $this;
     }
 }
