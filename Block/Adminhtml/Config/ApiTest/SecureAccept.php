@@ -25,7 +25,7 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
     ];
 
     /**
-     * Test the API connection and report common errors.
+     * Validate the Secure Acceptance API keys.
      *
      * @return \Magento\Framework\Phrase|string
      */
@@ -47,6 +47,8 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
     }
 
     /**
+     * Validate whether the Secure Acceptance API creds match the expected form factor.
+     *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      */

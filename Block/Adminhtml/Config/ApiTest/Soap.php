@@ -25,7 +25,7 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     ];
 
     /**
-     * Test the API connection and report common errors.
+     * Validate and test the SOAP API keys.
      *
      * @return \Magento\Framework\Phrase|string
      */

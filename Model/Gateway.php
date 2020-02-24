@@ -26,15 +26,6 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $code = \ParadoxLabs\CyberSource\Model\Config\Config::CODE;
 
     /**
-     * $fields defines validation for each API parameter or input.
-     *
-     * key => [
-     *    'maxLength' => int,
-     *    'noSymbols' => true|false,
-     *    'charMask'  => (allowed characters in regex form),
-     *    'enum'      => [ values ]
-     * ]
-     *
      * @var array
      */
     protected $fields = [
@@ -131,6 +122,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Create a SOAP request object with standard parameters filled in.
+     *
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
     public function createRequest()
@@ -142,6 +135,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $request->setClientEnvironment('Magento 2');
 
         // Fields 1 and 2 have special meaning for certain processors, so skip them.
+        // We pass the origin (store name and URL) for identifying where transactions came from.
         $merchantDefinedData = $this->objectBuilder->getMerchantDefinedData([
             3 => $this->getTransactionOrigin(),
         ]);
@@ -151,6 +145,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Run the given request via SOAP API.
+     *
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $requestMessage
      * @param bool $log
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
@@ -353,6 +349,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Set bundled-auth-capture parameters for a capture request.
+     *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
      * @return void
@@ -387,6 +385,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Set linked-capture (prior-auth capture) parameters for a capture request.
+     *
      * @param string $transactionId
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
      * @return void
@@ -538,6 +538,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Delete the given card token from CyberSource TMS.
+     *
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
      */
     public function deleteCard()
@@ -554,6 +556,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Test the SOAP API connection. Runs a request with no indicators and no response logging.
+     *
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
      */
     public function testConnection()
@@ -565,6 +569,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Translate SOAP reply into a Magento-compatible transaction data object. Throw exception on any error cases.
+     *
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
      */
@@ -623,6 +629,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Get the transaction origin string (store name and URL) for identification purposes.
+     *
      * @return \Magento\Framework\Phrase
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */

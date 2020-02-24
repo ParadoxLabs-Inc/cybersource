@@ -26,6 +26,8 @@ class ObjectBuilder
     ];
 
     /**
+     * Create a CyberSource SOAP client
+     *
      * @param string|null $wsdl
      * @param array $soapOptions
      * @return \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor
@@ -39,6 +41,8 @@ class ObjectBuilder
     }
 
     /**
+     * Get the WSSE SOAP request security header
+     *
      * @param string $username
      * @param string $password
      * @return \ParadoxLabs\CyberSource\Gateway\Api\WsseHeader
@@ -57,6 +61,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP request message object
+     *
      * @param string $merchantId
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
@@ -73,6 +79,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP billing address object
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
      */
@@ -98,6 +106,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP shipping address object
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ShipTo
      */
@@ -121,6 +131,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create an array of SOAP items, for the given order items
+     *
      * @param \Magento\Sales\Model\Order\Item[] $orderItems
      * @return array
      */
@@ -145,6 +157,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP item object
+     *
      * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param int $lineNumber
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
@@ -162,6 +176,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP token reference
+     *
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RecurringSubscriptionInfo
      */
@@ -174,6 +190,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP transaction totals object
+     *
      * @param string $currency
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
      */
@@ -187,6 +205,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP authorization indicator
+     *
      * @param string $commerceIndicator
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
      */
@@ -201,6 +221,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP capture indicator
+     *
      * @param string $transactionId
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureService
      */
@@ -215,6 +237,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP credit/refund indicator
+     *
      * @param string $commerceIndicator
      * @param string $transactionId
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditService
@@ -233,6 +257,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP auth reversal/void indicator
+     *
      * @param string $transactionId
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalService
      */
@@ -247,6 +273,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP token deletion indicator
+     *
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PaySubscriptionDeleteService
      */
     public function getPaySubscriptionDeleteService()
@@ -255,6 +283,10 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP merchant-defined-data object for the given fields
+     *
+     * Input should be an array, with the field index as the array key of each value. N=1-20
+     *
      * @param array $fieldsArray
      * @return \ParadoxLabs\CyberSource\Gateway\Api\MerchantDefinedData
      */
@@ -271,6 +303,8 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP card object for transmitting CVV
+     *
      * @param string|int $cvv
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
      */

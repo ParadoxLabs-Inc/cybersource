@@ -98,6 +98,8 @@ class TransactionUpdater
     }
 
     /**
+     * Process the transaction decision for any order status change.
+     *
      * @param array $change
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -127,6 +129,8 @@ class TransactionUpdater
     }
 
     /**
+     * Update order status to approved or denied to reflect the given transaction decision.
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @param array $change
      * @return void

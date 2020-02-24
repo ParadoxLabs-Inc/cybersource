@@ -42,7 +42,7 @@ class BackendRequest extends AbstractRequestHandler
      * BackendRequest constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\Hmac $hmac
+     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
      * @param \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer
      * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
      * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
@@ -54,7 +54,7 @@ class BackendRequest extends AbstractRequestHandler
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\Hmac $hmac,
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
         \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer,
         \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
         \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
@@ -73,6 +73,8 @@ class BackendRequest extends AbstractRequestHandler
     }
 
     /**
+     * Get Secure Acceptance billing address input parameters
+     *
      * @return array
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -92,6 +94,8 @@ class BackendRequest extends AbstractRequestHandler
     }
 
     /**
+     * Get customer email for the Secure Acceptance request.
+     *
      * @return string|null
      */
     protected function getEmail()
@@ -108,6 +112,8 @@ class BackendRequest extends AbstractRequestHandler
     }
 
     /**
+     * Get customer ID for the Secure Acceptance request.
+     *
      * @return int|null
      */
     protected function getCustomerId()
@@ -116,6 +122,8 @@ class BackendRequest extends AbstractRequestHandler
     }
 
     /**
+     * Get currency for the Secure Acceptance request.
+     *
      * @return string
      */
     protected function getCurrencyCode()
@@ -128,6 +136,8 @@ class BackendRequest extends AbstractRequestHandler
     }
 
     /**
+     * Get a return URL for the Secure Acceptance request.
+     *
      * @param string $route
      * @return string
      * @throws \Magento\Framework\Exception\InputException

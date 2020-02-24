@@ -21,7 +21,7 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 class Response
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Hmac
+     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac
      */
     protected $hmac;
 
@@ -53,7 +53,7 @@ class Response
     /**
      * SecureAcceptance constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Service\Hmac $hmac
+     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
      * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory $cardFactory
      * @param \ParadoxLabs\CyberSource\Helper\Data $helper
@@ -61,7 +61,7 @@ class Response
      * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Service\Hmac $hmac,
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
         \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
         \ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory $cardFactory,
         \ParadoxLabs\CyberSource\Helper\Data $helper,
@@ -77,6 +77,8 @@ class Response
     }
 
     /**
+     * Save and return a stored card for the given Secure Acceptance response
+     *
      * @param array $input
      * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
      */
@@ -109,6 +111,8 @@ class Response
     }
 
     /**
+     * Create an address object from Secure Acceptance response params
+     *
      * @param array $input
      * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Exception
@@ -137,6 +141,8 @@ class Response
     }
 
     /**
+     * Set card payment data from Secure Acceptance response params
+     *
      * @param array $input
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return void
@@ -202,6 +208,8 @@ class Response
     }
 
     /**
+     * Get or create a TokenBase Card for the given Secure Acceptance response
+     *
      * @param array $input
      * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
      */

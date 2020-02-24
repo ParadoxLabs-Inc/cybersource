@@ -92,7 +92,7 @@ class CheckoutProvider extends CcGenericConfigProvider
     }
 
     /**
-     * If card can be saved for further use
+     * If card can be saved for further use (is customer logged in)
      *
      * @return boolean
      */

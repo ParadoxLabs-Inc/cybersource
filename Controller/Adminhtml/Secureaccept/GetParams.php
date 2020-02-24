@@ -84,6 +84,10 @@ class GetParams extends \Magento\Backend\App\Action
     }
 
     /**
+     * Initialize the customer for the current scope, if relevant.
+     *
+     * This is how we know what customer the current request should process for. Customer view gives ID param.
+     *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException

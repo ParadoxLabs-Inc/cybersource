@@ -67,6 +67,8 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Form\Cc
     }
 
     /**
+     * Get the Decision Manager fingerprint script URL, including session key.
+     *
      * @return string|null
      */
     public function getFingerprintUrl()

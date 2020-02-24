@@ -41,6 +41,8 @@ class Complete extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * Get/create stored card record based on the input request data from Secure Acceptance.
+     *
      * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
      */
     public function getCard()

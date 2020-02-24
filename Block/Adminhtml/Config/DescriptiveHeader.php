@@ -19,7 +19,7 @@ namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config;
 class DescriptiveHeader extends \Magento\Config\Block\System\Config\Form\Field\Heading
 {
     /**
-     * Render element html
+     * Render settings subheader with comment description.
      *
      * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string

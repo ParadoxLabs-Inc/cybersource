@@ -24,7 +24,7 @@ abstract class AbstractRequestHandler
     protected $config;
 
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Hmac
+     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac
      */
     protected $hmac;
 
@@ -52,7 +52,7 @@ abstract class AbstractRequestHandler
      * AbstractRequestHandler constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\Hmac $hmac
+     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
      * @param \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer
      * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
      * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
@@ -60,7 +60,7 @@ abstract class AbstractRequestHandler
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\Hmac $hmac,
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
         \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer,
         \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
         \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
@@ -75,6 +75,8 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get the Secure Acceptance iframe URL
+     *
      * @return string
      */
     public function getIframeUrl()
@@ -87,6 +89,8 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get the Secure Acceptance initialization client request params. Billing address, etc.
+     *
      * @return array
      */
     public function getIframeParams()
@@ -109,12 +113,15 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get general input parameters for Secure Acceptance checkout.
+     *
      * @return array
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      */
     protected function getGeneralParams()
     {
+        // NB: Reference ID must be unique, but we have no reason to tie it back to anything identifiable here.
         $referenceId = uniqid('', true);
 
         return [
@@ -128,16 +135,17 @@ abstract class AbstractRequestHandler
             'transaction_uuid' => $this->sanitizer->asciiAlphanumericPunc($referenceId, 50),
             'consumer_id' => $this->sanitizer->alphanumericPunc($this->getCustomerId(), 100),
             'merchant_defined_data100' => $this->request->getParam('source'),
-            'override_custom_cancel_page' => $this->getSecureAcceptUrl('cancel'),
             'override_custom_receipt_page' => $this->getSecureAcceptUrl('complete'),
             'partner_solution_id' => $this->sanitizer->alphanumeric($this->config->getSolutionId(), 8),
             'signed_field_names' => '',
             // NB: No device_fingerprint_id because skip_decision_manager=true
-            // NB: No payer auth here because that doesn't work on create_/update_payment_token
+            // NB: No payer auth here because that doesn't work on create_/update_payment_token, per CyberSource
         ];
     }
 
     /**
+     * Get Secure Acceptance parameters for updating an existing token
+     *
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return array
      */
@@ -152,6 +160,8 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get Secure Acceptance parameters for creating a new token
+     *
      * @return array
      */
     protected function getTokenCreateParams()
@@ -164,6 +174,8 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get Secure Acceptance billing address input parameters
+     *
      * @return array
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -188,6 +200,8 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get Secure Acceptance billing address params from the given address object
+     *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return array
      * @throws \Magento\Framework\Exception\InputException
@@ -224,6 +238,8 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get Secure Acceptance billing address params from request input
+     *
      * @param array $post
      * @return array
      * @throws \Magento\Framework\Exception\InputException
@@ -255,10 +271,16 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get the stored card from the request's card_id card hash, or null if none.
+     *
      * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface|null
      */
     protected function getCard()
     {
+        if (empty($this->request->getParam('card_id'))) {
+            return null;
+        }
+
         try {
             return $this->cardRepository->getByHash($this->request->getParam('card_id'));
         } catch (\Exception $exception) {
@@ -267,21 +289,29 @@ abstract class AbstractRequestHandler
     }
 
     /**
+     * Get customer email for the Secure Acceptance request.
+     *
      * @return string|null
      */
     abstract protected function getEmail();
 
     /**
+     * Get customer ID for the Secure Acceptance request.
+     *
      * @return int|null
      */
     abstract protected function getCustomerId();
 
     /**
+     * Get currency for the Secure Acceptance token create request.
+     *
      * @return string
      */
     abstract protected function getCurrencyCode();
 
     /**
+     * Get a return URL for the Secure Acceptance request.
+     *
      * @param string $route
      * @return string
      * @throws \Magento\Framework\Exception\InputException

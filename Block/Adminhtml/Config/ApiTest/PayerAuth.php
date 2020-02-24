@@ -25,7 +25,7 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
     ];
 
     /**
-     * Test the API connection and report common errors.
+     * Validate the Payer Authentication API keys.
      *
      * @return \Magento\Framework\Phrase|string
      */

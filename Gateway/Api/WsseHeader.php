@@ -66,6 +66,8 @@ class WsseHeader extends \SoapHeader
     }
 
     /**
+     * Create a WSSE-compatible security header object with the given user and password.
+     *
      * @param string $namespace
      * @param string $username
      * @param string $password

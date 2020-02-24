@@ -240,6 +240,8 @@ class Config
     }
 
     /**
+     * Get the Secure Acceptance checkout iframe URL.
+     *
      * @param string $path
      * @param int|null $storeId
      * @return string
@@ -254,6 +256,8 @@ class Config
     }
 
     /**
+     * Get the SOAP WSDL URL.
+     *
      * @param int|null $storeId
      * @return string
      */
@@ -267,6 +271,8 @@ class Config
     }
 
     /**
+     * Get the extension solution ID.
+     *
      * @return string
      */
     public function getSolutionId()
@@ -275,6 +281,8 @@ class Config
     }
 
     /**
+     * Get the extension identifier.
+     *
      * @return string
      */
     public function getClientName()
@@ -283,6 +291,8 @@ class Config
     }
 
     /**
+     * Get the extension version.
+     *
      * @return string
      */
     public function getClientVersion()
@@ -291,6 +301,8 @@ class Config
     }
 
     /**
+     * Get whether device fingerprinting is enabled.
+     *
      * @param int|null $storeId
      * @return bool
      */
@@ -305,6 +317,8 @@ class Config
     }
 
     /**
+     * Get the CyberSource-spec fingerprint session key for the given ID, or null if fingerprinting is disabled.
+     *
      * @param string $sessionId
      * @param int|null $storeId
      * @return string|null
@@ -317,6 +331,8 @@ class Config
     }
 
     /**
+     * Get the fingerprint script URL including session key, or null if fingerprinting is disabled.
+     *
      * @param string $sessionId
      * @param int|null $storeId
      * @return string|null

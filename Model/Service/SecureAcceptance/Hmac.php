@@ -11,7 +11,7 @@
  * @license     http://store.paradoxlabs.com/license.html
  */
 
-namespace ParadoxLabs\CyberSource\Model\Service;
+namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
 /**
  * Hmac Class
@@ -62,7 +62,11 @@ class Hmac
     }
 
     /**
-     * Validate the CyberSource HMAC signature for the given signed parameters.
+     * Validate the Secure Acceptance HMAC signature for the given signed parameters.
+     *
+     * Will return false if there is no signature, or if the signature does not validate for all signed_field_names.
+     * Signing requires the secret key, so this prevents request forgery or tampering, assuming the secret key
+     * is, in fact, secret.
      *
      * @param array $params
      * @return bool

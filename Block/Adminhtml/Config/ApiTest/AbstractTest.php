@@ -27,7 +27,7 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
     protected $method;
 
     /**
-     * Test the API connection and report common errors.
+     * Validate required creds fields for the tested config section.
      *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -54,6 +54,8 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
     }
 
     /**
+     * Get the payment method model, with the correct scope.
+     *
      * @return \ParadoxLabs\CyberSource\Model\Method
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -73,6 +75,8 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
     }
 
     /**
+     * Get the user manual instruction string and link.
+     *
      * @return \Magento\Framework\Phrase
      */
     protected function getUserManualInstruction()

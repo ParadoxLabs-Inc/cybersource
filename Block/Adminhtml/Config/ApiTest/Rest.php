@@ -52,7 +52,7 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     }
 
     /**
-     * Test the API connection and report common errors.
+     * Validate the REST API keys.
      *
      * @return \Magento\Framework\Phrase|string
      */
@@ -74,6 +74,8 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     }
 
     /**
+     * Validate whether the REST API creds match the expected form factor.
+     *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -94,12 +96,21 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     }
 
     /**
+     * Test the given REST API credentials.
+     *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Zend_Http_Client_Exception
      */
     protected function testConnection()
     {
+        /**
+         * NB: We do this by trying to fetch details of transaction id 1. It won't exist, but it'll throw an auth
+         * failure first if invalid.
+         *
+         * VALID: {"message":"The requested resource does not exist"}
+         * INVALID: {"response": {"rmsg": "Authentication Failed"}}
+         */
         $this->restClient->setStoreId($this->getStoreId());
         $json = json_decode(
             $this->restClient->get('/tss/v2/transactions/1'),

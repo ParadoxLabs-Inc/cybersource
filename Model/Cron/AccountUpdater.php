@@ -134,6 +134,8 @@ class AccountUpdater
     }
 
     /**
+     * Fetch and process card updates for the given updates report batch
+     *
      * @param array $batch
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -158,6 +160,8 @@ class AccountUpdater
     }
 
     /**
+     * Update the given token with new card data, if it's on file and any info has changed.
+     *
      * @param array $update
      * @return void
      */
@@ -203,6 +207,8 @@ class AccountUpdater
     }
 
     /**
+     * Disable the given token, if applicable.
+     *
      * @param array $update
      * @return void
      */
@@ -228,6 +234,8 @@ class AccountUpdater
     }
 
     /**
+     * Load any cards having the given token.
+     *
      * @param string $paymentId
      * @return \ParadoxLabs\TokenBase\Model\ResourceModel\Card\Collection
      */

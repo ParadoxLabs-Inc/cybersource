@@ -93,6 +93,12 @@ class ResponseCode
     ];
 
     /**
+     * Get (error) message for the given CyberSource response code.
+     *
+     * Note, the messages have been intentionally simplified for customer purposes, and in some cases useful context has
+     * been removed. For instance, customer will not be told 'Declined due to fraud score'. Log will always include the
+     * reference code, which can be referenced against the full response message in documentation or EBC.
+     *
      * @param string|int $code
      * @return string
      */

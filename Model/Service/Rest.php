@@ -56,6 +56,8 @@ class Rest
     }
 
     /**
+     * Send a REST API GET request to the given resource path. Will sign the request per API specifications.
+     *
      * @param string $path
      * @param array $params
      * @param string $responseType
@@ -77,6 +79,8 @@ class Rest
     }
 
     /**
+     * Get an HTTP client for REST
+     *
      * @param string $path
      * @return \Magento\Framework\HTTP\ZendClient
      */
@@ -102,6 +106,8 @@ class Rest
     }
 
     /**
+     * Sign the given REST request and parameters.
+     *
      * @param \Magento\Framework\HTTP\ZendClient $client
      * @param string $path
      * @param array $params
@@ -149,6 +155,8 @@ class Rest
     }
 
     /**
+     * Set store ID for the current request. This determines scope configuration is loaded from. null for assumed scope.
+     *
      * @param int|null $storeId
      * @return $this
      */
