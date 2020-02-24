@@ -4,15 +4,15 @@
         <section id="payment">
             <group id="paradoxlabs_cybersource" translate="label comment" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CyberSource</label>
-                <comment><![CDATA[<div style="float:right;text-align:center;"><img src="https://store.paradoxlabs.com/media/wysiwyg/CyberSourceBadge.png" width="140" height="34" border="0" alt="CyberSource for Magento 2" /><br />by <a href="http://support.paradoxlabs.com/" target="_blank">ParadoxLabs, inc.</a></div>]]></comment>
+                <comment><![CDATA[
+                    <div style="float:right;text-align:center;">
+                        <img src="https://store.paradoxlabs.com/media/wysiwyg/CyberSourceBadge.png" width="140" height="34" border="0" alt="CyberSource for Magento 2" /><br />
+                        by <a href="http://support.paradoxlabs.com/" target="_blank">ParadoxLabs, inc.</a>
+                    </div>
+                ]]></comment>
                 <field id="version" translate="label" type="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Version Installed</label>
                     <backend_model>ParadoxLabs\CyberSource\Model\Config\Version</backend_model>
-                </field>
-                <field id="apitest" translate="label comment" type="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>API Test Results</label>
-                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest</frontend_model>
-                    <comment>* We can't test Secure Acceptance keys. Please verify the credit card form loads on checkout.</comment>
                 </field>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
@@ -25,59 +25,126 @@
                 <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
-                <field id="organization_id" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="heading_soap" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Simple Order API Setup</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
+                    <attribute type="shared">1</attribute>
+                    <comment>The "Simple Order" SOAP API is used for all primary payment processing.</comment>
+                </field>
+                <field id="apitest_soap" translate="label" type="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Test Results</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Soap</frontend_model>
+                </field>
+                <field id="organization_id" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Organization ID</label>
                 </field>
-                <field id="merchant_id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="merchant_id" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Merchant ID</label>
                 </field>
-                <field id="secureaccept_profile_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Profile ID</label>
-                </field>
-                <field id="secureaccept_access_key" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Access Key</label>
-                </field>
-                <field id="secureaccept_secret_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Secret Key</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                </field>
-                <field id="soap_transaction_key" translate="label" type="obscure" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="soap_transaction_key" translate="label" type="obscure" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>SOAP API Transaction Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="rest_secret_key_id" translate="label" type="text" sortOrder="67" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="heading_secureaccept" translate="label" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Checkout Setup</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
+                    <attribute type="shared">1</attribute>
+                    <comment><![CDATA[
+                        All credit card forms use a Secure Acceptance Hosted Checkout profile. You must create the
+                        profile in CyberSource EBC, then enter its ID and API keys here.
+                        <small class="desc"><b>Follow the User Manual instructions to configure the profile correctly.</b></small>
+                        <a href="https://store.paradoxlabs.com/media/wysiwyg/ParadoxLabs-CyberSource-M2-user-manual.pdf" target="_blank"><small>View the User Manual</small></a>
+                    ]]></comment>
+                </field>
+                <field id="apitest_secureaccept" translate="label" type="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Test Results</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\SecureAccept</frontend_model>
+                </field>
+                <field id="secureaccept_profile_id" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Profile ID</label>
+                </field>
+                <field id="secureaccept_access_key" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Access Key</label>
+                </field>
+                <field id="secureaccept_secret_key" translate="label" type="obscure" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Secure Acceptance Secret Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="heading_rest" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>REST API Setup</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
+                    <attribute type="shared">1</attribute>
+                    <comment><![CDATA[
+                        The REST API is used for card and transaction updates, when applicable (via
+                        Account Updater and Decision Manager).
+                    ]]></comment>
+                </field>
+                <field id="apitest_rest" translate="label" type="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Test Results</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Rest</frontend_model>
+                </field>
+                <field id="rest_secret_key_id" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>REST API Secret Key ID</label>
                 </field>
-                <field id="rest_secret_key" translate="label" type="obscure" sortOrder="68" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="rest_secret_key" translate="label" type="obscure" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>REST API Secret Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="payment_action" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment Action</label>
-                    <source_model>ParadoxLabs\TokenBase\Model\Source\PaymentAction</source_model>
+                <field id="heading_cardinalcruise" translate="label" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payer Authentication (3D Secure) Setup</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
                     <attribute type="shared">1</attribute>
-                    <comment>'Authorize and Capture' to charge on checkout.</comment>
+                    <comment><![CDATA[
+                        Payer Authentication is available from CyberSource through
+                        Cardinal Commerce, using the "Cardinal Cruise" API.<br />
+                        <small class="desc">This feature is still on the way, but you can enter your Cardinal Cruise API
+                        credentials now to be ready when it's supported.</small>
+                    ]]></comment>
                 </field>
-                <field id="order_status" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>New Order Status</label>
-                    <source_model>ParadoxLabs\TokenBase\Model\Source\OrderStatus</source_model>
-                    <comment>Normally 'Pending' if 'Authorize Only' above; 'Processing' if not.</comment>
+                <!--<field id="apitest_payerauth" translate="label" type="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Test Results</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\PayerAuth</frontend_model>
+                </field>-->
+                <!--<field id="cardinal_enable" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Payer Authentication</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>-->
+                <field id="cardinal_org_unit_id" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cardinal Cruise Org Unit ID</label>
                 </field>
-                <field id="heading_checkout" translate="label" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="cardinal_secret_key_id" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cardinal Cruise API ID</label>
+                </field>
+                <field id="cardinal_secret_key" translate="label" type="obscure" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cardinal Cruise API Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="heading_checkout" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Settings</label>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
                     <attribute type="shared">1</attribute>
                 </field>
-                <field id="show_branding" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="payment_action" translate="label comment" type="select" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment Action</label>
+                    <source_model>ParadoxLabs\TokenBase\Model\Source\PaymentAction</source_model>
+                    <attribute type="shared">1</attribute>
+                    <comment>'Authorize and Capture' to charge on checkout. Note 'Save Info' does not support Payer Authentication.</comment>
+                </field>
+                <field id="order_status" translate="label comment" type="select" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>New Order Status</label>
+                    <source_model>ParadoxLabs\TokenBase\Model\Source\OrderStatus</source_model>
+                    <comment>Normally 'Pending' if 'Authorize Only' above; 'Processing' if not.</comment>
+                </field>
+                <field id="show_branding" translate="label comment" type="select" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show CyberSource logo</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Show a CyberSource logo on the payment form.</comment>
                 </field>
-                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="280" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allow for Countries</label>
                     <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="290" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allow for Specific Countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
@@ -85,42 +152,42 @@
                         <field id="allowspecific">1</field>
                     </depends>
                 </field>
-                <field id="min_order_total" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="min_order_total" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Minimum Order Total</label>
                 </field>
-                <field id="max_order_total" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="max_order_total" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximum Order Total</label>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="sort_order" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sort Order</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>
-                <field id="heading_advanced" translate="label" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="heading_advanced" translate="label" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Advanced Settings</label>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
                     <attribute type="shared">1</attribute>
                 </field>
-                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow cards to not be stored</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, customers can choose whether to save their credit card during checkout.</comment>
                 </field>
-                <field id="require_ccv" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="require_ccv" translate="label comment" type="select" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Require CVV for stored cards</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, CVV will be required for stored cards, and customers may have to enter it twice on checkout. This will not affect recurring transactions.</comment>
                 </field>
-                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Reauthorize on Partial Invoice</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, when you create a partial invoice, we will reauthorize any outstanding balance on the order. This helps guarantee funds, but can cause multiple holds on the card until transactions settle.</comment>
                 </field>
-                <field id="fingerprint" translate="label" type="select" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="fingerprint" translate="label" type="select" sortOrder="370" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Device Fingerprinting</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Used by Decision Manager and Fraud Management Essentials to identify users for better fraud prevention.</comment>
                 </field>
-                <field id="fingerprint_domain" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="fingerprint_domain" translate="label" type="text" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enhanced Profiling Domain</label>
                     <comment>If you've set up an 'Enhanced Profiling' custom domain with CyberSource, enter it here. Do not change this setting until the DNS and SSL are fully tested. See Decision Manager documentation for instructions.</comment>
                     <depends>

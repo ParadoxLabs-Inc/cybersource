@@ -167,11 +167,12 @@ class Config
      * Get the REST API endpoint.
      *
      * @param string $path
+     * @param int|null $storeId
      * @return string
      */
-    public function getRestEndpoint($path)
+    public function getRestEndpoint($path, $storeId = null)
     {
-        if ($this->isSandboxMode()) {
+        if ($this->isSandboxMode($storeId)) {
             return static::REST_TEST . $path;
         }
 
@@ -240,11 +241,12 @@ class Config
 
     /**
      * @param string $path
+     * @param int|null $storeId
      * @return string
      */
-    public function getSecureAcceptEndpoint($path)
+    public function getSecureAcceptEndpoint($path, $storeId = null)
     {
-        if ($this->isSandboxMode()) {
+        if ($this->isSandboxMode($storeId)) {
             return static::SECUREACCEPT_TEST . $path;
         }
 
@@ -252,11 +254,12 @@ class Config
     }
 
     /**
+     * @param int|null $storeId
      * @return string
      */
-    public function getSoapWsdl()
+    public function getSoapWsdl($storeId = null)
     {
-        if ($this->isSandboxMode()) {
+        if ($this->isSandboxMode($storeId)) {
             return static::SOAP_TEST;
         }
 

@@ -1,0 +1,115 @@
+<?php
+/**
+ * Paradox Labs, Inc.
+ * http://www.paradoxlabs.com
+ * 717-431-3330
+ *
+ * Need help? Open a ticket in our support system:
+ *  http://support.paradoxlabs.com
+ *
+ * @author      Chad Bender <support@paradoxlabs.com>
+ * @license     http://store.paradoxlabs.com/license.html
+ */
+
+namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
+
+/**
+ * Rest Class
+ */
+class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
+{
+    const CREDENTIAL_KEYS = [
+        'rest_secret_key_id',
+        'rest_secret_key',
+    ];
+
+    /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\Rest
+     */
+    protected $restClient;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \ParadoxLabs\TokenBase\Helper\Data $helper
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param \ParadoxLabs\TokenBase\Model\Method\Factory $methodFactory
+     * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \ParadoxLabs\TokenBase\Helper\Data $helper,
+        \Magento\Store\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        \ParadoxLabs\TokenBase\Model\Method\Factory $methodFactory,
+        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
+        array $data = []
+    ) {
+        parent::__construct($context, $helper, $storeFactory, $websiteFactory, $methodFactory, $data);
+
+        $this->restClient = $restClient;
+    }
+
+    /**
+     * Test the API connection and report common errors.
+     *
+     * @return \Magento\Framework\Phrase|string
+     */
+    protected function testApi()
+    {
+        try {
+            $this->checkRequiredFields();
+            $this->checkFormFactor();
+
+            $this->testConnection();
+        } catch (\Exception $e) {
+            return $e->getMessage() . $this->getUserManualInstruction();
+        }
+
+        return __(
+            'REST API connected successfully. (%1)',
+            $this->getMethod()->getConfigData('test') ? __('SANDBOX') : __('PRODUCTION')
+        );
+    }
+
+    /**
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function checkFormFactor()
+    {
+        $keyId = $this->getMethod()->getConfigData('rest_secret_key_id');
+        if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $keyId) === 0) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('Secret Key ID is not in the expected format; please verify you\'ve entered the correct data.')
+            );
+        }
+
+        if (strlen($this->getMethod()->getConfigData('rest_secret_key')) < 32) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('Secret Key is shorter than expected; please verify you\'ve entered the correct data.')
+            );
+        }
+    }
+
+    /**
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Zend_Http_Client_Exception
+     */
+    protected function testConnection()
+    {
+        $this->restClient->setStoreId($this->getStoreId());
+        $json = json_decode(
+            $this->restClient->get('/tss/v2/transactions/1'),
+            JSON_OBJECT_AS_ARRAY
+        );
+
+        if (isset($json['response']['rmsg'])) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('%1: Your API credentials are invalid.', $json['response']['rmsg'])
+            );
+        }
+    }
+}

@@ -38,12 +38,17 @@
             <argument name="sensitive" xsi:type="array">
                 <item name="payment/paradoxlabs_cybersource/soap_transaction_key" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/secureaccept_secret_key" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/rest_secret_key" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/cardinal_secret_key" xsi:type="string">1</item>
             </argument>
             <argument name="environment" xsi:type="array">
                 <item name="payment/paradoxlabs_cybersource/test" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/merchant_id" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/secureaccept_profile_id" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/secureaccept_access_key" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/rest_secret_key_id" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/cardinal_org_unit_id" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/cardinal_secret_key_id" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>
