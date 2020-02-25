@@ -303,15 +303,15 @@ class ObjectBuilder
     }
 
     /**
-     * Create a SOAP card object for transmitting CVV
+     * Create a SOAP card object for transmitting CVN
      *
-     * @param string|int $cvv
+     * @param string|int $cvn
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
      */
-    public function getCardForCvv($cvv)
+    public function getCardForCvn($cvn)
     {
         $card = new Card();
-        $card->setCvNumber($cvv);
+        $card->setCvNumber($cvn);
 
         return $card;
     }

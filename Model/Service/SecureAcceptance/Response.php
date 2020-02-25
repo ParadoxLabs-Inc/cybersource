@@ -177,6 +177,7 @@ class Response
 
         // NB: This is a card fingerprint, unique to each credit card but not reversible. Last4 will match the CC.
         $card->setAdditional('instrument_identifier', $input['payment_token_instrument_identifier_id']);
+        $card->setAdditional('fingerprint', $input['payment_token_instrument_identifier_id']);
     }
 
     /**

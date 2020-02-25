@@ -128,9 +128,14 @@ class FrontendRequest extends AbstractRequestHandler
                 return $this->customerSession->getCustomerData()->getEmail();
             }
 
-            return $this->checkoutSession->getQuote()->getBillingAddress()->getEmail();
+            if (!empty($this->checkoutSession->getQuote()->getBillingAddress()->getEmail())) {
+                return $this->checkoutSession->getQuote()->getBillingAddress()->getEmail();
+            }
+
+            // Fall back to guest email parameter iff there's none on the quote.
+            return $this->request->getParam('guestEmail');
         } catch (\Exception $exception) {
-            return null;
+            throw $exception;
         }
     }
 
@@ -156,10 +161,10 @@ class FrontendRequest extends AbstractRequestHandler
     protected function getCurrencyCode()
     {
         if ($this->checkoutSession->getQuoteId()) {
-            return strtoupper($this->checkoutSession->getQuote()->getQuoteCurrencyCode());
+            return strtoupper($this->checkoutSession->getQuote()->getBaseCurrencyCode());
         }
 
-        return strtoupper($this->storeManager->getStore()->getCurrentCurrency()->getCode());
+        return strtoupper($this->storeManager->getStore()->getBaseCurrencyCode());
     }
 
     /**

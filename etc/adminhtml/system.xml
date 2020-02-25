@@ -172,22 +172,30 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, customers can choose whether to save their credit card during checkout.</comment>
                 </field>
-                <field id="require_ccv" translate="label comment" type="select" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Require CVV for stored cards</label>
+                <field id="savecard_opt_out" translate="label comment" type="select" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Auto-select 'save for next time'</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, CVV will be required for stored cards, and customers may have to enter it twice on checkout. This will not affect recurring transactions.</comment>
+                    <comment>If yes, will be selected by default during checkout.</comment>
+                    <depends>
+                        <field id="allow_unsaved">1</field>
+                    </depends>
                 </field>
-                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="require_ccv" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Require CVN for stored cards</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, CVN will be required for stored cards, and customers may have to enter it twice on checkout. This will not affect recurring transactions.</comment>
+                </field>
+                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="370" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Reauthorize on Partial Invoice</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, when you create a partial invoice, we will reauthorize any outstanding balance on the order. This helps guarantee funds, but can cause multiple holds on the card until transactions settle.</comment>
                 </field>
-                <field id="fingerprint" translate="label" type="select" sortOrder="370" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="fingerprint" translate="label" type="select" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Device Fingerprinting</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Used by Decision Manager and Fraud Management Essentials to identify users for better fraud prevention.</comment>
                 </field>
-                <field id="fingerprint_domain" translate="label" type="text" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="fingerprint_domain" translate="label" type="text" sortOrder="390" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enhanced Profiling Domain</label>
                     <comment>If you've set up an 'Enhanced Profiling' custom domain with CyberSource, enter it here. Do not change this setting until the DNS and SSL are fully tested. See Decision Manager documentation for instructions.</comment>
                     <depends>

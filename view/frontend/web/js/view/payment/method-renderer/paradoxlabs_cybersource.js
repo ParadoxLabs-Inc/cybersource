@@ -124,12 +124,17 @@ define(
                     ]
                 );
 
+                if (quote.guestEmail !== undefined && quote.guestEmail !== null) {
+                    billingAddress.email = quote.guestEmail;
+                }
+
                 return $.post({
                     url: config.paramUrl,
                     dataType: 'json',
                     data: {
                         'billing': billingAddress,
-                        'source': 'checkout'
+                        'source': 'checkout',
+                        'guestEmail': quote.guestEmail !== undefined ? quote.guestEmail : null
                     },
                     global: false,
                     success: this.loadSecureAcceptanceForm.bind(this),

@@ -260,7 +260,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getOrderCurrencyCode(), $amount);
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
         if ($this->getHaveAuthorized() !== true) {
             $purchaseTotals->setTaxAmount($order->getTaxAmount());
             $purchaseTotals->setShippingAmount($payment->getShippingAmount());
@@ -284,7 +284,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         if (!empty($payment->getData('cc_cid'))) {
-            $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
+            $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
         }
 
         $reply = $this->run($request);
@@ -306,7 +306,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getOrderCurrencyCode(), $amount);
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
         if ($this->getHaveAuthorized() !== true) {
             $purchaseTotals->setTaxAmount($order->getTaxAmount());
             $purchaseTotals->setShippingAmount($payment->getShippingAmount());
@@ -380,7 +380,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         if (!empty($payment->getData('cc_cid'))) {
-            $request->setCard($this->objectBuilder->getCardForCvv($payment->getData('cc_cid')));
+            $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
         }
     }
 
@@ -416,7 +416,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getOrderCurrencyCode(), $amount);
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
         if ($payment->getCreditmemo() instanceof \Magento\Sales\Api\Data\CreditmemoInterface) {
             if ($payment->getCreditmemo()->getTaxAmount()) {
                 $purchaseTotals->setTaxAmount($payment->getCreditmemo()->getTaxAmount());
@@ -470,7 +470,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $order  = $payment->getOrder();
 
         $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
-            $order->getOrderCurrencyCode(),
+            $order->getBaseCurrencyCode(),
             $order->getTotalDue()
         );
 
