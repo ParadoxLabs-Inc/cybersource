@@ -354,4 +354,64 @@ class Config
             http_build_query($params)
         );
     }
+
+    /**
+     * Get the Cardinal Cruise organization unit ID.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getCardinalOrgUnitId($storeId = null)
+    {
+        $value = $this->getConfigValue('cardinal_org_unit_id', $storeId);
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing CyberSource Cardinal Cruise Org Unit ID. Please check configuration.')
+            );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the Cardinal Cruise secret key ID.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getCardinalSecretKeyId($storeId = null)
+    {
+        $value = $this->getConfigValue('cardinal_secret_key_id', $storeId);
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing CyberSource Cardinal Cruise API ID. Please check configuration.')
+            );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the Cardinal Cruise secret key.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getCardinalSecretKey($storeId = null)
+    {
+        $value = $this->getConfigValue('cardinal_secret_key', $storeId);
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing CyberSource Cardinal Cruise API Key. Please check configuration.')
+            );
+        }
+
+        return $value;
+    }
 }
