@@ -52,6 +52,11 @@ class CheckoutProvider extends CcGenericConfigProvider
     protected $config;
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator
+     */
+    protected $jsonWebTokenGenerator;
+
+    /**
      * @param CcConfig $ccConfig
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
@@ -59,6 +64,7 @@ class CheckoutProvider extends CcGenericConfigProvider
      * @param \ParadoxLabs\CyberSource\Helper\Data $dataHelper
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
      * @param array $methodCodes
      */
     public function __construct(
@@ -69,6 +75,7 @@ class CheckoutProvider extends CcGenericConfigProvider
         \ParadoxLabs\CyberSource\Helper\Data $dataHelper,
         \Magento\Framework\UrlInterface $urlBuilder,
         Config $config,
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator,
         array $methodCodes = []
     ) {
         $this->paymentHelper    = $paymentHelper;
@@ -77,6 +84,7 @@ class CheckoutProvider extends CcGenericConfigProvider
         $this->dataHelper       = $dataHelper;
         $this->urlBuilder       = $urlBuilder;
         $this->config           = $config;
+        $this->jsonWebTokenGenerator = $jsonWebTokenGenerator;
 
         parent::__construct($ccConfig, $paymentHelper, [Config::CODE]);
     }
@@ -152,6 +160,8 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'requireCcv'      => $this->requireCcv(),
                     'paramUrl'        => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/getParams'),
                     'fingerprintUrl'  => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
+                    'cardinalUrl'     => $this->config->getCardinalSongbirdUrl(),
+                    'cardinalJWT'     => $this->jsonWebTokenGenerator->getJwt(), // TODO: Is this really what I want?
                 ],
             ],
         ]);

@@ -100,24 +100,35 @@
                         <small class="desc">This feature is still on the way, but you can enter your Cardinal Cruise API
                         credentials now to be ready when it's supported.</small>
                     ]]></comment>
+                <!--    TODO: Remove still-coming comment. -->
+                <!--    TODO: Add comment about it requiring CyberSource setup -->
                 </field>
                 <!--<field id="apitest_payerauth" translate="label" type="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Test Results</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\PayerAuth</frontend_model>
                 </field>-->
-                <!--<field id="cardinal_enable" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="cardinal_active" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Payer Authentication</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>-->
+                </field>
                 <field id="cardinal_org_unit_id" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Cardinal Cruise Org Unit ID</label>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
                 </field>
                 <field id="cardinal_secret_key_id" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Cardinal Cruise API ID</label>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
                 </field>
                 <field id="cardinal_secret_key" translate="label" type="obscure" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Cardinal Cruise API Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
                 </field>
                 <field id="heading_checkout" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Settings</label>

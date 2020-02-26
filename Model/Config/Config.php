@@ -19,13 +19,19 @@ namespace ParadoxLabs\CyberSource\Model\Config;
 class Config
 {
     const CODE = 'paradoxlabs_cybersource';
+    const SOLUTION_ID = 'DEQXVEEG';
+
+    /**
+     * Gateway URLs
+     */
+    const CARDINAL_LIVE = 'https://songbird.cardinalcommerce.com/edge/v1/songbird.js';
+    const CARDINAL_TEST = 'https://songbirdstag.cardinalcommerce.com/edge/v1/songbird.js';
     const REST_LIVE = 'https://api.cybersource.com';
     const REST_TEST = 'https://apitest.cybersource.com';
     const SECUREACCEPT_LIVE = 'https://secureacceptance.cybersource.com';
     const SECUREACCEPT_TEST = 'https://testsecureacceptance.cybersource.com';
     const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
     const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
-    const SOLUTION_ID = 'DEQXVEEG';
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -356,10 +362,28 @@ class Config
     }
 
     /**
+     * Get whether Payer Authentication (Cardinal Cruise API) is enabled.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthEnabled($storeId = null)
+    {
+        if ((bool)$this->getConfigValue('cardinal_active', $storeId) === false
+            || empty($this->getCardinalOrgUnitId($storeId))
+            || empty($this->getCardinalSecretKeyId($storeId))
+            || empty($this->getCardinalSecretKey($storeId))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get the Cardinal Cruise organization unit ID.
      *
      * @param int|null $storeId
-     * @return mixed
+     * @return string
      * @throws \Magento\Framework\Exception\StateException
      */
     public function getCardinalOrgUnitId($storeId = null)
@@ -379,7 +403,7 @@ class Config
      * Get the Cardinal Cruise secret key ID.
      *
      * @param int|null $storeId
-     * @return mixed
+     * @return string
      * @throws \Magento\Framework\Exception\StateException
      */
     public function getCardinalSecretKeyId($storeId = null)
@@ -399,7 +423,7 @@ class Config
      * Get the Cardinal Cruise secret key.
      *
      * @param int|null $storeId
-     * @return mixed
+     * @return string
      * @throws \Magento\Framework\Exception\StateException
      */
     public function getCardinalSecretKey($storeId = null)
@@ -413,5 +437,20 @@ class Config
         }
 
         return $value;
+    }
+
+    /**
+     * Get the Cardinal Cruise Songbird.js library URL for the configured environment.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getCardinalSongbirdUrl($storeId = null)
+    {
+        if ($this->isSandboxMode($storeId)) {
+            return static::CARDINAL_TEST;
+        }
+
+        return static::CARDINAL_LIVE;
     }
 }

@@ -66,14 +66,16 @@ define(
                     return this.storedCards().length > 0;
                 }, this);
 
-                this.initFingerprint();
+                this.loadFingerprint();
+                this.loadPayerAuth();
 
                 return this;
             },
-            initFingerprint: function() {
+            loadFingerprint: function() {
                 if (config.fingerprintUrl !== undefined
                     && config.fingerprintUrl !== null
                     && config.fingerprintUrl.length > 1) {
+                    // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
                     var script = document.createElement('script');
                     script.type = 'text/javascript';
                     script.src = config.fingerprintUrl;
@@ -220,6 +222,47 @@ define(
                        + address.postcode + ', '
                        + address.countryId + ' '
                        + address.telephone;
+            },
+            loadPayerAuth: function() {
+                if (config.cardinalUrl !== undefined
+                    && config.cardinalUrl !== null
+                    && config.cardinalUrl.length > 1) {
+                    // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = config.cardinalUrl;
+                    script.addEventListener('load', this.initPayerAuth.bind(this));
+                    document.head.appendChild(script);
+                }
+            },
+            initPayerAuth: function() {
+                Cardinal.configure({
+                    logging: {
+                        level: 'on' // TODO: Remove this after completion
+                    },
+                    payment: {
+                        displayLoading: true
+                    }
+                });
+
+                // TODO: Step 4 listen
+                Cardinal.on('payments.setupComplete', function(data) {
+                    // TODO: I don't know that I need this.
+                    //  triggers when Songbird has successfully initialized, after calling Cardinal.setup()
+                    console.log('caught payments.setupComplete', data);
+                });
+                Cardinal.on('payments.validated', this.handlePayerAuthCompletion.bind(this));
+
+                Cardinal.setup(
+                    'init',
+                    {
+                        jwt: config.cardinalJWT
+                    }
+                );
+            },
+            handlePayerAuthCompletion: function(data, jwt) {
+                // TODO: Runs when validation has completed
+                console.log('caught payments.validated', data, jwt);
             }
         });
     }

@@ -11,10 +11,10 @@
  * @license     http://store.paradoxlabs.com/license.html
  */
 
-namespace ParadoxLabs\CyberSource\Model\Service;
+namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 
 /**
- * JsonWebToken Class
+ * JsonWebTokenEncoder Class
  *
  * Implements JSON Web Token (JWT) signing and validation for the CardinalCruise API, for Payer Authentication.
  * @see https://cardinaldocs.atlassian.net/wiki/spaces/CC/pages/196850/JWT+Creation
@@ -24,7 +24,7 @@ namespace ParadoxLabs\CyberSource\Model\Service;
  * @see https://github.com/vaibhavpandeyvpz/jweety
  * @license https://github.com/vaibhavpandeyvpz/jweety/blob/1.0/LICENSE
  */
-class JsonWebToken
+class JsonWebTokenEncoder
 {
     /**
      * @var \ParadoxLabs\CyberSource\Model\Config\Config

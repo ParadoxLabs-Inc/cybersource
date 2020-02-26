@@ -16,6 +16,7 @@
                 <secureaccept_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <rest_secret_key_id />
                 <rest_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <cardinal_active>1</cardinal_active>
                 <cardinal_org_unit_id />
                 <cardinal_secret_key_id />
                 <cardinal_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
