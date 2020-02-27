@@ -79,7 +79,7 @@ class ResponseCode
         459 => 'Multiple address matches were found.',
         460 => 'Address match not found.',
         461 => 'Unsupported character set.',
-        475 => 'The cardholder is enrolled in Payer Authentication. Please authenticate before continuing.',
+        475 => 'The entered card is enrolled in Payer Authentication. Please authenticate before continuing.',
         476 => 'Encountered a Payer Authentication problem. Payer could not be authenticated.',
         480 => 'The order is marked for review by Decision Manager.',
         481 => 'Transaction declined.',

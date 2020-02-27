@@ -261,8 +261,49 @@ define(
                 );
             },
             handlePayerAuthCompletion: function(data, jwt) {
-                // TODO: Runs when validation has completed
+                // TODO: Runs when validation has completed -- handle response vars and resubmit checkout
                 console.log('caught payments.validated', data, jwt);
+            },
+            getPlaceOrderDeferredObject: function() {
+                // Run Cardinal Cruise BIN lookup while the order processes
+                if (typeof Cardinal === 'object') {
+                    for (var card of this.storedCards()) {
+                        if (card.id === this.selectedCard()) {
+                            Cardinal.trigger('bin.process', card.cc_bin);
+                        }
+                    }
+                }
+
+                return this._super();
+            },
+            handleFailedOrder: function(response) {
+                // TODO: Check for 475 response and trigger payer auth if so
+
+                var payerAuthMessage = $.mage.__(
+                    'The entered card is enrolled in Payer Authentication. Please authenticate before continuing.'
+                );
+                var error = JSON.parse(response.responseText);
+                if (error
+                    && typeof error.message !== 'undefined'
+                    && typeof Cardinal === 'object'
+                    && error.message.indexOf(payerAuthMessage) >= 0) {
+                    Cardinal.continue(
+                        'cca',
+                        {
+                            'AcsUrl': 'https://example.com', // TODO: Where the heck does this come from?
+                            'Payload': config.cardinalJwt
+                        },
+                        {
+                            'OrderDetails': {
+                                'TransactionId': 'abc123' // TODO: Order details
+                            }
+                        }
+                    )
+                    return;
+                }
+
+                console.log('hit handleFailedOrder', response);
+                return this._super();
             }
         });
     }

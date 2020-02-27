@@ -315,4 +315,18 @@ class ObjectBuilder
 
         return $card;
     }
+
+    /**
+     * Create a SOAP Payer Authentication enrollment indicator
+     *
+     * @param string $referenceId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
+     */
+    public function getPayerAuthEnrollService($referenceId)
+    {
+        $enrollService = new PayerAuthEnrollService('true');
+        $enrollService->setReferenceID($referenceId);
+
+        return $enrollService;
+    }
 }

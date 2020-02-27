@@ -287,6 +287,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
         }
 
+        $this->requestPayerAuthentication($payment, $request);
+
         $reply = $this->run($request);
 
         return $this->interpretTransaction($reply);
@@ -323,6 +325,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         // If we don't have a transaction ID to capture, run a 'bundled' auth+capture; otherwise, prior-auth capture.
         if (!$this->getHaveAuthorized() || empty($transactionId)) {
             $this->captureInitBundledRequest($payment, $request);
+            $this->requestPayerAuthentication($payment, $request);
         } else {
             $this->captureInitLinkedRequest($transactionId, $request);
         }
@@ -639,5 +642,45 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $store  = $this->helper->getCurrentStore();
 
         return __('%1 (%2)', $store->getName(), $store->getBaseUrl());
+    }
+
+    /**
+     * Add Payer Auth enrollment check or verification to the auth/capture, when relevant.
+     *
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+     * @return void
+     */
+    protected function requestPayerAuthentication(
+        \Magento\Payment\Model\InfoInterface $payment,
+        \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+    ) {
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $payment->getOrder();
+
+        if ($this->config->isPayerAuthEnabled() === false
+            || $order->getTotalInvoiced() > 0) {
+            return;
+        }
+
+        // TODO: Verify instead of enroll if we have verification params
+        // TODO: Only ever run that once.
+
+        $referenceId = $this->config->getFingerprintSessionId(
+            $order->getQuoteId()
+        );
+        $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
+        $enrollService->setMobilePhone($order->getBillingAddress()->getTelephone()); // TODO: integers only
+        // TODO: Additional fields?
+        // TODO: How do we get payerAuthEnrollReply_authenticationTransactionID to the frontend?
+
+        $card = $request->getCard();
+        $card->setAccountNumber(str_pad($this->getCard()->getAdditional('cc_bin'), 16, '0')); // TODO: really?
+        $card->setCardType('001'); // TODO: Translate card type to code
+        $card->setExpirationMonth($this->getCard()->getAdditional('cc_exp_month'));
+        $card->setExpirationYear($this->getCard()->getAdditional('cc_exp_year'));
+
+        $request->setPayerAuthEnrollService($enrollService);
     }
 }
