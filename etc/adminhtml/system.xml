@@ -95,18 +95,14 @@
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
                     <attribute type="shared">1</attribute>
                     <comment><![CDATA[
-                        Payer Authentication is available from CyberSource through
-                        Cardinal Commerce, using the "Cardinal Cruise" API.<br />
-                        <small class="desc">This feature is still on the way, but you can enter your Cardinal Cruise API
-                        credentials now to be ready when it's supported.</small>
+                        Payer Authentication is available from CyberSource through Cardinal Commerce, using the
+                        "Cardinal Cruise" API. Requires setup by CyberSource support.
                     ]]></comment>
-                <!--    TODO: Remove still-coming comment. -->
-                <!--    TODO: Add comment about it requiring CyberSource setup -->
                 </field>
-                <!--<field id="apitest_payerauth" translate="label" type="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="apitest_payerauth" translate="label" type="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Test Results</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\PayerAuth</frontend_model>
-                </field>-->
+                </field>
                 <field id="cardinal_active" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Payer Authentication</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

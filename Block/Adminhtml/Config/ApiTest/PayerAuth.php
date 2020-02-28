@@ -33,12 +33,46 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
     {
         try {
             $this->checkRequiredFields();
+            $this->checkFormFactor();
 
-            // TODO: Format and/or connection tests, as possible
+            return __(
+                'Keys entered successfully. (%1)<br />'
+                . '<small class="desc">* Note: We can\'t test Cardinal Cruise. If the values are wrong, trying to '
+                . 'complete 3D Secure on checkout will cause errors.</small>',
+                $this->getMethod()->getConfigData('test') ? __('SANDBOX') : __('PRODUCTION')
+            );
         } catch (\Exception $e) {
             return $e->getMessage() . $this->getUserManualInstruction();
         }
+    }
 
-        return '';
+    /**
+     * Validate whether the Payer Authentication API creds match the expected form factor.
+     *
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function checkFormFactor()
+    {
+        // NB: Not guaranteed these will be the same as our test data. May need to adjust the rules over time.
+
+        if (strlen($this->getMethod()->getConfigData('cardinal_org_unit_id')) < 24) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('Org Unit ID is shorter than expected; please verify you\'ve entered the correct data.')
+            );
+        }
+
+        if (strlen($this->getMethod()->getConfigData('cardinal_secret_key_id')) < 24) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('API ID is shorter than expected; please verify you\'ve entered the correct data.')
+            );
+        }
+
+        $key = $this->getMethod()->getConfigData('cardinal_secret_key');
+        if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $key) === 0) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('API Key is not in the expected format; please verify you\'ve entered the correct data.')
+            );
+        }
     }
 }
