@@ -133,7 +133,7 @@ class FrontendRequest extends AbstractRequestHandler
             }
 
             // Fall back to guest email parameter iff there's none on the quote.
-            return $this->request->getParam('guestEmail');
+            return $this->request->getParam('guest_email');
         } catch (\Exception $exception) {
             throw $exception;
         }

@@ -59,6 +59,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $restClient;
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor
+     */
+    protected $payerAuthPersistor;
+
+    /**
      * Constructor, yeah!
      *
      * @param \ParadoxLabs\TokenBase\Helper\Data $helper
@@ -69,6 +74,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder
      * @param \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource
      * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
+     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor
      * @param array $data
      */
     public function __construct(
@@ -80,6 +86,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder,
         \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource,
         \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor,
         array $data = []
     ) {
         parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
@@ -88,6 +95,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $this->objectBuilder = $objectBuilder;
         $this->responseCodeSource = $responseCodeSource;
         $this->restClient = $restClient;
+        $this->payerAuthPersistor = $payerAuthPersistor;
     }
 
     /**
@@ -291,7 +299,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $reply = $this->run($request);
 
-        return $this->interpretTransaction($reply);
+        return $this->interpretTransaction($reply, $payment);
     }
 
     /**
@@ -333,7 +341,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $reply = $this->run($request);
 
         try {
-            return $this->interpretTransaction($reply);
+            return $this->interpretTransaction($reply, $payment);
         } catch (\Exception $exception) {
             // Handle 'transaction not found' error (expired authorization).
             if ($exception->getCode() === 242) {
@@ -442,7 +450,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $reply = $this->run($request);
 
         try {
-            return $this->interpretTransaction($reply);
+            return $this->interpretTransaction($reply, $payment);
         } catch (\Exception $exception) {
             // Handle 'not valid for follow-on transaction' error (past allowed period).
             if ($exception->getCode() === 241) {
@@ -488,7 +496,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $reply = $this->run($request);
 
-        return $this->interpretTransaction($reply);
+        return $this->interpretTransaction($reply, $payment);
     }
 
     /**
@@ -575,10 +583,15 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * Translate SOAP reply into a Magento-compatible transaction data object. Throw exception on any error cases.
      *
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
+     * @param \Magento\Payment\Model\InfoInterface|null $payment
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
+     * @throws \Magento\Framework\Exception\PaymentException
+     * @throws \Magento\Framework\Exception\RuntimeException
      */
-    protected function interpretTransaction(\ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api)
-    {
+    protected function interpretTransaction(
+        \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api,
+        \Magento\Payment\Model\InfoInterface $payment = null
+    ) {
         // NB: Temporal coupling, we assume interpretTransaction will always be run immediately after the transaction
         // it's intended to interpret. Otherwise lastResponse will be the wrong data.
         $data = $this->lastResponse;
@@ -592,6 +605,10 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response = $this->responseFactory->create(['data' => $this->flattenArray($data)]);
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
+
+        if ($api->getReasonCode() === 475 && $payment !== null) {
+            $this->payerAuthPersistor->savePayerAuthEnrollReply($payment, $api);
+        }
 
         if (in_array($api->getDecision(), ['ERROR', 'REJECT'], true)) {
             $message = __('Transaction Failed: %1', __($response->getResponseReasonText()));
@@ -672,14 +689,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         );
         $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
         $enrollService->setMobilePhone($order->getBillingAddress()->getTelephone()); // TODO: integers only
-        // TODO: Additional fields?
+        // TODO: Additional fields
         // TODO: How do we get payerAuthEnrollReply_authenticationTransactionID to the frontend?
-
-        $card = $request->getCard();
-        $card->setAccountNumber(str_pad($this->getCard()->getAdditional('cc_bin'), 16, '0')); // TODO: really?
-        $card->setCardType('001'); // TODO: Translate card type to code
-        $card->setExpirationMonth($this->getCard()->getAdditional('cc_exp_month'));
-        $card->setExpirationYear($this->getCard()->getAdditional('cc_exp_year'));
 
         $request->setPayerAuthEnrollService($enrollService);
     }

@@ -216,6 +216,11 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
     <type name="ParadoxLabs\CyberSource\Model\Method">
         <arguments>
             <argument name="addressHelper" xsi:type="object">ParadoxLabs\TokenBase\Helper\Address\Proxy</argument>

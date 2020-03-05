@@ -110,34 +110,10 @@ define(
                 $('#' + this.getCode() + '_iframe').prop('src', 'about:blank')
                                                    .trigger('processStart');
 
-                var billingAddress = _.pick(
-                    quote.billingAddress(),
-                    [
-                        'firstname',
-                        'lastname',
-                        'company',
-                        'street',
-                        'city',
-                        'regionCode',
-                        'region',
-                        'postcode',
-                        'countryId',
-                        'telephone'
-                    ]
-                );
-
-                if (quote.guestEmail !== undefined && quote.guestEmail !== null) {
-                    billingAddress.email = quote.guestEmail;
-                }
-
                 return $.post({
                     url: config.paramUrl,
                     dataType: 'json',
-                    data: {
-                        'billing': billingAddress,
-                        'source': 'checkout',
-                        'guestEmail': quote.guestEmail !== undefined ? quote.guestEmail : null
-                    },
+                    data: this.getFormParams(),
                     global: false,
                     success: this.loadSecureAcceptanceForm.bind(this),
                     error: this.handleAjaxError.bind(this)
@@ -223,14 +199,40 @@ define(
                        + address.countryId + ' '
                        + address.telephone;
             },
+            getFormParams: function() {
+                var billingAddress = _.pick(
+                    quote.billingAddress(),
+                    [
+                        'firstname',
+                        'lastname',
+                        'company',
+                        'street',
+                        'city',
+                        'regionCode',
+                        'region',
+                        'postcode',
+                        'countryId',
+                        'telephone'
+                    ]
+                );
+
+                if (quote.guestEmail !== undefined && quote.guestEmail !== null) {
+                    billingAddress.email = quote.guestEmail;
+                }
+
+                return {
+                    'billing': billingAddress,
+                    'source': 'checkout',
+                    'guest_email': quote.guestEmail !== undefined ? quote.guestEmail : null,
+                    'card_id': this.selectedCard()
+                }
+            },
             loadPayerAuth: function() {
-                if (config.cardinalUrl !== undefined
-                    && config.cardinalUrl !== null
-                    && config.cardinalUrl.length > 1) {
+                if (config.cardinalScript.length > 0 && config.cardinalJWT.length > 0) {
                     // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
                     var script = document.createElement('script');
                     script.type = 'text/javascript';
-                    script.src = config.cardinalUrl;
+                    script.src = config.cardinalScript;
                     script.addEventListener('load', this.initPayerAuth.bind(this));
                     document.head.appendChild(script);
                 }
@@ -253,6 +255,7 @@ define(
                 });
                 Cardinal.on('payments.validated', this.handlePayerAuthCompletion.bind(this));
 
+                // TODO: What's the point of this init JWT if we create and use a separate one for CCA? -we don't
                 Cardinal.setup(
                     'init',
                     {
@@ -287,23 +290,30 @@ define(
                     && typeof error.message !== 'undefined'
                     && typeof Cardinal === 'object'
                     && error.message.indexOf(payerAuthMessage) >= 0) {
-                    Cardinal.continue(
-                        'cca',
-                        {
-                            'AcsUrl': 'https://example.com', // TODO: Where the heck does this come from?
-                            'Payload': config.cardinalJwt
-                        },
-                        {
-                            'OrderDetails': {
-                                'TransactionId': 'abc123' // TODO: Order details
-                            }
-                        }
-                    )
+                    this.startPayerAuthentication();
+
                     return;
                 }
 
                 console.log('hit handleFailedOrder', response);
                 return this._super();
+            },
+            startPayerAuthentication: function() {
+                $.post({
+                    url: config.cardinalAuthUrl,
+                    dataType: 'json',
+                    data: this.getFormParams(),
+                    global: false,
+                    success: this.runPayerAuth.bind(this),
+                    error: this.handleAjaxError.bind(this)
+                });
+            },
+            runPayerAuth: function(response) {
+                Cardinal.continue(
+                    'cca',
+                    response.authPayload,
+                    response.orderPayload
+                );
             }
         });
     }

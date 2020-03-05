@@ -49,6 +49,10 @@ class JsonWebTokenGenerator
      */
     public function getJwt()
     {
+        if ($this->config->isPayerAuthEnabled() === false) {
+            return '';
+        }
+
         // TODO: Add enable setting, enforce that somewhere in here
 
         $payload = [
