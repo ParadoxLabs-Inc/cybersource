@@ -64,7 +64,13 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $payerAuthPersistor;
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder
+     */
+    protected $payerAuthJWTEncoder;
+
+    /**
      * Constructor, yeah!
+     * TODO: Context object here!
      *
      * @param \ParadoxLabs\TokenBase\Helper\Data $helper
      * @param \ParadoxLabs\TokenBase\Model\Gateway\Xml $xml
@@ -75,6 +81,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource
      * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
      * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor
+     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $payerAuthJWTEncoder
      * @param array $data
      */
     public function __construct(
@@ -87,6 +94,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource,
         \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
         \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor,
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $payerAuthJWTEncoder,
         array $data = []
     ) {
         parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
@@ -96,6 +104,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $this->responseCodeSource = $responseCodeSource;
         $this->restClient = $restClient;
         $this->payerAuthPersistor = $payerAuthPersistor;
+        $this->payerAuthJWTEncoder = $payerAuthJWTEncoder;
     }
 
     /**
@@ -681,17 +690,32 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             return;
         }
 
-        // TODO: Verify instead of enroll if we have verification params
-        // TODO: Only ever run that once.
+        if (!empty($payment->getAdditionalInformation('response_jwt'))) {
+            // TODO: Verify instead of enroll if we have verification params
+            // TODO: Only ever run that once.
 
-        $referenceId = $this->config->getFingerprintSessionId(
-            $order->getQuoteId()
-        );
-        $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
-        $enrollService->setMobilePhone($order->getBillingAddress()->getTelephone()); // TODO: integers only
-        // TODO: Additional fields
-        // TODO: How do we get payerAuthEnrollReply_authenticationTransactionID to the frontend?
+            // Note: We're unpacking the JWT to confirm its signature and validity before passing it on.
+            $this->payerAuthJWTEncoder->unpack(
+                $payment->getAdditionalInformation('response_jwt')
+            );
 
-        $request->setPayerAuthEnrollService($enrollService);
+            // TODO: Change this to get the txn ID from the JWT instead of relying on session. It's the same value.
+            $validateService = $this->objectBuilder->getPayerAuthValidateService(
+                $this->payerAuthPersistor->getPayerAuthTransactionId(),
+                $payment->getAdditionalInformation('response_jwt')
+            );
+
+            $request->setPayerAuthValidateService($validateService);
+        } else {
+            $referenceId   = $this->config->getFingerprintSessionId(
+                $order->getQuoteId()
+            );
+            $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
+            $enrollService->setMobilePhone($order->getBillingAddress()->getTelephone()); // TODO: integers only
+            // TODO: Additional fields
+            // TODO: How do we get payerAuthEnrollReply_authenticationTransactionID to the frontend?
+
+            $request->setPayerAuthEnrollService($enrollService);
+        }
     }
 }

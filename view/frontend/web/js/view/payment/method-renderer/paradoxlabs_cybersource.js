@@ -19,6 +19,7 @@ define(
                 storedCards: config ? config.storedCards : [],
                 logoImage: config ? config.logoImage : false,
                 billingAddressLine: null,
+                responseJWT: null,
                 iframeInitialized: false
             },
             initVars: function() {
@@ -31,7 +32,8 @@ define(
                 this.initVars();
                 this._super()
                     .observe([
-                        'billingAddressLine'
+                        'billingAddressLine',
+                        'responseJWT'
                     ]);
 
                 quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
@@ -255,7 +257,7 @@ define(
                 });
                 Cardinal.on('payments.validated', this.handlePayerAuthCompletion.bind(this));
 
-                // TODO: What's the point of this init JWT if we create and use a separate one for CCA? -we don't
+                // TODO: Is this JWT right enough? Need address info or anything?
                 Cardinal.setup(
                     'init',
                     {
@@ -263,9 +265,23 @@ define(
                     }
                 );
             },
-            handlePayerAuthCompletion: function(data, jwt) {
-                // TODO: Runs when validation has completed -- handle response vars and resubmit checkout
-                console.log('caught payments.validated', data, jwt);
+            handlePayerAuthCompletion: function(responseData, responseJWT) {
+                console.log('caught payments.validated', responseData, responseJWT);
+
+                if (responseData.ErrorNumber > 0) {
+                    this.responseJWT(null);
+
+                    // If Payer Auth CCA failed, throw the error message and let the user deal with it.
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: $.mage.__(responseData.ErrorDescription) + ' (' + responseData.ErrorNumber + ')'
+                    });
+                } else {
+                    // If Payer Auth CCA succeeded, store the JWT and retry the order.
+                    // TODO: Server-side processing of response_jwt
+                    this.responseJWT(responseJWT);
+                    this.placeOrder();
+                }
             },
             getPlaceOrderDeferredObject: function() {
                 // Run Cardinal Cruise BIN lookup while the order processes
@@ -280,7 +296,7 @@ define(
                 return this._super();
             },
             handleFailedOrder: function(response) {
-                // TODO: Check for 475 response and trigger payer auth if so
+                this.responseJWT(null);
 
                 var payerAuthMessage = $.mage.__(
                     'The entered card is enrolled in Payer Authentication. Please authenticate before continuing.'
@@ -314,7 +330,18 @@ define(
                     response.authPayload,
                     response.orderPayload
                 );
-            }
+            },
+            getData: function () {
+                return {
+                    'method': this.item.method,
+                    'additional_data': {
+                        'card_id': this.selectedCard(),
+                        'cc_cid': this.creditCardVerificationNumber(),
+                        'response_jwt': this.responseJWT(),
+                        'save': this.save()
+                    }
+                }
+            },
         });
     }
 );

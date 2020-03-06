@@ -329,4 +329,20 @@ class ObjectBuilder
 
         return $enrollService;
     }
+
+    /**
+     * Create a SOAP Payer Authentication validation indicator, including data from the CCA JWT payload.
+     *
+     * @param string $transactionId
+     * @param string $responseJWT
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateService
+     */
+    public function getPayerAuthValidateService($transactionId, $responseJWT)
+    {
+        $validateService = new PayerAuthValidateService('true');
+        $validateService->setAuthenticationTransactionID($transactionId);
+        $validateService->setSignedPARes($responseJWT);
+
+        return $validateService;
+    }
 }

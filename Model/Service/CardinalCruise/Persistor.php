@@ -82,4 +82,15 @@ class Persistor
 
         return $reply;
     }
+
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getPayerAuthTransactionId()
+    {
+        $reply = $this->loadPayerAuthEnrollReply();
+
+        return $reply['transaction_id'];
+    }
 }
