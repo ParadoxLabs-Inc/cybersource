@@ -11,7 +11,7 @@
  * @license     http://store.paradoxlabs.com/license.html
  */
 
-namespace ParadoxLabs\CyberSource\Controller\Secureaccept;
+namespace ParadoxLabs\CyberSource\Controller\SecureAccept;
 
 /**
  * Completed Class

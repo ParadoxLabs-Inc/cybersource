@@ -177,7 +177,7 @@ class FrontendRequest extends AbstractRequestHandler
     protected function getSecureAcceptUrl($route)
     {
         return $this->sanitizer->url(
-            $this->urlBuilder->getUrl('pdl_cybs/secureaccept/' . $route)
+            $this->urlBuilder->getUrl('pdl_cybs/secureAccept/' . $route)
         );
     }
 }

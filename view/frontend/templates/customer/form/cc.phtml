@@ -129,7 +129,7 @@
             "validation": {},
             "cybersourcePaymentInfoForm": {
                 "target": "<?= $code ?>_iframe",
-                "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureaccept/getParams')) ?>",
+                "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
                 "successUrl": "<?= $block->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
             }
         },

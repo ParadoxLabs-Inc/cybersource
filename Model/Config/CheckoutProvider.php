@@ -158,7 +158,7 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'selectedCard'    => $selected,
                     'logoImage'       => $this->getLogoImage(),
                     'requireCcv'      => $this->requireCcv(),
-                    'paramUrl'        => $this->urlBuilder->getUrl('pdl_cybs/secureaccept/getParams'), // TODO: Fix controller path capitalization
+                    'paramUrl'        => $this->urlBuilder->getUrl('pdl_cybs/secureAccept/getParams'),
                     'fingerprintUrl'  => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
                     'cardinalScript'  => $this->config->getCardinalSongbirdUrl(),
                     'cardinalAuthUrl' => $this->urlBuilder->getUrl('pdl_cybs/cardinalCruise/getAuthPayload'),
