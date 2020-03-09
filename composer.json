@@ -8,7 +8,7 @@
     },
     "type": "magento2-module",
     "version": "1.0.0",
-    "time": "2020-02-24",
+    "time": "2020-03-09",
     "license": "proprietary",
     "autoload": {
         "files": [ "registration.php" ],
