@@ -645,6 +645,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Get a PurchaseTotals amounts object for authorization or capture.
+     *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param \Magento\Sales\Model\Order $order
      * @param float $amount
@@ -708,6 +710,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Add Payer Auth validation service to the auth/capture.
+     *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
      * @return void
@@ -731,6 +735,10 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * Add Payer Auth enrollment service to the auth/capture.
+     *
+     * This involves a substantial amount of context data on the user/card/order, which we hand off to a service class.
+     *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
      * @return void

@@ -61,6 +61,8 @@ class JsonWebTokenGenerator
     }
 
     /**
+     * Get the packed JSON Web Token for the current frontend checkout quote
+     *
      * @return string
      */
     public function getJwt()
@@ -82,6 +84,8 @@ class JsonWebTokenGenerator
     }
 
     /**
+     * Get the order payload for the current frontend checkout quote
+     *
      * @return array
      */
     protected function getOrderPayload()
@@ -114,6 +118,8 @@ class JsonWebTokenGenerator
     }
 
     /**
+     * Get an address payload
+     *
      * @param \Magento\Quote\Api\Data\AddressInterface $address
      * @return array
      */
@@ -137,6 +143,8 @@ class JsonWebTokenGenerator
     }
 
     /**
+     * Get the items payload for the given quote
+     *
      * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return array
      */
@@ -157,6 +165,8 @@ class JsonWebTokenGenerator
     }
 
     /**
+     * Format the grand total amount according to Cardinal Cruise spec
+     *
      * @param float $grandTotal
      * @param string $currencyCode
      * @return float

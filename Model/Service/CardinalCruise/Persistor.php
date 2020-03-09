@@ -35,6 +35,10 @@ class Persistor
     }
 
     /**
+     * Save the Payer Auth enrollment reply data persistently for access in later requests
+     *
+     * Checkout DB transaction rollback vastly limits our options.
+     *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
      * @return void
@@ -106,6 +110,8 @@ class Persistor
     }
 
     /**
+     * Load the latest saved Payer Auth enrollment reply for the current frontend user/checkout attempt
+     *
      * @return array
      */
     public function loadPayerAuthEnrollReply()

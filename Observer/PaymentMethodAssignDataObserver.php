@@ -19,6 +19,8 @@ namespace ParadoxLabs\CyberSource\Observer;
 class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\PaymentMethodAssignDataObserver
 {
     /**
+     * Store the Response JWT on the payment object from checkout input payment data.
+     *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param \Magento\Framework\DataObject $data
      * @param \Magento\Payment\Model\MethodInterface $method

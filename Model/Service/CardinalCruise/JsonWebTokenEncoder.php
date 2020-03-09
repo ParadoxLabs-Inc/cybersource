@@ -120,6 +120,8 @@ class JsonWebTokenEncoder
     }
 
     /**
+     * Validate the JWT claims (expiration, etc.)
+     *
      * @param array $claims
      * @throws \Magento\Framework\Exception\InputException
      */

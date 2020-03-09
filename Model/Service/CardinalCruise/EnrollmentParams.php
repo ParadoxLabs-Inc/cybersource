@@ -75,6 +75,10 @@ class EnrollmentParams
     }
 
     /**
+     * Add user/order/card context data to the Payer Authentication enrollment service request
+     *
+     * All of this data is used to determine whether the user must perform 3D Secure authentication for the transaction.
+     *
      * @param \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService $enrollService
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
@@ -113,6 +117,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the number of purchases with the given card in the last 6 months
+     *
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return int
      */
@@ -139,6 +145,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get whether the card is the user's default
+     *
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return string
      */
@@ -164,6 +172,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get whether the user is subscribed to the newsletter
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return string
      */
@@ -181,6 +191,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the merchant site URL
+     *
      * @return string
      */
     protected function getSiteUrl()
@@ -189,6 +201,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the date the shipping address was added (if relevant)
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return string|null
      */
@@ -218,6 +232,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the number of orders placed by the user in the last 24 hours
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return int
      */
@@ -235,6 +251,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the number of orders placed by the user in the last year
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return int
      */
@@ -252,6 +270,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get whether the order is being placed by a new customer
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return string
      */
@@ -261,6 +281,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the date the payment card was added
+     *
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return false|string
      */
@@ -270,6 +292,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the number if line items in the order
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return mixed
      */
@@ -280,6 +304,8 @@ class EnrollmentParams
     }
 
     /**
+     * Get the order auth indicator (transaction type/source)
+     *
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return string
      */
