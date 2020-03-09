@@ -36,20 +36,28 @@ class JsonWebTokenGenerator
     protected $checkoutSession;
 
     /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $request;
+
+    /**
      * JsonWebTokenGenerator constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder
      * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
         \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder,
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->config = $config;
         $this->encoder = $encoder;
         $this->checkoutSession = $checkoutSession;
+        $this->request = $request;
     }
 
     /**
@@ -80,6 +88,7 @@ class JsonWebTokenGenerator
     {
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->checkoutSession->getQuote();
+        $email = $quote->getBillingAddress()->getEmail() ?: $this->request->getParam('guest_email');
 
         $payload = [
             'OrderDetails' => [
@@ -88,7 +97,7 @@ class JsonWebTokenGenerator
                 'OrderChannel' => 'S', // S for ecommerce
             ],
             'Consumer' => [
-                'Email1' => substr($quote->getCustomerEmail(), 0, 255),
+                'Email1' => substr($email, 0, 255),
                 'BillingAddress' => $this->getPayloadAddress($quote->getBillingAddress()),
             ],
         ];

@@ -195,12 +195,21 @@ class EnrollmentParams
     protected function getShippingAddressAddDate(\Magento\Sales\Api\Data\OrderInterface $order)
     {
         /** @var \Magento\Sales\Model\Order $order */
-        if ((bool)$order->getIsVirtual() === true
-            || $order->getCustomerId() < 1
-            || $order->getShippingAddress()->getCustomerAddressId() < 1) {
+        if ((bool)$order->getIsVirtual() === true) {
             return null;
         }
 
+        // Guest order
+        if ($order->getCustomerId() < 1) {
+            return '-1';
+        }
+
+        // First address use
+        if ($order->getShippingAddress()->getCustomerAddressId() < 1) {
+            return '0';
+        }
+
+        // Stored address -> added date
         $address = $this->addressRegistry->retrieve(
             $order->getShippingAddress()->getCustomerAddressId()
         );

@@ -692,40 +692,68 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
+        // If Payer Authentication isn't enabled, or we've already processed payment, don't ... run payer auth.
+        // NB/Future: May need to enroll with prior-auth info in the prior payment case.
         if ($this->config->isPayerAuthEnabled() === false
             || $order->getTotalInvoiced() > 0) {
             return;
         }
 
+        // Validate instead of enroll if we have verification params
         if (!empty($payment->getAdditionalInformation('response_jwt'))) {
-            // Verify instead of enroll if we have verification params
-            // TODO: Don't repeat enrollment or use the same payload for multiple transactions.
-            //  Do we need to disable for multiship?
-
-            // Note: We're unpacking the JWT to confirm its signature and validity before passing it on.
-            $decodedJWT = $this->payerAuthJWTEncoder->unpack(
-                $payment->getAdditionalInformation('response_jwt')
-            );
-
-            $validateService = $this->objectBuilder->getPayerAuthValidateService(
-                $decodedJWT['Payload']['Payment']['ProcessorTransactionId'],
-                $payment->getAdditionalInformation('response_jwt')
-            );
-
-            $request->setPayerAuthValidateService($validateService);
+            $this->requestPayerAuthenticationValidate($payment, $request);
         } else {
-            $referenceId   = $this->config->getFingerprintSessionId(
-                $order->getQuoteId()
-            );
-
-            $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
-            $this->payerAuthEnrollParams->populateEnrollmentService(
-                $enrollService,
-                $order,
-                $this->getCard()
-            );
-
-            $request->setPayerAuthEnrollService($enrollService);
+            $this->requestPayerAuthenticationEnroll($payment, $request);
         }
+    }
+
+    /**
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+     * @return void
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function requestPayerAuthenticationValidate(
+        \Magento\Payment\Model\InfoInterface $payment,
+        \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+    ) {
+        // Note: We unpack the JWT to confirm its signature and validity before passing it on.
+        $decodedJWT = $this->payerAuthJWTEncoder->unpack(
+            $payment->getAdditionalInformation('response_jwt')
+        );
+
+        $validateService = $this->objectBuilder->getPayerAuthValidateService(
+            $decodedJWT['Payload']['Payment']['ProcessorTransactionId'],
+            $payment->getAdditionalInformation('response_jwt')
+        );
+
+        $request->setPayerAuthValidateService($validateService);
+    }
+
+    /**
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+     * @return void
+     */
+    protected function requestPayerAuthenticationEnroll(
+        \Magento\Payment\Model\InfoInterface $payment,
+        \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage $request
+    ) {
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $payment->getOrder();
+
+        $referenceId = $this->config->getFingerprintSessionId(
+            $order->getQuoteId()
+        );
+
+        $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
+        $this->payerAuthEnrollParams->populateEnrollmentService(
+            $enrollService,
+            $order,
+            $this->getCard()
+        );
+
+        $request->setPayerAuthEnrollService($enrollService);
     }
 }

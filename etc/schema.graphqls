@@ -1,0 +1,11 @@
+type TokenBaseCheckoutConfig {
+    paramUrl: String
+    fingerprintUrl: String
+    cardinalScript: String
+    cardinalAuthUrl: String
+    cardinalJWT: String
+}
+
+input TokenBaseCardPaymentInput {
+    response_jwt: String
+}
