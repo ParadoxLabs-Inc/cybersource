@@ -241,29 +241,13 @@ define(
             },
             initPayerAuth: function() {
                 Cardinal.configure({
-                    logging: {
-                        level: 'on' // TODO: Remove this after completion
-                    },
                     payment: {
                         displayLoading: true
                     }
                 });
 
-                // TODO: Step 4 listen
-                Cardinal.on('payments.setupComplete', function(data) {
-                    // TODO: I don't know that I need this.
-                    //  triggers when Songbird has successfully initialized, after calling Cardinal.setup()
-                    console.log('caught payments.setupComplete', data);
-                });
                 Cardinal.on('payments.validated', this.handlePayerAuthCompletion.bind(this));
-
-                // TODO: Is this JWT right enough? Need address info or anything?
-                Cardinal.setup(
-                    'init',
-                    {
-                        jwt: config.cardinalJWT
-                    }
-                );
+                Cardinal.setup('init', {jwt: config.cardinalJWT});
             },
             handlePayerAuthCompletion: function(responseData, responseJWT) {
                 console.log('caught payments.validated', responseData, responseJWT);
@@ -278,7 +262,6 @@ define(
                     });
                 } else {
                     // If Payer Auth CCA succeeded, store the JWT and retry the order.
-                    // TODO: Server-side processing of response_jwt
                     this.responseJWT(responseJWT);
                     this.placeOrder();
                 }
@@ -328,7 +311,8 @@ define(
                 Cardinal.continue(
                     'cca',
                     response.authPayload,
-                    response.orderPayload
+                    response.orderPayload,
+                    response.JWT
                 );
             },
             getData: function () {

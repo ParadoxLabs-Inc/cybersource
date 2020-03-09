@@ -45,18 +45,56 @@ class Persistor
     ) {
         $reply = $api->getPayerAuthEnrollReply();
 
-        // TODO: Do these vary? May not always be what my test response had.
+        // NB: We only use acsURL, paRes, and authenticationTransactionID, but special cases may require others.
         $payerAuthPayload = [
-            'acs_url' => $reply->getAcsURL(),
-            'pa_req' => $reply->getPaReq(),
-            'proxy_pan' => $reply->getProxyPAN(),
+            'acsRenderingType' => $reply->getAcsRenderingType(),
+            'acsTransactionID' => $reply->getAcsTransactionID(),
+            'acsURL' => $reply->getAcsURL(),
+            'authenticationPath' => $reply->getAuthenticationPath(),
+            'authenticationResult' => $reply->getAuthenticationResult(),
+            'authenticationStatusMessage' => $reply->getAuthenticationStatusMessage(),
+            'authenticationStatusReason' => $reply->getAuthenticationStatusReason(),
+            'authenticationTransactionID' => $reply->getAuthenticationTransactionID(),
+            'authenticationType' => $reply->getAuthenticationType(),
+            'authorizationPayload' => $reply->getAuthorizationPayload(),
+            'cardBin' => $reply->getCardBin(),
+            'cardholderMessage' => $reply->getCardholderMessage(),
+            'cardTypeName' => $reply->getCardTypeName(),
+            'cavv' => $reply->getCavv(),
+            'cavvAlgorithm' => $reply->getCavvAlgorithm(),
+            'challengeCancelCode' => $reply->getChallengeCancelCode(),
+            'challengeRequired' => $reply->getChallengeRequired(),
+            'commerceIndicator' => $reply->getCommerceIndicator(),
+            'decoupledAuthenticationIndicator' => $reply->getDecoupledAuthenticationIndicator(),
+            'directoryServerErrorCode' => $reply->getDirectoryServerErrorCode(),
+            'directoryServerErrorDescription' => $reply->getDirectoryServerErrorDescription(),
+            'directoryServerTransactionID' => $reply->getDirectoryServerTransactionID(),
+            'eci' => $reply->getEci(),
+            'eciRaw' => $reply->getEciRaw(),
+            'effectiveAuthenticationType' => $reply->getEffectiveAuthenticationType(),
+            'ivrEnabledMessage' => $reply->getIvrEnabledMessage(),
+            'ivrEncryptionKey' => $reply->getIvrEncryptionKey(),
+            'ivrEncryptionMandatory' => $reply->getIvrEncryptionMandatory(),
+            'ivrEncryptionType' => $reply->getIvrEncryptionType(),
+            'ivrLabel' => $reply->getIvrLabel(),
+            'ivrPrompt' => $reply->getIvrPrompt(),
+            'ivrStatusMessage' => $reply->getIvrStatusMessage(),
+            'networkScore' => $reply->getNetworkScore(),
+            'paReq' => $reply->getPaReq(),
+            'paresStatus' => $reply->getParesStatus(),
+            'proofXML' => $reply->getProofXML(),
+            'proxyPAN' => $reply->getProxyPAN(),
+            'reasonCode' => $reply->getReasonCode(),
+            'sdkTransactionID' => $reply->getSdkTransactionID(),
+            'specificationVersion' => $reply->getSpecificationVersion(),
+            'stepUpUrl' => $reply->getStepUpUrl(),
+            'threeDSServerTransactionID' => $reply->getThreeDSServerTransactionID(),
+            'ucafAuthenticationData' => $reply->getUcafAuthenticationData(),
+            'ucafCollectionIndicator' => $reply->getUcafCollectionIndicator(),
+            'veresEnrolled' => $reply->getVeresEnrolled(),
+            'whiteListStatus' => $reply->getWhiteListStatus(),
+            'whiteListStatusSource' => $reply->getWhiteListStatusSource(),
             'xid' => $reply->getXid(),
-            'veres_enrolled' => $reply->getVeresEnrolled(),
-            'authentication_path' => $reply->getAuthenticationPath(),
-            'version' => $reply->getSpecificationVersion(),
-            'transaction_id' => $reply->getAuthenticationTransactionID(),
-            'card_bin' => $reply->getCardBin(), // TODO: Needed?
-            'card_type_name' => $reply->getCardTypeName(), // TODO: Needed?
         ];
 
         /**
@@ -81,16 +119,5 @@ class Persistor
         }
 
         return $reply;
-    }
-
-    /**
-     * @return string
-     * @throws \Magento\Framework\Exception\StateException
-     */
-    public function getPayerAuthTransactionId()
-    {
-        $reply = $this->loadPayerAuthEnrollReply();
-
-        return $reply['transaction_id'];
     }
 }

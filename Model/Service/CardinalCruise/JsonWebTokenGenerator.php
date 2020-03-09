@@ -31,17 +31,25 @@ class JsonWebTokenGenerator
     protected $encoder;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
      * JsonWebTokenGenerator constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder
+     * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->config = $config;
         $this->encoder = $encoder;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -53,25 +61,101 @@ class JsonWebTokenGenerator
             return '';
         }
 
-        // TODO: Add enable setting, enforce that somewhere in here
-
         $payload = [
             'jti' => uniqid('', true),
             'iat' => time(),
             'iss' => $this->config->getCardinalSecretKeyId(),
             'OrgUnitId' => $this->config->getCardinalOrgUnitId(),
-            'Payload' => [
-                'OrderDetails' => [
-                    'OrderNumber' => '123', // TODO
-                    'Amount' => '123', // TODO
-                    'CurrencyCode' => 'USD', // TODO
-                    'TransactionId' => '123', // TODO
-                    'OrderChannel' => 'S', // TODO
-                ],
-            ], // TODO: "This object is usually an Order object"
+            'Payload' => $this->getOrderPayload(),
             'ObjectifyPayload' => true,
         ];
 
         return $this->encoder->pack($payload);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOrderPayload()
+    {
+        /** @var \Magento\Quote\Model\Quote $quote */
+        $quote = $this->checkoutSession->getQuote();
+
+        $payload = [
+            'OrderDetails' => [
+                'Amount' => $this->getAmount($quote->getGrandTotal(), $quote->getQuoteCurrencyCode()),
+                'CurrencyCode' => $quote->getQuoteCurrencyCode(),
+                'OrderChannel' => 'S', // S for ecommerce
+            ],
+            'Consumer' => [
+                'Email1' => substr($quote->getCustomerEmail(), 0, 255),
+                'BillingAddress' => $this->getPayloadAddress($quote->getBillingAddress()),
+            ],
+        ];
+
+        if ($quote instanceof \Magento\Quote\Model\Quote) {
+            $payload['Cart'] = $this->getPayloadItems($quote);
+        }
+
+        if ($quote->isVirtual() === false) {
+            $payload['Consumer']['ShippingAddress'] = $this->getPayloadAddress($quote->getShippingAddress());
+        }
+
+        return $payload;
+    }
+
+    /**
+     * @param \Magento\Quote\Api\Data\AddressInterface $address
+     * @return array
+     */
+    protected function getPayloadAddress(\Magento\Quote\Api\Data\AddressInterface $address)
+    {
+        $street = $address->getStreet();
+
+        return [
+            'FirstName' => $address->getFirstname(),
+            'MiddleName' => $address->getMiddlename(),
+            'LastName' => $address->getLastname(),
+            'Address1' => isset($street[0]) ? $street[0] : null,
+            'Address2' => isset($street[1]) ? $street[1] : null,
+            'Address3' => isset($street[2]) ? $street[2] : null,
+            'City' => $address->getCity(),
+            'State' => $address->getRegionCode() ?: $address->getRegion(),
+            'PostalCode' => $address->getPostcode(),
+            'CountryCode' => $address->getCountryId(),
+            'Phone1' => $address->getTelephone(),
+        ];
+    }
+
+    /**
+     * @param \Magento\Quote\Api\Data\CartInterface $quote
+     * @return array
+     */
+    protected function getPayloadItems(\Magento\Quote\Model\Quote $quote)
+    {
+        $items = [];
+
+        foreach ($quote->getAllVisibleItems() as $item) {
+            $items[] = [
+                'Name' => substr($item->getName(), 0, 128),
+                'SKU' => substr($item->getSku(), 0, 20),
+                'Quantity' => $item->getQty(),
+                'Price' => (float)$item->getPrice(),
+            ];
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param float $grandTotal
+     * @param string $currencyCode
+     * @return float
+     */
+    protected function getAmount($grandTotal, $currencyCode)
+    {
+        // Per Cardinal Cruise docs: "Unformatted total transaction amount without any decimalization."
+        // Assuming for the moment this does not vary by currency and they assume a factor of 100 globally.
+        return round($grandTotal * 100);
     }
 }

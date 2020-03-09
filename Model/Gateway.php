@@ -69,19 +69,18 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     protected $payerAuthJWTEncoder;
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams
+     */
+    protected $payerAuthEnrollParams;
+
+    /**
      * Constructor, yeah!
-     * TODO: Context object here!
      *
      * @param \ParadoxLabs\TokenBase\Helper\Data $helper
      * @param \ParadoxLabs\TokenBase\Model\Gateway\Xml $xml
      * @param \ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory $responseFactory
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder
-     * @param \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource
-     * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $payerAuthJWTEncoder
+     * @param \ParadoxLabs\CyberSource\Model\Gateway\Context $context
      * @param array $data
      */
     public function __construct(
@@ -89,22 +88,18 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \ParadoxLabs\TokenBase\Model\Gateway\Xml $xml,
         \ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory $responseFactory,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder,
-        \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource,
-        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $payerAuthJWTEncoder,
+        \ParadoxLabs\CyberSource\Model\Gateway\Context $context,
         array $data = []
     ) {
         parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
 
-        $this->config = $config;
-        $this->objectBuilder = $objectBuilder;
-        $this->responseCodeSource = $responseCodeSource;
-        $this->restClient = $restClient;
-        $this->payerAuthPersistor = $payerAuthPersistor;
-        $this->payerAuthJWTEncoder = $payerAuthJWTEncoder;
+        $this->config = $context->getConfig();
+        $this->objectBuilder = $context->getObjectBuilder();
+        $this->responseCodeSource = $context->getResponseCodeSource();
+        $this->restClient = $context->getRestClient();
+        $this->payerAuthPersistor = $context->getPayerAuthPersistor();
+        $this->payerAuthJWTEncoder = $context->getPayerAuthJWTEncoder();
+        $this->payerAuthEnrollParams = $context->getPayerAuthEnrollParams();
     }
 
     /**
@@ -277,11 +272,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
-        if ($this->getHaveAuthorized() !== true) {
-            $purchaseTotals->setTaxAmount($order->getTaxAmount());
-            $purchaseTotals->setShippingAmount($payment->getShippingAmount());
-        }
+        $purchaseTotals = $this->getOrderPurchaseTotals($payment, $order, $amount);
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
@@ -325,11 +316,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
-        if ($this->getHaveAuthorized() !== true) {
-            $purchaseTotals->setTaxAmount($order->getTaxAmount());
-            $purchaseTotals->setShippingAmount($payment->getShippingAmount());
-        }
+        $purchaseTotals = $this->getOrderPurchaseTotals($payment, $order, $amount);
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
@@ -340,7 +327,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $transactionId = $transactionId !== null ? $transactionId : $this->getTransactionId();
 
         // If we don't have a transaction ID to capture, run a 'bundled' auth+capture; otherwise, prior-auth capture.
-        if (!$this->getHaveAuthorized() || empty($transactionId)) {
+        if (empty($transactionId) || !$this->getHaveAuthorized()) {
             $this->captureInitBundledRequest($payment, $request);
             $this->requestPayerAuthentication($payment, $request);
         } else {
@@ -615,7 +602,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
-        if ($api->getReasonCode() === 475 && $payment !== null) {
+        if ($payment !== null && $api->getReasonCode() === 475) {
             $this->payerAuthPersistor->savePayerAuthEnrollReply($payment, $api);
         }
 
@@ -658,6 +645,26 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     }
 
     /**
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param \Magento\Sales\Model\Order $order
+     * @param float $amount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
+     */
+    protected function getOrderPurchaseTotals(
+        \Magento\Payment\Model\InfoInterface $payment,
+        \Magento\Sales\Model\Order $order,
+        $amount
+    ) {
+        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
+        if ($this->getHaveAuthorized() !== true) {
+            $purchaseTotals->setTaxAmount($order->getTaxAmount());
+            $purchaseTotals->setShippingAmount($payment->getShippingAmount());
+        }
+
+        return $purchaseTotals;
+    }
+
+    /**
      * Get the transaction origin string (store name and URL) for identification purposes.
      *
      * @return \Magento\Framework\Phrase
@@ -691,17 +698,17 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         if (!empty($payment->getAdditionalInformation('response_jwt'))) {
-            // TODO: Verify instead of enroll if we have verification params
-            // TODO: Only ever run that once.
+            // Verify instead of enroll if we have verification params
+            // TODO: Don't repeat enrollment or use the same payload for multiple transactions.
+            //  Do we need to disable for multiship?
 
             // Note: We're unpacking the JWT to confirm its signature and validity before passing it on.
-            $this->payerAuthJWTEncoder->unpack(
+            $decodedJWT = $this->payerAuthJWTEncoder->unpack(
                 $payment->getAdditionalInformation('response_jwt')
             );
 
-            // TODO: Change this to get the txn ID from the JWT instead of relying on session. It's the same value.
             $validateService = $this->objectBuilder->getPayerAuthValidateService(
-                $this->payerAuthPersistor->getPayerAuthTransactionId(),
+                $decodedJWT['Payload']['Payment']['ProcessorTransactionId'],
                 $payment->getAdditionalInformation('response_jwt')
             );
 
@@ -710,10 +717,13 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $referenceId   = $this->config->getFingerprintSessionId(
                 $order->getQuoteId()
             );
+
             $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
-            $enrollService->setMobilePhone($order->getBillingAddress()->getTelephone()); // TODO: integers only
-            // TODO: Additional fields
-            // TODO: How do we get payerAuthEnrollReply_authenticationTransactionID to the frontend?
+            $this->payerAuthEnrollParams->populateEnrollmentService(
+                $enrollService,
+                $order,
+                $this->getCard()
+            );
 
             $request->setPayerAuthEnrollService($enrollService);
         }

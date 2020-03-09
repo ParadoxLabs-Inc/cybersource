@@ -58,11 +58,11 @@ class Config
      */
     protected function getConfigValue($key, $storeId = null)
     {
-        return $this->scopeConfig->getValue(
+        return trim($this->scopeConfig->getValue(
             'payment/' . static::CODE . '/' . $key,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
-        );
+        ));
     }
 
     /**

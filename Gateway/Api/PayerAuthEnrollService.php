@@ -395,7 +395,7 @@ class PayerAuthEnrollService
      */
     public function setHttpAccept($httpAccept)
     {
-        $this->httpAccept = $httpAccept;
+        $this->httpAccept = substr($httpAccept, 0, 255);
 
         return $this;
     }
@@ -414,7 +414,7 @@ class PayerAuthEnrollService
      */
     public function setHttpUserAgent($httpUserAgent)
     {
-        $this->httpUserAgent = $httpUserAgent;
+        $this->httpUserAgent = substr($httpUserAgent, 0, 255);
 
         return $this;
     }
@@ -452,7 +452,7 @@ class PayerAuthEnrollService
      */
     public function setMerchantURL($merchantURL)
     {
-        $this->merchantURL = $merchantURL;
+        $this->merchantURL = substr($merchantURL, 0, 100);
 
         return $this;
     }
@@ -635,7 +635,7 @@ class PayerAuthEnrollService
      */
     public function setMobilePhone($mobilePhone)
     {
-        $this->mobilePhone = $mobilePhone;
+        $this->mobilePhone = substr(preg_replace('/[^0-9]/', '', $mobilePhone), 0, 25);
 
         return $this;
     }
@@ -787,7 +787,7 @@ class PayerAuthEnrollService
      */
     public function setTransactionCountDay($transactionCountDay)
     {
-        $this->transactionCountDay = $transactionCountDay;
+        $this->transactionCountDay = (int)$transactionCountDay;
 
         return $this;
     }
@@ -806,7 +806,7 @@ class PayerAuthEnrollService
      */
     public function setTransactionCountYear($transactionCountYear)
     {
-        $this->transactionCountYear = $transactionCountYear;
+        $this->transactionCountYear = (int)$transactionCountYear;
 
         return $this;
     }
@@ -844,7 +844,7 @@ class PayerAuthEnrollService
      */
     public function setAccountPurchases($accountPurchases)
     {
-        $this->accountPurchases = $accountPurchases;
+        $this->accountPurchases = (int)$accountPurchases;
 
         return $this;
     }
@@ -1680,7 +1680,8 @@ class PayerAuthEnrollService
      */
     public function setTotalOffersCount($totalOffersCount)
     {
-        $this->totalOffersCount = $totalOffersCount;
+        // NB: docs indicate this field only supports two digits, don't ask why.
+        $this->totalOffersCount = min((int)$totalOffersCount, 99);
 
         return $this;
     }
@@ -1779,5 +1780,4 @@ class PayerAuthEnrollService
 
         return $this;
     }
-
 }

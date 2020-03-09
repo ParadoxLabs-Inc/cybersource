@@ -193,6 +193,7 @@ class ObjectBuilder
      * Create a SOAP transaction totals object
      *
      * @param string $currency
+     * @param float $amount
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
      */
     public function getPurchaseTotals($currency, $amount)

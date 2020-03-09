@@ -26,16 +26,40 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
     protected $persistor;
 
     /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator
+     */
+    protected $jsonWebTokenGenerator;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor
+     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor,
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
     ) {
         parent::__construct($context);
 
         $this->persistor = $persistor;
+        $this->jsonWebTokenGenerator = $jsonWebTokenGenerator;
+        $this->checkoutSession = $checkoutSession;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -54,6 +78,7 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
             $payload = [
                 'authPayload'  => $this->getAuthPayload($enrollReply),
                 'orderPayload' => $this->getOrderPayload($enrollReply),
+                'JWT' => $this->jsonWebTokenGenerator->getJwt(),
             ];
 
             $result->setData($payload);
@@ -74,8 +99,8 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
     protected function getAuthPayload(array $enrollReply)
     {
         return [
-            'AcsUrl' => $enrollReply['acs_url'],
-            'Payload' => $enrollReply['pa_req'],
+            'AcsUrl' => $enrollReply['acsURL'],
+            'Payload' => $enrollReply['paReq'],
         ];
     }
 
@@ -85,10 +110,18 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
      */
     protected function getOrderPayload(array $enrollReply)
     {
+        /** @var \Magento\Quote\Model\Quote $quote */
+        $quote = $this->checkoutSession->getQuote();
+
+        if (empty($quote->getReservedOrderId())) {
+            $quote->reserveOrderId();
+            $this->quoteRepository->save($quote);
+        }
+
         return [
-            // TODO
             'OrderDetails' => [
-                'TransactionId' => $enrollReply['transaction_id'],
+                'TransactionId' => $enrollReply['authenticationTransactionID'],
+                'OrderNumber' => $quote->getReservedOrderId(),
             ],
         ];
     }
