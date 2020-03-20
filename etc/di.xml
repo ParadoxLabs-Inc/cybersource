@@ -205,6 +205,11 @@
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="ParadoxLabs\CyberSource\Controller\Adminhtml\SecureAccept\Complete">
+        <arguments>
+            <argument name="formKey" xsi:type="object">Magento\Framework\Data\Form\FormKey\Proxy</argument>
+        </arguments>
+    </type>
     <type name="ParadoxLabs\CyberSource\Helper\Data">
         <arguments>
             <argument name="backendSession" xsi:type="object">Magento\Backend\Model\Session\Quote\Proxy</argument>

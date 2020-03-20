@@ -148,4 +148,14 @@ class BackendRequest extends AbstractRequestHandler
             $this->urlBuilder->getUrl('pdl_cybs/secureAccept/' . $route)
         );
     }
+
+    /**
+     * Get the current user's session ID, for persistence around potential SameSite cookie restrictions.
+     *
+     * @return string
+     */
+    protected function getSessionId()
+    {
+        return $this->backendSession->getSessionId();
+    }
 }

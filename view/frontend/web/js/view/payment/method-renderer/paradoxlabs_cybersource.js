@@ -201,6 +201,17 @@ define(
                        + address.countryId + ' '
                        + address.telephone;
             },
+            getData: function () {
+                return {
+                    'method': this.item.method,
+                    'additional_data': {
+                        'card_id': this.selectedCard(),
+                        'cc_cid': this.creditCardVerificationNumber(),
+                        'response_jwt': this.responseJWT(),
+                        'save': this.save()
+                    }
+                }
+            },
             getFormParams: function() {
                 var billingAddress = _.pick(
                     quote.billingAddress(),
@@ -250,8 +261,6 @@ define(
                 Cardinal.setup('init', {jwt: config.cardinalJWT});
             },
             handlePayerAuthCompletion: function(responseData, responseJWT) {
-                console.log('caught payments.validated', responseData, responseJWT);
-
                 if (responseData.ErrorNumber > 0) {
                     this.responseJWT(null);
 
@@ -294,7 +303,6 @@ define(
                     return;
                 }
 
-                console.log('hit handleFailedOrder', response);
                 return this._super();
             },
             startPayerAuthentication: function() {
@@ -314,18 +322,7 @@ define(
                     response.orderPayload,
                     response.JWT
                 );
-            },
-            getData: function () {
-                return {
-                    'method': this.item.method,
-                    'additional_data': {
-                        'card_id': this.selectedCard(),
-                        'cc_cid': this.creditCardVerificationNumber(),
-                        'response_jwt': this.responseJWT(),
-                        'save': this.save()
-                    }
-                }
-            },
+            }
         });
     }
 );

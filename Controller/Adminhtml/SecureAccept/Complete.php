@@ -26,6 +26,19 @@ class Complete extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Data\Form\FormKey $formKey
     ) {
+        // Initialize session with ID from the CyberSource payload, to prevent SameSite cookie issues.
+        $session = $context->getSession();
+        $session->writeClose();
+        $session->setSessionId($context->getRequest()->getParam('req_merchant_defined_data99'));
+        $session->start();
+
+        $authSession = $context->getAuth()->getAuthStorage();
+        if ($authSession instanceof \Magento\Backend\Model\Auth\Session) {
+            $authSession->writeClose();
+            $authSession->setSessionId($session->getSessionId());
+            $authSession->start();
+        }
+
         parent::__construct($context);
 
         // Bypass form key validation for this incoming POST request.
@@ -44,5 +57,16 @@ class Complete extends \Magento\Backend\App\Action
         $result = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_PAGE);
 
         return $result;
+    }
+
+    /**
+     * Check url keys.
+     *
+     * @return bool
+     * @see \Magento\Backend\App\Request\BackendValidator for default request validation.
+     */
+    public function _processUrlKeys()
+    {
+        return true;
     }
 }

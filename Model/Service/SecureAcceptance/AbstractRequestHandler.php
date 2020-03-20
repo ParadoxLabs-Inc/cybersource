@@ -134,6 +134,7 @@ abstract class AbstractRequestHandler
             'skip_decision_manager' => $this->sanitizer->alphanumericPunc('true', 5),
             'transaction_uuid' => $this->sanitizer->asciiAlphanumericPunc($referenceId, 50),
             'consumer_id' => $this->sanitizer->alphanumericPunc($this->getCustomerId(), 100),
+            'merchant_defined_data99' => $this->getSessionId(),
             'merchant_defined_data100' => $this->request->getParam('source'),
             'override_custom_receipt_page' => $this->getSecureAcceptUrl('complete'),
             'partner_solution_id' => $this->sanitizer->alphanumeric($this->config->getSolutionId(), 8),
@@ -317,4 +318,11 @@ abstract class AbstractRequestHandler
      * @throws \Magento\Framework\Exception\InputException
      */
     abstract protected function getSecureAcceptUrl($route);
+
+    /**
+     * Get the current user's session ID, for persistence around potential SameSite cookie restrictions.
+     *
+     * @return string
+     */
+    abstract protected function getSessionId();
 }

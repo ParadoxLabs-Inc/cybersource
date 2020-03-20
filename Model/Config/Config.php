@@ -315,7 +315,7 @@ class Config
     public function isFingerprintEnabled($storeId = null)
     {
         if ((bool)$this->getConfigValue('fingerprint', $storeId) === false
-            || empty($this->getOrganizationId($storeId))) {
+            || empty($this->getFingerprintOrgId($storeId))) {
             return false;
         }
 
@@ -337,6 +337,20 @@ class Config
     }
 
     /**
+     * Get the fingerprint organization ID.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getFingerprintOrgId($storeId = null)
+    {
+        return $this->getConfigValue('fingerprint_org_id', $storeId);
+
+        // TODO: Hardcode these and remove the setting once we have them
+        // return $this->isSandboxMode($storeId) ? 'SANDBOX-ID' : 'PRODUCTION-ID';
+    }
+
+    /**
      * Get the fingerprint script URL including session key, or null if fingerprinting is disabled.
      *
      * @param string $sessionId
@@ -350,7 +364,7 @@ class Config
         }
 
         $params = [
-            'org_id' => $this->getOrganizationId($storeId),
+            'org_id' => $this->getFingerprintOrgId($storeId),
             'session_id' => $this->getFingerprintSessionId($sessionId, $storeId),
         ];
 
