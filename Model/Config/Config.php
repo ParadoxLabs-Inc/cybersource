@@ -344,10 +344,7 @@ class Config
      */
     public function getFingerprintOrgId($storeId = null)
     {
-        return $this->getConfigValue('fingerprint_org_id', $storeId);
-
-        // TODO: Hardcode these and remove the setting once we have them
-        // return $this->isSandboxMode($storeId) ? 'SANDBOX-ID' : 'PRODUCTION-ID';
+        return $this->isSandboxMode($storeId) ? '1snn5n9w' : 'k8vif92e';
     }
 
     /**

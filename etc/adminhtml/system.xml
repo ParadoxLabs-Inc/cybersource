@@ -203,13 +203,6 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Used by Decision Manager and Fraud Management Essentials to identify users for better fraud prevention.</comment>
                 </field>
-                <field id="fingerprint_org_id" translate="label" type="text" sortOrder="385" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Device Fingerprinting Org ID</label>
-                    <comment>This value is mandatory for device fingerprinting. Get the value from CyberSource support.</comment>
-                    <depends>
-                        <field id="fingerprint">1</field>
-                    </depends>
-                </field>
                 <field id="fingerprint_domain" translate="label" type="text" sortOrder="390" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enhanced Profiling Domain</label>
                     <comment>If you've set up an 'Enhanced Profiling' custom domain with CyberSource, enter it here. Do not change this setting until the DNS and SSL are fully tested. See Decision Manager documentation for instructions.</comment>
