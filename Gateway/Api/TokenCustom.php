@@ -1,5 +1,7 @@
 <?php
 
+namespace ParadoxLabs\CyberSource\Gateway\Api;
+
 class TokenCustom
 {
 
