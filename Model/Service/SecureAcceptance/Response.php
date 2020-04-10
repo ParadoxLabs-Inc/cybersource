@@ -158,7 +158,7 @@ class Response
 
         // Sometimes the full number is masked. idk. But instrument ID should have the same last4.
         $last4 = substr($input['req_card_number'], -4);
-        if ($last4 === 'xxxx') {
+        if ($last4 === 'xxxx' && !empty($input['payment_token_instrument_identifier_id'])) {
             $last4 = substr($input['payment_token_instrument_identifier_id'], -4);
         }
 
@@ -176,8 +176,10 @@ class Response
         }
 
         // NB: This is a card fingerprint, unique to each credit card but not reversible. Last4 will match the CC.
-        $card->setAdditional('instrument_identifier', $input['payment_token_instrument_identifier_id']);
-        $card->setAdditional('fingerprint', $input['payment_token_instrument_identifier_id']);
+        if (!empty($input['payment_token_instrument_identifier_id'])) {
+            $card->setAdditional('instrument_identifier', $input['payment_token_instrument_identifier_id']);
+            $card->setAdditional('fingerprint', $input['payment_token_instrument_identifier_id']);
+        }
     }
 
     /**
