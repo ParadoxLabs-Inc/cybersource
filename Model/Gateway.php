@@ -174,10 +174,12 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         try {
             $reply = $this->soapClient->runTransaction($requestMessage);
         } catch (\Exception $exception) {
-            $this->helper->log(
-                $this->code,
-                sprintf('CyberSource Gateway error: %s', trim($exception->getMessage()))
-            );
+            if ($log === true) {
+                $this->helper->log(
+                    $this->code,
+                    sprintf('CyberSource Gateway error: %s', trim($exception->getMessage()))
+                );
+            }
 
             throw new \Magento\Framework\Exception\RuntimeException(
                 __('CyberSource Gateway error: %1', trim($exception->getMessage())),
@@ -196,7 +198,9 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
                 );
             }
 
-            $this->helper->log($this->code, $response);
+            if ($log === true) {
+                $this->helper->log($this->code, $response);
+            }
 
             // Parse response into array for easier handling
             $this->lastResponse = $this->xmlToArray($this->soapClient->__getLastResponse());
@@ -608,7 +612,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         if (in_array($api->getDecision(), ['ERROR', 'REJECT'], true)) {
             $message = __('Transaction Failed: %1', __($response->getResponseReasonText()));
-            $this->helper->log($this->code, $message . ' (' . $api->getReasonCode() . ')');
+
+            // Don't log API test errors
+            if ($payment !== null || $api->getReasonCode() !== 101) {
+                $this->helper->log($this->code, $message . ' (' . $api->getReasonCode() . ')');
+            }
 
             if ($api->getDecision() === 'REJECT') {
                 throw new \Magento\Framework\Exception\PaymentException($message, null, $api->getReasonCode());
