@@ -4,111 +4,110 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCCaptureService
 {
-
     /**
      * @var string $authType
      */
-    protected $authType = null;
+    protected $authType;
 
     /**
      * @var string $verbalAuthCode
      */
-    protected $verbalAuthCode = null;
+    protected $verbalAuthCode;
 
     /**
      * @var string $authRequestID
      */
-    protected $authRequestID = null;
+    protected $authRequestID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $partialPaymentID
      */
-    protected $partialPaymentID = null;
+    protected $partialPaymentID;
 
     /**
      * @var string $purchasingLevel
      */
-    protected $purchasingLevel = null;
+    protected $purchasingLevel;
 
     /**
      * @var string $industryDatatype
      */
-    protected $industryDatatype = null;
+    protected $industryDatatype;
 
     /**
      * @var string $authRequestToken
      */
-    protected $authRequestToken = null;
+    protected $authRequestToken;
 
     /**
      * @var string $merchantReceiptNumber
      */
-    protected $merchantReceiptNumber = null;
+    protected $merchantReceiptNumber;
 
     /**
      * @var string $posData
      */
-    protected $posData = null;
+    protected $posData;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $checksumKey
      */
-    protected $checksumKey = null;
+    protected $checksumKey;
 
     /**
      * @var string $gratuityAmount
      */
-    protected $gratuityAmount = null;
+    protected $gratuityAmount;
 
     /**
      * @var int $duration
      */
-    protected $duration = null;
+    protected $duration;
 
     /**
      * @var int $dpdeBillingMonth
      */
-    protected $dpdeBillingMonth = null;
+    protected $dpdeBillingMonth;
 
     /**
      * @var string $sequence
      */
-    protected $sequence = null;
+    protected $sequence;
 
     /**
      * @var string $totalCount
      */
-    protected $totalCount = null;
+    protected $totalCount;
 
     /**
      * @var string $reconciliationIDAlternate
      */
-    protected $reconciliationIDAlternate = null;
+    protected $reconciliationIDAlternate;
 
     /**
      * @var string $aggregatorID
      */
-    protected $aggregatorID = null;
+    protected $aggregatorID;
 
     /**
      * @var string $aggregatorName
      */
-    protected $aggregatorName = null;
+    protected $aggregatorName;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -516,5 +515,4 @@ class CCCaptureService
 
         return $this;
     }
-
 }

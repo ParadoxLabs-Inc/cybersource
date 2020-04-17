@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class RuleResultItem
 {
-
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $decision
      */
-    protected $decision = null;
+    protected $decision;
 
     /**
      * @var string $evaluation
      */
-    protected $evaluation = null;
+    protected $evaluation;
 
     /**
      * @var int $ruleID
      */
-    protected $ruleID = null;
-
-    public function __construct()
-    {
-    }
+    protected $ruleID;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class RuleResultItem
 
         return $this;
     }
-
 }

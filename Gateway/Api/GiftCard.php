@@ -4,115 +4,110 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class GiftCard
 {
-
     /**
      * @var string $originalRequestID
      */
-    protected $originalRequestID = null;
+    protected $originalRequestID;
 
     /**
      * @var string $redemptionType
      */
-    protected $redemptionType = null;
+    protected $redemptionType;
 
     /**
      * @var string $count
      */
-    protected $count = null;
+    protected $count;
 
     /**
      * @var boolean $escheatable
      */
-    protected $escheatable = null;
+    protected $escheatable;
 
     /**
      * @var string $groupID
      */
-    protected $groupID = null;
+    protected $groupID;
 
     /**
      * @var string $securityValue
      */
-    protected $securityValue = null;
+    protected $securityValue;
 
     /**
      * @var string $transactionPostingDate
      */
-    protected $transactionPostingDate = null;
+    protected $transactionPostingDate;
 
     /**
      * @var string $additionalAccountNumber
      */
-    protected $additionalAccountNumber = null;
+    protected $additionalAccountNumber;
 
     /**
      * @var string $promoCode
      */
-    protected $promoCode = null;
+    protected $promoCode;
 
     /**
      * @var string $balanceCurrency
      */
-    protected $balanceCurrency = null;
+    protected $balanceCurrency;
 
     /**
      * @var string $extendedAccountNumber
      */
-    protected $extendedAccountNumber = null;
+    protected $extendedAccountNumber;
 
     /**
      * @var string $previousBalance
      */
-    protected $previousBalance = null;
+    protected $previousBalance;
 
     /**
      * @var string $currentBalance
      */
-    protected $currentBalance = null;
+    protected $currentBalance;
 
     /**
      * @var string $baseCurrencyPreviousBalance
      */
-    protected $baseCurrencyPreviousBalance = null;
+    protected $baseCurrencyPreviousBalance;
 
     /**
      * @var string $baseCurrencyCurrentBalance
      */
-    protected $baseCurrencyCurrentBalance = null;
+    protected $baseCurrencyCurrentBalance;
 
     /**
      * @var string $baseCurrencyCashbackAmount
      */
-    protected $baseCurrencyCashbackAmount = null;
+    protected $baseCurrencyCashbackAmount;
 
     /**
      * @var string $baseCurrency
      */
-    protected $baseCurrency = null;
+    protected $baseCurrency;
 
     /**
      * @var string $expirationDate
      */
-    protected $expirationDate = null;
+    protected $expirationDate;
 
     /**
      * @var string $exchangeRate
      */
-    protected $exchangeRate = null;
+    protected $exchangeRate;
 
     /**
      * @var string $bonusAmount
      */
-    protected $bonusAmount = null;
+    protected $bonusAmount;
 
     /**
      * @var string $discountAmount
      */
-    protected $discountAmount = null;
-
-    public function __construct()
-    {
-    }
+    protected $discountAmount;
 
     /**
      * @return string
@@ -512,5 +507,4 @@ class GiftCard
 
         return $this;
     }
-
 }

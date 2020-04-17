@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Service
 {
-
     /**
      * @var string $categoryCode
      */
-    protected $categoryCode = null;
+    protected $categoryCode;
 
     /**
      * @var string $subcategoryCode
      */
-    protected $subcategoryCode = null;
+    protected $subcategoryCode;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -84,5 +83,4 @@ class Service
 
         return $this;
     }
-
 }

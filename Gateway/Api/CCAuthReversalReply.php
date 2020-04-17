@@ -7,56 +7,55 @@ use Exception;
 
 class CCAuthReversalReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $forwardCode
      */
-    protected $forwardCode = null;
+    protected $forwardCode;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $paymentCardService
      */
-    protected $paymentCardService = null;
+    protected $paymentCardService;
 
     /**
      * @var string $paymentCardServiceResult
      */
-    protected $paymentCardServiceResult = null;
+    protected $paymentCardServiceResult;
 
     /**
      * @param int $reasonCode
@@ -267,5 +266,4 @@ class CCAuthReversalReply
 
         return $this;
     }
-
 }

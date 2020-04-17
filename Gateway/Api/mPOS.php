@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class mPOS
 {
-
     /**
      * @var string $deviceType
      */
-    protected $deviceType = null;
-
-    public function __construct()
-    {
-    }
+    protected $deviceType;
 
     /**
      * @return string
@@ -32,5 +27,4 @@ class mPOS
 
         return $this;
     }
-
 }

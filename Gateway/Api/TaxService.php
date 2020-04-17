@@ -4,161 +4,160 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class TaxService
 {
-
     /**
      * @var string $nexus
      */
-    protected $nexus = null;
+    protected $nexus;
 
     /**
      * @var string $noNexus
      */
-    protected $noNexus = null;
+    protected $noNexus;
 
     /**
      * @var string $orderAcceptanceCity
      */
-    protected $orderAcceptanceCity = null;
+    protected $orderAcceptanceCity;
 
     /**
      * @var string $orderAcceptanceCounty
      */
-    protected $orderAcceptanceCounty = null;
+    protected $orderAcceptanceCounty;
 
     /**
      * @var string $orderAcceptanceCountry
      */
-    protected $orderAcceptanceCountry = null;
+    protected $orderAcceptanceCountry;
 
     /**
      * @var string $orderAcceptanceState
      */
-    protected $orderAcceptanceState = null;
+    protected $orderAcceptanceState;
 
     /**
      * @var string $orderAcceptancePostalCode
      */
-    protected $orderAcceptancePostalCode = null;
+    protected $orderAcceptancePostalCode;
 
     /**
      * @var string $orderOriginCity
      */
-    protected $orderOriginCity = null;
+    protected $orderOriginCity;
 
     /**
      * @var string $orderOriginCounty
      */
-    protected $orderOriginCounty = null;
+    protected $orderOriginCounty;
 
     /**
      * @var string $orderOriginCountry
      */
-    protected $orderOriginCountry = null;
+    protected $orderOriginCountry;
 
     /**
      * @var string $orderOriginState
      */
-    protected $orderOriginState = null;
+    protected $orderOriginState;
 
     /**
      * @var string $orderOriginPostalCode
      */
-    protected $orderOriginPostalCode = null;
+    protected $orderOriginPostalCode;
 
     /**
      * @var string $sellerRegistration
      */
-    protected $sellerRegistration = null;
+    protected $sellerRegistration;
 
     /**
      * @var string $sellerRegistration0
      */
-    protected $sellerRegistration0 = null;
+    protected $sellerRegistration0;
 
     /**
      * @var string $sellerRegistration1
      */
-    protected $sellerRegistration1 = null;
+    protected $sellerRegistration1;
 
     /**
      * @var string $sellerRegistration2
      */
-    protected $sellerRegistration2 = null;
+    protected $sellerRegistration2;
 
     /**
      * @var string $sellerRegistration3
      */
-    protected $sellerRegistration3 = null;
+    protected $sellerRegistration3;
 
     /**
      * @var string $sellerRegistration4
      */
-    protected $sellerRegistration4 = null;
+    protected $sellerRegistration4;
 
     /**
      * @var string $sellerRegistration5
      */
-    protected $sellerRegistration5 = null;
+    protected $sellerRegistration5;
 
     /**
      * @var string $sellerRegistration6
      */
-    protected $sellerRegistration6 = null;
+    protected $sellerRegistration6;
 
     /**
      * @var string $sellerRegistration7
      */
-    protected $sellerRegistration7 = null;
+    protected $sellerRegistration7;
 
     /**
      * @var string $sellerRegistration8
      */
-    protected $sellerRegistration8 = null;
+    protected $sellerRegistration8;
 
     /**
      * @var string $sellerRegistration9
      */
-    protected $sellerRegistration9 = null;
+    protected $sellerRegistration9;
 
     /**
      * @var string $buyerRegistration
      */
-    protected $buyerRegistration = null;
+    protected $buyerRegistration;
 
     /**
      * @var string $middlemanRegistration
      */
-    protected $middlemanRegistration = null;
+    protected $middlemanRegistration;
 
     /**
      * @var string $pointOfTitleTransfer
      */
-    protected $pointOfTitleTransfer = null;
+    protected $pointOfTitleTransfer;
 
     /**
      * @var string $commitIndicator
      */
-    protected $commitIndicator = null;
+    protected $commitIndicator;
 
     /**
      * @var string $refundIndicator
      */
-    protected $refundIndicator = null;
+    protected $refundIndicator;
 
     /**
      * @var string $dateOverrideReason
      */
-    protected $dateOverrideReason = null;
+    protected $dateOverrideReason;
 
     /**
      * @var string $reportingDate
      */
-    protected $reportingDate = null;
+    protected $reportingDate;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -756,5 +755,4 @@ class TaxService
 
         return $this;
     }
-
 }

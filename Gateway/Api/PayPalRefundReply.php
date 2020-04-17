@@ -4,41 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalRefundReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $transactionId
      */
-    protected $transactionId = null;
+    protected $transactionId;
 
     /**
      * @var string $paypalNetRefundAmount
      */
-    protected $paypalNetRefundAmount = null;
+    protected $paypalNetRefundAmount;
 
     /**
      * @var string $paypalFeeRefundAmount
      */
-    protected $paypalFeeRefundAmount = null;
+    protected $paypalFeeRefundAmount;
 
     /**
      * @var string $paypalGrossRefundAmount
      */
-    protected $paypalGrossRefundAmount = null;
+    protected $paypalGrossRefundAmount;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @param int $reasonCode
@@ -180,5 +179,4 @@ class PayPalRefundReply
 
         return $this;
     }
-
 }

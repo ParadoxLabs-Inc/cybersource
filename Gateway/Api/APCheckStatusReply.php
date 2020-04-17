@@ -7,46 +7,45 @@ use Exception;
 
 class APCheckStatusReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $paymentStatus
      */
-    protected $paymentStatus = null;
+    protected $paymentStatus;
 
     /**
      * @var string $processorTradeNo
      */
-    protected $processorTradeNo = null;
+    protected $processorTradeNo;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $ibanSuffix
      */
-    protected $ibanSuffix = null;
+    protected $ibanSuffix;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @param int $reasonCode
@@ -219,5 +218,4 @@ class APCheckStatusReply
 
         return $this;
     }
-
 }

@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PinDebitReversalService
 {
-
     /**
      * @var string $pinDebitRequestID
      */
-    protected $pinDebitRequestID = null;
+    protected $pinDebitRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class PinDebitReversalService
 
         return $this;
     }
-
 }

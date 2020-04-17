@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Passenger
 {
-
     /**
      * @var string $firstName
      */
-    protected $firstName = null;
+    protected $firstName;
 
     /**
      * @var string $lastName
      */
-    protected $lastName = null;
+    protected $lastName;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -84,5 +83,4 @@ class Passenger
 
         return $this;
     }
-
 }

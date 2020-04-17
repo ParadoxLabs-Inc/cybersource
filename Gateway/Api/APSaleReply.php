@@ -7,76 +7,75 @@ use Exception;
 
 class APSaleReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paymentStatus
      */
-    protected $paymentStatus = null;
+    protected $paymentStatus;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @var string $merchantURL
      */
-    protected $merchantURL = null;
+    protected $merchantURL;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $processorTransactionFee
      */
-    protected $processorTransactionFee = null;
+    protected $processorTransactionFee;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $exchangeRate
      */
-    protected $exchangeRate = null;
+    protected $exchangeRate;
 
     /**
      * @var string $foreignCurrency
      */
-    protected $foreignCurrency = null;
+    protected $foreignCurrency;
 
     /**
      * @var string $foreignAmount
      */
-    protected $foreignAmount = null;
+    protected $foreignAmount;
 
     /**
      * @var string $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @param int $reasonCode
@@ -363,5 +362,4 @@ class APSaleReply
 
         return $this;
     }
-
 }

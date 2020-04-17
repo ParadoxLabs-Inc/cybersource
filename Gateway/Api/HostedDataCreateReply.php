@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class HostedDataCreateReply
 {
-
     /**
      * @var string $responseMessage
      */
-    protected $responseMessage = null;
+    protected $responseMessage;
 
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $cardAccountNumberToken
      */
-    protected $cardAccountNumberToken = null;
+    protected $cardAccountNumberToken;
 
     /**
      * @var string $customerID
      */
-    protected $customerID = null;
+    protected $customerID;
 
     /**
      * @param int $reasonCode
@@ -108,5 +107,4 @@ class HostedDataCreateReply
 
         return $this;
     }
-
 }

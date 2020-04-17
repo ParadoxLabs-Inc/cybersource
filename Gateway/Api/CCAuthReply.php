@@ -7,416 +7,415 @@ use Exception;
 
 class CCAuthReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $avsCode
      */
-    protected $avsCode = null;
+    protected $avsCode;
 
     /**
      * @var string $avsCodeRaw
      */
-    protected $avsCodeRaw = null;
+    protected $avsCodeRaw;
 
     /**
      * @var string $cvCode
      */
-    protected $cvCode = null;
+    protected $cvCode;
 
     /**
      * @var string $cvCodeRaw
      */
-    protected $cvCodeRaw = null;
+    protected $cvCodeRaw;
 
     /**
      * @var string $personalIDCode
      */
-    protected $personalIDCode = null;
+    protected $personalIDCode;
 
     /**
      * @var \DateTime $authorizedDateTime
      */
-    protected $authorizedDateTime = null;
+    protected $authorizedDateTime;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $bmlAccountNumber
      */
-    protected $bmlAccountNumber = null;
+    protected $bmlAccountNumber;
 
     /**
      * @var string $authFactorCode
      */
-    protected $authFactorCode = null;
+    protected $authFactorCode;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var FundingTotals $fundingTotals
      */
-    protected $fundingTotals = null;
+    protected $fundingTotals;
 
     /**
      * @var string $fxQuoteID
      */
-    protected $fxQuoteID = null;
+    protected $fxQuoteID;
 
     /**
      * @var \DateTime $fxQuoteRate
      */
-    protected $fxQuoteRate = null;
+    protected $fxQuoteRate;
 
     /**
      * @var string $fxQuoteType
      */
-    protected $fxQuoteType = null;
+    protected $fxQuoteType;
 
     /**
      * @var \DateTime $fxQuoteExpirationDateTime
      */
-    protected $fxQuoteExpirationDateTime = null;
+    protected $fxQuoteExpirationDateTime;
 
     /**
      * @var string $authRecord
      */
-    protected $authRecord = null;
+    protected $authRecord;
 
     /**
      * @var string $merchantAdviceCode
      */
-    protected $merchantAdviceCode = null;
+    protected $merchantAdviceCode;
 
     /**
      * @var string $merchantAdviceCodeRaw
      */
-    protected $merchantAdviceCodeRaw = null;
+    protected $merchantAdviceCodeRaw;
 
     /**
      * @var string $cavvResponseCode
      */
-    protected $cavvResponseCode = null;
+    protected $cavvResponseCode;
 
     /**
      * @var string $cavvResponseCodeRaw
      */
-    protected $cavvResponseCodeRaw = null;
+    protected $cavvResponseCodeRaw;
 
     /**
      * @var string $authenticationXID
      */
-    protected $authenticationXID = null;
+    protected $authenticationXID;
 
     /**
      * @var string $authorizationXID
      */
-    protected $authorizationXID = null;
+    protected $authorizationXID;
 
     /**
      * @var string $processorCardType
      */
-    protected $processorCardType = null;
+    protected $processorCardType;
 
     /**
      * @var float $accountBalance
      */
-    protected $accountBalance = null;
+    protected $accountBalance;
 
     /**
      * @var string $forwardCode
      */
-    protected $forwardCode = null;
+    protected $forwardCode;
 
     /**
      * @var string $enhancedDataEnabled
      */
-    protected $enhancedDataEnabled = null;
+    protected $enhancedDataEnabled;
 
     /**
      * @var string $referralResponseNumber
      */
-    protected $referralResponseNumber = null;
+    protected $referralResponseNumber;
 
     /**
      * @var string $subResponseCode
      */
-    protected $subResponseCode = null;
+    protected $subResponseCode;
 
     /**
      * @var string $approvedAmount
      */
-    protected $approvedAmount = null;
+    protected $approvedAmount;
 
     /**
      * @var string $creditLine
      */
-    protected $creditLine = null;
+    protected $creditLine;
 
     /**
      * @var string $approvedTerms
      */
-    protected $approvedTerms = null;
+    protected $approvedTerms;
 
     /**
      * @var string $paymentNetworkTransactionID
      */
-    protected $paymentNetworkTransactionID = null;
+    protected $paymentNetworkTransactionID;
 
     /**
      * @var string $cardCategory
      */
-    protected $cardCategory = null;
+    protected $cardCategory;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @var float $requestAmount
      */
-    protected $requestAmount = null;
+    protected $requestAmount;
 
     /**
      * @var string $requestCurrency
      */
-    protected $requestCurrency = null;
+    protected $requestCurrency;
 
     /**
      * @var string $accountBalanceCurrency
      */
-    protected $accountBalanceCurrency = null;
+    protected $accountBalanceCurrency;
 
     /**
      * @var string $accountBalanceSign
      */
-    protected $accountBalanceSign = null;
+    protected $accountBalanceSign;
 
     /**
      * @var string $amountType
      */
-    protected $amountType = null;
+    protected $amountType;
 
     /**
      * @var string $accountType
      */
-    protected $accountType = null;
+    protected $accountType;
 
     /**
      * @var string $affluenceIndicator
      */
-    protected $affluenceIndicator = null;
+    protected $affluenceIndicator;
 
     /**
      * @var string $evEmail
      */
-    protected $evEmail = null;
+    protected $evEmail;
 
     /**
      * @var string $evPhoneNumber
      */
-    protected $evPhoneNumber = null;
+    protected $evPhoneNumber;
 
     /**
      * @var string $evPostalCode
      */
-    protected $evPostalCode = null;
+    protected $evPostalCode;
 
     /**
      * @var string $evName
      */
-    protected $evName = null;
+    protected $evName;
 
     /**
      * @var string $evStreet
      */
-    protected $evStreet = null;
+    protected $evStreet;
 
     /**
      * @var string $evEmailRaw
      */
-    protected $evEmailRaw = null;
+    protected $evEmailRaw;
 
     /**
      * @var string $evPhoneNumberRaw
      */
-    protected $evPhoneNumberRaw = null;
+    protected $evPhoneNumberRaw;
 
     /**
      * @var string $evPostalCodeRaw
      */
-    protected $evPostalCodeRaw = null;
+    protected $evPostalCodeRaw;
 
     /**
      * @var string $evNameRaw
      */
-    protected $evNameRaw = null;
+    protected $evNameRaw;
 
     /**
      * @var string $evStreetRaw
      */
-    protected $evStreetRaw = null;
+    protected $evStreetRaw;
 
     /**
      * @var string $cardGroup
      */
-    protected $cardGroup = null;
+    protected $cardGroup;
 
     /**
      * @var string $posData
      */
-    protected $posData = null;
+    protected $posData;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $cardIssuerCountry
      */
-    protected $cardIssuerCountry = null;
+    protected $cardIssuerCountry;
 
     /**
      * @var string $cardRegulated
      */
-    protected $cardRegulated = null;
+    protected $cardRegulated;
 
     /**
      * @var string $cardCommercial
      */
-    protected $cardCommercial = null;
+    protected $cardCommercial;
 
     /**
      * @var string $cardPrepaid
      */
-    protected $cardPrepaid = null;
+    protected $cardPrepaid;
 
     /**
      * @var string $cardPayroll
      */
-    protected $cardPayroll = null;
+    protected $cardPayroll;
 
     /**
      * @var string $cardHealthcare
      */
-    protected $cardHealthcare = null;
+    protected $cardHealthcare;
 
     /**
      * @var string $cardSignatureDebit
      */
-    protected $cardSignatureDebit = null;
+    protected $cardSignatureDebit;
 
     /**
      * @var string $cardPINlessDebit
      */
-    protected $cardPINlessDebit = null;
+    protected $cardPINlessDebit;
 
     /**
      * @var string $cardLevel3Eligible
      */
-    protected $cardLevel3Eligible = null;
+    protected $cardLevel3Eligible;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $providerReasonCode
      */
-    protected $providerReasonCode = null;
+    protected $providerReasonCode;
 
     /**
      * @var string $providerReasonDescription
      */
-    protected $providerReasonDescription = null;
+    protected $providerReasonDescription;
 
     /**
      * @var string $providerPassThroughData
      */
-    protected $providerPassThroughData = null;
+    protected $providerPassThroughData;
 
     /**
      * @var string $providerCVNResponseCode
      */
-    protected $providerCVNResponseCode = null;
+    protected $providerCVNResponseCode;
 
     /**
      * @var string $providerAVSResponseCode
      */
-    protected $providerAVSResponseCode = null;
+    protected $providerAVSResponseCode;
 
     /**
      * @var string $providerAcquirerBankCode
      */
-    protected $providerAcquirerBankCode = null;
+    protected $providerAcquirerBankCode;
 
     /**
      * @var string $paymentCardService
      */
-    protected $paymentCardService = null;
+    protected $paymentCardService;
 
     /**
      * @var string $paymentCardServiceResult
      */
-    protected $paymentCardServiceResult = null;
+    protected $paymentCardServiceResult;
 
     /**
      * @var string $transactionQualification
      */
-    protected $transactionQualification = null;
+    protected $transactionQualification;
 
     /**
      * @var string $transactionIntegrity
      */
-    protected $transactionIntegrity = null;
+    protected $transactionIntegrity;
 
     /**
      * @var string $emsTransactionRiskScore
      */
-    protected $emsTransactionRiskScore = null;
+    protected $emsTransactionRiskScore;
 
     /**
      * @var string $reconciliationReferenceNumber
      */
-    protected $reconciliationReferenceNumber = null;
+    protected $reconciliationReferenceNumber;
 
     /**
      * @var string $cardReferenceData
      */
-    protected $cardReferenceData = null;
+    protected $cardReferenceData;
 
     /**
      * @var string $partialPANandIBAN
      */
-    protected $partialPANandIBAN = null;
+    protected $partialPANandIBAN;
 
     /**
      * @var string $issuerPINrequest
      */
-    protected $issuerPINrequest = null;
+    protected $issuerPINrequest;
 
     /**
      * @param int $reasonCode
@@ -2019,5 +2018,4 @@ class CCAuthReply
 
         return $this;
     }
-
 }

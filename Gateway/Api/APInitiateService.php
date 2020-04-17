@@ -4,76 +4,75 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APInitiateService
 {
-
     /**
      * @var string $returnURL
      */
-    protected $returnURL = null;
+    protected $returnURL;
 
     /**
      * @var string $productName
      */
-    protected $productName = null;
+    protected $productName;
 
     /**
      * @var string $productDescription
      */
-    protected $productDescription = null;
+    protected $productDescription;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $bankID
      */
-    protected $bankID = null;
+    protected $bankID;
 
     /**
      * @var string $countryCode
      */
-    protected $countryCode = null;
+    protected $countryCode;
 
     /**
      * @var string $escrowAgreement
      */
-    protected $escrowAgreement = null;
+    protected $escrowAgreement;
 
     /**
      * @var string $languageInterface
      */
-    protected $languageInterface = null;
+    protected $languageInterface;
 
     /**
      * @var string $intent
      */
-    protected $intent = null;
+    protected $intent;
 
     /**
      * @var string $successURL
      */
-    protected $successURL = null;
+    protected $successURL;
 
     /**
      * @var string $cancelURL
      */
-    protected $cancelURL = null;
+    protected $cancelURL;
 
     /**
      * @var string $failureURL
      */
-    protected $failureURL = null;
+    protected $failureURL;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -348,5 +347,4 @@ class APInitiateService
 
         return $this;
     }
-
 }

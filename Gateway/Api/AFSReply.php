@@ -4,136 +4,135 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AFSReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var int $afsResult
      */
-    protected $afsResult = null;
+    protected $afsResult;
 
     /**
      * @var int $hostSeverity
      */
-    protected $hostSeverity = null;
+    protected $hostSeverity;
 
     /**
      * @var string $consumerLocalTime
      */
-    protected $consumerLocalTime = null;
+    protected $consumerLocalTime;
 
     /**
      * @var string $afsFactorCode
      */
-    protected $afsFactorCode = null;
+    protected $afsFactorCode;
 
     /**
      * @var string $addressInfoCode
      */
-    protected $addressInfoCode = null;
+    protected $addressInfoCode;
 
     /**
      * @var string $hotlistInfoCode
      */
-    protected $hotlistInfoCode = null;
+    protected $hotlistInfoCode;
 
     /**
      * @var string $internetInfoCode
      */
-    protected $internetInfoCode = null;
+    protected $internetInfoCode;
 
     /**
      * @var string $phoneInfoCode
      */
-    protected $phoneInfoCode = null;
+    protected $phoneInfoCode;
 
     /**
      * @var string $suspiciousInfoCode
      */
-    protected $suspiciousInfoCode = null;
+    protected $suspiciousInfoCode;
 
     /**
      * @var string $velocityInfoCode
      */
-    protected $velocityInfoCode = null;
+    protected $velocityInfoCode;
 
     /**
      * @var string $identityInfoCode
      */
-    protected $identityInfoCode = null;
+    protected $identityInfoCode;
 
     /**
      * @var string $ipCountry
      */
-    protected $ipCountry = null;
+    protected $ipCountry;
 
     /**
      * @var string $ipState
      */
-    protected $ipState = null;
+    protected $ipState;
 
     /**
      * @var string $ipCity
      */
-    protected $ipCity = null;
+    protected $ipCity;
 
     /**
      * @var string $ipRoutingMethod
      */
-    protected $ipRoutingMethod = null;
+    protected $ipRoutingMethod;
 
     /**
      * @var string $ipAnonymizerStatus
      */
-    protected $ipAnonymizerStatus = null;
+    protected $ipAnonymizerStatus;
 
     /**
      * @var string $ipCarrier
      */
-    protected $ipCarrier = null;
+    protected $ipCarrier;
 
     /**
      * @var string $ipOrganization
      */
-    protected $ipOrganization = null;
+    protected $ipOrganization;
 
     /**
      * @var string $scoreModelUsed
      */
-    protected $scoreModelUsed = null;
+    protected $scoreModelUsed;
 
     /**
      * @var string $cardBin
      */
-    protected $cardBin = null;
+    protected $cardBin;
 
     /**
      * @var string $binCountry
      */
-    protected $binCountry = null;
+    protected $binCountry;
 
     /**
      * @var string $cardAccountType
      */
-    protected $cardAccountType = null;
+    protected $cardAccountType;
 
     /**
      * @var string $cardScheme
      */
-    protected $cardScheme = null;
+    protected $cardScheme;
 
     /**
      * @var string $cardIssuer
      */
-    protected $cardIssuer = null;
+    protected $cardIssuer;
 
     /**
      * @var DeviceFingerprint $deviceFingerprint
      */
-    protected $deviceFingerprint = null;
+    protected $deviceFingerprint;
 
     /**
      * @param int $reasonCode
@@ -636,5 +635,4 @@ class AFSReply
 
         return $this;
     }
-
 }

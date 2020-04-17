@@ -4,65 +4,60 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APUI
 {
-
     /**
      * @var string $colorBorder
      */
-    protected $colorBorder = null;
+    protected $colorBorder;
 
     /**
      * @var string $colorBorderSelected
      */
-    protected $colorBorderSelected = null;
+    protected $colorBorderSelected;
 
     /**
      * @var string $colorButton
      */
-    protected $colorButton = null;
+    protected $colorButton;
 
     /**
      * @var string $colorButtonText
      */
-    protected $colorButtonText = null;
+    protected $colorButtonText;
 
     /**
      * @var string $colorCheckbox
      */
-    protected $colorCheckbox = null;
+    protected $colorCheckbox;
 
     /**
      * @var string $colorCheckboxCheckMark
      */
-    protected $colorCheckboxCheckMark = null;
+    protected $colorCheckboxCheckMark;
 
     /**
      * @var string $colorHeader
      */
-    protected $colorHeader = null;
+    protected $colorHeader;
 
     /**
      * @var string $colorLink
      */
-    protected $colorLink = null;
+    protected $colorLink;
 
     /**
      * @var string $colorText
      */
-    protected $colorText = null;
+    protected $colorText;
 
     /**
      * @var string $borderRadius
      */
-    protected $borderRadius = null;
+    protected $borderRadius;
 
     /**
      * @var string $theme
      */
-    protected $theme = null;
-
-    public function __construct()
-    {
-    }
+    protected $theme;
 
     /**
      * @return string
@@ -272,5 +267,4 @@ class APUI
 
         return $this;
     }
-
 }

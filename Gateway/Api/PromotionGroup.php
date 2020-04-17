@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PromotionGroup
 {
-
     /**
      * @var float $subtotalAmount
      */
-    protected $subtotalAmount = null;
+    protected $subtotalAmount;
 
     /**
      * @var float $taxRate
      */
-    protected $taxRate = null;
+    protected $taxRate;
 
     /**
      * @var string $prohibitDiscount
      */
-    protected $prohibitDiscount = null;
+    protected $prohibitDiscount;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -108,5 +107,4 @@ class PromotionGroup
 
         return $this;
     }
-
 }

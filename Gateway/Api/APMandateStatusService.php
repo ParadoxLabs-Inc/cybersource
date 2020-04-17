@@ -8,7 +8,7 @@ class APMandateStatusService
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run

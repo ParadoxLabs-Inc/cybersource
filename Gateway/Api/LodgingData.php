@@ -4,260 +4,255 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class LodgingData
 {
-
     /**
      * @var string $checkInDate
      */
-    protected $checkInDate = null;
+    protected $checkInDate;
 
     /**
      * @var string $checkOutDate
      */
-    protected $checkOutDate = null;
+    protected $checkOutDate;
 
     /**
      * @var float $dailyRoomRate1
      */
-    protected $dailyRoomRate1 = null;
+    protected $dailyRoomRate1;
 
     /**
      * @var float $dailyRoomRate2
      */
-    protected $dailyRoomRate2 = null;
+    protected $dailyRoomRate2;
 
     /**
      * @var float $dailyRoomRate3
      */
-    protected $dailyRoomRate3 = null;
+    protected $dailyRoomRate3;
 
     /**
      * @var int $roomNights1
      */
-    protected $roomNights1 = null;
+    protected $roomNights1;
 
     /**
      * @var int $roomNights2
      */
-    protected $roomNights2 = null;
+    protected $roomNights2;
 
     /**
      * @var int $roomNights3
      */
-    protected $roomNights3 = null;
+    protected $roomNights3;
 
     /**
      * @var string $guestSmokingPreference
      */
-    protected $guestSmokingPreference = null;
+    protected $guestSmokingPreference;
 
     /**
      * @var int $numberOfRoomsBooked
      */
-    protected $numberOfRoomsBooked = null;
+    protected $numberOfRoomsBooked;
 
     /**
      * @var int $numberOfGuests
      */
-    protected $numberOfGuests = null;
+    protected $numberOfGuests;
 
     /**
      * @var string $roomBedType
      */
-    protected $roomBedType = null;
+    protected $roomBedType;
 
     /**
      * @var string $roomTaxElements
      */
-    protected $roomTaxElements = null;
+    protected $roomTaxElements;
 
     /**
      * @var string $roomRateType
      */
-    protected $roomRateType = null;
+    protected $roomRateType;
 
     /**
      * @var string $guestName
      */
-    protected $guestName = null;
+    protected $guestName;
 
     /**
      * @var string $customerServicePhoneNumber
      */
-    protected $customerServicePhoneNumber = null;
+    protected $customerServicePhoneNumber;
 
     /**
      * @var string $corporateClientCode
      */
-    protected $corporateClientCode = null;
+    protected $corporateClientCode;
 
     /**
      * @var string $promotionalCode
      */
-    protected $promotionalCode = null;
+    protected $promotionalCode;
 
     /**
      * @var string $additionalCoupon
      */
-    protected $additionalCoupon = null;
+    protected $additionalCoupon;
 
     /**
      * @var string $roomLocation
      */
-    protected $roomLocation = null;
+    protected $roomLocation;
 
     /**
      * @var string $specialProgramCode
      */
-    protected $specialProgramCode = null;
+    protected $specialProgramCode;
 
     /**
      * @var float $tax
      */
-    protected $tax = null;
+    protected $tax;
 
     /**
      * @var float $prepaidCost
      */
-    protected $prepaidCost = null;
+    protected $prepaidCost;
 
     /**
      * @var float $foodAndBeverageCost
      */
-    protected $foodAndBeverageCost = null;
+    protected $foodAndBeverageCost;
 
     /**
      * @var float $roomTax
      */
-    protected $roomTax = null;
+    protected $roomTax;
 
     /**
      * @var float $adjustmentAmount
      */
-    protected $adjustmentAmount = null;
+    protected $adjustmentAmount;
 
     /**
      * @var float $phoneCost
      */
-    protected $phoneCost = null;
+    protected $phoneCost;
 
     /**
      * @var float $restaurantCost
      */
-    protected $restaurantCost = null;
+    protected $restaurantCost;
 
     /**
      * @var float $roomServiceCost
      */
-    protected $roomServiceCost = null;
+    protected $roomServiceCost;
 
     /**
      * @var float $miniBarCost
      */
-    protected $miniBarCost = null;
+    protected $miniBarCost;
 
     /**
      * @var float $laundryCost
      */
-    protected $laundryCost = null;
+    protected $laundryCost;
 
     /**
      * @var float $miscellaneousCost
      */
-    protected $miscellaneousCost = null;
+    protected $miscellaneousCost;
 
     /**
      * @var float $giftShopCost
      */
-    protected $giftShopCost = null;
+    protected $giftShopCost;
 
     /**
      * @var float $movieCost
      */
-    protected $movieCost = null;
+    protected $movieCost;
 
     /**
      * @var float $healthClubCost
      */
-    protected $healthClubCost = null;
+    protected $healthClubCost;
 
     /**
      * @var float $valetParkingCost
      */
-    protected $valetParkingCost = null;
+    protected $valetParkingCost;
 
     /**
      * @var float $cashDisbursementCost
      */
-    protected $cashDisbursementCost = null;
+    protected $cashDisbursementCost;
 
     /**
      * @var float $nonRoomCost
      */
-    protected $nonRoomCost = null;
+    protected $nonRoomCost;
 
     /**
      * @var float $businessCenterCost
      */
-    protected $businessCenterCost = null;
+    protected $businessCenterCost;
 
     /**
      * @var float $loungeBarCost
      */
-    protected $loungeBarCost = null;
+    protected $loungeBarCost;
 
     /**
      * @var float $transportationCost
      */
-    protected $transportationCost = null;
+    protected $transportationCost;
 
     /**
      * @var float $gratuityCost
      */
-    protected $gratuityCost = null;
+    protected $gratuityCost;
 
     /**
      * @var float $conferenceRoomCost
      */
-    protected $conferenceRoomCost = null;
+    protected $conferenceRoomCost;
 
     /**
      * @var float $audioVisualCost
      */
-    protected $audioVisualCost = null;
+    protected $audioVisualCost;
 
     /**
      * @var float $banquetCost
      */
-    protected $banquetCost = null;
+    protected $banquetCost;
 
     /**
      * @var float $internetAccessCost
      */
-    protected $internetAccessCost = null;
+    protected $internetAccessCost;
 
     /**
      * @var float $earlyCheckOutCost
      */
-    protected $earlyCheckOutCost = null;
+    protected $earlyCheckOutCost;
 
     /**
      * @var float $nonRoomTax
      */
-    protected $nonRoomTax = null;
+    protected $nonRoomTax;
 
     /**
      * @var string $travelAgencyCode
      */
-    protected $travelAgencyCode = null;
+    protected $travelAgencyCode;
 
     /**
      * @var string $travelAgencyName
      */
-    protected $travelAgencyName = null;
-
-    public function __construct()
-    {
-    }
+    protected $travelAgencyName;
 
     /**
      * @return string
@@ -1208,5 +1203,4 @@ class LodgingData
 
         return $this;
     }
-
 }

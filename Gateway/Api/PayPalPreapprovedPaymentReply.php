@@ -7,126 +7,125 @@ use Exception;
 
 class PayPalPreapprovedPaymentReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $payerStatus
      */
-    protected $payerStatus = null;
+    protected $payerStatus;
 
     /**
      * @var string $payerName
      */
-    protected $payerName = null;
+    protected $payerName;
 
     /**
      * @var string $transactionType
      */
-    protected $transactionType = null;
+    protected $transactionType;
 
     /**
      * @var string $feeAmount
      */
-    protected $feeAmount = null;
+    protected $feeAmount;
 
     /**
      * @var string $payerCountry
      */
-    protected $payerCountry = null;
+    protected $payerCountry;
 
     /**
      * @var string $pendingReason
      */
-    protected $pendingReason = null;
+    protected $pendingReason;
 
     /**
      * @var string $paymentStatus
      */
-    protected $paymentStatus = null;
+    protected $paymentStatus;
 
     /**
      * @var string $mpStatus
      */
-    protected $mpStatus = null;
+    protected $mpStatus;
 
     /**
      * @var string $payer
      */
-    protected $payer = null;
+    protected $payer;
 
     /**
      * @var string $payerID
      */
-    protected $payerID = null;
+    protected $payerID;
 
     /**
      * @var string $payerBusiness
      */
-    protected $payerBusiness = null;
+    protected $payerBusiness;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $desc
      */
-    protected $desc = null;
+    protected $desc;
 
     /**
      * @var string $mpMax
      */
-    protected $mpMax = null;
+    protected $mpMax;
 
     /**
      * @var string $paymentType
      */
-    protected $paymentType = null;
+    protected $paymentType;
 
     /**
      * @var string $paymentDate
      */
-    protected $paymentDate = null;
+    protected $paymentDate;
 
     /**
      * @var string $paymentGrossAmount
      */
-    protected $paymentGrossAmount = null;
+    protected $paymentGrossAmount;
 
     /**
      * @var string $settleAmount
      */
-    protected $settleAmount = null;
+    protected $settleAmount;
 
     /**
      * @var string $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var string $exchangeRate
      */
-    protected $exchangeRate = null;
+    protected $exchangeRate;
 
     /**
      * @var string $paymentSourceID
      */
-    protected $paymentSourceID = null;
+    protected $paymentSourceID;
 
     /**
      * @param int $reasonCode
@@ -603,5 +602,4 @@ class PayPalPreapprovedPaymentReply
 
         return $this;
     }
-
 }

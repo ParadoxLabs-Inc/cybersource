@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayerAuthValidateService
 {
-
     /**
      * @var string $signedPARes
      */
-    protected $signedPARes = null;
+    protected $signedPARes;
 
     /**
      * @var string $authenticationTransactionID
      */
-    protected $authenticationTransactionID = null;
+    protected $authenticationTransactionID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class PayerAuthValidateService
 
         return $this;
     }
-
 }

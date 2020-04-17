@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalTransactionSearchReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var PaypalTransaction[] $transaction
      */
-    protected $transaction = null;
+    protected $transaction;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @param int $reasonCode
@@ -84,5 +83,4 @@ class PayPalTransactionSearchReply
 
         return $this;
     }
-
 }

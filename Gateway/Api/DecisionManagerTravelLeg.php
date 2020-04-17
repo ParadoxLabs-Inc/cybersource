@@ -7,26 +7,25 @@ use Exception;
 
 class DecisionManagerTravelLeg
 {
-
     /**
      * @var string $origin
      */
-    protected $origin = null;
+    protected $origin;
 
     /**
      * @var string $destination
      */
-    protected $destination = null;
+    protected $destination;
 
     /**
      * @var \DateTime $departureDateTime
      */
-    protected $departureDateTime = null;
+    protected $departureDateTime;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -123,5 +122,4 @@ class DecisionManagerTravelLeg
 
         return $this;
     }
-
 }

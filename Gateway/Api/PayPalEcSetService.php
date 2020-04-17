@@ -4,136 +4,135 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalEcSetService
 {
-
     /**
      * @var string $paypalReturn
      */
-    protected $paypalReturn = null;
+    protected $paypalReturn;
 
     /**
      * @var string $paypalCancelReturn
      */
-    protected $paypalCancelReturn = null;
+    protected $paypalCancelReturn;
 
     /**
      * @var string $paypalMaxamt
      */
-    protected $paypalMaxamt = null;
+    protected $paypalMaxamt;
 
     /**
      * @var string $paypalCustomerEmail
      */
-    protected $paypalCustomerEmail = null;
+    protected $paypalCustomerEmail;
 
     /**
      * @var string $paypalDesc
      */
-    protected $paypalDesc = null;
+    protected $paypalDesc;
 
     /**
      * @var string $paypalReqconfirmshipping
      */
-    protected $paypalReqconfirmshipping = null;
+    protected $paypalReqconfirmshipping;
 
     /**
      * @var string $paypalNoshipping
      */
-    protected $paypalNoshipping = null;
+    protected $paypalNoshipping;
 
     /**
      * @var string $paypalAddressOverride
      */
-    protected $paypalAddressOverride = null;
+    protected $paypalAddressOverride;
 
     /**
      * @var string $paypalToken
      */
-    protected $paypalToken = null;
+    protected $paypalToken;
 
     /**
      * @var string $paypalLc
      */
-    protected $paypalLc = null;
+    protected $paypalLc;
 
     /**
      * @var string $paypalPagestyle
      */
-    protected $paypalPagestyle = null;
+    protected $paypalPagestyle;
 
     /**
      * @var string $paypalHdrimg
      */
-    protected $paypalHdrimg = null;
+    protected $paypalHdrimg;
 
     /**
      * @var string $paypalHdrbordercolor
      */
-    protected $paypalHdrbordercolor = null;
+    protected $paypalHdrbordercolor;
 
     /**
      * @var string $paypalHdrbackcolor
      */
-    protected $paypalHdrbackcolor = null;
+    protected $paypalHdrbackcolor;
 
     /**
      * @var string $paypalPayflowcolor
      */
-    protected $paypalPayflowcolor = null;
+    protected $paypalPayflowcolor;
 
     /**
      * @var string $paypalEcSetRequestID
      */
-    protected $paypalEcSetRequestID = null;
+    protected $paypalEcSetRequestID;
 
     /**
      * @var string $paypalEcSetRequestToken
      */
-    protected $paypalEcSetRequestToken = null;
+    protected $paypalEcSetRequestToken;
 
     /**
      * @var string $promoCode0
      */
-    protected $promoCode0 = null;
+    protected $promoCode0;
 
     /**
      * @var string $requestBillingAddress
      */
-    protected $requestBillingAddress = null;
+    protected $requestBillingAddress;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var string $paypalBillingType
      */
-    protected $paypalBillingType = null;
+    protected $paypalBillingType;
 
     /**
      * @var string $paypalBillingAgreementDesc
      */
-    protected $paypalBillingAgreementDesc = null;
+    protected $paypalBillingAgreementDesc;
 
     /**
      * @var string $paypalPaymentType
      */
-    protected $paypalPaymentType = null;
+    protected $paypalPaymentType;
 
     /**
      * @var string $paypalBillingAgreementCustom
      */
-    protected $paypalBillingAgreementCustom = null;
+    protected $paypalBillingAgreementCustom;
 
     /**
      * @var string $paypalLogoimg
      */
-    protected $paypalLogoimg = null;
+    protected $paypalLogoimg;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -636,5 +635,4 @@ class PayPalEcSetService
 
         return $this;
     }
-
 }

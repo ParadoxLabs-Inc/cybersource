@@ -7,51 +7,50 @@ use Exception;
 
 class ChinaPaymentReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $formData
      */
-    protected $formData = null;
+    protected $formData;
 
     /**
      * @var string $verifyFailure
      */
-    protected $verifyFailure = null;
+    protected $verifyFailure;
 
     /**
      * @var string $verifyInProcess
      */
-    protected $verifyInProcess = null;
+    protected $verifyInProcess;
 
     /**
      * @var string $verifySuccess
      */
-    protected $verifySuccess = null;
+    protected $verifySuccess;
 
     /**
      * @param int $reasonCode
@@ -243,5 +242,4 @@ class ChinaPaymentReply
 
         return $this;
     }
-
 }

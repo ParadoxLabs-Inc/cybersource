@@ -7,36 +7,35 @@ use Exception;
 
 class ECAuthenticateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $checkpointSummary
      */
-    protected $checkpointSummary = null;
+    protected $checkpointSummary;
 
     /**
      * @var string $fraudShieldIndicators
      */
-    protected $fraudShieldIndicators = null;
+    protected $fraudShieldIndicators;
 
     /**
      * @param int $reasonCode
@@ -171,5 +170,4 @@ class ECAuthenticateReply
 
         return $this;
     }
-
 }

@@ -7,371 +7,370 @@ use Exception;
 
 class PayerAuthEnrollService
 {
-
     /**
      * @var string $httpAccept
      */
-    protected $httpAccept = null;
+    protected $httpAccept;
 
     /**
      * @var string $httpUserAgent
      */
-    protected $httpUserAgent = null;
+    protected $httpUserAgent;
 
     /**
      * @var string $merchantName
      */
-    protected $merchantName = null;
+    protected $merchantName;
 
     /**
      * @var string $merchantURL
      */
-    protected $merchantURL = null;
+    protected $merchantURL;
 
     /**
      * @var string $purchaseDescription
      */
-    protected $purchaseDescription = null;
+    protected $purchaseDescription;
 
     /**
      * @var \DateTime $purchaseTime
      */
-    protected $purchaseTime = null;
+    protected $purchaseTime;
 
     /**
      * @var string $countryCode
      */
-    protected $countryCode = null;
+    protected $countryCode;
 
     /**
      * @var string $acquirerBin
      */
-    protected $acquirerBin = null;
+    protected $acquirerBin;
 
     /**
      * @var string $loginID
      */
-    protected $loginID = null;
+    protected $loginID;
 
     /**
      * @var string $password
      */
-    protected $password = null;
+    protected $password;
 
     /**
      * @var string $merchantID
      */
-    protected $merchantID = null;
+    protected $merchantID;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $mobilePhone
      */
-    protected $mobilePhone = null;
+    protected $mobilePhone;
 
     /**
      * @var string $MCC
      */
-    protected $MCC = null;
+    protected $MCC;
 
     /**
      * @var string $productCode
      */
-    protected $productCode = null;
+    protected $productCode;
 
     /**
      * @var string $referenceID
      */
-    protected $referenceID = null;
+    protected $referenceID;
 
     /**
      * @var boolean $marketingOptIn
      */
-    protected $marketingOptIn = null;
+    protected $marketingOptIn;
 
     /**
      * @var string $marketingSource
      */
-    protected $marketingSource = null;
+    protected $marketingSource;
 
     /**
      * @var boolean $defaultCard
      */
-    protected $defaultCard = null;
+    protected $defaultCard;
 
     /**
      * @var string $shipAddressUsageDate
      */
-    protected $shipAddressUsageDate = null;
+    protected $shipAddressUsageDate;
 
     /**
      * @var string $transactionCountDay
      */
-    protected $transactionCountDay = null;
+    protected $transactionCountDay;
 
     /**
      * @var string $transactionCountYear
      */
-    protected $transactionCountYear = null;
+    protected $transactionCountYear;
 
     /**
      * @var string $addCardAttempts
      */
-    protected $addCardAttempts = null;
+    protected $addCardAttempts;
 
     /**
      * @var string $accountPurchases
      */
-    protected $accountPurchases = null;
+    protected $accountPurchases;
 
     /**
      * @var boolean $fraudActivity
      */
-    protected $fraudActivity = null;
+    protected $fraudActivity;
 
     /**
      * @var string $paymentAccountDate
      */
-    protected $paymentAccountDate = null;
+    protected $paymentAccountDate;
 
     /**
      * @var string $alternateAuthenticationMethod
      */
-    protected $alternateAuthenticationMethod = null;
+    protected $alternateAuthenticationMethod;
 
     /**
      * @var string $alternateAuthenticationDate
      */
-    protected $alternateAuthenticationDate = null;
+    protected $alternateAuthenticationDate;
 
     /**
      * @var string $alternateAuthenticationData
      */
-    protected $alternateAuthenticationData = null;
+    protected $alternateAuthenticationData;
 
     /**
      * @var boolean $challengeRequired
      */
-    protected $challengeRequired = null;
+    protected $challengeRequired;
 
     /**
      * @var string $challengeCode
      */
-    protected $challengeCode = null;
+    protected $challengeCode;
 
     /**
      * @var string $preorder
      */
-    protected $preorder = null;
+    protected $preorder;
 
     /**
      * @var string $reorder
      */
-    protected $reorder = null;
+    protected $reorder;
 
     /**
      * @var string $preorderDate
      */
-    protected $preorderDate = null;
+    protected $preorderDate;
 
     /**
      * @var string $giftCardAmount
      */
-    protected $giftCardAmount = null;
+    protected $giftCardAmount;
 
     /**
      * @var string $giftCardCurrency
      */
-    protected $giftCardCurrency = null;
+    protected $giftCardCurrency;
 
     /**
      * @var string $giftCardCount
      */
-    protected $giftCardCount = null;
+    protected $giftCardCount;
 
     /**
      * @var string $messageCategory
      */
-    protected $messageCategory = null;
+    protected $messageCategory;
 
     /**
      * @var string $npaCode
      */
-    protected $npaCode = null;
+    protected $npaCode;
 
     /**
      * @var string $recurringOriginalPurchaseDate
      */
-    protected $recurringOriginalPurchaseDate = null;
+    protected $recurringOriginalPurchaseDate;
 
     /**
      * @var string $transactionMode
      */
-    protected $transactionMode = null;
+    protected $transactionMode;
 
     /**
      * @var string $recurringEndDate
      */
-    protected $recurringEndDate = null;
+    protected $recurringEndDate;
 
     /**
      * @var string $recurringFrequency
      */
-    protected $recurringFrequency = null;
+    protected $recurringFrequency;
 
     /**
      * @var string $merchantNewCustomer
      */
-    protected $merchantNewCustomer = null;
+    protected $merchantNewCustomer;
 
     /**
      * @var string $customerCCAlias
      */
-    protected $customerCCAlias = null;
+    protected $customerCCAlias;
 
     /**
      * @var string $installmentTotalCount
      */
-    protected $installmentTotalCount = null;
+    protected $installmentTotalCount;
 
     /**
      * @var string $authenticationTransactionID
      */
-    protected $authenticationTransactionID = null;
+    protected $authenticationTransactionID;
 
     /**
      * @var string $httpUserAccept
      */
-    protected $httpUserAccept = null;
+    protected $httpUserAccept;
 
     /**
      * @var string $mobilePhoneDomestic
      */
-    protected $mobilePhoneDomestic = null;
+    protected $mobilePhoneDomestic;
 
     /**
      * @var string $pareqChannel
      */
-    protected $pareqChannel = null;
+    protected $pareqChannel;
 
     /**
      * @var string $shoppingChannel
      */
-    protected $shoppingChannel = null;
+    protected $shoppingChannel;
 
     /**
      * @var string $authenticationChannel
      */
-    protected $authenticationChannel = null;
+    protected $authenticationChannel;
 
     /**
      * @var string $merchantTTPCredential
      */
-    protected $merchantTTPCredential = null;
+    protected $merchantTTPCredential;
 
     /**
      * @var string $requestorID
      */
-    protected $requestorID = null;
+    protected $requestorID;
 
     /**
      * @var string $requestorName
      */
-    protected $requestorName = null;
+    protected $requestorName;
 
     /**
      * @var int $acsWindowSize
      */
-    protected $acsWindowSize = null;
+    protected $acsWindowSize;
 
     /**
      * @var string $decoupledAuthenticationIndicator
      */
-    protected $decoupledAuthenticationIndicator = null;
+    protected $decoupledAuthenticationIndicator;
 
     /**
      * @var int $decoupledAuthenticationMaxTime
      */
-    protected $decoupledAuthenticationMaxTime = null;
+    protected $decoupledAuthenticationMaxTime;
 
     /**
      * @var string $deviceChannel
      */
-    protected $deviceChannel = null;
+    protected $deviceChannel;
 
     /**
      * @var string $priorAuthenticationReferenceID
      */
-    protected $priorAuthenticationReferenceID = null;
+    protected $priorAuthenticationReferenceID;
 
     /**
      * @var string $priorAuthenticationData
      */
-    protected $priorAuthenticationData = null;
+    protected $priorAuthenticationData;
 
     /**
      * @var int $priorAuthenticationMethod
      */
-    protected $priorAuthenticationMethod = null;
+    protected $priorAuthenticationMethod;
 
     /**
      * @var int $priorAuthenticationTime
      */
-    protected $priorAuthenticationTime = null;
+    protected $priorAuthenticationTime;
 
     /**
      * @var int $requestorInitiatedAuthenticationIndicator
      */
-    protected $requestorInitiatedAuthenticationIndicator = null;
+    protected $requestorInitiatedAuthenticationIndicator;
 
     /**
      * @var string $sdkMaxTimeout
      */
-    protected $sdkMaxTimeout = null;
+    protected $sdkMaxTimeout;
 
     /**
      * @var int $authenticationIndicator
      */
-    protected $authenticationIndicator = null;
+    protected $authenticationIndicator;
 
     /**
      * @var string $whiteListStatus
      */
-    protected $whiteListStatus = null;
+    protected $whiteListStatus;
 
     /**
      * @var int $totalOffersCount
      */
-    protected $totalOffersCount = null;
+    protected $totalOffersCount;
 
     /**
      * @var string $merchantScore
      */
-    protected $merchantScore = null;
+    protected $merchantScore;
 
     /**
      * @var int $merchantFraudRate
      */
-    protected $merchantFraudRate = null;
+    protected $merchantFraudRate;
 
     /**
      * @var string $acquirerCountry
      */
-    protected $acquirerCountry = null;
+    protected $acquirerCountry;
 
     /**
      * @var string $secureCorporatePaymentIndicator
      */
-    protected $secureCorporatePaymentIndicator = null;
+    protected $secureCorporatePaymentIndicator;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run

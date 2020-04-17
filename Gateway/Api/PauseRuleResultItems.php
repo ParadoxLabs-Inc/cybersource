@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PauseRuleResultItems
 {
-
     /**
      * @var PauseRuleResultItem[] $ruleResultItem
      */
-    protected $ruleResultItem = null;
-
-    public function __construct()
-    {
-    }
+    protected $ruleResultItem;
 
     /**
      * @return PauseRuleResultItem[]
@@ -32,5 +27,4 @@ class PauseRuleResultItems
 
         return $this;
     }
-
 }

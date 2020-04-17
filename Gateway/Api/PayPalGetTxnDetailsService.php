@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalGetTxnDetailsService
 {
-
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class PayPalGetTxnDetailsService
 
         return $this;
     }
-
 }

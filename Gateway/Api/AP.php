@@ -4,130 +4,125 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AP
 {
-
     /**
      * @var string $orderID
      */
-    protected $orderID = null;
+    protected $orderID;
 
     /**
      * @var string $pspBarcodeID
      */
-    protected $pspBarcodeID = null;
+    protected $pspBarcodeID;
 
     /**
      * @var string $customerRepresentativeID
      */
-    protected $customerRepresentativeID = null;
+    protected $customerRepresentativeID;
 
     /**
      * @var string $productDescription
      */
-    protected $productDescription = null;
+    protected $productDescription;
 
     /**
      * @var string $settlementCurrency
      */
-    protected $settlementCurrency = null;
+    protected $settlementCurrency;
 
     /**
      * @var string $subtotalAmount
      */
-    protected $subtotalAmount = null;
+    protected $subtotalAmount;
 
     /**
      * @var string $shippingAmount
      */
-    protected $shippingAmount = null;
+    protected $shippingAmount;
 
     /**
      * @var string $handlingAmount
      */
-    protected $handlingAmount = null;
+    protected $handlingAmount;
 
     /**
      * @var string $shippingHandlingAmount
      */
-    protected $shippingHandlingAmount = null;
+    protected $shippingHandlingAmount;
 
     /**
      * @var string $additionalAmount
      */
-    protected $additionalAmount = null;
+    protected $additionalAmount;
 
     /**
      * @var string $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var string $giftWrapAmount
      */
-    protected $giftWrapAmount = null;
+    protected $giftWrapAmount;
 
     /**
      * @var string $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var string $purchaseID
      */
-    protected $purchaseID = null;
+    protected $purchaseID;
 
     /**
      * @var string $productID
      */
-    protected $productID = null;
+    protected $productID;
 
     /**
      * @var APDevice $device
      */
-    protected $device = null;
+    protected $device;
 
     /**
      * @var string $apiKey
      */
-    protected $apiKey = null;
+    protected $apiKey;
 
     /**
      * @var string $insuranceAmount
      */
-    protected $insuranceAmount = null;
+    protected $insuranceAmount;
 
     /**
      * @var boolean $billingAgreementIndicator
      */
-    protected $billingAgreementIndicator = null;
+    protected $billingAgreementIndicator;
 
     /**
      * @var string $billingAgreementID
      */
-    protected $billingAgreementID = null;
+    protected $billingAgreementID;
 
     /**
      * @var string $billingAgreementDescription
      */
-    protected $billingAgreementDescription = null;
+    protected $billingAgreementDescription;
 
     /**
      * @var string $payerID
      */
-    protected $payerID = null;
+    protected $payerID;
 
     /**
      * @var string $fundingSource
      */
-    protected $fundingSource = null;
+    protected $fundingSource;
 
     /**
      * @var string $shippingAddressImmutable
      */
-    protected $shippingAddressImmutable = null;
-
-    public function __construct()
-    {
-    }
+    protected $shippingAddressImmutable;
 
     /**
      * @return string
@@ -584,5 +579,4 @@ class AP
 
         return $this;
     }
-
 }

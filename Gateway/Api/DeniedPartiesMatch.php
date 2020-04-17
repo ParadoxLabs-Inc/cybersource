@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DeniedPartiesMatch
 {
-
     /**
      * @var string $list
      */
-    protected $list = null;
+    protected $list;
 
     /**
      * @var string[] $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string[] $address
      */
-    protected $address = null;
+    protected $address;
 
     /**
      * @var string[] $program
      */
-    protected $program = null;
-
-    public function __construct()
-    {
-    }
+    protected $program;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class DeniedPartiesMatch
 
         return $this;
     }
-
 }

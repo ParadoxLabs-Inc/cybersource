@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APImportMandateService
 {
-
     /**
      * @var string $dateSigned
      */
-    protected $dateSigned = null;
+    protected $dateSigned;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class APImportMandateService
 
         return $this;
     }
-
 }

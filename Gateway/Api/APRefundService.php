@@ -4,56 +4,55 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APRefundService
 {
-
     /**
      * @var string $captureRequestID
      */
-    protected $captureRequestID = null;
+    protected $captureRequestID;
 
     /**
      * @var string $refundRequestID
      */
-    protected $refundRequestID = null;
+    protected $refundRequestID;
 
     /**
      * @var string $reason
      */
-    protected $reason = null;
+    protected $reason;
 
     /**
      * @var string $instant
      */
-    protected $instant = null;
+    protected $instant;
 
     /**
      * @var string $note
      */
-    protected $note = null;
+    protected $note;
 
     /**
      * @var string $apInitiateRequestID
      */
-    protected $apInitiateRequestID = null;
+    protected $apInitiateRequestID;
 
     /**
      * @var string $returnRef
      */
-    protected $returnRef = null;
+    protected $returnRef;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $saleRequestID
      */
-    protected $saleRequestID = null;
+    protected $saleRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -252,5 +251,4 @@ class APRefundService
 
         return $this;
     }
-
 }

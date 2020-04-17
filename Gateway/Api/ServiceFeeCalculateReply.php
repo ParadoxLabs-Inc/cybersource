@@ -7,21 +7,20 @@ use Exception;
 
 class ServiceFeeCalculateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @param int $reasonCode
@@ -99,5 +98,4 @@ class ServiceFeeCalculateReply
 
         return $this;
     }
-
 }

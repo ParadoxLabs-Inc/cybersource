@@ -4,245 +4,240 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AirlineData
 {
-
     /**
      * @var string $agentCode
      */
-    protected $agentCode = null;
+    protected $agentCode;
 
     /**
      * @var string $agentName
      */
-    protected $agentName = null;
+    protected $agentName;
 
     /**
      * @var string $ticketIssuerCity
      */
-    protected $ticketIssuerCity = null;
+    protected $ticketIssuerCity;
 
     /**
      * @var string $ticketIssuerState
      */
-    protected $ticketIssuerState = null;
+    protected $ticketIssuerState;
 
     /**
      * @var string $ticketIssuerPostalCode
      */
-    protected $ticketIssuerPostalCode = null;
+    protected $ticketIssuerPostalCode;
 
     /**
      * @var string $ticketIssuerCountry
      */
-    protected $ticketIssuerCountry = null;
+    protected $ticketIssuerCountry;
 
     /**
      * @var string $ticketIssuerAddress
      */
-    protected $ticketIssuerAddress = null;
+    protected $ticketIssuerAddress;
 
     /**
      * @var string $ticketIssuerCode
      */
-    protected $ticketIssuerCode = null;
+    protected $ticketIssuerCode;
 
     /**
      * @var string $ticketIssuerName
      */
-    protected $ticketIssuerName = null;
+    protected $ticketIssuerName;
 
     /**
      * @var string $ticketNumber
      */
-    protected $ticketNumber = null;
+    protected $ticketNumber;
 
     /**
      * @var int $checkDigit
      */
-    protected $checkDigit = null;
+    protected $checkDigit;
 
     /**
      * @var int $restrictedTicketIndicator
      */
-    protected $restrictedTicketIndicator = null;
+    protected $restrictedTicketIndicator;
 
     /**
      * @var string $transactionType
      */
-    protected $transactionType = null;
+    protected $transactionType;
 
     /**
      * @var string $extendedPaymentCode
      */
-    protected $extendedPaymentCode = null;
+    protected $extendedPaymentCode;
 
     /**
      * @var string $carrierName
      */
-    protected $carrierName = null;
+    protected $carrierName;
 
     /**
      * @var string $passengerName
      */
-    protected $passengerName = null;
+    protected $passengerName;
 
     /**
      * @var Passenger[] $passenger
      */
-    protected $passenger = null;
+    protected $passenger;
 
     /**
      * @var string $customerCode
      */
-    protected $customerCode = null;
+    protected $customerCode;
 
     /**
      * @var string $documentType
      */
-    protected $documentType = null;
+    protected $documentType;
 
     /**
      * @var string $documentNumber
      */
-    protected $documentNumber = null;
+    protected $documentNumber;
 
     /**
      * @var string $documentNumberOfParts
      */
-    protected $documentNumberOfParts = null;
+    protected $documentNumberOfParts;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var string $invoiceDate
      */
-    protected $invoiceDate = null;
+    protected $invoiceDate;
 
     /**
      * @var string $chargeDetails
      */
-    protected $chargeDetails = null;
+    protected $chargeDetails;
 
     /**
      * @var string $bookingReference
      */
-    protected $bookingReference = null;
+    protected $bookingReference;
 
     /**
      * @var float $totalFee
      */
-    protected $totalFee = null;
+    protected $totalFee;
 
     /**
      * @var string $clearingSequence
      */
-    protected $clearingSequence = null;
+    protected $clearingSequence;
 
     /**
      * @var int $clearingCount
      */
-    protected $clearingCount = null;
+    protected $clearingCount;
 
     /**
      * @var float $totalClearingAmount
      */
-    protected $totalClearingAmount = null;
+    protected $totalClearingAmount;
 
     /**
      * @var Leg[] $leg
      */
-    protected $leg = null;
+    protected $leg;
 
     /**
      * @var string $numberOfPassengers
      */
-    protected $numberOfPassengers = null;
+    protected $numberOfPassengers;
 
     /**
      * @var string $reservationSystem
      */
-    protected $reservationSystem = null;
+    protected $reservationSystem;
 
     /**
      * @var string $processIdentifier
      */
-    protected $processIdentifier = null;
+    protected $processIdentifier;
 
     /**
      * @var string $iataNumericCode
      */
-    protected $iataNumericCode = null;
+    protected $iataNumericCode;
 
     /**
      * @var string $ticketIssueDate
      */
-    protected $ticketIssueDate = null;
+    protected $ticketIssueDate;
 
     /**
      * @var string $electronicTicket
      */
-    protected $electronicTicket = null;
+    protected $electronicTicket;
 
     /**
      * @var string $originalTicketNumber
      */
-    protected $originalTicketNumber = null;
+    protected $originalTicketNumber;
 
     /**
      * @var string $purchaseType
      */
-    protected $purchaseType = null;
+    protected $purchaseType;
 
     /**
      * @var string $creditReasonIndicator
      */
-    protected $creditReasonIndicator = null;
+    protected $creditReasonIndicator;
 
     /**
      * @var string $ticketUpdateIndicator
      */
-    protected $ticketUpdateIndicator = null;
+    protected $ticketUpdateIndicator;
 
     /**
      * @var string $planNumber
      */
-    protected $planNumber = null;
+    protected $planNumber;
 
     /**
      * @var string $arrivalDate
      */
-    protected $arrivalDate = null;
+    protected $arrivalDate;
 
     /**
      * @var string $ticketRestrictionText
      */
-    protected $ticketRestrictionText = null;
+    protected $ticketRestrictionText;
 
     /**
      * @var float $exchangeTicketAmount
      */
-    protected $exchangeTicketAmount = null;
+    protected $exchangeTicketAmount;
 
     /**
      * @var float $exchangeTicketFee
      */
-    protected $exchangeTicketFee = null;
+    protected $exchangeTicketFee;
 
     /**
      * @var string $journeyType
      */
-    protected $journeyType = null;
+    protected $journeyType;
 
     /**
      * @var string $boardingFee
      */
-    protected $boardingFee = null;
-
-    public function __construct()
-    {
-    }
+    protected $boardingFee;
 
     /**
      * @return string
@@ -1136,5 +1131,4 @@ class AirlineData
 
         return $this;
     }
-
 }

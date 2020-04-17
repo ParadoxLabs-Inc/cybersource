@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AFSService
 {
-
     /**
      * @var string $avsCode
      */
-    protected $avsCode = null;
+    protected $avsCode;
 
     /**
      * @var string $cvCode
      */
-    protected $cvCode = null;
+    protected $cvCode;
 
     /**
      * @var boolean $disableAVSScoring
      */
-    protected $disableAVSScoring = null;
+    protected $disableAVSScoring;
 
     /**
      * @var string $customRiskModel
      */
-    protected $customRiskModel = null;
+    protected $customRiskModel;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -132,5 +131,4 @@ class AFSService
 
         return $this;
     }
-
 }

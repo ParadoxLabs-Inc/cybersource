@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalCreateAgreementReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paypalBillingAgreementId
      */
-    protected $paypalBillingAgreementId = null;
+    protected $paypalBillingAgreementId;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @param int $reasonCode
@@ -108,5 +107,4 @@ class PayPalCreateAgreementReply
 
         return $this;
     }
-
 }

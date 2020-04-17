@@ -145,7 +145,7 @@ class JsonWebTokenGenerator
     /**
      * Get the items payload for the given quote
      *
-     * @param \Magento\Quote\Api\Data\CartInterface $quote
+     * @param \Magento\Quote\Model\Quote $quote
      * @return array
      */
     protected function getPayloadItems(\Magento\Quote\Model\Quote $quote)

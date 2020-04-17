@@ -7,781 +7,780 @@ use Exception;
 
 class ReplyMessage
 {
-
     /**
      * @var string $merchantReferenceCode
      */
-    protected $merchantReferenceCode = null;
+    protected $merchantReferenceCode;
 
     /**
      * @var string $requestID
      */
-    protected $requestID = null;
+    protected $requestID;
 
     /**
      * @var string $decision
      */
-    protected $decision = null;
+    protected $decision;
 
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string[] $missingField
      */
-    protected $missingField = null;
+    protected $missingField;
 
     /**
      * @var string[] $invalidField
      */
-    protected $invalidField = null;
+    protected $invalidField;
 
     /**
      * @var string $requestToken
      */
-    protected $requestToken = null;
+    protected $requestToken;
 
     /**
      * @var PurchaseTotals $purchaseTotals
      */
-    protected $purchaseTotals = null;
+    protected $purchaseTotals;
 
     /**
      * @var DeniedPartiesMatch[] $deniedPartiesMatch
      */
-    protected $deniedPartiesMatch = null;
+    protected $deniedPartiesMatch;
 
     /**
      * @var CCAuthReply $ccAuthReply
      */
-    protected $ccAuthReply = null;
+    protected $ccAuthReply;
 
     /**
      * @var OCTReply $octReply
      */
-    protected $octReply = null;
+    protected $octReply;
 
     /**
      * @var VerificationReply $verificationReply
      */
-    protected $verificationReply = null;
+    protected $verificationReply;
 
     /**
      * @var CCSaleReply $ccSaleReply
      */
-    protected $ccSaleReply = null;
+    protected $ccSaleReply;
 
     /**
      * @var CCSaleCreditReply $ccSaleCreditReply
      */
-    protected $ccSaleCreditReply = null;
+    protected $ccSaleCreditReply;
 
     /**
      * @var CCSaleReversalReply $ccSaleReversalReply
      */
-    protected $ccSaleReversalReply = null;
+    protected $ccSaleReversalReply;
 
     /**
      * @var CCIncrementalAuthReply $ccIncrementalAuthReply
      */
-    protected $ccIncrementalAuthReply = null;
+    protected $ccIncrementalAuthReply;
 
     /**
      * @var ServiceFeeCalculateReply $serviceFeeCalculateReply
      */
-    protected $serviceFeeCalculateReply = null;
+    protected $serviceFeeCalculateReply;
 
     /**
      * @var CCCaptureReply $ccCaptureReply
      */
-    protected $ccCaptureReply = null;
+    protected $ccCaptureReply;
 
     /**
      * @var CCCreditReply $ccCreditReply
      */
-    protected $ccCreditReply = null;
+    protected $ccCreditReply;
 
     /**
      * @var CCAuthReversalReply $ccAuthReversalReply
      */
-    protected $ccAuthReversalReply = null;
+    protected $ccAuthReversalReply;
 
     /**
      * @var CCAutoAuthReversalReply $ccAutoAuthReversalReply
      */
-    protected $ccAutoAuthReversalReply = null;
+    protected $ccAutoAuthReversalReply;
 
     /**
      * @var CCDCCReply $ccDCCReply
      */
-    protected $ccDCCReply = null;
+    protected $ccDCCReply;
 
     /**
      * @var CCDCCUpdateReply $ccDCCUpdateReply
      */
-    protected $ccDCCUpdateReply = null;
+    protected $ccDCCUpdateReply;
 
     /**
      * @var ECDebitReply $ecDebitReply
      */
-    protected $ecDebitReply = null;
+    protected $ecDebitReply;
 
     /**
      * @var ECCreditReply $ecCreditReply
      */
-    protected $ecCreditReply = null;
+    protected $ecCreditReply;
 
     /**
      * @var ECAuthenticateReply $ecAuthenticateReply
      */
-    protected $ecAuthenticateReply = null;
+    protected $ecAuthenticateReply;
 
     /**
      * @var PayerAuthEnrollReply $payerAuthEnrollReply
      */
-    protected $payerAuthEnrollReply = null;
+    protected $payerAuthEnrollReply;
 
     /**
      * @var PayerAuthValidateReply $payerAuthValidateReply
      */
-    protected $payerAuthValidateReply = null;
+    protected $payerAuthValidateReply;
 
     /**
      * @var TaxReply $taxReply
      */
-    protected $taxReply = null;
+    protected $taxReply;
 
     /**
      * @var EncryptedPayment $encryptedPayment
      */
-    protected $encryptedPayment = null;
+    protected $encryptedPayment;
 
     /**
      * @var EncryptPaymentDataReply $encryptPaymentDataReply
      */
-    protected $encryptPaymentDataReply = null;
+    protected $encryptPaymentDataReply;
 
     /**
      * @var DMEReply $dmeReply
      */
-    protected $dmeReply = null;
+    protected $dmeReply;
 
     /**
      * @var AFSReply $afsReply
      */
-    protected $afsReply = null;
+    protected $afsReply;
 
     /**
      * @var DAVReply $davReply
      */
-    protected $davReply = null;
+    protected $davReply;
 
     /**
      * @var ExportReply $exportReply
      */
-    protected $exportReply = null;
+    protected $exportReply;
 
     /**
      * @var FXRatesReply $fxRatesReply
      */
-    protected $fxRatesReply = null;
+    protected $fxRatesReply;
 
     /**
      * @var BankTransferReply $bankTransferReply
      */
-    protected $bankTransferReply = null;
+    protected $bankTransferReply;
 
     /**
      * @var BankTransferRefundReply $bankTransferRefundReply
      */
-    protected $bankTransferRefundReply = null;
+    protected $bankTransferRefundReply;
 
     /**
      * @var BankTransferRealTimeReply $bankTransferRealTimeReply
      */
-    protected $bankTransferRealTimeReply = null;
+    protected $bankTransferRealTimeReply;
 
     /**
      * @var DirectDebitMandateReply $directDebitMandateReply
      */
-    protected $directDebitMandateReply = null;
+    protected $directDebitMandateReply;
 
     /**
      * @var DirectDebitReply $directDebitReply
      */
-    protected $directDebitReply = null;
+    protected $directDebitReply;
 
     /**
      * @var DirectDebitValidateReply $directDebitValidateReply
      */
-    protected $directDebitValidateReply = null;
+    protected $directDebitValidateReply;
 
     /**
      * @var DirectDebitRefundReply $directDebitRefundReply
      */
-    protected $directDebitRefundReply = null;
+    protected $directDebitRefundReply;
 
     /**
      * @var PaySubscriptionCreateReply $paySubscriptionCreateReply
      */
-    protected $paySubscriptionCreateReply = null;
+    protected $paySubscriptionCreateReply;
 
     /**
      * @var PaySubscriptionUpdateReply $paySubscriptionUpdateReply
      */
-    protected $paySubscriptionUpdateReply = null;
+    protected $paySubscriptionUpdateReply;
 
     /**
      * @var PaySubscriptionEventUpdateReply $paySubscriptionEventUpdateReply
      */
-    protected $paySubscriptionEventUpdateReply = null;
+    protected $paySubscriptionEventUpdateReply;
 
     /**
      * @var PaySubscriptionRetrieveReply $paySubscriptionRetrieveReply
      */
-    protected $paySubscriptionRetrieveReply = null;
+    protected $paySubscriptionRetrieveReply;
 
     /**
      * @var PaySubscriptionDeleteReply $paySubscriptionDeleteReply
      */
-    protected $paySubscriptionDeleteReply = null;
+    protected $paySubscriptionDeleteReply;
 
     /**
      * @var PayPalPaymentReply $payPalPaymentReply
      */
-    protected $payPalPaymentReply = null;
+    protected $payPalPaymentReply;
 
     /**
      * @var PayPalCreditReply $payPalCreditReply
      */
-    protected $payPalCreditReply = null;
+    protected $payPalCreditReply;
 
     /**
      * @var VoidReply $voidReply
      */
-    protected $voidReply = null;
+    protected $voidReply;
 
     /**
      * @var PinlessDebitReply $pinlessDebitReply
      */
-    protected $pinlessDebitReply = null;
+    protected $pinlessDebitReply;
 
     /**
      * @var PinlessDebitValidateReply $pinlessDebitValidateReply
      */
-    protected $pinlessDebitValidateReply = null;
+    protected $pinlessDebitValidateReply;
 
     /**
      * @var PinlessDebitReversalReply $pinlessDebitReversalReply
      */
-    protected $pinlessDebitReversalReply = null;
+    protected $pinlessDebitReversalReply;
 
     /**
      * @var PayPalButtonCreateReply $payPalButtonCreateReply
      */
-    protected $payPalButtonCreateReply = null;
+    protected $payPalButtonCreateReply;
 
     /**
      * @var PayPalPreapprovedPaymentReply $payPalPreapprovedPaymentReply
      */
-    protected $payPalPreapprovedPaymentReply = null;
+    protected $payPalPreapprovedPaymentReply;
 
     /**
      * @var PayPalPreapprovedUpdateReply $payPalPreapprovedUpdateReply
      */
-    protected $payPalPreapprovedUpdateReply = null;
+    protected $payPalPreapprovedUpdateReply;
 
     /**
      * @var RiskUpdateReply $riskUpdateReply
      */
-    protected $riskUpdateReply = null;
+    protected $riskUpdateReply;
 
     /**
      * @var FraudUpdateReply $fraudUpdateReply
      */
-    protected $fraudUpdateReply = null;
+    protected $fraudUpdateReply;
 
     /**
      * @var CaseManagementActionReply $caseManagementActionReply
      */
-    protected $caseManagementActionReply = null;
+    protected $caseManagementActionReply;
 
     /**
      * @var DecisionEarlyReply $decisionEarlyReply
      */
-    protected $decisionEarlyReply = null;
+    protected $decisionEarlyReply;
 
     /**
      * @var DecisionReply $decisionReply
      */
-    protected $decisionReply = null;
+    protected $decisionReply;
 
     /**
      * @var PayPalRefundReply $payPalRefundReply
      */
-    protected $payPalRefundReply = null;
+    protected $payPalRefundReply;
 
     /**
      * @var PayPalAuthReversalReply $payPalAuthReversalReply
      */
-    protected $payPalAuthReversalReply = null;
+    protected $payPalAuthReversalReply;
 
     /**
      * @var PayPalDoCaptureReply $payPalDoCaptureReply
      */
-    protected $payPalDoCaptureReply = null;
+    protected $payPalDoCaptureReply;
 
     /**
      * @var PayPalEcDoPaymentReply $payPalEcDoPaymentReply
      */
-    protected $payPalEcDoPaymentReply = null;
+    protected $payPalEcDoPaymentReply;
 
     /**
      * @var PayPalEcGetDetailsReply $payPalEcGetDetailsReply
      */
-    protected $payPalEcGetDetailsReply = null;
+    protected $payPalEcGetDetailsReply;
 
     /**
      * @var PayPalEcSetReply $payPalEcSetReply
      */
-    protected $payPalEcSetReply = null;
+    protected $payPalEcSetReply;
 
     /**
      * @var PayPalAuthorizationReply $payPalAuthorizationReply
      */
-    protected $payPalAuthorizationReply = null;
+    protected $payPalAuthorizationReply;
 
     /**
      * @var PayPalEcOrderSetupReply $payPalEcOrderSetupReply
      */
-    protected $payPalEcOrderSetupReply = null;
+    protected $payPalEcOrderSetupReply;
 
     /**
      * @var PayPalUpdateAgreementReply $payPalUpdateAgreementReply
      */
-    protected $payPalUpdateAgreementReply = null;
+    protected $payPalUpdateAgreementReply;
 
     /**
      * @var PayPalCreateAgreementReply $payPalCreateAgreementReply
      */
-    protected $payPalCreateAgreementReply = null;
+    protected $payPalCreateAgreementReply;
 
     /**
      * @var PayPalDoRefTransactionReply $payPalDoRefTransactionReply
      */
-    protected $payPalDoRefTransactionReply = null;
+    protected $payPalDoRefTransactionReply;
 
     /**
      * @var ChinaPaymentReply $chinaPaymentReply
      */
-    protected $chinaPaymentReply = null;
+    protected $chinaPaymentReply;
 
     /**
      * @var ChinaRefundReply $chinaRefundReply
      */
-    protected $chinaRefundReply = null;
+    protected $chinaRefundReply;
 
     /**
      * @var BoletoPaymentReply $boletoPaymentReply
      */
-    protected $boletoPaymentReply = null;
+    protected $boletoPaymentReply;
 
     /**
      * @var PinDebitPurchaseReply $pinDebitPurchaseReply
      */
-    protected $pinDebitPurchaseReply = null;
+    protected $pinDebitPurchaseReply;
 
     /**
      * @var PinDebitCreditReply $pinDebitCreditReply
      */
-    protected $pinDebitCreditReply = null;
+    protected $pinDebitCreditReply;
 
     /**
      * @var PinDebitReversalReply $pinDebitReversalReply
      */
-    protected $pinDebitReversalReply = null;
+    protected $pinDebitReversalReply;
 
     /**
      * @var APInitiateReply $apInitiateReply
      */
-    protected $apInitiateReply = null;
+    protected $apInitiateReply;
 
     /**
      * @var APCheckStatusReply $apCheckStatusReply
      */
-    protected $apCheckStatusReply = null;
+    protected $apCheckStatusReply;
 
     /**
      * @var string $receiptNumber
      */
-    protected $receiptNumber = null;
+    protected $receiptNumber;
 
     /**
      * @var string $additionalData
      */
-    protected $additionalData = null;
+    protected $additionalData;
 
     /**
      * @var string $solutionProviderTransactionID
      */
-    protected $solutionProviderTransactionID = null;
+    protected $solutionProviderTransactionID;
 
     /**
      * @var APReply $apReply
      */
-    protected $apReply = null;
+    protected $apReply;
 
     /**
      * @var ShipTo $shipTo
      */
-    protected $shipTo = null;
+    protected $shipTo;
 
     /**
      * @var BillTo $billTo
      */
-    protected $billTo = null;
+    protected $billTo;
 
     /**
      * @var APAuthReply $apAuthReply
      */
-    protected $apAuthReply = null;
+    protected $apAuthReply;
 
     /**
      * @var APSessionsReply $apSessionsReply
      */
-    protected $apSessionsReply = null;
+    protected $apSessionsReply;
 
     /**
      * @var APAuthReversalReply $apAuthReversalReply
      */
-    protected $apAuthReversalReply = null;
+    protected $apAuthReversalReply;
 
     /**
      * @var APCaptureReply $apCaptureReply
      */
-    protected $apCaptureReply = null;
+    protected $apCaptureReply;
 
     /**
      * @var APOptionsReply $apOptionsReply
      */
-    protected $apOptionsReply = null;
+    protected $apOptionsReply;
 
     /**
      * @var APRefundReply $apRefundReply
      */
-    protected $apRefundReply = null;
+    protected $apRefundReply;
 
     /**
      * @var APSaleReply $apSaleReply
      */
-    protected $apSaleReply = null;
+    protected $apSaleReply;
 
     /**
      * @var APCheckOutDetailsReply $apCheckoutDetailsReply
      */
-    protected $apCheckoutDetailsReply = null;
+    protected $apCheckoutDetailsReply;
 
     /**
      * @var APTransactionDetailsReply $apTransactionDetailsReply
      */
-    protected $apTransactionDetailsReply = null;
+    protected $apTransactionDetailsReply;
 
     /**
      * @var APConfirmPurchaseReply $apConfirmPurchaseReply
      */
-    protected $apConfirmPurchaseReply = null;
+    protected $apConfirmPurchaseReply;
 
     /**
      * @var Promotion $promotion
      */
-    protected $promotion = null;
+    protected $promotion;
 
     /**
      * @var PromotionGroupReply[] $promotionGroup
      */
-    protected $promotionGroup = null;
+    protected $promotionGroup;
 
     /**
      * @var PayPalGetTxnDetailsReply $payPalGetTxnDetailsReply
      */
-    protected $payPalGetTxnDetailsReply = null;
+    protected $payPalGetTxnDetailsReply;
 
     /**
      * @var PayPalTransactionSearchReply $payPalTransactionSearchReply
      */
-    protected $payPalTransactionSearchReply = null;
+    protected $payPalTransactionSearchReply;
 
     /**
      * @var EmvReply $emvReply
      */
-    protected $emvReply = null;
+    protected $emvReply;
 
     /**
      * @var OriginalTransaction $originalTransaction
      */
-    protected $originalTransaction = null;
+    protected $originalTransaction;
 
     /**
      * @var HostedDataCreateReply $hostedDataCreateReply
      */
-    protected $hostedDataCreateReply = null;
+    protected $hostedDataCreateReply;
 
     /**
      * @var HostedDataRetrieveReply $hostedDataRetrieveReply
      */
-    protected $hostedDataRetrieveReply = null;
+    protected $hostedDataRetrieveReply;
 
     /**
      * @var string $salesSlipNumber
      */
-    protected $salesSlipNumber = null;
+    protected $salesSlipNumber;
 
     /**
      * @var string $additionalProcessorResponse
      */
-    protected $additionalProcessorResponse = null;
+    protected $additionalProcessorResponse;
 
     /**
      * @var JPO $jpo
      */
-    protected $jpo = null;
+    protected $jpo;
 
     /**
      * @var Card $card
      */
-    protected $card = null;
+    protected $card;
 
     /**
      * @var PaymentNetworkToken $paymentNetworkToken
      */
-    protected $paymentNetworkToken = null;
+    protected $paymentNetworkToken;
 
     /**
      * @var VCReply $vcReply
      */
-    protected $vcReply = null;
+    protected $vcReply;
 
     /**
      * @var DecryptVisaCheckoutDataReply $decryptVisaCheckoutDataReply
      */
-    protected $decryptVisaCheckoutDataReply = null;
+    protected $decryptVisaCheckoutDataReply;
 
     /**
      * @var GetVisaCheckoutDataReply $getVisaCheckoutDataReply
      */
-    protected $getVisaCheckoutDataReply = null;
+    protected $getVisaCheckoutDataReply;
 
     /**
      * @var BinLookupReply $binLookupReply
      */
-    protected $binLookupReply = null;
+    protected $binLookupReply;
 
     /**
      * @var string $issuerMessage
      */
-    protected $issuerMessage = null;
+    protected $issuerMessage;
 
     /**
      * @var string $token
      */
-    protected $token = null;
+    protected $token;
 
     /**
      * @var issuer $issuer
      */
-    protected $issuer = null;
+    protected $issuer;
 
     /**
      * @var Recipient $recipient
      */
-    protected $recipient = null;
+    protected $recipient;
 
     /**
      * @var string $feeProgramIndicator
      */
-    protected $feeProgramIndicator = null;
+    protected $feeProgramIndicator;
 
     /**
      * @var Installment $installment
      */
-    protected $installment = null;
+    protected $installment;
 
     /**
      * @var string $paymentAccountReference
      */
-    protected $paymentAccountReference = null;
+    protected $paymentAccountReference;
 
     /**
      * @var string $authIndicator
      */
-    protected $authIndicator = null;
+    protected $authIndicator;
 
     /**
      * @var UCAF $ucaf
      */
-    protected $ucaf = null;
+    protected $ucaf;
 
     /**
      * @var Network[] $network
      */
-    protected $network = null;
+    protected $network;
 
     /**
      * @var InvoiceHeader $invoiceHeader
      */
-    protected $invoiceHeader = null;
+    protected $invoiceHeader;
 
     /**
      * @var APOrderReply $apOrderReply
      */
-    protected $apOrderReply = null;
+    protected $apOrderReply;
 
     /**
      * @var APCancelReply $apCancelReply
      */
-    protected $apCancelReply = null;
+    protected $apCancelReply;
 
     /**
      * @var APBillingAgreementReply $apBillingAgreementReply
      */
-    protected $apBillingAgreementReply = null;
+    protected $apBillingAgreementReply;
 
     /**
      * @var string $customerVerificationStatus
      */
-    protected $customerVerificationStatus = null;
+    protected $customerVerificationStatus;
 
     /**
      * @var PersonalID $personalID
      */
-    protected $personalID = null;
+    protected $personalID;
 
     /**
      * @var string $acquirerMerchantNumber
      */
-    protected $acquirerMerchantNumber = null;
+    protected $acquirerMerchantNumber;
 
     /**
      * @var Pos $pos
      */
-    protected $pos = null;
+    protected $pos;
 
     /**
      * @var string $issuerMessageAction
      */
-    protected $issuerMessageAction = null;
+    protected $issuerMessageAction;
 
     /**
      * @var string $customerID
      */
-    protected $customerID = null;
+    protected $customerID;
 
     /**
      * @var Routing $routing
      */
-    protected $routing = null;
+    protected $routing;
 
     /**
      * @var \DateTime $transactionLocalDateTime
      */
-    protected $transactionLocalDateTime = null;
+    protected $transactionLocalDateTime;
 
     /**
      * @var APCreateMandateReply $apCreateMandateReply
      */
-    protected $apCreateMandateReply = null;
+    protected $apCreateMandateReply;
 
     /**
      * @var APMandateStatusReply $apMandateStatusReply
      */
-    protected $apMandateStatusReply = null;
+    protected $apMandateStatusReply;
 
     /**
      * @var APUpdateMandateReply $apUpdateMandateReply
      */
-    protected $apUpdateMandateReply = null;
+    protected $apUpdateMandateReply;
 
     /**
      * @var APImportMandateReply $apImportMandateReply
      */
-    protected $apImportMandateReply = null;
+    protected $apImportMandateReply;
 
     /**
      * @var APRevokeMandateReply $apRevokeMandateReply
      */
-    protected $apRevokeMandateReply = null;
+    protected $apRevokeMandateReply;
 
     /**
      * @var GetMasterpassDataReply $getMasterpassDataReply
      */
-    protected $getMasterpassDataReply = null;
+    protected $getMasterpassDataReply;
 
     /**
      * @var string $paymentNetworkMerchantID
      */
-    protected $paymentNetworkMerchantID = null;
+    protected $paymentNetworkMerchantID;
 
     /**
      * @var Wallet $wallet
      */
-    protected $wallet = null;
+    protected $wallet;
 
     /**
      * @var float $cashbackAmount
      */
-    protected $cashbackAmount = null;
+    protected $cashbackAmount;
 
     /**
      * @var GiftCard $giftCard
      */
-    protected $giftCard = null;
+    protected $giftCard;
 
     /**
      * @var GiftCardActivationReply $giftCardActivationReply
      */
-    protected $giftCardActivationReply = null;
+    protected $giftCardActivationReply;
 
     /**
      * @var GiftCardBalanceInquiryReply $giftCardBalanceInquiryReply
      */
-    protected $giftCardBalanceInquiryReply = null;
+    protected $giftCardBalanceInquiryReply;
 
     /**
      * @var GiftCardRedemptionReply $giftCardRedemptionReply
      */
-    protected $giftCardRedemptionReply = null;
+    protected $giftCardRedemptionReply;
 
     /**
      * @var GiftCardVoidReply $giftCardVoidReply
      */
-    protected $giftCardVoidReply = null;
+    protected $giftCardVoidReply;
 
     /**
      * @var GiftCardReversalReply $giftCardReversalReply
      */
-    protected $giftCardReversalReply = null;
+    protected $giftCardReversalReply;
 
     /**
      * @var CCCheckStatusReply $ccCheckStatusReply
      */
-    protected $ccCheckStatusReply = null;
+    protected $ccCheckStatusReply;
 
     /**
      * @var ECAVSReply $ecAVSReply
      */
-    protected $ecAVSReply = null;
+    protected $ecAVSReply;
 
     /**
      * @var AbortReply $abortReply
      */
-    protected $abortReply = null;
+    protected $abortReply;
 
     /**
      * @var ReplyReserved $reserved
      */
-    protected $reserved = null;
+    protected $reserved;
 
     /**
      * @param string $requestID
@@ -3753,5 +3752,4 @@ class ReplyMessage
 
         return $this;
     }
-
 }

@@ -7,41 +7,40 @@ use Exception;
 
 class APTransactionDetailsReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $providerResponse
      */
-    protected $providerResponse = null;
+    protected $providerResponse;
 
     /**
      * @param int $reasonCode
@@ -195,5 +194,4 @@ class APTransactionDetailsReply
 
         return $this;
     }
-
 }

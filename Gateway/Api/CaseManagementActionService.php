@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CaseManagementActionService
 {
-
     /**
      * @var string $actionCode
      */
-    protected $actionCode = null;
+    protected $actionCode;
 
     /**
      * @var string $requestID
      */
-    protected $requestID = null;
+    protected $requestID;
 
     /**
      * @var string $comments
      */
-    protected $comments = null;
+    protected $comments;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class CaseManagementActionService
 
         return $this;
     }
-
 }

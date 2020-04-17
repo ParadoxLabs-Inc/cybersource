@@ -4,165 +4,160 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APReply
 {
-
     /**
      * @var string $orderID
      */
-    protected $orderID = null;
+    protected $orderID;
 
     /**
      * @var string $cardGroup
      */
-    protected $cardGroup = null;
+    protected $cardGroup;
 
     /**
      * @var string $cardType
      */
-    protected $cardType = null;
+    protected $cardType;
 
     /**
      * @var string $cardNumberSuffix
      */
-    protected $cardNumberSuffix = null;
+    protected $cardNumberSuffix;
 
     /**
      * @var string $cardExpirationMonth
      */
-    protected $cardExpirationMonth = null;
+    protected $cardExpirationMonth;
 
     /**
      * @var string $cardExpirationYear
      */
-    protected $cardExpirationYear = null;
+    protected $cardExpirationYear;
 
     /**
      * @var string $avsCodeRaw
      */
-    protected $avsCodeRaw = null;
+    protected $avsCodeRaw;
 
     /**
      * @var string $purchaseID
      */
-    protected $purchaseID = null;
+    protected $purchaseID;
 
     /**
      * @var string $productID
      */
-    protected $productID = null;
+    protected $productID;
 
     /**
      * @var string $productDescription
      */
-    protected $productDescription = null;
+    protected $productDescription;
 
     /**
      * @var string $shippingAmount
      */
-    protected $shippingAmount = null;
+    protected $shippingAmount;
 
     /**
      * @var string $handlingAmount
      */
-    protected $handlingAmount = null;
+    protected $handlingAmount;
 
     /**
      * @var string $shippingHandlingAmount
      */
-    protected $shippingHandlingAmount = null;
+    protected $shippingHandlingAmount;
 
     /**
      * @var string $additionalAmount
      */
-    protected $additionalAmount = null;
+    protected $additionalAmount;
 
     /**
      * @var string $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var string $subtotalAmount
      */
-    protected $subtotalAmount = null;
+    protected $subtotalAmount;
 
     /**
      * @var string $totalPurchaseAmount
      */
-    protected $totalPurchaseAmount = null;
+    protected $totalPurchaseAmount;
 
     /**
      * @var string $giftWrapAmount
      */
-    protected $giftWrapAmount = null;
+    protected $giftWrapAmount;
 
     /**
      * @var string $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var string $cardNumberPrefix
      */
-    protected $cardNumberPrefix = null;
+    protected $cardNumberPrefix;
 
     /**
      * @var string $riskIndicator
      */
-    protected $riskIndicator = null;
+    protected $riskIndicator;
 
     /**
      * @var string $merchantUUID
      */
-    protected $merchantUUID = null;
+    protected $merchantUUID;
 
     /**
      * @var string $merchantSiteID
      */
-    protected $merchantSiteID = null;
+    protected $merchantSiteID;
 
     /**
      * @var string $transactionExpirationDate
      */
-    protected $transactionExpirationDate = null;
+    protected $transactionExpirationDate;
 
     /**
      * @var SellerProtection $sellerProtection
      */
-    protected $sellerProtection = null;
+    protected $sellerProtection;
 
     /**
      * @var string $processorFraudDecision
      */
-    protected $processorFraudDecision = null;
+    protected $processorFraudDecision;
 
     /**
      * @var string $processorFraudDecisionReason
      */
-    protected $processorFraudDecisionReason = null;
+    protected $processorFraudDecisionReason;
 
     /**
      * @var string $customerID
      */
-    protected $customerID = null;
+    protected $customerID;
 
     /**
      * @var string $billingAgreementID
      */
-    protected $billingAgreementID = null;
+    protected $billingAgreementID;
 
     /**
      * @var string $payerID
      */
-    protected $payerID = null;
+    protected $payerID;
 
     /**
      * @var string $fundingSource
      */
-    protected $fundingSource = null;
-
-    public function __construct()
-    {
-    }
+    protected $fundingSource;
 
     /**
      * @return string
@@ -752,5 +747,4 @@ class APReply
 
         return $this;
     }
-
 }

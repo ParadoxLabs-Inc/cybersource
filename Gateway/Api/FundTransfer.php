@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FundTransfer
 {
-
     /**
      * @var string $accountNumber
      */
-    protected $accountNumber = null;
+    protected $accountNumber;
 
     /**
      * @var string $accountName
      */
-    protected $accountName = null;
+    protected $accountName;
 
     /**
      * @var string $bankCheckDigit
      */
-    protected $bankCheckDigit = null;
+    protected $bankCheckDigit;
 
     /**
      * @var string $iban
      */
-    protected $iban = null;
-
-    public function __construct()
-    {
-    }
+    protected $iban;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class FundTransfer
 
         return $this;
     }
-
 }

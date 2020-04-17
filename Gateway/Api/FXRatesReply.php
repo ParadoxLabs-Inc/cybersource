@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FXRatesReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var FXQuote[] $quote
      */
-    protected $quote = null;
+    protected $quote;
 
     /**
      * @param int $reasonCode
@@ -60,5 +59,4 @@ class FXRatesReply
 
         return $this;
     }
-
 }

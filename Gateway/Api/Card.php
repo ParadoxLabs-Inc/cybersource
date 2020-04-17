@@ -4,180 +4,175 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Card
 {
-
     /**
      * @var string $fullName
      */
-    protected $fullName = null;
+    protected $fullName;
 
     /**
      * @var string $accountNumber
      */
-    protected $accountNumber = null;
+    protected $accountNumber;
 
     /**
      * @var int $expirationMonth
      */
-    protected $expirationMonth = null;
+    protected $expirationMonth;
 
     /**
      * @var int $expirationYear
      */
-    protected $expirationYear = null;
+    protected $expirationYear;
 
     /**
      * @var string $cvIndicator
      */
-    protected $cvIndicator = null;
+    protected $cvIndicator;
 
     /**
      * @var string $cvNumber
      */
-    protected $cvNumber = null;
+    protected $cvNumber;
 
     /**
      * @var string $cardType
      */
-    protected $cardType = null;
+    protected $cardType;
 
     /**
      * @var string $issueNumber
      */
-    protected $issueNumber = null;
+    protected $issueNumber;
 
     /**
      * @var int $startMonth
      */
-    protected $startMonth = null;
+    protected $startMonth;
 
     /**
      * @var int $startYear
      */
-    protected $startYear = null;
+    protected $startYear;
 
     /**
      * @var string $pin
      */
-    protected $pin = null;
+    protected $pin;
 
     /**
      * @var string $accountEncoderID
      */
-    protected $accountEncoderID = null;
+    protected $accountEncoderID;
 
     /**
      * @var string $bin
      */
-    protected $bin = null;
+    protected $bin;
 
     /**
      * @var string $encryptedData
      */
-    protected $encryptedData = null;
+    protected $encryptedData;
 
     /**
      * @var string $suffix
      */
-    protected $suffix = null;
+    protected $suffix;
 
     /**
      * @var boolean $virtual
      */
-    protected $virtual = null;
+    protected $virtual;
 
     /**
      * @var string $prefix
      */
-    protected $prefix = null;
+    protected $prefix;
 
     /**
      * @var string $cardTypeName
      */
-    protected $cardTypeName = null;
+    protected $cardTypeName;
 
     /**
      * @var string $cardSubType
      */
-    protected $cardSubType = null;
+    protected $cardSubType;
 
     /**
      * @var string $level2Eligible
      */
-    protected $level2Eligible = null;
+    protected $level2Eligible;
 
     /**
      * @var string $level3Eligible
      */
-    protected $level3Eligible = null;
+    protected $level3Eligible;
 
     /**
      * @var string $productCategory
      */
-    protected $productCategory = null;
+    protected $productCategory;
 
     /**
      * @var string $crossBorderIndicator
      */
-    protected $crossBorderIndicator = null;
+    protected $crossBorderIndicator;
 
     /**
      * @var string $billingCurrency
      */
-    protected $billingCurrency = null;
+    protected $billingCurrency;
 
     /**
      * @var string $billingCurrencyNumericCode
      */
-    protected $billingCurrencyNumericCode = null;
+    protected $billingCurrencyNumericCode;
 
     /**
      * @var string $billingCurrencyMinorDigits
      */
-    protected $billingCurrencyMinorDigits = null;
+    protected $billingCurrencyMinorDigits;
 
     /**
      * @var string $octFastFundsIndicator
      */
-    protected $octFastFundsIndicator = null;
+    protected $octFastFundsIndicator;
 
     /**
      * @var string $octBlockIndicator
      */
-    protected $octBlockIndicator = null;
+    protected $octBlockIndicator;
 
     /**
      * @var string $onlineGamblingBlockIndicator
      */
-    protected $onlineGamblingBlockIndicator = null;
+    protected $onlineGamblingBlockIndicator;
 
     /**
      * @var string $productName
      */
-    protected $productName = null;
+    protected $productName;
 
     /**
      * @var string $usage
      */
-    protected $usage = null;
+    protected $usage;
 
     /**
      * @var string $prepaidReloadable
      */
-    protected $prepaidReloadable = null;
+    protected $prepaidReloadable;
 
     /**
      * @var string $prepaidType
      */
-    protected $prepaidType = null;
+    protected $prepaidType;
 
     /**
      * @var Brands[] $brands
      */
-    protected $brands = null;
-
-    public function __construct()
-    {
-    }
+    protected $brands;
 
     /**
      * @return string
@@ -824,5 +819,4 @@ class Card
 
         return $this;
     }
-
 }

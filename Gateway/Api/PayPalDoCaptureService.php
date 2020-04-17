@@ -4,46 +4,45 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalDoCaptureService
 {
-
     /**
      * @var string $paypalAuthorizationId
      */
-    protected $paypalAuthorizationId = null;
+    protected $paypalAuthorizationId;
 
     /**
      * @var string $completeType
      */
-    protected $completeType = null;
+    protected $completeType;
 
     /**
      * @var string $paypalEcDoPaymentRequestID
      */
-    protected $paypalEcDoPaymentRequestID = null;
+    protected $paypalEcDoPaymentRequestID;
 
     /**
      * @var string $paypalEcDoPaymentRequestToken
      */
-    protected $paypalEcDoPaymentRequestToken = null;
+    protected $paypalEcDoPaymentRequestToken;
 
     /**
      * @var string $paypalAuthorizationRequestID
      */
-    protected $paypalAuthorizationRequestID = null;
+    protected $paypalAuthorizationRequestID;
 
     /**
      * @var string $paypalAuthorizationRequestToken
      */
-    protected $paypalAuthorizationRequestToken = null;
+    protected $paypalAuthorizationRequestToken;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -204,5 +203,4 @@ class PayPalDoCaptureService
 
         return $this;
     }
-
 }

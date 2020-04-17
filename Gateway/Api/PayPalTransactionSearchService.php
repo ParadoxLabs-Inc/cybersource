@@ -4,81 +4,80 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalTransactionSearchService
 {
-
     /**
      * @var string $startDate
      */
-    protected $startDate = null;
+    protected $startDate;
 
     /**
      * @var string $endDate
      */
-    protected $endDate = null;
+    protected $endDate;
 
     /**
      * @var string $paypalCustomerEmail
      */
-    protected $paypalCustomerEmail = null;
+    protected $paypalCustomerEmail;
 
     /**
      * @var string $paypalReceiptId
      */
-    protected $paypalReceiptId = null;
+    protected $paypalReceiptId;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var float $grandTotalAmount
      */
-    protected $grandTotalAmount = null;
+    protected $grandTotalAmount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $paymentStatus
      */
-    protected $paymentStatus = null;
+    protected $paymentStatus;
 
     /**
      * @var string $payerSalutation
      */
-    protected $payerSalutation = null;
+    protected $payerSalutation;
 
     /**
      * @var string $payerFirstname
      */
-    protected $payerFirstname = null;
+    protected $payerFirstname;
 
     /**
      * @var string $payerMiddlename
      */
-    protected $payerMiddlename = null;
+    protected $payerMiddlename;
 
     /**
      * @var string $payerLastname
      */
-    protected $payerLastname = null;
+    protected $payerLastname;
 
     /**
      * @var string $payerSuffix
      */
-    protected $payerSuffix = null;
+    protected $payerSuffix;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -372,5 +371,4 @@ class PayPalTransactionSearchService
 
         return $this;
     }
-
 }

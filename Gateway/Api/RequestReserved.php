@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class RequestReserved
 {
-
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $value
      */
-    protected $value = null;
+    protected $value;
 
     /**
      * @param string $name
@@ -62,5 +61,4 @@ class RequestReserved
 
         return $this;
     }
-
 }

@@ -7,21 +7,20 @@ use Exception;
 
 class AbortReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var int $reason
      */
-    protected $reason = null;
+    protected $reason;
 
     /**
      * @param int $reasonCode
@@ -99,5 +98,4 @@ class AbortReply
 
         return $this;
     }
-
 }

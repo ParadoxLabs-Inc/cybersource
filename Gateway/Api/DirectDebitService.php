@@ -4,66 +4,65 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DirectDebitService
 {
-
     /**
      * @var string $dateCollect
      */
-    protected $dateCollect = null;
+    protected $dateCollect;
 
     /**
      * @var string $directDebitText
      */
-    protected $directDebitText = null;
+    protected $directDebitText;
 
     /**
      * @var string $authorizationID
      */
-    protected $authorizationID = null;
+    protected $authorizationID;
 
     /**
      * @var string $transactionType
      */
-    protected $transactionType = null;
+    protected $transactionType;
 
     /**
      * @var string $directDebitType
      */
-    protected $directDebitType = null;
+    protected $directDebitType;
 
     /**
      * @var string $validateRequestID
      */
-    protected $validateRequestID = null;
+    protected $validateRequestID;
 
     /**
      * @var string $recurringType
      */
-    protected $recurringType = null;
+    protected $recurringType;
 
     /**
      * @var string $mandateID
      */
-    protected $mandateID = null;
+    protected $mandateID;
 
     /**
      * @var string $validateRequestToken
      */
-    protected $validateRequestToken = null;
+    protected $validateRequestToken;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $mandateAuthenticationDate
      */
-    protected $mandateAuthenticationDate = null;
+    protected $mandateAuthenticationDate;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -300,5 +299,4 @@ class DirectDebitService
 
         return $this;
     }
-
 }

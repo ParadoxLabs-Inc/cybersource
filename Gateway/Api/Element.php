@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Element
 {
-
     /**
      * @var string $infoCode
      */
-    protected $infoCode = null;
+    protected $infoCode;
 
     /**
      * @var string $fieldName
      */
-    protected $fieldName = null;
+    protected $fieldName;
 
     /**
      * @var int $count
      */
-    protected $count = null;
+    protected $count;
 
     /**
      * @param string $infoCode
@@ -88,5 +87,4 @@ class Element
 
         return $this;
     }
-
 }

@@ -4,101 +4,100 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalEcDoPaymentReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paypalToken
      */
-    protected $paypalToken = null;
+    protected $paypalToken;
 
     /**
      * @var string $transactionId
      */
-    protected $transactionId = null;
+    protected $transactionId;
 
     /**
      * @var string $paypalTransactiontype
      */
-    protected $paypalTransactiontype = null;
+    protected $paypalTransactiontype;
 
     /**
      * @var string $paymentType
      */
-    protected $paymentType = null;
+    protected $paymentType;
 
     /**
      * @var string $paypalOrderTime
      */
-    protected $paypalOrderTime = null;
+    protected $paypalOrderTime;
 
     /**
      * @var string $paypalAmount
      */
-    protected $paypalAmount = null;
+    protected $paypalAmount;
 
     /**
      * @var string $paypalFeeAmount
      */
-    protected $paypalFeeAmount = null;
+    protected $paypalFeeAmount;
 
     /**
      * @var string $paypalTaxAmount
      */
-    protected $paypalTaxAmount = null;
+    protected $paypalTaxAmount;
 
     /**
      * @var string $paypalExchangeRate
      */
-    protected $paypalExchangeRate = null;
+    protected $paypalExchangeRate;
 
     /**
      * @var string $paypalPaymentStatus
      */
-    protected $paypalPaymentStatus = null;
+    protected $paypalPaymentStatus;
 
     /**
      * @var string $paypalPendingReason
      */
-    protected $paypalPendingReason = null;
+    protected $paypalPendingReason;
 
     /**
      * @var string $orderId
      */
-    protected $orderId = null;
+    protected $orderId;
 
     /**
      * @var string $paypalReasonCode
      */
-    protected $paypalReasonCode = null;
+    protected $paypalReasonCode;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $paypalBillingAgreementId
      */
-    protected $paypalBillingAgreementId = null;
+    protected $paypalBillingAgreementId;
 
     /**
      * @param int $reasonCode
@@ -468,5 +467,4 @@ class PayPalEcDoPaymentReply
 
         return $this;
     }
-
 }

@@ -4,195 +4,190 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Pos
 {
-
     /**
      * @var string $entryMode
      */
-    protected $entryMode = null;
+    protected $entryMode;
 
     /**
      * @var string $cardPresent
      */
-    protected $cardPresent = null;
+    protected $cardPresent;
 
     /**
      * @var string $terminalCapability
      */
-    protected $terminalCapability = null;
+    protected $terminalCapability;
 
     /**
      * @var string $trackData
      */
-    protected $trackData = null;
+    protected $trackData;
 
     /**
      * @var string $terminalID
      */
-    protected $terminalID = null;
+    protected $terminalID;
 
     /**
      * @var string $terminalType
      */
-    protected $terminalType = null;
+    protected $terminalType;
 
     /**
      * @var string $terminalLocation
      */
-    protected $terminalLocation = null;
+    protected $terminalLocation;
 
     /**
      * @var string $transactionSecurity
      */
-    protected $transactionSecurity = null;
+    protected $transactionSecurity;
 
     /**
      * @var string $catLevel
      */
-    protected $catLevel = null;
+    protected $catLevel;
 
     /**
      * @var string $conditionCode
      */
-    protected $conditionCode = null;
+    protected $conditionCode;
 
     /**
      * @var string $environment
      */
-    protected $environment = null;
+    protected $environment;
 
     /**
      * @var string $paymentData
      */
-    protected $paymentData = null;
+    protected $paymentData;
 
     /**
      * @var string $deviceReaderData
      */
-    protected $deviceReaderData = null;
+    protected $deviceReaderData;
 
     /**
      * @var string $encryptionAlgorithm
      */
-    protected $encryptionAlgorithm = null;
+    protected $encryptionAlgorithm;
 
     /**
      * @var string $encodingMethod
      */
-    protected $encodingMethod = null;
+    protected $encodingMethod;
 
     /**
      * @var string $deviceID
      */
-    protected $deviceID = null;
+    protected $deviceID;
 
     /**
      * @var string $serviceCode
      */
-    protected $serviceCode = null;
+    protected $serviceCode;
 
     /**
      * @var string $terminalIDAlternate
      */
-    protected $terminalIDAlternate = null;
+    protected $terminalIDAlternate;
 
     /**
      * @var int $terminalCompliance
      */
-    protected $terminalCompliance = null;
+    protected $terminalCompliance;
 
     /**
      * @var string $terminalCardCaptureCapability
      */
-    protected $terminalCardCaptureCapability = null;
+    protected $terminalCardCaptureCapability;
 
     /**
      * @var string $terminalOutputCapability
      */
-    protected $terminalOutputCapability = null;
+    protected $terminalOutputCapability;
 
     /**
      * @var string $terminalPINcapability
      */
-    protected $terminalPINcapability = null;
+    protected $terminalPINcapability;
 
     /**
      * @var string $terminalCVMcapabilities_0
      */
-    protected $terminalCVMcapabilities_0 = null;
+    protected $terminalCVMcapabilities_0;
 
     /**
      * @var string $terminalCVMcapabilities_1
      */
-    protected $terminalCVMcapabilities_1 = null;
+    protected $terminalCVMcapabilities_1;
 
     /**
      * @var string $terminalCVMcapabilities_2
      */
-    protected $terminalCVMcapabilities_2 = null;
+    protected $terminalCVMcapabilities_2;
 
     /**
      * @var string $terminalInputCapabilities_0
      */
-    protected $terminalInputCapabilities_0 = null;
+    protected $terminalInputCapabilities_0;
 
     /**
      * @var string $terminalInputCapabilities_1
      */
-    protected $terminalInputCapabilities_1 = null;
+    protected $terminalInputCapabilities_1;
 
     /**
      * @var string $terminalInputCapabilities_2
      */
-    protected $terminalInputCapabilities_2 = null;
+    protected $terminalInputCapabilities_2;
 
     /**
      * @var string $terminalInputCapabilities_3
      */
-    protected $terminalInputCapabilities_3 = null;
+    protected $terminalInputCapabilities_3;
 
     /**
      * @var string $terminalInputCapabilities_4
      */
-    protected $terminalInputCapabilities_4 = null;
+    protected $terminalInputCapabilities_4;
 
     /**
      * @var string $terminalInputCapabilities_5
      */
-    protected $terminalInputCapabilities_5 = null;
+    protected $terminalInputCapabilities_5;
 
     /**
      * @var string $terminalInputCapabilities_6
      */
-    protected $terminalInputCapabilities_6 = null;
+    protected $terminalInputCapabilities_6;
 
     /**
      * @var string $terminalSerialNumber
      */
-    protected $terminalSerialNumber = null;
+    protected $terminalSerialNumber;
 
     /**
      * @var string $storeAndForwardIndicator
      */
-    protected $storeAndForwardIndicator = null;
+    protected $storeAndForwardIndicator;
 
     /**
      * @var string $panEntryMode
      */
-    protected $panEntryMode = null;
+    protected $panEntryMode;
 
     /**
      * @var boolean $endlessAisleTransactionIndicator
      */
-    protected $endlessAisleTransactionIndicator = null;
+    protected $endlessAisleTransactionIndicator;
 
     /**
      * @var string $terminalModel
      */
-    protected $terminalModel = null;
-
-    public function __construct()
-    {
-    }
+    protected $terminalModel;
 
     /**
      * @return string
@@ -896,5 +891,4 @@ class Pos
 
         return $this;
     }
-
 }

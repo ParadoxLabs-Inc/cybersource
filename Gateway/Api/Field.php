@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Field
 {
-
     /**
      * @var string $provider
      */
-    protected $provider = null;
+    protected $provider;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $value
      */
-    protected $value = null;
+    protected $value;
 
     /**
      * @param string $provider
@@ -88,5 +87,4 @@ class Field
 
         return $this;
     }
-
 }

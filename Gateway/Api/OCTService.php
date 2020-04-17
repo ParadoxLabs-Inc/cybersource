@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class OCTService
 {
-
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $networkOrder
      */
-    protected $networkOrder = null;
+    protected $networkOrder;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -132,5 +131,4 @@ class OCTService
 
         return $this;
     }
-
 }

@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Pin
 {
-
     /**
      * @var string $entryCapability
      */
-    protected $entryCapability = null;
-
-    public function __construct()
-    {
-    }
+    protected $entryCapability;
 
     /**
      * @return string
@@ -32,5 +27,4 @@ class Pin
 
         return $this;
     }
-
 }

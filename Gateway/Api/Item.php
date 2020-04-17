@@ -4,686 +4,685 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Item
 {
-
     /**
      * @var float $unitPrice
      */
-    protected $unitPrice = null;
+    protected $unitPrice;
 
     /**
      * @var float $quantity
      */
-    protected $quantity = null;
+    protected $quantity;
 
     /**
      * @var string $productCode
      */
-    protected $productCode = null;
+    protected $productCode;
 
     /**
      * @var string $productName
      */
-    protected $productName = null;
+    protected $productName;
 
     /**
      * @var string $productSKU
      */
-    protected $productSKU = null;
+    protected $productSKU;
 
     /**
      * @var string $productRisk
      */
-    protected $productRisk = null;
+    protected $productRisk;
 
     /**
      * @var float $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var float $cityOverrideAmount
      */
-    protected $cityOverrideAmount = null;
+    protected $cityOverrideAmount;
 
     /**
      * @var float $cityOverrideRate
      */
-    protected $cityOverrideRate = null;
+    protected $cityOverrideRate;
 
     /**
      * @var float $countyOverrideAmount
      */
-    protected $countyOverrideAmount = null;
+    protected $countyOverrideAmount;
 
     /**
      * @var float $countyOverrideRate
      */
-    protected $countyOverrideRate = null;
+    protected $countyOverrideRate;
 
     /**
      * @var float $districtOverrideAmount
      */
-    protected $districtOverrideAmount = null;
+    protected $districtOverrideAmount;
 
     /**
      * @var float $districtOverrideRate
      */
-    protected $districtOverrideRate = null;
+    protected $districtOverrideRate;
 
     /**
      * @var float $stateOverrideAmount
      */
-    protected $stateOverrideAmount = null;
+    protected $stateOverrideAmount;
 
     /**
      * @var float $stateOverrideRate
      */
-    protected $stateOverrideRate = null;
+    protected $stateOverrideRate;
 
     /**
      * @var float $countryOverrideAmount
      */
-    protected $countryOverrideAmount = null;
+    protected $countryOverrideAmount;
 
     /**
      * @var float $countryOverrideRate
      */
-    protected $countryOverrideRate = null;
+    protected $countryOverrideRate;
 
     /**
      * @var string $orderAcceptanceCity
      */
-    protected $orderAcceptanceCity = null;
+    protected $orderAcceptanceCity;
 
     /**
      * @var string $orderAcceptanceCounty
      */
-    protected $orderAcceptanceCounty = null;
+    protected $orderAcceptanceCounty;
 
     /**
      * @var string $orderAcceptanceCountry
      */
-    protected $orderAcceptanceCountry = null;
+    protected $orderAcceptanceCountry;
 
     /**
      * @var string $orderAcceptanceState
      */
-    protected $orderAcceptanceState = null;
+    protected $orderAcceptanceState;
 
     /**
      * @var string $orderAcceptancePostalCode
      */
-    protected $orderAcceptancePostalCode = null;
+    protected $orderAcceptancePostalCode;
 
     /**
      * @var string $orderOriginCity
      */
-    protected $orderOriginCity = null;
+    protected $orderOriginCity;
 
     /**
      * @var string $orderOriginCounty
      */
-    protected $orderOriginCounty = null;
+    protected $orderOriginCounty;
 
     /**
      * @var string $orderOriginCountry
      */
-    protected $orderOriginCountry = null;
+    protected $orderOriginCountry;
 
     /**
      * @var string $orderOriginState
      */
-    protected $orderOriginState = null;
+    protected $orderOriginState;
 
     /**
      * @var string $orderOriginPostalCode
      */
-    protected $orderOriginPostalCode = null;
+    protected $orderOriginPostalCode;
 
     /**
      * @var string $shipFromCity
      */
-    protected $shipFromCity = null;
+    protected $shipFromCity;
 
     /**
      * @var string $shipFromCounty
      */
-    protected $shipFromCounty = null;
+    protected $shipFromCounty;
 
     /**
      * @var string $shipFromCountry
      */
-    protected $shipFromCountry = null;
+    protected $shipFromCountry;
 
     /**
      * @var string $shipFromState
      */
-    protected $shipFromState = null;
+    protected $shipFromState;
 
     /**
      * @var string $shipFromPostalCode
      */
-    protected $shipFromPostalCode = null;
+    protected $shipFromPostalCode;
 
     /**
      * @var string $export
      */
-    protected $export = null;
+    protected $export;
 
     /**
      * @var string $noExport
      */
-    protected $noExport = null;
+    protected $noExport;
 
     /**
      * @var float $nationalTax
      */
-    protected $nationalTax = null;
+    protected $nationalTax;
 
     /**
      * @var float $vatRate
      */
-    protected $vatRate = null;
+    protected $vatRate;
 
     /**
      * @var string $sellerRegistration
      */
-    protected $sellerRegistration = null;
+    protected $sellerRegistration;
 
     /**
      * @var string $sellerRegistration0
      */
-    protected $sellerRegistration0 = null;
+    protected $sellerRegistration0;
 
     /**
      * @var string $sellerRegistration1
      */
-    protected $sellerRegistration1 = null;
+    protected $sellerRegistration1;
 
     /**
      * @var string $sellerRegistration2
      */
-    protected $sellerRegistration2 = null;
+    protected $sellerRegistration2;
 
     /**
      * @var string $sellerRegistration3
      */
-    protected $sellerRegistration3 = null;
+    protected $sellerRegistration3;
 
     /**
      * @var string $sellerRegistration4
      */
-    protected $sellerRegistration4 = null;
+    protected $sellerRegistration4;
 
     /**
      * @var string $sellerRegistration5
      */
-    protected $sellerRegistration5 = null;
+    protected $sellerRegistration5;
 
     /**
      * @var string $sellerRegistration6
      */
-    protected $sellerRegistration6 = null;
+    protected $sellerRegistration6;
 
     /**
      * @var string $sellerRegistration7
      */
-    protected $sellerRegistration7 = null;
+    protected $sellerRegistration7;
 
     /**
      * @var string $sellerRegistration8
      */
-    protected $sellerRegistration8 = null;
+    protected $sellerRegistration8;
 
     /**
      * @var string $sellerRegistration9
      */
-    protected $sellerRegistration9 = null;
+    protected $sellerRegistration9;
 
     /**
      * @var string $buyerRegistration
      */
-    protected $buyerRegistration = null;
+    protected $buyerRegistration;
 
     /**
      * @var string $middlemanRegistration
      */
-    protected $middlemanRegistration = null;
+    protected $middlemanRegistration;
 
     /**
      * @var string $pointOfTitleTransfer
      */
-    protected $pointOfTitleTransfer = null;
+    protected $pointOfTitleTransfer;
 
     /**
      * @var boolean $giftCategory
      */
-    protected $giftCategory = null;
+    protected $giftCategory;
 
     /**
      * @var string $timeCategory
      */
-    protected $timeCategory = null;
+    protected $timeCategory;
 
     /**
      * @var string $hostHedge
      */
-    protected $hostHedge = null;
+    protected $hostHedge;
 
     /**
      * @var string $timeHedge
      */
-    protected $timeHedge = null;
+    protected $timeHedge;
 
     /**
      * @var string $velocityHedge
      */
-    protected $velocityHedge = null;
+    protected $velocityHedge;
 
     /**
      * @var string $nonsensicalHedge
      */
-    protected $nonsensicalHedge = null;
+    protected $nonsensicalHedge;
 
     /**
      * @var string $phoneHedge
      */
-    protected $phoneHedge = null;
+    protected $phoneHedge;
 
     /**
      * @var string $obscenitiesHedge
      */
-    protected $obscenitiesHedge = null;
+    protected $obscenitiesHedge;
 
     /**
      * @var string $unitOfMeasure
      */
-    protected $unitOfMeasure = null;
+    protected $unitOfMeasure;
 
     /**
      * @var float $taxRate
      */
-    protected $taxRate = null;
+    protected $taxRate;
 
     /**
      * @var float $totalAmount
      */
-    protected $totalAmount = null;
+    protected $totalAmount;
 
     /**
      * @var float $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var float $discountRate
      */
-    protected $discountRate = null;
+    protected $discountRate;
 
     /**
      * @var string $commodityCode
      */
-    protected $commodityCode = null;
+    protected $commodityCode;
 
     /**
      * @var string $grossNetIndicator
      */
-    protected $grossNetIndicator = null;
+    protected $grossNetIndicator;
 
     /**
      * @var string $taxTypeApplied
      */
-    protected $taxTypeApplied = null;
+    protected $taxTypeApplied;
 
     /**
      * @var string $discountIndicator
      */
-    protected $discountIndicator = null;
+    protected $discountIndicator;
 
     /**
      * @var string $alternateTaxID
      */
-    protected $alternateTaxID = null;
+    protected $alternateTaxID;
 
     /**
      * @var float $alternateTaxAmount
      */
-    protected $alternateTaxAmount = null;
+    protected $alternateTaxAmount;
 
     /**
      * @var string $alternateTaxTypeApplied
      */
-    protected $alternateTaxTypeApplied = null;
+    protected $alternateTaxTypeApplied;
 
     /**
      * @var float $alternateTaxRate
      */
-    protected $alternateTaxRate = null;
+    protected $alternateTaxRate;
 
     /**
      * @var string $alternateTaxType
      */
-    protected $alternateTaxType = null;
+    protected $alternateTaxType;
 
     /**
      * @var float $localTax
      */
-    protected $localTax = null;
+    protected $localTax;
 
     /**
      * @var string $zeroCostToCustomerIndicator
      */
-    protected $zeroCostToCustomerIndicator = null;
+    protected $zeroCostToCustomerIndicator;
 
     /**
      * @var string $passengerFirstName
      */
-    protected $passengerFirstName = null;
+    protected $passengerFirstName;
 
     /**
      * @var string $passengerLastName
      */
-    protected $passengerLastName = null;
+    protected $passengerLastName;
 
     /**
      * @var string $passengerID
      */
-    protected $passengerID = null;
+    protected $passengerID;
 
     /**
      * @var string $passengerStatus
      */
-    protected $passengerStatus = null;
+    protected $passengerStatus;
 
     /**
      * @var string $passengerType
      */
-    protected $passengerType = null;
+    protected $passengerType;
 
     /**
      * @var string $passengerEmail
      */
-    protected $passengerEmail = null;
+    protected $passengerEmail;
 
     /**
      * @var string $passengerPhone
      */
-    protected $passengerPhone = null;
+    protected $passengerPhone;
 
     /**
      * @var string $passengerNationality
      */
-    protected $passengerNationality = null;
+    protected $passengerNationality;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var string $productDescription
      */
-    protected $productDescription = null;
+    protected $productDescription;
 
     /**
      * @var string $taxStatusIndicator
      */
-    protected $taxStatusIndicator = null;
+    protected $taxStatusIndicator;
 
     /**
      * @var string $discountManagementIndicator
      */
-    protected $discountManagementIndicator = null;
+    protected $discountManagementIndicator;
 
     /**
      * @var string $typeOfSupply
      */
-    protected $typeOfSupply = null;
+    protected $typeOfSupply;
 
     /**
      * @var string $sign
      */
-    protected $sign = null;
+    protected $sign;
 
     /**
      * @var string $unitTaxAmount
      */
-    protected $unitTaxAmount = null;
+    protected $unitTaxAmount;
 
     /**
      * @var string $weightAmount
      */
-    protected $weightAmount = null;
+    protected $weightAmount;
 
     /**
      * @var string $weightID
      */
-    protected $weightID = null;
+    protected $weightID;
 
     /**
      * @var string $weightUnitMeasurement
      */
-    protected $weightUnitMeasurement = null;
+    protected $weightUnitMeasurement;
 
     /**
      * @var string $otherTax_1_type
      */
-    protected $otherTax_1_type = null;
+    protected $otherTax_1_type;
 
     /**
      * @var float $otherTax_1_amount
      */
-    protected $otherTax_1_amount = null;
+    protected $otherTax_1_amount;
 
     /**
      * @var float $otherTax_1_rate
      */
-    protected $otherTax_1_rate = null;
+    protected $otherTax_1_rate;
 
     /**
      * @var string $otherTax_1_statusIndicator
      */
-    protected $otherTax_1_statusIndicator = null;
+    protected $otherTax_1_statusIndicator;
 
     /**
      * @var string $otherTax_2_type
      */
-    protected $otherTax_2_type = null;
+    protected $otherTax_2_type;
 
     /**
      * @var float $otherTax_2_amount
      */
-    protected $otherTax_2_amount = null;
+    protected $otherTax_2_amount;
 
     /**
      * @var float $otherTax_2_rate
      */
-    protected $otherTax_2_rate = null;
+    protected $otherTax_2_rate;
 
     /**
      * @var string $otherTax_2_statusIndicator
      */
-    protected $otherTax_2_statusIndicator = null;
+    protected $otherTax_2_statusIndicator;
 
     /**
      * @var string $otherTax_3_type
      */
-    protected $otherTax_3_type = null;
+    protected $otherTax_3_type;
 
     /**
      * @var float $otherTax_3_amount
      */
-    protected $otherTax_3_amount = null;
+    protected $otherTax_3_amount;
 
     /**
      * @var float $otherTax_3_rate
      */
-    protected $otherTax_3_rate = null;
+    protected $otherTax_3_rate;
 
     /**
      * @var string $otherTax_3_statusIndicator
      */
-    protected $otherTax_3_statusIndicator = null;
+    protected $otherTax_3_statusIndicator;
 
     /**
      * @var string $otherTax_4_type
      */
-    protected $otherTax_4_type = null;
+    protected $otherTax_4_type;
 
     /**
      * @var float $otherTax_4_amount
      */
-    protected $otherTax_4_amount = null;
+    protected $otherTax_4_amount;
 
     /**
      * @var float $otherTax_4_rate
      */
-    protected $otherTax_4_rate = null;
+    protected $otherTax_4_rate;
 
     /**
      * @var string $otherTax_4_statusIndicator
      */
-    protected $otherTax_4_statusIndicator = null;
+    protected $otherTax_4_statusIndicator;
 
     /**
      * @var string $otherTax_5_type
      */
-    protected $otherTax_5_type = null;
+    protected $otherTax_5_type;
 
     /**
      * @var float $otherTax_5_amount
      */
-    protected $otherTax_5_amount = null;
+    protected $otherTax_5_amount;
 
     /**
      * @var float $otherTax_5_rate
      */
-    protected $otherTax_5_rate = null;
+    protected $otherTax_5_rate;
 
     /**
      * @var string $otherTax_5_statusIndicator
      */
-    protected $otherTax_5_statusIndicator = null;
+    protected $otherTax_5_statusIndicator;
 
     /**
      * @var string $otherTax_6_type
      */
-    protected $otherTax_6_type = null;
+    protected $otherTax_6_type;
 
     /**
      * @var float $otherTax_6_amount
      */
-    protected $otherTax_6_amount = null;
+    protected $otherTax_6_amount;
 
     /**
      * @var float $otherTax_6_rate
      */
-    protected $otherTax_6_rate = null;
+    protected $otherTax_6_rate;
 
     /**
      * @var string $otherTax_6_statusIndicator
      */
-    protected $otherTax_6_statusIndicator = null;
+    protected $otherTax_6_statusIndicator;
 
     /**
      * @var string $otherTax_7_type
      */
-    protected $otherTax_7_type = null;
+    protected $otherTax_7_type;
 
     /**
      * @var float $otherTax_7_amount
      */
-    protected $otherTax_7_amount = null;
+    protected $otherTax_7_amount;
 
     /**
      * @var float $otherTax_7_rate
      */
-    protected $otherTax_7_rate = null;
+    protected $otherTax_7_rate;
 
     /**
      * @var string $otherTax_7_statusIndicator
      */
-    protected $otherTax_7_statusIndicator = null;
+    protected $otherTax_7_statusIndicator;
 
     /**
      * @var string $referenceData_1_number
      */
-    protected $referenceData_1_number = null;
+    protected $referenceData_1_number;
 
     /**
      * @var string $referenceData_1_code
      */
-    protected $referenceData_1_code = null;
+    protected $referenceData_1_code;
 
     /**
      * @var string $referenceData_2_number
      */
-    protected $referenceData_2_number = null;
+    protected $referenceData_2_number;
 
     /**
      * @var string $referenceData_2_code
      */
-    protected $referenceData_2_code = null;
+    protected $referenceData_2_code;
 
     /**
      * @var string $referenceData_3_number
      */
-    protected $referenceData_3_number = null;
+    protected $referenceData_3_number;
 
     /**
      * @var string $referenceData_3_code
      */
-    protected $referenceData_3_code = null;
+    protected $referenceData_3_code;
 
     /**
      * @var string $referenceData_4_number
      */
-    protected $referenceData_4_number = null;
+    protected $referenceData_4_number;
 
     /**
      * @var string $referenceData_4_code
      */
-    protected $referenceData_4_code = null;
+    protected $referenceData_4_code;
 
     /**
      * @var string $referenceData_5_number
      */
-    protected $referenceData_5_number = null;
+    protected $referenceData_5_number;
 
     /**
      * @var string $referenceData_5_code
      */
-    protected $referenceData_5_code = null;
+    protected $referenceData_5_code;
 
     /**
      * @var string $referenceData_6_number
      */
-    protected $referenceData_6_number = null;
+    protected $referenceData_6_number;
 
     /**
      * @var string $referenceData_6_code
      */
-    protected $referenceData_6_code = null;
+    protected $referenceData_6_code;
 
     /**
      * @var string $referenceData_7_number
      */
-    protected $referenceData_7_number = null;
+    protected $referenceData_7_number;
 
     /**
      * @var string $referenceData_7_code
      */
-    protected $referenceData_7_code = null;
+    protected $referenceData_7_code;
 
     /**
      * @var string $shippingDestinationTypes
      */
-    protected $shippingDestinationTypes = null;
+    protected $shippingDestinationTypes;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -3276,5 +3275,4 @@ class Item
 
         return $this;
     }
-
 }

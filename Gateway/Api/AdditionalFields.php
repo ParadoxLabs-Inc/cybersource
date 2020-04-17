@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AdditionalFields
 {
-
     /**
      * @var Field[] $field
      */
-    protected $field = null;
-
-    public function __construct()
-    {
-    }
+    protected $field;
 
     /**
      * @return Field[]
@@ -32,5 +27,4 @@ class AdditionalFields
 
         return $this;
     }
-
 }

@@ -4,81 +4,80 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalDoRefTransactionReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paypalBillingAgreementId
      */
-    protected $paypalBillingAgreementId = null;
+    protected $paypalBillingAgreementId;
 
     /**
      * @var string $transactionId
      */
-    protected $transactionId = null;
+    protected $transactionId;
 
     /**
      * @var string $paypalTransactionType
      */
-    protected $paypalTransactionType = null;
+    protected $paypalTransactionType;
 
     /**
      * @var string $paypalPaymentType
      */
-    protected $paypalPaymentType = null;
+    protected $paypalPaymentType;
 
     /**
      * @var string $paypalOrderTime
      */
-    protected $paypalOrderTime = null;
+    protected $paypalOrderTime;
 
     /**
      * @var string $paypalAmount
      */
-    protected $paypalAmount = null;
+    protected $paypalAmount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $paypalTaxAmount
      */
-    protected $paypalTaxAmount = null;
+    protected $paypalTaxAmount;
 
     /**
      * @var string $paypalExchangeRate
      */
-    protected $paypalExchangeRate = null;
+    protected $paypalExchangeRate;
 
     /**
      * @var string $paypalPaymentStatus
      */
-    protected $paypalPaymentStatus = null;
+    protected $paypalPaymentStatus;
 
     /**
      * @var string $paypalPendingReason
      */
-    protected $paypalPendingReason = null;
+    protected $paypalPendingReason;
 
     /**
      * @var string $paypalReasonCode
      */
-    protected $paypalReasonCode = null;
+    protected $paypalReasonCode;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @param int $reasonCode
@@ -372,5 +371,4 @@ class PayPalDoRefTransactionReply
 
         return $this;
     }
-
 }

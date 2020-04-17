@@ -7,46 +7,45 @@ use Exception;
 
 class CCIncrementalAuthReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var \DateTime $authorizedDateTime
      */
-    protected $authorizedDateTime = null;
+    protected $authorizedDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $paymentNetworkTransactionID
      */
-    protected $paymentNetworkTransactionID = null;
+    protected $paymentNetworkTransactionID;
 
     /**
      * @var string $cardCategory
      */
-    protected $cardCategory = null;
+    protected $cardCategory;
 
     /**
      * @param int $reasonCode
@@ -219,5 +218,4 @@ class CCIncrementalAuthReply
 
         return $this;
     }
-
 }

@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalRefundService
 {
-
     /**
      * @var string $paypalDoCaptureRequestID
      */
-    protected $paypalDoCaptureRequestID = null;
+    protected $paypalDoCaptureRequestID;
 
     /**
      * @var string $paypalDoCaptureRequestToken
      */
-    protected $paypalDoCaptureRequestToken = null;
+    protected $paypalDoCaptureRequestToken;
 
     /**
      * @var string $paypalCaptureId
      */
-    protected $paypalCaptureId = null;
+    protected $paypalCaptureId;
 
     /**
      * @var string $paypalNote
      */
-    protected $paypalNote = null;
+    protected $paypalNote;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -132,5 +131,4 @@ class PayPalRefundService
 
         return $this;
     }
-
 }

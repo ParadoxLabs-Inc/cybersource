@@ -4,150 +4,145 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AutoRentalData
 {
-
     /**
      * @var float $adjustmentCost
      */
-    protected $adjustmentCost = null;
+    protected $adjustmentCost;
 
     /**
      * @var string $adjustmentCode
      */
-    protected $adjustmentCode = null;
+    protected $adjustmentCode;
 
     /**
      * @var string $agreementNumber
      */
-    protected $agreementNumber = null;
+    protected $agreementNumber;
 
     /**
      * @var string $classCode
      */
-    protected $classCode = null;
+    protected $classCode;
 
     /**
      * @var string $customerServicePhoneNumber
      */
-    protected $customerServicePhoneNumber = null;
+    protected $customerServicePhoneNumber;
 
     /**
      * @var float $dailyRate
      */
-    protected $dailyRate = null;
+    protected $dailyRate;
 
     /**
      * @var float $mileageCost
      */
-    protected $mileageCost = null;
+    protected $mileageCost;
 
     /**
      * @var float $gasCost
      */
-    protected $gasCost = null;
+    protected $gasCost;
 
     /**
      * @var float $insuranceCost
      */
-    protected $insuranceCost = null;
+    protected $insuranceCost;
 
     /**
      * @var float $lateReturnCost
      */
-    protected $lateReturnCost = null;
+    protected $lateReturnCost;
 
     /**
      * @var int $maximumFreeMiles
      */
-    protected $maximumFreeMiles = null;
+    protected $maximumFreeMiles;
 
     /**
      * @var int $milesTraveled
      */
-    protected $milesTraveled = null;
+    protected $milesTraveled;
 
     /**
      * @var float $oneWayCost
      */
-    protected $oneWayCost = null;
+    protected $oneWayCost;
 
     /**
      * @var float $parkingViolationCost
      */
-    protected $parkingViolationCost = null;
+    protected $parkingViolationCost;
 
     /**
      * @var string $pickUpCity
      */
-    protected $pickUpCity = null;
+    protected $pickUpCity;
 
     /**
      * @var string $pickUpCountry
      */
-    protected $pickUpCountry = null;
+    protected $pickUpCountry;
 
     /**
      * @var string $pickUpDate
      */
-    protected $pickUpDate = null;
+    protected $pickUpDate;
 
     /**
      * @var string $pickUpState
      */
-    protected $pickUpState = null;
+    protected $pickUpState;
 
     /**
      * @var int $pickUpTime
      */
-    protected $pickUpTime = null;
+    protected $pickUpTime;
 
     /**
      * @var float $ratePerMile
      */
-    protected $ratePerMile = null;
+    protected $ratePerMile;
 
     /**
      * @var string $renterName
      */
-    protected $renterName = null;
+    protected $renterName;
 
     /**
      * @var string $returnCity
      */
-    protected $returnCity = null;
+    protected $returnCity;
 
     /**
      * @var string $returnCountry
      */
-    protected $returnCountry = null;
+    protected $returnCountry;
 
     /**
      * @var string $returnDate
      */
-    protected $returnDate = null;
+    protected $returnDate;
 
     /**
      * @var string $returnLocationID
      */
-    protected $returnLocationID = null;
+    protected $returnLocationID;
 
     /**
      * @var string $returnState
      */
-    protected $returnState = null;
+    protected $returnState;
 
     /**
      * @var int $returnTime
      */
-    protected $returnTime = null;
+    protected $returnTime;
 
     /**
      * @var string $specialProgramCode
      */
-    protected $specialProgramCode = null;
-
-    public function __construct()
-    {
-    }
+    protected $specialProgramCode;
 
     /**
      * @return float
@@ -680,5 +675,4 @@ class AutoRentalData
 
         return $this;
     }
-
 }

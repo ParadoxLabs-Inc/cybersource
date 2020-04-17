@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionEventUpdateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @param int $reasonCode
@@ -60,5 +59,4 @@ class PaySubscriptionEventUpdateReply
 
         return $this;
     }
-
 }

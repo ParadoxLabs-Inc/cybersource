@@ -4,51 +4,50 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APSessionsService
 {
-
     /**
      * @var string $cancelURL
      */
-    protected $cancelURL = null;
+    protected $cancelURL;
 
     /**
      * @var string $successURL
      */
-    protected $successURL = null;
+    protected $successURL;
 
     /**
      * @var string $failureURL
      */
-    protected $failureURL = null;
+    protected $failureURL;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $paymentOptionID
      */
-    protected $paymentOptionID = null;
+    protected $paymentOptionID;
 
     /**
      * @var string $sessionsType
      */
-    protected $sessionsType = null;
+    protected $sessionsType;
 
     /**
      * @var string $sessionsRequestID
      */
-    protected $sessionsRequestID = null;
+    protected $sessionsRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -228,5 +227,4 @@ class APSessionsService
 
         return $this;
     }
-
 }

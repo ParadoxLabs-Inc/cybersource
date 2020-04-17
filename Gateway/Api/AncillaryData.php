@@ -4,35 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AncillaryData
 {
-
     /**
      * @var string $ticketNumber
      */
-    protected $ticketNumber = null;
+    protected $ticketNumber;
 
     /**
      * @var string $passengerName
      */
-    protected $passengerName = null;
+    protected $passengerName;
 
     /**
      * @var string $connectedTicketNumber
      */
-    protected $connectedTicketNumber = null;
+    protected $connectedTicketNumber;
 
     /**
      * @var string $creditReasonIndicator
      */
-    protected $creditReasonIndicator = null;
+    protected $creditReasonIndicator;
 
     /**
      * @var Service[] $service
      */
-    protected $service = null;
-
-    public function __construct()
-    {
-    }
+    protected $service;
 
     /**
      * @return string
@@ -128,5 +123,4 @@ class AncillaryData
 
         return $this;
     }
-
 }

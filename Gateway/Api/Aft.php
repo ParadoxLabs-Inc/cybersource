@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Aft
 {
-
     /**
      * @var string $indicator
      */
-    protected $indicator = null;
+    protected $indicator;
 
     /**
      * @var string $serviceFee
      */
-    protected $serviceFee = null;
+    protected $serviceFee;
 
     /**
      * @var string $foreignExchangeFee
      */
-    protected $foreignExchangeFee = null;
-
-    public function __construct()
-    {
-    }
+    protected $foreignExchangeFee;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class Aft
 
         return $this;
     }
-
 }

@@ -7,21 +7,20 @@ use Exception;
 
 class PinlessDebitValidateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @param int $reasonCode
@@ -99,5 +98,4 @@ class PinlessDebitValidateReply
 
         return $this;
     }
-
 }

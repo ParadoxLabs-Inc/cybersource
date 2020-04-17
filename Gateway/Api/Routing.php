@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Routing
 {
-
     /**
      * @var string $networkType
      */
-    protected $networkType = null;
+    protected $networkType;
 
     /**
      * @var string $networkLabel
      */
-    protected $networkLabel = null;
+    protected $networkLabel;
 
     /**
      * @var string $signatureCVMRequired
      */
-    protected $signatureCVMRequired = null;
-
-    public function __construct()
-    {
-    }
+    protected $signatureCVMRequired;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class Routing
 
         return $this;
     }
-
 }

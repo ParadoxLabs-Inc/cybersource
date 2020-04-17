@@ -4,180 +4,175 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PurchaseTotals
 {
-
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var float $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var string $discountAmountSign
      */
-    protected $discountAmountSign = null;
+    protected $discountAmountSign;
 
     /**
      * @var string $discountManagementIndicator
      */
-    protected $discountManagementIndicator = null;
+    protected $discountManagementIndicator;
 
     /**
      * @var float $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var float $dutyAmount
      */
-    protected $dutyAmount = null;
+    protected $dutyAmount;
 
     /**
      * @var string $dutyAmountSign
      */
-    protected $dutyAmountSign = null;
+    protected $dutyAmountSign;
 
     /**
      * @var float $grandTotalAmount
      */
-    protected $grandTotalAmount = null;
+    protected $grandTotalAmount;
 
     /**
      * @var float $freightAmount
      */
-    protected $freightAmount = null;
+    protected $freightAmount;
 
     /**
      * @var string $freightAmountSign
      */
-    protected $freightAmountSign = null;
+    protected $freightAmountSign;
 
     /**
      * @var float $foreignAmount
      */
-    protected $foreignAmount = null;
+    protected $foreignAmount;
 
     /**
      * @var string $foreignCurrency
      */
-    protected $foreignCurrency = null;
+    protected $foreignCurrency;
 
     /**
      * @var float $originalAmount
      */
-    protected $originalAmount = null;
+    protected $originalAmount;
 
     /**
      * @var string $originalCurrency
      */
-    protected $originalCurrency = null;
+    protected $originalCurrency;
 
     /**
      * @var float $exchangeRate
      */
-    protected $exchangeRate = null;
+    protected $exchangeRate;
 
     /**
      * @var string $exchangeRateTimeStamp
      */
-    protected $exchangeRateTimeStamp = null;
+    protected $exchangeRateTimeStamp;
 
     /**
      * @var string $additionalAmountType0
      */
-    protected $additionalAmountType0 = null;
+    protected $additionalAmountType0;
 
     /**
      * @var string $additionalAmount0
      */
-    protected $additionalAmount0 = null;
+    protected $additionalAmount0;
 
     /**
      * @var string $additionalAmountType1
      */
-    protected $additionalAmountType1 = null;
+    protected $additionalAmountType1;
 
     /**
      * @var string $additionalAmount1
      */
-    protected $additionalAmount1 = null;
+    protected $additionalAmount1;
 
     /**
      * @var string $additionalAmountType2
      */
-    protected $additionalAmountType2 = null;
+    protected $additionalAmountType2;
 
     /**
      * @var string $additionalAmount2
      */
-    protected $additionalAmount2 = null;
+    protected $additionalAmount2;
 
     /**
      * @var string $additionalAmountType3
      */
-    protected $additionalAmountType3 = null;
+    protected $additionalAmountType3;
 
     /**
      * @var string $additionalAmount3
      */
-    protected $additionalAmount3 = null;
+    protected $additionalAmount3;
 
     /**
      * @var string $additionalAmountType4
      */
-    protected $additionalAmountType4 = null;
+    protected $additionalAmountType4;
 
     /**
      * @var string $additionalAmount4
      */
-    protected $additionalAmount4 = null;
+    protected $additionalAmount4;
 
     /**
      * @var float $serviceFeeAmount
      */
-    protected $serviceFeeAmount = null;
+    protected $serviceFeeAmount;
 
     /**
      * @var float $subtotalAmount
      */
-    protected $subtotalAmount = null;
+    protected $subtotalAmount;
 
     /**
      * @var float $shippingAmount
      */
-    protected $shippingAmount = null;
+    protected $shippingAmount;
 
     /**
      * @var float $handlingAmount
      */
-    protected $handlingAmount = null;
+    protected $handlingAmount;
 
     /**
      * @var float $shippingHandlingAmount
      */
-    protected $shippingHandlingAmount = null;
+    protected $shippingHandlingAmount;
 
     /**
      * @var float $shippingDiscountAmount
      */
-    protected $shippingDiscountAmount = null;
+    protected $shippingDiscountAmount;
 
     /**
      * @var float $giftWrapAmount
      */
-    protected $giftWrapAmount = null;
+    protected $giftWrapAmount;
 
     /**
      * @var float $insuranceAmount
      */
-    protected $insuranceAmount = null;
-
-    public function __construct()
-    {
-    }
+    protected $insuranceAmount;
 
     /**
      * @return string
@@ -824,5 +819,4 @@ class PurchaseTotals
 
         return $this;
     }
-
 }

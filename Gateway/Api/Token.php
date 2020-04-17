@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Token
 {
-
     /**
      * @var string $prefix
      */
-    protected $prefix = null;
+    protected $prefix;
 
     /**
      * @var string $suffix
      */
-    protected $suffix = null;
+    protected $suffix;
 
     /**
      * @var string $expirationMonth
      */
-    protected $expirationMonth = null;
+    protected $expirationMonth;
 
     /**
      * @var string $expirationYear
      */
-    protected $expirationYear = null;
-
-    public function __construct()
-    {
-    }
+    protected $expirationYear;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class Token
 
         return $this;
     }
-
 }

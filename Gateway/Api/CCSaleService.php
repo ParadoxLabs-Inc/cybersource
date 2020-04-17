@@ -4,106 +4,105 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCSaleService
 {
-
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var boolean $partialAuthIndicator
      */
-    protected $partialAuthIndicator = null;
+    protected $partialAuthIndicator;
 
     /**
      * @var string $cavv
      */
-    protected $cavv = null;
+    protected $cavv;
 
     /**
      * @var string $xid
      */
-    protected $xid = null;
+    protected $xid;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $industryDatatype
      */
-    protected $industryDatatype = null;
+    protected $industryDatatype;
 
     /**
      * @var string $networkTokenCryptogram
      */
-    protected $networkTokenCryptogram = null;
+    protected $networkTokenCryptogram;
 
     /**
      * @var string $paSpecificationVersion
      */
-    protected $paSpecificationVersion = null;
+    protected $paSpecificationVersion;
 
     /**
      * @var string $directoryServerTransactionID
      */
-    protected $directoryServerTransactionID = null;
+    protected $directoryServerTransactionID;
 
     /**
      * @var string $cryptocurrencyPurchase
      */
-    protected $cryptocurrencyPurchase = null;
+    protected $cryptocurrencyPurchase;
 
     /**
      * @var string $lowValueExemptionIndicator
      */
-    protected $lowValueExemptionIndicator = null;
+    protected $lowValueExemptionIndicator;
 
     /**
      * @var string $riskAnalysisExemptionIndicator
      */
-    protected $riskAnalysisExemptionIndicator = null;
+    protected $riskAnalysisExemptionIndicator;
 
     /**
      * @var string $trustedMerchantExemptionIndicator
      */
-    protected $trustedMerchantExemptionIndicator = null;
+    protected $trustedMerchantExemptionIndicator;
 
     /**
      * @var string $secureCorporatePaymentIndicator
      */
-    protected $secureCorporatePaymentIndicator = null;
+    protected $secureCorporatePaymentIndicator;
 
     /**
      * @var string $deferredAuthIndicator
      */
-    protected $deferredAuthIndicator = null;
+    protected $deferredAuthIndicator;
 
     /**
      * @var string $delegatedAuthenticationExemptionIndicator
      */
-    protected $delegatedAuthenticationExemptionIndicator = null;
+    protected $delegatedAuthenticationExemptionIndicator;
 
     /**
      * @var string $transitTransactionType
      */
-    protected $transitTransactionType = null;
+    protected $transitTransactionType;
 
     /**
      * @var string $transportationMode
      */
-    protected $transportationMode = null;
+    protected $transportationMode;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -492,5 +491,4 @@ class CCSaleService
 
         return $this;
     }
-
 }

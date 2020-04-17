@@ -4,11 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class GetMasterpassDataService
 {
-
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -36,5 +35,4 @@ class GetMasterpassDataService
 
         return $this;
     }
-
 }

@@ -4,216 +4,215 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalGetTxnDetailsReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $payer
      */
-    protected $payer = null;
+    protected $payer;
 
     /**
      * @var string $payerId
      */
-    protected $payerId = null;
+    protected $payerId;
 
     /**
      * @var string $payerStatus
      */
-    protected $payerStatus = null;
+    protected $payerStatus;
 
     /**
      * @var string $payerCountry
      */
-    protected $payerCountry = null;
+    protected $payerCountry;
 
     /**
      * @var string $payerBusiness
      */
-    protected $payerBusiness = null;
+    protected $payerBusiness;
 
     /**
      * @var string $payerSalutation
      */
-    protected $payerSalutation = null;
+    protected $payerSalutation;
 
     /**
      * @var string $payerFirstname
      */
-    protected $payerFirstname = null;
+    protected $payerFirstname;
 
     /**
      * @var string $payerMiddlename
      */
-    protected $payerMiddlename = null;
+    protected $payerMiddlename;
 
     /**
      * @var string $payerLastname
      */
-    protected $payerLastname = null;
+    protected $payerLastname;
 
     /**
      * @var string $payerSuffix
      */
-    protected $payerSuffix = null;
+    protected $payerSuffix;
 
     /**
      * @var string $addressID
      */
-    protected $addressID = null;
+    protected $addressID;
 
     /**
      * @var string $addressStatus
      */
-    protected $addressStatus = null;
+    protected $addressStatus;
 
     /**
      * @var string $shipToName
      */
-    protected $shipToName = null;
+    protected $shipToName;
 
     /**
      * @var string $shipToAddress1
      */
-    protected $shipToAddress1 = null;
+    protected $shipToAddress1;
 
     /**
      * @var string $shipToAddress2
      */
-    protected $shipToAddress2 = null;
+    protected $shipToAddress2;
 
     /**
      * @var string $shipToCity
      */
-    protected $shipToCity = null;
+    protected $shipToCity;
 
     /**
      * @var string $shipToState
      */
-    protected $shipToState = null;
+    protected $shipToState;
 
     /**
      * @var string $shipToCountry
      */
-    protected $shipToCountry = null;
+    protected $shipToCountry;
 
     /**
      * @var string $shipToZip
      */
-    protected $shipToZip = null;
+    protected $shipToZip;
 
     /**
      * @var string $payerPhone
      */
-    protected $payerPhone = null;
+    protected $payerPhone;
 
     /**
      * @var string $transactionId
      */
-    protected $transactionId = null;
+    protected $transactionId;
 
     /**
      * @var string $parentTransactionId
      */
-    protected $parentTransactionId = null;
+    protected $parentTransactionId;
 
     /**
      * @var string $paypalReceiptId
      */
-    protected $paypalReceiptId = null;
+    protected $paypalReceiptId;
 
     /**
      * @var string $paypalTransactiontype
      */
-    protected $paypalTransactiontype = null;
+    protected $paypalTransactiontype;
 
     /**
      * @var string $paypalPaymentType
      */
-    protected $paypalPaymentType = null;
+    protected $paypalPaymentType;
 
     /**
      * @var string $paypalOrderTime
      */
-    protected $paypalOrderTime = null;
+    protected $paypalOrderTime;
 
     /**
      * @var string $paypalPaymentGrossAmount
      */
-    protected $paypalPaymentGrossAmount = null;
+    protected $paypalPaymentGrossAmount;
 
     /**
      * @var string $paypalFeeAmount
      */
-    protected $paypalFeeAmount = null;
+    protected $paypalFeeAmount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $paypalSettleAmount
      */
-    protected $paypalSettleAmount = null;
+    protected $paypalSettleAmount;
 
     /**
      * @var string $paypalTaxAmount
      */
-    protected $paypalTaxAmount = null;
+    protected $paypalTaxAmount;
 
     /**
      * @var string $paypalExchangeRate
      */
-    protected $paypalExchangeRate = null;
+    protected $paypalExchangeRate;
 
     /**
      * @var string $paypalPaymentStatus
      */
-    protected $paypalPaymentStatus = null;
+    protected $paypalPaymentStatus;
 
     /**
      * @var string $paypalPendingReason
      */
-    protected $paypalPendingReason = null;
+    protected $paypalPendingReason;
 
     /**
      * @var string $paypalReasonCode
      */
-    protected $paypalReasonCode = null;
+    protected $paypalReasonCode;
 
     /**
      * @var string $protectionEligibility
      */
-    protected $protectionEligibility = null;
+    protected $protectionEligibility;
 
     /**
      * @var string $protectionEligibilityType
      */
-    protected $protectionEligibilityType = null;
+    protected $protectionEligibilityType;
 
     /**
      * @var string $paypalNote
      */
-    protected $paypalNote = null;
+    protected $paypalNote;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var Item[] $item
      */
-    protected $item = null;
+    protected $item;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @param int $reasonCode
@@ -1020,5 +1019,4 @@ class PayPalGetTxnDetailsReply
 
         return $this;
     }
-
 }

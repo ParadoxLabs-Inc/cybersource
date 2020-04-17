@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DCC
 {
-
     /**
      * @var int $dccIndicator
      */
-    protected $dccIndicator = null;
+    protected $dccIndicator;
 
     /**
      * @var string $referenceNumber
      */
-    protected $referenceNumber = null;
-
-    public function __construct()
-    {
-    }
+    protected $referenceNumber;
 
     /**
      * @return int
@@ -56,5 +51,4 @@ class DCC
 
         return $this;
     }
-
 }

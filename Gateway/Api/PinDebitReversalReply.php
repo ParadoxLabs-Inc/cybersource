@@ -7,31 +7,30 @@ use Exception;
 
 class PinDebitReversalReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @param int $reasonCode
@@ -147,5 +146,4 @@ class PinDebitReversalReply
 
         return $this;
     }
-
 }

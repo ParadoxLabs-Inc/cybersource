@@ -4,130 +4,125 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Wallet
 {
-
     /**
      * @var string $type
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var string $orderID
      */
-    protected $orderID = null;
+    protected $orderID;
 
     /**
      * @var string $merchantReferenceID
      */
-    protected $merchantReferenceID = null;
+    protected $merchantReferenceID;
 
     /**
      * @var string $userPhone
      */
-    protected $userPhone = null;
+    protected $userPhone;
 
     /**
      * @var string $avv
      */
-    protected $avv = null;
+    protected $avv;
 
     /**
      * @var string $eciRaw
      */
-    protected $eciRaw = null;
+    protected $eciRaw;
 
     /**
      * @var string $authenticatonMethod
      */
-    protected $authenticatonMethod = null;
+    protected $authenticatonMethod;
 
     /**
      * @var string $cardEnrollmentMethod
      */
-    protected $cardEnrollmentMethod = null;
+    protected $cardEnrollmentMethod;
 
     /**
      * @var string $paresStatus
      */
-    protected $paresStatus = null;
+    protected $paresStatus;
 
     /**
      * @var string $veresEnrolled
      */
-    protected $veresEnrolled = null;
+    protected $veresEnrolled;
 
     /**
      * @var string $xid
      */
-    protected $xid = null;
+    protected $xid;
 
     /**
      * @var string $totalPurchaseAmount
      */
-    protected $totalPurchaseAmount = null;
+    protected $totalPurchaseAmount;
 
     /**
      * @var string $subtotalAmount
      */
-    protected $subtotalAmount = null;
+    protected $subtotalAmount;
 
     /**
      * @var string $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var string $giftWrapAmount
      */
-    protected $giftWrapAmount = null;
+    protected $giftWrapAmount;
 
     /**
      * @var string $eventType
      */
-    protected $eventType = null;
+    protected $eventType;
 
     /**
      * @var string $promotionCode
      */
-    protected $promotionCode = null;
+    protected $promotionCode;
 
     /**
      * @var string $enrollmentID
      */
-    protected $enrollmentID = null;
+    protected $enrollmentID;
 
     /**
      * @var string $staySignedInIndicator
      */
-    protected $staySignedInIndicator = null;
+    protected $staySignedInIndicator;
 
     /**
      * @var string $authenticationData
      */
-    protected $authenticationData = null;
+    protected $authenticationData;
 
     /**
      * @var string $deviceID
      */
-    protected $deviceID = null;
+    protected $deviceID;
 
     /**
      * @var string $httpResponse
      */
-    protected $httpResponse = null;
+    protected $httpResponse;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $errorDescription
      */
-    protected $errorDescription = null;
-
-    public function __construct()
-    {
-    }
+    protected $errorDescription;
 
     /**
      * @return string
@@ -584,5 +579,4 @@ class Wallet
 
         return $this;
     }
-
 }

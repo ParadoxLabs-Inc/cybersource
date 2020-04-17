@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class RuleResultItems
 {
-
     /**
      * @var RuleResultItem[] $ruleResultItem
      */
-    protected $ruleResultItem = null;
-
-    public function __construct()
-    {
-    }
+    protected $ruleResultItem;
 
     /**
      * @return RuleResultItem[]
@@ -32,5 +27,4 @@ class RuleResultItems
 
         return $this;
     }
-
 }

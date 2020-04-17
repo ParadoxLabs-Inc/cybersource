@@ -4,80 +4,75 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Sender
 {
-
     /**
      * @var string $referenceNumber
      */
-    protected $referenceNumber = null;
+    protected $referenceNumber;
 
     /**
      * @var string $sourceOfFunds
      */
-    protected $sourceOfFunds = null;
+    protected $sourceOfFunds;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $address
      */
-    protected $address = null;
+    protected $address;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $accountNumber
      */
-    protected $accountNumber = null;
+    protected $accountNumber;
 
     /**
      * @var string $dateOfBirth
      */
-    protected $dateOfBirth = null;
+    protected $dateOfBirth;
 
     /**
      * @var string $firstName
      */
-    protected $firstName = null;
+    protected $firstName;
 
     /**
      * @var string $middleInitial
      */
-    protected $middleInitial = null;
+    protected $middleInitial;
 
     /**
      * @var string $lastName
      */
-    protected $lastName = null;
+    protected $lastName;
 
     /**
      * @var string $phoneNumber
      */
-    protected $phoneNumber = null;
-
-    public function __construct()
-    {
-    }
+    protected $phoneNumber;
 
     /**
      * @return string
@@ -344,5 +339,4 @@ class Sender
 
         return $this;
     }
-
 }

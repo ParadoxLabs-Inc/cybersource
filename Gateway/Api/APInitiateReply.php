@@ -7,51 +7,50 @@ use Exception;
 
 class APInitiateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $merchantURL
      */
-    protected $merchantURL = null;
+    protected $merchantURL;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var string $signature
      */
-    protected $signature = null;
+    protected $signature;
 
     /**
      * @var string $publicKey
      */
-    protected $publicKey = null;
+    protected $publicKey;
 
     /**
      * @var string $paymentStatus
      */
-    protected $paymentStatus = null;
+    protected $paymentStatus;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @param int $reasonCode
@@ -243,5 +242,4 @@ class APInitiateReply
 
         return $this;
     }
-
 }

@@ -7,81 +7,80 @@ use Exception;
 
 class ECDebitReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $settlementMethod
      */
-    protected $settlementMethod = null;
+    protected $settlementMethod;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var int $verificationLevel
      */
-    protected $verificationLevel = null;
+    protected $verificationLevel;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $avsCode
      */
-    protected $avsCode = null;
+    protected $avsCode;
 
     /**
      * @var string $avsCodeRaw
      */
-    protected $avsCodeRaw = null;
+    protected $avsCodeRaw;
 
     /**
      * @var string $verificationCode
      */
-    protected $verificationCode = null;
+    protected $verificationCode;
 
     /**
      * @var string $verificationCodeRaw
      */
-    protected $verificationCodeRaw = null;
+    protected $verificationCodeRaw;
 
     /**
      * @var string $correctedAccountNumber
      */
-    protected $correctedAccountNumber = null;
+    protected $correctedAccountNumber;
 
     /**
      * @var string $correctedRoutingNumber
      */
-    protected $correctedRoutingNumber = null;
+    protected $correctedRoutingNumber;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @param int $reasonCode
@@ -387,5 +386,4 @@ class ECDebitReply
 
         return $this;
     }
-
 }

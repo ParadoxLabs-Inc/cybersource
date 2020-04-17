@@ -4,55 +4,50 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class BankInfo
 {
-
     /**
      * @var string $bankCode
      */
-    protected $bankCode = null;
+    protected $bankCode;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $address
      */
-    protected $address = null;
+    protected $address;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $branchCode
      */
-    protected $branchCode = null;
+    protected $branchCode;
 
     /**
      * @var string $swiftCode
      */
-    protected $swiftCode = null;
+    protected $swiftCode;
 
     /**
      * @var string $sortCode
      */
-    protected $sortCode = null;
+    protected $sortCode;
 
     /**
      * @var string $issuerID
      */
-    protected $issuerID = null;
-
-    public function __construct()
-    {
-    }
+    protected $issuerID;
 
     /**
      * @return string
@@ -224,5 +219,4 @@ class BankInfo
 
         return $this;
     }
-
 }

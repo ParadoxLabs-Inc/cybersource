@@ -4,51 +4,50 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ECCreditService
 {
-
     /**
      * @var string $referenceNumber
      */
-    protected $referenceNumber = null;
+    protected $referenceNumber;
 
     /**
      * @var string $settlementMethod
      */
-    protected $settlementMethod = null;
+    protected $settlementMethod;
 
     /**
      * @var string $transactionToken
      */
-    protected $transactionToken = null;
+    protected $transactionToken;
 
     /**
      * @var string $debitRequestID
      */
-    protected $debitRequestID = null;
+    protected $debitRequestID;
 
     /**
      * @var string $partialPaymentID
      */
-    protected $partialPaymentID = null;
+    protected $partialPaymentID;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $debitRequestToken
      */
-    protected $debitRequestToken = null;
+    protected $debitRequestToken;
 
     /**
      * @var string $effectiveDate
      */
-    protected $effectiveDate = null;
+    protected $effectiveDate;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -228,5 +227,4 @@ class ECCreditService
 
         return $this;
     }
-
 }

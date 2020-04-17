@@ -4,36 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalEcSetReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paypalToken
      */
-    protected $paypalToken = null;
+    protected $paypalToken;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @param int $reasonCode
@@ -156,5 +155,4 @@ class PayPalEcSetReply
 
         return $this;
     }
-
 }

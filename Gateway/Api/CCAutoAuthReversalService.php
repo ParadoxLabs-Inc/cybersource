@@ -4,61 +4,60 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCAutoAuthReversalService
 {
-
     /**
      * @var string $authPaymentServiceData
      */
-    protected $authPaymentServiceData = null;
+    protected $authPaymentServiceData;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $authAmount
      */
-    protected $authAmount = null;
+    protected $authAmount;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $authRequestID
      */
-    protected $authRequestID = null;
+    protected $authRequestID;
 
     /**
      * @var string $billAmount
      */
-    protected $billAmount = null;
+    protected $billAmount;
 
     /**
      * @var string $authCode
      */
-    protected $authCode = null;
+    protected $authCode;
 
     /**
      * @var string $authType
      */
-    protected $authType = null;
+    protected $authType;
 
     /**
      * @var boolean $billPayment
      */
-    protected $billPayment = null;
+    protected $billPayment;
 
     /**
      * @var string $dateAdded
      */
-    protected $dateAdded = null;
+    protected $dateAdded;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -276,5 +275,4 @@ class CCAutoAuthReversalService
 
         return $this;
     }
-
 }

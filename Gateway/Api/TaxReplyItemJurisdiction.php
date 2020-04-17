@@ -4,56 +4,55 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class TaxReplyItemJurisdiction
 {
-
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $region
      */
-    protected $region = null;
+    protected $region;
 
     /**
      * @var string $type
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var string $code
      */
-    protected $code = null;
+    protected $code;
 
     /**
      * @var float $taxable
      */
-    protected $taxable = null;
+    protected $taxable;
 
     /**
      * @var float $rate
      */
-    protected $rate = null;
+    protected $rate;
 
     /**
      * @var float $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $taxName
      */
-    protected $taxName = null;
+    protected $taxName;
 
     /**
      * @var int $jurisId
      */
-    protected $jurisId = null;
+    protected $jurisId;
 
     /**
      * @param string $name
@@ -256,5 +255,4 @@ class TaxReplyItemJurisdiction
 
         return $this;
     }
-
 }

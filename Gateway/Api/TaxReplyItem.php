@@ -4,61 +4,60 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class TaxReplyItem
 {
-
     /**
      * @var float $taxableAmount
      */
-    protected $taxableAmount = null;
+    protected $taxableAmount;
 
     /**
      * @var float $exemptAmount
      */
-    protected $exemptAmount = null;
+    protected $exemptAmount;
 
     /**
      * @var float $specialTaxAmount
      */
-    protected $specialTaxAmount = null;
+    protected $specialTaxAmount;
 
     /**
      * @var float $cityTaxAmount
      */
-    protected $cityTaxAmount = null;
+    protected $cityTaxAmount;
 
     /**
      * @var float $countyTaxAmount
      */
-    protected $countyTaxAmount = null;
+    protected $countyTaxAmount;
 
     /**
      * @var float $districtTaxAmount
      */
-    protected $districtTaxAmount = null;
+    protected $districtTaxAmount;
 
     /**
      * @var float $stateTaxAmount
      */
-    protected $stateTaxAmount = null;
+    protected $stateTaxAmount;
 
     /**
      * @var float $countryTaxAmount
      */
-    protected $countryTaxAmount = null;
+    protected $countryTaxAmount;
 
     /**
      * @var float $totalTaxAmount
      */
-    protected $totalTaxAmount = null;
+    protected $totalTaxAmount;
 
     /**
      * @var TaxReplyItemJurisdiction[] $jurisdiction
      */
-    protected $jurisdiction = null;
+    protected $jurisdiction;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param float $totalTaxAmount
@@ -278,5 +277,4 @@ class TaxReplyItem
 
         return $this;
     }
-
 }

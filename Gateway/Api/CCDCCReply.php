@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCDCCReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var boolean $dccSupported
      */
-    protected $dccSupported = null;
+    protected $dccSupported;
 
     /**
      * @var string $validHours
      */
-    protected $validHours = null;
+    protected $validHours;
 
     /**
      * @var string $marginRatePercentage
      */
-    protected $marginRatePercentage = null;
+    protected $marginRatePercentage;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @param int $reasonCode
@@ -132,5 +131,4 @@ class CCDCCReply
 
         return $this;
     }
-
 }

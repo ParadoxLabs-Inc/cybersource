@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ProfileReplyEarly
 {
-
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $selectedBy
      */
-    protected $selectedBy = null;
+    protected $selectedBy;
 
     /**
      * @var PauseRuleResultItems $pauseRulesTriggered
      */
-    protected $pauseRulesTriggered = null;
+    protected $pauseRulesTriggered;
 
     /**
      * @var RuleResultItems $rulesTriggered
      */
-    protected $rulesTriggered = null;
-
-    public function __construct()
-    {
-    }
+    protected $rulesTriggered;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class ProfileReplyEarly
 
         return $this;
     }
-
 }

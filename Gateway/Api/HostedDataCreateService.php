@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class HostedDataCreateService
 {
-
     /**
      * @var string $profileID
      */
-    protected $profileID = null;
+    protected $profileID;
 
     /**
      * @var string $paymentMethod
      */
-    protected $paymentMethod = null;
+    protected $paymentMethod;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class HostedDataCreateService
 
         return $this;
     }
-
 }

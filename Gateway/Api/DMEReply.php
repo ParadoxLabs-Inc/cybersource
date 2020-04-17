@@ -4,75 +4,70 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DMEReply
 {
-
     /**
      * @var string $eventType
      */
-    protected $eventType = null;
+    protected $eventType;
 
     /**
      * @var string $eventInfo
      */
-    protected $eventInfo = null;
+    protected $eventInfo;
 
     /**
      * @var string $eventHotlistInfo
      */
-    protected $eventHotlistInfo = null;
+    protected $eventHotlistInfo;
 
     /**
      * @var string $eventPolicy
      */
-    protected $eventPolicy = null;
+    protected $eventPolicy;
 
     /**
      * @var string $eventVelocityInfoCode
      */
-    protected $eventVelocityInfoCode = null;
+    protected $eventVelocityInfoCode;
 
     /**
      * @var AdditionalFields $additionalFields
      */
-    protected $additionalFields = null;
+    protected $additionalFields;
 
     /**
      * @var MorphingElement $morphingElement
      */
-    protected $morphingElement = null;
+    protected $morphingElement;
 
     /**
      * @var string $cardBin
      */
-    protected $cardBin = null;
+    protected $cardBin;
 
     /**
      * @var string $binCountry
      */
-    protected $binCountry = null;
+    protected $binCountry;
 
     /**
      * @var string $cardAccountType
      */
-    protected $cardAccountType = null;
+    protected $cardAccountType;
 
     /**
      * @var string $cardScheme
      */
-    protected $cardScheme = null;
+    protected $cardScheme;
 
     /**
      * @var string $cardIssuer
      */
-    protected $cardIssuer = null;
+    protected $cardIssuer;
 
     /**
      * @var ProviderFields $providerFields
      */
-    protected $providerFields = null;
-
-    public function __construct()
-    {
-    }
+    protected $providerFields;
 
     /**
      * @return string
@@ -320,5 +315,4 @@ class DMEReply
 
         return $this;
     }
-
 }

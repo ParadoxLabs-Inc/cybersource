@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APCaptureService
 {
-
     /**
      * @var string $authRequestID
      */
-    protected $authRequestID = null;
+    protected $authRequestID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var boolean $isFinal
      */
-    protected $isFinal = null;
+    protected $isFinal;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class APCaptureService
 
         return $this;
     }
-
 }

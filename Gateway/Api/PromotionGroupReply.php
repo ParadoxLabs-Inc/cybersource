@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PromotionGroupReply
 {
-
     /**
      * @var float $discountApplied
      */
-    protected $discountApplied = null;
+    protected $discountApplied;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -60,5 +59,4 @@ class PromotionGroupReply
 
         return $this;
     }
-
 }

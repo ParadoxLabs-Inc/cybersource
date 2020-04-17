@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DirectDebitValidateService
 {
-
     /**
      * @var string $directDebitValidateText
      */
-    protected $directDebitValidateText = null;
+    protected $directDebitValidateText;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class DirectDebitValidateService
 
         return $this;
     }
-
 }

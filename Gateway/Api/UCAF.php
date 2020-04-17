@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class UCAF
 {
-
     /**
      * @var string $authenticationData
      */
-    protected $authenticationData = null;
+    protected $authenticationData;
 
     /**
      * @var string $collectionIndicator
      */
-    protected $collectionIndicator = null;
+    protected $collectionIndicator;
 
     /**
      * @var string $downgradeReasonCode
      */
-    protected $downgradeReasonCode = null;
-
-    public function __construct()
-    {
-    }
+    protected $downgradeReasonCode;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class UCAF
 
         return $this;
     }
-
 }

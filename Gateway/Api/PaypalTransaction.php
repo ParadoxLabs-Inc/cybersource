@@ -7,66 +7,65 @@ use Exception;
 
 class PaypalTransaction
 {
-
     /**
      * @var \DateTime $transactionTime
      */
-    protected $transactionTime = null;
+    protected $transactionTime;
 
     /**
      * @var string $transactionTimeZone
      */
-    protected $transactionTimeZone = null;
+    protected $transactionTimeZone;
 
     /**
      * @var string $transactionType
      */
-    protected $transactionType = null;
+    protected $transactionType;
 
     /**
      * @var string $paypalPayerOrPayeeEmail
      */
-    protected $paypalPayerOrPayeeEmail = null;
+    protected $paypalPayerOrPayeeEmail;
 
     /**
      * @var string $customerDisplayName
      */
-    protected $customerDisplayName = null;
+    protected $customerDisplayName;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $paypalPaymentStatus
      */
-    protected $paypalPaymentStatus = null;
+    protected $paypalPaymentStatus;
 
     /**
      * @var string $grandTotalAmount
      */
-    protected $grandTotalAmount = null;
+    protected $grandTotalAmount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $paypalFeeAmount
      */
-    protected $paypalFeeAmount = null;
+    protected $paypalFeeAmount;
 
     /**
      * @var string $paypalNetAmount
      */
-    protected $paypalNetAmount = null;
+    protected $paypalNetAmount;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -315,5 +314,4 @@ class PaypalTransaction
 
         return $this;
     }
-
 }

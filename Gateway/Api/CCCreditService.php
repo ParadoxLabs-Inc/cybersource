@@ -4,116 +4,115 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCCreditService
 {
-
     /**
      * @var string $captureRequestID
      */
-    protected $captureRequestID = null;
+    protected $captureRequestID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $partialPaymentID
      */
-    protected $partialPaymentID = null;
+    protected $partialPaymentID;
 
     /**
      * @var string $purchasingLevel
      */
-    protected $purchasingLevel = null;
+    protected $purchasingLevel;
 
     /**
      * @var string $industryDatatype
      */
-    protected $industryDatatype = null;
+    protected $industryDatatype;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var boolean $billPayment
      */
-    protected $billPayment = null;
+    protected $billPayment;
 
     /**
      * @var string $authorizationXID
      */
-    protected $authorizationXID = null;
+    protected $authorizationXID;
 
     /**
      * @var string $occurrenceNumber
      */
-    protected $occurrenceNumber = null;
+    protected $occurrenceNumber;
 
     /**
      * @var string $authCode
      */
-    protected $authCode = null;
+    protected $authCode;
 
     /**
      * @var string $captureRequestToken
      */
-    protected $captureRequestToken = null;
+    protected $captureRequestToken;
 
     /**
      * @var string $merchantReceiptNumber
      */
-    protected $merchantReceiptNumber = null;
+    protected $merchantReceiptNumber;
 
     /**
      * @var string $checksumKey
      */
-    protected $checksumKey = null;
+    protected $checksumKey;
 
     /**
      * @var string $aggregatorID
      */
-    protected $aggregatorID = null;
+    protected $aggregatorID;
 
     /**
      * @var string $aggregatorName
      */
-    protected $aggregatorName = null;
+    protected $aggregatorName;
 
     /**
      * @var int $duration
      */
-    protected $duration = null;
+    protected $duration;
 
     /**
      * @var int $dpdeBillingMonth
      */
-    protected $dpdeBillingMonth = null;
+    protected $dpdeBillingMonth;
 
     /**
      * @var string $reconciliationIDAlternate
      */
-    protected $reconciliationIDAlternate = null;
+    protected $reconciliationIDAlternate;
 
     /**
      * @var string $refundReason
      */
-    protected $refundReason = null;
+    protected $refundReason;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $overridePaymentDetails
      */
-    protected $overridePaymentDetails = null;
+    protected $overridePaymentDetails;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -540,5 +539,4 @@ class CCCreditService
 
         return $this;
     }
-
 }

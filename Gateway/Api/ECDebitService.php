@@ -4,56 +4,55 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ECDebitService
 {
-
     /**
      * @var int $paymentMode
      */
-    protected $paymentMode = null;
+    protected $paymentMode;
 
     /**
      * @var string $referenceNumber
      */
-    protected $referenceNumber = null;
+    protected $referenceNumber;
 
     /**
      * @var string $settlementMethod
      */
-    protected $settlementMethod = null;
+    protected $settlementMethod;
 
     /**
      * @var string $transactionToken
      */
-    protected $transactionToken = null;
+    protected $transactionToken;
 
     /**
      * @var int $verificationLevel
      */
-    protected $verificationLevel = null;
+    protected $verificationLevel;
 
     /**
      * @var string $partialPaymentID
      */
-    protected $partialPaymentID = null;
+    protected $partialPaymentID;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $debitRequestID
      */
-    protected $debitRequestID = null;
+    protected $debitRequestID;
 
     /**
      * @var string $effectiveDate
      */
-    protected $effectiveDate = null;
+    protected $effectiveDate;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -252,5 +251,4 @@ class ECDebitService
 
         return $this;
     }
-
 }

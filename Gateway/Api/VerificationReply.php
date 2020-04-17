@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VerificationReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $verifiedDateTime
      */
-    protected $verifiedDateTime = null;
+    protected $verifiedDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @param int $reasonCode
@@ -132,5 +131,4 @@ class VerificationReply
 
         return $this;
     }
-
 }

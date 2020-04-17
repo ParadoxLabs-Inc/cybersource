@@ -7,71 +7,70 @@ use Exception;
 
 class PayPalPreapprovedUpdateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $payerStatus
      */
-    protected $payerStatus = null;
+    protected $payerStatus;
 
     /**
      * @var string $payerName
      */
-    protected $payerName = null;
+    protected $payerName;
 
     /**
      * @var string $payerCountry
      */
-    protected $payerCountry = null;
+    protected $payerCountry;
 
     /**
      * @var string $mpStatus
      */
-    protected $mpStatus = null;
+    protected $mpStatus;
 
     /**
      * @var string $payer
      */
-    protected $payer = null;
+    protected $payer;
 
     /**
      * @var string $payerID
      */
-    protected $payerID = null;
+    protected $payerID;
 
     /**
      * @var string $payerBusiness
      */
-    protected $payerBusiness = null;
+    protected $payerBusiness;
 
     /**
      * @var string $desc
      */
-    protected $desc = null;
+    protected $desc;
 
     /**
      * @var string $mpMax
      */
-    protected $mpMax = null;
+    protected $mpMax;
 
     /**
      * @var string $paymentSourceID
      */
-    protected $paymentSourceID = null;
+    protected $paymentSourceID;
 
     /**
      * @param int $reasonCode
@@ -339,5 +338,4 @@ class PayPalPreapprovedUpdateReply
 
         return $this;
     }
-
 }

@@ -4,11 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FraudUpdateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @param int $reasonCode
@@ -36,5 +35,4 @@ class FraudUpdateReply
 
         return $this;
     }
-
 }

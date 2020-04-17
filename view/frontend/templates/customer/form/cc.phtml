@@ -7,17 +7,17 @@
 <div class="block-title">
     <h2>
         <?php if ($block->isEdit()): ?>
-            <?= $block->escapeHtml(__('Editing %1', $block->getCard()->getLabel())); ?>
+            <?= $block->escapeHtml(__('Editing %1', $block->getCard()->getLabel())) ?>
         <?php else: ?>
-            <?= $block->escapeHtml(__('Add A Credit Card')); ?>
+            <?= $block->escapeHtml(__('Add A Credit Card')) ?>
         <?php endif; ?>
     </h2>
 </div>
 
-<form action="<?= $block->escapeUrl($block->getAction()); ?>" method="post" id="form-validate" class="checkout-payment-method" data-hasrequired="<?= $block->escapeQuote(__('* Required Fields')) ?>">
-    <?= $block->getBlockHtml('formkey'); ?>
-    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $block->escapeQuote($block->getCard()->getHash()) : ''; ?>" />
-    <input type="hidden" name="method" value="<?= $code; ?>" />
+<form action="<?= $block->escapeUrl($block->getAction()) ?>" method="post" id="form-validate" class="checkout-payment-method" data-hasrequired="<?= $block->escapeQuote(__('* Required Fields')) ?>">
+    <?= $block->getBlockHtml('formkey') ?>
+    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $block->escapeQuote($block->getCard()->getHash()) : '' ?>" />
+    <input type="hidden" name="method" value="<?= $code ?>" />
     <input type="hidden" name="source" value="paymentinfo" />
     <input type="hidden" id="<?= $code ?>-communicator" value="" />
     <fieldset class="fieldset address">
@@ -72,10 +72,10 @@
         <div class="field region required">
             <label class="label" for="region-id"><span><?= $block->escapeHtml(__('State/Province')) ?></span></label>
             <div class="control">
-                <select id="region-id" name="billing[region_id]" title="<?= $block->escapeQuote(__('State/Province')) ?>" class="validate-select" <?=(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>>
+                <select id="region-id" name="billing[region_id]" title="<?= $block->escapeQuote(__('State/Province')) ?>" class="validate-select" <?=(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '' ?>>
                     <option value=""><?= $block->escapeHtml(__('Please select a region, state or province.')) ?></option>
                 </select>
-                <input type="text" id="region" name="billing[region]" value="<?= $block->escapeQuote($block->getRegion()) ?>"  title="<?= $block->escapeQuote(__('State/Province')) ?>" class="input-text <?= $block->escapeQuote($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('region')) ?>"<?=(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
+                <input type="text" id="region" name="billing[region]" value="<?= $block->escapeQuote($block->getRegion()) ?>"  title="<?= $block->escapeQuote(__('State/Province')) ?>" class="input-text <?= $block->escapeQuote($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('region')) ?>"<?=(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '' ?>/>
             </div>
         </div>
         <div class="field zip required">
@@ -135,7 +135,7 @@
         },
         "#country": {
             "regionUpdater": {
-                "optionalRegionAllowed": <?=($block->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                "optionalRegionAllowed": <?=($block->getConfig('general/region/display_all') ? 'true' : 'false') ?>,
                 "regionListId": "#region-id",
                 "regionInputId": "#region",
                 "postcodeId": "#zip",

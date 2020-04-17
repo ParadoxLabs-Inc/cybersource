@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APUpdateMandateService
 {
-
     /**
      * @var string $esign
      */
-    protected $esign = null;
+    protected $esign;
 
     /**
      * @var string $cancelURL
      */
-    protected $cancelURL = null;
+    protected $cancelURL;
 
     /**
      * @var string $successURL
      */
-    protected $successURL = null;
+    protected $successURL;
 
     /**
      * @var string $failureURL
      */
-    protected $failureURL = null;
+    protected $failureURL;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -132,5 +131,4 @@ class APUpdateMandateService
 
         return $this;
     }
-
 }

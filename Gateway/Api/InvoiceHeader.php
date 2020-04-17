@@ -4,250 +4,245 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class InvoiceHeader
 {
-
     /**
      * @var string $merchantDescriptor
      */
-    protected $merchantDescriptor = null;
+    protected $merchantDescriptor;
 
     /**
      * @var string $merchantDescriptorContact
      */
-    protected $merchantDescriptorContact = null;
+    protected $merchantDescriptorContact;
 
     /**
      * @var string $merchantDescriptorAlternate
      */
-    protected $merchantDescriptorAlternate = null;
+    protected $merchantDescriptorAlternate;
 
     /**
      * @var string $merchantDescriptorStreet
      */
-    protected $merchantDescriptorStreet = null;
+    protected $merchantDescriptorStreet;
 
     /**
      * @var string $merchantDescriptorCity
      */
-    protected $merchantDescriptorCity = null;
+    protected $merchantDescriptorCity;
 
     /**
      * @var string $merchantDescriptorState
      */
-    protected $merchantDescriptorState = null;
+    protected $merchantDescriptorState;
 
     /**
      * @var string $merchantDescriptorPostalCode
      */
-    protected $merchantDescriptorPostalCode = null;
+    protected $merchantDescriptorPostalCode;
 
     /**
      * @var string $merchantDescriptorCountry
      */
-    protected $merchantDescriptorCountry = null;
+    protected $merchantDescriptorCountry;
 
     /**
      * @var boolean $isGift
      */
-    protected $isGift = null;
+    protected $isGift;
 
     /**
      * @var boolean $returnsAccepted
      */
-    protected $returnsAccepted = null;
+    protected $returnsAccepted;
 
     /**
      * @var string $tenderType
      */
-    protected $tenderType = null;
+    protected $tenderType;
 
     /**
      * @var string $merchantVATRegistrationNumber
      */
-    protected $merchantVATRegistrationNumber = null;
+    protected $merchantVATRegistrationNumber;
 
     /**
      * @var string $purchaserOrderDate
      */
-    protected $purchaserOrderDate = null;
+    protected $purchaserOrderDate;
 
     /**
      * @var string $purchaserVATRegistrationNumber
      */
-    protected $purchaserVATRegistrationNumber = null;
+    protected $purchaserVATRegistrationNumber;
 
     /**
      * @var string $vatInvoiceReferenceNumber
      */
-    protected $vatInvoiceReferenceNumber = null;
+    protected $vatInvoiceReferenceNumber;
 
     /**
      * @var string $summaryCommodityCode
      */
-    protected $summaryCommodityCode = null;
+    protected $summaryCommodityCode;
 
     /**
      * @var string $supplierOrderReference
      */
-    protected $supplierOrderReference = null;
+    protected $supplierOrderReference;
 
     /**
      * @var string $userPO
      */
-    protected $userPO = null;
+    protected $userPO;
 
     /**
      * @var string $costCenter
      */
-    protected $costCenter = null;
+    protected $costCenter;
 
     /**
      * @var string $purchaserCode
      */
-    protected $purchaserCode = null;
+    protected $purchaserCode;
 
     /**
      * @var boolean $taxable
      */
-    protected $taxable = null;
+    protected $taxable;
 
     /**
      * @var string $amexDataTAA1
      */
-    protected $amexDataTAA1 = null;
+    protected $amexDataTAA1;
 
     /**
      * @var string $amexDataTAA2
      */
-    protected $amexDataTAA2 = null;
+    protected $amexDataTAA2;
 
     /**
      * @var string $amexDataTAA3
      */
-    protected $amexDataTAA3 = null;
+    protected $amexDataTAA3;
 
     /**
      * @var string $amexDataTAA4
      */
-    protected $amexDataTAA4 = null;
+    protected $amexDataTAA4;
 
     /**
      * @var string $invoiceDate
      */
-    protected $invoiceDate = null;
+    protected $invoiceDate;
 
     /**
      * @var string $totalTaxTypeCode
      */
-    protected $totalTaxTypeCode = null;
+    protected $totalTaxTypeCode;
 
     /**
      * @var string $cardAcceptorRefNumber
      */
-    protected $cardAcceptorRefNumber = null;
+    protected $cardAcceptorRefNumber;
 
     /**
      * @var string $authorizedContactName
      */
-    protected $authorizedContactName = null;
+    protected $authorizedContactName;
 
     /**
      * @var string $businessApplicationID
      */
-    protected $businessApplicationID = null;
+    protected $businessApplicationID;
 
     /**
      * @var int $salesOrganizationID
      */
-    protected $salesOrganizationID = null;
+    protected $salesOrganizationID;
 
     /**
      * @var string $submerchantID
      */
-    protected $submerchantID = null;
+    protected $submerchantID;
 
     /**
      * @var string $submerchantName
      */
-    protected $submerchantName = null;
+    protected $submerchantName;
 
     /**
      * @var string $submerchantStreet
      */
-    protected $submerchantStreet = null;
+    protected $submerchantStreet;
 
     /**
      * @var string $submerchantCity
      */
-    protected $submerchantCity = null;
+    protected $submerchantCity;
 
     /**
      * @var string $submerchantPostalCode
      */
-    protected $submerchantPostalCode = null;
+    protected $submerchantPostalCode;
 
     /**
      * @var string $submerchantState
      */
-    protected $submerchantState = null;
+    protected $submerchantState;
 
     /**
      * @var string $submerchantCountry
      */
-    protected $submerchantCountry = null;
+    protected $submerchantCountry;
 
     /**
      * @var string $submerchantEmail
      */
-    protected $submerchantEmail = null;
+    protected $submerchantEmail;
 
     /**
      * @var string $submerchantTelephoneNumber
      */
-    protected $submerchantTelephoneNumber = null;
+    protected $submerchantTelephoneNumber;
 
     /**
      * @var string $submerchantRegion
      */
-    protected $submerchantRegion = null;
+    protected $submerchantRegion;
 
     /**
      * @var string $submerchantMerchantID
      */
-    protected $submerchantMerchantID = null;
+    protected $submerchantMerchantID;
 
     /**
      * @var string $merchantDescriptorCounty
      */
-    protected $merchantDescriptorCounty = null;
+    protected $merchantDescriptorCounty;
 
     /**
      * @var string $referenceDataCode
      */
-    protected $referenceDataCode = null;
+    protected $referenceDataCode;
 
     /**
      * @var string $referenceDataNumber
      */
-    protected $referenceDataNumber = null;
+    protected $referenceDataNumber;
 
     /**
      * @var string $merchantDescriptorStoreID
      */
-    protected $merchantDescriptorStoreID = null;
+    protected $merchantDescriptorStoreID;
 
     /**
      * @var string $clerkID
      */
-    protected $clerkID = null;
+    protected $clerkID;
 
     /**
      * @var string $customData_1
      */
-    protected $customData_1 = null;
-
-    public function __construct()
-    {
-    }
+    protected $customData_1;
 
     /**
      * @return string
@@ -1160,5 +1155,4 @@ class InvoiceHeader
 
         return $this;
     }
-
 }

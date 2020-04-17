@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class BinLookupService
 {
-
     /**
      * @var string $mode
      */
-    protected $mode = null;
+    protected $mode;
 
     /**
      * @var string $networkOrder
      */
-    protected $networkOrder = null;
+    protected $networkOrder;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class BinLookupService
 
         return $this;
     }
-
 }

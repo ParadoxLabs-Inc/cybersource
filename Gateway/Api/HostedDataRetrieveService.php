@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class HostedDataRetrieveService
 {
-
     /**
      * @var string $profileID
      */
-    protected $profileID = null;
+    protected $profileID;
 
     /**
      * @var string $tokenValue
      */
-    protected $tokenValue = null;
+    protected $tokenValue;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class HostedDataRetrieveService
 
         return $this;
     }
-
 }

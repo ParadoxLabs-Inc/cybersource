@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class SellerProtection
 {
-
     /**
      * @var string $eligibility
      */
-    protected $eligibility = null;
+    protected $eligibility;
 
     /**
      * @var string $type
      */
-    protected $type = null;
-
-    public function __construct()
-    {
-    }
+    protected $type;
 
     /**
      * @return string
@@ -56,5 +51,4 @@ class SellerProtection
 
         return $this;
     }
-
 }

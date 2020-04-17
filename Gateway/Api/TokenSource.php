@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class TokenSource
 {
-
     /**
      * @var string $transientToken
      */
-    protected $transientToken = null;
-
-    public function __construct()
-    {
-    }
+    protected $transientToken;
 
     /**
      * @return string
@@ -32,5 +27,4 @@ class TokenSource
 
         return $this;
     }
-
 }

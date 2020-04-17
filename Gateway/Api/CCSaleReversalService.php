@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCSaleReversalService
 {
-
     /**
      * @var string $saleRequestID
      */
-    protected $saleRequestID = null;
+    protected $saleRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class CCSaleReversalService
 
         return $this;
     }
-
 }

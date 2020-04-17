@@ -7,91 +7,90 @@ use Exception;
 
 class BankTransferReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $accountHolder
      */
-    protected $accountHolder = null;
+    protected $accountHolder;
 
     /**
      * @var string $accountNumber
      */
-    protected $accountNumber = null;
+    protected $accountNumber;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $bankName
      */
-    protected $bankName = null;
+    protected $bankName;
 
     /**
      * @var string $bankCity
      */
-    protected $bankCity = null;
+    protected $bankCity;
 
     /**
      * @var string $bankCountry
      */
-    protected $bankCountry = null;
+    protected $bankCountry;
 
     /**
      * @var string $paymentReference
      */
-    protected $paymentReference = null;
+    protected $paymentReference;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $bankSwiftCode
      */
-    protected $bankSwiftCode = null;
+    protected $bankSwiftCode;
 
     /**
      * @var string $bankSpecialID
      */
-    protected $bankSpecialID = null;
+    protected $bankSpecialID;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $iban
      */
-    protected $iban = null;
+    protected $iban;
 
     /**
      * @var string $bankCode
      */
-    protected $bankCode = null;
+    protected $bankCode;
 
     /**
      * @var string $branchCode
      */
-    protected $branchCode = null;
+    protected $branchCode;
 
     /**
      * @var string $reconciliationReferenceNumber
      */
-    protected $reconciliationReferenceNumber = null;
+    protected $reconciliationReferenceNumber;
 
     /**
      * @param int $reasonCode
@@ -435,5 +434,4 @@ class BankTransferReply
 
         return $this;
     }
-
 }

@@ -7,45 +7,40 @@ use Exception;
 
 class FXQuote
 {
-
     /**
      * @var string $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @var string $rate
      */
-    protected $rate = null;
+    protected $rate;
 
     /**
      * @var string $type
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var \DateTime $expirationDateTime
      */
-    protected $expirationDateTime = null;
+    protected $expirationDateTime;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $fundingCurrency
      */
-    protected $fundingCurrency = null;
+    protected $fundingCurrency;
 
     /**
      * @var \DateTime $receivedDateTime
      */
-    protected $receivedDateTime = null;
-
-    public function __construct()
-    {
-    }
+    protected $receivedDateTime;
 
     /**
      * @return string
@@ -203,5 +198,4 @@ class FXQuote
 
         return $this;
     }
-
 }

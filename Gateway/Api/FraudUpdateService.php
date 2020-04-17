@@ -4,56 +4,55 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FraudUpdateService
 {
-
     /**
      * @var string $actionCode
      */
-    protected $actionCode = null;
+    protected $actionCode;
 
     /**
      * @var string $markedData
      */
-    protected $markedData = null;
+    protected $markedData;
 
     /**
      * @var string $markingReason
      */
-    protected $markingReason = null;
+    protected $markingReason;
 
     /**
      * @var string $markingNotes
      */
-    protected $markingNotes = null;
+    protected $markingNotes;
 
     /**
      * @var string $markingRequestID
      */
-    protected $markingRequestID = null;
+    protected $markingRequestID;
 
     /**
      * @var string $markingTransactionDate
      */
-    protected $markingTransactionDate = null;
+    protected $markingTransactionDate;
 
     /**
      * @var float $markingAmount
      */
-    protected $markingAmount = null;
+    protected $markingAmount;
 
     /**
      * @var string $markingCurrency
      */
-    protected $markingCurrency = null;
+    protected $markingCurrency;
 
     /**
      * @var string $markingIndicator
      */
-    protected $markingIndicator = null;
+    protected $markingIndicator;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -252,5 +251,4 @@ class FraudUpdateService
 
         return $this;
     }
-
 }

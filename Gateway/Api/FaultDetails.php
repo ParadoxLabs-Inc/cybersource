@@ -4,11 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FaultDetails
 {
-
     /**
      * @var string $requestID
      */
-    protected $requestID = null;
+    protected $requestID;
 
     /**
      * @param string $requestID
@@ -36,5 +35,4 @@ class FaultDetails
 
         return $this;
     }
-
 }

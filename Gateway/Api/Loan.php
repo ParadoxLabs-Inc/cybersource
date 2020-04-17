@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Loan
 {
-
     /**
      * @var string $assetType
      */
-    protected $assetType = null;
+    protected $assetType;
 
     /**
      * @var string $type
      */
-    protected $type = null;
-
-    public function __construct()
-    {
-    }
+    protected $type;
 
     /**
      * @return string
@@ -56,5 +51,4 @@ class Loan
 
         return $this;
     }
-
 }

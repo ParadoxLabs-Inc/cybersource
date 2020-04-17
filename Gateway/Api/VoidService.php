@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VoidService
 {
-
     /**
      * @var string $voidRequestID
      */
-    protected $voidRequestID = null;
+    protected $voidRequestID;
 
     /**
      * @var string $voidRequestToken
      */
-    protected $voidRequestToken = null;
+    protected $voidRequestToken;
 
     /**
      * @var string $voidReason
      */
-    protected $voidReason = null;
+    protected $voidReason;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class VoidService
 
         return $this;
     }
-
 }

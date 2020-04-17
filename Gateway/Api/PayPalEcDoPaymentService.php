@@ -4,51 +4,50 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalEcDoPaymentService
 {
-
     /**
      * @var string $paypalToken
      */
-    protected $paypalToken = null;
+    protected $paypalToken;
 
     /**
      * @var string $paypalPayerId
      */
-    protected $paypalPayerId = null;
+    protected $paypalPayerId;
 
     /**
      * @var string $paypalCustomerEmail
      */
-    protected $paypalCustomerEmail = null;
+    protected $paypalCustomerEmail;
 
     /**
      * @var string $paypalDesc
      */
-    protected $paypalDesc = null;
+    protected $paypalDesc;
 
     /**
      * @var string $paypalEcSetRequestID
      */
-    protected $paypalEcSetRequestID = null;
+    protected $paypalEcSetRequestID;
 
     /**
      * @var string $paypalEcSetRequestToken
      */
-    protected $paypalEcSetRequestToken = null;
+    protected $paypalEcSetRequestToken;
 
     /**
      * @var string $promoCode0
      */
-    protected $promoCode0 = null;
+    protected $promoCode0;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -228,5 +227,4 @@ class PayPalEcDoPaymentService
 
         return $this;
     }
-
 }

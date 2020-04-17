@@ -4,90 +4,85 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Travel
 {
-
     /**
      * @var RestrictedString $actualFinalDestinationCountry
      */
-    protected $actualFinalDestinationCountry = null;
+    protected $actualFinalDestinationCountry;
 
     /**
      * @var RestrictedString $actualFinalDestinationCity
      */
-    protected $actualFinalDestinationCity = null;
+    protected $actualFinalDestinationCity;
 
     /**
      * @var RestrictedDecimal $actualFinalDestinationLatitude
      */
-    protected $actualFinalDestinationLatitude = null;
+    protected $actualFinalDestinationLatitude;
 
     /**
      * @var RestrictedDecimal $actualFinalDestinationLongitude
      */
-    protected $actualFinalDestinationLongitude = null;
+    protected $actualFinalDestinationLongitude;
 
     /**
      * @var RestrictedString $firstDepartureCountry
      */
-    protected $firstDepartureCountry = null;
+    protected $firstDepartureCountry;
 
     /**
      * @var RestrictedString $firstDepartureCity
      */
-    protected $firstDepartureCity = null;
+    protected $firstDepartureCity;
 
     /**
      * @var RestrictedDecimal $firstDepartureLatitude
      */
-    protected $firstDepartureLatitude = null;
+    protected $firstDepartureLatitude;
 
     /**
      * @var RestrictedDecimal $firstDepartureLongitude
      */
-    protected $firstDepartureLongitude = null;
+    protected $firstDepartureLongitude;
 
     /**
      * @var RestrictedString $firstDestinationCountry
      */
-    protected $firstDestinationCountry = null;
+    protected $firstDestinationCountry;
 
     /**
      * @var RestrictedString $firstDestinationCity
      */
-    protected $firstDestinationCity = null;
+    protected $firstDestinationCity;
 
     /**
      * @var RestrictedDecimal $firstDestinationLatitude
      */
-    protected $firstDestinationLatitude = null;
+    protected $firstDestinationLatitude;
 
     /**
      * @var RestrictedDecimal $firstDestinationLongitude
      */
-    protected $firstDestinationLongitude = null;
+    protected $firstDestinationLongitude;
 
     /**
      * @var RestrictedString $lastDestinationCountry
      */
-    protected $lastDestinationCountry = null;
+    protected $lastDestinationCountry;
 
     /**
      * @var RestrictedString $lastDestinationCity
      */
-    protected $lastDestinationCity = null;
+    protected $lastDestinationCity;
 
     /**
      * @var RestrictedDecimal $lastDestinationLatitude
      */
-    protected $lastDestinationLatitude = null;
+    protected $lastDestinationLatitude;
 
     /**
      * @var RestrictedDecimal $lastDestinationLongitude
      */
-    protected $lastDestinationLongitude = null;
-
-    public function __construct()
-    {
-    }
+    protected $lastDestinationLongitude;
 
     /**
      * @return RestrictedString
@@ -392,5 +387,4 @@ class Travel
 
         return $this;
     }
-
 }

@@ -4,46 +4,45 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APAuthService
 {
-
     /**
      * @var string $cancelURL
      */
-    protected $cancelURL = null;
+    protected $cancelURL;
 
     /**
      * @var string $successURL
      */
-    protected $successURL = null;
+    protected $successURL;
 
     /**
      * @var string $failureURL
      */
-    protected $failureURL = null;
+    protected $failureURL;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $preapprovalToken
      */
-    protected $preapprovalToken = null;
+    protected $preapprovalToken;
 
     /**
      * @var string $orderRequestID
      */
-    protected $orderRequestID = null;
+    protected $orderRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -204,5 +203,4 @@ class APAuthService
 
         return $this;
     }
-
 }

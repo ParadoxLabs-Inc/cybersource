@@ -7,46 +7,45 @@ use Exception;
 
 class BankTransferRealTimeReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $formMethod
      */
-    protected $formMethod = null;
+    protected $formMethod;
 
     /**
      * @var string $formAction
      */
-    protected $formAction = null;
+    protected $formAction;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $paymentReference
      */
-    protected $paymentReference = null;
+    protected $paymentReference;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $reconciliationReferenceNumber
      */
-    protected $reconciliationReferenceNumber = null;
+    protected $reconciliationReferenceNumber;
 
     /**
      * @param int $reasonCode
@@ -219,5 +218,4 @@ class BankTransferRealTimeReply
 
         return $this;
     }
-
 }

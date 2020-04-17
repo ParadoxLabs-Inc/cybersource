@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ServiceFee
 {
-
     /**
      * @var string $merchantDescriptor
      */
-    protected $merchantDescriptor = null;
+    protected $merchantDescriptor;
 
     /**
      * @var string $merchantDescriptorContact
      */
-    protected $merchantDescriptorContact = null;
+    protected $merchantDescriptorContact;
 
     /**
      * @var string $merchantDescriptorState
      */
-    protected $merchantDescriptorState = null;
-
-    public function __construct()
-    {
-    }
+    protected $merchantDescriptorState;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class ServiceFee
 
         return $this;
     }
-
 }

@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalPaymentService
 {
-
     /**
      * @var string $cancelURL
      */
-    protected $cancelURL = null;
+    protected $cancelURL;
 
     /**
      * @var string $successURL
      */
-    protected $successURL = null;
+    protected $successURL;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class PayPalPaymentService
 
         return $this;
     }
-
 }

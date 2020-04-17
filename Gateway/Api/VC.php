@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VC
 {
-
     /**
      * @var string $orderID
      */
-    protected $orderID = null;
-
-    public function __construct()
-    {
-    }
+    protected $orderID;
 
     /**
      * @return string
@@ -32,5 +27,4 @@ class VC
 
         return $this;
     }
-
 }

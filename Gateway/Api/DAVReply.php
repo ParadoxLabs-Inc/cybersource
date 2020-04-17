@@ -4,176 +4,175 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DAVReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $addressType
      */
-    protected $addressType = null;
+    protected $addressType;
 
     /**
      * @var string $apartmentInfo
      */
-    protected $apartmentInfo = null;
+    protected $apartmentInfo;
 
     /**
      * @var string $barCode
      */
-    protected $barCode = null;
+    protected $barCode;
 
     /**
      * @var string $barCodeCheckDigit
      */
-    protected $barCodeCheckDigit = null;
+    protected $barCodeCheckDigit;
 
     /**
      * @var string $careOf
      */
-    protected $careOf = null;
+    protected $careOf;
 
     /**
      * @var string $cityInfo
      */
-    protected $cityInfo = null;
+    protected $cityInfo;
 
     /**
      * @var string $countryInfo
      */
-    protected $countryInfo = null;
+    protected $countryInfo;
 
     /**
      * @var string $directionalInfo
      */
-    protected $directionalInfo = null;
+    protected $directionalInfo;
 
     /**
      * @var string $lvrInfo
      */
-    protected $lvrInfo = null;
+    protected $lvrInfo;
 
     /**
      * @var int $matchScore
      */
-    protected $matchScore = null;
+    protected $matchScore;
 
     /**
      * @var string $standardizedAddress1
      */
-    protected $standardizedAddress1 = null;
+    protected $standardizedAddress1;
 
     /**
      * @var string $standardizedAddress2
      */
-    protected $standardizedAddress2 = null;
+    protected $standardizedAddress2;
 
     /**
      * @var string $standardizedAddress3
      */
-    protected $standardizedAddress3 = null;
+    protected $standardizedAddress3;
 
     /**
      * @var string $standardizedAddress4
      */
-    protected $standardizedAddress4 = null;
+    protected $standardizedAddress4;
 
     /**
      * @var string $standardizedAddressNoApt
      */
-    protected $standardizedAddressNoApt = null;
+    protected $standardizedAddressNoApt;
 
     /**
      * @var string $standardizedCity
      */
-    protected $standardizedCity = null;
+    protected $standardizedCity;
 
     /**
      * @var string $standardizedCounty
      */
-    protected $standardizedCounty = null;
+    protected $standardizedCounty;
 
     /**
      * @var string $standardizedCSP
      */
-    protected $standardizedCSP = null;
+    protected $standardizedCSP;
 
     /**
      * @var string $standardizedState
      */
-    protected $standardizedState = null;
+    protected $standardizedState;
 
     /**
      * @var string $standardizedPostalCode
      */
-    protected $standardizedPostalCode = null;
+    protected $standardizedPostalCode;
 
     /**
      * @var string $standardizedCountry
      */
-    protected $standardizedCountry = null;
+    protected $standardizedCountry;
 
     /**
      * @var string $standardizedISOCountry
      */
-    protected $standardizedISOCountry = null;
+    protected $standardizedISOCountry;
 
     /**
      * @var string $stateInfo
      */
-    protected $stateInfo = null;
+    protected $stateInfo;
 
     /**
      * @var string $streetInfo
      */
-    protected $streetInfo = null;
+    protected $streetInfo;
 
     /**
      * @var string $suffixInfo
      */
-    protected $suffixInfo = null;
+    protected $suffixInfo;
 
     /**
      * @var string $postalCodeInfo
      */
-    protected $postalCodeInfo = null;
+    protected $postalCodeInfo;
 
     /**
      * @var string $overallInfo
      */
-    protected $overallInfo = null;
+    protected $overallInfo;
 
     /**
      * @var string $usInfo
      */
-    protected $usInfo = null;
+    protected $usInfo;
 
     /**
      * @var string $caInfo
      */
-    protected $caInfo = null;
+    protected $caInfo;
 
     /**
      * @var string $intlInfo
      */
-    protected $intlInfo = null;
+    protected $intlInfo;
 
     /**
      * @var string $usErrorInfo
      */
-    protected $usErrorInfo = null;
+    protected $usErrorInfo;
 
     /**
      * @var string $caErrorInfo
      */
-    protected $caErrorInfo = null;
+    protected $caErrorInfo;
 
     /**
      * @var string $intlErrorInfo
      */
-    protected $intlErrorInfo = null;
+    protected $intlErrorInfo;
 
     /**
      * @param int $reasonCode
@@ -828,5 +827,4 @@ class DAVReply
 
         return $this;
     }
-
 }

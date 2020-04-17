@@ -7,71 +7,70 @@ use Exception;
 
 class CCCreditReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $purchasingLevel3Enabled
      */
-    protected $purchasingLevel3Enabled = null;
+    protected $purchasingLevel3Enabled;
 
     /**
      * @var string $enhancedDataEnabled
      */
-    protected $enhancedDataEnabled = null;
+    protected $enhancedDataEnabled;
 
     /**
      * @var string $authorizationXID
      */
-    protected $authorizationXID = null;
+    protected $authorizationXID;
 
     /**
      * @var string $forwardCode
      */
-    protected $forwardCode = null;
+    protected $forwardCode;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @var string $reconciliationReferenceNumber
      */
-    protected $reconciliationReferenceNumber = null;
+    protected $reconciliationReferenceNumber;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $paymentNetworkTransactionID
      */
-    protected $paymentNetworkTransactionID = null;
+    protected $paymentNetworkTransactionID;
 
     /**
      * @param int $reasonCode
@@ -339,5 +338,4 @@ class CCCreditReply
 
         return $this;
     }
-
 }

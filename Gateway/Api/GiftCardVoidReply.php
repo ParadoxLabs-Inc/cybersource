@@ -7,31 +7,30 @@ use Exception;
 
 class GiftCardVoidReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var \DateTime $requestDeTime
      */
-    protected $requestDeTime = null;
+    protected $requestDeTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @param int $reasonCode
@@ -147,5 +146,4 @@ class GiftCardVoidReply
 
         return $this;
     }
-
 }

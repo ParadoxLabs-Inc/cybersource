@@ -7,61 +7,60 @@ use Exception;
 
 class OCTReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $approvalCode
      */
-    protected $approvalCode = null;
+    protected $approvalCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $paymentNetworkTransactionID
      */
-    protected $paymentNetworkTransactionID = null;
+    protected $paymentNetworkTransactionID;
 
     /**
      * @var string $prepaidBalanceCurrency
      */
-    protected $prepaidBalanceCurrency = null;
+    protected $prepaidBalanceCurrency;
 
     /**
      * @var string $prepaidBalanceAmount
      */
-    protected $prepaidBalanceAmount = null;
+    protected $prepaidBalanceAmount;
 
     /**
      * @var string $processorResponseSource
      */
-    protected $processorResponseSource = null;
+    protected $processorResponseSource;
 
     /**
      * @var string $reconciliationIdType
      */
-    protected $reconciliationIdType = null;
+    protected $reconciliationIdType;
 
     /**
      * @param int $reasonCode
@@ -291,5 +290,4 @@ class OCTReply
 
         return $this;
     }
-
 }

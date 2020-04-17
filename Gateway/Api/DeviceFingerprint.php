@@ -7,175 +7,170 @@ use Exception;
 
 class DeviceFingerprint
 {
-
     /**
      * @var boolean $cookiesEnabled
      */
-    protected $cookiesEnabled = null;
+    protected $cookiesEnabled;
 
     /**
      * @var boolean $flashEnabled
      */
-    protected $flashEnabled = null;
+    protected $flashEnabled;
 
     /**
      * @var string $hash
      */
-    protected $hash = null;
+    protected $hash;
 
     /**
      * @var boolean $imagesEnabled
      */
-    protected $imagesEnabled = null;
+    protected $imagesEnabled;
 
     /**
      * @var boolean $javascriptEnabled
      */
-    protected $javascriptEnabled = null;
+    protected $javascriptEnabled;
 
     /**
      * @var string $proxyIPAddress
      */
-    protected $proxyIPAddress = null;
+    protected $proxyIPAddress;
 
     /**
      * @var string $proxyIPAddressActivities
      */
-    protected $proxyIPAddressActivities = null;
+    protected $proxyIPAddressActivities;
 
     /**
      * @var string $proxyIPAddressAttributes
      */
-    protected $proxyIPAddressAttributes = null;
+    protected $proxyIPAddressAttributes;
 
     /**
      * @var string $proxyServerType
      */
-    protected $proxyServerType = null;
+    protected $proxyServerType;
 
     /**
      * @var string $trueIPAddress
      */
-    protected $trueIPAddress = null;
+    protected $trueIPAddress;
 
     /**
      * @var string $trueIPAddressActivities
      */
-    protected $trueIPAddressActivities = null;
+    protected $trueIPAddressActivities;
 
     /**
      * @var string $trueIPAddressAttributes
      */
-    protected $trueIPAddressAttributes = null;
+    protected $trueIPAddressAttributes;
 
     /**
      * @var string $trueIPAddressCity
      */
-    protected $trueIPAddressCity = null;
+    protected $trueIPAddressCity;
 
     /**
      * @var string $trueIPAddressState
      */
-    protected $trueIPAddressState = null;
+    protected $trueIPAddressState;
 
     /**
      * @var string $trueIPAddressCountry
      */
-    protected $trueIPAddressCountry = null;
+    protected $trueIPAddressCountry;
 
     /**
      * @var string $smartID
      */
-    protected $smartID = null;
+    protected $smartID;
 
     /**
      * @var string $smartIDConfidenceLevel
      */
-    protected $smartIDConfidenceLevel = null;
+    protected $smartIDConfidenceLevel;
 
     /**
      * @var string $screenResolution
      */
-    protected $screenResolution = null;
+    protected $screenResolution;
 
     /**
      * @var string $browserLanguage
      */
-    protected $browserLanguage = null;
+    protected $browserLanguage;
 
     /**
      * @var string $agentType
      */
-    protected $agentType = null;
+    protected $agentType;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var int $profileDuration
      */
-    protected $profileDuration = null;
+    protected $profileDuration;
 
     /**
      * @var string $profiledURL
      */
-    protected $profiledURL = null;
+    protected $profiledURL;
 
     /**
      * @var int $timeOnPage
      */
-    protected $timeOnPage = null;
+    protected $timeOnPage;
 
     /**
      * @var string $deviceMatch
      */
-    protected $deviceMatch = null;
+    protected $deviceMatch;
 
     /**
      * @var string $firstEncounter
      */
-    protected $firstEncounter = null;
+    protected $firstEncounter;
 
     /**
      * @var string $flashOS
      */
-    protected $flashOS = null;
+    protected $flashOS;
 
     /**
      * @var string $flashVersion
      */
-    protected $flashVersion = null;
+    protected $flashVersion;
 
     /**
      * @var string $deviceLatitude
      */
-    protected $deviceLatitude = null;
+    protected $deviceLatitude;
 
     /**
      * @var string $deviceLongitude
      */
-    protected $deviceLongitude = null;
+    protected $deviceLongitude;
 
     /**
      * @var string $gpsAccuracy
      */
-    protected $gpsAccuracy = null;
+    protected $gpsAccuracy;
 
     /**
      * @var int $jbRoot
      */
-    protected $jbRoot = null;
+    protected $jbRoot;
 
     /**
      * @var string $jbRootReason
      */
-    protected $jbRootReason = null;
-
-    public function __construct()
-    {
-    }
+    protected $jbRootReason;
 
     /**
      * @return boolean
@@ -815,5 +810,4 @@ class DeviceFingerprint
 
         return $this;
     }
-
 }

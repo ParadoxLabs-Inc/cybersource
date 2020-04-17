@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DecisionEarlyReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $rcode
      */
-    protected $rcode = null;
+    protected $rcode;
 
     /**
      * @var string $rflag
      */
-    protected $rflag = null;
+    protected $rflag;
 
     /**
      * @var string $rmsg
      */
-    protected $rmsg = null;
+    protected $rmsg;
 
     /**
      * @var string $action
      */
-    protected $action = null;
+    protected $action;
 
     /**
      * @var ProfileReplyEarly $activeProfileReply
      */
-    protected $activeProfileReply = null;
-
-    public function __construct()
-    {
-    }
+    protected $activeProfileReply;
 
     /**
      * @return int
@@ -152,5 +147,4 @@ class DecisionEarlyReply
 
         return $this;
     }
-
 }

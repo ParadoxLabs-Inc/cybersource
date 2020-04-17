@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalCreateAgreementService
 {
-
     /**
      * @var string $paypalToken
      */
-    protected $paypalToken = null;
+    protected $paypalToken;
 
     /**
      * @var string $paypalEcSetRequestID
      */
-    protected $paypalEcSetRequestID = null;
+    protected $paypalEcSetRequestID;
 
     /**
      * @var string $paypalEcSetRequestToken
      */
-    protected $paypalEcSetRequestToken = null;
+    protected $paypalEcSetRequestToken;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class PayPalCreateAgreementService
 
         return $this;
     }
-
 }

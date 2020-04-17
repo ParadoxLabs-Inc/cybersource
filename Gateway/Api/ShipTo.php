@@ -4,160 +4,155 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ShipTo
 {
-
     /**
      * @var string $title
      */
-    protected $title = null;
+    protected $title;
 
     /**
      * @var string $firstName
      */
-    protected $firstName = null;
+    protected $firstName;
 
     /**
      * @var string $middleName
      */
-    protected $middleName = null;
+    protected $middleName;
 
     /**
      * @var string $lastName
      */
-    protected $lastName = null;
+    protected $lastName;
 
     /**
      * @var string $suffix
      */
-    protected $suffix = null;
+    protected $suffix;
 
     /**
      * @var string $street1
      */
-    protected $street1 = null;
+    protected $street1;
 
     /**
      * @var string $street2
      */
-    protected $street2 = null;
+    protected $street2;
 
     /**
      * @var string $street3
      */
-    protected $street3 = null;
+    protected $street3;
 
     /**
      * @var string $street4
      */
-    protected $street4 = null;
+    protected $street4;
 
     /**
      * @var string $street5
      */
-    protected $street5 = null;
+    protected $street5;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $county
      */
-    protected $county = null;
+    protected $county;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var string $buildingNumber
      */
-    protected $buildingNumber = null;
+    protected $buildingNumber;
 
     /**
      * @var string $district
      */
-    protected $district = null;
+    protected $district;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $company
      */
-    protected $company = null;
+    protected $company;
 
     /**
      * @var string $phoneNumber
      */
-    protected $phoneNumber = null;
+    protected $phoneNumber;
 
     /**
      * @var string $email
      */
-    protected $email = null;
+    protected $email;
 
     /**
      * @var string $shippingMethod
      */
-    protected $shippingMethod = null;
+    protected $shippingMethod;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @var string $addressVerificationStatus
      */
-    protected $addressVerificationStatus = null;
+    protected $addressVerificationStatus;
 
     /**
      * @var boolean $notApplicable
      */
-    protected $notApplicable = null;
+    protected $notApplicable;
 
     /**
      * @var boolean $immutable
      */
-    protected $immutable = null;
+    protected $immutable;
 
     /**
      * @var string $destinationCode
      */
-    protected $destinationCode = null;
+    protected $destinationCode;
 
     /**
      * @var boolean $pointOfReference
      */
-    protected $pointOfReference = null;
+    protected $pointOfReference;
 
     /**
      * @var boolean $default
      */
-    protected $default = null;
+    protected $default;
 
     /**
      * @var string $destinationTypes
      */
-    protected $destinationTypes = null;
-
-    public function __construct()
-    {
-    }
+    protected $destinationTypes;
 
     /**
      * @return string
@@ -740,5 +735,4 @@ class ShipTo
 
         return $this;
     }
-
 }

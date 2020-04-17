@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionCreateService
 {
-
     /**
      * @var string $paymentRequestID
      */
-    protected $paymentRequestID = null;
+    protected $paymentRequestID;
 
     /**
      * @var string $paymentRequestToken
      */
-    protected $paymentRequestToken = null;
+    protected $paymentRequestToken;
 
     /**
      * @var boolean $disableAutoAuth
      */
-    protected $disableAutoAuth = null;
+    protected $disableAutoAuth;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class PaySubscriptionCreateService
 
         return $this;
     }
-
 }

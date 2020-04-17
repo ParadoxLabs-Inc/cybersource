@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APOptionsService
 {
-
     /**
      * @var string $limit
      */
-    protected $limit = null;
+    protected $limit;
 
     /**
      * @var string $offset
      */
-    protected $offset = null;
+    protected $offset;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class APOptionsService
 
         return $this;
     }
-
 }

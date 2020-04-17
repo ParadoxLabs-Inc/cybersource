@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCIncrementalAuthService
 {
-
     /**
      * @var string $authRequestID
      */
-    protected $authRequestID = null;
+    protected $authRequestID;
 
     /**
      * @var int $duration
      */
-    protected $duration = null;
+    protected $duration;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class CCIncrementalAuthService
 
         return $this;
     }
-
 }

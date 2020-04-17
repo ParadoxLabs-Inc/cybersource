@@ -4,60 +4,55 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class OtherTax
 {
-
     /**
      * @var float $vatTaxAmount
      */
-    protected $vatTaxAmount = null;
+    protected $vatTaxAmount;
 
     /**
      * @var float $vatTaxRate
      */
-    protected $vatTaxRate = null;
+    protected $vatTaxRate;
 
     /**
      * @var string $vatTaxAmountSign
      */
-    protected $vatTaxAmountSign = null;
+    protected $vatTaxAmountSign;
 
     /**
      * @var float $alternateTaxAmount
      */
-    protected $alternateTaxAmount = null;
+    protected $alternateTaxAmount;
 
     /**
      * @var string $alternateTaxIndicator
      */
-    protected $alternateTaxIndicator = null;
+    protected $alternateTaxIndicator;
 
     /**
      * @var string $alternateTaxID
      */
-    protected $alternateTaxID = null;
+    protected $alternateTaxID;
 
     /**
      * @var float $localTaxAmount
      */
-    protected $localTaxAmount = null;
+    protected $localTaxAmount;
 
     /**
      * @var int $localTaxIndicator
      */
-    protected $localTaxIndicator = null;
+    protected $localTaxIndicator;
 
     /**
      * @var float $nationalTaxAmount
      */
-    protected $nationalTaxAmount = null;
+    protected $nationalTaxAmount;
 
     /**
      * @var int $nationalTaxIndicator
      */
-    protected $nationalTaxIndicator = null;
-
-    public function __construct()
-    {
-    }
+    protected $nationalTaxIndicator;
 
     /**
      * @return float
@@ -248,5 +243,4 @@ class OtherTax
 
         return $this;
     }
-
 }

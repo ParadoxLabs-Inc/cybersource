@@ -4,121 +4,120 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class HostedDataRetrieveReply
 {
-
     /**
      * @var string $responseMessage
      */
-    protected $responseMessage = null;
+    protected $responseMessage;
 
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $aggregatorMerchantIdentifier
      */
-    protected $aggregatorMerchantIdentifier = null;
+    protected $aggregatorMerchantIdentifier;
 
     /**
      * @var string $customerFirstName
      */
-    protected $customerFirstName = null;
+    protected $customerFirstName;
 
     /**
      * @var string $customerLastName
      */
-    protected $customerLastName = null;
+    protected $customerLastName;
 
     /**
      * @var string $customerID
      */
-    protected $customerID = null;
+    protected $customerID;
 
     /**
      * @var string $paymentMethod
      */
-    protected $paymentMethod = null;
+    protected $paymentMethod;
 
     /**
      * @var string $billToStreet1
      */
-    protected $billToStreet1 = null;
+    protected $billToStreet1;
 
     /**
      * @var string $billToStreet2
      */
-    protected $billToStreet2 = null;
+    protected $billToStreet2;
 
     /**
      * @var string $billToEmail
      */
-    protected $billToEmail = null;
+    protected $billToEmail;
 
     /**
      * @var string $billToState
      */
-    protected $billToState = null;
+    protected $billToState;
 
     /**
      * @var string $billToFirstName
      */
-    protected $billToFirstName = null;
+    protected $billToFirstName;
 
     /**
      * @var string $billToLastName
      */
-    protected $billToLastName = null;
+    protected $billToLastName;
 
     /**
      * @var string $billToCity
      */
-    protected $billToCity = null;
+    protected $billToCity;
 
     /**
      * @var string $billToCountry
      */
-    protected $billToCountry = null;
+    protected $billToCountry;
 
     /**
      * @var string $billToPostalCode
      */
-    protected $billToPostalCode = null;
+    protected $billToPostalCode;
 
     /**
      * @var string $cardAccountNumber
      */
-    protected $cardAccountNumber = null;
+    protected $cardAccountNumber;
 
     /**
      * @var string $cardType
      */
-    protected $cardType = null;
+    protected $cardType;
 
     /**
      * @var string $cardExpirationMonth
      */
-    protected $cardExpirationMonth = null;
+    protected $cardExpirationMonth;
 
     /**
      * @var string $cardExpirationYear
      */
-    protected $cardExpirationYear = null;
+    protected $cardExpirationYear;
 
     /**
      * @var string $cardIssueNumber
      */
-    protected $cardIssueNumber = null;
+    protected $cardIssueNumber;
 
     /**
      * @var string $cardStartMonth
      */
-    protected $cardStartMonth = null;
+    protected $cardStartMonth;
 
     /**
      * @var string $cardStartYear
      */
-    protected $cardStartYear = null;
+    protected $cardStartYear;
 
     /**
      * @param int $reasonCode
@@ -564,5 +563,4 @@ class HostedDataRetrieveReply
 
         return $this;
     }
-
 }

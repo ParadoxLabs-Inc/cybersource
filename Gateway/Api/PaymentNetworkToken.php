@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaymentNetworkToken
 {
-
     /**
      * @var string $requestorID
      */
-    protected $requestorID = null;
+    protected $requestorID;
 
     /**
      * @var string $transactionType
      */
-    protected $transactionType = null;
+    protected $transactionType;
 
     /**
      * @var string $assuranceLevel
      */
-    protected $assuranceLevel = null;
+    protected $assuranceLevel;
 
     /**
      * @var string $accountStatus
      */
-    protected $accountStatus = null;
+    protected $accountStatus;
 
     /**
      * @var string $originalCardCategory
      */
-    protected $originalCardCategory = null;
+    protected $originalCardCategory;
 
     /**
      * @var string $deviceTechType
      */
-    protected $deviceTechType = null;
-
-    public function __construct()
-    {
-    }
+    protected $deviceTechType;
 
     /**
      * @return string
@@ -152,5 +147,4 @@ class PaymentNetworkToken
 
         return $this;
     }
-
 }

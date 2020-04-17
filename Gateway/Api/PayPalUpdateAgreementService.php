@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalUpdateAgreementService
 {
-
     /**
      * @var string $paypalBillingAgreementId
      */
-    protected $paypalBillingAgreementId = null;
+    protected $paypalBillingAgreementId;
 
     /**
      * @var string $paypalBillingAgreementStatus
      */
-    protected $paypalBillingAgreementStatus = null;
+    protected $paypalBillingAgreementStatus;
 
     /**
      * @var string $paypalBillingAgreementDesc
      */
-    protected $paypalBillingAgreementDesc = null;
+    protected $paypalBillingAgreementDesc;
 
     /**
      * @var string $paypalBillingAgreementCustom
      */
-    protected $paypalBillingAgreementCustom = null;
+    protected $paypalBillingAgreementCustom;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -132,5 +131,4 @@ class PayPalUpdateAgreementService
 
         return $this;
     }
-
 }

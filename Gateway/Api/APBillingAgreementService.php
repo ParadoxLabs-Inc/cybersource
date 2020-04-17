@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APBillingAgreementService
 {
-
     /**
      * @var string $sessionsRequestID
      */
-    protected $sessionsRequestID = null;
+    protected $sessionsRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class APBillingAgreementService
 
         return $this;
     }
-
 }

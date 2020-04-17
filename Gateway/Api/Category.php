@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Category
 {
-
     /**
      * @var string $affiliate
      */
-    protected $affiliate = null;
+    protected $affiliate;
 
     /**
      * @var string $campaign
      */
-    protected $campaign = null;
+    protected $campaign;
 
     /**
      * @var string $group
      */
-    protected $group = null;
-
-    public function __construct()
-    {
-    }
+    protected $group;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class Category
 
         return $this;
     }
-
 }

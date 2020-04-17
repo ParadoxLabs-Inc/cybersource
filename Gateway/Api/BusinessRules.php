@@ -4,45 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class BusinessRules
 {
-
     /**
      * @var boolean $ignoreAVSResult
      */
-    protected $ignoreAVSResult = null;
+    protected $ignoreAVSResult;
 
     /**
      * @var boolean $ignoreCVResult
      */
-    protected $ignoreCVResult = null;
+    protected $ignoreCVResult;
 
     /**
      * @var boolean $ignoreDAVResult
      */
-    protected $ignoreDAVResult = null;
+    protected $ignoreDAVResult;
 
     /**
      * @var boolean $ignoreExportResult
      */
-    protected $ignoreExportResult = null;
+    protected $ignoreExportResult;
 
     /**
      * @var boolean $ignoreValidateResult
      */
-    protected $ignoreValidateResult = null;
+    protected $ignoreValidateResult;
 
     /**
      * @var string $declineAVSFlags
      */
-    protected $declineAVSFlags = null;
+    protected $declineAVSFlags;
 
     /**
      * @var int $scoreThreshold
      */
-    protected $scoreThreshold = null;
-
-    public function __construct()
-    {
-    }
+    protected $scoreThreshold;
 
     /**
      * @return boolean
@@ -176,5 +171,4 @@ class BusinessRules
 
         return $this;
     }
-
 }

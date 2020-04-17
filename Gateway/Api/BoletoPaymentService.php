@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class BoletoPaymentService
 {
-
     /**
      * @var string $instruction
      */
-    protected $instruction = null;
+    protected $instruction;
 
     /**
      * @var string $expirationDate
      */
-    protected $expirationDate = null;
+    protected $expirationDate;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class BoletoPaymentService
 
         return $this;
     }
-
 }

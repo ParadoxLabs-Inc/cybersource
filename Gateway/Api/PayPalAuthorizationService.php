@@ -4,41 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalAuthorizationService
 {
-
     /**
      * @var string $paypalOrderId
      */
-    protected $paypalOrderId = null;
+    protected $paypalOrderId;
 
     /**
      * @var string $paypalEcOrderSetupRequestID
      */
-    protected $paypalEcOrderSetupRequestID = null;
+    protected $paypalEcOrderSetupRequestID;
 
     /**
      * @var string $paypalEcOrderSetupRequestToken
      */
-    protected $paypalEcOrderSetupRequestToken = null;
+    protected $paypalEcOrderSetupRequestToken;
 
     /**
      * @var string $paypalDoRefTransactionRequestID
      */
-    protected $paypalDoRefTransactionRequestID = null;
+    protected $paypalDoRefTransactionRequestID;
 
     /**
      * @var string $paypalDoRefTransactionRequestToken
      */
-    protected $paypalDoRefTransactionRequestToken = null;
+    protected $paypalDoRefTransactionRequestToken;
 
     /**
      * @var string $paypalCustomerEmail
      */
-    protected $paypalCustomerEmail = null;
+    protected $paypalCustomerEmail;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -180,5 +179,4 @@ class PayPalAuthorizationService
 
         return $this;
     }
-
 }

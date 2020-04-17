@@ -7,31 +7,30 @@ use Exception;
 
 class VoidReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var boolean $reversalSubmitted
      */
-    protected $reversalSubmitted = null;
+    protected $reversalSubmitted;
 
     /**
      * @param int $reasonCode
@@ -147,5 +146,4 @@ class VoidReply
 
         return $this;
     }
-
 }

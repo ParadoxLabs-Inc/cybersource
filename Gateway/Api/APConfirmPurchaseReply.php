@@ -7,36 +7,35 @@ use Exception;
 
 class APConfirmPurchaseReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var string $providerResponse
      */
-    protected $providerResponse = null;
+    protected $providerResponse;
 
     /**
      * @param int $reasonCode
@@ -171,5 +170,4 @@ class APConfirmPurchaseReply
 
         return $this;
     }
-
 }

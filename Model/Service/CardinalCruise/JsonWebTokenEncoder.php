@@ -57,7 +57,6 @@ class JsonWebTokenEncoder
             throw new \Magento\Framework\Exception\InputException(__('Invalid or malformed JWT supplied.'));
         }
 
-        $header    = json_decode($this->decode($parts[0]), JSON_OBJECT_AS_ARRAY);
         $signature = $this->sign($parts[0] . '.' . $parts[1]);
         if (hash_equals($signature, (string)$this->decode($parts[2]))) {
             $claims = json_decode(

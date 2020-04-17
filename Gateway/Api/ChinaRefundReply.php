@@ -7,26 +7,25 @@ use Exception;
 
 class ChinaRefundReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @param int $reasonCode
@@ -123,5 +122,4 @@ class ChinaRefundReply
 
         return $this;
     }
-
 }

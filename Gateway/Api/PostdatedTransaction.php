@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PostdatedTransaction
 {
-
     /**
      * @var string $guaranteeIndicator
      */
-    protected $guaranteeIndicator = null;
+    protected $guaranteeIndicator;
 
     /**
      * @var string $guaranteeAmount
      */
-    protected $guaranteeAmount = null;
+    protected $guaranteeAmount;
 
     /**
      * @var int $settlementDate
      */
-    protected $settlementDate = null;
-
-    public function __construct()
-    {
-    }
+    protected $settlementDate;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class PostdatedTransaction
 
         return $this;
     }
-
 }

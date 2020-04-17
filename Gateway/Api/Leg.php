@@ -4,111 +4,110 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Leg
 {
-
     /**
      * @var string $carrierCode
      */
-    protected $carrierCode = null;
+    protected $carrierCode;
 
     /**
      * @var string $flightNumber
      */
-    protected $flightNumber = null;
+    protected $flightNumber;
 
     /**
      * @var string $originatingAirportCode
      */
-    protected $originatingAirportCode = null;
+    protected $originatingAirportCode;
 
     /**
      * @var string $class
      */
-    protected $class = null;
+    protected $class;
 
     /**
      * @var string $stopoverCode
      */
-    protected $stopoverCode = null;
+    protected $stopoverCode;
 
     /**
      * @var string $departureDate
      */
-    protected $departureDate = null;
+    protected $departureDate;
 
     /**
      * @var string $destination
      */
-    protected $destination = null;
+    protected $destination;
 
     /**
      * @var string $fareBasis
      */
-    protected $fareBasis = null;
+    protected $fareBasis;
 
     /**
      * @var string $departTax
      */
-    protected $departTax = null;
+    protected $departTax;
 
     /**
      * @var string $conjunctionTicket
      */
-    protected $conjunctionTicket = null;
+    protected $conjunctionTicket;
 
     /**
      * @var string $exchangeTicket
      */
-    protected $exchangeTicket = null;
+    protected $exchangeTicket;
 
     /**
      * @var string $couponNumber
      */
-    protected $couponNumber = null;
+    protected $couponNumber;
 
     /**
      * @var string $departureTime
      */
-    protected $departureTime = null;
+    protected $departureTime;
 
     /**
      * @var string $departureTimeSegment
      */
-    protected $departureTimeSegment = null;
+    protected $departureTimeSegment;
 
     /**
      * @var string $arrivalTime
      */
-    protected $arrivalTime = null;
+    protected $arrivalTime;
 
     /**
      * @var string $arrivalTimeSegment
      */
-    protected $arrivalTimeSegment = null;
+    protected $arrivalTimeSegment;
 
     /**
      * @var string $endorsementsRestrictions
      */
-    protected $endorsementsRestrictions = null;
+    protected $endorsementsRestrictions;
 
     /**
      * @var string $fare
      */
-    protected $fare = null;
+    protected $fare;
 
     /**
      * @var string $fee
      */
-    protected $fee = null;
+    protected $fee;
 
     /**
      * @var string $tax
      */
-    protected $tax = null;
+    protected $tax;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -516,5 +515,4 @@ class Leg
 
         return $this;
     }
-
 }

@@ -4,31 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APCheckStatusService
 {
-
     /**
      * @var string $apInitiateRequestID
      */
-    protected $apInitiateRequestID = null;
+    protected $apInitiateRequestID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $checkStatusRequestID
      */
-    protected $checkStatusRequestID = null;
+    protected $checkStatusRequestID;
 
     /**
      * @var string $sessionsRequestID
      */
-    protected $sessionsRequestID = null;
+    protected $sessionsRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -132,5 +131,4 @@ class APCheckStatusService
 
         return $this;
     }
-
 }

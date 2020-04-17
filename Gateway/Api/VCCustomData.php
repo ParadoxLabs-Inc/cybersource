@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VCCustomData
 {
-
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $value
      */
-    protected $value = null;
+    protected $value;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -84,5 +83,4 @@ class VCCustomData
 
         return $this;
     }
-
 }

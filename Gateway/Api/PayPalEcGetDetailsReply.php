@@ -4,181 +4,180 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalEcGetDetailsReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paypalToken
      */
-    protected $paypalToken = null;
+    protected $paypalToken;
 
     /**
      * @var string $payer
      */
-    protected $payer = null;
+    protected $payer;
 
     /**
      * @var string $payerId
      */
-    protected $payerId = null;
+    protected $payerId;
 
     /**
      * @var string $payerStatus
      */
-    protected $payerStatus = null;
+    protected $payerStatus;
 
     /**
      * @var string $payerSalutation
      */
-    protected $payerSalutation = null;
+    protected $payerSalutation;
 
     /**
      * @var string $payerFirstname
      */
-    protected $payerFirstname = null;
+    protected $payerFirstname;
 
     /**
      * @var string $payerMiddlename
      */
-    protected $payerMiddlename = null;
+    protected $payerMiddlename;
 
     /**
      * @var string $payerLastname
      */
-    protected $payerLastname = null;
+    protected $payerLastname;
 
     /**
      * @var string $payerSuffix
      */
-    protected $payerSuffix = null;
+    protected $payerSuffix;
 
     /**
      * @var string $payerCountry
      */
-    protected $payerCountry = null;
+    protected $payerCountry;
 
     /**
      * @var string $payerBusiness
      */
-    protected $payerBusiness = null;
+    protected $payerBusiness;
 
     /**
      * @var string $shipToName
      */
-    protected $shipToName = null;
+    protected $shipToName;
 
     /**
      * @var string $shipToAddress1
      */
-    protected $shipToAddress1 = null;
+    protected $shipToAddress1;
 
     /**
      * @var string $shipToAddress2
      */
-    protected $shipToAddress2 = null;
+    protected $shipToAddress2;
 
     /**
      * @var string $shipToCity
      */
-    protected $shipToCity = null;
+    protected $shipToCity;
 
     /**
      * @var string $shipToState
      */
-    protected $shipToState = null;
+    protected $shipToState;
 
     /**
      * @var string $shipToCountry
      */
-    protected $shipToCountry = null;
+    protected $shipToCountry;
 
     /**
      * @var string $shipToZip
      */
-    protected $shipToZip = null;
+    protected $shipToZip;
 
     /**
      * @var string $addressStatus
      */
-    protected $addressStatus = null;
+    protected $addressStatus;
 
     /**
      * @var string $payerPhone
      */
-    protected $payerPhone = null;
+    protected $payerPhone;
 
     /**
      * @var string $avsCode
      */
-    protected $avsCode = null;
+    protected $avsCode;
 
     /**
      * @var string $street1
      */
-    protected $street1 = null;
+    protected $street1;
 
     /**
      * @var string $street2
      */
-    protected $street2 = null;
+    protected $street2;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $countryCode
      */
-    protected $countryCode = null;
+    protected $countryCode;
 
     /**
      * @var string $countryName
      */
-    protected $countryName = null;
+    protected $countryName;
 
     /**
      * @var string $addressID
      */
-    protected $addressID = null;
+    protected $addressID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $paypalBillingAgreementAcceptedStatus
      */
-    protected $paypalBillingAgreementAcceptedStatus = null;
+    protected $paypalBillingAgreementAcceptedStatus;
 
     /**
      * @var string $paypalTaxAmount
      */
-    protected $paypalTaxAmount = null;
+    protected $paypalTaxAmount;
 
     /**
      * @var Item[] $item
      */
-    protected $item = null;
+    protected $item;
 
     /**
      * @param int $reasonCode
@@ -852,5 +851,4 @@ class PayPalEcGetDetailsReply
 
         return $this;
     }
-
 }

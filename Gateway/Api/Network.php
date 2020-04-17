@@ -4,41 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Network
 {
-
     /**
      * @var string $octDomesticIndicator
      */
-    protected $octDomesticIndicator = null;
+    protected $octDomesticIndicator;
 
     /**
      * @var string $octCrossBorderIndicator
      */
-    protected $octCrossBorderIndicator = null;
+    protected $octCrossBorderIndicator;
 
     /**
      * @var string $aftDomesticIndicator
      */
-    protected $aftDomesticIndicator = null;
+    protected $aftDomesticIndicator;
 
     /**
      * @var string $aftCrossBorderIndicator
      */
-    protected $aftCrossBorderIndicator = null;
+    protected $aftCrossBorderIndicator;
 
     /**
      * @var string $networkID
      */
-    protected $networkID = null;
+    protected $networkID;
 
     /**
      * @var string $networkOrder
      */
-    protected $networkOrder = null;
+    protected $networkOrder;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -180,5 +179,4 @@ class Network
 
         return $this;
     }
-
 }

@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DeviceFingerprintData
 {
-
     /**
      * @var string $data
      */
-    protected $data = null;
+    protected $data;
 
     /**
      * @var string $provider
      */
-    protected $provider = null;
+    protected $provider;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -84,5 +83,4 @@ class DeviceFingerprintData
 
         return $this;
     }
-
 }

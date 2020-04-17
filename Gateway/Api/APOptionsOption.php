@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APOptionsOption
 {
-
     /**
      * @var string $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var int $data
      */
-    protected $data = null;
+    protected $data;
 
     /**
      * @param int $data
@@ -84,5 +83,4 @@ class APOptionsOption
 
         return $this;
     }
-
 }

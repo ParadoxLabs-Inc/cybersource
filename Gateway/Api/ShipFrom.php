@@ -4,95 +4,90 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ShipFrom
 {
-
     /**
      * @var string $title
      */
-    protected $title = null;
+    protected $title;
 
     /**
      * @var string $firstName
      */
-    protected $firstName = null;
+    protected $firstName;
 
     /**
      * @var string $middleName
      */
-    protected $middleName = null;
+    protected $middleName;
 
     /**
      * @var string $lastName
      */
-    protected $lastName = null;
+    protected $lastName;
 
     /**
      * @var string $suffix
      */
-    protected $suffix = null;
+    protected $suffix;
 
     /**
      * @var string $street1
      */
-    protected $street1 = null;
+    protected $street1;
 
     /**
      * @var string $street2
      */
-    protected $street2 = null;
+    protected $street2;
 
     /**
      * @var string $street3
      */
-    protected $street3 = null;
+    protected $street3;
 
     /**
      * @var string $street4
      */
-    protected $street4 = null;
+    protected $street4;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $county
      */
-    protected $county = null;
+    protected $county;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $company
      */
-    protected $company = null;
+    protected $company;
 
     /**
      * @var string $phoneNumber
      */
-    protected $phoneNumber = null;
+    protected $phoneNumber;
 
     /**
      * @var string $email
      */
-    protected $email = null;
-
-    public function __construct()
-    {
-    }
+    protected $email;
 
     /**
      * @return string
@@ -416,5 +411,4 @@ class ShipFrom
 
         return $this;
     }
-
 }

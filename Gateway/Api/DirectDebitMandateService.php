@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DirectDebitMandateService
 {
-
     /**
      * @var string $mandateDescriptor
      */
-    protected $mandateDescriptor = null;
+    protected $mandateDescriptor;
 
     /**
      * @var string $firstDebitDate
      */
-    protected $firstDebitDate = null;
+    protected $firstDebitDate;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class DirectDebitMandateService
 
         return $this;
     }
-
 }

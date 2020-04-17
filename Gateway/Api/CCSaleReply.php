@@ -7,111 +7,110 @@ use Exception;
 
 class CCSaleReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $avsCode
      */
-    protected $avsCode = null;
+    protected $avsCode;
 
     /**
      * @var string $avsCodeRaw
      */
-    protected $avsCodeRaw = null;
+    protected $avsCodeRaw;
 
     /**
      * @var string $cvCode
      */
-    protected $cvCode = null;
+    protected $cvCode;
 
     /**
      * @var string $cvCodeRaw
      */
-    protected $cvCodeRaw = null;
+    protected $cvCodeRaw;
 
     /**
      * @var string $cavvResponseCode
      */
-    protected $cavvResponseCode = null;
+    protected $cavvResponseCode;
 
     /**
      * @var string $cavvResponseCodeRaw
      */
-    protected $cavvResponseCodeRaw = null;
+    protected $cavvResponseCodeRaw;
 
     /**
      * @var string $cardGroup
      */
-    protected $cardGroup = null;
+    protected $cardGroup;
 
     /**
      * @var string $paymentNetworkTransactionID
      */
-    protected $paymentNetworkTransactionID = null;
+    protected $paymentNetworkTransactionID;
 
     /**
      * @var string $cardCategory
      */
-    protected $cardCategory = null;
+    protected $cardCategory;
 
     /**
      * @var float $accountBalance
      */
-    protected $accountBalance = null;
+    protected $accountBalance;
 
     /**
      * @var \DateTime $authorizedDateTime
      */
-    protected $authorizedDateTime = null;
+    protected $authorizedDateTime;
 
     /**
      * @var float $requestAmount
      */
-    protected $requestAmount = null;
+    protected $requestAmount;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $accountBalanceCurrency
      */
-    protected $accountBalanceCurrency = null;
+    protected $accountBalanceCurrency;
 
     /**
      * @var string $accountBalanceSign
      */
-    protected $accountBalanceSign = null;
+    protected $accountBalanceSign;
 
     /**
      * @var string $cardReferenceData
      */
-    protected $cardReferenceData = null;
+    protected $cardReferenceData;
 
     /**
      * @var string $partialPANandIBAN
      */
-    protected $partialPANandIBAN = null;
+    protected $partialPANandIBAN;
 
     /**
      * @param int $reasonCode
@@ -531,5 +530,4 @@ class CCSaleReply
 
         return $this;
     }
-
 }

@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class GECC
 {
-
     /**
      * @var string $saleType
      */
-    protected $saleType = null;
+    protected $saleType;
 
     /**
      * @var string $planNumber
      */
-    protected $planNumber = null;
+    protected $planNumber;
 
     /**
      * @var string $sequenceNumber
      */
-    protected $sequenceNumber = null;
+    protected $sequenceNumber;
 
     /**
      * @var string $promotionEndDate
      */
-    protected $promotionEndDate = null;
+    protected $promotionEndDate;
 
     /**
      * @var string $promotionPlan
      */
-    protected $promotionPlan = null;
+    protected $promotionPlan;
 
     /**
      * @var string[] $line
      */
-    protected $line = null;
-
-    public function __construct()
-    {
-    }
+    protected $line;
 
     /**
      * @return string
@@ -152,5 +147,4 @@ class GECC
 
         return $this;
     }
-
 }

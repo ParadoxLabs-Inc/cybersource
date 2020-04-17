@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FundingTotals
 {
-
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var float $grandTotalAmount
      */
-    protected $grandTotalAmount = null;
-
-    public function __construct()
-    {
-    }
+    protected $grandTotalAmount;
 
     /**
      * @return string
@@ -56,5 +51,4 @@ class FundingTotals
 
         return $this;
     }
-
 }

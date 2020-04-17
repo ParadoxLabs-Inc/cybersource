@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class EmvRequest
 {
-
     /**
      * @var string $combinedTags
      */
-    protected $combinedTags = null;
+    protected $combinedTags;
 
     /**
      * @var string $repeat
      */
-    protected $repeat = null;
+    protected $repeat;
 
     /**
      * @var string $cardSequenceNumber
      */
-    protected $cardSequenceNumber = null;
+    protected $cardSequenceNumber;
 
     /**
      * @var string $aidAndDFname
      */
-    protected $aidAndDFname = null;
+    protected $aidAndDFname;
 
     /**
      * @var string $fallback
      */
-    protected $fallback = null;
+    protected $fallback;
 
     /**
      * @var string $fallbackCondition
      */
-    protected $fallbackCondition = null;
-
-    public function __construct()
-    {
-    }
+    protected $fallbackCondition;
 
     /**
      * @return string
@@ -152,5 +147,4 @@ class EmvRequest
 
         return $this;
     }
-
 }

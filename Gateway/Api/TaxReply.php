@@ -4,106 +4,105 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class TaxReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var float $grandTotalAmount
      */
-    protected $grandTotalAmount = null;
+    protected $grandTotalAmount;
 
     /**
      * @var float $totalTaxableAmount
      */
-    protected $totalTaxableAmount = null;
+    protected $totalTaxableAmount;
 
     /**
      * @var float $totalExemptAmount
      */
-    protected $totalExemptAmount = null;
+    protected $totalExemptAmount;
 
     /**
      * @var float $totalSpecialTaxAmount
      */
-    protected $totalSpecialTaxAmount = null;
+    protected $totalSpecialTaxAmount;
 
     /**
      * @var float $totalCityTaxAmount
      */
-    protected $totalCityTaxAmount = null;
+    protected $totalCityTaxAmount;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var float $totalCountyTaxAmount
      */
-    protected $totalCountyTaxAmount = null;
+    protected $totalCountyTaxAmount;
 
     /**
      * @var string $county
      */
-    protected $county = null;
+    protected $county;
 
     /**
      * @var float $totalDistrictTaxAmount
      */
-    protected $totalDistrictTaxAmount = null;
+    protected $totalDistrictTaxAmount;
 
     /**
      * @var float $totalStateTaxAmount
      */
-    protected $totalStateTaxAmount = null;
+    protected $totalStateTaxAmount;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var float $totalCountryTaxAmount
      */
-    protected $totalCountryTaxAmount = null;
+    protected $totalCountryTaxAmount;
 
     /**
      * @var float $totalTaxAmount
      */
-    protected $totalTaxAmount = null;
+    protected $totalTaxAmount;
 
     /**
      * @var string $commitIndicator
      */
-    protected $commitIndicator = null;
+    protected $commitIndicator;
 
     /**
      * @var string $refundIndicator
      */
-    protected $refundIndicator = null;
+    protected $refundIndicator;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $geocode
      */
-    protected $geocode = null;
+    protected $geocode;
 
     /**
      * @var TaxReplyItem[] $item
      */
-    protected $item = null;
+    protected $item;
 
     /**
      * @param int $reasonCode
@@ -492,5 +491,4 @@ class TaxReply
 
         return $this;
     }
-
 }

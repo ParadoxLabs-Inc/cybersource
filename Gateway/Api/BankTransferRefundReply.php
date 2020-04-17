@@ -7,41 +7,40 @@ use Exception;
 
 class BankTransferRefundReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $iban
      */
-    protected $iban = null;
+    protected $iban;
 
     /**
      * @var string $reconciliationReferenceNumber
      */
-    protected $reconciliationReferenceNumber = null;
+    protected $reconciliationReferenceNumber;
 
     /**
      * @param int $reasonCode
@@ -195,5 +194,4 @@ class BankTransferRefundReply
 
         return $this;
     }
-
 }

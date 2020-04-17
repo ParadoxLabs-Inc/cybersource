@@ -4,115 +4,110 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class MerchantDefinedData
 {
-
     /**
      * @var string $field1
      */
-    protected $field1 = null;
+    protected $field1;
 
     /**
      * @var string $field2
      */
-    protected $field2 = null;
+    protected $field2;
 
     /**
      * @var string $field3
      */
-    protected $field3 = null;
+    protected $field3;
 
     /**
      * @var string $field4
      */
-    protected $field4 = null;
+    protected $field4;
 
     /**
      * @var string $field5
      */
-    protected $field5 = null;
+    protected $field5;
 
     /**
      * @var string $field6
      */
-    protected $field6 = null;
+    protected $field6;
 
     /**
      * @var string $field7
      */
-    protected $field7 = null;
+    protected $field7;
 
     /**
      * @var string $field8
      */
-    protected $field8 = null;
+    protected $field8;
 
     /**
      * @var string $field9
      */
-    protected $field9 = null;
+    protected $field9;
 
     /**
      * @var string $field10
      */
-    protected $field10 = null;
+    protected $field10;
 
     /**
      * @var string $field11
      */
-    protected $field11 = null;
+    protected $field11;
 
     /**
      * @var string $field12
      */
-    protected $field12 = null;
+    protected $field12;
 
     /**
      * @var string $field13
      */
-    protected $field13 = null;
+    protected $field13;
 
     /**
      * @var string $field14
      */
-    protected $field14 = null;
+    protected $field14;
 
     /**
      * @var string $field15
      */
-    protected $field15 = null;
+    protected $field15;
 
     /**
      * @var string $field16
      */
-    protected $field16 = null;
+    protected $field16;
 
     /**
      * @var string $field17
      */
-    protected $field17 = null;
+    protected $field17;
 
     /**
      * @var string $field18
      */
-    protected $field18 = null;
+    protected $field18;
 
     /**
      * @var string $field19
      */
-    protected $field19 = null;
+    protected $field19;
 
     /**
      * @var string $field20
      */
-    protected $field20 = null;
+    protected $field20;
 
     /**
      * @var MDDField[] $mddField
      */
-    protected $mddField = null;
-
-    public function __construct()
-    {
-    }
+    protected $mddField;
 
     /**
      * @return string
@@ -512,5 +507,4 @@ class MerchantDefinedData
 
         return $this;
     }
-
 }

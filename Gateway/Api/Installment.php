@@ -4,160 +4,155 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Installment
 {
-
     /**
      * @var string $sequence
      */
-    protected $sequence = null;
+    protected $sequence;
 
     /**
      * @var string $totalCount
      */
-    protected $totalCount = null;
+    protected $totalCount;
 
     /**
      * @var string $totalAmount
      */
-    protected $totalAmount = null;
+    protected $totalAmount;
 
     /**
      * @var string $frequency
      */
-    protected $frequency = null;
+    protected $frequency;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $planType
      */
-    protected $planType = null;
+    protected $planType;
 
     /**
      * @var string $firstInstallmentDate
      */
-    protected $firstInstallmentDate = null;
+    protected $firstInstallmentDate;
 
     /**
      * @var string $amountFunded
      */
-    protected $amountFunded = null;
+    protected $amountFunded;
 
     /**
      * @var string $amountRequestedPercentage
      */
-    protected $amountRequestedPercentage = null;
+    protected $amountRequestedPercentage;
 
     /**
      * @var string $expenses
      */
-    protected $expenses = null;
+    protected $expenses;
 
     /**
      * @var string $expensesPercentage
      */
-    protected $expensesPercentage = null;
+    protected $expensesPercentage;
 
     /**
      * @var string $fees
      */
-    protected $fees = null;
+    protected $fees;
 
     /**
      * @var string $feesPercentage
      */
-    protected $feesPercentage = null;
+    protected $feesPercentage;
 
     /**
      * @var string $taxes
      */
-    protected $taxes = null;
+    protected $taxes;
 
     /**
      * @var string $taxesPercentage
      */
-    protected $taxesPercentage = null;
+    protected $taxesPercentage;
 
     /**
      * @var string $insurance
      */
-    protected $insurance = null;
+    protected $insurance;
 
     /**
      * @var string $insurancePercentage
      */
-    protected $insurancePercentage = null;
+    protected $insurancePercentage;
 
     /**
      * @var string $additionalCosts
      */
-    protected $additionalCosts = null;
+    protected $additionalCosts;
 
     /**
      * @var string $additionalCostsPercentage
      */
-    protected $additionalCostsPercentage = null;
+    protected $additionalCostsPercentage;
 
     /**
      * @var string $monthlyInterestRate
      */
-    protected $monthlyInterestRate = null;
+    protected $monthlyInterestRate;
 
     /**
      * @var string $annualInterestRate
      */
-    protected $annualInterestRate = null;
+    protected $annualInterestRate;
 
     /**
      * @var string $annualFinancingCost
      */
-    protected $annualFinancingCost = null;
+    protected $annualFinancingCost;
 
     /**
      * @var string $paymentType
      */
-    protected $paymentType = null;
+    protected $paymentType;
 
     /**
      * @var string $invoiceData
      */
-    protected $invoiceData = null;
+    protected $invoiceData;
 
     /**
      * @var string $downPayment
      */
-    protected $downPayment = null;
+    protected $downPayment;
 
     /**
      * @var string $firstInstallmentAmount
      */
-    protected $firstInstallmentAmount = null;
+    protected $firstInstallmentAmount;
 
     /**
      * @var string $minimumTotalCount
      */
-    protected $minimumTotalCount = null;
+    protected $minimumTotalCount;
 
     /**
      * @var string $maximumTotalCount
      */
-    protected $maximumTotalCount = null;
+    protected $maximumTotalCount;
 
     /**
      * @var string $gracePeriodDuration
      */
-    protected $gracePeriodDuration = null;
+    protected $gracePeriodDuration;
 
     /**
      * @var string $gracePeriodDurationType
      */
-    protected $gracePeriodDurationType = null;
-
-    public function __construct()
-    {
-    }
+    protected $gracePeriodDurationType;
 
     /**
      * @return string
@@ -728,5 +723,4 @@ class Installment
 
         return $this;
     }
-
 }

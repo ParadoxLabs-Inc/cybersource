@@ -4,280 +4,275 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VCReply
 {
-
     /**
      * @var string $creationTimeStamp
      */
-    protected $creationTimeStamp = null;
+    protected $creationTimeStamp;
 
     /**
      * @var string $alternateShippingAddressCountryCode
      */
-    protected $alternateShippingAddressCountryCode = null;
+    protected $alternateShippingAddressCountryCode;
 
     /**
      * @var string $alternateShippingAddressPostalCode
      */
-    protected $alternateShippingAddressPostalCode = null;
+    protected $alternateShippingAddressPostalCode;
 
     /**
      * @var string $vcAccountLoginName
      */
-    protected $vcAccountLoginName = null;
+    protected $vcAccountLoginName;
 
     /**
      * @var string $vcAccountFirstName
      */
-    protected $vcAccountFirstName = null;
+    protected $vcAccountFirstName;
 
     /**
      * @var string $vcAccountLastName
      */
-    protected $vcAccountLastName = null;
+    protected $vcAccountLastName;
 
     /**
      * @var string $vcAccountEncryptedID
      */
-    protected $vcAccountEncryptedID = null;
+    protected $vcAccountEncryptedID;
 
     /**
      * @var string $vcAccountEmail
      */
-    protected $vcAccountEmail = null;
+    protected $vcAccountEmail;
 
     /**
      * @var string $vcAccountMobilePhoneNumber
      */
-    protected $vcAccountMobilePhoneNumber = null;
+    protected $vcAccountMobilePhoneNumber;
 
     /**
      * @var string $merchantReferenceID
      */
-    protected $merchantReferenceID = null;
+    protected $merchantReferenceID;
 
     /**
      * @var string $subtotalAmount
      */
-    protected $subtotalAmount = null;
+    protected $subtotalAmount;
 
     /**
      * @var string $shippingHandlingAmount
      */
-    protected $shippingHandlingAmount = null;
+    protected $shippingHandlingAmount;
 
     /**
      * @var string $taxAmount
      */
-    protected $taxAmount = null;
+    protected $taxAmount;
 
     /**
      * @var string $discountAmount
      */
-    protected $discountAmount = null;
+    protected $discountAmount;
 
     /**
      * @var string $giftWrapAmount
      */
-    protected $giftWrapAmount = null;
+    protected $giftWrapAmount;
 
     /**
      * @var string $uncategorizedAmount
      */
-    protected $uncategorizedAmount = null;
+    protected $uncategorizedAmount;
 
     /**
      * @var string $totalPurchaseAmount
      */
-    protected $totalPurchaseAmount = null;
+    protected $totalPurchaseAmount;
 
     /**
      * @var string $walletReferenceID
      */
-    protected $walletReferenceID = null;
+    protected $walletReferenceID;
 
     /**
      * @var string $promotionCode
      */
-    protected $promotionCode = null;
+    protected $promotionCode;
 
     /**
      * @var string $paymentInstrumentID
      */
-    protected $paymentInstrumentID = null;
+    protected $paymentInstrumentID;
 
     /**
      * @var string $cardVerificationStatus
      */
-    protected $cardVerificationStatus = null;
+    protected $cardVerificationStatus;
 
     /**
      * @var string $issuerID
      */
-    protected $issuerID = null;
+    protected $issuerID;
 
     /**
      * @var string $paymentInstrumentNickName
      */
-    protected $paymentInstrumentNickName = null;
+    protected $paymentInstrumentNickName;
 
     /**
      * @var string $nameOnCard
      */
-    protected $nameOnCard = null;
+    protected $nameOnCard;
 
     /**
      * @var string $cardType
      */
-    protected $cardType = null;
+    protected $cardType;
 
     /**
      * @var string $cardGroup
      */
-    protected $cardGroup = null;
+    protected $cardGroup;
 
     /**
      * @var VCCardArt $cardArt
      */
-    protected $cardArt = null;
+    protected $cardArt;
 
     /**
      * @var string $riskAdvice
      */
-    protected $riskAdvice = null;
+    protected $riskAdvice;
 
     /**
      * @var string $riskScore
      */
-    protected $riskScore = null;
+    protected $riskScore;
 
     /**
      * @var string $riskAdditionalData
      */
-    protected $riskAdditionalData = null;
+    protected $riskAdditionalData;
 
     /**
      * @var string $avsCodeRaw
      */
-    protected $avsCodeRaw = null;
+    protected $avsCodeRaw;
 
     /**
      * @var string $cvnCodeRaw
      */
-    protected $cvnCodeRaw = null;
+    protected $cvnCodeRaw;
 
     /**
      * @var string $eciRaw
      */
-    protected $eciRaw = null;
+    protected $eciRaw;
 
     /**
      * @var string $eci
      */
-    protected $eci = null;
+    protected $eci;
 
     /**
      * @var string $cavv
      */
-    protected $cavv = null;
+    protected $cavv;
 
     /**
      * @var string $veresEnrolled
      */
-    protected $veresEnrolled = null;
+    protected $veresEnrolled;
 
     /**
      * @var string $veresTimeStamp
      */
-    protected $veresTimeStamp = null;
+    protected $veresTimeStamp;
 
     /**
      * @var string $paresStatus
      */
-    protected $paresStatus = null;
+    protected $paresStatus;
 
     /**
      * @var string $paresTimeStamp
      */
-    protected $paresTimeStamp = null;
+    protected $paresTimeStamp;
 
     /**
      * @var string $xid
      */
-    protected $xid = null;
+    protected $xid;
 
     /**
      * @var VCCustomData $customData
      */
-    protected $customData = null;
+    protected $customData;
 
     /**
      * @var string $vcAccountFullName
      */
-    protected $vcAccountFullName = null;
+    protected $vcAccountFullName;
 
     /**
      * @var string $paymentDescription
      */
-    protected $paymentDescription = null;
+    protected $paymentDescription;
 
     /**
      * @var string $billingAddressStreetName
      */
-    protected $billingAddressStreetName = null;
+    protected $billingAddressStreetName;
 
     /**
      * @var string $billingAddressAdditionalLocation
      */
-    protected $billingAddressAdditionalLocation = null;
+    protected $billingAddressAdditionalLocation;
 
     /**
      * @var string $billingAddressStreetNumber
      */
-    protected $billingAddressStreetNumber = null;
+    protected $billingAddressStreetNumber;
 
     /**
      * @var string $expiredCard
      */
-    protected $expiredCard = null;
+    protected $expiredCard;
 
     /**
      * @var string $cardFirstName
      */
-    protected $cardFirstName = null;
+    protected $cardFirstName;
 
     /**
      * @var string $cardLastName
      */
-    protected $cardLastName = null;
+    protected $cardLastName;
 
     /**
      * @var string $shippingAddressStreetName
      */
-    protected $shippingAddressStreetName = null;
+    protected $shippingAddressStreetName;
 
     /**
      * @var string $shippingAddressAdditionalLocation
      */
-    protected $shippingAddressAdditionalLocation = null;
+    protected $shippingAddressAdditionalLocation;
 
     /**
      * @var string $shippingAddressStreetNumber
      */
-    protected $shippingAddressStreetNumber = null;
+    protected $shippingAddressStreetNumber;
 
     /**
      * @var string $ageOfAccount
      */
-    protected $ageOfAccount = null;
+    protected $ageOfAccount;
 
     /**
      * @var string $newUser
      */
-    protected $newUser = null;
-
-    public function __construct()
-    {
-    }
+    protected $newUser;
 
     /**
      * @return string
@@ -1304,5 +1299,4 @@ class VCReply
 
         return $this;
     }
-
 }

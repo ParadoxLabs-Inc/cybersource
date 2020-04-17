@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class MorphingElement
 {
-
     /**
      * @var Element[] $element
      */
-    protected $element = null;
-
-    public function __construct()
-    {
-    }
+    protected $element;
 
     /**
      * @return Element[]
@@ -32,5 +27,4 @@ class MorphingElement
 
         return $this;
     }
-
 }

@@ -7,35 +7,30 @@ use Exception;
 
 class DecisionManagerTravelData
 {
-
     /**
      * @var DecisionManagerTravelLeg[] $leg
      */
-    protected $leg = null;
+    protected $leg;
 
     /**
      * @var \DateTime $departureDateTime
      */
-    protected $departureDateTime = null;
+    protected $departureDateTime;
 
     /**
      * @var string $completeRoute
      */
-    protected $completeRoute = null;
+    protected $completeRoute;
 
     /**
      * @var string $journeyType
      */
-    protected $journeyType = null;
+    protected $journeyType;
 
     /**
      * @var string $actualFinalDestination
      */
-    protected $actualFinalDestination = null;
-
-    public function __construct()
-    {
-    }
+    protected $actualFinalDestination;
 
     /**
      * @return DecisionManagerTravelLeg[]
@@ -143,5 +138,4 @@ class DecisionManagerTravelData
 
         return $this;
     }
-
 }

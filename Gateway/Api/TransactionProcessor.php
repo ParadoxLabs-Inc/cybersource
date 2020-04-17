@@ -9,7 +9,6 @@ use SoapClient;
  */
 class TransactionProcessor extends SoapClient
 {
-
     /**
      * @var array $classmap The defined classes
      */
@@ -359,5 +358,4 @@ class TransactionProcessor extends SoapClient
     {
         return $this->__soapCall('runTransaction', [$input]);
     }
-
 }

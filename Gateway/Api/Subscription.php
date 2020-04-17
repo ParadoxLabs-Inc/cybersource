@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Subscription
 {
-
     /**
      * @var string $title
      */
-    protected $title = null;
+    protected $title;
 
     /**
      * @var string $paymentMethod
      */
-    protected $paymentMethod = null;
-
-    public function __construct()
-    {
-    }
+    protected $paymentMethod;
 
     /**
      * @return string
@@ -56,5 +51,4 @@ class Subscription
 
         return $this;
     }
-
 }

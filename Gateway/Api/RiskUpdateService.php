@@ -4,61 +4,60 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class RiskUpdateService
 {
-
     /**
      * @var string $actionCode
      */
-    protected $actionCode = null;
+    protected $actionCode;
 
     /**
      * @var string $recordID
      */
-    protected $recordID = null;
+    protected $recordID;
 
     /**
      * @var string $recordName
      */
-    protected $recordName = null;
+    protected $recordName;
 
     /**
      * @var Address $negativeAddress
      */
-    protected $negativeAddress = null;
+    protected $negativeAddress;
 
     /**
      * @var string $markingReason
      */
-    protected $markingReason = null;
+    protected $markingReason;
 
     /**
      * @var string $markingNotes
      */
-    protected $markingNotes = null;
+    protected $markingNotes;
 
     /**
      * @var string $markingRequestID
      */
-    protected $markingRequestID = null;
+    protected $markingRequestID;
 
     /**
      * @var string $deviceFingerprintSmartID
      */
-    protected $deviceFingerprintSmartID = null;
+    protected $deviceFingerprintSmartID;
 
     /**
      * @var string $deviceFingerprintTrueIPAddress
      */
-    protected $deviceFingerprintTrueIPAddress = null;
+    protected $deviceFingerprintTrueIPAddress;
 
     /**
      * @var string $deviceFingerprintProxyIPAddress
      */
-    protected $deviceFingerprintProxyIPAddress = null;
+    protected $deviceFingerprintProxyIPAddress;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -276,5 +275,4 @@ class RiskUpdateService
 
         return $this;
     }
-
 }

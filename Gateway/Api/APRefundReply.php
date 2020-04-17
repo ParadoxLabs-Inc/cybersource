@@ -7,66 +7,65 @@ use Exception;
 
 class APRefundReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $returnRef
      */
-    protected $returnRef = null;
+    protected $returnRef;
 
     /**
      * @var string $providerResponse
      */
-    protected $providerResponse = null;
+    protected $providerResponse;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $paymentStatus
      */
-    protected $paymentStatus = null;
+    protected $paymentStatus;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @param int $reasonCode
@@ -315,5 +314,4 @@ class APRefundReply
 
         return $this;
     }
-
 }

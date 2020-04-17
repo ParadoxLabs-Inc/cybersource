@@ -11,42 +11,42 @@ class APMandateStatusReply
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $mandateID
      */
-    protected $mandateID = null;
+    protected $mandateID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var \DateTime $dateCreated
      */
-    protected $dateCreated = null;
+    protected $dateCreated;
 
     /**
      * @var \DateTime $dateSigned
      */
-    protected $dateSigned = null;
+    protected $dateSigned;
 
     /**
      * @var \DateTime $dateRevoked
      */
-    protected $dateRevoked = null;
+    protected $dateRevoked;
 
     /**
      * @param int $reasonCode

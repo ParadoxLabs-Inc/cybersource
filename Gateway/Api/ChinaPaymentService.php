@@ -4,41 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ChinaPaymentService
 {
-
     /**
      * @var string $paymentMode
      */
-    protected $paymentMode = null;
+    protected $paymentMode;
 
     /**
      * @var string $returnURL
      */
-    protected $returnURL = null;
+    protected $returnURL;
 
     /**
      * @var string $pickUpAddress
      */
-    protected $pickUpAddress = null;
+    protected $pickUpAddress;
 
     /**
      * @var string $pickUpPhoneNumber
      */
-    protected $pickUpPhoneNumber = null;
+    protected $pickUpPhoneNumber;
 
     /**
      * @var string $pickUpPostalCode
      */
-    protected $pickUpPostalCode = null;
+    protected $pickUpPostalCode;
 
     /**
      * @var string $pickUpName
      */
-    protected $pickUpName = null;
+    protected $pickUpName;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -180,5 +179,4 @@ class ChinaPaymentService
 
         return $this;
     }
-
 }

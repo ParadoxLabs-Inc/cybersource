@@ -4,276 +4,275 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCAuthService
 {
-
     /**
      * @var string $cavv
      */
-    protected $cavv = null;
+    protected $cavv;
 
     /**
      * @var string $cavvAlgorithm
      */
-    protected $cavvAlgorithm = null;
+    protected $cavvAlgorithm;
 
     /**
      * @var string $networkTokenCryptogram
      */
-    protected $networkTokenCryptogram = null;
+    protected $networkTokenCryptogram;
 
     /**
      * @var string $paSpecificationVersion
      */
-    protected $paSpecificationVersion = null;
+    protected $paSpecificationVersion;
 
     /**
      * @var string $directoryServerTransactionID
      */
-    protected $directoryServerTransactionID = null;
+    protected $directoryServerTransactionID;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $eciRaw
      */
-    protected $eciRaw = null;
+    protected $eciRaw;
 
     /**
      * @var string $xid
      */
-    protected $xid = null;
+    protected $xid;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $avsLevel
      */
-    protected $avsLevel = null;
+    protected $avsLevel;
 
     /**
      * @var string $fxQuoteID
      */
-    protected $fxQuoteID = null;
+    protected $fxQuoteID;
 
     /**
      * @var boolean $returnAuthRecord
      */
-    protected $returnAuthRecord = null;
+    protected $returnAuthRecord;
 
     /**
      * @var string $authType
      */
-    protected $authType = null;
+    protected $authType;
 
     /**
      * @var string $verbalAuthCode
      */
-    protected $verbalAuthCode = null;
+    protected $verbalAuthCode;
 
     /**
      * @var boolean $billPayment
      */
-    protected $billPayment = null;
+    protected $billPayment;
 
     /**
      * @var string $authenticationXID
      */
-    protected $authenticationXID = null;
+    protected $authenticationXID;
 
     /**
      * @var string $authorizationXID
      */
-    protected $authorizationXID = null;
+    protected $authorizationXID;
 
     /**
      * @var string $industryDatatype
      */
-    protected $industryDatatype = null;
+    protected $industryDatatype;
 
     /**
      * @var string $traceNumber
      */
-    protected $traceNumber = null;
+    protected $traceNumber;
 
     /**
      * @var string $checksumKey
      */
-    protected $checksumKey = null;
+    protected $checksumKey;
 
     /**
      * @var string $aggregatorID
      */
-    protected $aggregatorID = null;
+    protected $aggregatorID;
 
     /**
      * @var string $aggregatorName
      */
-    protected $aggregatorName = null;
+    protected $aggregatorName;
 
     /**
      * @var string $splitTenderIndicator
      */
-    protected $splitTenderIndicator = null;
+    protected $splitTenderIndicator;
 
     /**
      * @var string $veresEnrolled
      */
-    protected $veresEnrolled = null;
+    protected $veresEnrolled;
 
     /**
      * @var string $paresStatus
      */
-    protected $paresStatus = null;
+    protected $paresStatus;
 
     /**
      * @var boolean $partialAuthIndicator
      */
-    protected $partialAuthIndicator = null;
+    protected $partialAuthIndicator;
 
     /**
      * @var string $captureDate
      */
-    protected $captureDate = null;
+    protected $captureDate;
 
     /**
      * @var string $firstRecurringPayment
      */
-    protected $firstRecurringPayment = null;
+    protected $firstRecurringPayment;
 
     /**
      * @var int $duration
      */
-    protected $duration = null;
+    protected $duration;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $mobileRemotePaymentType
      */
-    protected $mobileRemotePaymentType = null;
+    protected $mobileRemotePaymentType;
 
     /**
      * @var string $cardholderVerificationMethod
      */
-    protected $cardholderVerificationMethod = null;
+    protected $cardholderVerificationMethod;
 
     /**
      * @var string $dccRequestID
      */
-    protected $dccRequestID = null;
+    protected $dccRequestID;
 
     /**
      * @var string $overridePaymentDetails
      */
-    protected $overridePaymentDetails = null;
+    protected $overridePaymentDetails;
 
     /**
      * @var string $cardholderAuthenticationMethod
      */
-    protected $cardholderAuthenticationMethod = null;
+    protected $cardholderAuthenticationMethod;
 
     /**
      * @var boolean $leastCostRouting
      */
-    protected $leastCostRouting = null;
+    protected $leastCostRouting;
 
     /**
      * @var string $verificationType
      */
-    protected $verificationType = null;
+    protected $verificationType;
 
     /**
      * @var string $cryptocurrencyPurchase
      */
-    protected $cryptocurrencyPurchase = null;
+    protected $cryptocurrencyPurchase;
 
     /**
      * @var string $lowValueExemptionIndicator
      */
-    protected $lowValueExemptionIndicator = null;
+    protected $lowValueExemptionIndicator;
 
     /**
      * @var string $riskAnalysisExemptionIndicator
      */
-    protected $riskAnalysisExemptionIndicator = null;
+    protected $riskAnalysisExemptionIndicator;
 
     /**
      * @var string $trustedMerchantExemptionIndicator
      */
-    protected $trustedMerchantExemptionIndicator = null;
+    protected $trustedMerchantExemptionIndicator;
 
     /**
      * @var string $secureCorporatePaymentIndicator
      */
-    protected $secureCorporatePaymentIndicator = null;
+    protected $secureCorporatePaymentIndicator;
 
     /**
      * @var string $deferredAuthIndicator
      */
-    protected $deferredAuthIndicator = null;
+    protected $deferredAuthIndicator;
 
     /**
      * @var string $delegatedAuthenticationExemptionIndicator
      */
-    protected $delegatedAuthenticationExemptionIndicator = null;
+    protected $delegatedAuthenticationExemptionIndicator;
 
     /**
      * @var string $transitTransactionType
      */
-    protected $transitTransactionType = null;
+    protected $transitTransactionType;
 
     /**
      * @var string $transportationMode
      */
-    protected $transportationMode = null;
+    protected $transportationMode;
 
     /**
      * @var string $totaloffersCount
      */
-    protected $totaloffersCount = null;
+    protected $totaloffersCount;
 
     /**
      * @var string $effectiveAuthenticationType
      */
-    protected $effectiveAuthenticationType = null;
+    protected $effectiveAuthenticationType;
 
     /**
      * @var string $paChallengeStatus
      */
-    protected $paChallengeStatus = null;
+    protected $paChallengeStatus;
 
     /**
      * @var string $paresStatusReason
      */
-    protected $paresStatusReason = null;
+    protected $paresStatusReason;
 
     /**
      * @var string $paChallengeCancelCode
      */
-    protected $paChallengeCancelCode = null;
+    protected $paChallengeCancelCode;
 
     /**
      * @var string $paNetworkScore
      */
-    protected $paNetworkScore = null;
+    protected $paNetworkScore;
 
     /**
      * @var string $paAuthenticationDate
      */
-    protected $paAuthenticationDate = null;
+    protected $paAuthenticationDate;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -1308,5 +1307,4 @@ class CCAuthService
 
         return $this;
     }
-
 }

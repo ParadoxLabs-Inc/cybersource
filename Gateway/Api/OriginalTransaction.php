@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class OriginalTransaction
 {
-
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $reasonCode
      */
-    protected $reasonCode = null;
-
-    public function __construct()
-    {
-    }
+    protected $reasonCode;
 
     /**
      * @return float
@@ -56,5 +51,4 @@ class OriginalTransaction
 
         return $this;
     }
-
 }

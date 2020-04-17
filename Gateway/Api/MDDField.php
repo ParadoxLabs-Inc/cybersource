@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class MDDField
 {
-
     /**
      * @var string $_
      */
-    protected $_ = null;
+    protected $_;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param string $_
@@ -62,5 +61,4 @@ class MDDField
 
         return $this;
     }
-
 }

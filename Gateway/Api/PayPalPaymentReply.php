@@ -7,31 +7,30 @@ use Exception;
 
 class PayPalPaymentReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $secureData
      */
-    protected $secureData = null;
+    protected $secureData;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @param int $reasonCode
@@ -147,5 +146,4 @@ class PayPalPaymentReply
 
         return $this;
     }
-
 }

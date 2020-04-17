@@ -7,1170 +7,1165 @@ use Exception;
 
 class RequestMessage
 {
-
     /**
      * @var string $merchantID
      */
-    protected $merchantID = null;
+    protected $merchantID;
 
     /**
      * @var string $merchantReferenceCode
      */
-    protected $merchantReferenceCode = null;
+    protected $merchantReferenceCode;
 
     /**
      * @var boolean $debtIndicator
      */
-    protected $debtIndicator = null;
+    protected $debtIndicator;
 
     /**
      * @var string $clientLibrary
      */
-    protected $clientLibrary = null;
+    protected $clientLibrary;
 
     /**
      * @var string $clientLibraryVersion
      */
-    protected $clientLibraryVersion = null;
+    protected $clientLibraryVersion;
 
     /**
      * @var string $clientEnvironment
      */
-    protected $clientEnvironment = null;
+    protected $clientEnvironment;
 
     /**
      * @var string $clientSecurityLibraryVersion
      */
-    protected $clientSecurityLibraryVersion = null;
+    protected $clientSecurityLibraryVersion;
 
     /**
      * @var string $clientApplication
      */
-    protected $clientApplication = null;
+    protected $clientApplication;
 
     /**
      * @var string $clientApplicationVersion
      */
-    protected $clientApplicationVersion = null;
+    protected $clientApplicationVersion;
 
     /**
      * @var string $clientApplicationUser
      */
-    protected $clientApplicationUser = null;
+    protected $clientApplicationUser;
 
     /**
      * @var string $routingCode
      */
-    protected $routingCode = null;
+    protected $routingCode;
 
     /**
      * @var string $comments
      */
-    protected $comments = null;
+    protected $comments;
 
     /**
      * @var string $returnURL
      */
-    protected $returnURL = null;
+    protected $returnURL;
 
     /**
      * @var InvoiceHeader $invoiceHeader
      */
-    protected $invoiceHeader = null;
+    protected $invoiceHeader;
 
     /**
      * @var string $paymentScheme
      */
-    protected $paymentScheme = null;
+    protected $paymentScheme;
 
     /**
      * @var string $mandateID
      */
-    protected $mandateID = null;
+    protected $mandateID;
 
     /**
      * @var string $aggregatorMerchantIdentifier
      */
-    protected $aggregatorMerchantIdentifier = null;
+    protected $aggregatorMerchantIdentifier;
 
     /**
      * @var string $customerID
      */
-    protected $customerID = null;
+    protected $customerID;
 
     /**
      * @var string $customerFirstName
      */
-    protected $customerFirstName = null;
+    protected $customerFirstName;
 
     /**
      * @var string $customerLastName
      */
-    protected $customerLastName = null;
+    protected $customerLastName;
 
     /**
      * @var BillTo $billTo
      */
-    protected $billTo = null;
+    protected $billTo;
 
     /**
      * @var ShipTo $shipTo
      */
-    protected $shipTo = null;
+    protected $shipTo;
 
     /**
      * @var PersonalID $personalID
      */
-    protected $personalID = null;
+    protected $personalID;
 
     /**
      * @var ShipFrom $shipFrom
      */
-    protected $shipFrom = null;
+    protected $shipFrom;
 
     /**
      * @var Item[] $item
      */
-    protected $item = null;
+    protected $item;
 
     /**
      * @var PurchaseTotals $purchaseTotals
      */
-    protected $purchaseTotals = null;
+    protected $purchaseTotals;
 
     /**
      * @var FundingTotals $fundingTotals
      */
-    protected $fundingTotals = null;
+    protected $fundingTotals;
 
     /**
      * @var DCC $dcc
      */
-    protected $dcc = null;
+    protected $dcc;
 
     /**
      * @var Pos $pos
      */
-    protected $pos = null;
+    protected $pos;
 
     /**
      * @var Pin $pin
      */
-    protected $pin = null;
+    protected $pin;
 
     /**
      * @var EncryptedPayment $encryptedPayment
      */
-    protected $encryptedPayment = null;
+    protected $encryptedPayment;
 
     /**
      * @var Installment $installment
      */
-    protected $installment = null;
+    protected $installment;
 
     /**
      * @var Card $card
      */
-    protected $card = null;
+    protected $card;
 
     /**
      * @var Category $category
      */
-    protected $category = null;
+    protected $category;
 
     /**
      * @var Check $check
      */
-    protected $check = null;
+    protected $check;
 
     /**
      * @var BML $bml
      */
-    protected $bml = null;
+    protected $bml;
 
     /**
      * @var GECC $gecc
      */
-    protected $gecc = null;
+    protected $gecc;
 
     /**
      * @var UCAF $ucaf
      */
-    protected $ucaf = null;
+    protected $ucaf;
 
     /**
      * @var FundTransfer $fundTransfer
      */
-    protected $fundTransfer = null;
+    protected $fundTransfer;
 
     /**
      * @var BankInfo $bankInfo
      */
-    protected $bankInfo = null;
+    protected $bankInfo;
 
     /**
      * @var Subscription $subscription
      */
-    protected $subscription = null;
+    protected $subscription;
 
     /**
      * @var RecurringSubscriptionInfo $recurringSubscriptionInfo
      */
-    protected $recurringSubscriptionInfo = null;
+    protected $recurringSubscriptionInfo;
 
     /**
      * @var TokenSource $tokenSource
      */
-    protected $tokenSource = null;
+    protected $tokenSource;
 
     /**
      * @var DecisionManager $decisionManager
      */
-    protected $decisionManager = null;
+    protected $decisionManager;
 
     /**
      * @var OtherTax $otherTax
      */
-    protected $otherTax = null;
+    protected $otherTax;
 
     /**
      * @var PayPal $paypal
      */
-    protected $paypal = null;
+    protected $paypal;
 
     /**
      * @var MerchantDefinedData $merchantDefinedData
      */
-    protected $merchantDefinedData = null;
+    protected $merchantDefinedData;
 
     /**
      * @var MerchantSecureData $merchantSecureData
      */
-    protected $merchantSecureData = null;
+    protected $merchantSecureData;
 
     /**
      * @var JPO $jpo
      */
-    protected $jpo = null;
+    protected $jpo;
 
     /**
      * @var string $orderRequestToken
      */
-    protected $orderRequestToken = null;
+    protected $orderRequestToken;
 
     /**
      * @var string $linkToRequest
      */
-    protected $linkToRequest = null;
+    protected $linkToRequest;
 
     /**
      * @var ServiceFee $serviceFee
      */
-    protected $serviceFee = null;
+    protected $serviceFee;
 
     /**
      * @var GiftCard $giftCard
      */
-    protected $giftCard = null;
+    protected $giftCard;
 
     /**
      * @var CCAuthService $ccAuthService
      */
-    protected $ccAuthService = null;
+    protected $ccAuthService;
 
     /**
      * @var OCTService $octService
      */
-    protected $octService = null;
+    protected $octService;
 
     /**
      * @var ECAVSService $ecAVSService
      */
-    protected $ecAVSService = null;
+    protected $ecAVSService;
 
     /**
      * @var GiftCardActivationService $giftCardActivationService
      */
-    protected $giftCardActivationService = null;
+    protected $giftCardActivationService;
 
     /**
      * @var GiftCardBalanceInquiryService $giftCardBalanceInquiryService
      */
-    protected $giftCardBalanceInquiryService = null;
+    protected $giftCardBalanceInquiryService;
 
     /**
      * @var GiftCardRedemptionService $giftCardRedemptionService
      */
-    protected $giftCardRedemptionService = null;
+    protected $giftCardRedemptionService;
 
     /**
      * @var GiftCardVoidService $giftCardVoidService
      */
-    protected $giftCardVoidService = null;
+    protected $giftCardVoidService;
 
     /**
      * @var GiftCardReversalService $giftCardReversalService
      */
-    protected $giftCardReversalService = null;
+    protected $giftCardReversalService;
 
     /**
      * @var VerificationService $verificationService
      */
-    protected $verificationService = null;
+    protected $verificationService;
 
     /**
      * @var CCSaleService $ccSaleService
      */
-    protected $ccSaleService = null;
+    protected $ccSaleService;
 
     /**
      * @var CCSaleCreditService $ccSaleCreditService
      */
-    protected $ccSaleCreditService = null;
+    protected $ccSaleCreditService;
 
     /**
      * @var CCSaleReversalService $ccSaleReversalService
      */
-    protected $ccSaleReversalService = null;
+    protected $ccSaleReversalService;
 
     /**
      * @var CCIncrementalAuthService $ccIncrementalAuthService
      */
-    protected $ccIncrementalAuthService = null;
+    protected $ccIncrementalAuthService;
 
     /**
      * @var CCCaptureService $ccCaptureService
      */
-    protected $ccCaptureService = null;
+    protected $ccCaptureService;
 
     /**
      * @var CCCreditService $ccCreditService
      */
-    protected $ccCreditService = null;
+    protected $ccCreditService;
 
     /**
      * @var CCAuthReversalService $ccAuthReversalService
      */
-    protected $ccAuthReversalService = null;
+    protected $ccAuthReversalService;
 
     /**
      * @var CCAutoAuthReversalService $ccAutoAuthReversalService
      */
-    protected $ccAutoAuthReversalService = null;
+    protected $ccAutoAuthReversalService;
 
     /**
      * @var CCDCCService $ccDCCService
      */
-    protected $ccDCCService = null;
+    protected $ccDCCService;
 
     /**
      * @var ServiceFeeCalculateService $serviceFeeCalculateService
      */
-    protected $serviceFeeCalculateService = null;
+    protected $serviceFeeCalculateService;
 
     /**
      * @var ECDebitService $ecDebitService
      */
-    protected $ecDebitService = null;
+    protected $ecDebitService;
 
     /**
      * @var ECCreditService $ecCreditService
      */
-    protected $ecCreditService = null;
+    protected $ecCreditService;
 
     /**
      * @var ECAuthenticateService $ecAuthenticateService
      */
-    protected $ecAuthenticateService = null;
+    protected $ecAuthenticateService;
 
     /**
      * @var PayerAuthEnrollService $payerAuthEnrollService
      */
-    protected $payerAuthEnrollService = null;
+    protected $payerAuthEnrollService;
 
     /**
      * @var PayerAuthValidateService $payerAuthValidateService
      */
-    protected $payerAuthValidateService = null;
+    protected $payerAuthValidateService;
 
     /**
      * @var TaxService $taxService
      */
-    protected $taxService = null;
+    protected $taxService;
 
     /**
      * @var DMEService $dmeService
      */
-    protected $dmeService = null;
+    protected $dmeService;
 
     /**
      * @var AFSService $afsService
      */
-    protected $afsService = null;
+    protected $afsService;
 
     /**
      * @var DAVService $davService
      */
-    protected $davService = null;
+    protected $davService;
 
     /**
      * @var ExportService $exportService
      */
-    protected $exportService = null;
+    protected $exportService;
 
     /**
      * @var FXRatesService $fxRatesService
      */
-    protected $fxRatesService = null;
+    protected $fxRatesService;
 
     /**
      * @var BankTransferService $bankTransferService
      */
-    protected $bankTransferService = null;
+    protected $bankTransferService;
 
     /**
      * @var BankTransferRefundService $bankTransferRefundService
      */
-    protected $bankTransferRefundService = null;
+    protected $bankTransferRefundService;
 
     /**
      * @var BankTransferRealTimeService $bankTransferRealTimeService
      */
-    protected $bankTransferRealTimeService = null;
+    protected $bankTransferRealTimeService;
 
     /**
      * @var DirectDebitMandateService $directDebitMandateService
      */
-    protected $directDebitMandateService = null;
+    protected $directDebitMandateService;
 
     /**
      * @var DirectDebitService $directDebitService
      */
-    protected $directDebitService = null;
+    protected $directDebitService;
 
     /**
      * @var DirectDebitRefundService $directDebitRefundService
      */
-    protected $directDebitRefundService = null;
+    protected $directDebitRefundService;
 
     /**
      * @var DirectDebitValidateService $directDebitValidateService
      */
-    protected $directDebitValidateService = null;
+    protected $directDebitValidateService;
 
     /**
      * @var DeviceFingerprintData[] $deviceFingerprintData
      */
-    protected $deviceFingerprintData = null;
+    protected $deviceFingerprintData;
 
     /**
      * @var PaySubscriptionCreateService $paySubscriptionCreateService
      */
-    protected $paySubscriptionCreateService = null;
+    protected $paySubscriptionCreateService;
 
     /**
      * @var PaySubscriptionUpdateService $paySubscriptionUpdateService
      */
-    protected $paySubscriptionUpdateService = null;
+    protected $paySubscriptionUpdateService;
 
     /**
      * @var PaySubscriptionEventUpdateService $paySubscriptionEventUpdateService
      */
-    protected $paySubscriptionEventUpdateService = null;
+    protected $paySubscriptionEventUpdateService;
 
     /**
      * @var PaySubscriptionRetrieveService $paySubscriptionRetrieveService
      */
-    protected $paySubscriptionRetrieveService = null;
+    protected $paySubscriptionRetrieveService;
 
     /**
      * @var PaySubscriptionDeleteService $paySubscriptionDeleteService
      */
-    protected $paySubscriptionDeleteService = null;
+    protected $paySubscriptionDeleteService;
 
     /**
      * @var PayPalPaymentService $payPalPaymentService
      */
-    protected $payPalPaymentService = null;
+    protected $payPalPaymentService;
 
     /**
      * @var PayPalCreditService $payPalCreditService
      */
-    protected $payPalCreditService = null;
+    protected $payPalCreditService;
 
     /**
      * @var VoidService $voidService
      */
-    protected $voidService = null;
+    protected $voidService;
 
     /**
      * @var BusinessRules $businessRules
      */
-    protected $businessRules = null;
+    protected $businessRules;
 
     /**
      * @var PinlessDebitService $pinlessDebitService
      */
-    protected $pinlessDebitService = null;
+    protected $pinlessDebitService;
 
     /**
      * @var PinlessDebitValidateService $pinlessDebitValidateService
      */
-    protected $pinlessDebitValidateService = null;
+    protected $pinlessDebitValidateService;
 
     /**
      * @var PinlessDebitReversalService $pinlessDebitReversalService
      */
-    protected $pinlessDebitReversalService = null;
+    protected $pinlessDebitReversalService;
 
     /**
      * @var Batch $batch
      */
-    protected $batch = null;
+    protected $batch;
 
     /**
      * @var AirlineData $airlineData
      */
-    protected $airlineData = null;
+    protected $airlineData;
 
     /**
      * @var AncillaryData $ancillaryData
      */
-    protected $ancillaryData = null;
+    protected $ancillaryData;
 
     /**
      * @var LodgingData $lodgingData
      */
-    protected $lodgingData = null;
+    protected $lodgingData;
 
     /**
      * @var PayPalButtonCreateService $payPalButtonCreateService
      */
-    protected $payPalButtonCreateService = null;
+    protected $payPalButtonCreateService;
 
     /**
      * @var PayPalPreapprovedPaymentService $payPalPreapprovedPaymentService
      */
-    protected $payPalPreapprovedPaymentService = null;
+    protected $payPalPreapprovedPaymentService;
 
     /**
      * @var PayPalPreapprovedUpdateService $payPalPreapprovedUpdateService
      */
-    protected $payPalPreapprovedUpdateService = null;
+    protected $payPalPreapprovedUpdateService;
 
     /**
      * @var RiskUpdateService $riskUpdateService
      */
-    protected $riskUpdateService = null;
+    protected $riskUpdateService;
 
     /**
      * @var FraudUpdateService $fraudUpdateService
      */
-    protected $fraudUpdateService = null;
+    protected $fraudUpdateService;
 
     /**
      * @var CaseManagementActionService $caseManagementActionService
      */
-    protected $caseManagementActionService = null;
+    protected $caseManagementActionService;
 
     /**
      * @var RequestReserved[] $reserved
      */
-    protected $reserved = null;
+    protected $reserved;
 
     /**
      * @var string $deviceFingerprintID
      */
-    protected $deviceFingerprintID = null;
+    protected $deviceFingerprintID;
 
     /**
      * @var boolean $deviceFingerprintRaw
      */
-    protected $deviceFingerprintRaw = null;
+    protected $deviceFingerprintRaw;
 
     /**
      * @var string $deviceFingerprintHash
      */
-    protected $deviceFingerprintHash = null;
+    protected $deviceFingerprintHash;
 
     /**
      * @var PayPalRefundService $payPalRefundService
      */
-    protected $payPalRefundService = null;
+    protected $payPalRefundService;
 
     /**
      * @var PayPalAuthReversalService $payPalAuthReversalService
      */
-    protected $payPalAuthReversalService = null;
+    protected $payPalAuthReversalService;
 
     /**
      * @var PayPalDoCaptureService $payPalDoCaptureService
      */
-    protected $payPalDoCaptureService = null;
+    protected $payPalDoCaptureService;
 
     /**
      * @var PayPalEcDoPaymentService $payPalEcDoPaymentService
      */
-    protected $payPalEcDoPaymentService = null;
+    protected $payPalEcDoPaymentService;
 
     /**
      * @var PayPalEcGetDetailsService $payPalEcGetDetailsService
      */
-    protected $payPalEcGetDetailsService = null;
+    protected $payPalEcGetDetailsService;
 
     /**
      * @var PayPalEcSetService $payPalEcSetService
      */
-    protected $payPalEcSetService = null;
+    protected $payPalEcSetService;
 
     /**
      * @var PayPalEcOrderSetupService $payPalEcOrderSetupService
      */
-    protected $payPalEcOrderSetupService = null;
+    protected $payPalEcOrderSetupService;
 
     /**
      * @var PayPalAuthorizationService $payPalAuthorizationService
      */
-    protected $payPalAuthorizationService = null;
+    protected $payPalAuthorizationService;
 
     /**
      * @var PayPalUpdateAgreementService $payPalUpdateAgreementService
      */
-    protected $payPalUpdateAgreementService = null;
+    protected $payPalUpdateAgreementService;
 
     /**
      * @var PayPalCreateAgreementService $payPalCreateAgreementService
      */
-    protected $payPalCreateAgreementService = null;
+    protected $payPalCreateAgreementService;
 
     /**
      * @var PayPalDoRefTransactionService $payPalDoRefTransactionService
      */
-    protected $payPalDoRefTransactionService = null;
+    protected $payPalDoRefTransactionService;
 
     /**
      * @var ChinaPaymentService $chinaPaymentService
      */
-    protected $chinaPaymentService = null;
+    protected $chinaPaymentService;
 
     /**
      * @var ChinaRefundService $chinaRefundService
      */
-    protected $chinaRefundService = null;
+    protected $chinaRefundService;
 
     /**
      * @var BoletoPaymentService $boletoPaymentService
      */
-    protected $boletoPaymentService = null;
+    protected $boletoPaymentService;
 
     /**
      * @var string $apPaymentType
      */
-    protected $apPaymentType = null;
+    protected $apPaymentType;
 
     /**
      * @var APInitiateService $apInitiateService
      */
-    protected $apInitiateService = null;
+    protected $apInitiateService;
 
     /**
      * @var APCheckStatusService $apCheckStatusService
      */
-    protected $apCheckStatusService = null;
+    protected $apCheckStatusService;
 
     /**
      * @var boolean $ignoreCardExpiration
      */
-    protected $ignoreCardExpiration = null;
+    protected $ignoreCardExpiration;
 
     /**
      * @var string $reportGroup
      */
-    protected $reportGroup = null;
+    protected $reportGroup;
 
     /**
      * @var string $processorID
      */
-    protected $processorID = null;
+    protected $processorID;
 
     /**
      * @var string $thirdPartyCertificationNumber
      */
-    protected $thirdPartyCertificationNumber = null;
+    protected $thirdPartyCertificationNumber;
 
     /**
      * @var \DateTime $transactionLocalDateTime
      */
-    protected $transactionLocalDateTime = null;
+    protected $transactionLocalDateTime;
 
     /**
      * @var string $solutionProviderTransactionID
      */
-    protected $solutionProviderTransactionID = null;
+    protected $solutionProviderTransactionID;
 
     /**
      * @var float $surchargeAmount
      */
-    protected $surchargeAmount = null;
+    protected $surchargeAmount;
 
     /**
      * @var string $surchargeSign
      */
-    protected $surchargeSign = null;
+    protected $surchargeSign;
 
     /**
      * @var string $pinDataEncryptedPIN
      */
-    protected $pinDataEncryptedPIN = null;
+    protected $pinDataEncryptedPIN;
 
     /**
      * @var string $pinDataKeySerialNumber
      */
-    protected $pinDataKeySerialNumber = null;
+    protected $pinDataKeySerialNumber;
 
     /**
      * @var int $pinDataPinBlockEncodingFormat
      */
-    protected $pinDataPinBlockEncodingFormat = null;
+    protected $pinDataPinBlockEncodingFormat;
 
     /**
      * @var float $cashbackAmount
      */
-    protected $cashbackAmount = null;
+    protected $cashbackAmount;
 
     /**
      * @var PinDebitPurchaseService $pinDebitPurchaseService
      */
-    protected $pinDebitPurchaseService = null;
+    protected $pinDebitPurchaseService;
 
     /**
      * @var PinDebitCreditService $pinDebitCreditService
      */
-    protected $pinDebitCreditService = null;
+    protected $pinDebitCreditService;
 
     /**
      * @var PinDebitReversalService $pinDebitReversalService
      */
-    protected $pinDebitReversalService = null;
+    protected $pinDebitReversalService;
 
     /**
      * @var AP $ap
      */
-    protected $ap = null;
+    protected $ap;
 
     /**
      * @var APAuthService $apAuthService
      */
-    protected $apAuthService = null;
+    protected $apAuthService;
 
     /**
      * @var APAuthReversalService $apAuthReversalService
      */
-    protected $apAuthReversalService = null;
+    protected $apAuthReversalService;
 
     /**
      * @var APCaptureService $apCaptureService
      */
-    protected $apCaptureService = null;
+    protected $apCaptureService;
 
     /**
      * @var APOptionsService $apOptionsService
      */
-    protected $apOptionsService = null;
+    protected $apOptionsService;
 
     /**
      * @var APRefundService $apRefundService
      */
-    protected $apRefundService = null;
+    protected $apRefundService;
 
     /**
      * @var APSaleService $apSaleService
      */
-    protected $apSaleService = null;
+    protected $apSaleService;
 
     /**
      * @var APCheckOutDetailsService $apCheckoutDetailsService
      */
-    protected $apCheckoutDetailsService = null;
+    protected $apCheckoutDetailsService;
 
     /**
      * @var APSessionsService $apSessionsService
      */
-    protected $apSessionsService = null;
+    protected $apSessionsService;
 
     /**
      * @var APUI $apUI
      */
-    protected $apUI = null;
+    protected $apUI;
 
     /**
      * @var APTransactionDetailsService $apTransactionDetailsService
      */
-    protected $apTransactionDetailsService = null;
+    protected $apTransactionDetailsService;
 
     /**
      * @var APConfirmPurchaseService $apConfirmPurchaseService
      */
-    protected $apConfirmPurchaseService = null;
+    protected $apConfirmPurchaseService;
 
     /**
      * @var PayPalGetTxnDetailsService $payPalGetTxnDetailsService
      */
-    protected $payPalGetTxnDetailsService = null;
+    protected $payPalGetTxnDetailsService;
 
     /**
      * @var PayPalTransactionSearchService $payPalTransactionSearchService
      */
-    protected $payPalTransactionSearchService = null;
+    protected $payPalTransactionSearchService;
 
     /**
      * @var CCDCCUpdateService $ccDCCUpdateService
      */
-    protected $ccDCCUpdateService = null;
+    protected $ccDCCUpdateService;
 
     /**
      * @var EmvRequest $emvRequest
      */
-    protected $emvRequest = null;
+    protected $emvRequest;
 
     /**
      * @var merchant $merchant
      */
-    protected $merchant = null;
+    protected $merchant;
 
     /**
      * @var string $merchantTransactionIdentifier
      */
-    protected $merchantTransactionIdentifier = null;
+    protected $merchantTransactionIdentifier;
 
     /**
      * @var HostedDataCreateService $hostedDataCreateService
      */
-    protected $hostedDataCreateService = null;
+    protected $hostedDataCreateService;
 
     /**
      * @var HostedDataRetrieveService $hostedDataRetrieveService
      */
-    protected $hostedDataRetrieveService = null;
+    protected $hostedDataRetrieveService;
 
     /**
      * @var string $merchantCategoryCode
      */
-    protected $merchantCategoryCode = null;
+    protected $merchantCategoryCode;
 
     /**
      * @var string $merchantCategoryCodeDomestic
      */
-    protected $merchantCategoryCodeDomestic = null;
+    protected $merchantCategoryCodeDomestic;
 
     /**
      * @var string $salesSlipNumber
      */
-    protected $salesSlipNumber = null;
+    protected $salesSlipNumber;
 
     /**
      * @var string $merchandiseCode
      */
-    protected $merchandiseCode = null;
+    protected $merchandiseCode;
 
     /**
      * @var string $merchandiseDescription
      */
-    protected $merchandiseDescription = null;
+    protected $merchandiseDescription;
 
     /**
      * @var string $paymentInitiationChannel
      */
-    protected $paymentInitiationChannel = null;
+    protected $paymentInitiationChannel;
 
     /**
      * @var string $extendedCreditTotalCount
      */
-    protected $extendedCreditTotalCount = null;
+    protected $extendedCreditTotalCount;
 
     /**
      * @var string $authIndicator
      */
-    protected $authIndicator = null;
+    protected $authIndicator;
 
     /**
      * @var PaymentNetworkToken $paymentNetworkToken
      */
-    protected $paymentNetworkToken = null;
+    protected $paymentNetworkToken;
 
     /**
      * @var Recipient $recipient
      */
-    protected $recipient = null;
+    protected $recipient;
 
     /**
      * @var Sender $sender
      */
-    protected $sender = null;
+    protected $sender;
 
     /**
      * @var AutoRentalData $autoRentalData
      */
-    protected $autoRentalData = null;
+    protected $autoRentalData;
 
     /**
      * @var string $paymentSolution
      */
-    protected $paymentSolution = null;
+    protected $paymentSolution;
 
     /**
      * @var VC $vc
      */
-    protected $vc = null;
+    protected $vc;
 
     /**
      * @var DecryptVisaCheckoutDataService $decryptVisaCheckoutDataService
      */
-    protected $decryptVisaCheckoutDataService = null;
+    protected $decryptVisaCheckoutDataService;
 
     /**
      * @var string $taxManagementIndicator
      */
-    protected $taxManagementIndicator = null;
+    protected $taxManagementIndicator;
 
     /**
      * @var PromotionGroup[] $promotionGroup
      */
-    protected $promotionGroup = null;
+    protected $promotionGroup;
 
     /**
      * @var Wallet $wallet
      */
-    protected $wallet = null;
+    protected $wallet;
 
     /**
      * @var Aft $aft
      */
-    protected $aft = null;
+    protected $aft;
 
     /**
      * @var boolean $balanceInquiry
      */
-    protected $balanceInquiry = null;
+    protected $balanceInquiry;
 
     /**
      * @var boolean $prenoteTransaction
      */
-    protected $prenoteTransaction = null;
+    protected $prenoteTransaction;
 
     /**
      * @var EncryptPaymentDataService $encryptPaymentDataService
      */
-    protected $encryptPaymentDataService = null;
+    protected $encryptPaymentDataService;
 
     /**
      * @var string $nationalNetDomesticData
      */
-    protected $nationalNetDomesticData = null;
+    protected $nationalNetDomesticData;
 
     /**
      * @var string $subsequentAuth
      */
-    protected $subsequentAuth = null;
+    protected $subsequentAuth;
 
     /**
      * @var float $subsequentAuthOriginalAmount
      */
-    protected $subsequentAuthOriginalAmount = null;
+    protected $subsequentAuthOriginalAmount;
 
     /**
      * @var BinLookupService $binLookupService
      */
-    protected $binLookupService = null;
+    protected $binLookupService;
 
     /**
      * @var string $verificationCode
      */
-    protected $verificationCode = null;
+    protected $verificationCode;
 
     /**
      * @var string $mobileNumber
      */
-    protected $mobileNumber = null;
+    protected $mobileNumber;
 
     /**
      * @var issuer $issuer
      */
-    protected $issuer = null;
+    protected $issuer;
 
     /**
      * @var string $partnerSolutionID
      */
-    protected $partnerSolutionID = null;
+    protected $partnerSolutionID;
 
     /**
      * @var string $developerID
      */
-    protected $developerID = null;
+    protected $developerID;
 
     /**
      * @var GETVisaCheckoutDataService $getVisaCheckoutDataService
      */
-    protected $getVisaCheckoutDataService = null;
+    protected $getVisaCheckoutDataService;
 
     /**
      * @var string $customerSignatureImage
      */
-    protected $customerSignatureImage = null;
+    protected $customerSignatureImage;
 
     /**
      * @var TransactionMetadataService $transactionMetadataService
      */
-    protected $transactionMetadataService = null;
+    protected $transactionMetadataService;
 
     /**
      * @var string $subsequentAuthFirst
      */
-    protected $subsequentAuthFirst = null;
+    protected $subsequentAuthFirst;
 
     /**
      * @var string $subsequentAuthReason
      */
-    protected $subsequentAuthReason = null;
+    protected $subsequentAuthReason;
 
     /**
      * @var string $subsequentAuthTransactionID
      */
-    protected $subsequentAuthTransactionID = null;
+    protected $subsequentAuthTransactionID;
 
     /**
      * @var string $subsequentAuthStoredCredential
      */
-    protected $subsequentAuthStoredCredential = null;
+    protected $subsequentAuthStoredCredential;
 
     /**
      * @var Loan $loan
      */
-    protected $loan = null;
+    protected $loan;
 
     /**
      * @var string $eligibilityInquiry
      */
-    protected $eligibilityInquiry = null;
+    protected $eligibilityInquiry;
 
     /**
      * @var string $redemptionInquiry
      */
-    protected $redemptionInquiry = null;
+    protected $redemptionInquiry;
 
     /**
      * @var string $feeProgramIndicator
      */
-    protected $feeProgramIndicator = null;
+    protected $feeProgramIndicator;
 
     /**
      * @var APOrderService $apOrderService
      */
-    protected $apOrderService = null;
+    protected $apOrderService;
 
     /**
      * @var APCancelService $apCancelService
      */
-    protected $apCancelService = null;
+    protected $apCancelService;
 
     /**
      * @var APBillingAgreementService $apBillingAgreementService
      */
-    protected $apBillingAgreementService = null;
+    protected $apBillingAgreementService;
 
     /**
      * @var string $note_toPayee
      */
-    protected $note_toPayee = null;
+    protected $note_toPayee;
 
     /**
      * @var string $note_toPayer
      */
-    protected $note_toPayer = null;
+    protected $note_toPayer;
 
     /**
      * @var string $clientMetadataID
      */
-    protected $clientMetadataID = null;
+    protected $clientMetadataID;
 
     /**
      * @var string $partnerSDKversion
      */
-    protected $partnerSDKversion = null;
+    protected $partnerSDKversion;
 
     /**
      * @var string $partnerOriginalTransactionID
      */
-    protected $partnerOriginalTransactionID = null;
+    protected $partnerOriginalTransactionID;
 
     /**
      * @var string $cardTypeSelectionIndicator
      */
-    protected $cardTypeSelectionIndicator = null;
+    protected $cardTypeSelectionIndicator;
 
     /**
      * @var APCreateMandateService $apCreateMandateService
      */
-    protected $apCreateMandateService = null;
+    protected $apCreateMandateService;
 
     /**
      * @var APMandateStatusService $apMandateStatusService
      */
-    protected $apMandateStatusService = null;
+    protected $apMandateStatusService;
 
     /**
      * @var APUpdateMandateService $apUpdateMandateService
      */
-    protected $apUpdateMandateService = null;
+    protected $apUpdateMandateService;
 
     /**
      * @var APImportMandateService $apImportMandateService
      */
-    protected $apImportMandateService = null;
+    protected $apImportMandateService;
 
     /**
      * @var APRevokeMandateService $apRevokeMandateService
      */
-    protected $apRevokeMandateService = null;
+    protected $apRevokeMandateService;
 
     /**
      * @var string $billPaymentType
      */
-    protected $billPaymentType = null;
+    protected $billPaymentType;
 
     /**
      * @var PostdatedTransaction $postdatedTransaction
      */
-    protected $postdatedTransaction = null;
+    protected $postdatedTransaction;
 
     /**
      * @var GetMasterpassDataService $getMasterpassDataService
      */
-    protected $getMasterpassDataService = null;
+    protected $getMasterpassDataService;
 
     /**
      * @var CCCheckStatusService $ccCheckStatusService
      */
-    protected $ccCheckStatusService = null;
+    protected $ccCheckStatusService;
 
     /**
      * @var mPOS $mPOS
      */
-    protected $mPOS = null;
+    protected $mPOS;
 
     /**
      * @var AbortService $abortService
      */
-    protected $abortService = null;
+    protected $abortService;
 
     /**
      * @var boolean $ignoreRelaxAVS
      */
-    protected $ignoreRelaxAVS = null;
-
-    public function __construct()
-    {
-    }
+    protected $ignoreRelaxAVS;
 
     /**
      * @return string
@@ -5591,5 +5586,4 @@ class RequestMessage
 
         return $this;
     }
-
 }

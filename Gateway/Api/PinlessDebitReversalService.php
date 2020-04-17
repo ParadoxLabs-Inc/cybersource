@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PinlessDebitReversalService
 {
-
     /**
      * @var string $pinlessDebitRequestID
      */
-    protected $pinlessDebitRequestID = null;
+    protected $pinlessDebitRequestID;
 
     /**
      * @var string $pinlessDebitRequestToken
      */
-    protected $pinlessDebitRequestToken = null;
+    protected $pinlessDebitRequestToken;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class PinlessDebitReversalService
 
         return $this;
     }
-
 }

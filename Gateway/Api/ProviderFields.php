@@ -4,15 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ProviderFields
 {
-
     /**
      * @var Provider[] $provider
      */
-    protected $provider = null;
-
-    public function __construct()
-    {
-    }
+    protected $provider;
 
     /**
      * @return Provider[]
@@ -32,5 +27,4 @@ class ProviderFields
 
         return $this;
     }
-
 }

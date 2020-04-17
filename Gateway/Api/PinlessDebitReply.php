@@ -7,46 +7,45 @@ use Exception;
 
 class PinlessDebitReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $receiptNumber
      */
-    protected $receiptNumber = null;
+    protected $receiptNumber;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @param int $reasonCode
@@ -219,5 +218,4 @@ class PinlessDebitReply
 
         return $this;
     }
-
 }

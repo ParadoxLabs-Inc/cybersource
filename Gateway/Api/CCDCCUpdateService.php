@@ -4,36 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCDCCUpdateService
 {
-
     /**
      * @var string $reason
      */
-    protected $reason = null;
+    protected $reason;
 
     /**
      * @var string $action
      */
-    protected $action = null;
+    protected $action;
 
     /**
      * @var string $dccRequestID
      */
-    protected $dccRequestID = null;
+    protected $dccRequestID;
 
     /**
      * @var string $captureRequestID
      */
-    protected $captureRequestID = null;
+    protected $captureRequestID;
 
     /**
      * @var string $creditRequestID
      */
-    protected $creditRequestID = null;
+    protected $creditRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -156,5 +155,4 @@ class CCDCCUpdateService
 
         return $this;
     }
-
 }

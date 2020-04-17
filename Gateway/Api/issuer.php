@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class issuer
 {
-
     /**
      * @var string $additionalData
      */
-    protected $additionalData = null;
+    protected $additionalData;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $countryNumericCode
      */
-    protected $countryNumericCode = null;
+    protected $countryNumericCode;
 
     /**
      * @var string $phoneNumber
      */
-    protected $phoneNumber = null;
+    protected $phoneNumber;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
-
-    public function __construct()
-    {
-    }
+    protected $responseCode;
 
     /**
      * @return string
@@ -152,5 +147,4 @@ class issuer
 
         return $this;
     }
-
 }

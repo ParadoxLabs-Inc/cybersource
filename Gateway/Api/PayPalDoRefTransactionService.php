@@ -4,56 +4,55 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalDoRefTransactionService
 {
-
     /**
      * @var string $paypalBillingAgreementId
      */
-    protected $paypalBillingAgreementId = null;
+    protected $paypalBillingAgreementId;
 
     /**
      * @var string $paypalPaymentType
      */
-    protected $paypalPaymentType = null;
+    protected $paypalPaymentType;
 
     /**
      * @var string $paypalReqconfirmshipping
      */
-    protected $paypalReqconfirmshipping = null;
+    protected $paypalReqconfirmshipping;
 
     /**
      * @var string $paypalReturnFmfDetails
      */
-    protected $paypalReturnFmfDetails = null;
+    protected $paypalReturnFmfDetails;
 
     /**
      * @var string $paypalSoftDescriptor
      */
-    protected $paypalSoftDescriptor = null;
+    protected $paypalSoftDescriptor;
 
     /**
      * @var string $paypalShippingdiscount
      */
-    protected $paypalShippingdiscount = null;
+    protected $paypalShippingdiscount;
 
     /**
      * @var string $paypalDesc
      */
-    protected $paypalDesc = null;
+    protected $paypalDesc;
 
     /**
      * @var string $invoiceNumber
      */
-    protected $invoiceNumber = null;
+    protected $invoiceNumber;
 
     /**
      * @var string $paypalEcNotifyUrl
      */
-    protected $paypalEcNotifyUrl = null;
+    protected $paypalEcNotifyUrl;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -252,5 +251,4 @@ class PayPalDoRefTransactionService
 
         return $this;
     }
-
 }

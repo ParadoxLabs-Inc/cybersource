@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class MerchantSecureData
 {
-
     /**
      * @var string $field1
      */
-    protected $field1 = null;
+    protected $field1;
 
     /**
      * @var string $field2
      */
-    protected $field2 = null;
+    protected $field2;
 
     /**
      * @var string $field3
      */
-    protected $field3 = null;
+    protected $field3;
 
     /**
      * @var string $field4
      */
-    protected $field4 = null;
-
-    public function __construct()
-    {
-    }
+    protected $field4;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class MerchantSecureData
 
         return $this;
     }
-
 }

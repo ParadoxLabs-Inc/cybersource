@@ -4,41 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class BankTransferRefundService
 {
-
     /**
      * @var string $bankTransferRequestID
      */
-    protected $bankTransferRequestID = null;
+    protected $bankTransferRequestID;
 
     /**
      * @var string $bankTransferRealTimeRequestID
      */
-    protected $bankTransferRealTimeRequestID = null;
+    protected $bankTransferRealTimeRequestID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $bankTransferRealTimeReconciliationID
      */
-    protected $bankTransferRealTimeReconciliationID = null;
+    protected $bankTransferRealTimeReconciliationID;
 
     /**
      * @var string $bankTransferRequestToken
      */
-    protected $bankTransferRequestToken = null;
+    protected $bankTransferRequestToken;
 
     /**
      * @var string $bankTransferRealTimeRequestToken
      */
-    protected $bankTransferRealTimeRequestToken = null;
+    protected $bankTransferRealTimeRequestToken;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -180,5 +179,4 @@ class BankTransferRefundService
 
         return $this;
     }
-
 }

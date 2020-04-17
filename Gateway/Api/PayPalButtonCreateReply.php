@@ -7,36 +7,35 @@ use Exception;
 
 class PayPalButtonCreateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $encryptedFormData
      */
-    protected $encryptedFormData = null;
+    protected $encryptedFormData;
 
     /**
      * @var string $unencryptedFormData
      */
-    protected $unencryptedFormData = null;
+    protected $unencryptedFormData;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $buttonType
      */
-    protected $buttonType = null;
+    protected $buttonType;
 
     /**
      * @param int $reasonCode
@@ -171,5 +170,4 @@ class PayPalButtonCreateReply
 
         return $this;
     }
-
 }

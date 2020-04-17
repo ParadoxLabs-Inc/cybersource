@@ -294,7 +294,6 @@ class ObjectBuilder
     public function getMerchantDefinedData($fieldsArray)
     {
         // NB: Using deprecated Field#s because MDDField[] doesn't appear to work through the SoapClient classes.
-        $fields = [];
         $merchantDefinedData = new MerchantDefinedData();
         foreach ($fieldsArray as $key => $value) {
             call_user_func([$merchantDefinedData, 'setField' . (int)$key], $value);

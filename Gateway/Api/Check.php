@@ -4,80 +4,75 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Check
 {
-
     /**
      * @var string $fullName
      */
-    protected $fullName = null;
+    protected $fullName;
 
     /**
      * @var string $accountNumber
      */
-    protected $accountNumber = null;
+    protected $accountNumber;
 
     /**
      * @var string $accountType
      */
-    protected $accountType = null;
+    protected $accountType;
 
     /**
      * @var string $bankTransitNumber
      */
-    protected $bankTransitNumber = null;
+    protected $bankTransitNumber;
 
     /**
      * @var string $checkNumber
      */
-    protected $checkNumber = null;
+    protected $checkNumber;
 
     /**
      * @var string $secCode
      */
-    protected $secCode = null;
+    protected $secCode;
 
     /**
      * @var string $accountEncoderID
      */
-    protected $accountEncoderID = null;
+    protected $accountEncoderID;
 
     /**
      * @var string $authenticateID
      */
-    protected $authenticateID = null;
+    protected $authenticateID;
 
     /**
      * @var string $paymentInfo
      */
-    protected $paymentInfo = null;
+    protected $paymentInfo;
 
     /**
      * @var string $imageReferenceNumber
      */
-    protected $imageReferenceNumber = null;
+    protected $imageReferenceNumber;
 
     /**
      * @var string $terminalCity
      */
-    protected $terminalCity = null;
+    protected $terminalCity;
 
     /**
      * @var string $terminalState
      */
-    protected $terminalState = null;
+    protected $terminalState;
 
     /**
      * @var string $customerPresent
      */
-    protected $customerPresent = null;
+    protected $customerPresent;
 
     /**
      * @var string $checkTransactionCode
      */
-    protected $checkTransactionCode = null;
-
-    public function __construct()
-    {
-    }
+    protected $checkTransactionCode;
 
     /**
      * @return string
@@ -344,5 +339,4 @@ class Check
 
         return $this;
     }
-
 }

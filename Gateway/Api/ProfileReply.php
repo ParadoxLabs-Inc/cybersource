@@ -4,35 +4,30 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ProfileReply
 {
-
     /**
      * @var string $selectedBy
      */
-    protected $selectedBy = null;
+    protected $selectedBy;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $destinationQueue
      */
-    protected $destinationQueue = null;
+    protected $destinationQueue;
 
     /**
      * @var string $profileScore
      */
-    protected $profileScore = null;
+    protected $profileScore;
 
     /**
      * @var RuleResultItems $rulesTriggered
      */
-    protected $rulesTriggered = null;
-
-    public function __construct()
-    {
-    }
+    protected $rulesTriggered;
 
     /**
      * @return string
@@ -128,5 +123,4 @@ class ProfileReply
 
         return $this;
     }
-
 }

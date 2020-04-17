@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalCreditService
 {
-
     /**
      * @var string $payPalPaymentRequestID
      */
-    protected $payPalPaymentRequestID = null;
+    protected $payPalPaymentRequestID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $payPalPaymentRequestToken
      */
-    protected $payPalPaymentRequestToken = null;
+    protected $payPalPaymentRequestToken;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class PayPalCreditService
 
         return $this;
     }
-
 }

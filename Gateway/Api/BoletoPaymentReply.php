@@ -7,61 +7,60 @@ use Exception;
 
 class BoletoPaymentReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $boletoNumber
      */
-    protected $boletoNumber = null;
+    protected $boletoNumber;
 
     /**
      * @var string $expirationDate
      */
-    protected $expirationDate = null;
+    protected $expirationDate;
 
     /**
      * @var string $url
      */
-    protected $url = null;
+    protected $url;
 
     /**
      * @var string $avsCode
      */
-    protected $avsCode = null;
+    protected $avsCode;
 
     /**
      * @var string $avsCodeRaw
      */
-    protected $avsCodeRaw = null;
+    protected $avsCodeRaw;
 
     /**
      * @var string $barCodeNumber
      */
-    protected $barCodeNumber = null;
+    protected $barCodeNumber;
 
     /**
      * @var string $assignor
      */
-    protected $assignor = null;
+    protected $assignor;
 
     /**
      * @param int $reasonCode
@@ -291,5 +290,4 @@ class BoletoPaymentReply
 
         return $this;
     }
-
 }

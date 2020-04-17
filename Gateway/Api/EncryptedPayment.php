@@ -4,45 +4,40 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class EncryptedPayment
 {
-
     /**
      * @var string $descriptor
      */
-    protected $descriptor = null;
+    protected $descriptor;
 
     /**
      * @var string $data
      */
-    protected $data = null;
+    protected $data;
 
     /**
      * @var string $encoding
      */
-    protected $encoding = null;
+    protected $encoding;
 
     /**
      * @var string $wrappedKey
      */
-    protected $wrappedKey = null;
+    protected $wrappedKey;
 
     /**
      * @var int $referenceID
      */
-    protected $referenceID = null;
+    protected $referenceID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $keySerialNumber
      */
-    protected $keySerialNumber = null;
-
-    public function __construct()
-    {
-    }
+    protected $keySerialNumber;
 
     /**
      * @return string
@@ -176,5 +171,4 @@ class EncryptedPayment
 
         return $this;
     }
-
 }

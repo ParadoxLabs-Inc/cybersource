@@ -7,51 +7,50 @@ use Exception;
 
 class APSessionsReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @var string $merchantURL
      */
-    protected $merchantURL = null;
+    protected $merchantURL;
 
     /**
      * @var string $processorToken
      */
-    protected $processorToken = null;
+    protected $processorToken;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @param int $reasonCode
@@ -243,5 +242,4 @@ class APSessionsReply
 
         return $this;
     }
-
 }

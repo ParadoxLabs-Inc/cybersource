@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ECAuthenticateService
 {
-
     /**
      * @var string $referenceNumber
      */
-    protected $referenceNumber = null;
+    protected $referenceNumber;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class ECAuthenticateService
 
         return $this;
     }
-
 }

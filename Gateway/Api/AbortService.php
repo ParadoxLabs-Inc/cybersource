@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AbortService
 {
-
     /**
      * @var string $cardholderVerificationMethod
      */
-    protected $cardholderVerificationMethod = null;
+    protected $cardholderVerificationMethod;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class AbortService
 
         return $this;
     }
-
 }

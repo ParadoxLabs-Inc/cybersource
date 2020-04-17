@@ -4,30 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class EmvReply
 {
-
     /**
      * @var string $combinedTags
      */
-    protected $combinedTags = null;
+    protected $combinedTags;
 
     /**
      * @var string $decryptedRequestTags
      */
-    protected $decryptedRequestTags = null;
+    protected $decryptedRequestTags;
 
     /**
      * @var string $chipValidationResults
      */
-    protected $chipValidationResults = null;
+    protected $chipValidationResults;
 
     /**
      * @var string $chipValidationType
      */
-    protected $chipValidationType = null;
-
-    public function __construct()
-    {
-    }
+    protected $chipValidationType;
 
     /**
      * @return string
@@ -104,5 +99,4 @@ class EmvReply
 
         return $this;
     }
-
 }

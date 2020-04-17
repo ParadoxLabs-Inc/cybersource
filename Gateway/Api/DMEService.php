@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DMEService
 {
-
     /**
      * @var string $eventType
      */
-    protected $eventType = null;
+    protected $eventType;
 
     /**
      * @var string $eventPolicy
      */
-    protected $eventPolicy = null;
+    protected $eventPolicy;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class DMEService
 
         return $this;
     }
-
 }

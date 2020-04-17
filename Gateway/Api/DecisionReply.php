@@ -4,50 +4,45 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DecisionReply
 {
-
     /**
      * @var int $casePriority
      */
-    protected $casePriority = null;
+    protected $casePriority;
 
     /**
      * @var ProfileReply $activeProfileReply
      */
-    protected $activeProfileReply = null;
+    protected $activeProfileReply;
 
     /**
      * @var string $velocityInfoCode
      */
-    protected $velocityInfoCode = null;
+    protected $velocityInfoCode;
 
     /**
      * @var AdditionalFields $additionalFields
      */
-    protected $additionalFields = null;
+    protected $additionalFields;
 
     /**
      * @var MorphingElement $morphingElement
      */
-    protected $morphingElement = null;
+    protected $morphingElement;
 
     /**
      * @var ProviderFields $providerFields
      */
-    protected $providerFields = null;
+    protected $providerFields;
 
     /**
      * @var Travel $travel
      */
-    protected $travel = null;
+    protected $travel;
 
     /**
      * @var string $unavailableInfoCode
      */
-    protected $unavailableInfoCode = null;
-
-    public function __construct()
-    {
-    }
+    protected $unavailableInfoCode;
 
     /**
      * @return int
@@ -200,5 +195,4 @@ class DecisionReply
 
         return $this;
     }
-
 }

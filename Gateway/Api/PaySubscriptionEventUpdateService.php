@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionEventUpdateService
 {
-
     /**
      * @var string $action
      */
-    protected $action = null;
+    protected $action;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class PaySubscriptionEventUpdateService
 
         return $this;
     }
-
 }

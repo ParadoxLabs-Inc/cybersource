@@ -4,16 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APTransactionDetailsService
 {
-
     /**
      * @var string $transactionDetailsRequestID
      */
-    protected $transactionDetailsRequestID = null;
+    protected $transactionDetailsRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -60,5 +59,4 @@ class APTransactionDetailsService
 
         return $this;
     }
-
 }

@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PersonalID
 {
-
     /**
      * @var string $number
      */
-    protected $number = null;
+    protected $number;
 
     /**
      * @var string $type
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var string $name
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $address
      */
-    protected $address = null;
+    protected $address;
 
     /**
      * @var string $issuedBy
      */
-    protected $issuedBy = null;
-
-    public function __construct()
-    {
-    }
+    protected $issuedBy;
 
     /**
      * @return string
@@ -152,5 +147,4 @@ class PersonalID
 
         return $this;
     }
-
 }

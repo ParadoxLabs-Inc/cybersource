@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCAutoAuthReversalReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $result
      */
-    protected $result = null;
+    protected $result;
 
     /**
      * @param int $reasonCode
@@ -84,5 +83,4 @@ class CCAutoAuthReversalReply
 
         return $this;
     }
-
 }

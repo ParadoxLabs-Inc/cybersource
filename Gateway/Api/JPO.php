@@ -4,65 +4,60 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class JPO
 {
-
     /**
      * @var int $paymentMethod
      */
-    protected $paymentMethod = null;
+    protected $paymentMethod;
 
     /**
      * @var float $bonusAmount
      */
-    protected $bonusAmount = null;
+    protected $bonusAmount;
 
     /**
      * @var int $bonuses
      */
-    protected $bonuses = null;
+    protected $bonuses;
 
     /**
      * @var int $installments
      */
-    protected $installments = null;
+    protected $installments;
 
     /**
      * @var int $firstBillingMonth
      */
-    protected $firstBillingMonth = null;
+    protected $firstBillingMonth;
 
     /**
      * @var int $jccaTerminalID
      */
-    protected $jccaTerminalID = null;
+    protected $jccaTerminalID;
 
     /**
      * @var int $issuerMessage
      */
-    protected $issuerMessage = null;
+    protected $issuerMessage;
 
     /**
      * @var string $jis2TrackData
      */
-    protected $jis2TrackData = null;
+    protected $jis2TrackData;
 
     /**
      * @var string $businessNameAlphanumeric
      */
-    protected $businessNameAlphanumeric = null;
+    protected $businessNameAlphanumeric;
 
     /**
      * @var string $businessNameJapanese
      */
-    protected $businessNameJapanese = null;
+    protected $businessNameJapanese;
 
     /**
      * @var string $businessNameKatakana
      */
-    protected $businessNameKatakana = null;
-
-    public function __construct()
-    {
-    }
+    protected $businessNameKatakana;
 
     /**
      * @return int
@@ -272,5 +267,4 @@ class JPO
 
         return $this;
     }
-
 }

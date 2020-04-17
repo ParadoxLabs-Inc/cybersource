@@ -4,96 +4,95 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalUpdateAgreementReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $paypalBillingAgreementId
      */
-    protected $paypalBillingAgreementId = null;
+    protected $paypalBillingAgreementId;
 
     /**
      * @var string $paypalBillingAgreementDesc
      */
-    protected $paypalBillingAgreementDesc = null;
+    protected $paypalBillingAgreementDesc;
 
     /**
      * @var string $paypalBillingAgreementCustom
      */
-    protected $paypalBillingAgreementCustom = null;
+    protected $paypalBillingAgreementCustom;
 
     /**
      * @var string $paypalBillingAgreementStatus
      */
-    protected $paypalBillingAgreementStatus = null;
+    protected $paypalBillingAgreementStatus;
 
     /**
      * @var string $payer
      */
-    protected $payer = null;
+    protected $payer;
 
     /**
      * @var string $payerId
      */
-    protected $payerId = null;
+    protected $payerId;
 
     /**
      * @var string $payerStatus
      */
-    protected $payerStatus = null;
+    protected $payerStatus;
 
     /**
      * @var string $payerCountry
      */
-    protected $payerCountry = null;
+    protected $payerCountry;
 
     /**
      * @var string $payerBusiness
      */
-    protected $payerBusiness = null;
+    protected $payerBusiness;
 
     /**
      * @var string $payerSalutation
      */
-    protected $payerSalutation = null;
+    protected $payerSalutation;
 
     /**
      * @var string $payerFirstname
      */
-    protected $payerFirstname = null;
+    protected $payerFirstname;
 
     /**
      * @var string $payerMiddlename
      */
-    protected $payerMiddlename = null;
+    protected $payerMiddlename;
 
     /**
      * @var string $payerLastname
      */
-    protected $payerLastname = null;
+    protected $payerLastname;
 
     /**
      * @var string $payerSuffix
      */
-    protected $payerSuffix = null;
+    protected $payerSuffix;
 
     /**
      * @var string $addressStatus
      */
-    protected $addressStatus = null;
+    protected $addressStatus;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @param int $reasonCode
@@ -444,5 +443,4 @@ class PayPalUpdateAgreementReply
 
         return $this;
     }
-
 }

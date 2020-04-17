@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class merchant
 {
-
     /**
      * @var string $acquirerBIN
      */
-    protected $acquirerBIN = null;
+    protected $acquirerBIN;
 
     /**
      * @var string $cardAcceptorID
      */
-    protected $cardAcceptorID = null;
+    protected $cardAcceptorID;
 
     /**
      * @var string $visaMerchantID
      */
-    protected $visaMerchantID = null;
-
-    public function __construct()
-    {
-    }
+    protected $visaMerchantID;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class merchant
 
         return $this;
     }
-
 }

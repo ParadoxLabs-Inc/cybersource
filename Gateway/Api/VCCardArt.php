@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VCCardArt
 {
-
     /**
      * @var string $fileName
      */
-    protected $fileName = null;
+    protected $fileName;
 
     /**
      * @var string $height
      */
-    protected $height = null;
+    protected $height;
 
     /**
      * @var string $width
      */
-    protected $width = null;
+    protected $width;
 
     /**
      * @var int $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @param int $id
@@ -108,5 +107,4 @@ class VCCardArt
 
         return $this;
     }
-
 }

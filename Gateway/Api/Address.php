@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Address
 {
-
     /**
      * @var string $street1
      */
-    protected $street1 = null;
+    protected $street1;
 
     /**
      * @var string $street2
      */
-    protected $street2 = null;
+    protected $street2;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $country
      */
-    protected $country = null;
-
-    public function __construct()
-    {
-    }
+    protected $country;
 
     /**
      * @return string
@@ -152,5 +147,4 @@ class Address
 
         return $this;
     }
-
 }

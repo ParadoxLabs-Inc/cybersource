@@ -7,16 +7,15 @@ use Exception;
 
 class BinLookupReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @param int $reasonCode
@@ -75,5 +74,4 @@ class BinLookupReply
 
         return $this;
     }
-
 }

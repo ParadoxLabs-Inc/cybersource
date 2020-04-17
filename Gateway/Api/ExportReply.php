@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ExportReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var int $ipCountryConfidence
      */
-    protected $ipCountryConfidence = null;
+    protected $ipCountryConfidence;
 
     /**
      * @var string $infoCode
      */
-    protected $infoCode = null;
+    protected $infoCode;
 
     /**
      * @param int $reasonCode
@@ -84,5 +83,4 @@ class ExportReply
 
         return $this;
     }
-
 }

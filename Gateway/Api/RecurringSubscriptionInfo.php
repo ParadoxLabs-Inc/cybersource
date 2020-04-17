@@ -4,70 +4,65 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class RecurringSubscriptionInfo
 {
-
     /**
      * @var string $subscriptionID
      */
-    protected $subscriptionID = null;
+    protected $subscriptionID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var int $numberOfPayments
      */
-    protected $numberOfPayments = null;
+    protected $numberOfPayments;
 
     /**
      * @var int $numberOfPaymentsToAdd
      */
-    protected $numberOfPaymentsToAdd = null;
+    protected $numberOfPaymentsToAdd;
 
     /**
      * @var boolean $automaticRenew
      */
-    protected $automaticRenew = null;
+    protected $automaticRenew;
 
     /**
      * @var string $frequency
      */
-    protected $frequency = null;
+    protected $frequency;
 
     /**
      * @var string $startDate
      */
-    protected $startDate = null;
+    protected $startDate;
 
     /**
      * @var string $endDate
      */
-    protected $endDate = null;
+    protected $endDate;
 
     /**
      * @var boolean $approvalRequired
      */
-    protected $approvalRequired = null;
+    protected $approvalRequired;
 
     /**
      * @var PaySubscriptionEvent $event
      */
-    protected $event = null;
+    protected $event;
 
     /**
      * @var boolean $billPayment
      */
-    protected $billPayment = null;
-
-    public function __construct()
-    {
-    }
+    protected $billPayment;
 
     /**
      * @return string
@@ -296,5 +291,4 @@ class RecurringSubscriptionInfo
 
         return $this;
     }
-
 }

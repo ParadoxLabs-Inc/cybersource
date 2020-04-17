@@ -4,20 +4,15 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Batch
 {
-
     /**
      * @var string $batchID
      */
-    protected $batchID = null;
+    protected $batchID;
 
     /**
      * @var string $recordID
      */
-    protected $recordID = null;
-
-    public function __construct()
-    {
-    }
+    protected $recordID;
 
     /**
      * @return string
@@ -56,5 +51,4 @@ class Batch
 
         return $this;
     }
-
 }

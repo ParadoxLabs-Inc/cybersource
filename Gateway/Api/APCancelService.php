@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APCancelService
 {
-
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $orderRequestID
      */
-    protected $orderRequestID = null;
+    protected $orderRequestID;
 
     /**
      * @var string $saleRequestID
      */
-    protected $saleRequestID = null;
+    protected $saleRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class APCancelService
 
         return $this;
     }
-
 }

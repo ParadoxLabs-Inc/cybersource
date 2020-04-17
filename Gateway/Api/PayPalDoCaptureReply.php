@@ -4,96 +4,95 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalDoCaptureReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $authorizationId
      */
-    protected $authorizationId = null;
+    protected $authorizationId;
 
     /**
      * @var string $transactionId
      */
-    protected $transactionId = null;
+    protected $transactionId;
 
     /**
      * @var string $parentTransactionId
      */
-    protected $parentTransactionId = null;
+    protected $parentTransactionId;
 
     /**
      * @var string $paypalReceiptId
      */
-    protected $paypalReceiptId = null;
+    protected $paypalReceiptId;
 
     /**
      * @var string $paypalTransactiontype
      */
-    protected $paypalTransactiontype = null;
+    protected $paypalTransactiontype;
 
     /**
      * @var string $paypalPaymentType
      */
-    protected $paypalPaymentType = null;
+    protected $paypalPaymentType;
 
     /**
      * @var string $paypalOrderTime
      */
-    protected $paypalOrderTime = null;
+    protected $paypalOrderTime;
 
     /**
      * @var string $paypalPaymentGrossAmount
      */
-    protected $paypalPaymentGrossAmount = null;
+    protected $paypalPaymentGrossAmount;
 
     /**
      * @var string $paypalFeeAmount
      */
-    protected $paypalFeeAmount = null;
+    protected $paypalFeeAmount;
 
     /**
      * @var string $paypalTaxAmount
      */
-    protected $paypalTaxAmount = null;
+    protected $paypalTaxAmount;
 
     /**
      * @var string $paypalExchangeRate
      */
-    protected $paypalExchangeRate = null;
+    protected $paypalExchangeRate;
 
     /**
      * @var string $paypalPaymentStatus
      */
-    protected $paypalPaymentStatus = null;
+    protected $paypalPaymentStatus;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $paypalPendingReason
      */
-    protected $paypalPendingReason = null;
+    protected $paypalPendingReason;
 
     /**
      * @param int $reasonCode
@@ -444,5 +443,4 @@ class PayPalDoCaptureReply
 
         return $this;
     }
-
 }

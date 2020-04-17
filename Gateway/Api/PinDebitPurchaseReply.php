@@ -7,81 +7,80 @@ use Exception;
 
 class PinDebitPurchaseReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var string $authorizationCode
      */
-    protected $authorizationCode = null;
+    protected $authorizationCode;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $networkCode
      */
-    protected $networkCode = null;
+    protected $networkCode;
 
     /**
      * @var string $transactionID
      */
-    protected $transactionID = null;
+    protected $transactionID;
 
     /**
      * @var float $requestAmount
      */
-    protected $requestAmount = null;
+    protected $requestAmount;
 
     /**
      * @var string $requestCurrency
      */
-    protected $requestCurrency = null;
+    protected $requestCurrency;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var string $accountType
      */
-    protected $accountType = null;
+    protected $accountType;
 
     /**
      * @var string $amountType
      */
-    protected $amountType = null;
+    protected $amountType;
 
     /**
      * @var string $accountBalance
      */
-    protected $accountBalance = null;
+    protected $accountBalance;
 
     /**
      * @var string $accountBalanceCurrency
      */
-    protected $accountBalanceCurrency = null;
+    protected $accountBalanceCurrency;
 
     /**
      * @var string $accountBalanceSign
      */
-    protected $accountBalanceSign = null;
+    protected $accountBalanceSign;
 
     /**
      * @param int $reasonCode
@@ -387,5 +386,4 @@ class PinDebitPurchaseReply
 
         return $this;
     }
-
 }

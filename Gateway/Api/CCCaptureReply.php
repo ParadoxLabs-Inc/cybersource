@@ -7,66 +7,65 @@ use Exception;
 
 class CCCaptureReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var FundingTotals $fundingTotals
      */
-    protected $fundingTotals = null;
+    protected $fundingTotals;
 
     /**
      * @var string $fxQuoteID
      */
-    protected $fxQuoteID = null;
+    protected $fxQuoteID;
 
     /**
      * @var \DateTime $fxQuoteRate
      */
-    protected $fxQuoteRate = null;
+    protected $fxQuoteRate;
 
     /**
      * @var string $fxQuoteType
      */
-    protected $fxQuoteType = null;
+    protected $fxQuoteType;
 
     /**
      * @var \DateTime $fxQuoteExpirationDateTime
      */
-    protected $fxQuoteExpirationDateTime = null;
+    protected $fxQuoteExpirationDateTime;
 
     /**
      * @var string $purchasingLevel3Enabled
      */
-    protected $purchasingLevel3Enabled = null;
+    protected $purchasingLevel3Enabled;
 
     /**
      * @var string $enhancedDataEnabled
      */
-    protected $enhancedDataEnabled = null;
+    protected $enhancedDataEnabled;
 
     /**
      * @var string $reconciliationReferenceNumber
      */
-    protected $reconciliationReferenceNumber = null;
+    protected $reconciliationReferenceNumber;
 
     /**
      * @param int $reasonCode
@@ -339,5 +338,4 @@ class CCCaptureReply
 
         return $this;
     }
-
 }

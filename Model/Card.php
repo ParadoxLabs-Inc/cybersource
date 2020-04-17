@@ -13,8 +13,6 @@
 
 namespace ParadoxLabs\CyberSource\Model;
 
-use Magento\Framework\Exception\LocalizedException;
-
 /**
  * CyberSource card model
  */

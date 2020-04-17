@@ -4,36 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APOptionsReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @var string $offset
      */
-    protected $offset = null;
+    protected $offset;
 
     /**
      * @var string $count
      */
-    protected $count = null;
+    protected $count;
 
     /**
      * @var string $totalCount
      */
-    protected $totalCount = null;
+    protected $totalCount;
 
     /**
      * @var APOptionsOption[] $option
      */
-    protected $option = null;
+    protected $option;
 
     /**
      * @param int $reasonCode
@@ -156,5 +155,4 @@ class APOptionsReply
 
         return $this;
     }
-
 }

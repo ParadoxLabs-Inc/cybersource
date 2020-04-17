@@ -7,66 +7,65 @@ use Exception;
 
 class APUpdateMandateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $mandateID
      */
-    protected $mandateID = null;
+    protected $mandateID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $merchantURL
      */
-    protected $merchantURL = null;
+    protected $merchantURL;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var string $riskScore
      */
-    protected $riskScore = null;
+    protected $riskScore;
 
     /**
      * @var string $encodedHTML
      */
-    protected $encodedHTML = null;
+    protected $encodedHTML;
 
     /**
      * @var string $encodedPopupHTML
      */
-    protected $encodedPopupHTML = null;
+    protected $encodedPopupHTML;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @var \DateTime $dateSigned
      */
-    protected $dateSigned = null;
+    protected $dateSigned;
 
     /**
      * @var \DateTime $dateCreated
      */
-    protected $dateCreated = null;
+    protected $dateCreated;
 
     /**
      * @param int $reasonCode
@@ -345,5 +344,4 @@ class APUpdateMandateReply
 
         return $this;
     }
-
 }

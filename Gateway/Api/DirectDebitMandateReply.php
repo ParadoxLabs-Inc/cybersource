@@ -7,36 +7,35 @@ use Exception;
 
 class DirectDebitMandateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $mandateID
      */
-    protected $mandateID = null;
+    protected $mandateID;
 
     /**
      * @var string $mandateMaturationDate
      */
-    protected $mandateMaturationDate = null;
+    protected $mandateMaturationDate;
 
     /**
      * @var \DateTime $requestDateTime
      */
-    protected $requestDateTime = null;
+    protected $requestDateTime;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @param int $reasonCode
@@ -171,5 +170,4 @@ class DirectDebitMandateReply
 
         return $this;
     }
-
 }

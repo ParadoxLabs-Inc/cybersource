@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ChinaRefundService
 {
-
     /**
      * @var string $chinaPaymentRequestID
      */
-    protected $chinaPaymentRequestID = null;
+    protected $chinaPaymentRequestID;
 
     /**
      * @var string $chinaPaymentRequestToken
      */
-    protected $chinaPaymentRequestToken = null;
+    protected $chinaPaymentRequestToken;
 
     /**
      * @var string $refundReason
      */
-    protected $refundReason = null;
+    protected $refundReason;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class ChinaRefundService
 
         return $this;
     }
-
 }

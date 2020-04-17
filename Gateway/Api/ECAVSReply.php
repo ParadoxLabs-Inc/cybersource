@@ -4,196 +4,195 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ECAVSReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $validationType
      */
-    protected $validationType = null;
+    protected $validationType;
 
     /**
      * @var string $primaryStatusCode
      */
-    protected $primaryStatusCode = null;
+    protected $primaryStatusCode;
 
     /**
      * @var string $secondaryStatusCode
      */
-    protected $secondaryStatusCode = null;
+    protected $secondaryStatusCode;
 
     /**
      * @var string $additionalStatusCode
      */
-    protected $additionalStatusCode = null;
+    protected $additionalStatusCode;
 
     /**
      * @var string $numberOfReturns
      */
-    protected $numberOfReturns = null;
+    protected $numberOfReturns;
 
     /**
      * @var string $lastReturnDate
      */
-    protected $lastReturnDate = null;
+    protected $lastReturnDate;
 
     /**
      * @var string $lastReturnProcessorResponse
      */
-    protected $lastReturnProcessorResponse = null;
+    protected $lastReturnProcessorResponse;
 
     /**
      * @var string $lastUpdateDate
      */
-    protected $lastUpdateDate = null;
+    protected $lastUpdateDate;
 
     /**
      * @var string $addedOrClosedDate
      */
-    protected $addedOrClosedDate = null;
+    protected $addedOrClosedDate;
 
     /**
      * @var string $previousStatusCode
      */
-    protected $previousStatusCode = null;
+    protected $previousStatusCode;
 
     /**
      * @var string $fcraDisputeCode
      */
-    protected $fcraDisputeCode = null;
+    protected $fcraDisputeCode;
 
     /**
      * @var string $scoredAccountProcessorResponse1
      */
-    protected $scoredAccountProcessorResponse1 = null;
+    protected $scoredAccountProcessorResponse1;
 
     /**
      * @var string $scoredAccountProcessorResponse2
      */
-    protected $scoredAccountProcessorResponse2 = null;
+    protected $scoredAccountProcessorResponse2;
 
     /**
      * @var string $scoredAccountProcessorResponse3
      */
-    protected $scoredAccountProcessorResponse3 = null;
+    protected $scoredAccountProcessorResponse3;
 
     /**
      * @var string $scoredAccountProcessorResponse5
      */
-    protected $scoredAccountProcessorResponse5 = null;
+    protected $scoredAccountProcessorResponse5;
 
     /**
      * @var string $customerDataConditionCode
      */
-    protected $customerDataConditionCode = null;
+    protected $customerDataConditionCode;
 
     /**
      * @var string $matchBillToFullName
      */
-    protected $matchBillToFullName = null;
+    protected $matchBillToFullName;
 
     /**
      * @var string $matchBillToPrefix
      */
-    protected $matchBillToPrefix = null;
+    protected $matchBillToPrefix;
 
     /**
      * @var string $matchBillToFirstName
      */
-    protected $matchBillToFirstName = null;
+    protected $matchBillToFirstName;
 
     /**
      * @var string $matchBillToMiddleName
      */
-    protected $matchBillToMiddleName = null;
+    protected $matchBillToMiddleName;
 
     /**
      * @var string $matchBillToLastName
      */
-    protected $matchBillToLastName = null;
+    protected $matchBillToLastName;
 
     /**
      * @var string $matchBillToSuffix
      */
-    protected $matchBillToSuffix = null;
+    protected $matchBillToSuffix;
 
     /**
      * @var string $matchBillToCompany
      */
-    protected $matchBillToCompany = null;
+    protected $matchBillToCompany;
 
     /**
      * @var string $matchBillToAddress
      */
-    protected $matchBillToAddress = null;
+    protected $matchBillToAddress;
 
     /**
      * @var string $matchBillToCity
      */
-    protected $matchBillToCity = null;
+    protected $matchBillToCity;
 
     /**
      * @var string $matchBillToState
      */
-    protected $matchBillToState = null;
+    protected $matchBillToState;
 
     /**
      * @var string $matchBillToPostalCode
      */
-    protected $matchBillToPostalCode = null;
+    protected $matchBillToPostalCode;
 
     /**
      * @var string $matchBillToPhoneNumber
      */
-    protected $matchBillToPhoneNumber = null;
+    protected $matchBillToPhoneNumber;
 
     /**
      * @var string $matchBillToCompanyPhoneNumber
      */
-    protected $matchBillToCompanyPhoneNumber = null;
+    protected $matchBillToCompanyPhoneNumber;
 
     /**
      * @var string $matchBillToCompanyTaxID
      */
-    protected $matchBillToCompanyTaxID = null;
+    protected $matchBillToCompanyTaxID;
 
     /**
      * @var string $matchBillToSSN
      */
-    protected $matchBillToSSN = null;
+    protected $matchBillToSSN;
 
     /**
      * @var string $matchBillToDateOfBirth
      */
-    protected $matchBillToDateOfBirth = null;
+    protected $matchBillToDateOfBirth;
 
     /**
      * @var string $matchPersonalIDType
      */
-    protected $matchPersonalIDType = null;
+    protected $matchPersonalIDType;
 
     /**
      * @var string $matchPersonalID
      */
-    protected $matchPersonalID = null;
+    protected $matchPersonalID;
 
     /**
      * @var string $matchPersonalIDIssuedBy
      */
-    protected $matchPersonalIDIssuedBy = null;
+    protected $matchPersonalIDIssuedBy;
 
     /**
      * @var int $overallMatchScore
      */
-    protected $overallMatchScore = null;
+    protected $overallMatchScore;
 
     /**
      * @var string $calculatedResponse
      */
-    protected $calculatedResponse = null;
+    protected $calculatedResponse;
 
     /**
      * @param int $reasonCode
@@ -924,5 +923,4 @@ class ECAVSReply
 
         return $this;
     }
-
 }

@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class DecisionManager
 {
-
     /**
      * @var boolean $enabled
      */
-    protected $enabled = null;
+    protected $enabled;
 
     /**
      * @var string $profile
      */
-    protected $profile = null;
+    protected $profile;
 
     /**
      * @var DecisionManagerTravelData $travelData
      */
-    protected $travelData = null;
-
-    public function __construct()
-    {
-    }
+    protected $travelData;
 
     /**
      * @return boolean
@@ -80,5 +75,4 @@ class DecisionManager
 
         return $this;
     }
-
 }

@@ -7,35 +7,30 @@ use Exception;
 
 class APBillingAgreementReply
 {
-
     /**
      * @var string $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $processorResponse
      */
-    protected $processorResponse = null;
+    protected $processorResponse;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
-
-    public function __construct()
-    {
-    }
+    protected $dateTime;
 
     /**
      * @return string
@@ -143,5 +138,4 @@ class APBillingAgreementReply
 
         return $this;
     }
-
 }

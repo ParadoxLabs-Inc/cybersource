@@ -4,36 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ExportService
 {
-
     /**
      * @var string $addressOperator
      */
-    protected $addressOperator = null;
+    protected $addressOperator;
 
     /**
      * @var string $addressWeight
      */
-    protected $addressWeight = null;
+    protected $addressWeight;
 
     /**
      * @var string $companyWeight
      */
-    protected $companyWeight = null;
+    protected $companyWeight;
 
     /**
      * @var string $nameWeight
      */
-    protected $nameWeight = null;
+    protected $nameWeight;
 
     /**
      * @var string $sanctionsLists
      */
-    protected $sanctionsLists = null;
+    protected $sanctionsLists;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -156,5 +155,4 @@ class ExportService
 
         return $this;
     }
-
 }

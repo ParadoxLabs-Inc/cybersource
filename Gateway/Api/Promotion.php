@@ -4,40 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Promotion
 {
-
     /**
      * @var float $discountedAmount
      */
-    protected $discountedAmount = null;
+    protected $discountedAmount;
 
     /**
      * @var string $type
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var string $code
      */
-    protected $code = null;
+    protected $code;
 
     /**
      * @var string $receiptData
      */
-    protected $receiptData = null;
+    protected $receiptData;
 
     /**
      * @var float $discountApplied
      */
-    protected $discountApplied = null;
+    protected $discountApplied;
 
     /**
      * @var string $description
      */
-    protected $description = null;
-
-    public function __construct()
-    {
-    }
+    protected $description;
 
     /**
      * @return float
@@ -152,5 +147,4 @@ class Promotion
 
         return $this;
     }
-
 }

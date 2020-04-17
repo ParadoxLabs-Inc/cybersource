@@ -4,46 +4,45 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PinDebitCreditService
 {
-
     /**
      * @var string $networkOrder
      */
-    protected $networkOrder = null;
+    protected $networkOrder;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $paymentType
      */
-    protected $paymentType = null;
+    protected $paymentType;
 
     /**
      * @var string $ebtCategory
      */
-    protected $ebtCategory = null;
+    protected $ebtCategory;
 
     /**
      * @var string $transactionType
      */
-    protected $transactionType = null;
+    protected $transactionType;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -204,5 +203,4 @@ class PinDebitCreditService
 
         return $this;
     }
-
 }

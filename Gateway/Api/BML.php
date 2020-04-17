@@ -4,440 +4,435 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class BML
 {
-
     /**
      * @var boolean $customerBillingAddressChange
      */
-    protected $customerBillingAddressChange = null;
+    protected $customerBillingAddressChange;
 
     /**
      * @var boolean $customerEmailChange
      */
-    protected $customerEmailChange = null;
+    protected $customerEmailChange;
 
     /**
      * @var boolean $customerHasCheckingAccount
      */
-    protected $customerHasCheckingAccount = null;
+    protected $customerHasCheckingAccount;
 
     /**
      * @var boolean $customerHasSavingsAccount
      */
-    protected $customerHasSavingsAccount = null;
+    protected $customerHasSavingsAccount;
 
     /**
      * @var boolean $customerPasswordChange
      */
-    protected $customerPasswordChange = null;
+    protected $customerPasswordChange;
 
     /**
      * @var boolean $customerPhoneChange
      */
-    protected $customerPhoneChange = null;
+    protected $customerPhoneChange;
 
     /**
      * @var string $customerRegistrationDate
      */
-    protected $customerRegistrationDate = null;
+    protected $customerRegistrationDate;
 
     /**
      * @var string $customerTypeFlag
      */
-    protected $customerTypeFlag = null;
+    protected $customerTypeFlag;
 
     /**
      * @var float $grossHouseholdIncome
      */
-    protected $grossHouseholdIncome = null;
+    protected $grossHouseholdIncome;
 
     /**
      * @var string $householdIncomeCurrency
      */
-    protected $householdIncomeCurrency = null;
+    protected $householdIncomeCurrency;
 
     /**
      * @var string $itemCategory
      */
-    protected $itemCategory = null;
+    protected $itemCategory;
 
     /**
      * @var string $merchantPromotionCode
      */
-    protected $merchantPromotionCode = null;
+    protected $merchantPromotionCode;
 
     /**
      * @var string $preapprovalNumber
      */
-    protected $preapprovalNumber = null;
+    protected $preapprovalNumber;
 
     /**
      * @var string $productDeliveryTypeIndicator
      */
-    protected $productDeliveryTypeIndicator = null;
+    protected $productDeliveryTypeIndicator;
 
     /**
      * @var string $residenceStatus
      */
-    protected $residenceStatus = null;
+    protected $residenceStatus;
 
     /**
      * @var string $tcVersion
      */
-    protected $tcVersion = null;
+    protected $tcVersion;
 
     /**
      * @var int $yearsAtCurrentResidence
      */
-    protected $yearsAtCurrentResidence = null;
+    protected $yearsAtCurrentResidence;
 
     /**
      * @var int $yearsWithCurrentEmployer
      */
-    protected $yearsWithCurrentEmployer = null;
+    protected $yearsWithCurrentEmployer;
 
     /**
      * @var string $employerStreet1
      */
-    protected $employerStreet1 = null;
+    protected $employerStreet1;
 
     /**
      * @var string $employerStreet2
      */
-    protected $employerStreet2 = null;
+    protected $employerStreet2;
 
     /**
      * @var string $employerCity
      */
-    protected $employerCity = null;
+    protected $employerCity;
 
     /**
      * @var string $employerCompanyName
      */
-    protected $employerCompanyName = null;
+    protected $employerCompanyName;
 
     /**
      * @var string $employerCountry
      */
-    protected $employerCountry = null;
+    protected $employerCountry;
 
     /**
      * @var string $employerPhoneNumber
      */
-    protected $employerPhoneNumber = null;
+    protected $employerPhoneNumber;
 
     /**
      * @var string $employerPhoneType
      */
-    protected $employerPhoneType = null;
+    protected $employerPhoneType;
 
     /**
      * @var string $employerState
      */
-    protected $employerState = null;
+    protected $employerState;
 
     /**
      * @var string $employerPostalCode
      */
-    protected $employerPostalCode = null;
+    protected $employerPostalCode;
 
     /**
      * @var string $shipToPhoneType
      */
-    protected $shipToPhoneType = null;
+    protected $shipToPhoneType;
 
     /**
      * @var string $billToPhoneType
      */
-    protected $billToPhoneType = null;
+    protected $billToPhoneType;
 
     /**
      * @var string $methodOfPayment
      */
-    protected $methodOfPayment = null;
+    protected $methodOfPayment;
 
     /**
      * @var string $productType
      */
-    protected $productType = null;
+    protected $productType;
 
     /**
      * @var string $customerAuthenticatedByMerchant
      */
-    protected $customerAuthenticatedByMerchant = null;
+    protected $customerAuthenticatedByMerchant;
 
     /**
      * @var string $backOfficeIndicator
      */
-    protected $backOfficeIndicator = null;
+    protected $backOfficeIndicator;
 
     /**
      * @var string $shipToEqualsBillToNameIndicator
      */
-    protected $shipToEqualsBillToNameIndicator = null;
+    protected $shipToEqualsBillToNameIndicator;
 
     /**
      * @var string $shipToEqualsBillToAddressIndicator
      */
-    protected $shipToEqualsBillToAddressIndicator = null;
+    protected $shipToEqualsBillToAddressIndicator;
 
     /**
      * @var string $alternateIPAddress
      */
-    protected $alternateIPAddress = null;
+    protected $alternateIPAddress;
 
     /**
      * @var string $businessLegalName
      */
-    protected $businessLegalName = null;
+    protected $businessLegalName;
 
     /**
      * @var string $dbaName
      */
-    protected $dbaName = null;
+    protected $dbaName;
 
     /**
      * @var string $businessAddress1
      */
-    protected $businessAddress1 = null;
+    protected $businessAddress1;
 
     /**
      * @var string $businessAddress2
      */
-    protected $businessAddress2 = null;
+    protected $businessAddress2;
 
     /**
      * @var string $businessCity
      */
-    protected $businessCity = null;
+    protected $businessCity;
 
     /**
      * @var string $businessState
      */
-    protected $businessState = null;
+    protected $businessState;
 
     /**
      * @var string $businessPostalCode
      */
-    protected $businessPostalCode = null;
+    protected $businessPostalCode;
 
     /**
      * @var string $businessCountry
      */
-    protected $businessCountry = null;
+    protected $businessCountry;
 
     /**
      * @var string $businessMainPhone
      */
-    protected $businessMainPhone = null;
+    protected $businessMainPhone;
 
     /**
      * @var string $userID
      */
-    protected $userID = null;
+    protected $userID;
 
     /**
      * @var string $pin
      */
-    protected $pin = null;
+    protected $pin;
 
     /**
      * @var string $adminLastName
      */
-    protected $adminLastName = null;
+    protected $adminLastName;
 
     /**
      * @var string $adminFirstName
      */
-    protected $adminFirstName = null;
+    protected $adminFirstName;
 
     /**
      * @var string $adminPhone
      */
-    protected $adminPhone = null;
+    protected $adminPhone;
 
     /**
      * @var string $adminFax
      */
-    protected $adminFax = null;
+    protected $adminFax;
 
     /**
      * @var string $adminEmailAddress
      */
-    protected $adminEmailAddress = null;
+    protected $adminEmailAddress;
 
     /**
      * @var string $adminTitle
      */
-    protected $adminTitle = null;
+    protected $adminTitle;
 
     /**
      * @var string $supervisorLastName
      */
-    protected $supervisorLastName = null;
+    protected $supervisorLastName;
 
     /**
      * @var string $supervisorFirstName
      */
-    protected $supervisorFirstName = null;
+    protected $supervisorFirstName;
 
     /**
      * @var string $supervisorEmailAddress
      */
-    protected $supervisorEmailAddress = null;
+    protected $supervisorEmailAddress;
 
     /**
      * @var string $businessDAndBNumber
      */
-    protected $businessDAndBNumber = null;
+    protected $businessDAndBNumber;
 
     /**
      * @var string $businessTaxID
      */
-    protected $businessTaxID = null;
+    protected $businessTaxID;
 
     /**
      * @var string $businessNAICSCode
      */
-    protected $businessNAICSCode = null;
+    protected $businessNAICSCode;
 
     /**
      * @var string $businessType
      */
-    protected $businessType = null;
+    protected $businessType;
 
     /**
      * @var string $businessYearsInBusiness
      */
-    protected $businessYearsInBusiness = null;
+    protected $businessYearsInBusiness;
 
     /**
      * @var string $businessNumberOfEmployees
      */
-    protected $businessNumberOfEmployees = null;
+    protected $businessNumberOfEmployees;
 
     /**
      * @var string $businessPONumber
      */
-    protected $businessPONumber = null;
+    protected $businessPONumber;
 
     /**
      * @var string $businessLoanType
      */
-    protected $businessLoanType = null;
+    protected $businessLoanType;
 
     /**
      * @var string $businessApplicationID
      */
-    protected $businessApplicationID = null;
+    protected $businessApplicationID;
 
     /**
      * @var string $businessProductCode
      */
-    protected $businessProductCode = null;
+    protected $businessProductCode;
 
     /**
      * @var string $pgLastName
      */
-    protected $pgLastName = null;
+    protected $pgLastName;
 
     /**
      * @var string $pgFirstName
      */
-    protected $pgFirstName = null;
+    protected $pgFirstName;
 
     /**
      * @var string $pgSSN
      */
-    protected $pgSSN = null;
+    protected $pgSSN;
 
     /**
      * @var string $pgDateOfBirth
      */
-    protected $pgDateOfBirth = null;
+    protected $pgDateOfBirth;
 
     /**
      * @var string $pgAnnualIncome
      */
-    protected $pgAnnualIncome = null;
+    protected $pgAnnualIncome;
 
     /**
      * @var string $pgIncomeCurrencyType
      */
-    protected $pgIncomeCurrencyType = null;
+    protected $pgIncomeCurrencyType;
 
     /**
      * @var string $pgResidenceStatus
      */
-    protected $pgResidenceStatus = null;
+    protected $pgResidenceStatus;
 
     /**
      * @var string $pgCheckingAccountIndicator
      */
-    protected $pgCheckingAccountIndicator = null;
+    protected $pgCheckingAccountIndicator;
 
     /**
      * @var string $pgSavingsAccountIndicator
      */
-    protected $pgSavingsAccountIndicator = null;
+    protected $pgSavingsAccountIndicator;
 
     /**
      * @var string $pgYearsAtEmployer
      */
-    protected $pgYearsAtEmployer = null;
+    protected $pgYearsAtEmployer;
 
     /**
      * @var string $pgYearsAtResidence
      */
-    protected $pgYearsAtResidence = null;
+    protected $pgYearsAtResidence;
 
     /**
      * @var string $pgHomeAddress1
      */
-    protected $pgHomeAddress1 = null;
+    protected $pgHomeAddress1;
 
     /**
      * @var string $pgHomeAddress2
      */
-    protected $pgHomeAddress2 = null;
+    protected $pgHomeAddress2;
 
     /**
      * @var string $pgHomeCity
      */
-    protected $pgHomeCity = null;
+    protected $pgHomeCity;
 
     /**
      * @var string $pgHomeState
      */
-    protected $pgHomeState = null;
+    protected $pgHomeState;
 
     /**
      * @var string $pgHomePostalCode
      */
-    protected $pgHomePostalCode = null;
+    protected $pgHomePostalCode;
 
     /**
      * @var string $pgHomeCountry
      */
-    protected $pgHomeCountry = null;
+    protected $pgHomeCountry;
 
     /**
      * @var string $pgEmailAddress
      */
-    protected $pgEmailAddress = null;
+    protected $pgEmailAddress;
 
     /**
      * @var string $pgHomePhone
      */
-    protected $pgHomePhone = null;
+    protected $pgHomePhone;
 
     /**
      * @var string $pgTitle
      */
-    protected $pgTitle = null;
-
-    public function __construct()
-    {
-    }
+    protected $pgTitle;
 
     /**
      * @return boolean
@@ -2072,5 +2067,4 @@ class BML
 
         return $this;
     }
-
 }

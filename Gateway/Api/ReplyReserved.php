@@ -4,11 +4,10 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ReplyReserved
 {
-
     /**
      * @var string $any
      */
-    protected $any = null;
+    protected $any;
 
     /**
      * @param string $any
@@ -36,5 +35,4 @@ class ReplyReserved
 
         return $this;
     }
-
 }

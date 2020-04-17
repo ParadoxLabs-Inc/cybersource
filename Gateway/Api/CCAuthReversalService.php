@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCAuthReversalService
 {
-
     /**
      * @var string $authRequestID
      */
-    protected $authRequestID = null;
+    protected $authRequestID;
 
     /**
      * @var string $authRequestToken
      */
-    protected $authRequestToken = null;
+    protected $authRequestToken;
 
     /**
      * @var string $reversalReason
      */
-    protected $reversalReason = null;
+    protected $reversalReason;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -108,5 +107,4 @@ class CCAuthReversalService
 
         return $this;
     }
-
 }

@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APDevice
 {
-
     /**
      * @var string $id
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * @var string $type
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * @var string $userAgent
      */
-    protected $userAgent = null;
-
-    public function __construct()
-    {
-    }
+    protected $userAgent;
 
     /**
      * @return string
@@ -80,5 +75,4 @@ class APDevice
 
         return $this;
     }
-
 }

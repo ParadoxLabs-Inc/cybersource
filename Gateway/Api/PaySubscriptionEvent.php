@@ -4,25 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionEvent
 {
-
     /**
      * @var float $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $approvedBy
      */
-    protected $approvedBy = null;
+    protected $approvedBy;
 
     /**
      * @var int $number
      */
-    protected $number = null;
-
-    public function __construct()
-    {
-    }
+    protected $number;
 
     /**
      * @return float
@@ -80,5 +75,4 @@ class PaySubscriptionEvent
 
         return $this;
     }
-
 }

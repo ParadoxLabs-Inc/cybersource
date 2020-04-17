@@ -4,36 +4,35 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class CCSaleCreditService
 {
-
     /**
      * @var string $overridePaymentMethod
      */
-    protected $overridePaymentMethod = null;
+    protected $overridePaymentMethod;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var string $refundReason
      */
-    protected $refundReason = null;
+    protected $refundReason;
 
     /**
      * @var string $saleRequestID
      */
-    protected $saleRequestID = null;
+    protected $saleRequestID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -156,5 +155,4 @@ class CCSaleCreditService
 
         return $this;
     }
-
 }

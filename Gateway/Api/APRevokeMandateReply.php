@@ -7,51 +7,50 @@ use Exception;
 
 class APRevokeMandateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $mandateID
      */
-    protected $mandateID = null;
+    protected $mandateID;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $responseCode
      */
-    protected $responseCode = null;
+    protected $responseCode;
 
     /**
      * @var string $processorTransactionID
      */
-    protected $processorTransactionID = null;
+    protected $processorTransactionID;
 
     /**
      * @var \DateTime $dateSigned
      */
-    protected $dateSigned = null;
+    protected $dateSigned;
 
     /**
      * @var \DateTime $dateCreated
      */
-    protected $dateCreated = null;
+    protected $dateCreated;
 
     /**
      * @var \DateTime $dateRevoked
      */
-    protected $dateRevoked = null;
+    protected $dateRevoked;
 
     /**
      * @var \DateTime $dateTime
      */
-    protected $dateTime = null;
+    protected $dateTime;
 
     /**
      * @param int $reasonCode
@@ -283,5 +282,4 @@ class APRevokeMandateReply
 
         return $this;
     }
-
 }

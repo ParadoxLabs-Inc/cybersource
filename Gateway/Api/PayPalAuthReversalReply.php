@@ -4,26 +4,25 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalAuthReversalReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $authorizationId
      */
-    protected $authorizationId = null;
+    protected $authorizationId;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @param int $reasonCode
@@ -108,5 +107,4 @@ class PayPalAuthReversalReply
 
         return $this;
     }
-
 }

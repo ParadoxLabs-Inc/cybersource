@@ -4,366 +4,365 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionRetrieveReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $approvalRequired
      */
-    protected $approvalRequired = null;
+    protected $approvalRequired;
 
     /**
      * @var string $automaticRenew
      */
-    protected $automaticRenew = null;
+    protected $automaticRenew;
 
     /**
      * @var string $cardAccountNumber
      */
-    protected $cardAccountNumber = null;
+    protected $cardAccountNumber;
 
     /**
      * @var string $cardExpirationMonth
      */
-    protected $cardExpirationMonth = null;
+    protected $cardExpirationMonth;
 
     /**
      * @var string $cardExpirationYear
      */
-    protected $cardExpirationYear = null;
+    protected $cardExpirationYear;
 
     /**
      * @var string $cardIssueNumber
      */
-    protected $cardIssueNumber = null;
+    protected $cardIssueNumber;
 
     /**
      * @var string $cardStartMonth
      */
-    protected $cardStartMonth = null;
+    protected $cardStartMonth;
 
     /**
      * @var string $cardStartYear
      */
-    protected $cardStartYear = null;
+    protected $cardStartYear;
 
     /**
      * @var string $cardType
      */
-    protected $cardType = null;
+    protected $cardType;
 
     /**
      * @var string $checkAccountNumber
      */
-    protected $checkAccountNumber = null;
+    protected $checkAccountNumber;
 
     /**
      * @var string $checkAccountType
      */
-    protected $checkAccountType = null;
+    protected $checkAccountType;
 
     /**
      * @var string $checkBankTransitNumber
      */
-    protected $checkBankTransitNumber = null;
+    protected $checkBankTransitNumber;
 
     /**
      * @var string $checkSecCode
      */
-    protected $checkSecCode = null;
+    protected $checkSecCode;
 
     /**
      * @var string $checkAuthenticateID
      */
-    protected $checkAuthenticateID = null;
+    protected $checkAuthenticateID;
 
     /**
      * @var string $city
      */
-    protected $city = null;
+    protected $city;
 
     /**
      * @var string $comments
      */
-    protected $comments = null;
+    protected $comments;
 
     /**
      * @var string $companyName
      */
-    protected $companyName = null;
+    protected $companyName;
 
     /**
      * @var string $country
      */
-    protected $country = null;
+    protected $country;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $customerAccountID
      */
-    protected $customerAccountID = null;
+    protected $customerAccountID;
 
     /**
      * @var string $email
      */
-    protected $email = null;
+    protected $email;
 
     /**
      * @var string $endDate
      */
-    protected $endDate = null;
+    protected $endDate;
 
     /**
      * @var string $firstName
      */
-    protected $firstName = null;
+    protected $firstName;
 
     /**
      * @var string $frequency
      */
-    protected $frequency = null;
+    protected $frequency;
 
     /**
      * @var string $lastName
      */
-    protected $lastName = null;
+    protected $lastName;
 
     /**
      * @var string $merchantReferenceCode
      */
-    protected $merchantReferenceCode = null;
+    protected $merchantReferenceCode;
 
     /**
      * @var string $paymentMethod
      */
-    protected $paymentMethod = null;
+    protected $paymentMethod;
 
     /**
      * @var string $paymentsRemaining
      */
-    protected $paymentsRemaining = null;
+    protected $paymentsRemaining;
 
     /**
      * @var string $phoneNumber
      */
-    protected $phoneNumber = null;
+    protected $phoneNumber;
 
     /**
      * @var string $postalCode
      */
-    protected $postalCode = null;
+    protected $postalCode;
 
     /**
      * @var string $recurringAmount
      */
-    protected $recurringAmount = null;
+    protected $recurringAmount;
 
     /**
      * @var string $setupAmount
      */
-    protected $setupAmount = null;
+    protected $setupAmount;
 
     /**
      * @var string $startDate
      */
-    protected $startDate = null;
+    protected $startDate;
 
     /**
      * @var string $state
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * @var string $status
      */
-    protected $status = null;
+    protected $status;
 
     /**
      * @var string $street1
      */
-    protected $street1 = null;
+    protected $street1;
 
     /**
      * @var string $street2
      */
-    protected $street2 = null;
+    protected $street2;
 
     /**
      * @var string $subscriptionID
      */
-    protected $subscriptionID = null;
+    protected $subscriptionID;
 
     /**
      * @var string $subscriptionIDNew
      */
-    protected $subscriptionIDNew = null;
+    protected $subscriptionIDNew;
 
     /**
      * @var string $title
      */
-    protected $title = null;
+    protected $title;
 
     /**
      * @var string $totalPayments
      */
-    protected $totalPayments = null;
+    protected $totalPayments;
 
     /**
      * @var string $shipToFirstName
      */
-    protected $shipToFirstName = null;
+    protected $shipToFirstName;
 
     /**
      * @var string $shipToLastName
      */
-    protected $shipToLastName = null;
+    protected $shipToLastName;
 
     /**
      * @var string $shipToStreet1
      */
-    protected $shipToStreet1 = null;
+    protected $shipToStreet1;
 
     /**
      * @var string $shipToStreet2
      */
-    protected $shipToStreet2 = null;
+    protected $shipToStreet2;
 
     /**
      * @var string $shipToCity
      */
-    protected $shipToCity = null;
+    protected $shipToCity;
 
     /**
      * @var string $shipToState
      */
-    protected $shipToState = null;
+    protected $shipToState;
 
     /**
      * @var string $shipToPostalCode
      */
-    protected $shipToPostalCode = null;
+    protected $shipToPostalCode;
 
     /**
      * @var string $shipToCompany
      */
-    protected $shipToCompany = null;
+    protected $shipToCompany;
 
     /**
      * @var string $shipToCountry
      */
-    protected $shipToCountry = null;
+    protected $shipToCountry;
 
     /**
      * @var string $billPayment
      */
-    protected $billPayment = null;
+    protected $billPayment;
 
     /**
      * @var string $merchantDefinedDataField1
      */
-    protected $merchantDefinedDataField1 = null;
+    protected $merchantDefinedDataField1;
 
     /**
      * @var string $merchantDefinedDataField2
      */
-    protected $merchantDefinedDataField2 = null;
+    protected $merchantDefinedDataField2;
 
     /**
      * @var string $merchantDefinedDataField3
      */
-    protected $merchantDefinedDataField3 = null;
+    protected $merchantDefinedDataField3;
 
     /**
      * @var string $merchantDefinedDataField4
      */
-    protected $merchantDefinedDataField4 = null;
+    protected $merchantDefinedDataField4;
 
     /**
      * @var string $merchantSecureDataField1
      */
-    protected $merchantSecureDataField1 = null;
+    protected $merchantSecureDataField1;
 
     /**
      * @var string $merchantSecureDataField2
      */
-    protected $merchantSecureDataField2 = null;
+    protected $merchantSecureDataField2;
 
     /**
      * @var string $merchantSecureDataField3
      */
-    protected $merchantSecureDataField3 = null;
+    protected $merchantSecureDataField3;
 
     /**
      * @var string $merchantSecureDataField4
      */
-    protected $merchantSecureDataField4 = null;
+    protected $merchantSecureDataField4;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @var string $companyTaxID
      */
-    protected $companyTaxID = null;
+    protected $companyTaxID;
 
     /**
      * @var string $driversLicenseNumber
      */
-    protected $driversLicenseNumber = null;
+    protected $driversLicenseNumber;
 
     /**
      * @var string $driversLicenseState
      */
-    protected $driversLicenseState = null;
+    protected $driversLicenseState;
 
     /**
      * @var string $dateOfBirth
      */
-    protected $dateOfBirth = null;
+    protected $dateOfBirth;
 
     /**
      * @var string $instrumentIdentifierID
      */
-    protected $instrumentIdentifierID = null;
+    protected $instrumentIdentifierID;
 
     /**
      * @var string $instrumentIdentifierStatus
      */
-    protected $instrumentIdentifierStatus = null;
+    protected $instrumentIdentifierStatus;
 
     /**
      * @var string $instrumentIdentifierSuccessorID
      */
-    protected $instrumentIdentifierSuccessorID = null;
+    protected $instrumentIdentifierSuccessorID;
 
     /**
      * @var string $subsequentAuthTransactionID
      */
-    protected $subsequentAuthTransactionID = null;
+    protected $subsequentAuthTransactionID;
 
     /**
      * @var string $latestCardSuffix
      */
-    protected $latestCardSuffix = null;
+    protected $latestCardSuffix;
 
     /**
      * @var string $latestCardExpirationMonth
      */
-    protected $latestCardExpirationMonth = null;
+    protected $latestCardExpirationMonth;
 
     /**
      * @var string $latestCardExpirationYear
      */
-    protected $latestCardExpirationYear = null;
+    protected $latestCardExpirationYear;
 
     /**
      * @param int $reasonCode
@@ -1740,5 +1739,4 @@ class PaySubscriptionRetrieveReply
 
         return $this;
     }
-
 }

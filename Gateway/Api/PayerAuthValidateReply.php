@@ -4,156 +4,155 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayerAuthValidateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $authenticationResult
      */
-    protected $authenticationResult = null;
+    protected $authenticationResult;
 
     /**
      * @var string $authenticationStatusMessage
      */
-    protected $authenticationStatusMessage = null;
+    protected $authenticationStatusMessage;
 
     /**
      * @var string $cavv
      */
-    protected $cavv = null;
+    protected $cavv;
 
     /**
      * @var string $cavvAlgorithm
      */
-    protected $cavvAlgorithm = null;
+    protected $cavvAlgorithm;
 
     /**
      * @var string $commerceIndicator
      */
-    protected $commerceIndicator = null;
+    protected $commerceIndicator;
 
     /**
      * @var string $eci
      */
-    protected $eci = null;
+    protected $eci;
 
     /**
      * @var string $eciRaw
      */
-    protected $eciRaw = null;
+    protected $eciRaw;
 
     /**
      * @var string $xid
      */
-    protected $xid = null;
+    protected $xid;
 
     /**
      * @var string $ucafAuthenticationData
      */
-    protected $ucafAuthenticationData = null;
+    protected $ucafAuthenticationData;
 
     /**
      * @var string $ucafCollectionIndicator
      */
-    protected $ucafCollectionIndicator = null;
+    protected $ucafCollectionIndicator;
 
     /**
      * @var string $paresStatus
      */
-    protected $paresStatus = null;
+    protected $paresStatus;
 
     /**
      * @var string $specificationVersion
      */
-    protected $specificationVersion = null;
+    protected $specificationVersion;
 
     /**
      * @var string $directoryServerTransactionID
      */
-    protected $directoryServerTransactionID = null;
+    protected $directoryServerTransactionID;
 
     /**
      * @var string $threeDSServerTransactionID
      */
-    protected $threeDSServerTransactionID = null;
+    protected $threeDSServerTransactionID;
 
     /**
      * @var string $acsRenderingType
      */
-    protected $acsRenderingType = null;
+    protected $acsRenderingType;
 
     /**
      * @var string $acsTransactionID
      */
-    protected $acsTransactionID = null;
+    protected $acsTransactionID;
 
     /**
      * @var int $authenticationType
      */
-    protected $authenticationType = null;
+    protected $authenticationType;
 
     /**
      * @var int $directoryServerErrorCode
      */
-    protected $directoryServerErrorCode = null;
+    protected $directoryServerErrorCode;
 
     /**
      * @var string $directoryServerErrorDescription
      */
-    protected $directoryServerErrorDescription = null;
+    protected $directoryServerErrorDescription;
 
     /**
      * @var int $interactionCounter
      */
-    protected $interactionCounter = null;
+    protected $interactionCounter;
 
     /**
      * @var string $sdkTransactionID
      */
-    protected $sdkTransactionID = null;
+    protected $sdkTransactionID;
 
     /**
      * @var string $whiteListStatus
      */
-    protected $whiteListStatus = null;
+    protected $whiteListStatus;
 
     /**
      * @var int $whiteListStatusSource
      */
-    protected $whiteListStatusSource = null;
+    protected $whiteListStatusSource;
 
     /**
      * @var string $effectiveAuthenticationType
      */
-    protected $effectiveAuthenticationType = null;
+    protected $effectiveAuthenticationType;
 
     /**
      * @var int $authenticationStatusReason
      */
-    protected $authenticationStatusReason = null;
+    protected $authenticationStatusReason;
 
     /**
      * @var int $challengeCancelCode
      */
-    protected $challengeCancelCode = null;
+    protected $challengeCancelCode;
 
     /**
      * @var base64Binary $authorizationPayload
      */
-    protected $authorizationPayload = null;
+    protected $authorizationPayload;
 
     /**
      * @var string $cardBin
      */
-    protected $cardBin = null;
+    protected $cardBin;
 
     /**
      * @var string $cardTypeName
      */
-    protected $cardTypeName = null;
+    protected $cardTypeName;
 
     /**
      * @param int $reasonCode
@@ -732,5 +731,4 @@ class PayerAuthValidateReply
 
         return $this;
     }
-
 }

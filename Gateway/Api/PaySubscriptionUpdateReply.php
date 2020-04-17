@@ -4,46 +4,45 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionUpdateReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $subscriptionID
      */
-    protected $subscriptionID = null;
+    protected $subscriptionID;
 
     /**
      * @var string $subscriptionIDNew
      */
-    protected $subscriptionIDNew = null;
+    protected $subscriptionIDNew;
 
     /**
      * @var string $ownerMerchantID
      */
-    protected $ownerMerchantID = null;
+    protected $ownerMerchantID;
 
     /**
      * @var string $instrumentIdentifierID
      */
-    protected $instrumentIdentifierID = null;
+    protected $instrumentIdentifierID;
 
     /**
      * @var string $instrumentIdentifierStatus
      */
-    protected $instrumentIdentifierStatus = null;
+    protected $instrumentIdentifierStatus;
 
     /**
      * @var string $instrumentIdentifierNew
      */
-    protected $instrumentIdentifierNew = null;
+    protected $instrumentIdentifierNew;
 
     /**
      * @var string $instrumentIdentifierSuccessorID
      */
-    protected $instrumentIdentifierSuccessorID = null;
+    protected $instrumentIdentifierSuccessorID;
 
     /**
      * @param int $reasonCode
@@ -206,5 +205,4 @@ class PaySubscriptionUpdateReply
 
         return $this;
     }
-
 }

@@ -4,21 +4,20 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalPreapprovedPaymentService
 {
-
     /**
      * @var string $mpID
      */
-    protected $mpID = null;
+    protected $mpID;
 
     /**
      * @var string $reconciliationID
      */
-    protected $reconciliationID = null;
+    protected $reconciliationID;
 
     /**
      * @var boolean $run
      */
-    protected $run = null;
+    protected $run;
 
     /**
      * @param boolean $run
@@ -84,5 +83,4 @@ class PayPalPreapprovedPaymentService
 
         return $this;
     }
-
 }

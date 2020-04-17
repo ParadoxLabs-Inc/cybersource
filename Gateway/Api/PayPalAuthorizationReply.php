@@ -4,51 +4,50 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayPalAuthorizationReply
 {
-
     /**
      * @var int $reasonCode
      */
-    protected $reasonCode = null;
+    protected $reasonCode;
 
     /**
      * @var string $transactionId
      */
-    protected $transactionId = null;
+    protected $transactionId;
 
     /**
      * @var string $paypalAmount
      */
-    protected $paypalAmount = null;
+    protected $paypalAmount;
 
     /**
      * @var string $amount
      */
-    protected $amount = null;
+    protected $amount;
 
     /**
      * @var string $currency
      */
-    protected $currency = null;
+    protected $currency;
 
     /**
      * @var string $correlationID
      */
-    protected $correlationID = null;
+    protected $correlationID;
 
     /**
      * @var string $errorCode
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * @var string $protectionEligibility
      */
-    protected $protectionEligibility = null;
+    protected $protectionEligibility;
 
     /**
      * @var string $protectionEligibilityType
      */
-    protected $protectionEligibilityType = null;
+    protected $protectionEligibilityType;
 
     /**
      * @param int $reasonCode
@@ -228,5 +227,4 @@ class PayPalAuthorizationReply
 
         return $this;
     }
-
 }
