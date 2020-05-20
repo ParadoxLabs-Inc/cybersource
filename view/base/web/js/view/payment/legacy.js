@@ -61,17 +61,30 @@ define([
             this.element.find('iframe').prop('src', 'about:blank')
                 .trigger('processStart');
 
+            var payload = {};
+            for (var input of this.element.find(':input')) {
+                if (input === undefined || input === null || input.name.length === 0) {
+                    continue;
+                }
+
+                payload[input.name] = $(input).val();
+            }
+
             return $.post({
                 url: this.options.paramUrl,
                 dataType: 'json',
-                data: this.element.find(':input').serialize(),
+                data: payload,
                 global: false,
                 success: this.loadSecureAcceptanceForm.bind(this),
                 error: this.handleAjaxError.bind(this)
             });
         },
 
-        loadSecureAcceptanceForm: function(data) {
+        loadSecureAcceptanceForm: function(data, status, jqXHR) {
+            if (data.iframeAction === undefined) {
+                return this.handleAjaxError(jqXHR, status, data);
+            }
+
             var form = document.createElement('form');
             form.target = this.options.target;
             form.method = 'post';
