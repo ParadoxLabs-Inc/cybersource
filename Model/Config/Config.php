@@ -281,7 +281,7 @@ class Config
      *
      * @return string
      */
-    final public function getSolutionId()
+    public function getSolutionId()
     {
         return self::SOLUTION_ID;
     }

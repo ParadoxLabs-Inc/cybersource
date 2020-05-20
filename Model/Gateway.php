@@ -141,7 +141,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     public function createRequest()
     {
         $request = $this->objectBuilder->getRequest($this->config->getMerchantId());
-        $request->setPartnerSolutionID($this->config->getSolutionId());
+        $request->setPartnerSolutionID(Config\Config::SOLUTION_ID);
         $request->setClientLibrary($this->config->getClientName());
         $request->setClientLibraryVersion($this->config->getClientVersion());
         $request->setClientEnvironment('Magento 2');
