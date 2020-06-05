@@ -192,6 +192,10 @@ define(
                     return null;
                 }
 
+                if (typeof address.street === 'string') {
+                    address.street.split("\n");
+                }
+
                 return address.firstname + ' '
                        + address.lastname + ', '
                        + address.street.join(' ') + ', '

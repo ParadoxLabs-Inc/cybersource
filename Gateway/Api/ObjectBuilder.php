@@ -345,4 +345,20 @@ class ObjectBuilder
 
         return $validateService;
     }
+
+    /**
+     * Create a SOAP authorization business rules object (validation override flags).
+     *
+     * @param bool $ignoreCVV
+     * @param bool $ignoreAVS
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BusinessRules
+     */
+    public function getBusinessRules($ignoreCVV = false, $ignoreAVS = false)
+    {
+        $businessRules = new BusinessRules();
+        $businessRules->setIgnoreCVResult($ignoreCVV ? 'true' : 'false');
+        $businessRules->setIgnoreAVSResult($ignoreAVS ? 'true' : 'false');
+
+        return $businessRules;
+    }
 }

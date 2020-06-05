@@ -297,6 +297,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         if (!empty($payment->getData('cc_cid'))) {
             $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
+        } else {
+            $request->setBusinessRules($this->objectBuilder->getBusinessRules(true));
         }
 
         $this->requestPayerAuthentication($payment, $request);
@@ -392,6 +394,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         if (!empty($payment->getData('cc_cid'))) {
             $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
+        } else {
+            $request->setBusinessRules($this->objectBuilder->getBusinessRules(true));
         }
     }
 

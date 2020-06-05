@@ -251,7 +251,10 @@ abstract class AbstractRequestHandler
             'bill_to_forename' => $this->sanitizer->alphanumericPunc($post['firstname'], 60),
             'bill_to_surname' => $this->sanitizer->alphanumericPunc($post['lastname'], 60),
             'bill_to_email' => $this->sanitizer->email($this->getEmail()),
-            'bill_to_company_name' => $this->sanitizer->alphanumericPunc($post['company'], 40),
+            'bill_to_company_name' => $this->sanitizer->alphanumericPunc(
+                isset($post['company']) ? $post['company'] : null,
+                40
+            ),
             'bill_to_address_country' => $this->sanitizer->alpha(strtoupper($post['countryId']), 2),
             'bill_to_address_city' => $this->sanitizer->alphanumericPunc($post['city'], 50),
             'bill_to_address_state' => $this->sanitizer->alphanumericPunc(
