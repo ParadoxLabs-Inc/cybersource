@@ -3,12 +3,12 @@
     "description": "CyberSource payment method for Magento 2.x by ParadoxLabs",
     "keywords": ["payment", "cybersource", "tokenization"],
     "require": {
-        "paradoxlabs/tokenbase": "~4.3.0",
+        "paradoxlabs/tokenbase": "~4.3.1",
         "ext-soap": "*"
     },
     "type": "magento2-module",
-    "version": "1.0.1",
-    "time": "2020-05-20",
+    "version": "1.0.2",
+    "time": "2020-08-05",
     "license": "proprietary",
     "autoload": {
         "files": [ "registration.php" ],
