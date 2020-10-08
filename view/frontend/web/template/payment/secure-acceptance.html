@@ -14,6 +14,7 @@
     <form class="payment-method-content" data-bind="mageInit: {'validation': {}}">
         <input type="hidden" value="" data-bind="attr: {id: getCode() + '-communicator'}" />
         <input type="hidden" name="payment[response_jwt]" value="" data-bind="attr: {id: getCode() + '-response-jwt'}, value: responseJWT" />
+        <input type="hidden" name="payment[cc_type]" value="" data-bind="attr: {id: getCode() + '-cc-type'}, value: creditCardType, afterRender: handleSelectedCardType()" />
 
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->

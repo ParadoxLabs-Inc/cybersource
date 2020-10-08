@@ -244,6 +244,9 @@ define(
                     'card_id': this.selectedCard()
                 }
             },
+            hasVerification: function () {
+                return this.requireCcv();
+            },
             loadPayerAuth: function() {
                 if (config.cardinalScript.length > 0 && config.cardinalJWT.length > 0) {
                     // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.

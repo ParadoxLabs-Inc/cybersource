@@ -14,7 +14,7 @@
             <module name="Magento_Customer" />
             <module name="Magento_Backend" />
             <module name="Magento_Config" />
-            <module name="Magento_Directory "/>
+            <module name="Magento_Directory" />
         </sequence>
     </module>
 </config>
