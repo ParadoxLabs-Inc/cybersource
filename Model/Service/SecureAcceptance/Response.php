@@ -202,9 +202,17 @@ class Response
         }
 
         if (in_array($input['decision'], ['DECLINE', 'ERROR', 'CANCEL'], true) === true) {
+            if (!empty($input['message']) && !empty($input['invalid_fields'])) {
+                $input['message'] .= ': ' . $input['invalid_fields'];
+            }
+
+            $prompt = $input['decision'] === 'ERROR'
+                ? 'An error occurred'
+                : 'Credit card was not accepted';
+
             $message = !empty($input['message'])
-                ? __('Credit card was not accepted: %1 (%2)', __($input['message']), $input['reason_code'])
-                : __('Credit card was not accepted. (%1)', $input['reason_code']);
+                ? __($prompt . ': %1 (%2)', __($input['message']), $input['reason_code'])
+                : __($prompt . '. (%1)', $input['reason_code']);
 
             throw new \Magento\Framework\Exception\InputException($message);
         }

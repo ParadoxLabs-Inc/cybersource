@@ -169,7 +169,7 @@ class Sanitizer
     {
         $input = preg_replace('/[^0-9xX( ),+\-.*#]/', '', $input);
 
-        return $this->length($input, $maxLength);
+        return strlen($input) >= 10 ? $this->length($input, $maxLength) : '';
     }
 
     /**
