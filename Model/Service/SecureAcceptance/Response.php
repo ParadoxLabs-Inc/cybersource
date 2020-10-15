@@ -103,7 +103,7 @@ class Response
 
         $this->setCardPaymentInfo($input, $card);
 
-        $this->cardRepository->save($card);
+        $card = $this->cardRepository->save($card);
 
         // Future: Persist the card on the session or quote and fetch on reload? Would be nice, rare case though.
 
