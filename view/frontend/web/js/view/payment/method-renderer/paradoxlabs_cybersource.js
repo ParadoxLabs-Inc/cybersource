@@ -53,9 +53,10 @@ define(
                         return false;
                     }
 
-                    for (var card of this.storedCards()) {
-                        if (card.id === this.selectedCard()) {
-                            return card.new;
+                    var cards = this.storedCards();
+                    for (var key in cards) {
+                        if (cards[key].id === this.selectedCard()) {
+                            return cards[key].new;
                         }
                     }
 
@@ -285,9 +286,10 @@ define(
             getPlaceOrderDeferredObject: function() {
                 // Run Cardinal Cruise BIN lookup while the order processes
                 if (typeof Cardinal === 'object') {
-                    for (var card of this.storedCards()) {
-                        if (card.id === this.selectedCard()) {
-                            Cardinal.trigger('bin.process', card.cc_bin);
+                    var cards = this.storedCards();
+                    for (var key in cards) {
+                        if (cards[key].id === this.selectedCard()) {
+                            Cardinal.trigger('bin.process', cards[key].cc_bin);
                         }
                     }
                 }

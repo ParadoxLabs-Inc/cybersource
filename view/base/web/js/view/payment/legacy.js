@@ -62,12 +62,13 @@ define([
                 .trigger('processStart');
 
             var payload = {};
-            for (var input of this.element.find(':input')) {
-                if (input === undefined || input === null || input.name.length === 0) {
+            var inputs = this.element.find(':input');
+            for (var key in inputs) {
+                if (inputs[key] === undefined || inputs[key] === null || inputs[key].name.length === 0) {
                     continue;
                 }
 
-                payload[input.name] = $(input).val();
+                payload[inputs[key].name] = $(inputs[key]).val();
             }
 
             return $.post({
