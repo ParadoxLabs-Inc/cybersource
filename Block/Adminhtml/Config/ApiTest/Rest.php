@@ -108,19 +108,25 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
          * NB: We do this by trying to fetch details of transaction id 1. It won't exist, but it'll throw an auth
          * failure first if invalid.
          *
-         * VALID: {"message":"The requested resource does not exist"}
-         * INVALID: {"response": {"rmsg": "Authentication Failed"}}
+         * VALID: {"message":"The requested resource does not exist"} (404 not found)
+         * INVALID: {"response": {"rmsg": "Authentication Failed"}} (401 unauthorized)
          */
-        $this->restClient->setStoreId($this->getStoreId());
-        $json = json_decode(
-            $this->restClient->get('/tss/v2/transactions/1'),
-            JSON_OBJECT_AS_ARRAY
-        );
 
-        if (isset($json['response']['rmsg'])) {
-            throw new \Magento\Framework\Exception\LocalizedException(
-                __('%1: Your API credentials are invalid.', $json['response']['rmsg'])
-            );
+        try {
+            $this->restClient->setStoreId($this->getStoreId());
+            $this->restClient->get('/tss/v2/transactions/1');
+        } catch (\Zend_Http_Client_Exception $exception) {
+            if ($exception->getCode() === 404) {
+                return;
+            }
+
+            if ($exception->getCode() === 401) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('%1: Your API credentials are invalid.', $exception->getMessage())
+                );
+            }
+
+            throw $exception;
         }
     }
 }

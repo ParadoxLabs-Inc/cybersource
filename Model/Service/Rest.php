@@ -68,12 +68,26 @@ class Rest
     {
         $client = $this->getHttpClient($path);
         $client->setParameterGet($params);
-        $client->setHeaders('Accept', $responseType . ';charset=utf-8');
+        $client->setHeaders('Accept', $responseType);
         $client->setHeaders('Content-Type', 'application/json;charset=utf-8');
 
         $this->signRequest($client, $path, $params, 'GET');
 
         $response = $client->request(\Zend_Http_Client::GET);
+
+        // Throw exception on non-2xx response code
+        if (substr((string)$response->getStatus(), 0, 1) !== '2') {
+            $responseJson = json_decode($response->getBody(), JSON_OBJECT_AS_ARRAY);
+
+            $message = $responseJson['message']
+                ?? $responseJson['response']['rmsg']
+                ?? $response->getStatus() . ' ' . $response->getMessage();
+
+            throw new \Zend_Http_Client_Exception(
+                $message,
+                $response->getStatus()
+            );
+        }
 
         return $response->getBody();
     }

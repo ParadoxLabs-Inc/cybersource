@@ -95,21 +95,13 @@ class AccountUpdater
      */
     public function execute()
     {
-        // TODO: This doesn't work. "One or more fields failed validation" Emailed Trevor 2/17
         $reply = $this->restClient->get(
             '/accountupdater/v1/batches',
-            [
-                // 'offset' => 1,
-                // 'limit' => 1,
-            ],
+            [],
             'application/json'
         );
 
-        // $this->helper->log(Config::CODE, $reply, true);
-
         $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
-
-        // echo json_encode($reply, JSON_PRETTY_PRINT) . "\n";
 
         if (!empty($reply['_embedded']['batches'])) {
             $mostRecentBatches = [];
@@ -121,7 +113,7 @@ class AccountUpdater
             }
 
             foreach ($mostRecentBatches as $batch) {
-                if (!empty($batch['updatedRecords'])) {
+                if (!empty($batch['totals']['updatedRecords'])) {
                     try {
                         $this->processBatch($batch);
                     } catch (\Exception $exception) {
@@ -141,7 +133,12 @@ class AccountUpdater
      */
     public function processBatch($batch)
     {
-        $reply = $this->restClient->get($batch['_links']['reports'][0]['href']);
+        $path = substr(
+            $batch['_links']['reports'][0]['href'],
+            strpos($batch['_links']['reports'][0]['href'], '.com') + 4
+        );
+
+        $reply = $this->restClient->get($path, [], 'application/json');
         $report = json_decode($reply, JSON_OBJECT_AS_ARRAY);
 
         if (!empty($report['records'])) {
@@ -170,35 +167,44 @@ class AccountUpdater
 
         /** @var \ParadoxLabs\TokenBase\Model\Card $card */
         foreach ($cards as $card) {
-            // TODO: Will update response always contain expiry, number, and type?
-            $yr = $update['responseRecord']['cardExpiryYear'];
-            $mo = $update['responseRecord']['cardExpiryMonth'];
-            $day = date('t', strtotime($yr . '-' . $mo));
+            $yr         = $update['responseRecord']['cardExpiryYear'];
+            $mo         = $update['responseRecord']['cardExpiryMonth'];
+            $day        = date('t', strtotime($yr . '-' . $mo));
             $newExpires = sprintf('%s-%s-%s 23:59:59', $yr, $mo, $day);
-            $newType = $this->cardType->getType($update['responseRecord']['cardType']);
-            $newLast4 = substr($update['responseRecord']['cardNumber'], -4);
-            $newBin = substr($update['responseRecord']['cardNumber'], 0, 6);
 
-            $card->setExpires($newExpires);
-            $card->setAdditional('cc_exp_year', $yr);
-            $card->setAdditional('cc_exp_month', $mo);
-            $card->setAdditional('cc_type', $newType);
-            $card->setAdditional('cc_last4', $newLast4);
-            $card->setAdditional('cc_bin', $newBin);
+            $newType = $card->getType();
+            if (isset($update['responseRecord']['cardType'])) {
+                $newType = $this->cardType->getType($update['responseRecord']['cardType']);
+            }
+
+            $newLast4 = $card->getAdditional('cc_last4');
+            $newBin   = $card->getAdditional('cc_bin');
+            if (isset($update['responseRecord']['cardNumber'])) {
+                $newLast4 = substr($update['responseRecord']['cardNumber'], -4);
+                $newBin   = substr($update['responseRecord']['cardNumber'], 0, 6);
+            }
 
             if ($card->getExpires() !== $newExpires
                 || $card->getType() !== $newType
                 || $card->getAdditional('cc_last4') !== $newLast4
                 || $card->getAdditional('cc_bin') !== $newBin) {
+                $card->setExpires($newExpires);
+                $card->setAdditional('cc_exp_year', $yr);
+                $card->setAdditional('cc_exp_month', $mo);
+                $card->setAdditional('cc_type', $newType);
+                $card->setAdditional('cc_last4', $newLast4);
+                $card->setAdditional('cc_bin', $newBin);
+
                 $this->cardRepository->save($card);
 
                 $this->helper->log(
                     Config::CODE,
                     sprintf(
-                        'Account Updater: Updated card %s (%s): %s',
+                        'Account Updater: Updated card %s (%s): %s (%s)',
                         $card->getId(),
                         $card->getPaymentId(),
-                        $update['responseRecord']['response']
+                        $update['responseRecord']['response'],
+                        $update['responseRecord']['reason']
                     )
                 );
             }
@@ -223,10 +229,11 @@ class AccountUpdater
             $this->helper->log(
                 Config::CODE,
                 sprintf(
-                    'Account Updater: Disabled card %s (%s): %s',
+                    'Account Updater: Disabled card %s (%s): %s (%s)',
                     $card->getId(),
                     $card->getPaymentId(),
-                    $update['responseRecord']['response']
+                    $update['responseRecord']['response'],
+                    $update['responseRecord']['reason']
                 )
             );
         }
