@@ -63,8 +63,11 @@ define([
 
             var payload = {};
             var inputs = this.element.find(':input');
-            for (var key in inputs) {
-                if (inputs[key] === undefined || inputs[key] === null || inputs[key].name.length === 0) {
+            for (var key = 0; key < inputs.length; key++) {
+                if (inputs[key] === undefined
+                    || inputs[key] === null
+                    || inputs[key].name === undefined
+                    || inputs[key].name.length === 0) {
                     continue;
                 }
 
