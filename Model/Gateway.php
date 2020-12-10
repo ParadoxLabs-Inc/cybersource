@@ -589,7 +589,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
      * @param \Magento\Payment\Model\InfoInterface|null $payment
      * @return \ParadoxLabs\TokenBase\Model\Gateway\Response
-     * @throws \Magento\Framework\Exception\PaymentException
+     * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\RuntimeException
      */
     protected function interpretTransaction(
@@ -623,7 +623,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             }
 
             if ($api->getDecision() === 'REJECT') {
-                throw new \Magento\Framework\Exception\PaymentException($message, null, $api->getReasonCode());
+                throw new \Magento\Framework\Exception\LocalizedException($message, null, $api->getReasonCode());
             }
             throw new \Magento\Framework\Exception\RuntimeException($message, null, $api->getReasonCode());
         }
