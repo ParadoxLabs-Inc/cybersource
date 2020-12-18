@@ -126,7 +126,7 @@ class Sanitizer
      */
     public function email($input)
     {
-        if (filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
+        if (!empty($input) && filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
             throw new \Magento\Framework\Exception\InputException(__('Please enter a valid email address.'));
         }
 
