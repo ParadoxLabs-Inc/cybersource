@@ -380,14 +380,18 @@ class Config
      */
     public function isPayerAuthEnabled($storeId = null)
     {
-        if ((bool)$this->getConfigValue('cardinal_active', $storeId) === false
-            || empty($this->getCardinalOrgUnitId($storeId))
-            || empty($this->getCardinalSecretKeyId($storeId))
-            || empty($this->getCardinalSecretKey($storeId))) {
+        try {
+            if ((bool)$this->getConfigValue('cardinal_active', $storeId) === false
+                || empty($this->getCardinalOrgUnitId($storeId))
+                || empty($this->getCardinalSecretKeyId($storeId))
+                || empty($this->getCardinalSecretKey($storeId))) {
+                return false;
+            }
+
+            return true;
+        } catch (\Magento\Framework\Exception\StateException $exception) {
             return false;
         }
-
-        return true;
     }
 
     /**
