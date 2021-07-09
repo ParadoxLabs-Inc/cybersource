@@ -2,7 +2,7 @@
 /** @var \ParadoxLabs\CyberSource\Block\Form\Cc $block */
 // @codingStandardsIgnoreFile
 
-$code           = $block->escapeQuote($block->getMethodCode());
+$code           = $block->escapeHtmlAttr($block->getMethodCode());
 $image          = $block->getBrandingImage();
 $storedCards    = $block->getStoredCards();
 ?>
@@ -24,11 +24,11 @@ $storedCards    = $block->getStoredCards();
                 <?php /** @var \ParadoxLabs\TokenBase\Model\Card $card */ ?>
                 <?php foreach ($storedCards as $card): ?>
                     <?php $card = $card->getTypeInstance(); ?>
-                    <option value="<?= $block->escapeQuote($card->getHash()) ?>"
-                            data-cc_bin="<?= $block->escapeQuote($card->getAdditional('cc_bin')) ?>"
-                            data-cc_last_4="<?= $block->escapeQuote($card->getAdditional('cc_last_4')) ?>"
+                    <option value="<?= $block->escapeHtmlAttr($card->getHash()) ?>"
+                            data-cc_bin="<?= $block->escapeHtmlAttr($card->getAdditional('cc_bin')) ?>"
+                            data-cc_last_4="<?= $block->escapeHtmlAttr($card->getAdditional('cc_last_4')) ?>"
                             data-new="false"
-                            data-type="<?= $block->escapeQuote($card->getType()) ?>"
+                            data-type="<?= $block->escapeHtmlAttr($card->getType()) ?>"
                             <?php if ($card->getId() == $block->getInfoData('tokenbase_id') || count($storedCards) == 1): ?>selected="selected"<?php endif; ?>>
                         <?= $block->escapeHtml($card->getLabel()) ?>
                     </option>
@@ -48,10 +48,10 @@ $storedCards    = $block->getStoredCards();
             <label for="<?= $code ?>-cc-cid" class="label"><span><?= $block->escapeHtml(__('Card Verification Number')) ?></span></label>
             <div class="control _with-tooltip">
                 <input type="hidden" name="payment[cc_type]" id="<?= $code ?>-cc-type" value="" />
-                <input type="text" title="<?= $block->escapeQuote(__('Card Verification Number')) ?>" class="input-text cvv" id="<?= $code ?>-cc-cid" name="payment[cc_cid]" value="" data-validate='{"required-number":true, "validate-cc-cvn":"#<?= $code ?>-cc-type"}' autocomplete="cc-csc" maxlength="4" />
-                <?php $_content = '<img src=\"' . $block->escapeUrl($block->getViewFileUrl('Magento_Checkout::cvv.png')) . '\" alt=\"' . $block->escapeQuote(__('Card Verification Number Visual Reference')) . '\" title=\"' . $block->escapeQuote(__('Card Verification Number Visual Reference')) . '\" />'; ?>
+                <input type="text" title="<?= $block->escapeHtmlAttr(__('Card Verification Number')) ?>" class="input-text cvv" id="<?= $code ?>-cc-cid" name="payment[cc_cid]" value="" data-validate='{"required-number":true, "validate-cc-cvn":"#<?= $code ?>-cc-type"}' autocomplete="cc-csc" maxlength="4" />
+                <?php $_content = '<img src=\"' . $block->escapeUrl($block->getViewFileUrl('Magento_Checkout::cvv.png')) . '\" alt=\"' . $block->escapeHtmlAttr(__('Card Verification Number Visual Reference')) . '\" title=\"' . $block->escapeHtmlAttr(__('Card Verification Number Visual Reference')) . '\" />'; ?>
                 <div class="note">
-                    <a href="#" class="action cvv" title="<?= $block->escapeQuote(__('What is this?')) ?>" data-mage-init='{"tooltip": {"content": "<?= $_content ?>"}}'><span><?= $block->escapeHtml(__('What is this?')) ?></span></a>
+                    <a href="#" class="action cvv" title="<?= $block->escapeHtmlAttr(__('What is this?')) ?>" data-mage-init='{"tooltip": {"content": "<?= $_content ?>"}}'><span><?= $block->escapeHtml(__('What is this?')) ?></span></a>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@ $storedCards    = $block->getStoredCards();
             <div class="control">
                 <?php if ($block->getMethod()->getConfigData('allow_unsaved')): ?>
                     <input type="hidden" name="payment[save]" value="0" />
-                    <input type="checkbox" title="<?= $block->escapeQuote(__('Save for next time')) ?>" class="input-checkbox" id="<?= $code ?>_save" name="payment[save]" value="1" <?php if ($block->getMethod()->getConfigData('savecard_opt_out') && $block->getInfoData('save') !== 0): ?>checked="checked"<?php endif; ?> />
+                    <input type="checkbox" title="<?= $block->escapeHtmlAttr(__('Save for next time')) ?>" class="input-checkbox" id="<?= $code ?>_save" name="payment[save]" value="1" <?php if ($block->getMethod()->getConfigData('savecard_opt_out') && $block->getInfoData('save') !== 0): ?>checked="checked"<?php endif; ?> />
                     <label for="<?= $code ?>_save"><?= $block->escapeHtml(__('Save for next time')) ?></label>
                 <?php else: ?>
                     <input type="hidden" name="payment[save]" value="1" />
