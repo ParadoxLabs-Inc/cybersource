@@ -6,9 +6,9 @@ $code           = $block->escapeHtmlAttr($block->getMethodCode());
 $image          = $block->getBrandingImage();
 $storedCards    = $block->getStoredCards();
 ?>
-<div id="payment_form_<?php echo $code ?>" class="admin__page-section-item checkout-payment-method" style="display:none" data-mage-init='{
+<div id="payment_form_<?= $code ?>" class="admin__page-section-item checkout-payment-method" style="display:none" data-mage-init='{
     "tokenbaseForm": {
-        "code":"<?php echo $code ?>",
+        "code":"<?= $code ?>",
         "validateForm": false
     },
     "cybersourceLegacyForm": {
@@ -18,7 +18,7 @@ $storedCards    = $block->getStoredCards();
         "fingerprintUrl": null
     }
 }'>
-    <input id="<?php echo $code ?>-payment-method" type="hidden" name="payment[method]" value="<?php echo $code ?>" />
+    <input id="<?= $code ?>-payment-method" type="hidden" name="payment[method]" value="<?= $code ?>" />
     <input type="hidden" name="source" value="checkout" />
     <input type="hidden" id="<?= $code ?>-communicator" value="" />
     <?= $block->getBlockHtml('formkey') ?>
@@ -26,23 +26,23 @@ $storedCards    = $block->getStoredCards();
     <fieldset class="admin__fieldset payment items ccard">
         <?php if ($image): ?>
             <div class="page-actions">
-                <img src="<?php echo $block->escapeUrl($image); ?>" />
+                <img src="<?= $block->escapeUrl($image); ?>" />
             </div>
         <?php endif; ?>
         <div class="admin__field">
             <div class="admin__field-control control">
-                <select id="<?php echo $code ?>-card-id" name="payment[card_id]" class="select admin__control-select">
-                    <option value='' <?php if (count($storedCards) > 1 && $block->getInfoData('tokenbase_id') == ''): ?>selected="selected"<?php endif; ?>><?php echo $block->escapeHtml(__('Add new card')) ?></option>
+                <select id="<?= $code ?>-card-id" name="payment[card_id]" class="select admin__control-select">
+                    <option value='' <?php if (count($storedCards) > 1 && $block->getInfoData('tokenbase_id') == ''): ?>selected="selected"<?php endif; ?>><?= $block->escapeHtml(__('Add new card')) ?></option>
                     <?php /** @var \ParadoxLabs\TokenBase\Model\Card $card */ ?>
                     <?php foreach ($storedCards as $card): ?>
                         <?php $card = $card->getTypeInstance(); ?>
-                        <option value="<?php echo $block->escapeHtmlAttr($card->getHash()) ?>"
+                        <option value="<?= $block->escapeHtmlAttr($card->getHash()) ?>"
                                 data-cc_bin="<?= $block->escapeHtmlAttr($card->getAdditional('cc_bin')) ?>"
                                 data-cc_last_4="<?= $block->escapeHtmlAttr($card->getAdditional('cc_last_4')) ?>"
                                 data-new="false"
                                 data-type="<?= $block->escapeHtmlAttr($card->getType()) ?>"
                                 <?php if ($card->getId() == $block->getInfoData('tokenbase_id') || count($storedCards) == 1): ?>selected="selected"<?php endif; ?>>
-                            <?php echo $block->escapeHtml($card->getLabel()) ?>
+                            <?= $block->escapeHtml($card->getLabel()) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -53,14 +53,14 @@ $storedCards    = $block->getStoredCards();
                 <iframe src="about:blank" frameborder="0" id="<?= $code ?>_iframe" name="<?= $code ?>_iframe" style="width:100%;min-width:300px;max-width:550px;height:550px;"></iframe>
             </div>
         </div>
-        <?php echo $block->getChildHtml() ?>
+        <?= $block->getChildHtml() ?>
         <?php if ($block->hasVerification() && $block->getMethod()->getConfigData('require_ccv')): ?>
             <div class="admin__field _required cvv">
-                <label class="label admin__field-label" for="<?php echo $code ?>-cc-cid" ><span><?php echo $block->escapeHtml(__('Card Verification Number')) ?></span></label>
+                <label class="label admin__field-label" for="<?= $code ?>-cc-cid" ><span><?= $block->escapeHtml(__('Card Verification Number')) ?></span></label>
                 <div class="admin__field-control control">
                     <div class="v-fix">
                         <input type="hidden" name="payment[cc_type]" id="<?= $code ?>-cc-type" value="" />
-                        <input type="text" title="<?php echo $block->escapeHtmlAttr(__('Card Verification Number')) ?>" class="input-text admin__control-text cvv required-entry" id="<?php echo $code ?>-cc-cid" name="payment[cc_cid]" value="<?php echo $block->escapeHtmlAttr($block->getInfoData('cc_cid')); ?>" data-validate='{"required-number":true}' autocomplete="cc-csc" />
+                        <input type="text" title="<?= $block->escapeHtmlAttr(__('Card Verification Number')) ?>" class="input-text admin__control-text cvv required-entry" id="<?= $code ?>-cc-cid" name="payment[cc_cid]" value="<?= $block->escapeHtmlAttr($block->getInfoData('cc_cid')); ?>" data-validate='{"required-number":true}' autocomplete="cc-csc" />
                     </div>
                 </div>
             </div>
@@ -70,11 +70,11 @@ $storedCards    = $block->getStoredCards();
                 <div class="admin__field-control control">
                     <?php if ($block->getMethod()->getConfigData('allow_unsaved')): ?>
                         <input type="hidden" name="payment[save]" value="0" />
-                        <input type="checkbox" title="<?php echo $block->escapeHtmlAttr(__('Save for next time')) ?>" class="input-checkbox" id="<?php echo $code ?>-save" name="payment[save]" value="1" <?php if ($block->getMethod()->getConfigData('savecard_opt_out') && $block->getInfoData('save') !== 0): ?>checked="checked"<?php endif; ?> />
-                        <label for="<?php echo $code ?>-save"><?php echo $block->escapeHtml(__('Save for next time')) ?></label>
+                        <input type="checkbox" title="<?= $block->escapeHtmlAttr(__('Save for next time')) ?>" class="input-checkbox" id="<?= $code ?>-save" name="payment[save]" value="1" <?php if ($block->getMethod()->getConfigData('savecard_opt_out') && $block->getInfoData('save') !== 0): ?>checked="checked"<?php endif; ?> />
+                        <label for="<?= $code ?>-save"><?= $block->escapeHtml(__('Save for next time')) ?></label>
                     <?php else: ?>
                         <input type="hidden" name="payment[save]" value="1" />
-                        <label class="label admin__field-label" for="<?php echo $code ?>-save"><?php echo $block->escapeHtml(__('For your convenience, this data will be stored securely by our payment processor.')) ?></label>
+                        <label class="label admin__field-label" for="<?= $code ?>-save"><?= $block->escapeHtml(__('For your convenience, this data will be stored securely by our payment processor.')) ?></label>
                     <?php endif; ?>
                 </div>
             </div>
