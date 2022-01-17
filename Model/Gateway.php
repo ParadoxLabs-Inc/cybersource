@@ -484,19 +484,34 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order  = $payment->getOrder();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
-            $order->getBaseCurrencyCode(),
-            $order->getTotalDue()
-        );
-
-        $ccAuthReversalService = $this->objectBuilder->getAuthReversalService(
-            $transactionId ?: $this->getTransactionId()
-        );
-
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
-        $request->setPurchaseTotals($purchaseTotals);
-        $request->setCcAuthReversalService($ccAuthReversalService);
+
+        if ($order->getTotalDue() > 0) {
+            $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
+                $order->getBaseCurrencyCode(),
+                $order->getTotalDue() ?: $order->getTotalPaid()
+            );
+
+            $ccAuthReversalService = $this->objectBuilder->getAuthReversalService(
+                $transactionId ?: $this->getTransactionId()
+            );
+
+            $request->setPurchaseTotals($purchaseTotals);
+            $request->setCcAuthReversalService($ccAuthReversalService);
+        } else {
+            $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
+                $order->getBaseCurrencyCode(),
+                $order->getTotalPaid()
+            );
+
+            $voidService = $this->objectBuilder->getVoidService(
+                $transactionId ?: $this->getTransactionId()
+            );
+
+            $request->setPurchaseTotals($purchaseTotals);
+            $request->setVoidService($voidService);
+        }
 
         $reply = $this->run($request);
 

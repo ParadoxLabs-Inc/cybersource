@@ -274,6 +274,22 @@ class ObjectBuilder
     }
 
     /**
+     * Create a SOAP auth reversal/void indicator
+     *
+     * @param string $transactionId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\VoidService
+     */
+    public function getVoidService($transactionId = null)
+    {
+        $voidService = new VoidService('true');
+        if ($transactionId !== null) {
+            $voidService->setVoidRequestID($transactionId);
+        }
+
+        return $voidService;
+    }
+
+    /**
      * Create a SOAP token deletion indicator
      *
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PaySubscriptionDeleteService
