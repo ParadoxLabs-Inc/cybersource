@@ -229,6 +229,7 @@ define(
                         'street',
                         'city',
                         'regionCode',
+                        'regionId',
                         'region',
                         'postcode',
                         'countryId',

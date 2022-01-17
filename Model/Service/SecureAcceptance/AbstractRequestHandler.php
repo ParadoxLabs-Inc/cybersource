@@ -182,22 +182,14 @@ abstract class AbstractRequestHandler
      */
     public function getBillingAddressParams()
     {
-        $source = $this->request->getParam('source');
         $post = $this->request->getPostValue('billing');
+        $post['country_id']  = $post['country_id']  ?? $post['countryId']  ?? null;
+        $post['region_id']   = $post['region_id']   ?? $post['regionId']   ?? null;
+        $post['region_code'] = $post['region_code'] ?? $post['regionCode'] ?? null;
 
-        // My Payment Data array input
-        if ($source === 'paymentinfo') {
-            return $this->getAddressFromObject(
-                $this->addressHelper->buildAddressFromInput($post)
-            );
-        }
-
-        // Checkout array input
-        if (!empty($post)) {
-            return $this->getAddressFromCheckoutPost($post);
-        }
-
-        return [];
+        return $this->getAddressFromObject(
+            $this->addressHelper->buildAddressFromInput($post)
+        );
     }
 
     /**
@@ -235,42 +227,6 @@ abstract class AbstractRequestHandler
                 $address->getCountryId()
             ),
             'bill_to_phone' => $this->sanitizer->phone($address->getTelephone(), 15),
-        ];
-    }
-
-    /**
-     * Get Secure Acceptance billing address params from request input
-     *
-     * @param array $post
-     * @return array
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    protected function getAddressFromCheckoutPost($post)
-    {
-        return [
-            'bill_to_forename' => $this->sanitizer->alphanumericPunc($post['firstname'], 60),
-            'bill_to_surname' => $this->sanitizer->alphanumericPunc($post['lastname'], 60),
-            'bill_to_email' => $this->sanitizer->email($this->getEmail()),
-            'bill_to_company_name' => $this->sanitizer->alphanumericPunc(
-                isset($post['company']) ? $post['company'] : null,
-                40
-            ),
-            'bill_to_address_country' => $this->sanitizer->alpha(strtoupper($post['countryId']), 2),
-            'bill_to_address_city' => $this->sanitizer->alphanumericPunc($post['city'], 50),
-            'bill_to_address_state' => $this->sanitizer->alphanumericPunc(
-                strtoupper(isset($post['regionCode']) ? $post['regionCode'] : $post['region']),
-                2
-            ),
-            'bill_to_address_line1' => $this->sanitizer->alphanumericPunc(
-                isset($post['street'][0]) ? $post['street'][0] : null,
-                60
-            ),
-            'bill_to_address_line2' => $this->sanitizer->alphanumericPunc(
-                isset($post['street'][1]) ? $post['street'][1] : null,
-                60
-            ),
-            'bill_to_address_postal_code' => $this->sanitizer->postcode($post['postcode'], $post['countryId']),
-            'bill_to_phone' => $this->sanitizer->phone($post['telephone'], 15),
         ];
     }
 
