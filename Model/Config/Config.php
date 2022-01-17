@@ -327,13 +327,20 @@ class Config
      *
      * @param string $sessionId
      * @param int|null $storeId
+     * @param bool $apiScope
      * @return string|null
      */
-    public function getFingerprintSessionId($sessionId, $storeId = null)
+    public function getFingerprintSessionId($sessionId, $storeId = null, $apiScope = false)
     {
-        return $this->isFingerprintEnabled($storeId)
-            ? $this->getConfigValue('merchant_id', $storeId) . $sessionId
-            : null;
+        if ($this->isFingerprintEnabled($storeId) !== true) {
+            return null;
+        }
+
+        if ($apiScope === true) {
+            return $sessionId;
+        }
+
+        return $this->getConfigValue('merchant_id', $storeId) . $sessionId;
     }
 
     /**

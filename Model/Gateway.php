@@ -280,7 +280,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
-        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId()));
+        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId(), null, true));
         $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
@@ -326,7 +326,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         $request = $this->createRequest();
         $request->setMerchantReferenceCode($order->getIncrementId());
-        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId()));
+        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId(), null, true));
         $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
         $request->setPurchaseTotals($purchaseTotals);
 
@@ -763,9 +763,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
-        $referenceId = $this->config->getFingerprintSessionId(
-            $order->getQuoteId()
-        );
+        $referenceId = $this->config->getFingerprintSessionId($order->getQuoteId(), null, true);
 
         $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
         $this->payerAuthEnrollParams->populateEnrollmentService(
