@@ -201,7 +201,7 @@ class Response
             );
         }
 
-        if (in_array($input['decision'], ['DECLINE', 'ERROR', 'CANCEL'], true) === true) {
+        if (in_array($input['decision'], ['DECLINE', 'ERROR', 'CANCEL', 'REVIEW'], true) === true) {
             if (!empty($input['message']) && !empty($input['invalid_fields'])) {
                 $input['message'] .= ': ' . $input['invalid_fields'];
             }
