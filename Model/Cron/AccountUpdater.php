@@ -63,6 +63,16 @@ class AccountUpdater
     protected $cardType;
 
     /**
+     * @var \Magento\Store\Api\StoreRepositoryInterface
+     */
+    protected $storeRepository;
+
+    /**
+     * @var \Magento\Store\Model\App\Emulation
+     */
+    protected $emulator;
+
+    /**
      * TransactionUpdater constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
@@ -71,6 +81,8 @@ class AccountUpdater
      * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
      * @param \ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory $cardCollectionFactory
      * @param \ParadoxLabs\CyberSource\Model\Source\CardType $cardType
+     * @param \Magento\Store\Api\StoreRepositoryInterface $storeRepository
+     * @param \Magento\Store\Model\App\Emulation $emulator
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
@@ -78,7 +90,9 @@ class AccountUpdater
         \ParadoxLabs\CyberSource\Helper\Data $helper,
         \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
         \ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory $cardCollectionFactory,
-        \ParadoxLabs\CyberSource\Model\Source\CardType $cardType
+        \ParadoxLabs\CyberSource\Model\Source\CardType $cardType,
+        \Magento\Store\Api\StoreRepositoryInterface $storeRepository,
+        \Magento\Store\Model\App\Emulation $emulator
     ) {
         $this->restClient = $restClient;
         $this->config = $config;
@@ -86,6 +100,8 @@ class AccountUpdater
         $this->cardRepository = $cardRepository;
         $this->cardCollectionFactory = $cardCollectionFactory;
         $this->cardType = $cardType;
+        $this->storeRepository = $storeRepository;
+        $this->emulator = $emulator;
     }
 
     /**
@@ -95,6 +111,39 @@ class AccountUpdater
      */
     public function execute()
     {
+        $processedAccounts = [];
+
+        $stores = $this->storeRepository->getList();
+        foreach ($stores as $store) {
+            if ($store->getIsActive()
+                && $this->config->moduleIsActive($store->getId())
+                && !isset($processedAccounts[ $this->config->getMerchantId($store->getId()) ])) {
+                try {
+                    $processedAccounts[ $this->config->getMerchantId($store->getId()) ] = 1;
+
+                    $this->emulator->startEnvironmentEmulation($store->getId());
+
+                    $this->runAccountUpdater((int)$store->getId());
+
+                    $this->emulator->stopEnvironmentEmulation();
+                } catch (\Exception $exception) {
+                    $this->helper->log(Config::CODE, $exception->getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * Fetch and process Account Updater changes for the given store.
+     *
+     * @param int $storeId
+     * @return void
+     * @throws \Zend_Http_Client_Exception
+     */
+    protected function runAccountUpdater(int $storeId)
+    {
+        $this->restClient->setStoreId($storeId);
+
         $reply = $this->restClient->get(
             '/accountupdater/v1/batches',
             [],
@@ -103,7 +152,7 @@ class AccountUpdater
 
         $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
 
-        if (!empty($reply['_embedded']['batches'])) {
+        if ($reply !== false && !empty($reply['_embedded']['batches'])) {
             $mostRecentBatches = [];
 
             foreach ($reply['_embedded']['batches'] as $batch) {
