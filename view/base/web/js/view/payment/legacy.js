@@ -146,7 +146,9 @@ define([
                 if (message.success && message.card !== undefined) {
                     this.addAndSelectCard(message.card);
                 } else if (message.error.length > 0) {
-                    this.initSecureAcceptanceForm();
+                    if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
+                        this.initSecureAcceptanceForm();
+                    }
 
                     alert({
                         title: $.mage.__('Error'),
