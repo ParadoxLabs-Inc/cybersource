@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="paradoxlabs_cybersource" translate="label comment" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paradoxlabs_cybersource" translate="label comment" type="text" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CyberSource</label>
                 <comment><![CDATA[
                     <div style="float:right;text-align:center;">
@@ -132,27 +132,27 @@
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
                     <attribute type="shared">1</attribute>
                 </field>
-                <field id="payment_action" translate="label comment" type="select" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="payment_action" translate="label comment" type="select" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Payment Action</label>
                     <source_model>ParadoxLabs\TokenBase\Model\Source\PaymentAction</source_model>
                     <attribute type="shared">1</attribute>
                     <comment>'Authorize and Capture' to charge on checkout. Note 'Save Info' does not support Payer Authentication.</comment>
                 </field>
-                <field id="order_status" translate="label comment" type="select" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="order_status" translate="label comment" type="select" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>New Order Status</label>
                     <source_model>ParadoxLabs\TokenBase\Model\Source\OrderStatus</source_model>
                     <comment>Normally 'Pending' if 'Authorize Only' above; 'Processing' if not.</comment>
                 </field>
-                <field id="show_branding" translate="label comment" type="select" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="show_branding" translate="label comment" type="select" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Show CyberSource logo</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Show a CyberSource logo on the payment form.</comment>
                 </field>
-                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="280" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="280" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allow for Countries</label>
                     <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="290" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="290" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allow for Specific Countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
@@ -160,13 +160,13 @@
                         <field id="allowspecific">1</field>
                     </depends>
                 </field>
-                <field id="min_order_total" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="min_order_total" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Minimum Order Total</label>
                 </field>
-                <field id="max_order_total" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="max_order_total" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Maximum Order Total</label>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="sort_order" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Sort Order</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>
@@ -175,12 +175,12 @@
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
                     <attribute type="shared">1</attribute>
                 </field>
-                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Allow cards to not be stored</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, customers can choose whether to save their credit card during checkout.</comment>
                 </field>
-                <field id="savecard_opt_out" translate="label comment" type="select" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="savecard_opt_out" translate="label comment" type="select" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Auto-select 'save for next time'</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, will be selected by default during checkout.</comment>
@@ -188,22 +188,22 @@
                         <field id="allow_unsaved">1</field>
                     </depends>
                 </field>
-                <field id="require_ccv" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="require_ccv" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Require CVN for stored cards</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, CVN will be required for stored cards, and customers may have to enter it twice on checkout. This will not affect recurring transactions.</comment>
                 </field>
-                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="370" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="370" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Reauthorize on Partial Invoice</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, when you create a partial invoice, we will reauthorize any outstanding balance on the order. This helps guarantee funds, but can cause multiple holds on the card until transactions settle.</comment>
                 </field>
-                <field id="fingerprint" translate="label" type="select" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="fingerprint" translate="label" type="select" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enable Device Fingerprinting</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Used by Decision Manager and Fraud Management Essentials to identify users for better fraud prevention.</comment>
                 </field>
-                <field id="fingerprint_domain" translate="label" type="text" sortOrder="390" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="fingerprint_domain" translate="label" type="text" sortOrder="390" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enhanced Profiling Domain</label>
                     <comment>If you've set up an 'Enhanced Profiling' custom domain with CyberSource, enter it here. Do not change this setting until the DNS and SSL are fully tested. See Decision Manager documentation for instructions.</comment>
                     <depends>
