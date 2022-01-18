@@ -533,12 +533,15 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
          * running at all. This just allows people to pull updates through immediately.
          */
 
+        $storeId = (int)$payment->getOrder()->getStoreId();
+        $this->restClient->setStoreId($storeId);
+
         $reply = $this->restClient->get(
             '/reporting/v3/conversion-details',
             [
                 'startTime' => date(Sanitizer::ISO_FORMAT, strtotime('-24 hour')),
                 'endTime' => date(Sanitizer::ISO_FORMAT),
-                'organizationId' => $this->config->getMerchantId(),
+                'organizationId' => $this->config->getOrganizationId($storeId),
             ]
         );
 
@@ -547,7 +550,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response->setData(['is_approved' => false, 'is_denied' => false]);
 
         $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
-        if (!empty($reply['conversionDetails'])) {
+        if ($reply !== false && !empty($reply['conversionDetails'])) {
             foreach ($reply['conversionDetails'] as $change) {
                 if ($change['requestId'] === $transactionId) {
                     $response->addData($this->flattenArray($change));
