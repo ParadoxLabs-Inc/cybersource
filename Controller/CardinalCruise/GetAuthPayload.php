@@ -78,7 +78,7 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
             $payload = [
                 'authPayload'  => $this->getAuthPayload($enrollReply),
                 'orderPayload' => $this->getOrderPayload($enrollReply),
-                'JWT' => $this->jsonWebTokenGenerator->getJwt(),
+                'JWT' => $this->jsonWebTokenGenerator->getJwt($this->checkoutSession->getQuote()),
             ];
 
             $result->setData($payload);

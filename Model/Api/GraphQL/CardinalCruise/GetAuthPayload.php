@@ -1,0 +1,145 @@
+<?php declare(strict_types=1);
+/**
+ * Paradox Labs, Inc.
+ * http://www.paradoxlabs.com
+ * 717-431-3330
+ *
+ * Need help? Open a ticket in our support system:
+ *  http://support.paradoxlabs.com
+ *
+ * @author      Ryan Hoerr <info@paradoxlabs.com>
+ * @license     http://store.paradoxlabs.com/license.html
+ */
+
+namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\CardinalCruise;
+
+/**
+ * Soft dependency: Supporting 2.3 GraphQL without breaking <2.3 compatibility.
+ * 2.3+ implements \Magento\Framework\GraphQL; lower does not.
+ */
+if (!interface_exists('\ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface')) {
+    if (interface_exists('\Magento\Framework\GraphQl\Query\ResolverInterface')) {
+        class_alias(
+            '\Magento\Framework\GraphQl\Query\ResolverInterface',
+            '\ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface'
+        );
+    } else {
+        class_alias(
+            '\ParadoxLabs\TokenBase\Model\Api\GraphQL\FauxResolverInterface',
+            '\ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface'
+        );
+    }
+}
+
+/**
+ * GetAuthPayload Class
+ */
+class GetAuthPayload implements \ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface
+{
+    /**
+     * @var \ParadoxLabs\TokenBase\Model\Api\GraphQL
+     */
+    protected $graphQL;
+
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    protected $quoteRepository;
+
+    /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor
+     */
+    protected $persistor;
+
+    /**
+     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator
+     */
+    protected $jsonWebTokenGenerator;
+
+    /**
+     * GetParams constructor.
+     *
+     * @param \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor
+     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
+     */
+    public function __construct(
+        \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL,
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor,
+        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
+    ) {
+        $this->graphQL = $graphQL;
+        $this->quoteRepository = $quoteRepository;
+        $this->persistor = $persistor;
+        $this->jsonWebTokenGenerator = $jsonWebTokenGenerator;
+    }
+
+    /**
+     * Fetches the data from persistence models and format it according to the GraphQL schema.
+     *
+     * @param \Magento\Framework\GraphQl\Config\Element\Field $field
+     * @param \Magento\Framework\GraphQl\Query\Resolver\ContextInterface $context
+     * @param \Magento\Framework\GraphQl\Schema\Type\ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     * @throws \Exception
+     * @return mixed|\Magento\Framework\GraphQl\Query\Resolver\Value
+     */
+    public function resolve(
+        \Magento\Framework\GraphQl\Config\Element\Field $field,
+        $context,
+        \Magento\Framework\GraphQl\Schema\Type\ResolveInfo $info,
+        array $value = null,
+        array $args = null
+    ) {
+        $this->graphQL->authenticate($context, true);
+
+        /** @var \Magento\Quote\Model\Quote $quote */
+        $quote = $this->graphQL->getQuote($context->getUserId(), $args['input']['cartId'] ?? '');
+        if (empty($quote->getBillingAddress()->getEmail()) && !empty($args['input']['guestEmail'])) {
+            $quote->getBillingAddress()->setEmail($args['input']['guestEmail']);
+        }
+
+        $enrollReply = $this->persistor->loadPayerAuthEnrollReply($quote->getPayment());
+
+        return [
+            'authPayload'  => json_encode($this->getAuthPayload($enrollReply)),
+            'orderPayload' => json_encode($this->getOrderPayload($enrollReply, $quote)),
+            'JWT' => $this->jsonWebTokenGenerator->getJwt($quote),
+        ];
+    }
+
+    /**
+     * @param array $enrollReply
+     * @return array
+     */
+    protected function getAuthPayload(array $enrollReply)
+    {
+        return [
+            'AcsUrl' => $enrollReply['acsURL'],
+            'Payload' => $enrollReply['paReq'],
+        ];
+    }
+
+    /**
+     * @param array $enrollReply
+     * @param \Magento\Quote\Api\Data\CartInterface $quote
+     * @return array
+     */
+    protected function getOrderPayload(array $enrollReply, \Magento\Quote\Api\Data\CartInterface $quote)
+    {
+        if (empty($quote->getReservedOrderId())) {
+            $quote->reserveOrderId();
+            $this->quoteRepository->save($quote);
+        }
+
+        return [
+            'OrderDetails' => [
+                'TransactionId' => $enrollReply['authenticationTransactionID'],
+                'OrderNumber' => $quote->getReservedOrderId(),
+            ],
+        ];
+    }
+}

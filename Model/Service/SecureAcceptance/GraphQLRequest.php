@@ -13,21 +13,14 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
+
 /**
- * FrontendRequest Class
+ * GraphQLRequest Class
  */
-class FrontendRequest extends AbstractRequestHandler
+class GraphQLRequest extends AbstractRequestHandler
 {
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $customerSession;
-
     /**
      * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
@@ -44,6 +37,31 @@ class FrontendRequest extends AbstractRequestHandler
     protected $storeManager;
 
     /**
+     * @var \Magento\GraphQl\Model\Query\Resolver\Context
+     */
+    protected $graphQlContext;
+
+    /**
+     * @var array
+     */
+    protected $graphQlArgs;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * @var \Magento\Quote\Api\Data\CartInterface
+     */
+    protected $quote;
+
+    /**
+     * @var \ParadoxLabs\TokenBase\Model\Api\GraphQL
+     */
+    protected $graphQL;
+
+    /**
      * FrontendRequest constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
@@ -52,11 +70,10 @@ class FrontendRequest extends AbstractRequestHandler
      * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
      * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
@@ -65,19 +82,28 @@ class FrontendRequest extends AbstractRequestHandler
         \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
         \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL
     ) {
         parent::__construct($config, $hmac, $sanitizer, $addressHelper, $cardRepository, $request);
 
-        $this->checkoutSession = $checkoutSession;
-        $this->customerSession = $customerSession;
         $this->remoteAddress = $remoteAddress;
         $this->urlBuilder = $urlBuilder;
-        $this->storeManager = $storeManager;
+        $this->customerRepository = $customerRepository;
+        $this->graphQL = $graphQL;
+    }
+
+    /**
+     * @param \Magento\Framework\GraphQl\Query\Resolver\ContextInterface $context
+     * @param array $args
+     * @return void
+     */
+    public function setGraphQLContext(ContextInterface $context, array $args)
+    {
+        $this->graphQlContext = $context;
+        $this->graphQlArgs = $args;
     }
 
     /**
@@ -104,16 +130,15 @@ class FrontendRequest extends AbstractRequestHandler
      */
     public function getBillingAddressParams()
     {
-        $billingAddress = parent::getBillingAddressParams();
-
-        // If no input, pull from quote
-        if (empty($this->request->getParam('billing'))) {
-            $billingAddress = $this->getAddressFromObject(
-                $this->checkoutSession->getQuote()->getBillingAddress()->getDataModel()
+        if (!empty($this->graphQlArgs['billingAddress'])) {
+            return $this->getAddressFromObject(
+                $this->addressHelper->buildAddressFromInput($this->graphQlArgs['billingAddress'])
             );
         }
 
-        return $billingAddress;
+        return $this->getAddressFromObject(
+            $this->getQuote()->getBillingAddress()->getDataModel()
+        );
     }
 
     /**
@@ -123,20 +148,20 @@ class FrontendRequest extends AbstractRequestHandler
      */
     protected function getEmail()
     {
-        try {
-            if ($this->request->getParam('source') === 'paymentinfo') {
-                return $this->customerSession->getCustomerData()->getEmail();
-            }
+        if ($this->request->getParam('source') === 'paymentinfo') {
+            $customer = $this->customerRepository->getById(
+                $this->graphQlContext->getUserId()
+            );
 
-            if (!empty($this->checkoutSession->getQuote()->getBillingAddress()->getEmail())) {
-                return $this->checkoutSession->getQuote()->getBillingAddress()->getEmail();
-            }
-
-            // Fall back to guest email parameter iff there's none on the quote.
-            return $this->request->getParam('guest_email');
-        } catch (\Exception $exception) {
-            throw $exception;
+            return $customer->getEmail();
         }
+
+        if (!empty($this->getQuote()->getBillingAddress()->getEmail())) {
+            return $this->getQuote()->getBillingAddress()->getEmail();
+        }
+
+        // Fall back to guest email parameter iff there's none on the quote.
+        return $this->graphQlArgs['guest_email'] ?? null;
     }
 
     /**
@@ -146,11 +171,7 @@ class FrontendRequest extends AbstractRequestHandler
      */
     protected function getCustomerId()
     {
-        if ($this->checkoutSession->getQuoteId()) {
-            return $this->checkoutSession->getQuote()->getCustomerId();
-        }
-
-        return $this->customerSession->getCustomerId();
+        return $this->graphQlContext->getUserId();
     }
 
     /**
@@ -160,11 +181,11 @@ class FrontendRequest extends AbstractRequestHandler
      */
     protected function getCurrencyCode()
     {
-        if ($this->checkoutSession->getQuoteId()) {
-            return strtoupper($this->checkoutSession->getQuote()->getBaseCurrencyCode());
+        if ($this->getQuote()) {
+            return strtoupper($this->getQuote()->getBaseCurrencyCode());
         }
 
-        return strtoupper($this->storeManager->getStore()->getBaseCurrencyCode());
+        return strtoupper($this->graphQlContext->getExtensionAttributes()->getStore()->getBaseCurrencyCode());
     }
 
     /**
@@ -188,6 +209,43 @@ class FrontendRequest extends AbstractRequestHandler
      */
     protected function getSessionId()
     {
-        return $this->checkoutSession->getSessionId();
+        return $this->graphQlArgs['cartId'];
+    }
+
+    /**
+     * Get quote for the GraphQL request
+     *
+     * @return \Magento\Quote\Api\Data\CartInterface
+     */
+    protected function getQuote()
+    {
+        if ($this->quote instanceof \Magento\Quote\Api\Data\CartInterface) {
+            return $this->quote;
+        }
+
+        $customerId = $this->graphQlContext->getUserId();
+        $quoteHash  = $this->graphQlArgs['cartId'];
+
+        $this->quote = $this->graphQL->getQuote($customerId, $quoteHash);
+
+        return $this->quote;
+    }
+
+    /**
+     * Get the stored card from the request's card_id card hash, or null if none.
+     *
+     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface|null
+     */
+    protected function getCard()
+    {
+        if (empty($this->graphQlArgs['cardId'])) {
+            return null;
+        }
+
+        try {
+            return $this->cardRepository->getByHash($this->graphQlArgs['cardId']);
+        } catch (\Exception $exception) {
+            return null;
+        }
     }
 }

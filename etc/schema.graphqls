@@ -1,3 +1,33 @@
+type Query {
+    cyberSourceSecureAcceptParams(input: TokenBaseCyberSourceSecureAcceptInput!): TokenBaseCyberSourceSecureAcceptParams @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\SecureAccept\\GetParams") @doc(description: "Get CyberSource Secure Acceptance form URL and parameters for collecting payment data.")
+    cyberSourceCardinalCruiseAuthPayload(input: TokenBaseCyberSourceCardinalCruiseAuthInput!): TokenBaseCyberSourceCardinalCruiseParams @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\CardinalCruise\\GetAuthPayload") @doc(description: "Get CyberSource Cardinal Cruise parameters for completing payer authentication.")
+}
+
+input TokenBaseCyberSourceSecureAcceptInput {
+    cartId: String
+    cardId: String
+    source: TokenBaseCyberSourceSecureAcceptSource!
+    guestEmail: String
+    billingAddress: CustomerAddressInput
+}
+
+type TokenBaseCyberSourceSecureAcceptParams {
+    iframeAction: String
+    iframeParams: String
+}
+
+input TokenBaseCyberSourceCardinalCruiseAuthInput {
+    cartId: String!
+    cardId: String
+    guestEmail: String
+}
+
+type TokenBaseCyberSourceCardinalCruiseParams {
+    authPayload: String
+    orderPayload: String
+    JWT: String
+}
+
 type TokenBaseCheckoutConfig {
     paramUrl: String
     fingerprintUrl: String
@@ -8,4 +38,9 @@ type TokenBaseCheckoutConfig {
 
 input TokenBaseCardPaymentInput {
     response_jwt: String
+}
+
+enum TokenBaseCyberSourceSecureAcceptSource {
+    checkout
+    paymentinfo
 }

@@ -18,20 +18,46 @@ namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
  */
 class Persistor
 {
+    const PERSIST_KEY = 'payer_auth_enroll_reply';
+
     /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
 
     /**
+     * @var \Magento\Quote\Model\ResourceModel\Quote\Payment
+     */
+    protected $paymentResource;
+
+    /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $appState;
+
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    protected $cartRepository;
+
+    /**
      * Persistor constructor.
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
+     * @param \Magento\Quote\Model\ResourceModel\Quote\Payment $paymentResource
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Quote\Api\CartRepositoryInterface $cartRepository
      */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Quote\Model\ResourceModel\Quote\Payment $paymentResource,
+        \Magento\Framework\App\State $appState,
+        \Magento\Quote\Api\CartRepositoryInterface $cartRepository
     ) {
         $this->checkoutSession = $checkoutSession;
+        $this->paymentResource = $paymentResource;
+        $this->appState = $appState;
+        $this->cartRepository = $cartRepository;
     }
 
     /**
@@ -106,17 +132,38 @@ class Persistor
          * after, so nothing can be written to the database, straight up. But sessions don't get hit by rollback.
          */
 
-        $this->checkoutSession->setData('payer_auth_enroll_reply', $payerAuthPayload);
+        if ($this->appState->getAreaCode() === \Magento\Framework\App\Area::AREA_FRONTEND) {
+            $this->checkoutSession->setData(static::PERSIST_KEY, $payerAuthPayload);
+        }
+
+        if ($payment instanceof \Magento\Sales\Model\Order\Payment) {
+            $quote = $this->cartRepository->get($payment->getOrder()->getQuoteId());
+            $payment = $quote->getPayment();
+        }
+
+        if ($payment instanceof \Magento\Quote\Model\Quote\Payment) {
+            $payment->setAdditionalInformation(static::PERSIST_KEY, $payerAuthPayload);
+            $this->paymentResource->save($payment);
+        }
     }
 
     /**
      * Load the latest saved Payer Auth enrollment reply for the current frontend user/checkout attempt
      *
+     * @param \Magento\Payment\Model\InfoInterface $payment
      * @return array
+     * @throws \Magento\Framework\Exception\StateException
      */
-    public function loadPayerAuthEnrollReply()
+    public function loadPayerAuthEnrollReply(\Magento\Payment\Model\InfoInterface $payment)
     {
-        $reply = $this->checkoutSession->getData('payer_auth_enroll_reply');
+        if ($payment instanceof \Magento\Quote\Model\Quote\Payment
+            && !empty($payment->getAdditionalInformation(static::PERSIST_KEY))) {
+            return $payment->getAdditionalInformation(static::PERSIST_KEY);
+        }
+
+        if ($this->appState->getAreaCode() === \Magento\Framework\App\Area::AREA_FRONTEND) {
+            $reply = $this->checkoutSession->getData(static::PERSIST_KEY);
+        }
 
         if (empty($reply)) {
             throw new \Magento\Framework\Exception\StateException(

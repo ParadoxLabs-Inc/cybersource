@@ -51,21 +51,20 @@ class JsonWebTokenGenerator
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
         \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder,
-        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\RequestInterface $request
     ) {
         $this->config = $config;
         $this->encoder = $encoder;
-        $this->checkoutSession = $checkoutSession;
         $this->request = $request;
     }
 
     /**
      * Get the packed JSON Web Token for the current frontend checkout quote
      *
+     * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return string
      */
-    public function getJwt()
+    public function getJwt(\Magento\Quote\Api\Data\CartInterface $quote)
     {
         if ($this->config->isPayerAuthEnabled() === false) {
             return '';
@@ -76,7 +75,7 @@ class JsonWebTokenGenerator
             'iat' => time(),
             'iss' => $this->config->getCardinalSecretKeyId(),
             'OrgUnitId' => $this->config->getCardinalOrgUnitId(),
-            'Payload' => $this->getOrderPayload(),
+            'Payload' => $this->getOrderPayload($quote),
             'ObjectifyPayload' => true,
         ];
 
@@ -86,12 +85,11 @@ class JsonWebTokenGenerator
     /**
      * Get the order payload for the current frontend checkout quote
      *
+     * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return array
      */
-    protected function getOrderPayload()
+    protected function getOrderPayload(\Magento\Quote\Api\Data\CartInterface $quote)
     {
-        /** @var \Magento\Quote\Model\Quote $quote */
-        $quote = $this->checkoutSession->getQuote();
         $email = $quote->getBillingAddress()->getEmail() ?: $this->request->getParam('guest_email');
 
         $payload = [
