@@ -183,6 +183,7 @@ class ObjectBuilder
      */
     public function getTokenInfo(\ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
     {
+        /** @var \ParadoxLabs\CyberSource\Model\Card $card */
         $tokenInfo = new RecurringSubscriptionInfo();
         $tokenInfo->setSubscriptionID($card->getPaymentId());
 
@@ -376,5 +377,19 @@ class ObjectBuilder
         $businessRules->setIgnoreAVSResult($ignoreAVS ? 'true' : 'false');
 
         return $businessRules;
+    }
+
+    /**
+     * Create a SOAP decision manager object, to enable or disable the DM service for a request.
+     *
+     * @param bool $enable
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManager
+     */
+    public function enableDecisionManager($enable = true)
+    {
+        $decisionManager = new DecisionManager();
+        $decisionManager->setEnabled((bool)$enable);
+
+        return $decisionManager;
     }
 }

@@ -340,6 +340,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $this->captureInitLinkedRequest($transactionId, $request);
         }
 
+        // If this is a follow-on transaction (some amount already captured), do not run decision manager again.
+        if ($payment->getAmountPaid() > 0) {
+            $request->setDecisionManager($this->objectBuilder->enableDecisionManager(false));
+        }
+
         $reply = $this->run($request);
 
         try {
