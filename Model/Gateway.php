@@ -193,20 +193,20 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
                 $this->helper->log(
                     $this->code,
-                    $request . "\n" . $response,
+                    'REQUEST: ' . $request . "\nRESPONSE: " . $response,
                     true
                 );
             }
 
             if ($log === true) {
-                $this->helper->log($this->code, $response);
+                $this->helper->log($this->code, 'RESPONSE: ' . $response);
             }
 
             // Parse response into array for easier handling
             $this->lastResponse = $this->xmlToArray($this->soapClient->__getLastResponse());
             $this->helper->log(
                 $this->code,
-                json_encode($this->lastResponse),
+                'RESPONSE: ' . json_encode($this->lastResponse),
                 true
             );
         }
@@ -299,6 +299,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
         } else {
             $request->setBusinessRules($this->objectBuilder->getBusinessRules(true));
+        }
+
+        // If this is a follow-on transaction (some amount already captured), do not run decision manager again.
+        if ($payment->getAmountPaid() > 0) {
+            $request->setDecisionManager($this->objectBuilder->enableDecisionManager(false));
         }
 
         $this->requestPayerAuthentication($payment, $request);
@@ -642,6 +647,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
             // Don't log API test errors
             if ($payment !== null || $api->getReasonCode() !== 101) {
+                $request = $this->sanitizeLog($this->soapClient->__getLastRequest());
+                $this->helper->log($this->code, 'REQUEST: ' . $request);
                 $this->helper->log($this->code, $message . ' (' . $api->getReasonCode() . ')');
             }
 
