@@ -388,7 +388,7 @@ class ObjectBuilder
     public function enableDecisionManager($enable = true)
     {
         $decisionManager = new DecisionManager();
-        $decisionManager->setEnabled((bool)$enable);
+        $decisionManager->setEnabled($enable ? 'true' : 'false');
 
         return $decisionManager;
     }
