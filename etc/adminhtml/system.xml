@@ -210,6 +210,11 @@
                         <field id="fingerprint">1</field>
                     </depends>
                 </field>
+                <field id="validate_card_storage" translate="label" type="select" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable fraud check when storing cards</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, Decision Manager fraud rules and scoring will be applied when customers add a new card, not just when checkout is submitted. Enabling may increase transaction fees.</comment>
+                </field>
             </group>
         </section>
     </system>

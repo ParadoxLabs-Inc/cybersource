@@ -131,7 +131,7 @@ abstract class AbstractRequestHandler
             'profile_id' => $this->sanitizer->alphanumericPunc($this->config->getSecureAcceptProfileId(), 36),
             'reference_number' => $this->sanitizer->alphanumericPunc($referenceId, 50),
             'signed_date_time' => $this->sanitizer->isoDate(gmdate('Y-m-d\TH:i:s\Z')),
-            'skip_decision_manager' => $this->sanitizer->alphanumericPunc('true', 5),
+            'skip_decision_manager' => $this->config->isCardStorageValidationEnabled() ? 'false' : 'true',
             'transaction_uuid' => $this->sanitizer->asciiAlphanumericPunc($referenceId, 50),
             'consumer_id' => $this->sanitizer->alphanumericPunc($this->getCustomerId(), 100),
             'merchant_defined_data99' => $this->getSessionId(),

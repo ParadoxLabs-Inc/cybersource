@@ -37,6 +37,7 @@
                 <savecard_opt_out>1</savecard_opt_out>
                 <fingerprint>1</fingerprint>
                 <fingerprint_domain>h.online-metrix.net</fingerprint_domain>
+                <validate_card_storage>0</validate_card_storage>
                 <group>tokenbase</group>
                 <!-- API info -->
                 <client_name>ParadoxLabs CyberSource</client_name>

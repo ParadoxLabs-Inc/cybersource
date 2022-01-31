@@ -380,6 +380,17 @@ class Config
     }
 
     /**
+     * Get whether decision manager/fraud mgmt essentials is enabled for card storage.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isCardStorageValidationEnabled($storeId = null)
+    {
+        return (bool)$this->getConfigValue('validate_card_storage', $storeId);
+    }
+
+    /**
      * Get whether Payer Authentication (Cardinal Cruise API) is enabled.
      *
      * @param int|null $storeId
