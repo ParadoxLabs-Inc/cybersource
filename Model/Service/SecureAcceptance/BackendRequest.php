@@ -84,7 +84,7 @@ class BackendRequest extends AbstractRequestHandler
         $billingAddress = parent::getBillingAddressParams();
 
         // If no input, pull from quote
-        if (empty($billingAddress)) {
+        if (empty($this->request->getParam('billing'))) {
             $billingAddress = $this->getAddressFromObject(
                 $this->backendSession->getQuote()->getBillingAddress()->getDataModel()
             );
