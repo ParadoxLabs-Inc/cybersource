@@ -111,6 +111,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
     public function init(array $parameters)
     {
         try {
+            $this->config->setStoreId($parameters['store'] ?? null);
+
             $this->soapClient = $this->objectBuilder->getProcessor(
                 $this->config->getSoapWsdl()
             );

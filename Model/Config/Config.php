@@ -39,6 +39,11 @@ class Config
     protected $scopeConfig;
 
     /**
+     * @var int|null
+     */
+    protected $storeId;
+
+    /**
      * Config constructor.
      *
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -61,8 +66,31 @@ class Config
         return trim($this->scopeConfig->getValue(
             'payment/' . static::CODE . '/' . $key,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $storeId
+            $storeId ?? $this->storeId
         ));
+    }
+
+    /**
+     * Get storeId
+     *
+     * @return int|null
+     */
+    public function getStoreId()
+    {
+        return $this->storeId;
+    }
+
+    /**
+     * Set storeId
+     *
+     * @param int|null $storeId
+     * @return $this
+     */
+    public function setStoreId($storeId)
+    {
+        $this->storeId = $storeId;
+
+        return $this;
     }
 
     /**
