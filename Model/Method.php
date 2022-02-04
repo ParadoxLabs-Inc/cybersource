@@ -40,6 +40,18 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
     }
 
     /**
+     * Resync billing address et al. before auth/capture.
+     *
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @return $this
+     */
+    protected function resyncStoredCard(\Magento\Payment\Model\InfoInterface $payment)
+    {
+        // All card updates are done via Secure Acceptance requests; skip server-side resync saves.
+        return $this;
+    }
+
+    /**
      * Store response statuses persistently.
      *
      * @param \Magento\Payment\Model\InfoInterface $payment
