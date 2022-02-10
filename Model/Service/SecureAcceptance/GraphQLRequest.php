@@ -182,10 +182,10 @@ class GraphQLRequest extends AbstractRequestHandler
     protected function getCurrencyCode()
     {
         if ($this->getQuote()) {
-            return strtoupper($this->getQuote()->getBaseCurrencyCode());
+            return strtoupper((string)$this->getQuote()->getBaseCurrencyCode());
         }
 
-        return strtoupper($this->graphQlContext->getExtensionAttributes()->getStore()->getBaseCurrencyCode());
+        return strtoupper((string)$this->graphQlContext->getExtensionAttributes()->getStore()->getBaseCurrencyCode());
     }
 
     /**

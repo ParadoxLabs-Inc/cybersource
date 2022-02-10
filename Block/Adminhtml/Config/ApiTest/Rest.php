@@ -81,14 +81,14 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
      */
     protected function checkFormFactor()
     {
-        $keyId = $this->getMethod()->getConfigData('rest_secret_key_id');
+        $keyId = (string)$this->getMethod()->getConfigData('rest_secret_key_id');
         if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $keyId) === 0) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Secret Key ID is not in the expected format; please verify you\'ve entered the correct data.')
             );
         }
 
-        if (strlen($this->getMethod()->getConfigData('rest_secret_key')) < 32) {
+        if (strlen((string)$this->getMethod()->getConfigData('rest_secret_key')) < 32) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Secret Key is shorter than expected; please verify you\'ve entered the correct data.')
             );

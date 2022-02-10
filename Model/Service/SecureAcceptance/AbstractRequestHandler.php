@@ -208,10 +208,10 @@ abstract class AbstractRequestHandler
             'bill_to_surname' => $this->sanitizer->alphanumericPunc($address->getLastname(), 60),
             'bill_to_email' => $this->sanitizer->email($this->getEmail()),
             'bill_to_company_name' => $this->sanitizer->alphanumericPunc($address->getCompany(), 40),
-            'bill_to_address_country' => $this->sanitizer->alpha(strtoupper($address->getCountryId()), 2),
+            'bill_to_address_country' => $this->sanitizer->alpha(strtoupper((string)$address->getCountryId()), 2),
             'bill_to_address_city' => $this->sanitizer->alphanumericPunc($address->getCity(), 40),
             'bill_to_address_state' => $this->sanitizer->alphanumericPunc(
-                strtoupper($address->getRegion()->getRegionCode()),
+                strtoupper((string)$address->getRegion()->getRegionCode()),
                 2
             ),
             'bill_to_address_line1' => $this->sanitizer->alphanumericPunc(

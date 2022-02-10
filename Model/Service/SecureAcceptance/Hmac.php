@@ -46,7 +46,7 @@ class Hmac
     public function getSignature(array $params)
     {
         $signedParams = [];
-        $signedFields = explode(',', $params['signed_field_names']);
+        $signedFields = explode(',', (string)$params['signed_field_names']);
         foreach ($signedFields as $key) {
             $signedParams[] = $key . '=' . $params[$key];
         }
@@ -54,7 +54,7 @@ class Hmac
         $hmac = hash_hmac(
             'sha256',
             implode(',', $signedParams),
-            $this->config->getSecureAcceptSecretKey(),
+            (string)$this->config->getSecureAcceptSecretKey(),
             true
         );
 
@@ -75,8 +75,8 @@ class Hmac
     {
         if (!empty($params['signature'])) {
             return hash_equals(
-                $this->getSignature($params),
-                $params['signature']
+                (string)$this->getSignature($params),
+                (string)$params['signature']
             );
         }
 

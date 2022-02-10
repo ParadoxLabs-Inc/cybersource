@@ -54,20 +54,20 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
      */
     protected function checkFormFactor()
     {
-        $profileId = $this->getMethod()->getConfigData('secureaccept_profile_id');
+        $profileId = (string)$this->getMethod()->getConfigData('secureaccept_profile_id');
         if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $profileId) === 0) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Profile ID is not in the expected format; please verify you\'ve entered the correct data.')
             );
         }
 
-        if (strlen($this->getMethod()->getConfigData('secureaccept_access_key')) !== 32) {
+        if (strlen((string)$this->getMethod()->getConfigData('secureaccept_access_key')) !== 32) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Access Key is not the expected length; please verify you\'ve entered the correct data.')
             );
         }
 
-        if (strlen($this->getMethod()->getConfigData('secureaccept_secret_key')) < 256) {
+        if (strlen((string)$this->getMethod()->getConfigData('secureaccept_secret_key')) < 256) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Secret Key is shorter than expected; please verify you\'ve entered the correct data.')
             );

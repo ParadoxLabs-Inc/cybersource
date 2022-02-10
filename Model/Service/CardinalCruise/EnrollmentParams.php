@@ -125,7 +125,7 @@ class EnrollmentParams
     protected function get6moPurchasesCount(\ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
     {
         // Don't bother lookup for guests or cards added within 15 min
-        if ($card->getCustomerId() < 1 || strtotime($card->getCreatedAt()) - 900 > time()) {
+        if ($card->getCustomerId() < 1 || strtotime((string)$card->getCreatedAt()) - 900 > time()) {
             return 0;
         }
 
@@ -228,7 +228,7 @@ class EnrollmentParams
             $order->getShippingAddress()->getCustomerAddressId()
         );
 
-        return date('Ymd', strtotime($address->getData('created_at')));
+        return date('Ymd', strtotime((string)$address->getData('created_at')));
     }
 
     /**
@@ -288,7 +288,7 @@ class EnrollmentParams
      */
     protected function getCardAddedDate(\ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
     {
-        return date('Ymd', strtotime($card->getCreatedAt()));
+        return date('Ymd', strtotime((string)$card->getCreatedAt()));
     }
 
     /**

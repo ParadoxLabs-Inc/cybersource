@@ -52,7 +52,7 @@ class JsonWebTokenEncoder
      */
     public function unpack($token, $validateClaims = true)
     {
-        $parts = explode('.', $token);
+        $parts = explode('.', (string)$token);
         if (count($parts) !== 3) {
             throw new \Magento\Framework\Exception\InputException(__('Invalid or malformed JWT supplied.'));
         }
@@ -60,8 +60,8 @@ class JsonWebTokenEncoder
         $signature = $this->sign($parts[0] . '.' . $parts[1]);
         if (hash_equals($signature, (string)$this->decode($parts[2]))) {
             $claims = json_decode(
-                $this->decode($parts[1]),
-                JSON_OBJECT_AS_ARRAY
+                (string)$this->decode($parts[1]),
+                true
             );
 
             if ($validateClaims) {
@@ -112,7 +112,7 @@ class JsonWebTokenEncoder
     {
         return hash_hmac(
             'SHA256', // NB: Hardcoding SHA-256 (HS256) algorithm
-            $payload,
+            (string)$payload,
             $this->config->getCardinalSecretKey(),
             true
         );
@@ -153,6 +153,8 @@ class JsonWebTokenEncoder
      */
     protected function decode($part)
     {
+        $part = (string)$part;
+
         // Pad with = to get to the correct length for base64 decoding
         $remainder = strlen($part) % 4;
         if ($remainder) {
@@ -176,7 +178,7 @@ class JsonWebTokenEncoder
     public function encode($part)
     {
         // Encode
-        $part = base64_encode($part);
+        $part = base64_encode((string)$part);
 
         // Make it URL-friendly per spec
         $part = strtr($part, '+/', '-_');

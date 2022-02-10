@@ -38,7 +38,7 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
             $gateway = $this->getMethod()->gateway();
             $gateway->testConnection();
         } catch (\Exception $e) {
-            if (strpos($e->getMessage(), 'UsernameToken') !== false) {
+            if (strpos((string)$e->getMessage(), 'UsernameToken') !== false) {
                 return __('Your Merchant ID or SOAP API Transaction Key is incorrect.')
                     . $this->getUserManualInstruction();
             }

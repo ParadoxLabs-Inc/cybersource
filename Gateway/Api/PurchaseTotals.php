@@ -188,7 +188,7 @@ class PurchaseTotals
      */
     public function setCurrency($currency)
     {
-        $this->currency = strtoupper(substr($currency, 0, 5));
+        $this->currency = strtoupper(substr((string)$currency, 0, 5));
 
         return $this;
     }

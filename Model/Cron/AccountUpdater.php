@@ -150,7 +150,7 @@ class AccountUpdater
             'application/json'
         );
 
-        $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
+        $reply = json_decode((string)$reply, true);
 
         if ($reply !== false && !empty($reply['_embedded']['batches'])) {
             $mostRecentBatches = [];
@@ -183,12 +183,12 @@ class AccountUpdater
     public function processBatch($batch)
     {
         $path = substr(
-            $batch['_links']['reports'][0]['href'],
-            strpos($batch['_links']['reports'][0]['href'], '.com') + 4
+            (string)$batch['_links']['reports'][0]['href'],
+            strpos((string)$batch['_links']['reports'][0]['href'], '.com') + 4
         );
 
         $reply = $this->restClient->get($path, [], 'application/json');
-        $report = json_decode($reply, JSON_OBJECT_AS_ARRAY);
+        $report = json_decode((string)$reply, true);
 
         if (!empty($report['records'])) {
             foreach ($report['records'] as $update) {

@@ -161,10 +161,10 @@ class FrontendRequest extends AbstractRequestHandler
     protected function getCurrencyCode()
     {
         if ($this->checkoutSession->getQuoteId()) {
-            return strtoupper($this->checkoutSession->getQuote()->getBaseCurrencyCode());
+            return strtoupper((string)$this->checkoutSession->getQuote()->getBaseCurrencyCode());
         }
 
-        return strtoupper($this->storeManager->getStore()->getBaseCurrencyCode());
+        return strtoupper((string)$this->storeManager->getStore()->getBaseCurrencyCode());
     }
 
     /**

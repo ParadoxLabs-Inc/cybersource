@@ -56,19 +56,19 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
     {
         // NB: Not guaranteed these will be the same as our test data. May need to adjust the rules over time.
 
-        if (strlen($this->getMethod()->getConfigData('cardinal_org_unit_id')) < 24) {
+        if (strlen((string)$this->getMethod()->getConfigData('cardinal_org_unit_id')) < 24) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Org Unit ID is shorter than expected; please verify you\'ve entered the correct data.')
             );
         }
 
-        if (strlen($this->getMethod()->getConfigData('cardinal_secret_key_id')) < 24) {
+        if (strlen((string)$this->getMethod()->getConfigData('cardinal_secret_key_id')) < 24) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('API ID is shorter than expected; please verify you\'ve entered the correct data.')
             );
         }
 
-        $key = $this->getMethod()->getConfigData('cardinal_secret_key');
+        $key = (string)$this->getMethod()->getConfigData('cardinal_secret_key');
         if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $key) === 0) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('API Key is not in the expected format; please verify you\'ve entered the correct data.')

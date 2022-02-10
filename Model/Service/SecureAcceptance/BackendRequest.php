@@ -129,10 +129,10 @@ class BackendRequest extends AbstractRequestHandler
     protected function getCurrencyCode()
     {
         if ($this->backendSession->getQuoteId()) {
-            return strtoupper($this->backendSession->getQuote()->getBaseCurrencyCode());
+            return strtoupper((string)$this->backendSession->getQuote()->getBaseCurrencyCode());
         }
 
-        return strtoupper($this->storeManager->getStore()->getBaseCurrencyCode());
+        return strtoupper((string)$this->storeManager->getStore()->getBaseCurrencyCode());
     }
 
     /**

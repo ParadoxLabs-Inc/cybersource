@@ -77,7 +77,7 @@ class Rest
 
         // Throw exception on non-2xx response code
         if (substr((string)$response->getStatus(), 0, 1) !== '2') {
-            $responseJson = json_decode($response->getBody(), JSON_OBJECT_AS_ARRAY);
+            $responseJson = json_decode((string)$response->getBody(), true);
 
             $message = $responseJson['message']
                 ?? $responseJson['response']['rmsg']
@@ -130,7 +130,7 @@ class Rest
      */
     protected function signRequest(\Magento\Framework\HTTP\ZendClient $client, $path, $params, $httpMethod)
     {
-        $host = parse_url($client->getUri(true), PHP_URL_HOST);
+        $host = parse_url((string)$client->getUri(true), PHP_URL_HOST);
         $date = date("D, d M Y G:i:s \G\M\T");
 
         $client->setHeaders('Date', $date);
@@ -146,7 +146,7 @@ class Rest
         $signatureParts = [
             'host' => 'host: ' . $host,
             'date' => 'date: ' . $date,
-            '(request-target)' => '(request-target): ' . strtolower($httpMethod) . ' ' . $path
+            '(request-target)' => '(request-target): ' . strtolower((string)$httpMethod) . ' ' . $path
                 . (!empty($params) ? '?' . http_build_query($params) : ''),
             'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId($this->storeId),
         ];
@@ -155,7 +155,7 @@ class Rest
             hash_hmac(
                 'sha256',
                 utf8_encode(implode("\n", $signatureParts)),
-                base64_decode($this->config->getRestSecretKey($this->storeId)),
+                base64_decode((string)$this->config->getRestSecretKey($this->storeId)),
                 true
             )
         );

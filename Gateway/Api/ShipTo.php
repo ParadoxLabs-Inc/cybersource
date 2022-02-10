@@ -377,7 +377,7 @@ class ShipTo
      */
     public function setCounty($county)
     {
-        $this->county = strtoupper(substr($county, 0, 2));
+        $this->county = strtoupper(substr((string)$county, 0, 2));
 
         return $this;
     }
@@ -396,7 +396,7 @@ class ShipTo
      */
     public function setState($state)
     {
-        $this->state = strtoupper(substr($state, 0, 2));
+        $this->state = strtoupper(substr((string)$state, 0, 2));
 
         return $this;
     }
@@ -453,6 +453,8 @@ class ShipTo
      */
     public function setPostalCode($postalCode)
     {
+        $postalCode = (string)$postalCode;
+
         if ($this->getCountry() === 'US') {
             $postalCode = preg_replace('/[^\d]/', '', $postalCode);
             if (strlen($postalCode) > 5) {

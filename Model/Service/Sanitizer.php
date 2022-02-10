@@ -29,7 +29,7 @@ class Sanitizer
      */
     public function length($input, $maxLength)
     {
-        return substr($input, 0, $maxLength);
+        return substr((string)$input, 0, (int)$maxLength);
     }
 
     /**
@@ -41,7 +41,7 @@ class Sanitizer
      */
     public function alpha($input, $maxLength)
     {
-        $input = preg_replace('/[^a-zA-Z]/', '', $input);
+        $input = preg_replace('/[^a-zA-Z]/', '', (string)$input);
 
         return $this->length($input, $maxLength);
     }
@@ -55,7 +55,7 @@ class Sanitizer
      */
     public function alphanumeric($input, $maxLength)
     {
-        $input = preg_replace('/[^a-zA-Z0-9]/', '', $input);
+        $input = preg_replace('/[^a-zA-Z0-9]/', '', (string)$input);
 
         return $this->length($input, $maxLength);
     }
@@ -71,7 +71,7 @@ class Sanitizer
      */
     public function alphanumericPunc($input, $maxLength)
     {
-        $input = preg_replace('/[^a-zA-Z0-9!"#$%&\'()*+,\-.\/:;=?@^_~ ]/', '', $input);
+        $input = preg_replace('/[^a-zA-Z0-9!"#$%&\'()*+,\-.\/:;=?@^_~ ]/', '', (string)$input);
 
         return $this->length($input, $maxLength);
     }
@@ -87,7 +87,7 @@ class Sanitizer
      */
     public function asciiAlphanumericPunc($input, $maxLength)
     {
-        $input = preg_replace('/[^a-zA-Z0-9!&\'()+,\-.\/:@]/', '', $input);
+        $input = preg_replace('/[^a-zA-Z0-9!&\'()+,\-.\/:@]/', '', (string)$input);
 
         return $this->length($input, $maxLength);
     }
@@ -101,7 +101,7 @@ class Sanitizer
      */
     public function amount($input)
     {
-        $input = preg_replace('/[^0-9.]/', '', $input);
+        $input = preg_replace('/[^0-9.]/', '', (string)$input);
 
         return (float)$input;
     }
@@ -114,7 +114,7 @@ class Sanitizer
      */
     public function isoDate($input)
     {
-        return date(static::ISO_FORMAT, strtotime($input));
+        return date(static::ISO_FORMAT, strtotime((string)$input));
     }
 
     /**
@@ -153,7 +153,7 @@ class Sanitizer
      */
     public function numeric($input, $maxLength)
     {
-        $input = preg_replace('/[^0-9]/', '', $input);
+        $input = preg_replace('/[^0-9]/', '', (string)$input);
 
         return $this->length($input, $maxLength);
     }
@@ -167,7 +167,7 @@ class Sanitizer
      */
     public function phone($input, $maxLength)
     {
-        $input = preg_replace('/[^0-9xX( ),+\-.*#]/', '', $input);
+        $input = preg_replace('/[^0-9xX( ),+\-.*#]/', '', (string)$input);
 
         return strlen($input) >= 10 ? $this->length($input, $maxLength) : '';
     }
@@ -198,7 +198,8 @@ class Sanitizer
      */
     public function postcode($input, $country)
     {
-        $country = $this->length(strtoupper($country), 2);
+        $country = $this->length(strtoupper((string)$country), 2);
+        $input   = (string)$input;
 
         if ($country === 'US') {
             $input = preg_replace('/[^\d]/', '', $input);

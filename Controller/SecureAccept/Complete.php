@@ -27,7 +27,7 @@ class Complete extends \Magento\Framework\App\Action\Action
         // Initialize session with ID from the CyberSource payload, to prevent SameSite cookie issues.
         if ($context->getRequest()->getParam('req_merchant_defined_data99')) {
             session_commit();
-            session_id($context->getRequest()->getParam('req_merchant_defined_data99'));
+            session_id((string)$context->getRequest()->getParam('req_merchant_defined_data99'));
         }
 
         parent::__construct($context);

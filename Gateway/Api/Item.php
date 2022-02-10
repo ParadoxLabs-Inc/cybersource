@@ -744,7 +744,7 @@ class Item
      */
     public function setProductCode($productCode)
     {
-        $this->productCode = substr(str_replace(['^', ':'], '', $productCode), 0, 255);
+        $this->productCode = substr(str_replace(['^', ':'], '', (string)$productCode), 0, 255);
 
         return $this;
     }
@@ -763,7 +763,7 @@ class Item
      */
     public function setProductName($productName)
     {
-        $this->productName = substr(str_replace(['^', ':'], '', $productName), 0, 255);
+        $this->productName = substr(str_replace(['^', ':'], '', (string)$productName), 0, 255);
 
         return $this;
     }
@@ -782,7 +782,7 @@ class Item
      */
     public function setProductSKU($productSKU)
     {
-        $this->productSKU = substr(str_replace(['^', ':'], '', $productSKU), 0, 255);
+        $this->productSKU = substr(str_replace(['^', ':'], '', (string)$productSKU), 0, 255);
 
         return $this;
     }
@@ -2283,7 +2283,7 @@ class Item
      */
     public function setProductDescription($productDescription)
     {
-        $this->productDescription = substr(str_replace(['^', ':'], '', $productDescription), 0, 255);
+        $this->productDescription = substr(str_replace(['^', ':'], '', (string)$productDescription), 0, 255);
 
         return $this;
     }

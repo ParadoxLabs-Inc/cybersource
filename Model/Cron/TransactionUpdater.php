@@ -134,7 +134,7 @@ class TransactionUpdater
             ]
         );
 
-        $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
+        $reply = json_decode((string)$reply, true);
         if ($reply !== false && !empty($reply['conversionDetails'])) {
             foreach ($reply['conversionDetails'] as $change) {
                 try {

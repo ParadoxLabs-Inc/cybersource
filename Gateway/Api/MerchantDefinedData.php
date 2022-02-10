@@ -123,7 +123,7 @@ class MerchantDefinedData
      */
     public function setField1($field1)
     {
-        $this->field1 = substr(str_replace(["\n", "\r"], '', $field1), 0, 255);
+        $this->field1 = substr(str_replace(["\n", "\r"], '', (string)$field1), 0, 255);
 
         return $this;
     }
@@ -142,7 +142,7 @@ class MerchantDefinedData
      */
     public function setField2($field2)
     {
-        $this->field2 = substr(str_replace(["\n", "\r"], '', $field2), 0, 255);
+        $this->field2 = substr(str_replace(["\n", "\r"], '', (string)$field2), 0, 255);
 
         return $this;
     }
@@ -161,7 +161,7 @@ class MerchantDefinedData
      */
     public function setField3($field3)
     {
-        $this->field3 = substr(str_replace(["\n", "\r"], '', $field3), 0, 255);
+        $this->field3 = substr(str_replace(["\n", "\r"], '', (string)$field3), 0, 255);
 
         return $this;
     }
@@ -180,7 +180,7 @@ class MerchantDefinedData
      */
     public function setField4($field4)
     {
-        $this->field4 = substr(str_replace(["\n", "\r"], '', $field4), 0, 255);
+        $this->field4 = substr(str_replace(["\n", "\r"], '', (string)$field4), 0, 255);
 
         return $this;
     }
@@ -199,7 +199,7 @@ class MerchantDefinedData
      */
     public function setField5($field5)
     {
-        $this->field5 = substr(str_replace(["\n", "\r"], '', $field5), 0, 255);
+        $this->field5 = substr(str_replace(["\n", "\r"], '', (string)$field5), 0, 255);
 
         return $this;
     }
@@ -218,7 +218,7 @@ class MerchantDefinedData
      */
     public function setField6($field6)
     {
-        $this->field6 = substr(str_replace(["\n", "\r"], '', $field6), 0, 255);
+        $this->field6 = substr(str_replace(["\n", "\r"], '', (string)$field6), 0, 255);
 
         return $this;
     }
@@ -237,7 +237,7 @@ class MerchantDefinedData
      */
     public function setField7($field7)
     {
-        $this->field7 = substr(str_replace(["\n", "\r"], '', $field7), 0, 255);
+        $this->field7 = substr(str_replace(["\n", "\r"], '', (string)$field7), 0, 255);
 
         return $this;
     }
@@ -256,7 +256,7 @@ class MerchantDefinedData
      */
     public function setField8($field8)
     {
-        $this->field8 = substr(str_replace(["\n", "\r"], '', $field8), 0, 255);
+        $this->field8 = substr(str_replace(["\n", "\r"], '', (string)$field8), 0, 255);
 
         return $this;
     }
@@ -275,7 +275,7 @@ class MerchantDefinedData
      */
     public function setField9($field9)
     {
-        $this->field9 = substr(str_replace(["\n", "\r"], '', $field9), 0, 255);
+        $this->field9 = substr(str_replace(["\n", "\r"], '', (string)$field9), 0, 255);
 
         return $this;
     }
@@ -294,7 +294,7 @@ class MerchantDefinedData
      */
     public function setField10($field10)
     {
-        $this->field10 = substr(str_replace(["\n", "\r"], '', $field10), 0, 255);
+        $this->field10 = substr(str_replace(["\n", "\r"], '', (string)$field10), 0, 255);
 
         return $this;
     }
@@ -313,7 +313,7 @@ class MerchantDefinedData
      */
     public function setField11($field11)
     {
-        $this->field11 = substr(str_replace(["\n", "\r"], '', $field11), 0, 255);
+        $this->field11 = substr(str_replace(["\n", "\r"], '', (string)$field11), 0, 255);
 
         return $this;
     }
@@ -332,7 +332,7 @@ class MerchantDefinedData
      */
     public function setField12($field12)
     {
-        $this->field12 = substr(str_replace(["\n", "\r"], '', $field12), 0, 255);
+        $this->field12 = substr(str_replace(["\n", "\r"], '', (string)$field12), 0, 255);
 
         return $this;
     }
@@ -351,7 +351,7 @@ class MerchantDefinedData
      */
     public function setField13($field13)
     {
-        $this->field13 = substr(str_replace(["\n", "\r"], '', $field13), 0, 255);
+        $this->field13 = substr(str_replace(["\n", "\r"], '', (string)$field13), 0, 255);
 
         return $this;
     }
@@ -370,7 +370,7 @@ class MerchantDefinedData
      */
     public function setField14($field14)
     {
-        $this->field14 = substr(str_replace(["\n", "\r"], '', $field14), 0, 255);
+        $this->field14 = substr(str_replace(["\n", "\r"], '', (string)$field14), 0, 255);
 
         return $this;
     }
@@ -389,7 +389,7 @@ class MerchantDefinedData
      */
     public function setField15($field15)
     {
-        $this->field15 = substr(str_replace(["\n", "\r"], '', $field15), 0, 255);
+        $this->field15 = substr(str_replace(["\n", "\r"], '', (string)$field15), 0, 255);
 
         return $this;
     }
@@ -408,7 +408,7 @@ class MerchantDefinedData
      */
     public function setField16($field16)
     {
-        $this->field16 = substr(str_replace(["\n", "\r"], '', $field16), 0, 255);
+        $this->field16 = substr(str_replace(["\n", "\r"], '', (string)$field16), 0, 255);
 
         return $this;
     }
@@ -427,7 +427,7 @@ class MerchantDefinedData
      */
     public function setField17($field17)
     {
-        $this->field17 = substr(str_replace(["\n", "\r"], '', $field17), 0, 255);
+        $this->field17 = substr(str_replace(["\n", "\r"], '', (string)$field17), 0, 255);
 
         return $this;
     }
@@ -446,7 +446,7 @@ class MerchantDefinedData
      */
     public function setField18($field18)
     {
-        $this->field18 = substr(str_replace(["\n", "\r"], '', $field18), 0, 255);
+        $this->field18 = substr(str_replace(["\n", "\r"], '', (string)$field18), 0, 255);
 
         return $this;
     }
@@ -465,7 +465,7 @@ class MerchantDefinedData
      */
     public function setField19($field19)
     {
-        $this->field19 = substr(str_replace(["\n", "\r"], '', $field19), 0, 255);
+        $this->field19 = substr(str_replace(["\n", "\r"], '', (string)$field19), 0, 255);
 
         return $this;
     }
@@ -484,7 +484,7 @@ class MerchantDefinedData
      */
     public function setField20($field20)
     {
-        $this->field20 = substr(str_replace(["\n", "\r"], '', $field20), 0, 255);
+        $this->field20 = substr(str_replace(["\n", "\r"], '', (string)$field20), 0, 255);
 
         return $this;
     }

@@ -56,7 +56,7 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Info\Cc
             }
 
             if (!empty($info->getAdditionalInformation('afsReply.afsFactorCode'))) {
-                $riskFactors = explode('^', $info->getAdditionalInformation('afsReply.afsFactorCode'));
+                $riskFactors = explode('^', (string)$info->getAdditionalInformation('afsReply.afsFactorCode'));
                 foreach ($riskFactors as $code) {
                     $data[(string)__('Risk Factor')] = $this->helper->translateRiskFactor($code);
                 }

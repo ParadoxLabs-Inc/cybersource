@@ -126,7 +126,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
             $this->initialized  = true;
         } catch (\SoapFault $exception) {
-            $this->helper->log($this->code, trim($exception->getMessage()));
+            $this->helper->log($this->code, trim((string)$exception->getMessage()));
             throw new \Magento\Framework\Exception\RuntimeException(
                 __('Server Error: Could not connect to CyberSource payment gateway.')
             );
@@ -179,12 +179,12 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             if ($log === true) {
                 $this->helper->log(
                     $this->code,
-                    sprintf('CyberSource Gateway error: %s', trim($exception->getMessage()))
+                    sprintf('CyberSource Gateway error: %s', trim((string)$exception->getMessage()))
                 );
             }
 
             throw new \Magento\Framework\Exception\RuntimeException(
-                __('CyberSource Gateway error: %1', trim($exception->getMessage())),
+                __('CyberSource Gateway error: %1', trim((string)$exception->getMessage())),
                 $exception
             );
         } finally {
@@ -245,6 +245,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     protected function sanitizeLog($string)
     {
+        $string = (string)$string;
+
         $maskAll = ['cvNumber'];
         $maskFour = ['Password', 'accountNumber'];
 
@@ -561,7 +563,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response = $this->responseFactory->create();
         $response->setData(['is_approved' => false, 'is_denied' => false]);
 
-        $reply = json_decode($reply, JSON_OBJECT_AS_ARRAY);
+        $reply = json_decode((string)$reply, true);
         if ($reply !== false && !empty($reply['conversionDetails'])) {
             foreach ($reply['conversionDetails'] as $change) {
                 if ($change['requestId'] === $transactionId) {

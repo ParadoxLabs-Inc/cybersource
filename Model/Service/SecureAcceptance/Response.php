@@ -150,21 +150,21 @@ class Response
      */
     protected function setCardPaymentInfo($input, \ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
     {
-        $yr = substr($input['req_card_expiry_date'], -4);
-        $mo = substr($input['req_card_expiry_date'], 0, 2);
+        $yr = substr((string)$input['req_card_expiry_date'], -4);
+        $mo = substr((string)$input['req_card_expiry_date'], 0, 2);
 
         $day = date('t', strtotime($yr . '-' . $mo));
         $card->setExpires(sprintf('%s-%s-%s 23:59:59', $yr, $mo, $day));
 
         // Sometimes the full number is masked. idk. But instrument ID should have the same last4.
-        $last4 = substr($input['req_card_number'], -4);
+        $last4 = substr((string)$input['req_card_number'], -4);
         if ($last4 === 'xxxx' && !empty($input['payment_token_instrument_identifier_id'])) {
-            $last4 = substr($input['payment_token_instrument_identifier_id'], -4);
+            $last4 = substr((string)$input['payment_token_instrument_identifier_id'], -4);
         }
 
         $card->setAdditional('cc_type', $this->cardType->getType($input['req_card_type']));
         $card->setAdditional('cc_last4', $last4);
-        $card->setAdditional('cc_bin', substr($input['req_card_number'], 0, 6));
+        $card->setAdditional('cc_bin', substr((string)$input['req_card_number'], 0, 6));
         $card->setAdditional('cc_exp_year', $yr);
         $card->setAdditional('cc_exp_month', $mo);
 
