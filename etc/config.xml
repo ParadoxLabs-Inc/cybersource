@@ -41,7 +41,7 @@
                 <group>tokenbase</group>
                 <!-- API info -->
                 <client_name>ParadoxLabs CyberSource</client_name>
-                <client_version>1.1.3</client_version>
+                <client_version>1.2.0</client_version>
                 <!-- Feature flags -->
                 <can_order>1</can_order>
                 <can_authorize>1</can_authorize>
