@@ -73,7 +73,10 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         try {
-            $enrollReply = $this->persistor->loadPayerAuthEnrollReply();
+            /** @var \Magento\Quote\Model\Quote $quote */
+            $quote = $this->checkoutSession->getQuote();
+
+            $enrollReply = $this->persistor->loadPayerAuthEnrollReply($quote->getPayment());
 
             $payload = [
                 'authPayload'  => $this->getAuthPayload($enrollReply),

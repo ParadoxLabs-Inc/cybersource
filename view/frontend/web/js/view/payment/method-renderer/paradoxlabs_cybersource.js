@@ -33,6 +33,7 @@ define(
                 this._super()
                     .observe([
                         'billingAddressLine',
+                        'payerAuthSessionId',
                         'responseJWT'
                     ]);
 
@@ -40,6 +41,7 @@ define(
                 quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
                 this.billingAddressLine.subscribe(this.initSecureAcceptanceForm.bind(this));
                 this.selectedCard.subscribe(this.checkReinitSecureAcceptanceForm.bind(this));
+                this.selectedCard.subscribe(this.doBinLookup.bind(this));
 
                 this.showIframe = ko.computed(function() {
                     return (this.selectedCard() === null || this.selectedCard() === undefined)
@@ -214,6 +216,7 @@ define(
                     'additional_data': {
                         'card_id': this.selectedCard(),
                         'cc_cid': this.creditCardVerificationNumber(),
+                        'payerauth_session_id': this.payerAuthSessionId(),
                         'response_jwt': this.responseJWT(),
                         'save': this.save()
                     }
@@ -245,7 +248,8 @@ define(
                     'billing': billingAddress,
                     'source': 'checkout',
                     'guest_email': quote.guestEmail !== undefined ? quote.guestEmail : null,
-                    'card_id': this.selectedCard()
+                    'card_id': this.selectedCard(),
+                    'payerauth_session_id': this.payerAuthSessionId()
                 }
             },
             hasVerification: function () {
@@ -269,7 +273,15 @@ define(
                 });
 
                 Cardinal.on('payments.validated', this.handlePayerAuthCompletion.bind(this));
+                Cardinal.on('payments.setupComplete', this.handlePayerAuthInit.bind(this));
                 Cardinal.setup('init', {jwt: config.cardinalJWT});
+
+                this.doBinLookup(this.selectedCard());
+            },
+            handlePayerAuthInit: function(responseData) {
+                if (responseData && responseData.sessionId !== undefined) {
+                    this.payerAuthSessionId(responseData.sessionId);
+                }
             },
             handlePayerAuthCompletion: function(responseData, responseJWT) {
                 if (responseData.ErrorNumber > 0) {
@@ -286,16 +298,19 @@ define(
                     this.placeOrder();
                 }
             },
-            getPlaceOrderDeferredObject: function() {
-                // Run Cardinal Cruise BIN lookup while the order processes
-                if (typeof Cardinal === 'object') {
+            doBinLookup: function(selectedCardId) {
+                if (typeof Cardinal === 'object' && selectedCardId !== null && selectedCardId !== undefined) {
                     var cards = this.storedCards();
                     for (var key in cards) {
-                        if (cards[key].id === this.selectedCard()) {
+                        if (cards[key].id === selectedCardId) {
                             Cardinal.trigger('bin.process', cards[key].cc_bin);
                         }
                     }
                 }
+            },
+            getPlaceOrderDeferredObject: function() {
+                // Run Cardinal Cruise BIN lookup while the order processes
+                this.doBinLookup(this.selectedCard());
 
                 return this._super();
             },

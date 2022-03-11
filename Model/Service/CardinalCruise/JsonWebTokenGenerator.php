@@ -76,6 +76,7 @@ class JsonWebTokenGenerator
             'iss' => $this->config->getCardinalSecretKeyId(),
             'OrgUnitId' => $this->config->getCardinalOrgUnitId(),
             'Payload' => $this->getOrderPayload($quote),
+            'ReferenceId' => $this->getReferenceId(),
             'ObjectifyPayload' => true,
         ];
 
@@ -174,5 +175,15 @@ class JsonWebTokenGenerator
         // Per Cardinal Cruise docs: "Unformatted total transaction amount without any decimalization."
         // Assuming for the moment this does not vary by currency and they assume a factor of 100 globally.
         return round($grandTotal * 100);
+    }
+
+    /**
+     * Get the Cardinal Cruise reference or session ID
+     *
+     * @return mixed
+     */
+    protected function getReferenceId()
+    {
+        return $this->request->getParam('payerauth_session_id');
     }
 }

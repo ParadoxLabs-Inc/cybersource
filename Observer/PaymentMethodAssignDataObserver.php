@@ -33,6 +33,7 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
     ) {
         parent::assignStandardData($payment, $data, $method);
 
+        $payment->setAdditionalInformation('payerauth_session_id', $data->getData('payerauth_session_id'));
         $payment->setAdditionalInformation('response_jwt', $data->getData('response_jwt'));
     }
 }

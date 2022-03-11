@@ -797,7 +797,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
-        $referenceId = $this->config->getFingerprintSessionId($order->getQuoteId(), null, true);
+        $referenceId = $payment->getAdditionalInformation('payerauth_session_id');
 
         $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
         $this->payerAuthEnrollParams->populateEnrollmentService(

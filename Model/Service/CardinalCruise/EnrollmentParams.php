@@ -90,7 +90,8 @@ class EnrollmentParams
         \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
     ) {
         $enrollService->setAccountPurchases($this->get6moPurchasesCount($card));
-        $enrollService->setAuthenticationIndicator($this->getAuthIndicator($order));
+        // NB: SOAP interface does not output this string value correctly; strips leading 0.
+        // $enrollService->setAuthenticationIndicator($this->getAuthIndicator($order));
         $enrollService->setDefaultCard($this->getIsCardDefault($card));
         $enrollService->setDeviceChannel('Browser');
         $enrollService->setHttpAccept($this->request->getHeader('accept'));
@@ -100,11 +101,14 @@ class EnrollmentParams
         $enrollService->setMerchantURL($this->getSiteUrl());
         $enrollService->setMobilePhone($order->getBillingAddress()->getTelephone());
         $enrollService->setPaymentAccountDate($this->getCardAddedDate($card));
-        $enrollService->setShipAddressUsageDate($this->getShippingAddressAddDate($order));
         $enrollService->setTotalOffersCount($this->getOrderItemsCount($order));
         $enrollService->setTransactionCountDay($this->getOrderCountLastDay($order));
         $enrollService->setTransactionCountYear($this->getOrderCountLastYear($order));
         $enrollService->setTransactionMode('S');
+
+        if ($card->getAdditional('cc_type') === 'DI') {
+            $enrollService->setShipAddressUsageDate($this->getShippingAddressAddDate($order));
+        }
 
         /**
          * NB: Skipping prior authentication fields as we want it to reauthenticate on stored card reuse if

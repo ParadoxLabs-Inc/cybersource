@@ -323,7 +323,7 @@ class PayerAuthEnrollService
     protected $priorAuthenticationTime;
 
     /**
-     * @var int $requestorInitiatedAuthenticationIndicator
+     * @var string $requestorInitiatedAuthenticationIndicator
      */
     protected $requestorInitiatedAuthenticationIndicator;
 
@@ -333,7 +333,7 @@ class PayerAuthEnrollService
     protected $sdkMaxTimeout;
 
     /**
-     * @var int $authenticationIndicator
+     * @var string $authenticationIndicator
      */
     protected $authenticationIndicator;
 
@@ -1590,7 +1590,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getRequestorInitiatedAuthenticationIndicator()
     {
@@ -1598,7 +1598,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @param int $requestorInitiatedAuthenticationIndicator
+     * @param string $requestorInitiatedAuthenticationIndicator
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
      */
     public function setRequestorInitiatedAuthenticationIndicator($requestorInitiatedAuthenticationIndicator)
@@ -1628,7 +1628,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getAuthenticationIndicator()
     {
@@ -1636,7 +1636,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @param int $authenticationIndicator
+     * @param string $authenticationIndicator
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
      */
     public function setAuthenticationIndicator($authenticationIndicator)

@@ -37,6 +37,7 @@ type TokenBaseCheckoutConfig {
 }
 
 input TokenBaseCardPaymentInput {
+    payerauth_session_id: String
     response_jwt: String
 }
 
