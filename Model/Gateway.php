@@ -306,7 +306,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         // If this is a follow-on transaction (some amount already captured), do not run decision manager again.
-        if ($payment->getAmountPaid() > 0) {
+        if ($payment->getAmountPaid() > 0 || $payment->getAdditionalInformation('is_subscription_generated')) {
             $request->setDecisionManager($this->objectBuilder->enableDecisionManager(false));
         }
 
@@ -350,7 +350,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         }
 
         // If this is a follow-on transaction (some amount already captured), do not run decision manager again.
-        if ($payment->getAmountPaid() > 0) {
+        if ($payment->getAmountPaid() > 0 || $payment->getAdditionalInformation('is_subscription_generated')) {
             $request->setDecisionManager($this->objectBuilder->enableDecisionManager(false));
         }
 
