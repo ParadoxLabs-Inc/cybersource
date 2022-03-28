@@ -249,7 +249,8 @@ define(
                     'source': 'checkout',
                     'guest_email': quote.guestEmail !== undefined ? quote.guestEmail : null,
                     'card_id': this.selectedCard(),
-                    'payerauth_session_id': this.payerAuthSessionId()
+                    'payerauth_session_id': this.payerAuthSessionId(),
+                    'form_key': this.getFormKey()
                 }
             },
             hasVerification: function () {
@@ -349,6 +350,9 @@ define(
                     response.orderPayload,
                     response.JWT
                 );
+            },
+            getFormKey: function() {
+                return $('input[name="form_key"]').val();
             }
         });
     }

@@ -7,6 +7,7 @@ $image          = $block->getBrandingImage();
 $storedCards    = $block->getStoredCards();
 ?>
 <fieldset class="fieldset payment items ccard <?= $code ?>" id="payment_form_<?= $code ?>" style="display:none;">
+    <?= $block->getBlockHtml('formkey') ?>
     <input type="hidden" name="source" value="checkout" />
     <input type="hidden" id="<?= $code ?>-communicator" value="" />
 

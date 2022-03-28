@@ -13,12 +13,16 @@
 
 namespace ParadoxLabs\CyberSource\Controller\SecureAccept;
 
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 
 /**
  * GetParams Class
  */
-class GetParams extends \Magento\Framework\App\Action\Action
+class GetParams extends Action implements CsrfAwareActionInterface, HttpPostActionInterface
 {
     /**
      * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest
@@ -26,16 +30,24 @@ class GetParams extends \Magento\Framework\App\Action\Action
     protected $secureAcceptRequest;
 
     /**
+     * @var \Magento\Framework\Data\Form\FormKey\Validator
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest
+     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKey
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest
+        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest,
+        \Magento\Framework\Data\Form\FormKey\Validator $formKey
     ) {
         parent::__construct($context);
 
         $this->secureAcceptRequest = $secureAcceptRequest;
+        $this->formKey = $formKey;
     }
 
     /**
@@ -63,5 +75,44 @@ class GetParams extends \Magento\Framework\App\Action\Action
         }
 
         return $result;
+    }
+
+    /**
+     * Create exception in case CSRF validation failed.
+     * Return null if default exception will suffice.
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     *
+     * @return \Magento\Framework\App\Request\InvalidRequestException|null
+     */
+    public function createCsrfValidationException(
+        \Magento\Framework\App\RequestInterface $request
+    ): ?\Magento\Framework\App\Request\InvalidRequestException {
+        $message = __('Invalid Form Key. Please refresh the page.');
+
+        /** @var \Magento\Framework\Controller\Result\Json $result */
+        $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
+        $result->setHttpResponseCode(403);
+        $result->setData([
+            'message' => $message,
+        ]);
+
+        return new \Magento\Framework\App\Request\InvalidRequestException(
+            $result,
+            [$message]
+        );
+    }
+
+    /**
+     * Perform custom request validation.
+     * Return null if default validation is needed.
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     *
+     * @return bool|null
+     */
+    public function validateForCsrf(\Magento\Framework\App\RequestInterface $request): ?bool
+    {
+        return $this->formKey->validate($request);
     }
 }

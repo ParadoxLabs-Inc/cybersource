@@ -13,6 +13,11 @@
                 <value id="onlinemetrix" type="host">h.online-metrix.net</value>
             </values>
         </policy>
+        <policy id="form-action">
+            <values>
+                <value id="cybersource" type="host">*.cybersource.com</value>
+            </values>
+        </policy>
         <policy id="frame-src">
             <values>
                 <value id="cybersource" type="host">*.cybersource.com</value>
