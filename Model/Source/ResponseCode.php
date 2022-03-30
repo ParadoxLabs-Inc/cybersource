@@ -81,7 +81,7 @@ class ResponseCode
         461 => 'Unsupported character set.',
         475 => 'The entered card is enrolled in Payer Authentication. Please authenticate before continuing.',
         476 => 'Encountered a Payer Authentication problem. Payer could not be authenticated.',
-        478 => 'Strong customer authentication is required for this transaction. 3D Secure needs to be enabled.',
+        478 => 'The entered card is enrolled in Payer Authentication. Please authenticate before continuing.',
         480 => 'The order is marked for review by Decision Manager.',
         481 => 'Transaction declined.',
         490 => 'The aggregator or acquirer is not accepting transactions at this time.',

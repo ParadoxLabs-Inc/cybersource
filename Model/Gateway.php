@@ -642,7 +642,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
-        if ($payment !== null && $api->getReasonCode() === 475) {
+        if ($payment !== null && in_array($api->getReasonCode(), [475, 478], true)) {
             $this->payerAuthPersistor->savePayerAuthEnrollReply($payment, $api);
         }
 
@@ -743,7 +743,8 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         // If Payer Authentication isn't enabled, or we've already processed payment, don't ... run payer auth.
         // NB/Future: May need to enroll with prior-auth info in the prior payment case.
         if ($this->config->isPayerAuthEnabled() === false
-            || $order->getTotalInvoiced() > 0) {
+            || $this->helper->getIsFrontend() === false
+            || $order->getTotalPaid() > 0) {
             return;
         }
 
