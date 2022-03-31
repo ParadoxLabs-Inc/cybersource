@@ -135,7 +135,7 @@ abstract class AbstractRequestHandler
             'skip_decision_manager' => $this->config->isCardStorageValidationEnabled() ? 'false' : 'true',
             'transaction_uuid' => $this->sanitizer->asciiAlphanumericPunc($referenceId, 50),
             'consumer_id' => $this->sanitizer->alphanumericPunc($this->getCustomerId(), 100),
-            'merchant_defined_data99' => $this->getSessionId(),
+            'merchant_defined_data98' => $this->getSessionId(),
             'merchant_defined_data100' => $this->request->getParam('source'),
             'override_custom_receipt_page' => $this->getSecureAcceptUrl('complete'),
             'partner_solution_id' => $this->sanitizer->alphanumeric($this->config->getSolutionId(), 8),

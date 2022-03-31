@@ -29,7 +29,7 @@ class Complete extends \Magento\Backend\App\Action
         // Initialize session with ID from the CyberSource payload, to prevent SameSite cookie issues.
         $session = $context->getSession();
         $session->writeClose();
-        $session->setSessionId($context->getRequest()->getParam('req_merchant_defined_data99'));
+        $session->setSessionId($context->getRequest()->getParam('req_merchant_defined_data98'));
         $session->start();
 
         $authSession = $context->getAuth()->getAuthStorage();
