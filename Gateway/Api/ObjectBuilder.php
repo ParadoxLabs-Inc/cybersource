@@ -95,7 +95,7 @@ class ObjectBuilder
         $billTo->setStreet1($billingAddress->getStreetLine(1));
         $billTo->setStreet2($billingAddress->getStreetLine(2));
         $billTo->setCity($billingAddress->getCity());
-        $billTo->setState($billingAddress->getRegionCode());
+        $billTo->setState($billingAddress->getRegion());
         $billTo->setCountry($billingAddress->getCountryId());
         $billTo->setPostalCode($billingAddress->getPostcode());
         $billTo->setPhoneNumber($billingAddress->getTelephone());
@@ -122,7 +122,7 @@ class ObjectBuilder
         $shipTo->setStreet1($shippingAddress->getStreetLine(1));
         $shipTo->setStreet2($shippingAddress->getStreetLine(2));
         $shipTo->setCity($shippingAddress->getCity());
-        $shipTo->setState($shippingAddress->getRegionCode());
+        $shipTo->setState($shippingAddress->getRegion());
         $shipTo->setCountry($shippingAddress->getCountryId());
         $shipTo->setPostalCode($shippingAddress->getPostcode());
         $shipTo->setPhoneNumber($shippingAddress->getTelephone());

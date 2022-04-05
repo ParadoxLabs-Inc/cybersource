@@ -396,7 +396,7 @@ class ShipTo
      */
     public function setState($state)
     {
-        $this->state = strtoupper(substr((string)$state, 0, 2));
+        $this->state = (string)$state;
 
         return $this;
     }

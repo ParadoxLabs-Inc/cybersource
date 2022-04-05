@@ -190,9 +190,11 @@ class TransactionUpdater
         /** @var \Magento\Sales\Model\Order\Payment $payment */
         $payment = $order->getPayment();
         if ($change['newDecision'] === 'ACCEPT') {
-            $payment->setData('parent_transaction_id', $payment->getTransactionId());
+            $payment->setData('parent_transaction_id', $payment->getLastTransId());
             $transaction = $payment->getAuthorizationTransaction();
-            $transaction->setAdditionalInformation('is_transaction_fraud', false);
+            if ($transaction instanceof \Magento\Sales\Model\Order\Payment\Transaction) {
+                $transaction->setAdditionalInformation('is_transaction_fraud', false);
+            }
 
             $payment->setIsTransactionApproved(true);
         } elseif ($change['newDecision'] === 'REJECT') {

@@ -134,7 +134,7 @@ class JsonWebTokenGenerator
             'Address2' => isset($street[1]) ? $street[1] : null,
             'Address3' => isset($street[2]) ? $street[2] : null,
             'City' => $address->getCity(),
-            'State' => $address->getRegionCode() ?: $address->getRegion(),
+            'State' => $address->getRegion(),
             'PostalCode' => $address->getPostcode(),
             'CountryCode' => $address->getCountryId(),
             'Phone1' => $address->getTelephone(),

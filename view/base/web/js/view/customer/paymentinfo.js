@@ -6,8 +6,6 @@
  * Need help? Open a ticket in our support system:
  *  http://support.paradoxlabs.com
  *
- * @category    ParadoxLabs
- * @package     CyberSource
  * @author      Ryan Hoerr <support@paradoxlabs.com>
  * @license     http://store.paradoxlabs.com/license.html
  */

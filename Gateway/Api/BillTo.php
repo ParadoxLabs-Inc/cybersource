@@ -599,7 +599,7 @@ class BillTo
      */
     public function setState($state)
     {
-        $this->state = strtoupper(substr(str_replace(':', '', (string)$state), 0, 2));
+        $this->state = str_replace(':', '', (string)$state);
 
         return $this;
     }
