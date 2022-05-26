@@ -158,4 +158,22 @@ class BackendRequest extends AbstractRequestHandler
     {
         return $this->backendSession->getSessionId();
     }
+
+    /**
+     * Get the current store ID, for config scoping.
+     *
+     * @return string
+     */
+    protected function getStoreId()
+    {
+        try {
+            if ($this->request->getParam('source') === 'paymentinfo') {
+                return $this->tokenbaseHelper->getCurrentCustomer()->getStoreId();
+            }
+
+            return $this->backendSession->getQuote()->getStoreId();
+        } catch (\Exception $exception) {
+            return $this->storeManager->getStore()->getId();
+        }
+    }
 }

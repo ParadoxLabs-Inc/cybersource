@@ -81,6 +81,8 @@ abstract class AbstractRequestHandler
      */
     public function getIframeUrl()
     {
+        $this->config->setStoreId($this->getStoreId());
+
         if (!empty($this->request->getParam('card_id'))) {
             return $this->config->getSecureAcceptEndpoint('/embedded/token/update');
         }
@@ -95,6 +97,8 @@ abstract class AbstractRequestHandler
      */
     public function getIframeParams()
     {
+        $this->config->setStoreId($this->getStoreId());
+
         $params = $this->getGeneralParams();
 
         $card   = $this->getCard();
@@ -135,6 +139,7 @@ abstract class AbstractRequestHandler
             'skip_decision_manager' => $this->config->isCardStorageValidationEnabled() ? 'false' : 'true',
             'transaction_uuid' => $this->sanitizer->asciiAlphanumericPunc($referenceId, 50),
             'consumer_id' => $this->sanitizer->alphanumericPunc($this->getCustomerId(), 100),
+            'merchant_defined_data97' => $this->getStoreId(),
             'merchant_defined_data98' => $this->getSessionId(),
             'merchant_defined_data100' => $this->request->getParam('source'),
             'override_custom_receipt_page' => $this->getSecureAcceptUrl('complete'),
@@ -285,4 +290,11 @@ abstract class AbstractRequestHandler
      * @return string
      */
     abstract protected function getSessionId();
+
+    /**
+     * Get the current store ID, for config scoping.
+     *
+     * @return string
+     */
+    abstract protected function getStoreId();
 }

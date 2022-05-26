@@ -45,6 +45,10 @@ class Hmac
      */
     public function getSignature(array $params)
     {
+        if (isset($params['req_merchant_defined_data97'])) {
+            $this->config->setStoreId($input['req_merchant_defined_data97']);
+        }
+
         $signedParams = [];
         $signedFields = explode(',', (string)$params['signed_field_names']);
         foreach ($signedFields as $key) {

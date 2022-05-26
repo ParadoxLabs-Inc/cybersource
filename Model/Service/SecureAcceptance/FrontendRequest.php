@@ -190,4 +190,14 @@ class FrontendRequest extends AbstractRequestHandler
     {
         return $this->checkoutSession->getSessionId();
     }
+
+    /**
+     * Get the current store ID, for config scoping.
+     *
+     * @return string
+     */
+    protected function getStoreId()
+    {
+        return $this->storeManager->getStore()->getId();
+    }
 }
