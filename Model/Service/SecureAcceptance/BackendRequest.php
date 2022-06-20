@@ -81,7 +81,11 @@ class BackendRequest extends AbstractRequestHandler
      */
     public function getBillingAddressParams()
     {
-        $billingAddress = parent::getBillingAddressParams();
+        try {
+            $billingAddress = parent::getBillingAddressParams();
+        } catch (\Magento\Framework\Exception\InputException $exception) {
+            $billingAddress = [];
+        }
 
         // If no input, pull from quote
         if (empty($this->request->getParam('billing'))) {

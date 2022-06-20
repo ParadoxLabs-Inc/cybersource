@@ -107,9 +107,10 @@ define([
         },
 
         handleAjaxError: function(jqXHR, status, error) {
-            this.element.find('iframe').trigger('processStop');
-
+            var iframe  = this.element.find('iframe');
             var message = $.mage.__('A server error occurred. Please try again.');
+
+            iframe.trigger('processStop');
 
             try {
                 var responseJson = JSON.parse(jqXHR.responseText);
@@ -117,6 +118,12 @@ define([
                     message = responseJson.message;
                 }
             } catch (error) {}
+
+            if (iframe.siblings('.message').length > 0) {
+                iframe.siblings('.message').text(message).show();
+                iframe.hide();
+                return;
+            }
 
             try {
                 alert({

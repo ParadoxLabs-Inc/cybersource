@@ -209,6 +209,13 @@ abstract class AbstractRequestHandler
     {
         $street = $address->getStreet();
 
+        if (empty($address->getFirstname())
+            || empty($address->getLastname())
+            || empty($address->getStreet())
+            || empty($address->getCountryId())) {
+            throw new \Magento\Framework\Exception\InputException(__('Please enter a billing address.'));
+        }
+
         return [
             'bill_to_forename' => $this->sanitizer->alphanumericPunc($address->getFirstname(), 60),
             'bill_to_surname' => $this->sanitizer->alphanumericPunc($address->getLastname(), 60),

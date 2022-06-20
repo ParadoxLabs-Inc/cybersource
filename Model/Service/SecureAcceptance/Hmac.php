@@ -46,7 +46,7 @@ class Hmac
     public function getSignature(array $params)
     {
         if (isset($params['req_merchant_defined_data97'])) {
-            $this->config->setStoreId($input['req_merchant_defined_data97']);
+            $this->config->setStoreId($params['req_merchant_defined_data97']);
         }
 
         $signedParams = [];

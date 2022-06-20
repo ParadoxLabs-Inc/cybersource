@@ -51,6 +51,7 @@ $storedCards    = $block->getStoredCards();
         <div class="admin__field _required card hide-if-card-selected">
             <div class="admin__field-control control">
                 <iframe src="about:blank" frameborder="0" id="<?= $code ?>_iframe" name="<?= $code ?>_iframe" style="width:100%;min-width:300px;max-width:550px;height:550px;"></iframe>
+                <p id="<?= $code ?>_warning" class="message message-error" style="display:none"></p>
             </div>
         </div>
         <?= $block->getChildHtml() ?>
