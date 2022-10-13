@@ -634,7 +634,7 @@ class PayerAuthEnrollService
      */
     public function setMobilePhone($mobilePhone)
     {
-        $this->mobilePhone = substr(preg_replace('/[^0-9]/', '', $mobilePhone), 0, 25);
+        $this->mobilePhone = substr(preg_replace('/[^0-9]/', '', (string)$mobilePhone), 0, 25);
 
         return $this;
     }

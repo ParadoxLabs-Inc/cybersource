@@ -746,7 +746,7 @@ class BillTo
      */
     public function setIpAddress($ipAddress)
     {
-        $this->ipAddress = substr(preg_replace('/[^\d.]/', '', $ipAddress), 0, 15);
+        $this->ipAddress = substr(preg_replace('/[^\d.]/', '', (string)$ipAddress), 0, 15);
 
         return $this;
     }
