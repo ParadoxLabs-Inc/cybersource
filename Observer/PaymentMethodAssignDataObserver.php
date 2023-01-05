@@ -35,5 +35,10 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
 
         $payment->setAdditionalInformation('payerauth_session_id', $data->getData('payerauth_session_id'));
         $payment->setAdditionalInformation('response_jwt', $data->getData('response_jwt'));
+
+        if (!empty($data->getData('response_jwt'))
+            && empty($data->getData('card_id'))) {
+            $payment->setData('tokenbase_id', null);
+        }
     }
 }
