@@ -38,7 +38,7 @@ define([
             if (this.element.find(this.options.cardSelector).val() !== '') {
                 this.element.find('div.cvv').show();
                 this.element.find('div.save').toggle(
-                    this.element.find(this.options.cardSelector + ' option:selected').data('new')
+                    !!this.element.find(this.options.cardSelector + ' option:selected').data('new')
                 );
 
                 return;
@@ -169,7 +169,7 @@ define([
                   .text(card.label)
                   .data('new', card.new)
                   .data('cc_bin', card.cc_bin)
-                  .data('cc_last_4', card.cc_last_4);
+                  .data('cc_last4', card.cc_last4);
 
             this.element.find(this.options.cardSelector).append(option).val(card.id).trigger('change');
         },

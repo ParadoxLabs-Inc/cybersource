@@ -13,7 +13,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
 
 /**
@@ -30,11 +29,6 @@ class GraphQLRequest extends AbstractRequestHandler
      * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
 
     /**
      * @var \Magento\GraphQl\Model\Query\Resolver\Context
@@ -148,7 +142,7 @@ class GraphQLRequest extends AbstractRequestHandler
      */
     protected function getEmail()
     {
-        if ($this->request->getParam('source') === 'paymentinfo') {
+        if ($this->graphQlArgs['source'] === 'paymentinfo') {
             $customer = $this->customerRepository->getById(
                 $this->graphQlContext->getUserId()
             );
@@ -161,7 +155,7 @@ class GraphQLRequest extends AbstractRequestHandler
         }
 
         // Fall back to guest email parameter iff there's none on the quote.
-        return $this->graphQlArgs['guest_email'] ?? null;
+        return $this->graphQlArgs['guestEmail'] ?? null;
     }
 
     /**
@@ -256,6 +250,6 @@ class GraphQLRequest extends AbstractRequestHandler
      */
     protected function getStoreId()
     {
-        return $this->storeManager->getStore()->getId();
+        return $this->graphQlContext->getExtensionAttributes()->getStore()->getId();
     }
 }

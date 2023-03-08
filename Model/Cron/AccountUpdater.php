@@ -138,7 +138,7 @@ class AccountUpdater
      *
      * @param int $storeId
      * @return void
-     * @throws \Zend_Http_Client_Exception
+     * @throws \Exception
      */
     protected function runAccountUpdater(int $storeId)
     {

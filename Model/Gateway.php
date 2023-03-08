@@ -82,6 +82,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param \ParadoxLabs\CyberSource\Model\Gateway\Context $context
      * @param array $data
+     * @param \Magento\Framework\HTTP\ClientInterfaceFactory|null $communicatorFactory
      */
     public function __construct(
         \ParadoxLabs\TokenBase\Helper\Data $helper,
@@ -89,9 +90,10 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory $responseFactory,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \ParadoxLabs\CyberSource\Model\Gateway\Context $context,
-        array $data = []
+        array $data = [],
+        \Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
     ) {
-        parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data);
+        parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data, $communicatorFactory);
 
         $this->config = $context->getConfig();
         $this->objectBuilder = $context->getObjectBuilder();
@@ -567,7 +569,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         if ($reply !== false && !empty($reply['conversionDetails'])) {
             foreach ($reply['conversionDetails'] as $change) {
                 if ($change['requestId'] === $transactionId) {
-                    $response->addData($this->flattenArray($change));
+                    $response->addData($change);
 
                     if ($change['newDecision'] === 'ACCEPT') {
                         $response->setData('is_approved', true);
@@ -638,7 +640,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $data['auth_code']            = $api->getRequestToken(); // Not auth code, but it functions the same way.
 
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
-        $response = $this->responseFactory->create(['data' => $this->flattenArray($data)]);
+        $response = $this->responseFactory->create(['data' => $data]);
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
         $response->setIsFraud($api->getDecision() === 'REVIEW');
 
@@ -671,23 +673,16 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      * @param mixed $array
      * @param string|null $prefix
      * @return array
-     * @see http://stackoverflow.com/a/9546215/2336164
+     * @deprecated since 1.3.1
      */
     protected function flattenArray($array, $prefix = null)
     {
-        $result = [];
+        /**
+         * Logic moved into TokenBase
+         * @see \ParadoxLabs\TokenBase\Model\Gateway\Response::getData()
+         */
 
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $result += $this->flattenArray($value, $prefix . $key . '.');
-            } elseif (is_bool($value)) {
-                $result[$prefix . $key] = $value ? '1' : '0';
-            } else {
-                $result[$prefix . $key] = $value;
-            }
-        }
-
-        return $result;
+        return $array;
     }
 
     /**

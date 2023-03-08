@@ -25,6 +25,8 @@ class Rest
 
     /**
      * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @deprecated Class is nonfunctional in 2.4.6+.
+     * @see \Magento\Framework\HTTP\ClientInterface via $this->communicatorFactory
      */
     protected $httpClientFactory;
 
@@ -39,6 +41,11 @@ class Rest
     protected $storeId;
 
     /**
+     * @var \Magento\Framework\HTTP\ClientInterfaceFactory
+     */
+    protected $communicatorFactory;
+
+    /**
      * Rest constructor.
      *
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
@@ -48,11 +55,18 @@ class Rest
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        \ParadoxLabs\CyberSource\Helper\Data $helper
+        \ParadoxLabs\CyberSource\Helper\Data $helper,
+        \Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
     ) {
         $this->config = $config;
         $this->httpClientFactory = $httpClientFactory;
         $this->helper = $helper;
+
+        // BC preservation -- argument added in 1.3.1
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        $this->communicatorFactory = $communicatorFactory ?? $om->get(
+            \Magento\Framework\HTTP\ClientInterfaceFactory::class
+        );
     }
 
     /**
@@ -62,80 +76,84 @@ class Rest
      * @param array $params
      * @param string $responseType
      * @return string
-     * @throws \Zend_Http_Client_Exception
+     * @throws \Exception
      */
     public function get($path, $params = [], $responseType = 'application/hal+json')
     {
         $client = $this->getHttpClient($path);
-        $client->setParameterGet($params);
-        $client->setHeaders('Accept', $responseType);
-        $client->setHeaders('Content-Type', 'application/json;charset=utf-8');
 
-        $this->signRequest($client, $path, $params, 'GET');
+        $headers = [
+            'Accept' => $responseType,
+            'Content-Type' => 'application/json;charset=utf-8',
+        ];
+        $headers += $this->signRequest($path, $params, 'GET');
 
-        $response = $client->request(\Zend_Http_Client::GET);
+        $requestUri = $this->config->getRestEndpoint($path, $this->storeId);
+        $client->setHeaders($headers);
+        $client->get($requestUri . '?' . http_build_query($params));
 
         // Throw exception on non-2xx response code
-        if (substr((string)$response->getStatus(), 0, 1) !== '2') {
-            $responseJson = json_decode((string)$response->getBody(), true);
+        if (substr((string)$client->getStatus(), 0, 1) !== '2') {
+            $responseJson = json_decode((string)$client->getBody(), true);
 
             $message = $responseJson['message']
                 ?? $responseJson['response']['rmsg']
-                ?? $response->getStatus() . ' ' . $response->getMessage();
+                ?? $client->getStatus();
 
-            throw new \Zend_Http_Client_Exception(
+            $this->helper->log($this->config::CODE, $requestUri, true);
+            $this->helper->log($this->config::CODE, $headers['Date'] ?? '', true);
+            $this->helper->log($this->config::CODE, $headers['Host'] ?? '', true);
+            $this->helper->log($this->config::CODE, $headers['v-c-merchant-id'] ?? '', true);
+            $this->helper->log($this->config::CODE, $headers['Signature'] ?? '', true);
+            $this->helper->log(
+                $this->config::CODE,
+                'REQUEST: '.json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
+                true
+            );
+
+            throw new \Exception(
                 $message,
-                $response->getStatus()
+                $client->getStatus()
             );
         }
 
-        return $response->getBody();
+        return $client->getBody();
     }
 
     /**
      * Get an HTTP client for REST
      *
      * @param string $path
-     * @return \Magento\Framework\HTTP\ZendClient
+     * @return \Magento\Framework\HTTP\ClientInterface
      */
     protected function getHttpClient($path)
     {
-        $clientConfig = [
-            'adapter'     => \Zend_Http_Client_Adapter_Curl::class,
-            'timeout'     => 15,
-            'verifypeer' => true,
-            'verifyhost' => 2,
-            'curloptions' => [
-                CURLOPT_SSL_VERIFYPEER => true,
-                CURLOPT_SSL_VERIFYHOST => 2,
-            ],
-        ];
+        /** @var \Magento\Framework\HTTP\Client\Curl|\Magento\Framework\HTTP\Client\Socket $communicator */
+        $communicator = $this->communicatorFactory->create();
+        $communicator->setTimeout(15);
+        $communicator->setOption(\CURLOPT_SSL_VERIFYPEER, true);
+        $communicator->setOption(\CURLOPT_SSL_VERIFYHOST, 2);
 
-        /** @var \Magento\Framework\HTTP\ZendClient $httpClient */
-        $httpClient = $this->httpClientFactory->create();
-        $httpClient->setUri($this->config->getRestEndpoint($path, $this->storeId));
-        $httpClient->setConfig($clientConfig);
-
-        return $httpClient;
+        return $communicator;
     }
 
     /**
-     * Sign the given REST request and parameters.
+     * Generate signature headers for the given REST request and parameters.
      *
-     * @param \Magento\Framework\HTTP\ZendClient $client
      * @param string $path
      * @param array $params
      * @param string $httpMethod
-     * @return void
+     * @return array
      */
-    protected function signRequest(\Magento\Framework\HTTP\ZendClient $client, $path, $params, $httpMethod)
+    protected function signRequest($path, $params, $httpMethod): array
     {
-        $host = parse_url((string)$client->getUri(true), PHP_URL_HOST);
+        $host = parse_url((string)$this->config->getRestEndpoint($path, $this->storeId), PHP_URL_HOST);
         $date = date("D, d M Y G:i:s \G\M\T");
 
-        $client->setHeaders('Date', $date);
-        $client->setHeaders('Host', $host);
-        $client->setHeaders('v-c-merchant-id', $this->config->getMerchantId($this->storeId));
+        $headers = [];
+        $headers['Date'] = $date;
+        $headers['Host'] = $host;
+        $headers['v-c-merchant-id'] = $this->config->getMerchantId($this->storeId);
 
         /**
          * Note: POST signing requires additional Digest of payload. Not implemented yet.
@@ -165,7 +183,9 @@ class Rest
             'headers="' . implode(' ', array_keys($signatureParts)) . '"',
             'signature="' . $signature . '"',
         ];
-        $client->setHeaders('Signature', implode(', ', $signatureHeader));
+        $headers['Signature'] = implode(', ', $signatureHeader);
+
+        return $headers;
     }
 
     /**

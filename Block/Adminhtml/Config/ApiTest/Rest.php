@@ -100,7 +100,7 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
      *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Zend_Http_Client_Exception
+     * @throws \Exception
      */
     protected function testConnection()
     {
@@ -115,7 +115,7 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
         try {
             $this->restClient->setStoreId($this->getStoreId());
             $this->restClient->get('/tss/v2/transactions/1');
-        } catch (\Zend_Http_Client_Exception $exception) {
+        } catch (\Exception $exception) {
             if ($exception->getCode() === 404) {
                 return;
             }

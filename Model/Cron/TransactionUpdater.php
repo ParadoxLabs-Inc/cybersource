@@ -119,7 +119,7 @@ class TransactionUpdater
      *
      * @param int $storeId
      * @return void
-     * @throws \Zend_Http_Client_Exception
+     * @throws \Exception
      */
     protected function runTransactionUpdates(int $storeId)
     {
