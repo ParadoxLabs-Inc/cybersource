@@ -51,6 +51,7 @@ class Rest
      * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param \ParadoxLabs\CyberSource\Helper\Data $helper
+     * @param \Magento\Framework\HTTP\ClientInterfaceFactory|null $communicatorFactory
      */
     public function __construct(
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
