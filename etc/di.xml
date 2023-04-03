@@ -3,7 +3,7 @@
     <!-- Payment Method Facade -->
     <virtualType name="ParadoxLabs\CyberSource\Gateway\VirtualFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\ParadoxLabs\CyberSource\Model\Config\Config::CODE</argument>
+            <argument name="code" xsi:type="string">paradoxlabs_cybersource</argument>
             <argument name="formBlockType" xsi:type="string">ParadoxLabs\CyberSource\Block\Form\Cc</argument>
             <argument name="infoBlockType" xsi:type="string">ParadoxLabs\CyberSource\Block\Info\Cc</argument>
             <argument name="valueHandlerPool" xsi:type="object">ParadoxLabs\CyberSource\Gateway\VirtualValueHandlerPool</argument>
@@ -29,7 +29,7 @@
 
     <virtualType name="ParadoxLabs\CyberSource\Gateway\VirtualConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\ParadoxLabs\CyberSource\Model\Config\Config::CODE</argument>
+            <argument name="methodCode" xsi:type="string">paradoxlabs_cybersource</argument>
         </arguments>
     </virtualType>
 
@@ -67,7 +67,7 @@
             <argument name="gateway" xsi:type="object">ParadoxLabs\CyberSource\Model\Gateway</argument>
             <argument name="cardFactory" xsi:type="object">ParadoxLabs\CyberSource\Model\CardFactoryVirtualType</argument>
             <argument name="config" xsi:type="object">ParadoxLabs\CyberSource\Gateway\VirtualConfig</argument>
-            <argument name="methodCode" xsi:type="const">\ParadoxLabs\CyberSource\Model\Config\Config::CODE</argument>
+            <argument name="methodCode" xsi:type="string">paradoxlabs_cybersource</argument>
         </arguments>
     </type>
 
