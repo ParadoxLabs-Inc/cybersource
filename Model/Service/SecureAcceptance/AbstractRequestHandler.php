@@ -217,21 +217,21 @@ abstract class AbstractRequestHandler
         }
 
         return [
-            'bill_to_forename' => $this->sanitizer->alphanumericPunc($address->getFirstname(), 60),
-            'bill_to_surname' => $this->sanitizer->alphanumericPunc($address->getLastname(), 60),
+            'bill_to_forename' => $this->sanitizer->asciiAlphanumericPunc($address->getFirstname(), 60),
+            'bill_to_surname' => $this->sanitizer->asciiAlphanumericPunc($address->getLastname(), 60),
             'bill_to_email' => $this->sanitizer->email($this->getEmail()),
-            'bill_to_company_name' => $this->sanitizer->alphanumericPunc($address->getCompany(), 40),
+            'bill_to_company_name' => $this->sanitizer->asciiAlphanumericPunc($address->getCompany(), 40),
             'bill_to_address_country' => $this->sanitizer->alpha(strtoupper((string)$address->getCountryId()), 2),
-            'bill_to_address_city' => $this->sanitizer->alphanumericPunc($address->getCity(), 40),
-            'bill_to_address_state' => $this->sanitizer->alphanumericPunc(
+            'bill_to_address_city' => $this->sanitizer->asciiAlphanumericPunc($address->getCity(), 40),
+            'bill_to_address_state' => $this->sanitizer->asciiAlphanumericPunc(
                 strtoupper((string)$address->getRegion()->getRegionCode()),
                 2
             ),
-            'bill_to_address_line1' => $this->sanitizer->alphanumericPunc(
+            'bill_to_address_line1' => $this->sanitizer->asciiAlphanumericPunc(
                 isset($street[0]) ? $street[0] : null,
                 60
             ),
-            'bill_to_address_line2' => $this->sanitizer->alphanumericPunc(
+            'bill_to_address_line2' => $this->sanitizer->asciiAlphanumericPunc(
                 isset($street[1]) ? $street[1] : null,
                 60
             ),
