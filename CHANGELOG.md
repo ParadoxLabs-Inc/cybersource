@@ -1,5 +1,11 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 1.3.2 - May 11, 2023
+- Changed license from proprietary to Apache 2.0. Issues and contributions are welcome on GitHub.
+- Fixed disallowed characters in Secure Acceptance billing address fields.
+- Fixed hyphenated transaction IDs possibly being sent to payment gateway on refund.
+- Fixed possible Cloud deploy pipeline error from DI constants.
+
 ## 1.3.1 - March 10, 2023
 - Added compatibility for Magento 2.4.6.
 - Changed GraphQL data assignment to allow order placement in a separate mutation. (Thanks Alfredo)
