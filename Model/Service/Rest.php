@@ -97,8 +97,12 @@ class Rest
         $headers += $this->signRequest($path, $params, 'GET');
 
         $requestUri = $this->config->getRestEndpoint($path, $this->storeId);
+        if (!empty($params)) {
+            $requestUri .= '?' . http_build_query($params);
+        }
+
         $client->setHeaders($headers);
-        $client->get($requestUri . '?' . http_build_query($params));
+        $client->get($requestUri);
 
         // Throw exception on non-2xx response code
         if (substr((string)$client->getStatus(), 0, 1) !== '2') {
@@ -165,8 +169,8 @@ class Rest
 
         /**
          * Note: POST signing requires additional Digest of payload. Not implemented yet.
-         * @see https://developer.cybersource.com/api/developer-guides/dita-gettingstarted/authentication/GenerateHeader
-         * /httpSignatureAuthentication.html
+         * @see https://developer.cybersource.com/docs/cybs/en-us/platform/get-started/all/rest/get-started-rest/ \
+         * authentication/GenerateHeader/httpSignatureAuthentication.html
          */
 
         $signatureParts = [
