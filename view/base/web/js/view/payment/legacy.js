@@ -173,10 +173,11 @@ define([
         addAndSelectCard: function(card) {
             var option = $('<option>');
             option.val(card.id)
-                  .text(card.label)
-                  .data('new', card.new)
-                  .data('cc_bin', card.cc_bin)
-                  .data('cc_last4', card.cc_last4);
+                .text(card.label)
+                .data('new', card.new)
+                .data('cc_bin', card.cc_bin)
+                .data('cc_last4', card.cc_last4)
+                .data('type', card.type);
 
             this.element.find(this.options.cardSelector).append(option).val(card.id).trigger('change');
         },
