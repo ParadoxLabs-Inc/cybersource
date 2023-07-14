@@ -184,7 +184,7 @@ class Rest
         $signature = base64_encode(
             hash_hmac(
                 'sha256',
-                utf8_encode(implode("\n", $signatureParts)),
+                mb_convert_encoding(implode("\n", $signatureParts), 'UTF-8', mb_list_encodings()),
                 base64_decode((string)$this->config->getRestSecretKey($this->storeId)),
                 true
             )
