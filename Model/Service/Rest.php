@@ -176,7 +176,7 @@ class Rest
         $signatureParts = [
             'host' => 'host: ' . $host,
             'date' => 'date: ' . $date,
-            '(request-target)' => '(request-target): ' . strtolower((string)$httpMethod) . ' ' . $path
+            'request-target' => 'request-target: ' . strtolower((string)$httpMethod) . ' ' . $path
                 . (!empty($params) ? '?' . http_build_query($params) : ''),
             'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId($this->storeId),
         ];
