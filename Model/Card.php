@@ -56,7 +56,7 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
     public function beforeDelete()
     {
         /**
-         * Delete from Stripe if we have a valid record.
+         * Delete from the gateway if we have a valid record.
          */
         if (!empty($this->getPaymentId())) {
             /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
