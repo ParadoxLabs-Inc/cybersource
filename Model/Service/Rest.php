@@ -112,14 +112,9 @@ class Rest
                 ?? $responseJson['response']['rmsg']
                 ?? $client->getStatus();
 
-            $this->helper->log($this->config::CODE, $requestUri, true);
-            $this->helper->log($this->config::CODE, $headers['Date'] ?? '', true);
-            $this->helper->log($this->config::CODE, $headers['Host'] ?? '', true);
-            $this->helper->log($this->config::CODE, $headers['v-c-merchant-id'] ?? '', true);
-            $this->helper->log($this->config::CODE, $headers['Signature'] ?? '', true);
             $this->helper->log(
                 $this->config::CODE,
-                'REQUEST: '.json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
+                $requestUri . "\n" . 'REQUEST: '.json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
                 true
             );
 

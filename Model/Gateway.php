@@ -559,34 +559,41 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         $storeId = (int)$payment->getOrder()->getStoreId();
         $this->restClient->setStoreId($storeId);
 
-        $reply = $this->restClient->get(
-            '/reporting/v3/conversion-details',
-            [
-                'startTime' => date(Sanitizer::ISO_FORMAT, strtotime('-24 hour')),
-                'endTime' => date(Sanitizer::ISO_FORMAT),
-                'organizationId' => $this->config->getOrganizationId($storeId),
-            ]
-        );
-
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
         $response = $this->responseFactory->create();
         $response->setData(['is_approved' => false, 'is_denied' => false]);
 
-        $reply = json_decode((string)$reply, true);
-        if ($reply !== false && !empty($reply['conversionDetails'])) {
-            foreach ($reply['conversionDetails'] as $change) {
-                if ($change['requestId'] === $transactionId) {
-                    $response->addData($change);
+        try {
+            $reply = $this->restClient->get(
+                '/reporting/v3/conversion-details',
+                [
+                    'startTime' => date(Sanitizer::ISO_FORMAT, strtotime('-24 hour')),
+                    'endTime' => date(Sanitizer::ISO_FORMAT),
+                    'organizationId' => $this->config->getOrganizationId($storeId),
+                ]
+            );
 
-                    if ($change['newDecision'] === 'ACCEPT') {
-                        $response->setData('is_approved', true);
-                    }
-                    if ($change['newDecision'] === 'REJECT') {
-                        $response->setData('is_denied', true);
-                    }
+            $reply = json_decode((string)$reply, true);
+            if ($reply !== false && !empty($reply['conversionDetails'])) {
+                foreach ($reply['conversionDetails'] as $change) {
+                    if ($change['requestId'] === $transactionId) {
+                        $response->addData($change);
 
-                    break;
+                        if ($change['newDecision'] === 'ACCEPT') {
+                            $response->setData('is_approved', true);
+                        }
+                        if ($change['newDecision'] === 'REJECT') {
+                            $response->setData('is_denied', true);
+                        }
+
+                        break;
+                    }
                 }
+            }
+        } catch (\Exception $exception) {
+            // A 404 'resource not found' response means there are no updates in the requested timespan. Ignore.
+            if ($exception->getMessage() !== 'Requested Resource Not Found') {
+                throw $exception;
             }
         }
 

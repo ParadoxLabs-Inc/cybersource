@@ -115,7 +115,10 @@ class TransactionUpdater
 
                     $this->emulator->stopEnvironmentEmulation();
                 } catch (\Exception $exception) {
-                    $this->helper->log(Config::CODE, $exception->getMessage());
+                    // A 404 'resource not found' response means there are no updates in the requested timespan. Ignore.
+                    if ($exception->getMessage() !== 'Requested Resource Not Found') {
+                        $this->helper->log(Config::CODE, $exception->getMessage());
+                    }
                 }
             }
         }
