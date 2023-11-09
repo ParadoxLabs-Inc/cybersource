@@ -1,5 +1,13 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 1.3.3 - Nov 9, 2023
+- Fixed card type detection on multishipping checkouts. (Thanks Will)
+- Fixed logging of empty transaction update responses ("Requested Resource Not Found"). (2210197)
+- Fixed payment info incorrectly persisting and preventing new card entry after a payment decline or admin reorder.
+- Fixed PHP 8.2 compatibility.
+- Fixed REST API GET requests (1.3.1 regression).
+- Fixed REST API signature parentheses deprecation.
+
 ## 1.3.2 - May 11, 2023
 - Changed license from proprietary to Apache 2.0. Issues and contributions are welcome on GitHub.
 - Fixed disallowed characters in Secure Acceptance billing address fields.
