@@ -352,7 +352,7 @@ class BillTo
      */
     public function setFirstName($firstName)
     {
-        $this->firstName = substr(str_replace(':', '', (string)$firstName), 0, 60);
+        $this->firstName = mb_substr(str_replace(':', '', (string)$firstName), 0, 60);
 
         return $this;
     }
@@ -390,7 +390,7 @@ class BillTo
      */
     public function setLastName($lastName)
     {
-        $this->lastName = substr(str_replace(':', '', (string)$lastName), 0, 60);
+        $this->lastName = mb_substr(str_replace(':', '', (string)$lastName), 0, 60);
 
         return $this;
     }
@@ -428,7 +428,7 @@ class BillTo
      */
     public function setBuildingNumber($buildingNumber)
     {
-        $this->buildingNumber = substr(str_replace(':', '', (string)$buildingNumber), 0, 255);
+        $this->buildingNumber = mb_substr(str_replace(':', '', (string)$buildingNumber), 0, 255);
 
         return $this;
     }
@@ -447,7 +447,7 @@ class BillTo
      */
     public function setStreet1($street1)
     {
-        $this->street1 = substr(str_replace(':', '', (string)$street1), 0, 60);
+        $this->street1 = mb_substr(str_replace(':', '', (string)$street1), 0, 60);
 
         return $this;
     }
@@ -466,7 +466,7 @@ class BillTo
      */
     public function setStreet2($street2)
     {
-        $this->street2 = substr(str_replace(':', '', (string)$street2), 0, 60);
+        $this->street2 = mb_substr(str_replace(':', '', (string)$street2), 0, 60);
 
         return $this;
     }
@@ -485,7 +485,7 @@ class BillTo
      */
     public function setStreet3($street3)
     {
-        $this->street3 = substr(str_replace(':', '', (string)$street3), 0, 60);
+        $this->street3 = mb_substr(str_replace(':', '', (string)$street3), 0, 60);
 
         return $this;
     }
@@ -504,7 +504,7 @@ class BillTo
      */
     public function setStreet4($street4)
     {
-        $this->street4 = substr(str_replace(':', '', (string)$street4), 0, 60);
+        $this->street4 = mb_substr(str_replace(':', '', (string)$street4), 0, 60);
 
         return $this;
     }
@@ -542,7 +542,7 @@ class BillTo
      */
     public function setCity($city)
     {
-        $this->city = substr(str_replace(':', '', (string)$city), 0, 50);
+        $this->city = mb_substr(str_replace(':', '', (string)$city), 0, 50);
 
         return $this;
     }
@@ -623,16 +623,16 @@ class BillTo
         if ($this->getCountry() === 'US') {
             $postalCode = preg_replace('/[^\d]/', '', $postalCode);
             if (strlen($postalCode) > 5) {
-                $postalCode = substr($postalCode, 0, 5) . '-' . substr($postalCode, 5, 4);
+                $postalCode = mb_substr($postalCode, 0, 5) . '-' . mb_substr($postalCode, 5, 4);
             } elseif (strlen($postalCode) < 5) {
                 $postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
             }
         } elseif ($this->getCountry() === 'CA') {
             $postalCode = preg_replace('/[^a-zA-Z0-9]/', '', $postalCode);
-            $postalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3, 3);
+            $postalCode = mb_substr($postalCode, 0, 3) . ' ' . mb_substr($postalCode, 3, 3);
         }
 
-        $this->postalCode = substr(str_replace(':', '', $postalCode), 0, 10);
+        $this->postalCode = mb_substr(str_replace(':', '', $postalCode), 0, 10);
 
         return $this;
     }
@@ -651,7 +651,7 @@ class BillTo
      */
     public function setCountry($country)
     {
-        $this->country = strtoupper(substr(str_replace(':', '', (string)$country), 0, 2));
+        $this->country = strtoupper(mb_substr(str_replace(':', '', (string)$country), 0, 2));
 
         return $this;
     }
@@ -670,7 +670,7 @@ class BillTo
      */
     public function setCompany($company)
     {
-        $this->company = substr(str_replace(':', '', (string)$company), 0, 60);
+        $this->company = mb_substr(str_replace(':', '', (string)$company), 0, 60);
 
         return $this;
     }
@@ -689,7 +689,7 @@ class BillTo
      */
     public function setCompanyTaxID($companyTaxID)
     {
-        $this->companyTaxID = substr(str_replace(':', '', (string)$companyTaxID), 0, 9);
+        $this->companyTaxID = mb_substr(str_replace(':', '', (string)$companyTaxID), 0, 9);
 
         return $this;
     }
@@ -708,7 +708,7 @@ class BillTo
      */
     public function setPhoneNumber($phoneNumber)
     {
-        $this->phoneNumber = substr(str_replace(':', '', (string)$phoneNumber), 0, 15);
+        $this->phoneNumber = mb_substr(str_replace(':', '', (string)$phoneNumber), 0, 15);
 
         return $this;
     }
@@ -727,7 +727,7 @@ class BillTo
      */
     public function setEmail($email)
     {
-        $this->email = substr(str_replace(':', '', (string)$email), 0, 255);
+        $this->email = mb_substr(str_replace(':', '', (string)$email), 0, 255);
 
         return $this;
     }
@@ -746,7 +746,7 @@ class BillTo
      */
     public function setIpAddress($ipAddress)
     {
-        $this->ipAddress = substr(preg_replace('/[^\d.]/', '', (string)$ipAddress), 0, 15);
+        $this->ipAddress = mb_substr(preg_replace('/[^\d.]/', '', (string)$ipAddress), 0, 15);
 
         return $this;
     }
@@ -822,7 +822,7 @@ class BillTo
      */
     public function setHostname($hostname)
     {
-        $this->hostname = substr(str_replace(':', '', (string)$hostname), 0, 60);
+        $this->hostname = mb_substr(str_replace(':', '', (string)$hostname), 0, 60);
 
         return $this;
     }
@@ -936,7 +936,7 @@ class BillTo
      */
     public function setCustomerID($customerID)
     {
-        $this->customerID = substr(str_replace(':', '', (string)$customerID), 0, 30);
+        $this->customerID = mb_substr(str_replace(':', '', (string)$customerID), 0, 30);
 
         return $this;
     }
@@ -955,7 +955,7 @@ class BillTo
      */
     public function setHttpBrowserType($httpBrowserType)
     {
-        $this->httpBrowserType = substr(str_replace(':', '', (string)$httpBrowserType), 0, 40);
+        $this->httpBrowserType = mb_substr(str_replace(':', '', (string)$httpBrowserType), 0, 40);
 
         return $this;
     }
@@ -1031,7 +1031,7 @@ class BillTo
      */
     public function setPersonalID($personalID)
     {
-        $this->personalID = substr(str_replace(':', '', (string)$personalID), 0, 26);
+        $this->personalID = mb_substr(str_replace(':', '', (string)$personalID), 0, 26);
 
         return $this;
     }
@@ -1107,7 +1107,7 @@ class BillTo
      */
     public function setMerchantTaxID($merchantTaxID)
     {
-        $this->merchantTaxID = substr(str_replace(':', '', (string)$merchantTaxID), 0, 15);
+        $this->merchantTaxID = mb_substr(str_replace(':', '', (string)$merchantTaxID), 0, 15);
 
         return $this;
     }

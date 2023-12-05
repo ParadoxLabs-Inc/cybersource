@@ -107,7 +107,7 @@ class JsonWebTokenGenerator
                 'OrderChannel' => 'S', // S for ecommerce
             ],
             'Consumer' => [
-                'Email1' => substr((string)$email, 0, 255),
+                'Email1' => mb_substr((string)$email, 0, 255),
                 'BillingAddress' => $this->getPayloadAddress($quote->getBillingAddress()),
             ],
         ];
@@ -160,8 +160,8 @@ class JsonWebTokenGenerator
 
         foreach ($quote->getAllVisibleItems() as $item) {
             $items[] = [
-                'Name' => substr((string)$item->getName(), 0, 128),
-                'SKU' => substr((string)$item->getSku(), 0, 20),
+                'Name' => mb_substr((string)$item->getName(), 0, 128),
+                'SKU' => mb_substr((string)$item->getSku(), 0, 20),
                 'Quantity' => $item->getQty(),
                 'Price' => (float)$item->getPrice(),
             ];

@@ -187,7 +187,7 @@ class ShipTo
      */
     public function setFirstName($firstName)
     {
-        $this->firstName = substr($firstName, 0, 60);
+        $this->firstName = mb_substr($firstName, 0, 60);
 
         return $this;
     }
@@ -225,7 +225,7 @@ class ShipTo
      */
     public function setLastName($lastName)
     {
-        $this->lastName = substr($lastName, 0, 60);
+        $this->lastName = mb_substr($lastName, 0, 60);
 
         return $this;
     }
@@ -263,7 +263,7 @@ class ShipTo
      */
     public function setStreet1($street1)
     {
-        $this->street1 = substr($street1, 0, 60);
+        $this->street1 = mb_substr($street1, 0, 60);
 
         return $this;
     }
@@ -282,7 +282,7 @@ class ShipTo
      */
     public function setStreet2($street2)
     {
-        $this->street2 = substr($street2, 0, 60);
+        $this->street2 = mb_substr($street2, 0, 60);
 
         return $this;
     }
@@ -301,7 +301,7 @@ class ShipTo
      */
     public function setStreet3($street3)
     {
-        $this->street3 = substr($street3, 0, 60);
+        $this->street3 = mb_substr($street3, 0, 60);
 
         return $this;
     }
@@ -320,7 +320,7 @@ class ShipTo
      */
     public function setStreet4($street4)
     {
-        $this->street4 = substr($street4, 0, 60);
+        $this->street4 = mb_substr($street4, 0, 60);
 
         return $this;
     }
@@ -358,7 +358,7 @@ class ShipTo
      */
     public function setCity($city)
     {
-        $this->city = substr($city, 0, 50);
+        $this->city = mb_substr($city, 0, 50);
 
         return $this;
     }
@@ -377,7 +377,7 @@ class ShipTo
      */
     public function setCounty($county)
     {
-        $this->county = strtoupper(substr((string)$county, 0, 2));
+        $this->county = strtoupper(mb_substr((string)$county, 0, 2));
 
         return $this;
     }
@@ -415,7 +415,7 @@ class ShipTo
      */
     public function setBuildingNumber($buildingNumber)
     {
-        $this->buildingNumber = substr($buildingNumber, 0, 15);
+        $this->buildingNumber = mb_substr($buildingNumber, 0, 15);
 
         return $this;
     }
@@ -458,16 +458,16 @@ class ShipTo
         if ($this->getCountry() === 'US') {
             $postalCode = preg_replace('/[^\d]/', '', $postalCode);
             if (strlen($postalCode) > 5) {
-                $postalCode = substr($postalCode, 0, 5) . '-' . substr($postalCode, 5, 4);
+                $postalCode = mb_substr($postalCode, 0, 5) . '-' . mb_substr($postalCode, 5, 4);
             } elseif (strlen($postalCode) < 5) {
                 $postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
             }
         } elseif ($this->getCountry() === 'CA') {
             $postalCode = preg_replace('/[^a-zA-Z0-9]/', '', $postalCode);
-            $postalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3, 3);
+            $postalCode = mb_substr($postalCode, 0, 3) . ' ' . mb_substr($postalCode, 3, 3);
         }
 
-        $this->postalCode = substr($postalCode, 0, 10);
+        $this->postalCode = mb_substr($postalCode, 0, 10);
 
         return $this;
     }
@@ -524,7 +524,7 @@ class ShipTo
      */
     public function setPhoneNumber($phoneNumber)
     {
-        $this->phoneNumber = substr($phoneNumber, 0, 15);
+        $this->phoneNumber = mb_substr($phoneNumber, 0, 15);
 
         return $this;
     }
