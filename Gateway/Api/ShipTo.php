@@ -187,7 +187,7 @@ class ShipTo
      */
     public function setFirstName($firstName)
     {
-        $this->firstName = mb_substr($firstName, 0, 60);
+        $this->firstName = mb_substr((string)$firstName, 0, 60);
 
         return $this;
     }
@@ -225,7 +225,7 @@ class ShipTo
      */
     public function setLastName($lastName)
     {
-        $this->lastName = mb_substr($lastName, 0, 60);
+        $this->lastName = mb_substr((string)$lastName, 0, 60);
 
         return $this;
     }
@@ -263,7 +263,7 @@ class ShipTo
      */
     public function setStreet1($street1)
     {
-        $this->street1 = mb_substr($street1, 0, 60);
+        $this->street1 = mb_substr((string)$street1, 0, 60);
 
         return $this;
     }
@@ -282,7 +282,7 @@ class ShipTo
      */
     public function setStreet2($street2)
     {
-        $this->street2 = mb_substr($street2, 0, 60);
+        $this->street2 = mb_substr((string)$street2, 0, 60);
 
         return $this;
     }
@@ -301,7 +301,7 @@ class ShipTo
      */
     public function setStreet3($street3)
     {
-        $this->street3 = mb_substr($street3, 0, 60);
+        $this->street3 = mb_substr((string)$street3, 0, 60);
 
         return $this;
     }
@@ -320,7 +320,7 @@ class ShipTo
      */
     public function setStreet4($street4)
     {
-        $this->street4 = mb_substr($street4, 0, 60);
+        $this->street4 = mb_substr((string)$street4, 0, 60);
 
         return $this;
     }
@@ -358,7 +358,7 @@ class ShipTo
      */
     public function setCity($city)
     {
-        $this->city = mb_substr($city, 0, 50);
+        $this->city = mb_substr((string)$city, 0, 50);
 
         return $this;
     }
@@ -415,7 +415,7 @@ class ShipTo
      */
     public function setBuildingNumber($buildingNumber)
     {
-        $this->buildingNumber = mb_substr($buildingNumber, 0, 15);
+        $this->buildingNumber = mb_substr((string)$buildingNumber, 0, 15);
 
         return $this;
     }
@@ -524,7 +524,7 @@ class ShipTo
      */
     public function setPhoneNumber($phoneNumber)
     {
-        $this->phoneNumber = mb_substr($phoneNumber, 0, 15);
+        $this->phoneNumber = mb_substr((string)$phoneNumber, 0, 15);
 
         return $this;
     }
