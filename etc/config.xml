@@ -63,6 +63,10 @@
                 <can_initialize>0</can_initialize>
                 <can_store_bin>1</can_store_bin>
                 <send_line_items>1</send_line_items>
+                <instant_purchase>
+                    <supported>1</supported>
+                    <tokenFormat>ParadoxLabs\TokenBase\Model\InstantPurchase\TokenFormatter</tokenFormat>
+                </instant_purchase>
             </paradoxlabs_cybersource>
         </payment>
     </default>
