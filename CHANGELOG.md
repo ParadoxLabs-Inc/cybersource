@@ -1,5 +1,10 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 1.4.0 - Jan 23, 2024
+- Added Instant Purchase support for customers with active stored cards.
+- Fixed a PHP notice if phone number is optional and missing.
+- Fixed possible multibyte string errors in address fields.
+
 ## 1.3.3 - Nov 9, 2023
 - Fixed card type detection on multishipping checkouts. (Thanks Will)
 - Fixed logging of empty transaction update responses ("Requested Resource Not Found"). (2210197)
