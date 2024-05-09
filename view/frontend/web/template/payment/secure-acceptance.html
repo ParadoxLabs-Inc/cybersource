@@ -1,4 +1,4 @@
-<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+<div class="payment-method payment_form_paradoxlabs_cybersource" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
@@ -52,7 +52,7 @@
             <!-- /ko -->
 
             <div class="field card required" data-bind="visible: showIframe()">
-                <iframe src="about:blank" frameborder="0" id="paradoxlabs_cybersource_iframe" name="paradoxlabs_cybersource_iframe" style="width:100%;min-width:300px;max-width:550px;height:600px;" data-bind="afterRender: syncSecureAcceptBillingAddress"></iframe>
+                <iframe src="about:blank" id="paradoxlabs_cybersource_iframe" name="paradoxlabs_cybersource_iframe" data-bind="afterRender: syncSecureAcceptBillingAddress"></iframe>
             </div>
 
             <!-- ko if: (selectedCard()) -->

@@ -1,0 +1,20 @@
+& when (@media-common = true) {
+    .payment_form_paradoxlabs_cybersource {
+        & .hide,
+        .fieldset.toggle,
+        .message.error {
+            display: none;
+        }
+
+        #paradoxlabs_cybersource_iframe {
+            width: 100%;
+            min-width: 300px;
+            max-width: 550px;
+            height: 600px;
+            border: 0;
+        }
+    }
+    #cybersource-complete-results {
+        display: none;
+    }
+}
