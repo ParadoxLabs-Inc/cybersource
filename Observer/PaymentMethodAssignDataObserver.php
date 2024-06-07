@@ -20,6 +20,9 @@
 
 namespace ParadoxLabs\CyberSource\Observer;
 
+use Magento\Quote\Api\Data\PaymentExtensionInterface;
+use Magento\Sales\Api\Data\OrderPaymentExtensionInterface;
+
 /**
  * PaymentMethodAssignDataObserver Class
  */
@@ -46,6 +49,12 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
         if (!empty($data->getData('response_jwt'))
             && empty($data->getData('card_id'))) {
             $payment->setData('tokenbase_id', null);
+
+            $paymentAttributes = $payment->getExtensionAttributes();
+            if ($paymentAttributes instanceof PaymentExtensionInterface
+                || $paymentAttributes instanceof OrderPaymentExtensionInterface) {
+                $paymentAttributes->setTokenbaseId(null);
+            }
         }
     }
 }
