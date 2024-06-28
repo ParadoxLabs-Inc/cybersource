@@ -1,5 +1,10 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 1.5.0 - Jun 28, 2024
+- Added CSP/SRI secure mode support for 2.4.0+ (2.4.7 checkout compatibility).
+- Fixed payment extension attributes holding tokenbase_id values improperly.
+- Fixed reorder applying the original payment method if a new card was entered.
+
 ## 1.4.0 - Jan 23, 2024
 - Added Instant Purchase support for customers with active stored cards.
 - Fixed a PHP notice if phone number is optional and missing.
