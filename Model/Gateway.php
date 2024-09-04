@@ -369,7 +369,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             return $this->interpretTransaction($reply, $payment);
         } catch (\Exception $exception) {
             // Handle 'transaction not found' error (expired authorization).
-            if ($exception->getCode() === 242) {
+            if ($this->getHaveAuthorized() && in_array($exception->getCode(), [102, 242], true) === true) {
                 $this->helper->log($this->code, 'Transaction not found. Attempting to recapture.');
 
                 $this->setTransactionId(null)
