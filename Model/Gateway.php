@@ -751,7 +751,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
 
         // If Payer Authentication isn't enabled, or we've already processed payment, don't ... run payer auth.
         // NB/Future: May need to enroll with prior-auth info in the prior payment case.
-        if ($this->config->isPayerAuthEnabled() === false
+        if ($this->config->isPayerAuthEnabledForType((string)$payment->getCcType()) === false
             || $this->helper->getIsFrontend() === false
             || $order->getTotalPaid() > 0) {
             return;

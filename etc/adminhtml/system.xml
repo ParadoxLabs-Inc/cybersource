@@ -127,6 +127,14 @@
                         <field id="cardinal_active">1</field>
                     </depends>
                 </field>
+                <field id="cardinal_card_types" translate="label" type="multiselect" sortOrder="235" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable for Card Types</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Cctype</source_model>
+                    <comment>Note: Not all card types and processors support Payer Authentication.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
                 <field id="heading_checkout" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Settings</label>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>

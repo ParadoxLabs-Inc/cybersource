@@ -448,6 +448,29 @@ class Config
     }
 
     /**
+     * Get whether Payer Authentication is enabled for a specific card type.
+     *
+     * @param string $ccType
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthEnabledForType(string $ccType, $storeId = null)
+    {
+        try {
+            $enabledTypes = explode(',', (string)$this->getConfigValue('cardinal_card_types', $storeId));
+
+            if ($this->isPayerAuthEnabled($storeId) === false
+                || in_array($ccType, $enabledTypes, true) === false) {
+                return false;
+            }
+
+            return true;
+        } catch (\Magento\Framework\Exception\StateException $exception) {
+            return false;
+        }
+    }
+
+    /**
      * Get the Cardinal Cruise organization unit ID.
      *
      * @param int|null $storeId

@@ -20,6 +20,7 @@
                 <cardinal_org_unit_id />
                 <cardinal_secret_key_id />
                 <cardinal_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <cardinal_card_types>AE,MC,VI</cardinal_card_types>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
                 <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
                 <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>

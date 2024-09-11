@@ -7,8 +7,8 @@
         "ext-soap": "*"
     },
     "type": "magento2-module",
-    "version": "1.5.0",
-    "time": "2024-06-28",
+    "version": "1.5.0.1",
+    "time": "2024-09-11",
     "license": "Apache-2.0",
     "authors": [
         {
