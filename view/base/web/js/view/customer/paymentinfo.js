@@ -21,7 +21,8 @@
 define([
     'jquery',
     'Magento_Ui/js/modal/alert',
-    'mage/translate'
+    'mage/translate',
+    'mage/validation'
 ], function($, alert) {
     'use strict';
 
@@ -44,7 +45,8 @@ define([
         },
 
         showPayment: function() {
-            if (this.element.valid() === false) {
+            this.element.validation();
+            if (this.element.validation('isValid') !== true) {
                 return;
             }
 
