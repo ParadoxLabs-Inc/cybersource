@@ -60,7 +60,8 @@ try {
             communicator.trigger('change');
         }
     )
-JS; ?>
+JS;
+?>
 <?php if (isset($secureRenderer) && $secureRenderer instanceof \Magento\Framework\View\Helper\SecureHtmlRenderer): ?>
     <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $inlineScript, false) ?>
 <?php else: ?>
