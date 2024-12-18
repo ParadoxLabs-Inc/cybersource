@@ -15,6 +15,11 @@ class PayerAuthEnrollReply
     protected $acsURL;
 
     /**
+     * @var string $accessToken
+     */
+    protected $accessToken;
+
+    /**
      * @var string $authenticationResult
      */
     protected $authenticationResult;
@@ -210,12 +215,12 @@ class PayerAuthEnrollReply
     protected $effectiveAuthenticationType;
 
     /**
-     * @var int $authenticationStatusReason
+     * @var string $authenticationStatusReason
      */
     protected $authenticationStatusReason;
 
     /**
-     * @var int $networkScore
+     * @var string $networkScore
      */
     protected $networkScore;
 
@@ -225,7 +230,7 @@ class PayerAuthEnrollReply
     protected $authorizationPayload;
 
     /**
-     * @var int $challengeCancelCode
+     * @var string $challengeCancelCode
      */
     protected $challengeCancelCode;
 
@@ -243,6 +248,66 @@ class PayerAuthEnrollReply
      * @var string $cardTypeName
      */
     protected $cardTypeName;
+
+    /**
+     * @var string $transactionIndicator
+     */
+    protected $transactionIndicator;
+
+    /**
+     * @var string $resendCountRemaining
+     */
+    protected $resendCountRemaining;
+
+    /**
+     * @var string $acsReferenceNumber
+     */
+    protected $acsReferenceNumber;
+
+    /**
+     * @var string $acsOperatorId
+     */
+    protected $acsOperatorId;
+
+    /**
+     * @var int $idciScore
+     */
+    protected $idciScore;
+
+    /**
+     * @var string $idciDecision
+     */
+    protected $idciDecision;
+
+    /**
+     * @var string $idciReasonCode1
+     */
+    protected $idciReasonCode1;
+
+    /**
+     * @var string $idciReasonCode2
+     */
+    protected $idciReasonCode2;
+
+    /**
+     * @var int $authenticationOutageExemptionIndicator
+     */
+    protected $authenticationOutageExemptionIndicator;
+
+    /**
+     * @var string $exemptionDataRaw
+     */
+    protected $exemptionDataRaw;
+
+    /**
+     * @var string $threeDSServerOperatorId
+     */
+    protected $threeDSServerOperatorId;
+
+    /**
+     * @var string $dsReferenceNumber
+     */
+    protected $dsReferenceNumber;
 
     /**
      * @param int $reasonCode
@@ -286,6 +351,25 @@ class PayerAuthEnrollReply
     public function setAcsURL($acsURL)
     {
         $this->acsURL = $acsURL;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param string $accessToken
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
 
         return $this;
     }
@@ -1032,7 +1116,7 @@ class PayerAuthEnrollReply
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getAuthenticationStatusReason()
     {
@@ -1040,7 +1124,7 @@ class PayerAuthEnrollReply
     }
 
     /**
-     * @param int $authenticationStatusReason
+     * @param string $authenticationStatusReason
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
      */
     public function setAuthenticationStatusReason($authenticationStatusReason)
@@ -1051,7 +1135,7 @@ class PayerAuthEnrollReply
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getNetworkScore()
     {
@@ -1059,7 +1143,7 @@ class PayerAuthEnrollReply
     }
 
     /**
-     * @param int $networkScore
+     * @param string $networkScore
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
      */
     public function setNetworkScore($networkScore)
@@ -1089,7 +1173,7 @@ class PayerAuthEnrollReply
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getChallengeCancelCode()
     {
@@ -1097,7 +1181,7 @@ class PayerAuthEnrollReply
     }
 
     /**
-     * @param int $challengeCancelCode
+     * @param string $challengeCancelCode
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
      */
     public function setChallengeCancelCode($challengeCancelCode)
@@ -1160,6 +1244,234 @@ class PayerAuthEnrollReply
     public function setCardTypeName($cardTypeName)
     {
         $this->cardTypeName = $cardTypeName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionIndicator()
+    {
+        return $this->transactionIndicator;
+    }
+
+    /**
+     * @param string $transactionIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setTransactionIndicator($transactionIndicator)
+    {
+        $this->transactionIndicator = $transactionIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResendCountRemaining()
+    {
+        return $this->resendCountRemaining;
+    }
+
+    /**
+     * @param string $resendCountRemaining
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setResendCountRemaining($resendCountRemaining)
+    {
+        $this->resendCountRemaining = $resendCountRemaining;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcsReferenceNumber()
+    {
+        return $this->acsReferenceNumber;
+    }
+
+    /**
+     * @param string $acsReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setAcsReferenceNumber($acsReferenceNumber)
+    {
+        $this->acsReferenceNumber = $acsReferenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcsOperatorId()
+    {
+        return $this->acsOperatorId;
+    }
+
+    /**
+     * @param string $acsOperatorId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setAcsOperatorId($acsOperatorId)
+    {
+        $this->acsOperatorId = $acsOperatorId;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdciScore()
+    {
+        return $this->idciScore;
+    }
+
+    /**
+     * @param int $idciScore
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setIdciScore($idciScore)
+    {
+        $this->idciScore = $idciScore;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdciDecision()
+    {
+        return $this->idciDecision;
+    }
+
+    /**
+     * @param string $idciDecision
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setIdciDecision($idciDecision)
+    {
+        $this->idciDecision = $idciDecision;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdciReasonCode1()
+    {
+        return $this->idciReasonCode1;
+    }
+
+    /**
+     * @param string $idciReasonCode1
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setIdciReasonCode1($idciReasonCode1)
+    {
+        $this->idciReasonCode1 = $idciReasonCode1;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdciReasonCode2()
+    {
+        return $this->idciReasonCode2;
+    }
+
+    /**
+     * @param string $idciReasonCode2
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setIdciReasonCode2($idciReasonCode2)
+    {
+        $this->idciReasonCode2 = $idciReasonCode2;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAuthenticationOutageExemptionIndicator()
+    {
+        return $this->authenticationOutageExemptionIndicator;
+    }
+
+    /**
+     * @param int $authenticationOutageExemptionIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setAuthenticationOutageExemptionIndicator($authenticationOutageExemptionIndicator)
+    {
+        $this->authenticationOutageExemptionIndicator = $authenticationOutageExemptionIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExemptionDataRaw()
+    {
+        return $this->exemptionDataRaw;
+    }
+
+    /**
+     * @param string $exemptionDataRaw
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setExemptionDataRaw($exemptionDataRaw)
+    {
+        $this->exemptionDataRaw = $exemptionDataRaw;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThreeDSServerOperatorId()
+    {
+        return $this->threeDSServerOperatorId;
+    }
+
+    /**
+     * @param string $threeDSServerOperatorId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setThreeDSServerOperatorId($threeDSServerOperatorId)
+    {
+        $this->threeDSServerOperatorId = $threeDSServerOperatorId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDsReferenceNumber()
+    {
+        return $this->dsReferenceNumber;
+    }
+
+    /**
+     * @param string $dsReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollReply
+     */
+    public function setDsReferenceNumber($dsReferenceNumber)
+    {
+        $this->dsReferenceNumber = $dsReferenceNumber;
 
         return $this;
     }

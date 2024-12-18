@@ -37,8 +37,8 @@ class Config
     const REST_TEST = 'https://apitest.cybersource.com';
     const SECUREACCEPT_LIVE = 'https://secureacceptance.cybersource.com';
     const SECUREACCEPT_TEST = 'https://testsecureacceptance.cybersource.com';
-    const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
-    const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.161.wsdl';
+    const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl';
+    const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl';
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface

@@ -20,6 +20,11 @@ class PaymentNetworkToken
     protected $assuranceLevel;
 
     /**
+     * @var string $assuranceMethod
+     */
+    protected $assuranceMethod;
+
+    /**
      * @var string $accountStatus
      */
     protected $accountStatus;
@@ -87,6 +92,25 @@ class PaymentNetworkToken
     public function setAssuranceLevel($assuranceLevel)
     {
         $this->assuranceLevel = $assuranceLevel;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssuranceMethod()
+    {
+        return $this->assuranceMethod;
+    }
+
+    /**
+     * @param string $assuranceMethod
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PaymentNetworkToken
+     */
+    public function setAssuranceMethod($assuranceMethod)
+    {
+        $this->assuranceMethod = $assuranceMethod;
 
         return $this;
     }

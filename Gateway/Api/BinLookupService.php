@@ -15,6 +15,11 @@ class BinLookupService
     protected $networkOrder;
 
     /**
+     * @var string $retrievalReferenceNumber
+     */
+    protected $retrievalReferenceNumber;
+
+    /**
      * @var boolean $run
      */
     protected $run;
@@ -61,6 +66,25 @@ class BinLookupService
     public function setNetworkOrder($networkOrder)
     {
         $this->networkOrder = $networkOrder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetrievalReferenceNumber()
+    {
+        return $this->retrievalReferenceNumber;
+    }
+
+    /**
+     * @param string $retrievalReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BinLookupService
+     */
+    public function setRetrievalReferenceNumber($retrievalReferenceNumber)
+    {
+        $this->retrievalReferenceNumber = $retrievalReferenceNumber;
 
         return $this;
     }

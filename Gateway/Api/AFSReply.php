@@ -55,6 +55,11 @@ class AFSReply
     protected $suspiciousInfoCode;
 
     /**
+     * @var string $deviceBehaviorInfoCode
+     */
+    protected $deviceBehaviorInfoCode;
+
+    /**
      * @var string $velocityInfoCode
      */
     protected $velocityInfoCode;
@@ -328,6 +333,25 @@ class AFSReply
     public function setSuspiciousInfoCode($suspiciousInfoCode)
     {
         $this->suspiciousInfoCode = $suspiciousInfoCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeviceBehaviorInfoCode()
+    {
+        return $this->deviceBehaviorInfoCode;
+    }
+
+    /**
+     * @param string $deviceBehaviorInfoCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AFSReply
+     */
+    public function setDeviceBehaviorInfoCode($deviceBehaviorInfoCode)
+    {
+        $this->deviceBehaviorInfoCode = $deviceBehaviorInfoCode;
 
         return $this;
     }

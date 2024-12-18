@@ -25,6 +25,11 @@ class PauseRuleResultItem
     protected $evaluation;
 
     /**
+     * @var string $orderModification
+     */
+    protected $orderModification;
+
+    /**
      * @return int
      */
     public function getRuleID()
@@ -96,6 +101,25 @@ class PauseRuleResultItem
     public function setEvaluation($evaluation)
     {
         $this->evaluation = $evaluation;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderModification()
+    {
+        return $this->orderModification;
+    }
+
+    /**
+     * @param string $orderModification
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PauseRuleResultItem
+     */
+    public function setOrderModification($orderModification)
+    {
+        $this->orderModification = $orderModification;
 
         return $this;
     }

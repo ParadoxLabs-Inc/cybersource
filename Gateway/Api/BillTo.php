@@ -320,6 +320,26 @@ class BillTo
     protected $httpBrowserTimeDifference;
 
     /**
+     * @var string $alternatePhoneNumber
+     */
+    protected $alternatePhoneNumber;
+
+    /**
+     * @var string $alternateEmail
+     */
+    protected $alternateEmail;
+
+    /**
+     * @var string $phoneType
+     */
+    protected $phoneType;
+
+    /**
+     * @var string $userName
+     */
+    protected $userName;
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -1526,6 +1546,82 @@ class BillTo
     public function setHttpBrowserTimeDifference($httpBrowserTimeDifference)
     {
         $this->httpBrowserTimeDifference = $httpBrowserTimeDifference;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlternatePhoneNumber()
+    {
+        return $this->alternatePhoneNumber;
+    }
+
+    /**
+     * @param string $alternatePhoneNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
+     */
+    public function setAlternatePhoneNumber($alternatePhoneNumber)
+    {
+        $this->alternatePhoneNumber = $alternatePhoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlternateEmail()
+    {
+        return $this->alternateEmail;
+    }
+
+    /**
+     * @param string $alternateEmail
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
+     */
+    public function setAlternateEmail($alternateEmail)
+    {
+        $this->alternateEmail = $alternateEmail;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoneType()
+    {
+        return $this->phoneType;
+    }
+
+    /**
+     * @param string $phoneType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
+     */
+    public function setPhoneType($phoneType)
+    {
+        $this->phoneType = $phoneType;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * @param string $userName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
 
         return $this;
     }

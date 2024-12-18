@@ -7,7 +7,6 @@ use Exception;
 
 class APMandateStatusReply
 {
-
     /**
      * @var int $reasonCode
      */
@@ -247,5 +246,4 @@ class APMandateStatusReply
 
         return $this;
     }
-
 }

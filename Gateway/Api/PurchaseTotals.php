@@ -85,6 +85,11 @@ class PurchaseTotals
     protected $exchangeRateTimeStamp;
 
     /**
+     * @var string $exchangeRateType
+     */
+    protected $exchangeRateType;
+
+    /**
      * @var string $additionalAmountType0
      */
     protected $additionalAmountType0;
@@ -173,6 +178,21 @@ class PurchaseTotals
      * @var float $insuranceAmount
      */
     protected $insuranceAmount;
+
+    /**
+     * @var float $invoiceAmount
+     */
+    protected $invoiceAmount;
+
+    /**
+     * @var float $totalAmountBeforeBenefits
+     */
+    protected $totalAmountBeforeBenefits;
+
+    /**
+     * @var RestrictedString $anticipatedAmount
+     */
+    protected $anticipatedAmount;
 
     /**
      * @return string
@@ -474,6 +494,25 @@ class PurchaseTotals
     public function setExchangeRateTimeStamp($exchangeRateTimeStamp)
     {
         $this->exchangeRateTimeStamp = $exchangeRateTimeStamp;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExchangeRateType()
+    {
+        return $this->exchangeRateType;
+    }
+
+    /**
+     * @param string $exchangeRateType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
+     */
+    public function setExchangeRateType($exchangeRateType)
+    {
+        $this->exchangeRateType = $exchangeRateType;
 
         return $this;
     }
@@ -816,6 +855,63 @@ class PurchaseTotals
     public function setInsuranceAmount($insuranceAmount)
     {
         $this->insuranceAmount = $insuranceAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getInvoiceAmount()
+    {
+        return $this->invoiceAmount;
+    }
+
+    /**
+     * @param float $invoiceAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
+     */
+    public function setInvoiceAmount($invoiceAmount)
+    {
+        $this->invoiceAmount = $invoiceAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalAmountBeforeBenefits()
+    {
+        return $this->totalAmountBeforeBenefits;
+    }
+
+    /**
+     * @param float $totalAmountBeforeBenefits
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
+     */
+    public function setTotalAmountBeforeBenefits($totalAmountBeforeBenefits)
+    {
+        $this->totalAmountBeforeBenefits = $totalAmountBeforeBenefits;
+
+        return $this;
+    }
+
+    /**
+     * @return RestrictedString
+     */
+    public function getAnticipatedAmount()
+    {
+        return $this->anticipatedAmount;
+    }
+
+    /**
+     * @param RestrictedString $anticipatedAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals
+     */
+    public function setAnticipatedAmount($anticipatedAmount)
+    {
+        $this->anticipatedAmount = $anticipatedAmount;
 
         return $this;
     }

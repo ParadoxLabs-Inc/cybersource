@@ -155,6 +155,11 @@ class ShipTo
     protected $destinationTypes;
 
     /**
+     * @var string $method
+     */
+    protected $method;
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -734,6 +739,25 @@ class ShipTo
     public function setDestinationTypes($destinationTypes)
     {
         $this->destinationTypes = $destinationTypes;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @param string $method
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ShipTo
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
 
         return $this;
     }

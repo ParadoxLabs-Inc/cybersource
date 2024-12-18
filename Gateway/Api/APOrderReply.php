@@ -38,6 +38,21 @@ class APOrderReply
     protected $dateTime;
 
     /**
+     * @var \DateTime $updateDateTime
+     */
+    protected $updateDateTime;
+
+    /**
+     * @var string $orderProcessorTransactionId
+     */
+    protected $orderProcessorTransactionId;
+
+    /**
+     * @var string $merchantURL
+     */
+    protected $merchantURL;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -167,6 +182,75 @@ class APOrderReply
         } else {
             $this->dateTime = $dateTime->format(DateTime::ATOM);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateDateTime()
+    {
+        if ($this->updateDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->updateDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $updateDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APOrderReply
+     */
+    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    {
+        if ($updateDateTime == null) {
+            $this->updateDateTime = null;
+        } else {
+            $this->updateDateTime = $updateDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderProcessorTransactionId()
+    {
+        return $this->orderProcessorTransactionId;
+    }
+
+    /**
+     * @param string $orderProcessorTransactionId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APOrderReply
+     */
+    public function setOrderProcessorTransactionId($orderProcessorTransactionId)
+    {
+        $this->orderProcessorTransactionId = $orderProcessorTransactionId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantURL()
+    {
+        return $this->merchantURL;
+    }
+
+    /**
+     * @param string $merchantURL
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APOrderReply
+     */
+    public function setMerchantURL($merchantURL)
+    {
+        $this->merchantURL = $merchantURL;
 
         return $this;
     }

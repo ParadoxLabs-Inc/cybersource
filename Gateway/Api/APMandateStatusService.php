@@ -4,7 +4,6 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class APMandateStatusService
 {
-
     /**
      * @var boolean $run
      */
@@ -36,5 +35,4 @@ class APMandateStatusService
 
         return $this;
     }
-
 }

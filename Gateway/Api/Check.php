@@ -65,14 +65,24 @@ class Check
     protected $terminalState;
 
     /**
-     * @var string $customerPresent
-     */
-    protected $customerPresent;
-
-    /**
      * @var string $checkTransactionCode
      */
     protected $checkTransactionCode;
+
+    /**
+     * @var boolean $disableAccountValidation
+     */
+    protected $disableAccountValidation;
+
+    /**
+     * @var string $transactionReason
+     */
+    protected $transactionReason;
+
+    /**
+     * @var string $validationType
+     */
+    protected $validationType;
 
     /**
      * @return string
@@ -305,25 +315,6 @@ class Check
     /**
      * @return string
      */
-    public function getCustomerPresent()
-    {
-        return $this->customerPresent;
-    }
-
-    /**
-     * @param string $customerPresent
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\Check
-     */
-    public function setCustomerPresent($customerPresent)
-    {
-        $this->customerPresent = $customerPresent;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getCheckTransactionCode()
     {
         return $this->checkTransactionCode;
@@ -336,6 +327,63 @@ class Check
     public function setCheckTransactionCode($checkTransactionCode)
     {
         $this->checkTransactionCode = $checkTransactionCode;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getDisableAccountValidation()
+    {
+        return $this->disableAccountValidation;
+    }
+
+    /**
+     * @param boolean $disableAccountValidation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Check
+     */
+    public function setDisableAccountValidation($disableAccountValidation)
+    {
+        $this->disableAccountValidation = $disableAccountValidation;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionReason()
+    {
+        return $this->transactionReason;
+    }
+
+    /**
+     * @param string $transactionReason
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Check
+     */
+    public function setTransactionReason($transactionReason)
+    {
+        $this->transactionReason = $transactionReason;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationType()
+    {
+        return $this->validationType;
+    }
+
+    /**
+     * @param string $validationType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Check
+     */
+    public function setValidationType($validationType)
+    {
+        $this->validationType = $validationType;
 
         return $this;
     }

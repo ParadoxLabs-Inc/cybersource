@@ -30,6 +30,16 @@ class CCAuthService
     protected $directoryServerTransactionID;
 
     /**
+     * @var string $threeDSServerTransactionID
+     */
+    protected $threeDSServerTransactionID;
+
+    /**
+     * @var string $acsServerTransactionID
+     */
+    protected $acsServerTransactionID;
+
+    /**
      * @var string $commerceIndicator
      */
     protected $commerceIndicator;
@@ -220,6 +230,16 @@ class CCAuthService
     protected $deferredAuthIndicator;
 
     /**
+     * @var string $aggregatedAuthIndicator
+     */
+    protected $aggregatedAuthIndicator;
+
+    /**
+     * @var string $debtRecoveryIndicator
+     */
+    protected $debtRecoveryIndicator;
+
+    /**
      * @var string $delegatedAuthenticationExemptionIndicator
      */
     protected $delegatedAuthenticationExemptionIndicator;
@@ -245,9 +265,9 @@ class CCAuthService
     protected $effectiveAuthenticationType;
 
     /**
-     * @var string $paChallengeStatus
+     * @var string $paChallengeCode
      */
-    protected $paChallengeStatus;
+    protected $paChallengeCode;
 
     /**
      * @var string $paresStatusReason
@@ -255,9 +275,9 @@ class CCAuthService
     protected $paresStatusReason;
 
     /**
-     * @var string $paChallengeCancelCode
+     * @var string $challengeCancelCode
      */
-    protected $paChallengeCancelCode;
+    protected $challengeCancelCode;
 
     /**
      * @var string $paNetworkScore
@@ -268,6 +288,181 @@ class CCAuthService
      * @var string $paAuthenticationDate
      */
     protected $paAuthenticationDate;
+
+    /**
+     * @var string $authenticationOutageExemptionIndicator
+     */
+    protected $authenticationOutageExemptionIndicator;
+
+    /**
+     * @var string $verificationResultsPassportNumber
+     */
+    protected $verificationResultsPassportNumber;
+
+    /**
+     * @var string $verificationResultsPersonalId
+     */
+    protected $verificationResultsPersonalId;
+
+    /**
+     * @var string $verificationResultsDriversLicenseNo
+     */
+    protected $verificationResultsDriversLicenseNo;
+
+    /**
+     * @var string $verificationResultsBuyerRegistration
+     */
+    protected $verificationResultsBuyerRegistration;
+
+    /**
+     * @var string $delegatedAuthenticationResult
+     */
+    protected $delegatedAuthenticationResult;
+
+    /**
+     * @var string[] $paymentNetworkTransactionInformation
+     */
+    protected $paymentNetworkTransactionInformation;
+
+    /**
+     * @var string[] $transactionReason
+     */
+    protected $transactionReason;
+
+    /**
+     * @var string $panReturnIndicator
+     */
+    protected $panReturnIndicator;
+
+    /**
+     * @var string $cashAdvanceIndicator
+     */
+    protected $cashAdvanceIndicator;
+
+    /**
+     * @var boolean $splitPaymentTransaction
+     */
+    protected $splitPaymentTransaction;
+
+    /**
+     * @var boolean $cardVerificationIndicator
+     */
+    protected $cardVerificationIndicator;
+
+    /**
+     * @var string $exemptionDataRaw
+     */
+    protected $exemptionDataRaw;
+
+    /**
+     * @var string $transactionFlowIndicator
+     */
+    protected $transactionFlowIndicator;
+
+    /**
+     * @var string $networkPartnerId
+     */
+    protected $networkPartnerId;
+
+    /**
+     * @var string $acquirerMerchantId
+     */
+    protected $acquirerMerchantId;
+
+    /**
+     * @var string $merchantVerificationValue
+     */
+    protected $merchantVerificationValue;
+
+    /**
+     * @var string $extendAuthIndicator
+     */
+    protected $extendAuthIndicator;
+
+    /**
+     * @var string $acsReferenceNumber
+     */
+    protected $acsReferenceNumber;
+
+    /**
+     * @var string $dsReferenceNumber
+     */
+    protected $dsReferenceNumber;
+
+    /**
+     * @var string $initiatorType
+     */
+    protected $initiatorType;
+
+    /**
+     * @var string $purposeOfPayment
+     */
+    protected $purposeOfPayment;
+
+    /**
+     * @var string $aggregatorStreetAddress
+     */
+    protected $aggregatorStreetAddress;
+
+    /**
+     * @var string $aggregatorCity
+     */
+    protected $aggregatorCity;
+
+    /**
+     * @var string $aggregatorState
+     */
+    protected $aggregatorState;
+
+    /**
+     * @var string $aggregatorPostalcode
+     */
+    protected $aggregatorPostalcode;
+
+    /**
+     * @var string $aggregatorCountry
+     */
+    protected $aggregatorCountry;
+
+    /**
+     * @var string $eligibilityIndicator
+     */
+    protected $eligibilityIndicator;
+
+    /**
+     * @var serviceProcessing $serviceProcessing
+     */
+    protected $serviceProcessing;
+
+    /**
+     * @var benefit $benefit
+     */
+    protected $benefit;
+
+    /**
+     * @var language $language
+     */
+    protected $language;
+
+    /**
+     * @var string $originalPaymentId
+     */
+    protected $originalPaymentId;
+
+    /**
+     * @var string $authenticationBrand
+     */
+    protected $authenticationBrand;
+
+    /**
+     * @var string $gratuityAmount
+     */
+    protected $gratuityAmount;
+
+    /**
+     * @var string $cardProductSubtype
+     */
+    protected $cardProductSubtype;
 
     /**
      * @var boolean $run
@@ -373,6 +568,44 @@ class CCAuthService
     public function setDirectoryServerTransactionID($directoryServerTransactionID)
     {
         $this->directoryServerTransactionID = $directoryServerTransactionID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThreeDSServerTransactionID()
+    {
+        return $this->threeDSServerTransactionID;
+    }
+
+    /**
+     * @param string $threeDSServerTransactionID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setThreeDSServerTransactionID($threeDSServerTransactionID)
+    {
+        $this->threeDSServerTransactionID = $threeDSServerTransactionID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcsServerTransactionID()
+    {
+        return $this->acsServerTransactionID;
+    }
+
+    /**
+     * @param string $acsServerTransactionID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAcsServerTransactionID($acsServerTransactionID)
+    {
+        $this->acsServerTransactionID = $acsServerTransactionID;
 
         return $this;
     }
@@ -1102,6 +1335,44 @@ class CCAuthService
     /**
      * @return string
      */
+    public function getAggregatedAuthIndicator()
+    {
+        return $this->aggregatedAuthIndicator;
+    }
+
+    /**
+     * @param string $aggregatedAuthIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAggregatedAuthIndicator($aggregatedAuthIndicator)
+    {
+        $this->aggregatedAuthIndicator = $aggregatedAuthIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDebtRecoveryIndicator()
+    {
+        return $this->debtRecoveryIndicator;
+    }
+
+    /**
+     * @param string $debtRecoveryIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setDebtRecoveryIndicator($debtRecoveryIndicator)
+    {
+        $this->debtRecoveryIndicator = $debtRecoveryIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getDelegatedAuthenticationExemptionIndicator()
     {
         return $this->delegatedAuthenticationExemptionIndicator;
@@ -1197,18 +1468,18 @@ class CCAuthService
     /**
      * @return string
      */
-    public function getPaChallengeStatus()
+    public function getPaChallengeCode()
     {
-        return $this->paChallengeStatus;
+        return $this->paChallengeCode;
     }
 
     /**
-     * @param string $paChallengeStatus
+     * @param string $paChallengeCode
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
      */
-    public function setPaChallengeStatus($paChallengeStatus)
+    public function setPaChallengeCode($paChallengeCode)
     {
-        $this->paChallengeStatus = $paChallengeStatus;
+        $this->paChallengeCode = $paChallengeCode;
 
         return $this;
     }
@@ -1235,18 +1506,18 @@ class CCAuthService
     /**
      * @return string
      */
-    public function getPaChallengeCancelCode()
+    public function getChallengeCancelCode()
     {
-        return $this->paChallengeCancelCode;
+        return $this->challengeCancelCode;
     }
 
     /**
-     * @param string $paChallengeCancelCode
+     * @param string $challengeCancelCode
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
      */
-    public function setPaChallengeCancelCode($paChallengeCancelCode)
+    public function setChallengeCancelCode($challengeCancelCode)
     {
-        $this->paChallengeCancelCode = $paChallengeCancelCode;
+        $this->challengeCancelCode = $challengeCancelCode;
 
         return $this;
     }
@@ -1285,6 +1556,671 @@ class CCAuthService
     public function setPaAuthenticationDate($paAuthenticationDate)
     {
         $this->paAuthenticationDate = $paAuthenticationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthenticationOutageExemptionIndicator()
+    {
+        return $this->authenticationOutageExemptionIndicator;
+    }
+
+    /**
+     * @param string $authenticationOutageExemptionIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAuthenticationOutageExemptionIndicator($authenticationOutageExemptionIndicator)
+    {
+        $this->authenticationOutageExemptionIndicator = $authenticationOutageExemptionIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationResultsPassportNumber()
+    {
+        return $this->verificationResultsPassportNumber;
+    }
+
+    /**
+     * @param string $verificationResultsPassportNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setVerificationResultsPassportNumber($verificationResultsPassportNumber)
+    {
+        $this->verificationResultsPassportNumber = $verificationResultsPassportNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationResultsPersonalId()
+    {
+        return $this->verificationResultsPersonalId;
+    }
+
+    /**
+     * @param string $verificationResultsPersonalId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setVerificationResultsPersonalId($verificationResultsPersonalId)
+    {
+        $this->verificationResultsPersonalId = $verificationResultsPersonalId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationResultsDriversLicenseNo()
+    {
+        return $this->verificationResultsDriversLicenseNo;
+    }
+
+    /**
+     * @param string $verificationResultsDriversLicenseNo
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setVerificationResultsDriversLicenseNo($verificationResultsDriversLicenseNo)
+    {
+        $this->verificationResultsDriversLicenseNo = $verificationResultsDriversLicenseNo;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationResultsBuyerRegistration()
+    {
+        return $this->verificationResultsBuyerRegistration;
+    }
+
+    /**
+     * @param string $verificationResultsBuyerRegistration
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setVerificationResultsBuyerRegistration($verificationResultsBuyerRegistration)
+    {
+        $this->verificationResultsBuyerRegistration = $verificationResultsBuyerRegistration;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDelegatedAuthenticationResult()
+    {
+        return $this->delegatedAuthenticationResult;
+    }
+
+    /**
+     * @param string $delegatedAuthenticationResult
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setDelegatedAuthenticationResult($delegatedAuthenticationResult)
+    {
+        $this->delegatedAuthenticationResult = $delegatedAuthenticationResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPaymentNetworkTransactionInformation()
+    {
+        return $this->paymentNetworkTransactionInformation;
+    }
+
+    /**
+     * @param string[] $paymentNetworkTransactionInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setPaymentNetworkTransactionInformation(array $paymentNetworkTransactionInformation = null)
+    {
+        $this->paymentNetworkTransactionInformation = $paymentNetworkTransactionInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTransactionReason()
+    {
+        return $this->transactionReason;
+    }
+
+    /**
+     * @param string[] $transactionReason
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setTransactionReason(array $transactionReason = null)
+    {
+        $this->transactionReason = $transactionReason;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPanReturnIndicator()
+    {
+        return $this->panReturnIndicator;
+    }
+
+    /**
+     * @param string $panReturnIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setPanReturnIndicator($panReturnIndicator)
+    {
+        $this->panReturnIndicator = $panReturnIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCashAdvanceIndicator()
+    {
+        return $this->cashAdvanceIndicator;
+    }
+
+    /**
+     * @param string $cashAdvanceIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setCashAdvanceIndicator($cashAdvanceIndicator)
+    {
+        $this->cashAdvanceIndicator = $cashAdvanceIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getSplitPaymentTransaction()
+    {
+        return $this->splitPaymentTransaction;
+    }
+
+    /**
+     * @param boolean $splitPaymentTransaction
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setSplitPaymentTransaction($splitPaymentTransaction)
+    {
+        $this->splitPaymentTransaction = $splitPaymentTransaction;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCardVerificationIndicator()
+    {
+        return $this->cardVerificationIndicator;
+    }
+
+    /**
+     * @param boolean $cardVerificationIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setCardVerificationIndicator($cardVerificationIndicator)
+    {
+        $this->cardVerificationIndicator = $cardVerificationIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExemptionDataRaw()
+    {
+        return $this->exemptionDataRaw;
+    }
+
+    /**
+     * @param string $exemptionDataRaw
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setExemptionDataRaw($exemptionDataRaw)
+    {
+        $this->exemptionDataRaw = $exemptionDataRaw;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionFlowIndicator()
+    {
+        return $this->transactionFlowIndicator;
+    }
+
+    /**
+     * @param string $transactionFlowIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setTransactionFlowIndicator($transactionFlowIndicator)
+    {
+        $this->transactionFlowIndicator = $transactionFlowIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNetworkPartnerId()
+    {
+        return $this->networkPartnerId;
+    }
+
+    /**
+     * @param string $networkPartnerId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setNetworkPartnerId($networkPartnerId)
+    {
+        $this->networkPartnerId = $networkPartnerId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcquirerMerchantId()
+    {
+        return $this->acquirerMerchantId;
+    }
+
+    /**
+     * @param string $acquirerMerchantId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAcquirerMerchantId($acquirerMerchantId)
+    {
+        $this->acquirerMerchantId = $acquirerMerchantId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantVerificationValue()
+    {
+        return $this->merchantVerificationValue;
+    }
+
+    /**
+     * @param string $merchantVerificationValue
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setMerchantVerificationValue($merchantVerificationValue)
+    {
+        $this->merchantVerificationValue = $merchantVerificationValue;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtendAuthIndicator()
+    {
+        return $this->extendAuthIndicator;
+    }
+
+    /**
+     * @param string $extendAuthIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setExtendAuthIndicator($extendAuthIndicator)
+    {
+        $this->extendAuthIndicator = $extendAuthIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcsReferenceNumber()
+    {
+        return $this->acsReferenceNumber;
+    }
+
+    /**
+     * @param string $acsReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAcsReferenceNumber($acsReferenceNumber)
+    {
+        $this->acsReferenceNumber = $acsReferenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDsReferenceNumber()
+    {
+        return $this->dsReferenceNumber;
+    }
+
+    /**
+     * @param string $dsReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setDsReferenceNumber($dsReferenceNumber)
+    {
+        $this->dsReferenceNumber = $dsReferenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInitiatorType()
+    {
+        return $this->initiatorType;
+    }
+
+    /**
+     * @param string $initiatorType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setInitiatorType($initiatorType)
+    {
+        $this->initiatorType = $initiatorType;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPurposeOfPayment()
+    {
+        return $this->purposeOfPayment;
+    }
+
+    /**
+     * @param string $purposeOfPayment
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setPurposeOfPayment($purposeOfPayment)
+    {
+        $this->purposeOfPayment = $purposeOfPayment;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAggregatorStreetAddress()
+    {
+        return $this->aggregatorStreetAddress;
+    }
+
+    /**
+     * @param string $aggregatorStreetAddress
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAggregatorStreetAddress($aggregatorStreetAddress)
+    {
+        $this->aggregatorStreetAddress = $aggregatorStreetAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAggregatorCity()
+    {
+        return $this->aggregatorCity;
+    }
+
+    /**
+     * @param string $aggregatorCity
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAggregatorCity($aggregatorCity)
+    {
+        $this->aggregatorCity = $aggregatorCity;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAggregatorState()
+    {
+        return $this->aggregatorState;
+    }
+
+    /**
+     * @param string $aggregatorState
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAggregatorState($aggregatorState)
+    {
+        $this->aggregatorState = $aggregatorState;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAggregatorPostalcode()
+    {
+        return $this->aggregatorPostalcode;
+    }
+
+    /**
+     * @param string $aggregatorPostalcode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAggregatorPostalcode($aggregatorPostalcode)
+    {
+        $this->aggregatorPostalcode = $aggregatorPostalcode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAggregatorCountry()
+    {
+        return $this->aggregatorCountry;
+    }
+
+    /**
+     * @param string $aggregatorCountry
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAggregatorCountry($aggregatorCountry)
+    {
+        $this->aggregatorCountry = $aggregatorCountry;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEligibilityIndicator()
+    {
+        return $this->eligibilityIndicator;
+    }
+
+    /**
+     * @param string $eligibilityIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setEligibilityIndicator($eligibilityIndicator)
+    {
+        $this->eligibilityIndicator = $eligibilityIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return serviceProcessing
+     */
+    public function getServiceProcessing()
+    {
+        return $this->serviceProcessing;
+    }
+
+    /**
+     * @param serviceProcessing $serviceProcessing
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setServiceProcessing($serviceProcessing)
+    {
+        $this->serviceProcessing = $serviceProcessing;
+
+        return $this;
+    }
+
+    /**
+     * @return benefit
+     */
+    public function getBenefit()
+    {
+        return $this->benefit;
+    }
+
+    /**
+     * @param benefit $benefit
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setBenefit($benefit)
+    {
+        $this->benefit = $benefit;
+
+        return $this;
+    }
+
+    /**
+     * @return language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param language $language
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalPaymentId()
+    {
+        return $this->originalPaymentId;
+    }
+
+    /**
+     * @param string $originalPaymentId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setOriginalPaymentId($originalPaymentId)
+    {
+        $this->originalPaymentId = $originalPaymentId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthenticationBrand()
+    {
+        return $this->authenticationBrand;
+    }
+
+    /**
+     * @param string $authenticationBrand
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setAuthenticationBrand($authenticationBrand)
+    {
+        $this->authenticationBrand = $authenticationBrand;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGratuityAmount()
+    {
+        return $this->gratuityAmount;
+    }
+
+    /**
+     * @param string $gratuityAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setGratuityAmount($gratuityAmount)
+    {
+        $this->gratuityAmount = $gratuityAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardProductSubtype()
+    {
+        return $this->cardProductSubtype;
+    }
+
+    /**
+     * @param string $cardProductSubtype
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
+     */
+    public function setCardProductSubtype($cardProductSubtype)
+    {
+        $this->cardProductSubtype = $cardProductSubtype;
 
         return $this;
     }

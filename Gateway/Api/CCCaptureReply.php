@@ -68,6 +68,16 @@ class CCCaptureReply
     protected $reconciliationReferenceNumber;
 
     /**
+     * @var string $settlementDate
+     */
+    protected $settlementDate;
+
+    /**
+     * @var string $paymentNetworkTransactionID
+     */
+    protected $paymentNetworkTransactionID;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -335,6 +345,44 @@ class CCCaptureReply
     public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
     {
         $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettlementDate()
+    {
+        return $this->settlementDate;
+    }
+
+    /**
+     * @param string $settlementDate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
+     */
+    public function setSettlementDate($settlementDate)
+    {
+        $this->settlementDate = $settlementDate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentNetworkTransactionID()
+    {
+        return $this->paymentNetworkTransactionID;
+    }
+
+    /**
+     * @param string $paymentNetworkTransactionID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
+     */
+    public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
+    {
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
 
         return $this;
     }

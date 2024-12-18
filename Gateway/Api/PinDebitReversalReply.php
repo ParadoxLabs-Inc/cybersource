@@ -33,6 +33,11 @@ class PinDebitReversalReply
     protected $dateTime;
 
     /**
+     * @var string $reconciliationReferenceNumber
+     */
+    protected $reconciliationReferenceNumber;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -143,6 +148,25 @@ class PinDebitReversalReply
         } else {
             $this->dateTime = $dateTime->format(DateTime::ATOM);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReconciliationReferenceNumber()
+    {
+        return $this->reconciliationReferenceNumber;
+    }
+
+    /**
+     * @param string $reconciliationReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PinDebitReversalReply
+     */
+    public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
+    {
+        $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
 
         return $this;
     }

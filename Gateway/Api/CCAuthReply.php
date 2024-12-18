@@ -343,6 +343,11 @@ class CCAuthReply
     protected $processorTransactionID;
 
     /**
+     * @var string $transSequenceNumber
+     */
+    protected $transSequenceNumber;
+
+    /**
      * @var string $providerReasonCode
      */
     protected $providerReasonCode;
@@ -416,6 +421,101 @@ class CCAuthReply
      * @var string $issuerPINrequest
      */
     protected $issuerPINrequest;
+
+    /**
+     * @var PaymentInsightsInformation $paymentInsightsInformation
+     */
+    protected $paymentInsightsInformation;
+
+    /**
+     * @var string $nameMatch
+     */
+    protected $nameMatch;
+
+    /**
+     * @var string $evFirstNameRaw
+     */
+    protected $evFirstNameRaw;
+
+    /**
+     * @var string $evFirstName
+     */
+    protected $evFirstName;
+
+    /**
+     * @var string $evMiddleNameRaw
+     */
+    protected $evMiddleNameRaw;
+
+    /**
+     * @var string $evMiddle
+     */
+    protected $evMiddle;
+
+    /**
+     * @var string $evLastNameRaw
+     */
+    protected $evLastNameRaw;
+
+    /**
+     * @var string $evLastName
+     */
+    protected $evLastName;
+
+    /**
+     * @var string $settlementDate
+     */
+    protected $settlementDate;
+
+    /**
+     * @var AdditionalToken $additionalToken
+     */
+    protected $additionalToken;
+
+    /**
+     * @var string $paymentTypeIndicator
+     */
+    protected $paymentTypeIndicator;
+
+    /**
+     * @var string $paymentNetworkTransactionInformation
+     */
+    protected $paymentNetworkTransactionInformation;
+
+    /**
+     * @var authenticationData $authenticationData
+     */
+    protected $authenticationData;
+
+    /**
+     * @var accountHolder $accountHolder
+     */
+    protected $accountHolder;
+
+    /**
+     * @var string $eligibilityIndicator
+     */
+    protected $eligibilityIndicator;
+
+    /**
+     * @var string $transactionType
+     */
+    protected $transactionType;
+
+    /**
+     * @var serviceProcessing $serviceProcessing
+     */
+    protected $serviceProcessing;
+
+    /**
+     * @var benefit $benefit
+     */
+    protected $benefit;
+
+    /**
+     * @var merchant $merchant
+     */
+    protected $merchant;
 
     /**
      * @param int $reasonCode
@@ -1737,6 +1837,25 @@ class CCAuthReply
     /**
      * @return string
      */
+    public function getTransSequenceNumber()
+    {
+        return $this->transSequenceNumber;
+    }
+
+    /**
+     * @param string $transSequenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setTransSequenceNumber($transSequenceNumber)
+    {
+        $this->transSequenceNumber = $transSequenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getProviderReasonCode()
     {
         return $this->providerReasonCode;
@@ -2015,6 +2134,367 @@ class CCAuthReply
     public function setIssuerPINrequest($issuerPINrequest)
     {
         $this->issuerPINrequest = $issuerPINrequest;
+
+        return $this;
+    }
+
+    /**
+     * @return PaymentInsightsInformation
+     */
+    public function getPaymentInsightsInformation()
+    {
+        return $this->paymentInsightsInformation;
+    }
+
+    /**
+     * @param PaymentInsightsInformation $paymentInsightsInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setPaymentInsightsInformation($paymentInsightsInformation)
+    {
+        $this->paymentInsightsInformation = $paymentInsightsInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameMatch()
+    {
+        return $this->nameMatch;
+    }
+
+    /**
+     * @param string $nameMatch
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setNameMatch($nameMatch)
+    {
+        $this->nameMatch = $nameMatch;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvFirstNameRaw()
+    {
+        return $this->evFirstNameRaw;
+    }
+
+    /**
+     * @param string $evFirstNameRaw
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEvFirstNameRaw($evFirstNameRaw)
+    {
+        $this->evFirstNameRaw = $evFirstNameRaw;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvFirstName()
+    {
+        return $this->evFirstName;
+    }
+
+    /**
+     * @param string $evFirstName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEvFirstName($evFirstName)
+    {
+        $this->evFirstName = $evFirstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvMiddleNameRaw()
+    {
+        return $this->evMiddleNameRaw;
+    }
+
+    /**
+     * @param string $evMiddleNameRaw
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEvMiddleNameRaw($evMiddleNameRaw)
+    {
+        $this->evMiddleNameRaw = $evMiddleNameRaw;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvMiddle()
+    {
+        return $this->evMiddle;
+    }
+
+    /**
+     * @param string $evMiddle
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEvMiddle($evMiddle)
+    {
+        $this->evMiddle = $evMiddle;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvLastNameRaw()
+    {
+        return $this->evLastNameRaw;
+    }
+
+    /**
+     * @param string $evLastNameRaw
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEvLastNameRaw($evLastNameRaw)
+    {
+        $this->evLastNameRaw = $evLastNameRaw;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvLastName()
+    {
+        return $this->evLastName;
+    }
+
+    /**
+     * @param string $evLastName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEvLastName($evLastName)
+    {
+        $this->evLastName = $evLastName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettlementDate()
+    {
+        return $this->settlementDate;
+    }
+
+    /**
+     * @param string $settlementDate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setSettlementDate($settlementDate)
+    {
+        $this->settlementDate = $settlementDate;
+
+        return $this;
+    }
+
+    /**
+     * @return AdditionalToken
+     */
+    public function getAdditionalToken()
+    {
+        return $this->additionalToken;
+    }
+
+    /**
+     * @param AdditionalToken $additionalToken
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setAdditionalToken($additionalToken)
+    {
+        $this->additionalToken = $additionalToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentTypeIndicator()
+    {
+        return $this->paymentTypeIndicator;
+    }
+
+    /**
+     * @param string $paymentTypeIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setPaymentTypeIndicator($paymentTypeIndicator)
+    {
+        $this->paymentTypeIndicator = $paymentTypeIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentNetworkTransactionInformation()
+    {
+        return $this->paymentNetworkTransactionInformation;
+    }
+
+    /**
+     * @param string $paymentNetworkTransactionInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setPaymentNetworkTransactionInformation($paymentNetworkTransactionInformation)
+    {
+        $this->paymentNetworkTransactionInformation = $paymentNetworkTransactionInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return authenticationData
+     */
+    public function getAuthenticationData()
+    {
+        return $this->authenticationData;
+    }
+
+    /**
+     * @param authenticationData $authenticationData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setAuthenticationData($authenticationData)
+    {
+        $this->authenticationData = $authenticationData;
+
+        return $this;
+    }
+
+    /**
+     * @return accountHolder
+     */
+    public function getAccountHolder()
+    {
+        return $this->accountHolder;
+    }
+
+    /**
+     * @param accountHolder $accountHolder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setAccountHolder($accountHolder)
+    {
+        $this->accountHolder = $accountHolder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEligibilityIndicator()
+    {
+        return $this->eligibilityIndicator;
+    }
+
+    /**
+     * @param string $eligibilityIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setEligibilityIndicator($eligibilityIndicator)
+    {
+        $this->eligibilityIndicator = $eligibilityIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionType()
+    {
+        return $this->transactionType;
+    }
+
+    /**
+     * @param string $transactionType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setTransactionType($transactionType)
+    {
+        $this->transactionType = $transactionType;
+
+        return $this;
+    }
+
+    /**
+     * @return serviceProcessing
+     */
+    public function getServiceProcessing()
+    {
+        return $this->serviceProcessing;
+    }
+
+    /**
+     * @param serviceProcessing $serviceProcessing
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setServiceProcessing($serviceProcessing)
+    {
+        $this->serviceProcessing = $serviceProcessing;
+
+        return $this;
+    }
+
+    /**
+     * @return benefit
+     */
+    public function getBenefit()
+    {
+        return $this->benefit;
+    }
+
+    /**
+     * @param benefit $benefit
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setBenefit($benefit)
+    {
+        $this->benefit = $benefit;
+
+        return $this;
+    }
+
+    /**
+     * @return merchant
+     */
+    public function getMerchant()
+    {
+        return $this->merchant;
+    }
+
+    /**
+     * @param merchant $merchant
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
+     */
+    public function setMerchant($merchant)
+    {
+        $this->merchant = $merchant;
 
         return $this;
     }

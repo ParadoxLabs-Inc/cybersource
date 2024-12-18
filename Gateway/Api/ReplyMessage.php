@@ -103,6 +103,11 @@ class ReplyMessage
     protected $ccCreditReply;
 
     /**
+     * @var CCCreditAuthReply $ccCreditAuthReply
+     */
+    protected $ccCreditAuthReply;
+
+    /**
      * @var CCAuthReversalReply $ccAuthReversalReply
      */
     protected $ccAuthReversalReply;
@@ -111,6 +116,11 @@ class ReplyMessage
      * @var CCAutoAuthReversalReply $ccAutoAuthReversalReply
      */
     protected $ccAutoAuthReversalReply;
+
+    /**
+     * @var CCCreditAuthReversalReply $ccCreditAuthReversalReply
+     */
+    protected $ccCreditAuthReversalReply;
 
     /**
      * @var CCDCCReply $ccDCCReply
@@ -136,6 +146,11 @@ class ReplyMessage
      * @var ECAuthenticateReply $ecAuthenticateReply
      */
     protected $ecAuthenticateReply;
+
+    /**
+     * @var PayerAuthSetupReply $payerAuthSetupReply
+     */
+    protected $payerAuthSetupReply;
 
     /**
      * @var PayerAuthEnrollReply $payerAuthEnrollReply
@@ -613,6 +628,11 @@ class ReplyMessage
     protected $paymentAccountReference;
 
     /**
+     * @var string $paymentSolution
+     */
+    protected $paymentSolution;
+
+    /**
      * @var string $authIndicator
      */
     protected $authIndicator;
@@ -668,6 +688,11 @@ class ReplyMessage
     protected $pos;
 
     /**
+     * @var BalanceInfo[] $balanceInfo
+     */
+    protected $balanceInfo;
+
+    /**
      * @var string $issuerMessageAction
      */
     protected $issuerMessageAction;
@@ -676,6 +701,11 @@ class ReplyMessage
      * @var string $customerID
      */
     protected $customerID;
+
+    /**
+     * @var string $partnerOriginalTransactionID
+     */
+    protected $partnerOriginalTransactionID;
 
     /**
      * @var Routing $routing
@@ -763,6 +793,16 @@ class ReplyMessage
     protected $giftCardReversalReply;
 
     /**
+     * @var GiftCardReloadReply $giftCardReloadReply
+     */
+    protected $giftCardReloadReply;
+
+    /**
+     * @var GiftCardRefundReply $giftCardRefundReply
+     */
+    protected $giftCardRefundReply;
+
+    /**
      * @var CCCheckStatusReply $ccCheckStatusReply
      */
     protected $ccCheckStatusReply;
@@ -776,6 +816,46 @@ class ReplyMessage
      * @var AbortReply $abortReply
      */
     protected $abortReply;
+
+    /**
+     * @var payByPoints $payByPoints
+     */
+    protected $payByPoints;
+
+    /**
+     * @var Customer $customer
+     */
+    protected $customer;
+
+    /**
+     * @var string $saveId
+     */
+    protected $saveId;
+
+    /**
+     * @var AuthorizationOptions $authorizationOptions
+     */
+    protected $authorizationOptions;
+
+    /**
+     * @var APCaptureService $apCaptureService
+     */
+    protected $apCaptureService;
+
+    /**
+     * @var string $finalCapture
+     */
+    protected $finalCapture;
+
+    /**
+     * @var string $disbursementMode
+     */
+    protected $disbursementMode;
+
+    /**
+     * @var EmbeddedActions $embeddedActions
+     */
+    protected $embeddedActions;
 
     /**
      * @var ReplyReserved $reserved
@@ -1158,6 +1238,25 @@ class ReplyMessage
     }
 
     /**
+     * @return CCCreditAuthReply
+     */
+    public function getCcCreditAuthReply()
+    {
+        return $this->ccCreditAuthReply;
+    }
+
+    /**
+     * @param CCCreditAuthReply $ccCreditAuthReply
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setCcCreditAuthReply($ccCreditAuthReply)
+    {
+        $this->ccCreditAuthReply = $ccCreditAuthReply;
+
+        return $this;
+    }
+
+    /**
      * @return CCAuthReversalReply
      */
     public function getCcAuthReversalReply()
@@ -1191,6 +1290,25 @@ class ReplyMessage
     public function setCcAutoAuthReversalReply($ccAutoAuthReversalReply)
     {
         $this->ccAutoAuthReversalReply = $ccAutoAuthReversalReply;
+
+        return $this;
+    }
+
+    /**
+     * @return CCCreditAuthReversalReply
+     */
+    public function getCcCreditAuthReversalReply()
+    {
+        return $this->ccCreditAuthReversalReply;
+    }
+
+    /**
+     * @param CCCreditAuthReversalReply $ccCreditAuthReversalReply
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setCcCreditAuthReversalReply($ccCreditAuthReversalReply)
+    {
+        $this->ccCreditAuthReversalReply = $ccCreditAuthReversalReply;
 
         return $this;
     }
@@ -1286,6 +1404,25 @@ class ReplyMessage
     public function setEcAuthenticateReply($ecAuthenticateReply)
     {
         $this->ecAuthenticateReply = $ecAuthenticateReply;
+
+        return $this;
+    }
+
+    /**
+     * @return PayerAuthSetupReply
+     */
+    public function getPayerAuthSetupReply()
+    {
+        return $this->payerAuthSetupReply;
+    }
+
+    /**
+     * @param PayerAuthSetupReply $payerAuthSetupReply
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setPayerAuthSetupReply($payerAuthSetupReply)
+    {
+        $this->payerAuthSetupReply = $payerAuthSetupReply;
 
         return $this;
     }
@@ -3098,6 +3235,25 @@ class ReplyMessage
     /**
      * @return string
      */
+    public function getPaymentSolution()
+    {
+        return $this->paymentSolution;
+    }
+
+    /**
+     * @param string $paymentSolution
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setPaymentSolution($paymentSolution)
+    {
+        $this->paymentSolution = $paymentSolution;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getAuthIndicator()
     {
         return $this->authIndicator;
@@ -3305,6 +3461,25 @@ class ReplyMessage
     }
 
     /**
+     * @return BalanceInfo[]
+     */
+    public function getBalanceInfo()
+    {
+        return $this->balanceInfo;
+    }
+
+    /**
+     * @param BalanceInfo[] $balanceInfo
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setBalanceInfo(array $balanceInfo = null)
+    {
+        $this->balanceInfo = $balanceInfo;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getIssuerMessageAction()
@@ -3338,6 +3513,25 @@ class ReplyMessage
     public function setCustomerID($customerID)
     {
         $this->customerID = $customerID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartnerOriginalTransactionID()
+    {
+        return $this->partnerOriginalTransactionID;
+    }
+
+    /**
+     * @param string $partnerOriginalTransactionID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setPartnerOriginalTransactionID($partnerOriginalTransactionID)
+    {
+        $this->partnerOriginalTransactionID = $partnerOriginalTransactionID;
 
         return $this;
     }
@@ -3678,6 +3872,44 @@ class ReplyMessage
     }
 
     /**
+     * @return GiftCardReloadReply
+     */
+    public function getGiftCardReloadReply()
+    {
+        return $this->giftCardReloadReply;
+    }
+
+    /**
+     * @param GiftCardReloadReply $giftCardReloadReply
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setGiftCardReloadReply($giftCardReloadReply)
+    {
+        $this->giftCardReloadReply = $giftCardReloadReply;
+
+        return $this;
+    }
+
+    /**
+     * @return GiftCardRefundReply
+     */
+    public function getGiftCardRefundReply()
+    {
+        return $this->giftCardRefundReply;
+    }
+
+    /**
+     * @param GiftCardRefundReply $giftCardRefundReply
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setGiftCardRefundReply($giftCardRefundReply)
+    {
+        $this->giftCardRefundReply = $giftCardRefundReply;
+
+        return $this;
+    }
+
+    /**
      * @return CCCheckStatusReply
      */
     public function getCcCheckStatusReply()
@@ -3730,6 +3962,158 @@ class ReplyMessage
     public function setAbortReply($abortReply)
     {
         $this->abortReply = $abortReply;
+
+        return $this;
+    }
+
+    /**
+     * @return payByPoints
+     */
+    public function getPayByPoints()
+    {
+        return $this->payByPoints;
+    }
+
+    /**
+     * @param payByPoints $payByPoints
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setPayByPoints($payByPoints)
+    {
+        $this->payByPoints = $payByPoints;
+
+        return $this;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaveId()
+    {
+        return $this->saveId;
+    }
+
+    /**
+     * @param string $saveId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setSaveId($saveId)
+    {
+        $this->saveId = $saveId;
+
+        return $this;
+    }
+
+    /**
+     * @return AuthorizationOptions
+     */
+    public function getAuthorizationOptions()
+    {
+        return $this->authorizationOptions;
+    }
+
+    /**
+     * @param AuthorizationOptions $authorizationOptions
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setAuthorizationOptions($authorizationOptions)
+    {
+        $this->authorizationOptions = $authorizationOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return APCaptureService
+     */
+    public function getApCaptureService()
+    {
+        return $this->apCaptureService;
+    }
+
+    /**
+     * @param APCaptureService $apCaptureService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setApCaptureService($apCaptureService)
+    {
+        $this->apCaptureService = $apCaptureService;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFinalCapture()
+    {
+        return $this->finalCapture;
+    }
+
+    /**
+     * @param string $finalCapture
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setFinalCapture($finalCapture)
+    {
+        $this->finalCapture = $finalCapture;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisbursementMode()
+    {
+        return $this->disbursementMode;
+    }
+
+    /**
+     * @param string $disbursementMode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setDisbursementMode($disbursementMode)
+    {
+        $this->disbursementMode = $disbursementMode;
+
+        return $this;
+    }
+
+    /**
+     * @return EmbeddedActions
+     */
+    public function getEmbeddedActions()
+    {
+        return $this->embeddedActions;
+    }
+
+    /**
+     * @param EmbeddedActions $embeddedActions
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
+     */
+    public function setEmbeddedActions($embeddedActions)
+    {
+        $this->embeddedActions = $embeddedActions;
 
         return $this;
     }

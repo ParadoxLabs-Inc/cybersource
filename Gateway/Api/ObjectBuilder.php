@@ -15,10 +15,14 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
+
+use Magento\Sales\Api\Data\OrderInterface;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 
 /**
  * ObjectBuilder Class
@@ -91,7 +95,7 @@ class ObjectBuilder
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return \ParadoxLabs\CyberSource\Gateway\Api\BillTo
      */
-    public function getOrderBillTo(\Magento\Sales\Api\Data\OrderInterface $order)
+    public function getOrderBillTo(OrderInterface $order)
     {
         /** @var \Magento\Sales\Model\Order\Address $billingAddress */
         $billingAddress = $order->getBillingAddress();
@@ -118,7 +122,7 @@ class ObjectBuilder
      * @param \Magento\Sales\Api\Data\OrderInterface $order
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ShipTo
      */
-    public function getOrderShipTo(\Magento\Sales\Api\Data\OrderInterface $order)
+    public function getOrderShipTo(OrderInterface $order)
     {
         /** @var \Magento\Sales\Model\Order\Address $shippingAddress */
         $shippingAddress = $order->getShippingAddress();
@@ -188,7 +192,7 @@ class ObjectBuilder
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RecurringSubscriptionInfo
      */
-    public function getTokenInfo(\ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
+    public function getTokenInfo(CardInterface $card)
     {
         /** @var \ParadoxLabs\CyberSource\Model\Card $card */
         $tokenInfo = new RecurringSubscriptionInfo();

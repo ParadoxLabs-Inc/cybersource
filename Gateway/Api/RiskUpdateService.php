@@ -50,7 +50,7 @@ class RiskUpdateService
     protected $deviceFingerprintTrueIPAddress;
 
     /**
-     * @var string $deviceFingerprintProxyIPAddress
+     * @var int $deviceFingerprintProxyIPAddress
      */
     protected $deviceFingerprintProxyIPAddress;
 
@@ -239,7 +239,7 @@ class RiskUpdateService
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getDeviceFingerprintProxyIPAddress()
     {
@@ -247,7 +247,7 @@ class RiskUpdateService
     }
 
     /**
-     * @param string $deviceFingerprintProxyIPAddress
+     * @param int $deviceFingerprintProxyIPAddress
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RiskUpdateService
      */
     public function setDeviceFingerprintProxyIPAddress($deviceFingerprintProxyIPAddress)

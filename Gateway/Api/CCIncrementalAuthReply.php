@@ -48,6 +48,11 @@ class CCIncrementalAuthReply
     protected $cardCategory;
 
     /**
+     * @var merchant $merchant
+     */
+    protected $merchant;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -215,6 +220,25 @@ class CCIncrementalAuthReply
     public function setCardCategory($cardCategory)
     {
         $this->cardCategory = $cardCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return merchant
+     */
+    public function getMerchant()
+    {
+        return $this->merchant;
+    }
+
+    /**
+     * @param merchant $merchant
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCIncrementalAuthReply
+     */
+    public function setMerchant($merchant)
+    {
+        $this->merchant = $merchant;
 
         return $this;
     }

@@ -125,6 +125,11 @@ class Wallet
     protected $errorDescription;
 
     /**
+     * @var string $pinURL
+     */
+    protected $pinURL;
+
+    /**
      * @return string
      */
     public function getType()
@@ -576,6 +581,25 @@ class Wallet
     public function setErrorDescription($errorDescription)
     {
         $this->errorDescription = $errorDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPinURL()
+    {
+        return $this->pinURL;
+    }
+
+    /**
+     * @param string $pinURL
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Wallet
+     */
+    public function setPinURL($pinURL)
+    {
+        $this->pinURL = $pinURL;
 
         return $this;
     }

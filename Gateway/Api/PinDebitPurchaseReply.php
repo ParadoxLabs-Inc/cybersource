@@ -83,6 +83,11 @@ class PinDebitPurchaseReply
     protected $accountBalanceSign;
 
     /**
+     * @var string $reconciliationReferenceNumber
+     */
+    protected $reconciliationReferenceNumber;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -383,6 +388,25 @@ class PinDebitPurchaseReply
     public function setAccountBalanceSign($accountBalanceSign)
     {
         $this->accountBalanceSign = $accountBalanceSign;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReconciliationReferenceNumber()
+    {
+        return $this->reconciliationReferenceNumber;
+    }
+
+    /**
+     * @param string $reconciliationReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PinDebitPurchaseReply
+     */
+    public function setReconciliationReferenceNumber($reconciliationReferenceNumber)
+    {
+        $this->reconciliationReferenceNumber = $reconciliationReferenceNumber;
 
         return $this;
     }

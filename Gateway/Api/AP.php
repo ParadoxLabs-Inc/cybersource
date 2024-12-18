@@ -125,6 +125,11 @@ class AP
     protected $shippingAddressImmutable;
 
     /**
+     * @var string $appUrl
+     */
+    protected $appUrl;
+
+    /**
      * @return string
      */
     public function getOrderID()
@@ -576,6 +581,25 @@ class AP
     public function setShippingAddressImmutable($shippingAddressImmutable)
     {
         $this->shippingAddressImmutable = $shippingAddressImmutable;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppUrl()
+    {
+        return $this->appUrl;
+    }
+
+    /**
+     * @param string $appUrl
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AP
+     */
+    public function setAppUrl($appUrl)
+    {
+        $this->appUrl = $appUrl;
 
         return $this;
     }

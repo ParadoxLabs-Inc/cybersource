@@ -155,6 +155,26 @@ class Installment
     protected $gracePeriodDurationType;
 
     /**
+     * @var string $planID
+     */
+    protected $planID;
+
+    /**
+     * @var string $interestAmount
+     */
+    protected $interestAmount;
+
+    /**
+     * @var string $identifier
+     */
+    protected $identifier;
+
+    /**
+     * @var string $validationIndicator
+     */
+    protected $validationIndicator;
+
+    /**
      * @return string
      */
     public function getSequence()
@@ -720,6 +740,82 @@ class Installment
     public function setGracePeriodDurationType($gracePeriodDurationType)
     {
         $this->gracePeriodDurationType = $gracePeriodDurationType;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlanID()
+    {
+        return $this->planID;
+    }
+
+    /**
+     * @param string $planID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setPlanID($planID)
+    {
+        $this->planID = $planID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInterestAmount()
+    {
+        return $this->interestAmount;
+    }
+
+    /**
+     * @param string $interestAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setInterestAmount($interestAmount)
+    {
+        $this->interestAmount = $interestAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param string $identifier
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationIndicator()
+    {
+        return $this->validationIndicator;
+    }
+
+    /**
+     * @param string $validationIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Installment
+     */
+    public function setValidationIndicator($validationIndicator)
+    {
+        $this->validationIndicator = $validationIndicator;
 
         return $this;
     }

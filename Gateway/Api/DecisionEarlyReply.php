@@ -5,24 +5,14 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 class DecisionEarlyReply
 {
     /**
-     * @var int $reasonCode
+     * @var int $casePriority
      */
-    protected $reasonCode;
+    protected $casePriority;
 
     /**
-     * @var string $rcode
+     * @var string $decision
      */
-    protected $rcode;
-
-    /**
-     * @var string $rflag
-     */
-    protected $rflag;
-
-    /**
-     * @var string $rmsg
-     */
-    protected $rmsg;
+    protected $decision;
 
     /**
      * @var string $action
@@ -30,25 +20,40 @@ class DecisionEarlyReply
     protected $action;
 
     /**
+     * @var string $applicableOrderModifications
+     */
+    protected $applicableOrderModifications;
+
+    /**
+     * @var string $appliedOrderModifications
+     */
+    protected $appliedOrderModifications;
+
+    /**
      * @var ProfileReplyEarly $activeProfileReply
      */
     protected $activeProfileReply;
 
     /**
+     * @var VelocityCountsEarly $velocityCounts
+     */
+    protected $velocityCounts;
+
+    /**
      * @return int
      */
-    public function getReasonCode()
+    public function getCasePriority()
     {
-        return $this->reasonCode;
+        return $this->casePriority;
     }
 
     /**
-     * @param int $reasonCode
+     * @param int $casePriority
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
      */
-    public function setReasonCode($reasonCode)
+    public function setCasePriority($casePriority)
     {
-        $this->reasonCode = $reasonCode;
+        $this->casePriority = $casePriority;
 
         return $this;
     }
@@ -56,56 +61,18 @@ class DecisionEarlyReply
     /**
      * @return string
      */
-    public function getRcode()
+    public function getDecision()
     {
-        return $this->rcode;
+        return $this->decision;
     }
 
     /**
-     * @param string $rcode
+     * @param string $decision
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
      */
-    public function setRcode($rcode)
+    public function setDecision($decision)
     {
-        $this->rcode = $rcode;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRflag()
-    {
-        return $this->rflag;
-    }
-
-    /**
-     * @param string $rflag
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
-     */
-    public function setRflag($rflag)
-    {
-        $this->rflag = $rflag;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRmsg()
-    {
-        return $this->rmsg;
-    }
-
-    /**
-     * @param string $rmsg
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
-     */
-    public function setRmsg($rmsg)
-    {
-        $this->rmsg = $rmsg;
+        $this->decision = $decision;
 
         return $this;
     }
@@ -130,6 +97,44 @@ class DecisionEarlyReply
     }
 
     /**
+     * @return string
+     */
+    public function getApplicableOrderModifications()
+    {
+        return $this->applicableOrderModifications;
+    }
+
+    /**
+     * @param string $applicableOrderModifications
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
+     */
+    public function setApplicableOrderModifications($applicableOrderModifications)
+    {
+        $this->applicableOrderModifications = $applicableOrderModifications;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppliedOrderModifications()
+    {
+        return $this->appliedOrderModifications;
+    }
+
+    /**
+     * @param string $appliedOrderModifications
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
+     */
+    public function setAppliedOrderModifications($appliedOrderModifications)
+    {
+        $this->appliedOrderModifications = $appliedOrderModifications;
+
+        return $this;
+    }
+
+    /**
      * @return ProfileReplyEarly
      */
     public function getActiveProfileReply()
@@ -144,6 +149,25 @@ class DecisionEarlyReply
     public function setActiveProfileReply($activeProfileReply)
     {
         $this->activeProfileReply = $activeProfileReply;
+
+        return $this;
+    }
+
+    /**
+     * @return VelocityCountsEarly
+     */
+    public function getVelocityCounts()
+    {
+        return $this->velocityCounts;
+    }
+
+    /**
+     * @param VelocityCountsEarly $velocityCounts
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionEarlyReply
+     */
+    public function setVelocityCounts($velocityCounts)
+    {
+        $this->velocityCounts = $velocityCounts;
 
         return $this;
     }

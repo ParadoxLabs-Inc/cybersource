@@ -10,6 +10,11 @@ class APImportMandateService
     protected $dateSigned;
 
     /**
+     * @var string $setupDDInstruction
+     */
+    protected $setupDDInstruction;
+
+    /**
      * @var boolean $run
      */
     protected $run;
@@ -37,6 +42,25 @@ class APImportMandateService
     public function setDateSigned($dateSigned)
     {
         $this->dateSigned = $dateSigned;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSetupDDInstruction()
+    {
+        return $this->setupDDInstruction;
+    }
+
+    /**
+     * @param string $setupDDInstruction
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateService
+     */
+    public function setSetupDDInstruction($setupDDInstruction)
+    {
+        $this->setupDDInstruction = $setupDDInstruction;
 
         return $this;
     }

@@ -73,6 +73,16 @@ class CCCreditReply
     protected $paymentNetworkTransactionID;
 
     /**
+     * @var string $settlementDate
+     */
+    protected $settlementDate;
+
+    /**
+     * @var string $paymentNetworkTransactionInformation
+     */
+    protected $paymentNetworkTransactionInformation;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -335,6 +345,44 @@ class CCCreditReply
     public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
     {
         $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettlementDate()
+    {
+        return $this->settlementDate;
+    }
+
+    /**
+     * @param string $settlementDate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditReply
+     */
+    public function setSettlementDate($settlementDate)
+    {
+        $this->settlementDate = $settlementDate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentNetworkTransactionInformation()
+    {
+        return $this->paymentNetworkTransactionInformation;
+    }
+
+    /**
+     * @param string $paymentNetworkTransactionInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditReply
+     */
+    public function setPaymentNetworkTransactionInformation($paymentNetworkTransactionInformation)
+    {
+        $this->paymentNetworkTransactionInformation = $paymentNetworkTransactionInformation;
 
         return $this;
     }

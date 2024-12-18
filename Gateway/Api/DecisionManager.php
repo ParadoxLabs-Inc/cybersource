@@ -15,6 +15,16 @@ class DecisionManager
     protected $profile;
 
     /**
+     * @var string $pausedRequestID
+     */
+    protected $pausedRequestID;
+
+    /**
+     * @var Authentication $authentication
+     */
+    protected $authentication;
+
+    /**
      * @var DecisionManagerTravelData $travelData
      */
     protected $travelData;
@@ -53,6 +63,44 @@ class DecisionManager
     public function setProfile($profile)
     {
         $this->profile = $profile;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPausedRequestID()
+    {
+        return $this->pausedRequestID;
+    }
+
+    /**
+     * @param string $pausedRequestID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManager
+     */
+    public function setPausedRequestID($pausedRequestID)
+    {
+        $this->pausedRequestID = $pausedRequestID;
+
+        return $this;
+    }
+
+    /**
+     * @return Authentication
+     */
+    public function getAuthentication()
+    {
+        return $this->authentication;
+    }
+
+    /**
+     * @param Authentication $authentication
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManager
+     */
+    public function setAuthentication($authentication)
+    {
+        $this->authentication = $authentication;
 
         return $this;
     }

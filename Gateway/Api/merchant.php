@@ -20,6 +20,21 @@ class merchant
     protected $visaMerchantID;
 
     /**
+     * @var string $acquirerCountry
+     */
+    protected $acquirerCountry;
+
+    /**
+     * @var string $transactionReferenceNumber
+     */
+    protected $transactionReferenceNumber;
+
+    /**
+     * @var string $riskPrediction
+     */
+    protected $riskPrediction;
+
+    /**
      * @return string
      */
     public function getAcquirerBIN()
@@ -72,6 +87,63 @@ class merchant
     public function setVisaMerchantID($visaMerchantID)
     {
         $this->visaMerchantID = $visaMerchantID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcquirerCountry()
+    {
+        return $this->acquirerCountry;
+    }
+
+    /**
+     * @param string $acquirerCountry
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\merchant
+     */
+    public function setAcquirerCountry($acquirerCountry)
+    {
+        $this->acquirerCountry = $acquirerCountry;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionReferenceNumber()
+    {
+        return $this->transactionReferenceNumber;
+    }
+
+    /**
+     * @param string $transactionReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\merchant
+     */
+    public function setTransactionReferenceNumber($transactionReferenceNumber)
+    {
+        $this->transactionReferenceNumber = $transactionReferenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRiskPrediction()
+    {
+        return $this->riskPrediction;
+    }
+
+    /**
+     * @param string $riskPrediction
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\merchant
+     */
+    public function setRiskPrediction($riskPrediction)
+    {
+        $this->riskPrediction = $riskPrediction;
 
         return $this;
     }

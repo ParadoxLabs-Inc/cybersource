@@ -110,6 +110,16 @@ class CCCreditService
     protected $overridePaymentDetails;
 
     /**
+     * @var RestrictedString $networkPartnerId
+     */
+    protected $networkPartnerId;
+
+    /**
+     * @var string $paymentNetworkTransactionInformation
+     */
+    protected $paymentNetworkTransactionInformation;
+
+    /**
      * @var boolean $run
      */
     protected $run;
@@ -517,6 +527,44 @@ class CCCreditService
     public function setOverridePaymentDetails($overridePaymentDetails)
     {
         $this->overridePaymentDetails = $overridePaymentDetails;
+
+        return $this;
+    }
+
+    /**
+     * @return RestrictedString
+     */
+    public function getNetworkPartnerId()
+    {
+        return $this->networkPartnerId;
+    }
+
+    /**
+     * @param RestrictedString $networkPartnerId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditService
+     */
+    public function setNetworkPartnerId($networkPartnerId)
+    {
+        $this->networkPartnerId = $networkPartnerId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentNetworkTransactionInformation()
+    {
+        return $this->paymentNetworkTransactionInformation;
+    }
+
+    /**
+     * @param string $paymentNetworkTransactionInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditService
+     */
+    public function setPaymentNetworkTransactionInformation($paymentNetworkTransactionInformation)
+    {
+        $this->paymentNetworkTransactionInformation = $paymentNetworkTransactionInformation;
 
         return $this;
     }

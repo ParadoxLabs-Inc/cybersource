@@ -30,34 +30,14 @@ class GiftCard
     protected $groupID;
 
     /**
-     * @var string $securityValue
-     */
-    protected $securityValue;
-
-    /**
      * @var string $transactionPostingDate
      */
     protected $transactionPostingDate;
 
     /**
-     * @var string $additionalAccountNumber
-     */
-    protected $additionalAccountNumber;
-
-    /**
-     * @var string $promoCode
-     */
-    protected $promoCode;
-
-    /**
      * @var string $balanceCurrency
      */
     protected $balanceCurrency;
-
-    /**
-     * @var string $extendedAccountNumber
-     */
-    protected $extendedAccountNumber;
 
     /**
      * @var string $previousBalance
@@ -108,6 +88,31 @@ class GiftCard
      * @var string $discountAmount
      */
     protected $discountAmount;
+
+    /**
+     * @var string $extendedAccountNumber
+     */
+    protected $extendedAccountNumber;
+
+    /**
+     * @var string $additionalAccountNumber
+     */
+    protected $additionalAccountNumber;
+
+    /**
+     * @var string $physicalCard
+     */
+    protected $physicalCard;
+
+    /**
+     * @var string $returnExtendedAccountNumber
+     */
+    protected $returnExtendedAccountNumber;
+
+    /**
+     * @var string $promoCode
+     */
+    protected $promoCode;
 
     /**
      * @return string
@@ -207,25 +212,6 @@ class GiftCard
     /**
      * @return string
      */
-    public function getSecurityValue()
-    {
-        return $this->securityValue;
-    }
-
-    /**
-     * @param string $securityValue
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
-     */
-    public function setSecurityValue($securityValue)
-    {
-        $this->securityValue = $securityValue;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getTransactionPostingDate()
     {
         return $this->transactionPostingDate;
@@ -245,44 +231,6 @@ class GiftCard
     /**
      * @return string
      */
-    public function getAdditionalAccountNumber()
-    {
-        return $this->additionalAccountNumber;
-    }
-
-    /**
-     * @param string $additionalAccountNumber
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
-     */
-    public function setAdditionalAccountNumber($additionalAccountNumber)
-    {
-        $this->additionalAccountNumber = $additionalAccountNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPromoCode()
-    {
-        return $this->promoCode;
-    }
-
-    /**
-     * @param string $promoCode
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
-     */
-    public function setPromoCode($promoCode)
-    {
-        $this->promoCode = $promoCode;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getBalanceCurrency()
     {
         return $this->balanceCurrency;
@@ -295,25 +243,6 @@ class GiftCard
     public function setBalanceCurrency($balanceCurrency)
     {
         $this->balanceCurrency = $balanceCurrency;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExtendedAccountNumber()
-    {
-        return $this->extendedAccountNumber;
-    }
-
-    /**
-     * @param string $extendedAccountNumber
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
-     */
-    public function setExtendedAccountNumber($extendedAccountNumber)
-    {
-        $this->extendedAccountNumber = $extendedAccountNumber;
 
         return $this;
     }
@@ -504,6 +433,101 @@ class GiftCard
     public function setDiscountAmount($discountAmount)
     {
         $this->discountAmount = $discountAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtendedAccountNumber()
+    {
+        return $this->extendedAccountNumber;
+    }
+
+    /**
+     * @param string $extendedAccountNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
+     */
+    public function setExtendedAccountNumber($extendedAccountNumber)
+    {
+        $this->extendedAccountNumber = $extendedAccountNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalAccountNumber()
+    {
+        return $this->additionalAccountNumber;
+    }
+
+    /**
+     * @param string $additionalAccountNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
+     */
+    public function setAdditionalAccountNumber($additionalAccountNumber)
+    {
+        $this->additionalAccountNumber = $additionalAccountNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhysicalCard()
+    {
+        return $this->physicalCard;
+    }
+
+    /**
+     * @param string $physicalCard
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
+     */
+    public function setPhysicalCard($physicalCard)
+    {
+        $this->physicalCard = $physicalCard;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReturnExtendedAccountNumber()
+    {
+        return $this->returnExtendedAccountNumber;
+    }
+
+    /**
+     * @param string $returnExtendedAccountNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
+     */
+    public function setReturnExtendedAccountNumber($returnExtendedAccountNumber)
+    {
+        $this->returnExtendedAccountNumber = $returnExtendedAccountNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPromoCode()
+    {
+        return $this->promoCode;
+    }
+
+    /**
+     * @param string $promoCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCard
+     */
+    public function setPromoCode($promoCode)
+    {
+        $this->promoCode = $promoCode;
 
         return $this;
     }

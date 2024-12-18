@@ -190,6 +190,16 @@ class Pos
     protected $terminalModel;
 
     /**
+     * @var string $terminalMake
+     */
+    protected $terminalMake;
+
+    /**
+     * @var string $pinEntrySolution
+     */
+    protected $pinEntrySolution;
+
+    /**
      * @return string
      */
     public function getEntryMode()
@@ -888,6 +898,44 @@ class Pos
     public function setTerminalModel($terminalModel)
     {
         $this->terminalModel = $terminalModel;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTerminalMake()
+    {
+        return $this->terminalMake;
+    }
+
+    /**
+     * @param string $terminalMake
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Pos
+     */
+    public function setTerminalMake($terminalMake)
+    {
+        $this->terminalMake = $terminalMake;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPinEntrySolution()
+    {
+        return $this->pinEntrySolution;
+    }
+
+    /**
+     * @param string $pinEntrySolution
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Pos
+     */
+    public function setPinEntrySolution($pinEntrySolution)
+    {
+        $this->pinEntrySolution = $pinEntrySolution;
 
         return $this;
     }

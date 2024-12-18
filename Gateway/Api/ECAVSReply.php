@@ -30,21 +30,6 @@ class ECAVSReply
     protected $additionalStatusCode;
 
     /**
-     * @var string $numberOfReturns
-     */
-    protected $numberOfReturns;
-
-    /**
-     * @var string $lastReturnDate
-     */
-    protected $lastReturnDate;
-
-    /**
-     * @var string $lastReturnProcessorResponse
-     */
-    protected $lastReturnProcessorResponse;
-
-    /**
      * @var string $lastUpdateDate
      */
     protected $lastUpdateDate;
@@ -195,6 +180,26 @@ class ECAVSReply
     protected $calculatedResponse;
 
     /**
+     * @var string $referenceID
+     */
+    protected $referenceID;
+
+    /**
+     * @var string $resultCode
+     */
+    protected $resultCode;
+
+    /**
+     * @var string $authorizationLevel
+     */
+    protected $authorizationLevel;
+
+    /**
+     * @var string $accountType
+     */
+    protected $accountType;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -293,63 +298,6 @@ class ECAVSReply
     public function setAdditionalStatusCode($additionalStatusCode)
     {
         $this->additionalStatusCode = $additionalStatusCode;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNumberOfReturns()
-    {
-        return $this->numberOfReturns;
-    }
-
-    /**
-     * @param string $numberOfReturns
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
-     */
-    public function setNumberOfReturns($numberOfReturns)
-    {
-        $this->numberOfReturns = $numberOfReturns;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastReturnDate()
-    {
-        return $this->lastReturnDate;
-    }
-
-    /**
-     * @param string $lastReturnDate
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
-     */
-    public function setLastReturnDate($lastReturnDate)
-    {
-        $this->lastReturnDate = $lastReturnDate;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastReturnProcessorResponse()
-    {
-        return $this->lastReturnProcessorResponse;
-    }
-
-    /**
-     * @param string $lastReturnProcessorResponse
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
-     */
-    public function setLastReturnProcessorResponse($lastReturnProcessorResponse)
-    {
-        $this->lastReturnProcessorResponse = $lastReturnProcessorResponse;
 
         return $this;
     }
@@ -920,6 +868,82 @@ class ECAVSReply
     public function setCalculatedResponse($calculatedResponse)
     {
         $this->calculatedResponse = $calculatedResponse;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceID()
+    {
+        return $this->referenceID;
+    }
+
+    /**
+     * @param string $referenceID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
+     */
+    public function setReferenceID($referenceID)
+    {
+        $this->referenceID = $referenceID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResultCode()
+    {
+        return $this->resultCode;
+    }
+
+    /**
+     * @param string $resultCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
+     */
+    public function setResultCode($resultCode)
+    {
+        $this->resultCode = $resultCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorizationLevel()
+    {
+        return $this->authorizationLevel;
+    }
+
+    /**
+     * @param string $authorizationLevel
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
+     */
+    public function setAuthorizationLevel($authorizationLevel)
+    {
+        $this->authorizationLevel = $authorizationLevel;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->accountType;
+    }
+
+    /**
+     * @param string $accountType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\ECAVSReply
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
 
         return $this;
     }

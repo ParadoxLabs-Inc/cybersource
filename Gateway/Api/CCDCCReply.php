@@ -30,6 +30,11 @@ class CCDCCReply
     protected $reconciliationID;
 
     /**
+     * @var paymentCurrencyOffer[] $paymentCurrencyOffer
+     */
+    protected $paymentCurrencyOffer;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -128,6 +133,25 @@ class CCDCCReply
     public function setReconciliationID($reconciliationID)
     {
         $this->reconciliationID = $reconciliationID;
+
+        return $this;
+    }
+
+    /**
+     * @return paymentCurrencyOffer[]
+     */
+    public function getPaymentCurrencyOffer()
+    {
+        return $this->paymentCurrencyOffer;
+    }
+
+    /**
+     * @param paymentCurrencyOffer[] $paymentCurrencyOffer
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCDCCReply
+     */
+    public function setPaymentCurrencyOffer(array $paymentCurrencyOffer = null)
+    {
+        $this->paymentCurrencyOffer = $paymentCurrencyOffer;
 
         return $this;
     }

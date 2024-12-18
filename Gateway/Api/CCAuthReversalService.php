@@ -20,6 +20,11 @@ class CCAuthReversalService
     protected $reversalReason;
 
     /**
+     * @var string $returnReversalRecord
+     */
+    protected $returnReversalRecord;
+
+    /**
      * @var boolean $run
      */
     protected $run;
@@ -85,6 +90,25 @@ class CCAuthReversalService
     public function setReversalReason($reversalReason)
     {
         $this->reversalReason = $reversalReason;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReturnReversalRecord()
+    {
+        return $this->returnReversalRecord;
+    }
+
+    /**
+     * @param string $returnReversalRecord
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalService
+     */
+    public function setReturnReversalRecord($returnReversalRecord)
+    {
+        $this->returnReversalRecord = $returnReversalRecord;
 
         return $this;
     }

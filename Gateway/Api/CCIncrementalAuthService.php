@@ -15,6 +15,11 @@ class CCIncrementalAuthService
     protected $duration;
 
     /**
+     * @var string $gratuityAmount
+     */
+    protected $gratuityAmount;
+
+    /**
      * @var boolean $run
      */
     protected $run;
@@ -61,6 +66,25 @@ class CCIncrementalAuthService
     public function setDuration($duration)
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGratuityAmount()
+    {
+        return $this->gratuityAmount;
+    }
+
+    /**
+     * @param string $gratuityAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCIncrementalAuthService
+     */
+    public function setGratuityAmount($gratuityAmount)
+    {
+        $this->gratuityAmount = $gratuityAmount;
 
         return $this;
     }

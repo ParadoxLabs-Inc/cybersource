@@ -68,6 +68,11 @@ class APRefundReply
     protected $responseCode;
 
     /**
+     * @var \DateTime $updateDateTime
+     */
+    protected $updateDateTime;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -311,6 +316,37 @@ class APRefundReply
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateDateTime()
+    {
+        if ($this->updateDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->updateDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $updateDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APRefundReply
+     */
+    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    {
+        if ($updateDateTime == null) {
+            $this->updateDateTime = null;
+        } else {
+            $this->updateDateTime = $updateDateTime->format(DateTime::ATOM);
+        }
 
         return $this;
     }

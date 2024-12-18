@@ -78,6 +78,26 @@ class APSaleReply
     protected $dateTime;
 
     /**
+     * @var string $additionalData
+     */
+    protected $additionalData;
+
+    /**
+     * @var string $orderStatus
+     */
+    protected $orderStatus;
+
+    /**
+     * @var string $orderId
+     */
+    protected $orderId;
+
+    /**
+     * @var string $updateDateTime
+     */
+    protected $updateDateTime;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -359,6 +379,82 @@ class APSaleReply
         } else {
             $this->dateTime = $dateTime->format(DateTime::ATOM);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalData()
+    {
+        return $this->additionalData;
+    }
+
+    /**
+     * @param string $additionalData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APSaleReply
+     */
+    public function setAdditionalData($additionalData)
+    {
+        $this->additionalData = $additionalData;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderStatus()
+    {
+        return $this->orderStatus;
+    }
+
+    /**
+     * @param string $orderStatus
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APSaleReply
+     */
+    public function setOrderStatus($orderStatus)
+    {
+        $this->orderStatus = $orderStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * @param string $orderId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APSaleReply
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdateDateTime()
+    {
+        return $this->updateDateTime;
+    }
+
+    /**
+     * @param string $updateDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APSaleReply
+     */
+    public function setUpdateDateTime($updateDateTime)
+    {
+        $this->updateDateTime = $updateDateTime;
 
         return $this;
     }

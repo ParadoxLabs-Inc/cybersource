@@ -60,6 +60,11 @@ class Sender
     protected $firstName;
 
     /**
+     * @var string $middleName
+     */
+    protected $middleName;
+
+    /**
      * @var string $middleInitial
      */
     protected $middleInitial;
@@ -73,6 +78,26 @@ class Sender
      * @var string $phoneNumber
      */
     protected $phoneNumber;
+
+    /**
+     * @var string $personalIDType
+     */
+    protected $personalIDType;
+
+    /**
+     * @var string $type
+     */
+    protected $type;
+
+    /**
+     * @var string $identificationNumber
+     */
+    protected $identificationNumber;
+
+    /**
+     * @var string $aliasName
+     */
+    protected $aliasName;
 
     /**
      * @return string
@@ -286,6 +311,25 @@ class Sender
     /**
      * @return string
      */
+    public function getMiddleName()
+    {
+        return $this->middleName;
+    }
+
+    /**
+     * @param string $middleName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Sender
+     */
+    public function setMiddleName($middleName)
+    {
+        $this->middleName = $middleName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getMiddleInitial()
     {
         return $this->middleInitial;
@@ -336,6 +380,82 @@ class Sender
     public function setPhoneNumber($phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonalIDType()
+    {
+        return $this->personalIDType;
+    }
+
+    /**
+     * @param string $personalIDType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Sender
+     */
+    public function setPersonalIDType($personalIDType)
+    {
+        $this->personalIDType = $personalIDType;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Sender
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentificationNumber()
+    {
+        return $this->identificationNumber;
+    }
+
+    /**
+     * @param string $identificationNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Sender
+     */
+    public function setIdentificationNumber($identificationNumber)
+    {
+        $this->identificationNumber = $identificationNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAliasName()
+    {
+        return $this->aliasName;
+    }
+
+    /**
+     * @param string $aliasName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Sender
+     */
+    public function setAliasName($aliasName)
+    {
+        $this->aliasName = $aliasName;
 
         return $this;
     }

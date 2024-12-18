@@ -45,6 +45,11 @@ class InvoiceHeader
     protected $merchantDescriptorCountry;
 
     /**
+     * @var string $merchantDescriptorCountryOfOrigin
+     */
+    protected $merchantDescriptorCountryOfOrigin;
+
+    /**
      * @var boolean $isGift
      */
     protected $isGift;
@@ -245,6 +250,51 @@ class InvoiceHeader
     protected $customData_1;
 
     /**
+     * @var string $invoiceNumber
+     */
+    protected $invoiceNumber;
+
+    /**
+     * @var string $merchantDescriptorCustomerServicePhoneNumber
+     */
+    protected $merchantDescriptorCustomerServicePhoneNumber;
+
+    /**
+     * @var string $merchantDescriptorPartnerIdCode
+     */
+    protected $merchantDescriptorPartnerIdCode;
+
+    /**
+     * @var string $serviceLocality
+     */
+    protected $serviceLocality;
+
+    /**
+     * @var string $serviceCountrySubdivisionCode
+     */
+    protected $serviceCountrySubdivisionCode;
+
+    /**
+     * @var string $serviceCountryCode
+     */
+    protected $serviceCountryCode;
+
+    /**
+     * @var string $servicePostalCode
+     */
+    protected $servicePostalCode;
+
+    /**
+     * @var string $productDescription
+     */
+    protected $productDescription;
+
+    /**
+     * @var string $merchantDescriptorEmail
+     */
+    protected $merchantDescriptorEmail;
+
+    /**
      * @return string
      */
     public function getMerchantDescriptor()
@@ -392,6 +442,25 @@ class InvoiceHeader
     public function setMerchantDescriptorCountry($merchantDescriptorCountry)
     {
         $this->merchantDescriptorCountry = $merchantDescriptorCountry;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantDescriptorCountryOfOrigin()
+    {
+        return $this->merchantDescriptorCountryOfOrigin;
+    }
+
+    /**
+     * @param string $merchantDescriptorCountryOfOrigin
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setMerchantDescriptorCountryOfOrigin($merchantDescriptorCountryOfOrigin)
+    {
+        $this->merchantDescriptorCountryOfOrigin = $merchantDescriptorCountryOfOrigin;
 
         return $this;
     }
@@ -1152,6 +1221,177 @@ class InvoiceHeader
     public function setCustomData_1($customData_1)
     {
         $this->customData_1 = $customData_1;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
+     * @param string $invoiceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantDescriptorCustomerServicePhoneNumber()
+    {
+        return $this->merchantDescriptorCustomerServicePhoneNumber;
+    }
+
+    /**
+     * @param string $merchantDescriptorCustomerServicePhoneNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setMerchantDescriptorCustomerServicePhoneNumber($merchantDescriptorCustomerServicePhoneNumber)
+    {
+        $this->merchantDescriptorCustomerServicePhoneNumber = $merchantDescriptorCustomerServicePhoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantDescriptorPartnerIdCode()
+    {
+        return $this->merchantDescriptorPartnerIdCode;
+    }
+
+    /**
+     * @param string $merchantDescriptorPartnerIdCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setMerchantDescriptorPartnerIdCode($merchantDescriptorPartnerIdCode)
+    {
+        $this->merchantDescriptorPartnerIdCode = $merchantDescriptorPartnerIdCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceLocality()
+    {
+        return $this->serviceLocality;
+    }
+
+    /**
+     * @param string $serviceLocality
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setServiceLocality($serviceLocality)
+    {
+        $this->serviceLocality = $serviceLocality;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceCountrySubdivisionCode()
+    {
+        return $this->serviceCountrySubdivisionCode;
+    }
+
+    /**
+     * @param string $serviceCountrySubdivisionCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setServiceCountrySubdivisionCode($serviceCountrySubdivisionCode)
+    {
+        $this->serviceCountrySubdivisionCode = $serviceCountrySubdivisionCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceCountryCode()
+    {
+        return $this->serviceCountryCode;
+    }
+
+    /**
+     * @param string $serviceCountryCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setServiceCountryCode($serviceCountryCode)
+    {
+        $this->serviceCountryCode = $serviceCountryCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServicePostalCode()
+    {
+        return $this->servicePostalCode;
+    }
+
+    /**
+     * @param string $servicePostalCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setServicePostalCode($servicePostalCode)
+    {
+        $this->servicePostalCode = $servicePostalCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductDescription()
+    {
+        return $this->productDescription;
+    }
+
+    /**
+     * @param string $productDescription
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setProductDescription($productDescription)
+    {
+        $this->productDescription = $productDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantDescriptorEmail()
+    {
+        return $this->merchantDescriptorEmail;
+    }
+
+    /**
+     * @param string $merchantDescriptorEmail
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\InvoiceHeader
+     */
+    public function setMerchantDescriptorEmail($merchantDescriptorEmail)
+    {
+        $this->merchantDescriptorEmail = $merchantDescriptorEmail;
 
         return $this;
     }

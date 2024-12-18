@@ -243,6 +243,11 @@ class RequestMessage
     protected $merchantDefinedData;
 
     /**
+     * @var AuxiliaryData $auxiliaryData
+     */
+    protected $auxiliaryData;
+
+    /**
      * @var MerchantSecureData $merchantSecureData
      */
     protected $merchantSecureData;
@@ -313,6 +318,16 @@ class RequestMessage
     protected $giftCardReversalService;
 
     /**
+     * @var GiftCardReloadService $giftCardReloadService
+     */
+    protected $giftCardReloadService;
+
+    /**
+     * @var GiftCardRefundService $giftCardRefundService
+     */
+    protected $giftCardRefundService;
+
+    /**
      * @var VerificationService $verificationService
      */
     protected $verificationService;
@@ -381,6 +396,11 @@ class RequestMessage
      * @var ECAuthenticateService $ecAuthenticateService
      */
     protected $ecAuthenticateService;
+
+    /**
+     * @var PayerAuthSetupService $payerAuthSetupService
+     */
+    protected $payerAuthSetupService;
 
     /**
      * @var PayerAuthEnrollService $payerAuthEnrollService
@@ -853,6 +873,11 @@ class RequestMessage
     protected $hostedDataRetrieveService;
 
     /**
+     * @var string $merchantDomainName
+     */
+    protected $merchantDomainName;
+
+    /**
      * @var string $merchantCategoryCode
      */
     protected $merchantCategoryCode;
@@ -881,6 +906,11 @@ class RequestMessage
      * @var string $paymentInitiationChannel
      */
     protected $paymentInitiationChannel;
+
+    /**
+     * @var string $paymentMethod_name
+     */
+    protected $paymentMethod_name;
 
     /**
      * @var string $extendedCreditTotalCount
@@ -1038,9 +1068,24 @@ class RequestMessage
     protected $subsequentAuthTransactionID;
 
     /**
+     * @var string $processorTransId
+     */
+    protected $processorTransId;
+
+    /**
      * @var string $subsequentAuthStoredCredential
      */
     protected $subsequentAuthStoredCredential;
+
+    /**
+     * @var float $subsequentAuthCumulativeAuthAmount
+     */
+    protected $subsequentAuthCumulativeAuthAmount;
+
+    /**
+     * @var string $subsequentAuthCITAuthenticationData
+     */
+    protected $subsequentAuthCITAuthenticationData;
 
     /**
      * @var Loan $loan
@@ -1066,6 +1111,11 @@ class RequestMessage
      * @var APOrderService $apOrderService
      */
     protected $apOrderService;
+
+    /**
+     * @var APExtendOrderService $apExtendOrderService
+     */
+    protected $apExtendOrderService;
 
     /**
      * @var APCancelService $apCancelService
@@ -1166,6 +1216,121 @@ class RequestMessage
      * @var boolean $ignoreRelaxAVS
      */
     protected $ignoreRelaxAVS;
+
+    /**
+     * @var AgencyInformation $agencyInformation
+     */
+    protected $agencyInformation;
+
+    /**
+     * @var AutoRental $autoRental
+     */
+    protected $autoRental;
+
+    /**
+     * @var HealthCare[] $healthCare
+     */
+    protected $healthCare;
+
+    /**
+     * @var payByPoints $payByPoints
+     */
+    protected $payByPoints;
+
+    /**
+     * @var RestrictedString $paymentAccountReference
+     */
+    protected $paymentAccountReference;
+
+    /**
+     * @var string $networkTokenCryptogram
+     */
+    protected $networkTokenCryptogram;
+
+    /**
+     * @var string $promotionCode
+     */
+    protected $promotionCode;
+
+    /**
+     * @var Recurring $recurring
+     */
+    protected $recurring;
+
+    /**
+     * @var CCCreditAuthService $ccCreditAuthService
+     */
+    protected $ccCreditAuthService;
+
+    /**
+     * @var CCCreditAuthReversalService $ccCreditAuthReversalService
+     */
+    protected $ccCreditAuthReversalService;
+
+    /**
+     * @var VehicleData $vehicleData
+     */
+    protected $vehicleData;
+
+    /**
+     * @var RestrictedString $enablerId
+     */
+    protected $enablerId;
+
+    /**
+     * @var TokenProvisioningInformation $tokenProvisioningInformation
+     */
+    protected $tokenProvisioningInformation;
+
+    /**
+     * @var Unscheduled $unscheduled
+     */
+    protected $unscheduled;
+
+    /**
+     * @var string $agreementID
+     */
+    protected $agreementID;
+
+    /**
+     * @var string $transactionMode
+     */
+    protected $transactionMode;
+
+    /**
+     * @var APUpdateOrderService $apUpdateOrderService
+     */
+    protected $apUpdateOrderService;
+
+    /**
+     * @var string $processingInstruction
+     */
+    protected $processingInstruction;
+
+    /**
+     * @var AuthorizationOptions $authorizationOptions
+     */
+    protected $authorizationOptions;
+
+    /**
+     * @var string $verificationResultsPersonalId
+     */
+    protected $verificationResultsPersonalId;
+
+    /**
+     * @var CaptureOptions $captureOptions
+     */
+    protected $captureOptions;
+
+    /**
+     * @var language $language
+     */
+    protected $language;
+
+    /**
+     * @var string $eligibilityIndicator
+     */
+    protected $eligibilityIndicator;
 
     /**
      * @return string
@@ -2061,6 +2226,25 @@ class RequestMessage
     }
 
     /**
+     * @return AuxiliaryData
+     */
+    public function getAuxiliaryData()
+    {
+        return $this->auxiliaryData;
+    }
+
+    /**
+     * @param AuxiliaryData $auxiliaryData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setAuxiliaryData($auxiliaryData)
+    {
+        $this->auxiliaryData = $auxiliaryData;
+
+        return $this;
+    }
+
+    /**
      * @return MerchantSecureData
      */
     public function getMerchantSecureData()
@@ -2327,6 +2511,44 @@ class RequestMessage
     }
 
     /**
+     * @return GiftCardReloadService
+     */
+    public function getGiftCardReloadService()
+    {
+        return $this->giftCardReloadService;
+    }
+
+    /**
+     * @param GiftCardReloadService $giftCardReloadService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setGiftCardReloadService($giftCardReloadService)
+    {
+        $this->giftCardReloadService = $giftCardReloadService;
+
+        return $this;
+    }
+
+    /**
+     * @return GiftCardRefundService
+     */
+    public function getGiftCardRefundService()
+    {
+        return $this->giftCardRefundService;
+    }
+
+    /**
+     * @param GiftCardRefundService $giftCardRefundService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setGiftCardRefundService($giftCardRefundService)
+    {
+        $this->giftCardRefundService = $giftCardRefundService;
+
+        return $this;
+    }
+
+    /**
      * @return VerificationService
      */
     public function getVerificationService()
@@ -2588,6 +2810,25 @@ class RequestMessage
     public function setEcAuthenticateService($ecAuthenticateService)
     {
         $this->ecAuthenticateService = $ecAuthenticateService;
+
+        return $this;
+    }
+
+    /**
+     * @return PayerAuthSetupService
+     */
+    public function getPayerAuthSetupService()
+    {
+        return $this->payerAuthSetupService;
+    }
+
+    /**
+     * @param PayerAuthSetupService $payerAuthSetupService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setPayerAuthSetupService($payerAuthSetupService)
+    {
+        $this->payerAuthSetupService = $payerAuthSetupService;
 
         return $this;
     }
@@ -4393,6 +4634,25 @@ class RequestMessage
     /**
      * @return string
      */
+    public function getMerchantDomainName()
+    {
+        return $this->merchantDomainName;
+    }
+
+    /**
+     * @param string $merchantDomainName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setMerchantDomainName($merchantDomainName)
+    {
+        $this->merchantDomainName = $merchantDomainName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getMerchantCategoryCode()
     {
         return $this->merchantCategoryCode;
@@ -4500,6 +4760,25 @@ class RequestMessage
     public function setPaymentInitiationChannel($paymentInitiationChannel)
     {
         $this->paymentInitiationChannel = $paymentInitiationChannel;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentMethod_name()
+    {
+        return $this->paymentMethod_name;
+    }
+
+    /**
+     * @param string $paymentMethod_name
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setPaymentMethod_name($paymentMethod_name)
+    {
+        $this->paymentMethod_name = $paymentMethod_name;
 
         return $this;
     }
@@ -5096,6 +5375,25 @@ class RequestMessage
     /**
      * @return string
      */
+    public function getProcessorTransId()
+    {
+        return $this->processorTransId;
+    }
+
+    /**
+     * @param string $processorTransId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setProcessorTransId($processorTransId)
+    {
+        $this->processorTransId = $processorTransId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getSubsequentAuthStoredCredential()
     {
         return $this->subsequentAuthStoredCredential;
@@ -5108,6 +5406,44 @@ class RequestMessage
     public function setSubsequentAuthStoredCredential($subsequentAuthStoredCredential)
     {
         $this->subsequentAuthStoredCredential = $subsequentAuthStoredCredential;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getSubsequentAuthCumulativeAuthAmount()
+    {
+        return $this->subsequentAuthCumulativeAuthAmount;
+    }
+
+    /**
+     * @param float $subsequentAuthCumulativeAuthAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setSubsequentAuthCumulativeAuthAmount($subsequentAuthCumulativeAuthAmount)
+    {
+        $this->subsequentAuthCumulativeAuthAmount = $subsequentAuthCumulativeAuthAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubsequentAuthCITAuthenticationData()
+    {
+        return $this->subsequentAuthCITAuthenticationData;
+    }
+
+    /**
+     * @param string $subsequentAuthCITAuthenticationData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setSubsequentAuthCITAuthenticationData($subsequentAuthCITAuthenticationData)
+    {
+        $this->subsequentAuthCITAuthenticationData = $subsequentAuthCITAuthenticationData;
 
         return $this;
     }
@@ -5203,6 +5539,25 @@ class RequestMessage
     public function setApOrderService($apOrderService)
     {
         $this->apOrderService = $apOrderService;
+
+        return $this;
+    }
+
+    /**
+     * @return APExtendOrderService
+     */
+    public function getApExtendOrderService()
+    {
+        return $this->apExtendOrderService;
+    }
+
+    /**
+     * @param APExtendOrderService $apExtendOrderService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setApExtendOrderService($apExtendOrderService)
+    {
+        $this->apExtendOrderService = $apExtendOrderService;
 
         return $this;
     }
@@ -5583,6 +5938,443 @@ class RequestMessage
     public function setIgnoreRelaxAVS($ignoreRelaxAVS)
     {
         $this->ignoreRelaxAVS = $ignoreRelaxAVS;
+
+        return $this;
+    }
+
+    /**
+     * @return AgencyInformation
+     */
+    public function getAgencyInformation()
+    {
+        return $this->agencyInformation;
+    }
+
+    /**
+     * @param AgencyInformation $agencyInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setAgencyInformation($agencyInformation)
+    {
+        $this->agencyInformation = $agencyInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return AutoRental
+     */
+    public function getAutoRental()
+    {
+        return $this->autoRental;
+    }
+
+    /**
+     * @param AutoRental $autoRental
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setAutoRental($autoRental)
+    {
+        $this->autoRental = $autoRental;
+
+        return $this;
+    }
+
+    /**
+     * @return HealthCare[]
+     */
+    public function getHealthCare()
+    {
+        return $this->healthCare;
+    }
+
+    /**
+     * @param HealthCare[] $healthCare
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setHealthCare(array $healthCare = null)
+    {
+        $this->healthCare = $healthCare;
+
+        return $this;
+    }
+
+    /**
+     * @return payByPoints
+     */
+    public function getPayByPoints()
+    {
+        return $this->payByPoints;
+    }
+
+    /**
+     * @param payByPoints $payByPoints
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setPayByPoints($payByPoints)
+    {
+        $this->payByPoints = $payByPoints;
+
+        return $this;
+    }
+
+    /**
+     * @return RestrictedString
+     */
+    public function getPaymentAccountReference()
+    {
+        return $this->paymentAccountReference;
+    }
+
+    /**
+     * @param RestrictedString $paymentAccountReference
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setPaymentAccountReference($paymentAccountReference)
+    {
+        $this->paymentAccountReference = $paymentAccountReference;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNetworkTokenCryptogram()
+    {
+        return $this->networkTokenCryptogram;
+    }
+
+    /**
+     * @param string $networkTokenCryptogram
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setNetworkTokenCryptogram($networkTokenCryptogram)
+    {
+        $this->networkTokenCryptogram = $networkTokenCryptogram;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPromotionCode()
+    {
+        return $this->promotionCode;
+    }
+
+    /**
+     * @param string $promotionCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setPromotionCode($promotionCode)
+    {
+        $this->promotionCode = $promotionCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Recurring
+     */
+    public function getRecurring()
+    {
+        return $this->recurring;
+    }
+
+    /**
+     * @param Recurring $recurring
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setRecurring($recurring)
+    {
+        $this->recurring = $recurring;
+
+        return $this;
+    }
+
+    /**
+     * @return CCCreditAuthService
+     */
+    public function getCcCreditAuthService()
+    {
+        return $this->ccCreditAuthService;
+    }
+
+    /**
+     * @param CCCreditAuthService $ccCreditAuthService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setCcCreditAuthService($ccCreditAuthService)
+    {
+        $this->ccCreditAuthService = $ccCreditAuthService;
+
+        return $this;
+    }
+
+    /**
+     * @return CCCreditAuthReversalService
+     */
+    public function getCcCreditAuthReversalService()
+    {
+        return $this->ccCreditAuthReversalService;
+    }
+
+    /**
+     * @param CCCreditAuthReversalService $ccCreditAuthReversalService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setCcCreditAuthReversalService($ccCreditAuthReversalService)
+    {
+        $this->ccCreditAuthReversalService = $ccCreditAuthReversalService;
+
+        return $this;
+    }
+
+    /**
+     * @return VehicleData
+     */
+    public function getVehicleData()
+    {
+        return $this->vehicleData;
+    }
+
+    /**
+     * @param VehicleData $vehicleData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setVehicleData($vehicleData)
+    {
+        $this->vehicleData = $vehicleData;
+
+        return $this;
+    }
+
+    /**
+     * @return RestrictedString
+     */
+    public function getEnablerId()
+    {
+        return $this->enablerId;
+    }
+
+    /**
+     * @param RestrictedString $enablerId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setEnablerId($enablerId)
+    {
+        $this->enablerId = $enablerId;
+
+        return $this;
+    }
+
+    /**
+     * @return TokenProvisioningInformation
+     */
+    public function getTokenProvisioningInformation()
+    {
+        return $this->tokenProvisioningInformation;
+    }
+
+    /**
+     * @param TokenProvisioningInformation $tokenProvisioningInformation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setTokenProvisioningInformation($tokenProvisioningInformation)
+    {
+        $this->tokenProvisioningInformation = $tokenProvisioningInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return Unscheduled
+     */
+    public function getUnscheduled()
+    {
+        return $this->unscheduled;
+    }
+
+    /**
+     * @param Unscheduled $unscheduled
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setUnscheduled($unscheduled)
+    {
+        $this->unscheduled = $unscheduled;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgreementID()
+    {
+        return $this->agreementID;
+    }
+
+    /**
+     * @param string $agreementID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setAgreementID($agreementID)
+    {
+        $this->agreementID = $agreementID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionMode()
+    {
+        return $this->transactionMode;
+    }
+
+    /**
+     * @param string $transactionMode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setTransactionMode($transactionMode)
+    {
+        $this->transactionMode = $transactionMode;
+
+        return $this;
+    }
+
+    /**
+     * @return APUpdateOrderService
+     */
+    public function getApUpdateOrderService()
+    {
+        return $this->apUpdateOrderService;
+    }
+
+    /**
+     * @param APUpdateOrderService $apUpdateOrderService
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setApUpdateOrderService($apUpdateOrderService)
+    {
+        $this->apUpdateOrderService = $apUpdateOrderService;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProcessingInstruction()
+    {
+        return $this->processingInstruction;
+    }
+
+    /**
+     * @param string $processingInstruction
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setProcessingInstruction($processingInstruction)
+    {
+        $this->processingInstruction = $processingInstruction;
+
+        return $this;
+    }
+
+    /**
+     * @return AuthorizationOptions
+     */
+    public function getAuthorizationOptions()
+    {
+        return $this->authorizationOptions;
+    }
+
+    /**
+     * @param AuthorizationOptions $authorizationOptions
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setAuthorizationOptions($authorizationOptions)
+    {
+        $this->authorizationOptions = $authorizationOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationResultsPersonalId()
+    {
+        return $this->verificationResultsPersonalId;
+    }
+
+    /**
+     * @param string $verificationResultsPersonalId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setVerificationResultsPersonalId($verificationResultsPersonalId)
+    {
+        $this->verificationResultsPersonalId = $verificationResultsPersonalId;
+
+        return $this;
+    }
+
+    /**
+     * @return CaptureOptions
+     */
+    public function getCaptureOptions()
+    {
+        return $this->captureOptions;
+    }
+
+    /**
+     * @param CaptureOptions $captureOptions
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setCaptureOptions($captureOptions)
+    {
+        $this->captureOptions = $captureOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param language $language
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEligibilityIndicator()
+    {
+        return $this->eligibilityIndicator;
+    }
+
+    /**
+     * @param string $eligibilityIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
+     */
+    public function setEligibilityIndicator($eligibilityIndicator)
+    {
+        $this->eligibilityIndicator = $eligibilityIndicator;
 
         return $this;
     }

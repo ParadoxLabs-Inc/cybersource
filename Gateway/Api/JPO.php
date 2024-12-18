@@ -60,6 +60,26 @@ class JPO
     protected $businessNameKatakana;
 
     /**
+     * @var string $bonusMonth
+     */
+    protected $bonusMonth;
+
+    /**
+     * @var string $secondBonusMonth
+     */
+    protected $secondBonusMonth;
+
+    /**
+     * @var string $secondBonusAmount
+     */
+    protected $secondBonusAmount;
+
+    /**
+     * @var string $preapprovalType
+     */
+    protected $preapprovalType;
+
+    /**
      * @return int
      */
     public function getPaymentMethod()
@@ -264,6 +284,82 @@ class JPO
     public function setBusinessNameKatakana($businessNameKatakana)
     {
         $this->businessNameKatakana = $businessNameKatakana;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBonusMonth()
+    {
+        return $this->bonusMonth;
+    }
+
+    /**
+     * @param string $bonusMonth
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\JPO
+     */
+    public function setBonusMonth($bonusMonth)
+    {
+        $this->bonusMonth = $bonusMonth;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecondBonusMonth()
+    {
+        return $this->secondBonusMonth;
+    }
+
+    /**
+     * @param string $secondBonusMonth
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\JPO
+     */
+    public function setSecondBonusMonth($secondBonusMonth)
+    {
+        $this->secondBonusMonth = $secondBonusMonth;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecondBonusAmount()
+    {
+        return $this->secondBonusAmount;
+    }
+
+    /**
+     * @param string $secondBonusAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\JPO
+     */
+    public function setSecondBonusAmount($secondBonusAmount)
+    {
+        $this->secondBonusAmount = $secondBonusAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreapprovalType()
+    {
+        return $this->preapprovalType;
+    }
+
+    /**
+     * @param string $preapprovalType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\JPO
+     */
+    public function setPreapprovalType($preapprovalType)
+    {
+        $this->preapprovalType = $preapprovalType;
 
         return $this;
     }

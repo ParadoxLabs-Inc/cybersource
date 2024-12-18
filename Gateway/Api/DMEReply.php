@@ -15,6 +15,11 @@ class DMEReply
     protected $eventInfo;
 
     /**
+     * @var string $eventDeviceBehaviorInfo
+     */
+    protected $eventDeviceBehaviorInfo;
+
+    /**
      * @var string $eventHotlistInfo
      */
     protected $eventHotlistInfo;
@@ -103,6 +108,25 @@ class DMEReply
     public function setEventInfo($eventInfo)
     {
         $this->eventInfo = $eventInfo;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEventDeviceBehaviorInfo()
+    {
+        return $this->eventDeviceBehaviorInfo;
+    }
+
+    /**
+     * @param string $eventDeviceBehaviorInfo
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DMEReply
+     */
+    public function setEventDeviceBehaviorInfo($eventDeviceBehaviorInfo)
+    {
+        $this->eventDeviceBehaviorInfo = $eventDeviceBehaviorInfo;
 
         return $this;
     }

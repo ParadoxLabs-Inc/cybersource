@@ -115,11 +115,6 @@ class Card
     protected $productCategory;
 
     /**
-     * @var string $crossBorderIndicator
-     */
-    protected $crossBorderIndicator;
-
-    /**
      * @var string $billingCurrency
      */
     protected $billingCurrency;
@@ -133,21 +128,6 @@ class Card
      * @var string $billingCurrencyMinorDigits
      */
     protected $billingCurrencyMinorDigits;
-
-    /**
-     * @var string $octFastFundsIndicator
-     */
-    protected $octFastFundsIndicator;
-
-    /**
-     * @var string $octBlockIndicator
-     */
-    protected $octBlockIndicator;
-
-    /**
-     * @var string $onlineGamblingBlockIndicator
-     */
-    protected $onlineGamblingBlockIndicator;
 
     /**
      * @var string $productName
@@ -173,6 +153,96 @@ class Card
      * @var Brands[] $brands
      */
     protected $brands;
+
+    /**
+     * @var string $fastFundsBusinessFundedTransferDomestic
+     */
+    protected $fastFundsBusinessFundedTransferDomestic;
+
+    /**
+     * @var string $fastFundsBusinessFundedTransferCrossBorder
+     */
+    protected $fastFundsBusinessFundedTransferCrossBorder;
+
+    /**
+     * @var string $fastFundsConsumerFundedTransferDomestic
+     */
+    protected $fastFundsConsumerFundedTransferDomestic;
+
+    /**
+     * @var string $fastFundsConsumerFundedTransferCrossBorder
+     */
+    protected $fastFundsConsumerFundedTransferCrossBorder;
+
+    /**
+     * @var string $octBusinessFundedTransferDomestic
+     */
+    protected $octBusinessFundedTransferDomestic;
+
+    /**
+     * @var string $octBusinessFundedTransferCrossBorder
+     */
+    protected $octBusinessFundedTransferCrossBorder;
+
+    /**
+     * @var string $octConsumerFundedTransferDomestic
+     */
+    protected $octConsumerFundedTransferDomestic;
+
+    /**
+     * @var string $octConsumerFundedTransferCrossBorder
+     */
+    protected $octConsumerFundedTransferCrossBorder;
+
+    /**
+     * @var string $octGamblingDomestic
+     */
+    protected $octGamblingDomestic;
+
+    /**
+     * @var string $octGamblingCrossBorder
+     */
+    protected $octGamblingCrossBorder;
+
+    /**
+     * @var string $fastFundsGamblingDomestic
+     */
+    protected $fastFundsGamblingDomestic;
+
+    /**
+     * @var string $fastFundsGamblingCrossBorder
+     */
+    protected $fastFundsGamblingCrossBorder;
+
+    /**
+     * @var string $octGeoRestrictionIndicator
+     */
+    protected $octGeoRestrictionIndicator;
+
+    /**
+     * @var string $comboCardType
+     */
+    protected $comboCardType;
+
+    /**
+     * @var string $prepaidIndicator
+     */
+    protected $prepaidIndicator;
+
+    /**
+     * @var string $passPhrase
+     */
+    protected $passPhrase;
+
+    /**
+     * @var string $personalData
+     */
+    protected $personalData;
+
+    /**
+     * @var string $hashedAccountNumber
+     */
+    protected $hashedAccountNumber;
 
     /**
      * @return string
@@ -595,25 +665,6 @@ class Card
     /**
      * @return string
      */
-    public function getCrossBorderIndicator()
-    {
-        return $this->crossBorderIndicator;
-    }
-
-    /**
-     * @param string $crossBorderIndicator
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
-     */
-    public function setCrossBorderIndicator($crossBorderIndicator)
-    {
-        $this->crossBorderIndicator = $crossBorderIndicator;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getBillingCurrency()
     {
         return $this->billingCurrency;
@@ -664,63 +715,6 @@ class Card
     public function setBillingCurrencyMinorDigits($billingCurrencyMinorDigits)
     {
         $this->billingCurrencyMinorDigits = $billingCurrencyMinorDigits;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOctFastFundsIndicator()
-    {
-        return $this->octFastFundsIndicator;
-    }
-
-    /**
-     * @param string $octFastFundsIndicator
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
-     */
-    public function setOctFastFundsIndicator($octFastFundsIndicator)
-    {
-        $this->octFastFundsIndicator = $octFastFundsIndicator;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOctBlockIndicator()
-    {
-        return $this->octBlockIndicator;
-    }
-
-    /**
-     * @param string $octBlockIndicator
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
-     */
-    public function setOctBlockIndicator($octBlockIndicator)
-    {
-        $this->octBlockIndicator = $octBlockIndicator;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOnlineGamblingBlockIndicator()
-    {
-        return $this->onlineGamblingBlockIndicator;
-    }
-
-    /**
-     * @param string $onlineGamblingBlockIndicator
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
-     */
-    public function setOnlineGamblingBlockIndicator($onlineGamblingBlockIndicator)
-    {
-        $this->onlineGamblingBlockIndicator = $onlineGamblingBlockIndicator;
 
         return $this;
     }
@@ -816,6 +810,348 @@ class Card
     public function setBrands(array $brands = null)
     {
         $this->brands = $brands;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFastFundsBusinessFundedTransferDomestic()
+    {
+        return $this->fastFundsBusinessFundedTransferDomestic;
+    }
+
+    /**
+     * @param string $fastFundsBusinessFundedTransferDomestic
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setFastFundsBusinessFundedTransferDomestic($fastFundsBusinessFundedTransferDomestic)
+    {
+        $this->fastFundsBusinessFundedTransferDomestic = $fastFundsBusinessFundedTransferDomestic;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFastFundsBusinessFundedTransferCrossBorder()
+    {
+        return $this->fastFundsBusinessFundedTransferCrossBorder;
+    }
+
+    /**
+     * @param string $fastFundsBusinessFundedTransferCrossBorder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setFastFundsBusinessFundedTransferCrossBorder($fastFundsBusinessFundedTransferCrossBorder)
+    {
+        $this->fastFundsBusinessFundedTransferCrossBorder = $fastFundsBusinessFundedTransferCrossBorder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFastFundsConsumerFundedTransferDomestic()
+    {
+        return $this->fastFundsConsumerFundedTransferDomestic;
+    }
+
+    /**
+     * @param string $fastFundsConsumerFundedTransferDomestic
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setFastFundsConsumerFundedTransferDomestic($fastFundsConsumerFundedTransferDomestic)
+    {
+        $this->fastFundsConsumerFundedTransferDomestic = $fastFundsConsumerFundedTransferDomestic;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFastFundsConsumerFundedTransferCrossBorder()
+    {
+        return $this->fastFundsConsumerFundedTransferCrossBorder;
+    }
+
+    /**
+     * @param string $fastFundsConsumerFundedTransferCrossBorder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setFastFundsConsumerFundedTransferCrossBorder($fastFundsConsumerFundedTransferCrossBorder)
+    {
+        $this->fastFundsConsumerFundedTransferCrossBorder = $fastFundsConsumerFundedTransferCrossBorder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctBusinessFundedTransferDomestic()
+    {
+        return $this->octBusinessFundedTransferDomestic;
+    }
+
+    /**
+     * @param string $octBusinessFundedTransferDomestic
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctBusinessFundedTransferDomestic($octBusinessFundedTransferDomestic)
+    {
+        $this->octBusinessFundedTransferDomestic = $octBusinessFundedTransferDomestic;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctBusinessFundedTransferCrossBorder()
+    {
+        return $this->octBusinessFundedTransferCrossBorder;
+    }
+
+    /**
+     * @param string $octBusinessFundedTransferCrossBorder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctBusinessFundedTransferCrossBorder($octBusinessFundedTransferCrossBorder)
+    {
+        $this->octBusinessFundedTransferCrossBorder = $octBusinessFundedTransferCrossBorder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctConsumerFundedTransferDomestic()
+    {
+        return $this->octConsumerFundedTransferDomestic;
+    }
+
+    /**
+     * @param string $octConsumerFundedTransferDomestic
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctConsumerFundedTransferDomestic($octConsumerFundedTransferDomestic)
+    {
+        $this->octConsumerFundedTransferDomestic = $octConsumerFundedTransferDomestic;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctConsumerFundedTransferCrossBorder()
+    {
+        return $this->octConsumerFundedTransferCrossBorder;
+    }
+
+    /**
+     * @param string $octConsumerFundedTransferCrossBorder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctConsumerFundedTransferCrossBorder($octConsumerFundedTransferCrossBorder)
+    {
+        $this->octConsumerFundedTransferCrossBorder = $octConsumerFundedTransferCrossBorder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctGamblingDomestic()
+    {
+        return $this->octGamblingDomestic;
+    }
+
+    /**
+     * @param string $octGamblingDomestic
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctGamblingDomestic($octGamblingDomestic)
+    {
+        $this->octGamblingDomestic = $octGamblingDomestic;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctGamblingCrossBorder()
+    {
+        return $this->octGamblingCrossBorder;
+    }
+
+    /**
+     * @param string $octGamblingCrossBorder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctGamblingCrossBorder($octGamblingCrossBorder)
+    {
+        $this->octGamblingCrossBorder = $octGamblingCrossBorder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFastFundsGamblingDomestic()
+    {
+        return $this->fastFundsGamblingDomestic;
+    }
+
+    /**
+     * @param string $fastFundsGamblingDomestic
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setFastFundsGamblingDomestic($fastFundsGamblingDomestic)
+    {
+        $this->fastFundsGamblingDomestic = $fastFundsGamblingDomestic;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFastFundsGamblingCrossBorder()
+    {
+        return $this->fastFundsGamblingCrossBorder;
+    }
+
+    /**
+     * @param string $fastFundsGamblingCrossBorder
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setFastFundsGamblingCrossBorder($fastFundsGamblingCrossBorder)
+    {
+        $this->fastFundsGamblingCrossBorder = $fastFundsGamblingCrossBorder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOctGeoRestrictionIndicator()
+    {
+        return $this->octGeoRestrictionIndicator;
+    }
+
+    /**
+     * @param string $octGeoRestrictionIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setOctGeoRestrictionIndicator($octGeoRestrictionIndicator)
+    {
+        $this->octGeoRestrictionIndicator = $octGeoRestrictionIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComboCardType()
+    {
+        return $this->comboCardType;
+    }
+
+    /**
+     * @param string $comboCardType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setComboCardType($comboCardType)
+    {
+        $this->comboCardType = $comboCardType;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrepaidIndicator()
+    {
+        return $this->prepaidIndicator;
+    }
+
+    /**
+     * @param string $prepaidIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setPrepaidIndicator($prepaidIndicator)
+    {
+        $this->prepaidIndicator = $prepaidIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassPhrase()
+    {
+        return $this->passPhrase;
+    }
+
+    /**
+     * @param string $passPhrase
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setPassPhrase($passPhrase)
+    {
+        $this->passPhrase = $passPhrase;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonalData()
+    {
+        return $this->personalData;
+    }
+
+    /**
+     * @param string $personalData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setPersonalData($personalData)
+    {
+        $this->personalData = $personalData;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashedAccountNumber()
+    {
+        return $this->hashedAccountNumber;
+    }
+
+    /**
+     * @param string $hashedAccountNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
+     */
+    public function setHashedAccountNumber($hashedAccountNumber)
+    {
+        $this->hashedAccountNumber = $hashedAccountNumber;
 
         return $this;
     }

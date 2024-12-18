@@ -45,6 +45,16 @@ class APSessionsService
     protected $sessionsRequestID;
 
     /**
+     * @var string $paymentMethod_name
+     */
+    protected $paymentMethod_name;
+
+    /**
+     * @var string $paymentFlowMode
+     */
+    protected $paymentFlowMode;
+
+    /**
      * @var boolean $run
      */
     protected $run;
@@ -205,6 +215,44 @@ class APSessionsService
     public function setSessionsRequestID($sessionsRequestID)
     {
         $this->sessionsRequestID = $sessionsRequestID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentMethod_name()
+    {
+        return $this->paymentMethod_name;
+    }
+
+    /**
+     * @param string $paymentMethod_name
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APSessionsService
+     */
+    public function setPaymentMethod_name($paymentMethod_name)
+    {
+        $this->paymentMethod_name = $paymentMethod_name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentFlowMode()
+    {
+        return $this->paymentFlowMode;
+    }
+
+    /**
+     * @param string $paymentFlowMode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APSessionsService
+     */
+    public function setPaymentFlowMode($paymentFlowMode)
+    {
+        $this->paymentFlowMode = $paymentFlowMode;
 
         return $this;
     }

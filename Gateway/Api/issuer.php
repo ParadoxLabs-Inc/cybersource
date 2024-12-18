@@ -35,6 +35,41 @@ class issuer
     protected $responseCode;
 
     /**
+     * @var string $riskAnalysisExemptionResult
+     */
+    protected $riskAnalysisExemptionResult;
+
+    /**
+     * @var string $trustedMerchantExemptionResult
+     */
+    protected $trustedMerchantExemptionResult;
+
+    /**
+     * @var string $lowValueExemptionResult
+     */
+    protected $lowValueExemptionResult;
+
+    /**
+     * @var string $secureCorporatePaymentResult
+     */
+    protected $secureCorporatePaymentResult;
+
+    /**
+     * @var string $transactionRiskAnalysisExemptionResult
+     */
+    protected $transactionRiskAnalysisExemptionResult;
+
+    /**
+     * @var string $message
+     */
+    protected $message;
+
+    /**
+     * @var string $clearingData
+     */
+    protected $clearingData;
+
+    /**
      * @return string
      */
     public function getAdditionalData()
@@ -144,6 +179,139 @@ class issuer
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRiskAnalysisExemptionResult()
+    {
+        return $this->riskAnalysisExemptionResult;
+    }
+
+    /**
+     * @param string $riskAnalysisExemptionResult
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setRiskAnalysisExemptionResult($riskAnalysisExemptionResult)
+    {
+        $this->riskAnalysisExemptionResult = $riskAnalysisExemptionResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTrustedMerchantExemptionResult()
+    {
+        return $this->trustedMerchantExemptionResult;
+    }
+
+    /**
+     * @param string $trustedMerchantExemptionResult
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setTrustedMerchantExemptionResult($trustedMerchantExemptionResult)
+    {
+        $this->trustedMerchantExemptionResult = $trustedMerchantExemptionResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLowValueExemptionResult()
+    {
+        return $this->lowValueExemptionResult;
+    }
+
+    /**
+     * @param string $lowValueExemptionResult
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setLowValueExemptionResult($lowValueExemptionResult)
+    {
+        $this->lowValueExemptionResult = $lowValueExemptionResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecureCorporatePaymentResult()
+    {
+        return $this->secureCorporatePaymentResult;
+    }
+
+    /**
+     * @param string $secureCorporatePaymentResult
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setSecureCorporatePaymentResult($secureCorporatePaymentResult)
+    {
+        $this->secureCorporatePaymentResult = $secureCorporatePaymentResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionRiskAnalysisExemptionResult()
+    {
+        return $this->transactionRiskAnalysisExemptionResult;
+    }
+
+    /**
+     * @param string $transactionRiskAnalysisExemptionResult
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setTransactionRiskAnalysisExemptionResult($transactionRiskAnalysisExemptionResult)
+    {
+        $this->transactionRiskAnalysisExemptionResult = $transactionRiskAnalysisExemptionResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClearingData()
+    {
+        return $this->clearingData;
+    }
+
+    /**
+     * @param string $clearingData
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\issuer
+     */
+    public function setClearingData($clearingData)
+    {
+        $this->clearingData = $clearingData;
 
         return $this;
     }

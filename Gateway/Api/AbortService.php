@@ -5,6 +5,16 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 class AbortService
 {
     /**
+     * @var string $authRequestID
+     */
+    protected $authRequestID;
+
+    /**
+     * @var string $creditRequestID
+     */
+    protected $creditRequestID;
+
+    /**
      * @var string $cardholderVerificationMethod
      */
     protected $cardholderVerificationMethod;
@@ -25,6 +35,44 @@ class AbortService
     public function __construct($run)
     {
         $this->run = $run;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthRequestID()
+    {
+        return $this->authRequestID;
+    }
+
+    /**
+     * @param string $authRequestID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AbortService
+     */
+    public function setAuthRequestID($authRequestID)
+    {
+        $this->authRequestID = $authRequestID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreditRequestID()
+    {
+        return $this->creditRequestID;
+    }
+
+    /**
+     * @param string $creditRequestID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AbortService
+     */
+    public function setCreditRequestID($creditRequestID)
+    {
+        $this->creditRequestID = $creditRequestID;
+
+        return $this;
     }
 
     /**

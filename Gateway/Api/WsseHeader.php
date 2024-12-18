@@ -15,10 +15,17 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
+
+use SoapHeader;
+use SoapVar;
+use stdClass;
+use const SOAP_ENC_OBJECT;
+use const XSD_STRING;
 
 /**
  * WsseHeader Class
@@ -27,7 +34,7 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
  *
  * @see https://stackoverflow.com/a/6677930/2336164
  */
-class WsseHeader extends \SoapHeader
+class WsseHeader extends SoapHeader
 {
     /**
      * SoapHeader constructor
@@ -82,23 +89,23 @@ class WsseHeader extends \SoapHeader
      */
     protected function getSecurityHeader($namespace, $username, $password)
     {
-        $auth = new \stdClass();
-        $auth->Username = new \SoapVar($username, \XSD_STRING, null, $namespace, null, $namespace);
-        $auth->Password = new \SoapVar($password, \XSD_STRING, null, $namespace, null, $namespace);
+        $auth           = new stdClass();
+        $auth->Username = new SoapVar($username, XSD_STRING, null, $namespace, null, $namespace);
+        $auth->Password = new SoapVar($password, XSD_STRING, null, $namespace, null, $namespace);
 
-        $usernameToken = new \stdClass();
-        $usernameToken->UsernameToken = new \SoapVar(
+        $usernameToken                = new stdClass();
+        $usernameToken->UsernameToken = new SoapVar(
             $auth,
-            \SOAP_ENC_OBJECT,
+            SOAP_ENC_OBJECT,
             null,
             $namespace,
             'UsernameToken',
             $namespace
         );
 
-        return new \SoapVar(
-            new \SoapVar($usernameToken, \SOAP_ENC_OBJECT, null, $namespace, 'UsernameToken', $namespace),
-            \SOAP_ENC_OBJECT,
+        return new SoapVar(
+            new SoapVar($usernameToken, SOAP_ENC_OBJECT, null, $namespace, 'UsernameToken', $namespace),
+            SOAP_ENC_OBJECT,
             null,
             $namespace,
             'Security',

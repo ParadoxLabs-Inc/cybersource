@@ -130,12 +130,12 @@ class PayerAuthValidateReply
     protected $effectiveAuthenticationType;
 
     /**
-     * @var int $authenticationStatusReason
+     * @var string $authenticationStatusReason
      */
     protected $authenticationStatusReason;
 
     /**
-     * @var int $challengeCancelCode
+     * @var string $challengeCancelCode
      */
     protected $challengeCancelCode;
 
@@ -153,6 +153,31 @@ class PayerAuthValidateReply
      * @var string $cardTypeName
      */
     protected $cardTypeName;
+
+    /**
+     * @var int $authenticationOutageExemptionIndicator
+     */
+    protected $authenticationOutageExemptionIndicator;
+
+    /**
+     * @var string $acsReferenceNumber
+     */
+    protected $acsReferenceNumber;
+
+    /**
+     * @var string $acsOperatorId
+     */
+    protected $acsOperatorId;
+
+    /**
+     * @var string $threeDSServerOperatorId
+     */
+    protected $threeDSServerOperatorId;
+
+    /**
+     * @var string $dsReferenceNumber
+     */
+    protected $dsReferenceNumber;
 
     /**
      * @param int $reasonCode
@@ -638,7 +663,7 @@ class PayerAuthValidateReply
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getAuthenticationStatusReason()
     {
@@ -646,7 +671,7 @@ class PayerAuthValidateReply
     }
 
     /**
-     * @param int $authenticationStatusReason
+     * @param string $authenticationStatusReason
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
      */
     public function setAuthenticationStatusReason($authenticationStatusReason)
@@ -657,7 +682,7 @@ class PayerAuthValidateReply
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getChallengeCancelCode()
     {
@@ -665,7 +690,7 @@ class PayerAuthValidateReply
     }
 
     /**
-     * @param int $challengeCancelCode
+     * @param string $challengeCancelCode
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
      */
     public function setChallengeCancelCode($challengeCancelCode)
@@ -728,6 +753,101 @@ class PayerAuthValidateReply
     public function setCardTypeName($cardTypeName)
     {
         $this->cardTypeName = $cardTypeName;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAuthenticationOutageExemptionIndicator()
+    {
+        return $this->authenticationOutageExemptionIndicator;
+    }
+
+    /**
+     * @param int $authenticationOutageExemptionIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
+     */
+    public function setAuthenticationOutageExemptionIndicator($authenticationOutageExemptionIndicator)
+    {
+        $this->authenticationOutageExemptionIndicator = $authenticationOutageExemptionIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcsReferenceNumber()
+    {
+        return $this->acsReferenceNumber;
+    }
+
+    /**
+     * @param string $acsReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
+     */
+    public function setAcsReferenceNumber($acsReferenceNumber)
+    {
+        $this->acsReferenceNumber = $acsReferenceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcsOperatorId()
+    {
+        return $this->acsOperatorId;
+    }
+
+    /**
+     * @param string $acsOperatorId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
+     */
+    public function setAcsOperatorId($acsOperatorId)
+    {
+        $this->acsOperatorId = $acsOperatorId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThreeDSServerOperatorId()
+    {
+        return $this->threeDSServerOperatorId;
+    }
+
+    /**
+     * @param string $threeDSServerOperatorId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
+     */
+    public function setThreeDSServerOperatorId($threeDSServerOperatorId)
+    {
+        $this->threeDSServerOperatorId = $threeDSServerOperatorId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDsReferenceNumber()
+    {
+        return $this->dsReferenceNumber;
+    }
+
+    /**
+     * @param string $dsReferenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthValidateReply
+     */
+    public function setDsReferenceNumber($dsReferenceNumber)
+    {
+        $this->dsReferenceNumber = $dsReferenceNumber;
 
         return $this;
     }

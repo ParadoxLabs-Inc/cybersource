@@ -43,9 +43,49 @@ class APCheckStatusReply
     protected $processorResponse;
 
     /**
+     * @var string $processorToken
+     */
+    protected $processorToken;
+
+    /**
+     * @var string $fundingSource
+     */
+    protected $fundingSource;
+
+    /**
+     * @var string $payment_ewalletName
+     */
+    protected $payment_ewalletName;
+
+    /**
+     * @var string $card_issuerCode
+     */
+    protected $card_issuerCode;
+
+    /**
+     * @var string $card_issuerName
+     */
+    protected $card_issuerName;
+
+    /**
+     * @var string $refundBalance
+     */
+    protected $refundBalance;
+
+    /**
      * @var \DateTime $dateTime
      */
     protected $dateTime;
+
+    /**
+     * @var \DateTime $updateDateTime
+     */
+    protected $updateDateTime;
+
+    /**
+     * @var \DateTime $expirationDateTime
+     */
+    protected $expirationDateTime;
 
     /**
      * @param int $reasonCode
@@ -189,6 +229,120 @@ class APCheckStatusReply
     }
 
     /**
+     * @return string
+     */
+    public function getProcessorToken()
+    {
+        return $this->processorToken;
+    }
+
+    /**
+     * @param string $processorToken
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setProcessorToken($processorToken)
+    {
+        $this->processorToken = $processorToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFundingSource()
+    {
+        return $this->fundingSource;
+    }
+
+    /**
+     * @param string $fundingSource
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setFundingSource($fundingSource)
+    {
+        $this->fundingSource = $fundingSource;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPayment_ewalletName()
+    {
+        return $this->payment_ewalletName;
+    }
+
+    /**
+     * @param string $payment_ewalletName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setPayment_ewalletName($payment_ewalletName)
+    {
+        $this->payment_ewalletName = $payment_ewalletName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCard_issuerCode()
+    {
+        return $this->card_issuerCode;
+    }
+
+    /**
+     * @param string $card_issuerCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setCard_issuerCode($card_issuerCode)
+    {
+        $this->card_issuerCode = $card_issuerCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCard_issuerName()
+    {
+        return $this->card_issuerName;
+    }
+
+    /**
+     * @param string $card_issuerName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setCard_issuerName($card_issuerName)
+    {
+        $this->card_issuerName = $card_issuerName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRefundBalance()
+    {
+        return $this->refundBalance;
+    }
+
+    /**
+     * @param string $refundBalance
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setRefundBalance($refundBalance)
+    {
+        $this->refundBalance = $refundBalance;
+
+        return $this;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getDateTime()
@@ -214,6 +368,68 @@ class APCheckStatusReply
             $this->dateTime = null;
         } else {
             $this->dateTime = $dateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateDateTime()
+    {
+        if ($this->updateDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->updateDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $updateDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    {
+        if ($updateDateTime == null) {
+            $this->updateDateTime = null;
+        } else {
+            $this->updateDateTime = $updateDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getExpirationDateTime()
+    {
+        if ($this->expirationDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->expirationDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $expirationDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
+     */
+    public function setExpirationDateTime(DateTime $expirationDateTime = null)
+    {
+        if ($expirationDateTime == null) {
+            $this->expirationDateTime = null;
+        } else {
+            $this->expirationDateTime = $expirationDateTime->format(DateTime::ATOM);
         }
 
         return $this;

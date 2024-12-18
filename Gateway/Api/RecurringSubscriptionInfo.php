@@ -30,6 +30,11 @@ class RecurringSubscriptionInfo
     protected $numberOfPaymentsToAdd;
 
     /**
+     * @var int $sequenceNumber
+     */
+    protected $sequenceNumber;
+
+    /**
      * @var boolean $automaticRenew
      */
     protected $automaticRenew;
@@ -155,6 +160,25 @@ class RecurringSubscriptionInfo
     public function setNumberOfPaymentsToAdd($numberOfPaymentsToAdd)
     {
         $this->numberOfPaymentsToAdd = $numberOfPaymentsToAdd;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSequenceNumber()
+    {
+        return $this->sequenceNumber;
+    }
+
+    /**
+     * @param int $sequenceNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\RecurringSubscriptionInfo
+     */
+    public function setSequenceNumber($sequenceNumber)
+    {
+        $this->sequenceNumber = $sequenceNumber;
 
         return $this;
     }

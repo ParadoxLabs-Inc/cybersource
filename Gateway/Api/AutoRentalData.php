@@ -145,6 +145,166 @@ class AutoRentalData
     protected $specialProgramCode;
 
     /**
+     * @var boolean $noShowIndicator
+     */
+    protected $noShowIndicator;
+
+    /**
+     * @var string $timePeriod
+     */
+    protected $timePeriod;
+
+    /**
+     * @var float $weeklyRentalRate
+     */
+    protected $weeklyRentalRate;
+
+    /**
+     * @var string $distanceUnit
+     */
+    protected $distanceUnit;
+
+    /**
+     * @var string $rentalLocationID
+     */
+    protected $rentalLocationID;
+
+    /**
+     * @var boolean $vehicleInsuranceIndicator
+     */
+    protected $vehicleInsuranceIndicator;
+
+    /**
+     * @var string $programCode
+     */
+    protected $programCode;
+
+    /**
+     * @var float $otherCharges
+     */
+    protected $otherCharges;
+
+    /**
+     * @var float $taxRate
+     */
+    protected $taxRate;
+
+    /**
+     * @var boolean $taxIndicator
+     */
+    protected $taxIndicator;
+
+    /**
+     * @var string $taxStatusIndicator
+     */
+    protected $taxStatusIndicator;
+
+    /**
+     * @var float $taxAmount
+     */
+    protected $taxAmount;
+
+    /**
+     * @var string $taxType
+     */
+    protected $taxType;
+
+    /**
+     * @var string $taxSummary
+     */
+    protected $taxSummary;
+
+    /**
+     * @var string $returnLocation
+     */
+    protected $returnLocation;
+
+    /**
+     * @var int $odometerReading
+     */
+    protected $odometerReading;
+
+    /**
+     * @var string $vehicleIdentificationNumber
+     */
+    protected $vehicleIdentificationNumber;
+
+    /**
+     * @var string $commodityCode
+     */
+    protected $commodityCode;
+
+    /**
+     * @var string $companyId
+     */
+    protected $companyId;
+
+    /**
+     * @var float $regularMileageCost
+     */
+    protected $regularMileageCost;
+
+    /**
+     * @var float $towingCharge
+     */
+    protected $towingCharge;
+
+    /**
+     * @var float $extraCharge
+     */
+    protected $extraCharge;
+
+    /**
+     * @var int $additionalDrivers
+     */
+    protected $additionalDrivers;
+
+    /**
+     * @var string $rentalAddress
+     */
+    protected $rentalAddress;
+
+    /**
+     * @var int $driverAge
+     */
+    protected $driverAge;
+
+    /**
+     * @var string $vehicleMake
+     */
+    protected $vehicleMake;
+
+    /**
+     * @var string $vehicleModel
+     */
+    protected $vehicleModel;
+
+    /**
+     * @var string $corporateClientCode
+     */
+    protected $corporateClientCode;
+
+    /**
+     * @var float $phoneCharge
+     */
+    protected $phoneCharge;
+
+    /**
+     * @var float $gpsCharge
+     */
+    protected $gpsCharge;
+
+    /**
+     * @var string $pickupLocation
+     */
+    protected $pickupLocation;
+
+    /**
+     * @var string $taxAmountSign
+     */
+    protected $taxAmountSign;
+
+    /**
      * @return float
      */
     public function getAdjustmentCost()
@@ -672,6 +832,614 @@ class AutoRentalData
     public function setSpecialProgramCode($specialProgramCode)
     {
         $this->specialProgramCode = $specialProgramCode;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNoShowIndicator()
+    {
+        return $this->noShowIndicator;
+    }
+
+    /**
+     * @param boolean $noShowIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setNoShowIndicator($noShowIndicator)
+    {
+        $this->noShowIndicator = $noShowIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimePeriod()
+    {
+        return $this->timePeriod;
+    }
+
+    /**
+     * @param string $timePeriod
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTimePeriod($timePeriod)
+    {
+        $this->timePeriod = $timePeriod;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeeklyRentalRate()
+    {
+        return $this->weeklyRentalRate;
+    }
+
+    /**
+     * @param float $weeklyRentalRate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setWeeklyRentalRate($weeklyRentalRate)
+    {
+        $this->weeklyRentalRate = $weeklyRentalRate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDistanceUnit()
+    {
+        return $this->distanceUnit;
+    }
+
+    /**
+     * @param string $distanceUnit
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setDistanceUnit($distanceUnit)
+    {
+        $this->distanceUnit = $distanceUnit;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRentalLocationID()
+    {
+        return $this->rentalLocationID;
+    }
+
+    /**
+     * @param string $rentalLocationID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setRentalLocationID($rentalLocationID)
+    {
+        $this->rentalLocationID = $rentalLocationID;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getVehicleInsuranceIndicator()
+    {
+        return $this->vehicleInsuranceIndicator;
+    }
+
+    /**
+     * @param boolean $vehicleInsuranceIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setVehicleInsuranceIndicator($vehicleInsuranceIndicator)
+    {
+        $this->vehicleInsuranceIndicator = $vehicleInsuranceIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProgramCode()
+    {
+        return $this->programCode;
+    }
+
+    /**
+     * @param string $programCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setProgramCode($programCode)
+    {
+        $this->programCode = $programCode;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getOtherCharges()
+    {
+        return $this->otherCharges;
+    }
+
+    /**
+     * @param float $otherCharges
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setOtherCharges($otherCharges)
+    {
+        $this->otherCharges = $otherCharges;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTaxRate()
+    {
+        return $this->taxRate;
+    }
+
+    /**
+     * @param float $taxRate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxRate($taxRate)
+    {
+        $this->taxRate = $taxRate;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getTaxIndicator()
+    {
+        return $this->taxIndicator;
+    }
+
+    /**
+     * @param boolean $taxIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxIndicator($taxIndicator)
+    {
+        $this->taxIndicator = $taxIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxStatusIndicator()
+    {
+        return $this->taxStatusIndicator;
+    }
+
+    /**
+     * @param string $taxStatusIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxStatusIndicator($taxStatusIndicator)
+    {
+        $this->taxStatusIndicator = $taxStatusIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTaxAmount()
+    {
+        return $this->taxAmount;
+    }
+
+    /**
+     * @param float $taxAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxAmount($taxAmount)
+    {
+        $this->taxAmount = $taxAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxType()
+    {
+        return $this->taxType;
+    }
+
+    /**
+     * @param string $taxType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxType($taxType)
+    {
+        $this->taxType = $taxType;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxSummary()
+    {
+        return $this->taxSummary;
+    }
+
+    /**
+     * @param string $taxSummary
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxSummary($taxSummary)
+    {
+        $this->taxSummary = $taxSummary;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReturnLocation()
+    {
+        return $this->returnLocation;
+    }
+
+    /**
+     * @param string $returnLocation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setReturnLocation($returnLocation)
+    {
+        $this->returnLocation = $returnLocation;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOdometerReading()
+    {
+        return $this->odometerReading;
+    }
+
+    /**
+     * @param int $odometerReading
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setOdometerReading($odometerReading)
+    {
+        $this->odometerReading = $odometerReading;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVehicleIdentificationNumber()
+    {
+        return $this->vehicleIdentificationNumber;
+    }
+
+    /**
+     * @param string $vehicleIdentificationNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setVehicleIdentificationNumber($vehicleIdentificationNumber)
+    {
+        $this->vehicleIdentificationNumber = $vehicleIdentificationNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommodityCode()
+    {
+        return $this->commodityCode;
+    }
+
+    /**
+     * @param string $commodityCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setCommodityCode($commodityCode)
+    {
+        $this->commodityCode = $commodityCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyId()
+    {
+        return $this->companyId;
+    }
+
+    /**
+     * @param string $companyId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setCompanyId($companyId)
+    {
+        $this->companyId = $companyId;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getRegularMileageCost()
+    {
+        return $this->regularMileageCost;
+    }
+
+    /**
+     * @param float $regularMileageCost
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setRegularMileageCost($regularMileageCost)
+    {
+        $this->regularMileageCost = $regularMileageCost;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTowingCharge()
+    {
+        return $this->towingCharge;
+    }
+
+    /**
+     * @param float $towingCharge
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTowingCharge($towingCharge)
+    {
+        $this->towingCharge = $towingCharge;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getExtraCharge()
+    {
+        return $this->extraCharge;
+    }
+
+    /**
+     * @param float $extraCharge
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setExtraCharge($extraCharge)
+    {
+        $this->extraCharge = $extraCharge;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdditionalDrivers()
+    {
+        return $this->additionalDrivers;
+    }
+
+    /**
+     * @param int $additionalDrivers
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setAdditionalDrivers($additionalDrivers)
+    {
+        $this->additionalDrivers = $additionalDrivers;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRentalAddress()
+    {
+        return $this->rentalAddress;
+    }
+
+    /**
+     * @param string $rentalAddress
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setRentalAddress($rentalAddress)
+    {
+        $this->rentalAddress = $rentalAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDriverAge()
+    {
+        return $this->driverAge;
+    }
+
+    /**
+     * @param int $driverAge
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setDriverAge($driverAge)
+    {
+        $this->driverAge = $driverAge;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVehicleMake()
+    {
+        return $this->vehicleMake;
+    }
+
+    /**
+     * @param string $vehicleMake
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setVehicleMake($vehicleMake)
+    {
+        $this->vehicleMake = $vehicleMake;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVehicleModel()
+    {
+        return $this->vehicleModel;
+    }
+
+    /**
+     * @param string $vehicleModel
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setVehicleModel($vehicleModel)
+    {
+        $this->vehicleModel = $vehicleModel;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCorporateClientCode()
+    {
+        return $this->corporateClientCode;
+    }
+
+    /**
+     * @param string $corporateClientCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setCorporateClientCode($corporateClientCode)
+    {
+        $this->corporateClientCode = $corporateClientCode;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPhoneCharge()
+    {
+        return $this->phoneCharge;
+    }
+
+    /**
+     * @param float $phoneCharge
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setPhoneCharge($phoneCharge)
+    {
+        $this->phoneCharge = $phoneCharge;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getGpsCharge()
+    {
+        return $this->gpsCharge;
+    }
+
+    /**
+     * @param float $gpsCharge
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setGpsCharge($gpsCharge)
+    {
+        $this->gpsCharge = $gpsCharge;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPickupLocation()
+    {
+        return $this->pickupLocation;
+    }
+
+    /**
+     * @param string $pickupLocation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setPickupLocation($pickupLocation)
+    {
+        $this->pickupLocation = $pickupLocation;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxAmountSign()
+    {
+        return $this->taxAmountSign;
+    }
+
+    /**
+     * @param string $taxAmountSign
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\AutoRentalData
+     */
+    public function setTaxAmountSign($taxAmountSign)
+    {
+        $this->taxAmountSign = $taxAmountSign;
 
         return $this;
     }

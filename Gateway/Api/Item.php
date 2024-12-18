@@ -680,6 +680,56 @@ class Item
     protected $shippingDestinationTypes;
 
     /**
+     * @var string $shippingAddress1
+     */
+    protected $shippingAddress1;
+
+    /**
+     * @var string $shippingAddress2
+     */
+    protected $shippingAddress2;
+
+    /**
+     * @var string $shippingCity
+     */
+    protected $shippingCity;
+
+    /**
+     * @var string $shippingCountryCode
+     */
+    protected $shippingCountryCode;
+
+    /**
+     * @var string $shippingFirstName
+     */
+    protected $shippingFirstName;
+
+    /**
+     * @var string $shippingLastName
+     */
+    protected $shippingLastName;
+
+    /**
+     * @var string $shippingMiddleName
+     */
+    protected $shippingMiddleName;
+
+    /**
+     * @var int $shippingPhone
+     */
+    protected $shippingPhone;
+
+    /**
+     * @var string $shippingPostalCode
+     */
+    protected $shippingPostalCode;
+
+    /**
+     * @var string $shippingState
+     */
+    protected $shippingState;
+
+    /**
      * @var int $id
      */
     protected $id;
@@ -3253,6 +3303,196 @@ class Item
     public function setShippingDestinationTypes($shippingDestinationTypes)
     {
         $this->shippingDestinationTypes = $shippingDestinationTypes;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingAddress1()
+    {
+        return $this->shippingAddress1;
+    }
+
+    /**
+     * @param string $shippingAddress1
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingAddress1($shippingAddress1)
+    {
+        $this->shippingAddress1 = $shippingAddress1;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingAddress2()
+    {
+        return $this->shippingAddress2;
+    }
+
+    /**
+     * @param string $shippingAddress2
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingAddress2($shippingAddress2)
+    {
+        $this->shippingAddress2 = $shippingAddress2;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingCity()
+    {
+        return $this->shippingCity;
+    }
+
+    /**
+     * @param string $shippingCity
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingCity($shippingCity)
+    {
+        $this->shippingCity = $shippingCity;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingCountryCode()
+    {
+        return $this->shippingCountryCode;
+    }
+
+    /**
+     * @param string $shippingCountryCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingCountryCode($shippingCountryCode)
+    {
+        $this->shippingCountryCode = $shippingCountryCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingFirstName()
+    {
+        return $this->shippingFirstName;
+    }
+
+    /**
+     * @param string $shippingFirstName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingFirstName($shippingFirstName)
+    {
+        $this->shippingFirstName = $shippingFirstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingLastName()
+    {
+        return $this->shippingLastName;
+    }
+
+    /**
+     * @param string $shippingLastName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingLastName($shippingLastName)
+    {
+        $this->shippingLastName = $shippingLastName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingMiddleName()
+    {
+        return $this->shippingMiddleName;
+    }
+
+    /**
+     * @param string $shippingMiddleName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingMiddleName($shippingMiddleName)
+    {
+        $this->shippingMiddleName = $shippingMiddleName;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getShippingPhone()
+    {
+        return $this->shippingPhone;
+    }
+
+    /**
+     * @param int $shippingPhone
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingPhone($shippingPhone)
+    {
+        $this->shippingPhone = $shippingPhone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingPostalCode()
+    {
+        return $this->shippingPostalCode;
+    }
+
+    /**
+     * @param string $shippingPostalCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingPostalCode($shippingPostalCode)
+    {
+        $this->shippingPostalCode = $shippingPostalCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingState()
+    {
+        return $this->shippingState;
+    }
+
+    /**
+     * @param string $shippingState
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Item
+     */
+    public function setShippingState($shippingState)
+    {
+        $this->shippingState = $shippingState;
 
         return $this;
     }

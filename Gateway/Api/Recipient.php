@@ -20,6 +20,11 @@ class Recipient
     protected $accountID;
 
     /**
+     * @var string $accountType
+     */
+    protected $accountType;
+
+    /**
      * @var string $lastName
      */
     protected $lastName;
@@ -50,6 +55,11 @@ class Recipient
     protected $firstName;
 
     /**
+     * @var string $middleName
+     */
+    protected $middleName;
+
+    /**
      * @var string $middleInitial
      */
     protected $middleInitial;
@@ -78,6 +88,46 @@ class Recipient
      * @var string $phoneNumber
      */
     protected $phoneNumber;
+
+    /**
+     * @var string $buildingNumber
+     */
+    protected $buildingNumber;
+
+    /**
+     * @var string $address2
+     */
+    protected $address2;
+
+    /**
+     * @var string $streetName
+     */
+    protected $streetName;
+
+    /**
+     * @var string $aliasName
+     */
+    protected $aliasName;
+
+    /**
+     * @var string $nationality
+     */
+    protected $nationality;
+
+    /**
+     * @var string $countryOfBirth
+     */
+    protected $countryOfBirth;
+
+    /**
+     * @var string $occupation
+     */
+    protected $occupation;
+
+    /**
+     * @var string $email
+     */
+    protected $email;
 
     /**
      * @return string
@@ -132,6 +182,25 @@ class Recipient
     public function setAccountID($accountID)
     {
         $this->accountID = $accountID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->accountType;
+    }
+
+    /**
+     * @param string $accountType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
 
         return $this;
     }
@@ -253,6 +322,25 @@ class Recipient
     /**
      * @return string
      */
+    public function getMiddleName()
+    {
+        return $this->middleName;
+    }
+
+    /**
+     * @param string $middleName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setMiddleName($middleName)
+    {
+        $this->middleName = $middleName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getMiddleInitial()
     {
         return $this->middleInitial;
@@ -360,6 +448,158 @@ class Recipient
     public function setPhoneNumber($phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBuildingNumber()
+    {
+        return $this->buildingNumber;
+    }
+
+    /**
+     * @param string $buildingNumber
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setBuildingNumber($buildingNumber)
+    {
+        $this->buildingNumber = $buildingNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress2()
+    {
+        return $this->address2;
+    }
+
+    /**
+     * @param string $address2
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setAddress2($address2)
+    {
+        $this->address2 = $address2;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreetName()
+    {
+        return $this->streetName;
+    }
+
+    /**
+     * @param string $streetName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setStreetName($streetName)
+    {
+        $this->streetName = $streetName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAliasName()
+    {
+        return $this->aliasName;
+    }
+
+    /**
+     * @param string $aliasName
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setAliasName($aliasName)
+    {
+        $this->aliasName = $aliasName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNationality()
+    {
+        return $this->nationality;
+    }
+
+    /**
+     * @param string $nationality
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setNationality($nationality)
+    {
+        $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryOfBirth()
+    {
+        return $this->countryOfBirth;
+    }
+
+    /**
+     * @param string $countryOfBirth
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setCountryOfBirth($countryOfBirth)
+    {
+        $this->countryOfBirth = $countryOfBirth;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOccupation()
+    {
+        return $this->occupation;
+    }
+
+    /**
+     * @param string $occupation
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setOccupation($occupation)
+    {
+        $this->occupation = $occupation;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Recipient
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
         return $this;
     }

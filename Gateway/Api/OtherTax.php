@@ -55,6 +55,11 @@ class OtherTax
     protected $nationalTaxIndicator;
 
     /**
+     * @var float $greenTaxAmount
+     */
+    protected $greenTaxAmount;
+
+    /**
      * @return float
      */
     public function getVatTaxAmount()
@@ -240,6 +245,25 @@ class OtherTax
     public function setNationalTaxIndicator($nationalTaxIndicator)
     {
         $this->nationalTaxIndicator = $nationalTaxIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getGreenTaxAmount()
+    {
+        return $this->greenTaxAmount;
+    }
+
+    /**
+     * @param float $greenTaxAmount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\OtherTax
+     */
+    public function setGreenTaxAmount($greenTaxAmount)
+    {
+        $this->greenTaxAmount = $greenTaxAmount;
 
         return $this;
     }

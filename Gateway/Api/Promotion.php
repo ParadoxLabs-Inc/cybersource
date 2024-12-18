@@ -35,6 +35,11 @@ class Promotion
     protected $description;
 
     /**
+     * @var string $additionalCode
+     */
+    protected $additionalCode;
+
+    /**
      * @return float
      */
     public function getDiscountedAmount()
@@ -144,6 +149,25 @@ class Promotion
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalCode()
+    {
+        return $this->additionalCode;
+    }
+
+    /**
+     * @param string $additionalCode
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\Promotion
+     */
+    public function setAdditionalCode($additionalCode)
+    {
+        $this->additionalCode = $additionalCode;
 
         return $this;
     }

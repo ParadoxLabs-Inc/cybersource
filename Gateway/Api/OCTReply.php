@@ -33,6 +33,11 @@ class OCTReply
     protected $approvalCode;
 
     /**
+     * @var string $serviceProcessingType
+     */
+    protected $serviceProcessingType;
+
+    /**
      * @var float $amount
      */
     protected $amount;
@@ -61,6 +66,11 @@ class OCTReply
      * @var string $reconciliationIdType
      */
     protected $reconciliationIdType;
+
+    /**
+     * @var benefit $benefit
+     */
+    protected $benefit;
 
     /**
      * @param int $reasonCode
@@ -178,6 +188,25 @@ class OCTReply
     }
 
     /**
+     * @return string
+     */
+    public function getServiceProcessingType()
+    {
+        return $this->serviceProcessingType;
+    }
+
+    /**
+     * @param string $serviceProcessingType
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\OCTReply
+     */
+    public function setServiceProcessingType($serviceProcessingType)
+    {
+        $this->serviceProcessingType = $serviceProcessingType;
+
+        return $this;
+    }
+
+    /**
      * @return float
      */
     public function getAmount()
@@ -287,6 +316,25 @@ class OCTReply
     public function setReconciliationIdType($reconciliationIdType)
     {
         $this->reconciliationIdType = $reconciliationIdType;
+
+        return $this;
+    }
+
+    /**
+     * @return benefit
+     */
+    public function getBenefit()
+    {
+        return $this->benefit;
+    }
+
+    /**
+     * @param benefit $benefit
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\OCTReply
+     */
+    public function setBenefit($benefit)
+    {
+        $this->benefit = $benefit;
 
         return $this;
     }

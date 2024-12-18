@@ -33,6 +33,11 @@ class VoidReply
     protected $reversalSubmitted;
 
     /**
+     * @var string $settlementDate
+     */
+    protected $settlementDate;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -143,6 +148,25 @@ class VoidReply
     public function setReversalSubmitted($reversalSubmitted)
     {
         $this->reversalSubmitted = $reversalSubmitted;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettlementDate()
+    {
+        return $this->settlementDate;
+    }
+
+    /**
+     * @param string $settlementDate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\VoidReply
+     */
+    public function setSettlementDate($settlementDate)
+    {
+        $this->settlementDate = $settlementDate;
 
         return $this;
     }

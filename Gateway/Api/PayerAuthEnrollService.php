@@ -208,6 +208,11 @@ class PayerAuthEnrollService
     protected $recurringOriginalPurchaseDate;
 
     /**
+     * @var string $returnURL
+     */
+    protected $returnURL;
+
+    /**
      * @var string $transactionMode
      */
     protected $transactionMode;
@@ -323,7 +328,7 @@ class PayerAuthEnrollService
     protected $priorAuthenticationTime;
 
     /**
-     * @var string $requestorInitiatedAuthenticationIndicator
+     * @var int $requestorInitiatedAuthenticationIndicator
      */
     protected $requestorInitiatedAuthenticationIndicator;
 
@@ -333,7 +338,7 @@ class PayerAuthEnrollService
     protected $sdkMaxTimeout;
 
     /**
-     * @var string $authenticationIndicator
+     * @var int $authenticationIndicator
      */
     protected $authenticationIndicator;
 
@@ -366,6 +371,26 @@ class PayerAuthEnrollService
      * @var string $secureCorporatePaymentIndicator
      */
     protected $secureCorporatePaymentIndicator;
+
+    /**
+     * @var string $resendCount
+     */
+    protected $resendCount;
+
+    /**
+     * @var string $workPhone
+     */
+    protected $workPhone;
+
+    /**
+     * @var boolean $scoreRequest
+     */
+    protected $scoreRequest;
+
+    /**
+     * @var string $transactionFlowIndicator
+     */
+    protected $transactionFlowIndicator;
 
     /**
      * @var boolean $run
@@ -1155,6 +1180,25 @@ class PayerAuthEnrollService
     /**
      * @return string
      */
+    public function getReturnURL()
+    {
+        return $this->returnURL;
+    }
+
+    /**
+     * @param string $returnURL
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
+     */
+    public function setReturnURL($returnURL)
+    {
+        $this->returnURL = $returnURL;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getTransactionMode()
     {
         return $this->transactionMode;
@@ -1590,7 +1634,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getRequestorInitiatedAuthenticationIndicator()
     {
@@ -1598,7 +1642,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @param string $requestorInitiatedAuthenticationIndicator
+     * @param int $requestorInitiatedAuthenticationIndicator
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
      */
     public function setRequestorInitiatedAuthenticationIndicator($requestorInitiatedAuthenticationIndicator)
@@ -1628,7 +1672,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getAuthenticationIndicator()
     {
@@ -1636,7 +1680,7 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @param string $authenticationIndicator
+     * @param int $authenticationIndicator
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
      */
     public function setAuthenticationIndicator($authenticationIndicator)
@@ -1757,6 +1801,82 @@ class PayerAuthEnrollService
     public function setSecureCorporatePaymentIndicator($secureCorporatePaymentIndicator)
     {
         $this->secureCorporatePaymentIndicator = $secureCorporatePaymentIndicator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResendCount()
+    {
+        return $this->resendCount;
+    }
+
+    /**
+     * @param string $resendCount
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
+     */
+    public function setResendCount($resendCount)
+    {
+        $this->resendCount = $resendCount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorkPhone()
+    {
+        return $this->workPhone;
+    }
+
+    /**
+     * @param string $workPhone
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
+     */
+    public function setWorkPhone($workPhone)
+    {
+        $this->workPhone = $workPhone;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getScoreRequest()
+    {
+        return $this->scoreRequest;
+    }
+
+    /**
+     * @param boolean $scoreRequest
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
+     */
+    public function setScoreRequest($scoreRequest)
+    {
+        $this->scoreRequest = $scoreRequest;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionFlowIndicator()
+    {
+        return $this->transactionFlowIndicator;
+    }
+
+    /**
+     * @param string $transactionFlowIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
+     */
+    public function setTransactionFlowIndicator($transactionFlowIndicator)
+    {
+        $this->transactionFlowIndicator = $transactionFlowIndicator;
 
         return $this;
     }

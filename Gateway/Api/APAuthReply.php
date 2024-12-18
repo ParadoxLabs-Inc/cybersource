@@ -73,6 +73,31 @@ class APAuthReply
     protected $processorTransactionID;
 
     /**
+     * @var string $orderId
+     */
+    protected $orderId;
+
+    /**
+     * @var string $orderStatus
+     */
+    protected $orderStatus;
+
+    /**
+     * @var string $completeRedirectURL
+     */
+    protected $completeRedirectURL;
+
+    /**
+     * @var \DateTime $updateDateTime
+     */
+    protected $updateDateTime;
+
+    /**
+     * @var \DateTime $expirationDateTime
+     */
+    protected $expirationDateTime;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -335,6 +360,125 @@ class APAuthReply
     public function setProcessorTransactionID($processorTransactionID)
     {
         $this->processorTransactionID = $processorTransactionID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * @param string $orderId
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderStatus()
+    {
+        return $this->orderStatus;
+    }
+
+    /**
+     * @param string $orderStatus
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
+     */
+    public function setOrderStatus($orderStatus)
+    {
+        $this->orderStatus = $orderStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompleteRedirectURL()
+    {
+        return $this->completeRedirectURL;
+    }
+
+    /**
+     * @param string $completeRedirectURL
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
+     */
+    public function setCompleteRedirectURL($completeRedirectURL)
+    {
+        $this->completeRedirectURL = $completeRedirectURL;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateDateTime()
+    {
+        if ($this->updateDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->updateDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $updateDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
+     */
+    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    {
+        if ($updateDateTime == null) {
+            $this->updateDateTime = null;
+        } else {
+            $this->updateDateTime = $updateDateTime->format(DateTime::ATOM);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getExpirationDateTime()
+    {
+        if ($this->expirationDateTime == null) {
+            return null;
+        } else {
+            try {
+                return new DateTime($this->expirationDateTime);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $expirationDateTime
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
+     */
+    public function setExpirationDateTime(DateTime $expirationDateTime = null)
+    {
+        if ($expirationDateTime == null) {
+            $this->expirationDateTime = null;
+        } else {
+            $this->expirationDateTime = $expirationDateTime->format(DateTime::ATOM);
+        }
 
         return $this;
     }

@@ -18,6 +18,11 @@ class BinLookupReply
     protected $requestDateTime;
 
     /**
+     * @var string $cardCategory
+     */
+    protected $cardCategory;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -71,6 +76,25 @@ class BinLookupReply
         } else {
             $this->requestDateTime = $requestDateTime->format(DateTime::ATOM);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardCategory()
+    {
+        return $this->cardCategory;
+    }
+
+    /**
+     * @param string $cardCategory
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\BinLookupReply
+     */
+    public function setCardCategory($cardCategory)
+    {
+        $this->cardCategory = $cardCategory;
 
         return $this;
     }

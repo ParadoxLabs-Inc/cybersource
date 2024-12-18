@@ -10,6 +10,11 @@ class TokenSource
     protected $transientToken;
 
     /**
+     * @var string $networkTokenOption
+     */
+    protected $networkTokenOption;
+
+    /**
      * @return string
      */
     public function getTransientToken()
@@ -24,6 +29,25 @@ class TokenSource
     public function setTransientToken($transientToken)
     {
         $this->transientToken = $transientToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNetworkTokenOption()
+    {
+        return $this->networkTokenOption;
+    }
+
+    /**
+     * @param string $networkTokenOption
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\TokenSource
+     */
+    public function setNetworkTokenOption($networkTokenOption)
+    {
+        $this->networkTokenOption = $networkTokenOption;
 
         return $this;
     }

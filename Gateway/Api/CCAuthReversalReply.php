@@ -58,6 +58,26 @@ class CCAuthReversalReply
     protected $paymentCardServiceResult;
 
     /**
+     * @var string $reversalRecord
+     */
+    protected $reversalRecord;
+
+    /**
+     * @var string $paymentNetworkTransactionID
+     */
+    protected $paymentNetworkTransactionID;
+
+    /**
+     * @var string $settlementDate
+     */
+    protected $settlementDate;
+
+    /**
+     * @var string $paymentTypeIndicator
+     */
+    protected $paymentTypeIndicator;
+
+    /**
      * @param int $reasonCode
      */
     public function __construct($reasonCode)
@@ -263,6 +283,82 @@ class CCAuthReversalReply
     public function setPaymentCardServiceResult($paymentCardServiceResult)
     {
         $this->paymentCardServiceResult = $paymentCardServiceResult;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReversalRecord()
+    {
+        return $this->reversalRecord;
+    }
+
+    /**
+     * @param string $reversalRecord
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalReply
+     */
+    public function setReversalRecord($reversalRecord)
+    {
+        $this->reversalRecord = $reversalRecord;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentNetworkTransactionID()
+    {
+        return $this->paymentNetworkTransactionID;
+    }
+
+    /**
+     * @param string $paymentNetworkTransactionID
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalReply
+     */
+    public function setPaymentNetworkTransactionID($paymentNetworkTransactionID)
+    {
+        $this->paymentNetworkTransactionID = $paymentNetworkTransactionID;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettlementDate()
+    {
+        return $this->settlementDate;
+    }
+
+    /**
+     * @param string $settlementDate
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalReply
+     */
+    public function setSettlementDate($settlementDate)
+    {
+        $this->settlementDate = $settlementDate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentTypeIndicator()
+    {
+        return $this->paymentTypeIndicator;
+    }
+
+    /**
+     * @param string $paymentTypeIndicator
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReversalReply
+     */
+    public function setPaymentTypeIndicator($paymentTypeIndicator)
+    {
+        $this->paymentTypeIndicator = $paymentTypeIndicator;
 
         return $this;
     }

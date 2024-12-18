@@ -30,6 +30,11 @@ class DecisionReply
     protected $morphingElement;
 
     /**
+     * @var VelocityCounts $velocityCounts
+     */
+    protected $velocityCounts;
+
+    /**
      * @var ProviderFields $providerFields
      */
     protected $providerFields;
@@ -135,6 +140,25 @@ class DecisionReply
     public function setMorphingElement($morphingElement)
     {
         $this->morphingElement = $morphingElement;
+
+        return $this;
+    }
+
+    /**
+     * @return VelocityCounts
+     */
+    public function getVelocityCounts()
+    {
+        return $this->velocityCounts;
+    }
+
+    /**
+     * @param VelocityCounts $velocityCounts
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionReply
+     */
+    public function setVelocityCounts($velocityCounts)
+    {
+        $this->velocityCounts = $velocityCounts;
 
         return $this;
     }
