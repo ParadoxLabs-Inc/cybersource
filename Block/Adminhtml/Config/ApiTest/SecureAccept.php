@@ -39,7 +39,7 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
     protected function testApi()
     {
         try {
-            $this->checkRequiredFields();
+            $this->checkRequiredFields(static::CREDENTIAL_KEYS);
             $this->checkFormFactor();
 
             return __(

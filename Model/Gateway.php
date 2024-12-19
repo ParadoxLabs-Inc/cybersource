@@ -123,17 +123,11 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
             $this->config->setStoreId($parameters['store_id'] ?? null);
 
             $this->soapClient = $this->objectBuilder->getProcessor(
-                $this->config->getSoapWsdl()
+                $this->config,
+                (array)($this->getSoapOptions() ?: [])
             );
 
-            $this->soapClient->__setSoapHeaders(
-                $this->objectBuilder->getSecurityHeader(
-                    $this->config->getMerchantId(),
-                    $this->config->getSoapTransactionKey()
-                )
-            );
-
-            $this->initialized  = true;
+            $this->initialized = true;
         } catch (\SoapFault $exception) {
             $this->helper->log($this->code, trim((string)$exception->getMessage()));
             throw new \Magento\Framework\Exception\RuntimeException(
@@ -234,8 +228,12 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     protected function xmlToArray($xml)
     {
+        if (empty($xml)) {
+            return [];
+        }
+
         // Strip namespaces out of element keys
-        $xml = preg_replace('/(<\/|<)[a-zA-Z]+:([a-zA-Z0-9]+[ =>\/])/', '$1$2', $xml);
+        $xml = preg_replace('/(<\/|<)[a-zA-Z]+:([a-zA-Z0-9]+[ =>\/])/', '$1$2', (string)$xml);
 
         $array = parent::xmlToArray($xml);
 

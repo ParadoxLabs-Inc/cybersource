@@ -39,15 +39,16 @@ class ObjectBuilder
     /**
      * Create a CyberSource SOAP client
      *
-     * @param string|null $wsdl
+     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
      * @param array $soapOptions
      * @return \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor
      */
-    public function getProcessor($wsdl, $soapOptions = [])
+    public function getProcessor(\ParadoxLabs\CyberSource\Model\Config\Config $config, $soapOptions = [])
     {
         return new TransactionProcessor(
             static::SOAP_DEFAULTS + $soapOptions,
-            $wsdl
+            $config,
+            $this
         );
     }
 
@@ -69,6 +70,16 @@ class ObjectBuilder
             $username,
             $password
         );
+    }
+
+    /**
+     * Get the WSSE SOAP request signer
+     *
+     * @return \ParadoxLabs\CyberSource\Gateway\Api\WsseSignature
+     */
+    public function getSecuritySignature()
+    {
+        return new WsseSignature();
     }
 
     /**

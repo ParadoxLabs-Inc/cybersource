@@ -39,12 +39,12 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function checkRequiredFields()
+    protected function checkRequiredFields(array $fields)
     {
         $method = $this->getMethod();
 
         // Don't test unless all details are entered and look valid.
-        foreach (static::CREDENTIAL_KEYS as $key) {
+        foreach ($fields as $key) {
             if (empty($method->getConfigData($key))) {
                 throw new \Magento\Framework\Exception\LocalizedException(
                     __('Please complete all of these settings and save to test.')

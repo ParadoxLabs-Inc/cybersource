@@ -2,6 +2,7 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use ParadoxLabs\CyberSource\Model\Config\Config;
 use SoapClient;
 
 /**
@@ -368,26 +369,43 @@ class TransactionProcessor extends SoapClient
         ];
 
     /**
-     * @param array $options A array of config values
-     * @param string $wsdl The wsdl file to use
+     * @var \ParadoxLabs\CyberSource\Model\Config\Config
      */
-    public function __construct(array $options = [], $wsdl = null)
-    {
+    protected $config;
+
+    /**
+     * @var \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder
+     */
+    protected $objectBuilder;
+
+    /**
+     * @param array $options An array of SoapClient options/config
+     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder
+     * @throws \SoapFault
+     */
+    public function __construct(
+        array $options,
+        Config $config,
+        ObjectBuilder $objectBuilder
+    ) {
+        $this->config = $config;
+        $this->objectBuilder = $objectBuilder;
+
         foreach (self::$classmap as $key => $value) {
             if (!isset($options['classmap'][ $key ])) {
                 $options['classmap'][ $key ] = $value;
             }
         }
+
         $options = array_merge(
             [
                 'features' => 1,
             ],
             $options
         );
-        if (!$wsdl) {
-            $wsdl = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl';
-        }
-        parent::__construct($wsdl, $options);
+
+        parent::__construct($config->getSoapWsdl(), $options);
     }
 
     /**
@@ -396,6 +414,119 @@ class TransactionProcessor extends SoapClient
      */
     public function runTransaction(RequestMessage $input)
     {
+        if ($this->config->getSoapAuthType() === 'transaction_key') {
+            $this->__setSoapHeaders(
+                $this->objectBuilder->getSecurityHeader(
+                    $this->config->getMerchantId(),
+                    $this->config->getSoapTransactionKey()
+                )
+            );
+        }
+
         return $this->__soapCall('runTransaction', [$input]);
+    }
+
+    /**
+     * Replace generic request with our own signed HTTPS request
+     *
+     * @param string $request
+     * @param string $location
+     * @param string $action
+     * @param int $version
+     * @param bool $oneWay
+     * @return string
+     */
+    #[\ReturnTypeWillChange]
+    function __doRequest($request, $location, $action, $version, $oneWay = false)
+    {
+        if ($this->config->getSoapAuthType() === 'cert') {
+            $request = $this->signWithCertificate($request);
+        }
+
+        return parent::__doRequest($request, $location, $action, $version, $oneWay);
+    }
+
+    /**
+     * Sign SOAP request with the configured P12 certificate and password
+     *
+     * Based on CyberSource PHPSoapToolkit
+     *
+     * @param string $request
+     * @return string
+     * @throws \DOMException
+     * @see https://github.com/CyberSource/cybersource-soap-toolkit/blob/master/PHPSoapToolkit/ExtendedClientWithToken.php
+     */
+    public function signWithCertificate(string $request): string
+    {
+        // Load request and add security headers
+        $requestDom = new \DOMDocument('1.0', 'utf-8');
+        $requestDom->loadXML($request);
+
+        $domXPath = new \DOMXPath($requestDom);
+        $domXPath->registerNamespace('SOAP-ENV', WsseSignature::SOAP_NS);
+
+        // Mark SOAP-ENV:Body with wsu:Id for signing
+        $bodyNode = $domXPath->query('/SOAP-ENV:Envelope/SOAP-ENV:Body')->item(0);
+        $bodyNode->setAttributeNS(WsseSignature::WSU_NS, 'wsu:Id', 'Body');
+
+        // Extract or Create SoapHeader
+        $headerNode = $domXPath->query('/SOAP-ENV:Envelope/SOAP-ENV:Header')->item(0);
+        if (!$headerNode) {
+            $headerNode = $requestDom->documentElement->insertBefore(
+                $requestDom->createElementNS(WsseSignature::SOAP_NS, 'SOAP-ENV:Header'),
+                $bodyNode
+            );
+        }
+
+        // Create BinarySecurityToken
+        $wsseSignature = $this->objectBuilder->getSecuritySignature();
+        $securityToken = $wsseSignature->generateSecurityToken(
+            $requestDom,
+            $this->config->getSoapCertificate(),
+            $this->config->getSoapCertPassword()
+        );
+
+        // Prepare Security element
+        $securityElement = $headerNode->appendChild(
+            $requestDom->createElementNS(WsseSignature::WSSE_NS, 'wsse:Security')
+        );
+        $securityElement->appendChild($securityToken);
+
+
+        // Create Signature element and build SignedInfo for elements with provided ids
+        $signatureElement = $securityElement->appendChild(
+            $requestDom->createElementNS(WsseSignature::DS_NS, 'ds:Signature')
+        );
+        $signInfo         = $signatureElement->appendChild(
+            $wsseSignature->buildSignedInfo($requestDom, ['Body'])
+        );
+
+        // Combine Binary Security Token with Signature element
+        $signature = null;
+        openssl_sign(
+            $wsseSignature->canonicalizeNode($signInfo),
+            $signature,
+            $wsseSignature->getPrivateKey(),
+            OPENSSL_ALGO_SHA256
+        );
+
+        $signatureElement->appendChild(
+            $requestDom->createElementNS(WsseSignature::DS_NS, 'ds:SignatureValue', base64_encode($signature))
+        );
+        $keyInfo = $signatureElement->appendChild(
+            $requestDom->createElementNS(WsseSignature::DS_NS, 'ds:KeyInfo')
+        );
+        $securityTokenReferenceElement = $keyInfo->appendChild(
+            $requestDom->createElementNS(WsseSignature::WSSE_NS, 'wsse:SecurityTokenReference')
+        );
+        $keyReference = $securityTokenReferenceElement->appendChild(
+            $requestDom->createElementNS(WsseSignature::WSSE_NS, 'wsse:Reference')
+        );
+        $keyReference->setAttribute('URI', "#X509Token");
+
+        // Convert Document to String
+        $request = (string)$requestDom->saveXML();
+
+        return $request;
     }
 }

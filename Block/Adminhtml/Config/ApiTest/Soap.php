@@ -28,7 +28,7 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     const CREDENTIAL_KEYS = [
         'organization_id',
         'merchant_id',
-        'soap_transaction_key',
+        'soap_auth_type',
     ];
 
     /**
@@ -39,14 +39,24 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     protected function testApi()
     {
         try {
-            $this->checkRequiredFields();
+            $requiredKeys = static::CREDENTIAL_KEYS;
+
+            if ($this->isCertAuth()) {
+                $requiredKeys[] = 'soap_cert';
+                $requiredKeys[] = 'soap_cert_password';
+            } else {
+                $requiredKeys[] = 'soap_transaction_key';
+            }
+
+            $this->checkRequiredFields($requiredKeys);
 
             /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
             $gateway = $this->getMethod()->gateway();
             $gateway->testConnection();
         } catch (\Exception $e) {
             if (strpos((string)$e->getMessage(), 'UsernameToken') !== false) {
-                return __('Your Merchant ID or SOAP API Transaction Key is incorrect.')
+                $soapKey = $this->isCertAuth() ? 'Certificate' : 'Transaction Key';
+                return __('Your Merchant ID or SOAP API ' . $soapKey . ' is incorrect.')
                     . $this->getUserManualInstruction();
             }
 
@@ -61,5 +71,14 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
         }
 
         return '';
+    }
+
+    /**
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function isCertAuth(): bool
+    {
+        return $this->getMethod()->getConfigData('soap_auth_type') === 'cert';
     }
 }

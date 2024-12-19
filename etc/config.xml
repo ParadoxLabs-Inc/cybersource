@@ -10,7 +10,10 @@
                 <title>Credit Card (CyberSource)</title>
                 <organization_id />
                 <merchant_id />
+                <soap_auth_type>transaction_key</soap_auth_type>
                 <soap_transaction_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <soap_cert backend_model="ParadoxLabs\CyberSource\Model\Config\P12Certificate" />
+                <soap_cert_password backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <secureaccept_profile_id />
                 <secureaccept_access_key />
                 <secureaccept_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
@@ -42,7 +45,7 @@
                 <group>tokenbase</group>
                 <!-- API info -->
                 <client_name>ParadoxLabs CyberSource</client_name>
-                <client_version>1.3.0</client_version>
+                <client_version>2.0.0-alpha1</client_version>
                 <!-- Feature flags -->
                 <can_order>1</can_order>
                 <can_authorize>1</can_authorize>

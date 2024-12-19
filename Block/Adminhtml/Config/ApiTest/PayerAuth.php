@@ -39,7 +39,7 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
     protected function testApi()
     {
         try {
-            $this->checkRequiredFields();
+            $this->checkRequiredFields(static::CREDENTIAL_KEYS);
             $this->checkFormFactor();
 
             return __(

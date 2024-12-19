@@ -145,6 +145,18 @@ class Config
     }
 
     /**
+     * Get the SOAP authentication type.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getSoapAuthType($storeId = null)
+    {
+        return $this->getConfigValue('soap_auth_type', $storeId) ?: 'transaction_key';
+    }
+
+    /**
      * Get the SOAP transaction key.
      *
      * @param int|null $storeId
@@ -158,6 +170,49 @@ class Config
         if (empty($value)) {
             throw new \Magento\Framework\Exception\StateException(
                 __('Missing CyberSource Transaction Key. Please check configuration.')
+            );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the SOAP P12 cert file location.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getSoapCertificate($storeId = null)
+    {
+        $value = json_decode(
+            (string)$this->getConfigValue('soap_cert', $storeId),
+            true
+        );
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing Simple Order certificate. Please check configuration.')
+            );
+        }
+
+        return base64_decode($value['contents']);
+    }
+
+    /**
+     * Get the SOAP P12 cert password.
+     *
+     * @param int|null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function getSoapCertPassword($storeId = null)
+    {
+        $value = $this->getConfigValue('soap_cert_password', $storeId);
+
+        if (empty($value)) {
+            throw new \Magento\Framework\Exception\StateException(
+                __('Missing Simple Order certificate password. Please check configuration.')
             );
         }
 

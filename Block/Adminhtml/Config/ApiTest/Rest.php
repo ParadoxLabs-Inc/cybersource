@@ -66,7 +66,7 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
     protected function testApi()
     {
         try {
-            $this->checkRequiredFields();
+            $this->checkRequiredFields(static::CREDENTIAL_KEYS);
             $this->checkFormFactor();
 
             $this->testConnection();
