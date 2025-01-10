@@ -4,10 +4,21 @@
         <section id="payment">
             <group id="paradoxlabs_cybersource" translate="label comment" type="text" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CyberSource</label>
+                <frontend_model>ParadoxLabs\TokenBase\Block\Adminhtml\Config\FilterComment</frontend_model>
                 <comment><![CDATA[
-                    <div style="float:right;text-align:center;">
-                        <img src="https://store.paradoxlabs.com/media/wysiwyg/CyberSourceBadge.png" width="140" height="34" border="0" alt="CyberSource for Magento 2" /><br />
-                        by <a href="http://support.paradoxlabs.com/" target="_blank">ParadoxLabs, inc.</a>
+                    <div class="paradoxlabs-module-header">
+                        <a class="logo" href="https://support.paradoxlabs.com/" target="_blank"><img src="{{view url=ParadoxLabs_TokenBase::images/paradoxlabs-logo.svg}}" width="171" height="50" alt="ParadoxLabs, inc."></a>
+                        <div class="messages message success">
+                            {{trans 'Not seeing a feature or option you need?'}}
+                            <a class="btn action-basic" href="https://paradoxlabs.com/contact/" target="_blank">Request a Feature</a>
+                        </div>
+                        <div class="actions">
+                            <a class="btn action-default" href="https://paradoxlabs.com/media/wysiwyg/ParadoxLabs-CyberSource-M2-user-manual.pdf" target="_blank">📋 {{trans 'User Manual'}}</a>
+                            <a class="btn action-default" href="https://support.paradoxlabs.com/" target="_blank">❓ {{trans 'Get Support'}}</a>
+                        </div>
+                        <div class="partner">
+                            <img src="{{view url=ParadoxLabs_CyberSource::images/logo.webp}}" width="140" height="34" border="0" alt="{{trans 'CyberSource Payment Solutions'}}">
+                        </div>
                     </div>
                 ]]></comment>
                 <field id="version" translate="label" type="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -45,7 +56,7 @@
                     <label>Authentication Type</label>
                     <options>
                         <option label="Simple Order API Certificate">cert</option>
-                        <option label="Transaction Key -- WILL STOP WORKING 2025-02-13">transaction_key</option>
+                        <option label="Transaction Key -- WILL NOT WORK AFTER 2025-02-13">transaction_key</option>
                     </options>
                 </field>
                 <field id="soap_transaction_key" translate="label" type="obscure" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="0">
@@ -64,7 +75,7 @@
                     </depends>
                 </field>
                 <field id="soap_cert_password" translate="label" type="obscure" sortOrder="86" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="0">
-                    <label>P12 Certificate Password</label>
+                    <label>P12 Password</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <depends>
                         <field id="soap_auth_type">cert</field>
@@ -78,7 +89,7 @@
                         All credit card forms use a Secure Acceptance Hosted Checkout profile. You must create the
                         profile in CyberSource EBC, then enter its ID and API keys here.
                         <small class="desc"><b>Follow the User Manual instructions to configure the profile correctly.</b></small>
-                        <a href="https://store.paradoxlabs.com/media/wysiwyg/ParadoxLabs-CyberSource-M2-user-manual.pdf" target="_blank"><small>View the User Manual</small></a>
+                        <a href="https://paradoxlabs.com/media/wysiwyg/ParadoxLabs-CyberSource-M2-user-manual.pdf" target="_blank"><small>View the User Manual</small></a>
                     ]]></comment>
                 </field>
                 <field id="apitest_secureaccept" translate="label" type="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
