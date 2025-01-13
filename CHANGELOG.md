@@ -1,5 +1,15 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 2.0.0 - Jan 13, 2025
+- Added CyberSource SOAP P12 Certificate Authentication (mandatory starting Feb 14, 2025).
+- Added a setting to enable/disable Payer Authentication by card type.
+- Updated CyberSource SOAP API 1.161 to 1.224.
+- Fixed a customer payment options address inputs validation issue.
+- Fixed a CVV tooltip rendering issue.
+- Fixed a payment load error on Instant Purchase.
+- Fixed a PHP 7.1-7.2 compatibility issue.
+- Fixed capture of expired authorizations with an archived request ID (response code 102).
+
 ## 1.5.0 - Jun 28, 2024
 - Added CSP/SRI secure mode support for 2.4.0+ (2.4.7 checkout compatibility).
 - Fixed payment extension attributes holding tokenbase_id values improperly.
