@@ -85,7 +85,7 @@ class GetParams implements \ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInte
         array $value = null,
         array $args = null
     ) {
-        $this->graphQL->authenticate($context, true);
+        $this->graphQL->authenticate($context);
         $this->secureAcceptRequest->setGraphQLContext($context, $args['input']);
 
         return [

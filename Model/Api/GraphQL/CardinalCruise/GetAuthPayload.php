@@ -101,7 +101,7 @@ class GetAuthPayload implements \ParadoxLabs\TokenBase\Model\Api\GraphQL\Resolve
         array $value = null,
         array $args = null
     ) {
-        $this->graphQL->authenticate($context, true);
+        $this->graphQL->authenticate($context);
 
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->graphQL->getQuote($context->getUserId(), $args['input']['cartId'] ?? '');
