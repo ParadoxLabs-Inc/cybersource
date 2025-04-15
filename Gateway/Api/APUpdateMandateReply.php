@@ -269,10 +269,10 @@ class APUpdateMandateReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APUpdateMandateReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;
@@ -300,10 +300,10 @@ class APUpdateMandateReply
     }
 
     /**
-     * @param \DateTime $dateSigned
+     * @param \DateTime|null $dateSigned
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APUpdateMandateReply
      */
-    public function setDateSigned(DateTime $dateSigned = null)
+    public function setDateSigned(?DateTime $dateSigned = null)
     {
         if ($dateSigned == null) {
             $this->dateSigned = null;
@@ -331,10 +331,10 @@ class APUpdateMandateReply
     }
 
     /**
-     * @param \DateTime $dateCreated
+     * @param \DateTime|null $dateCreated
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APUpdateMandateReply
      */
-    public function setDateCreated(DateTime $dateCreated = null)
+    public function setDateCreated(?DateTime $dateCreated = null)
     {
         if ($dateCreated == null) {
             $this->dateCreated = null;

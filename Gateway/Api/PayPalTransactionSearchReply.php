@@ -58,7 +58,7 @@ class PayPalTransactionSearchReply
      * @param PaypalTransaction[] $transaction
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayPalTransactionSearchReply
      */
-    public function setTransaction(array $transaction = null)
+    public function setTransaction(?array $transaction = null)
     {
         $this->transaction = $transaction;
 

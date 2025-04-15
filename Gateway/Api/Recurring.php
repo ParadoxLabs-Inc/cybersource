@@ -89,7 +89,7 @@ class Recurring
      * @param string[] $maximumAmount
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Recurring
      */
-    public function setMaximumAmount(array $maximumAmount = null)
+    public function setMaximumAmount(?array $maximumAmount = null)
     {
         $this->maximumAmount = $maximumAmount;
 
@@ -108,7 +108,7 @@ class Recurring
      * @param string[] $referenceNumber
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Recurring
      */
-    public function setReferenceNumber(array $referenceNumber = null)
+    public function setReferenceNumber(?array $referenceNumber = null)
     {
         $this->referenceNumber = $referenceNumber;
 
@@ -127,7 +127,7 @@ class Recurring
      * @param string[] $occurrence
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Recurring
      */
-    public function setOccurrence(array $occurrence = null)
+    public function setOccurrence(?array $occurrence = null)
     {
         $this->occurrence = $occurrence;
 
@@ -146,7 +146,7 @@ class Recurring
      * @param string[] $numberOfPayments
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Recurring
      */
-    public function setNumberOfPayments(array $numberOfPayments = null)
+    public function setNumberOfPayments(?array $numberOfPayments = null)
     {
         $this->numberOfPayments = $numberOfPayments;
 

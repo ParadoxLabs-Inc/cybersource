@@ -224,7 +224,7 @@ class OCTService
      * @param string[] $octPurposeOfPayment
      * @return \ParadoxLabs\CyberSource\Gateway\Api\OCTService
      */
-    public function setOctPurposeOfPayment(array $octPurposeOfPayment = null)
+    public function setOctPurposeOfPayment(?array $octPurposeOfPayment = null)
     {
         $this->octPurposeOfPayment = $octPurposeOfPayment;
 
@@ -243,7 +243,7 @@ class OCTService
      * @param string[] $transactionReason
      * @return \ParadoxLabs\CyberSource\Gateway\Api\OCTService
      */
-    public function setTransactionReason(array $transactionReason = null)
+    public function setTransactionReason(?array $transactionReason = null)
     {
         $this->transactionReason = $transactionReason;
 
@@ -338,7 +338,7 @@ class OCTService
      * @param string[] $invoiceNumber
      * @return \ParadoxLabs\CyberSource\Gateway\Api\OCTService
      */
-    public function setInvoiceNumber(array $invoiceNumber = null)
+    public function setInvoiceNumber(?array $invoiceNumber = null)
     {
         $this->invoiceNumber = $invoiceNumber;
 

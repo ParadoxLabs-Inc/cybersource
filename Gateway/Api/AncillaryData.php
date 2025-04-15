@@ -117,7 +117,7 @@ class AncillaryData
      * @param Service[] $service
      * @return \ParadoxLabs\CyberSource\Gateway\Api\AncillaryData
      */
-    public function setService(array $service = null)
+    public function setService(?array $service = null)
     {
         $this->service = $service;
 

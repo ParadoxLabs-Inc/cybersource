@@ -64,7 +64,7 @@ class Rest
         \ParadoxLabs\CyberSource\Model\Config\Config $config,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \ParadoxLabs\CyberSource\Helper\Data $helper,
-        \Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
+        ?\Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
     ) {
         $this->config = $config;
         $this->httpClientFactory = $httpClientFactory;

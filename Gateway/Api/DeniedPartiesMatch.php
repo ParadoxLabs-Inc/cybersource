@@ -55,7 +55,7 @@ class DeniedPartiesMatch
      * @param string[] $name
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DeniedPartiesMatch
      */
-    public function setName(array $name = null)
+    public function setName(?array $name = null)
     {
         $this->name = $name;
 
@@ -74,7 +74,7 @@ class DeniedPartiesMatch
      * @param string[] $address
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DeniedPartiesMatch
      */
-    public function setAddress(array $address = null)
+    public function setAddress(?array $address = null)
     {
         $this->address = $address;
 
@@ -93,7 +93,7 @@ class DeniedPartiesMatch
      * @param string[] $program
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DeniedPartiesMatch
      */
-    public function setProgram(array $program = null)
+    public function setProgram(?array $program = null)
     {
         $this->program = $program;
 

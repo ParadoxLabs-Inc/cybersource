@@ -114,10 +114,10 @@ class APCheckOutDetailsReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckOutDetailsReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;

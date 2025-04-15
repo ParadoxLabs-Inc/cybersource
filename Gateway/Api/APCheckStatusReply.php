@@ -359,10 +359,10 @@ class APCheckStatusReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;
@@ -390,10 +390,10 @@ class APCheckStatusReply
     }
 
     /**
-     * @param \DateTime $updateDateTime
+     * @param \DateTime|null $updateDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
      */
-    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    public function setUpdateDateTime(?DateTime $updateDateTime = null)
     {
         if ($updateDateTime == null) {
             $this->updateDateTime = null;
@@ -421,10 +421,10 @@ class APCheckStatusReply
     }
 
     /**
-     * @param \DateTime $expirationDateTime
+     * @param \DateTime|null $expirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APCheckStatusReply
      */
-    public function setExpirationDateTime(DateTime $expirationDateTime = null)
+    public function setExpirationDateTime(?DateTime $expirationDateTime = null)
     {
         if ($expirationDateTime == null) {
             $this->expirationDateTime = null;

@@ -21,7 +21,7 @@ class AdditionalFields
      * @param Field[] $field
      * @return \ParadoxLabs\CyberSource\Gateway\Api\AdditionalFields
      */
-    public function setField(array $field = null)
+    public function setField(?array $field = null)
     {
         $this->field = $field;
 

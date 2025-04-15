@@ -98,7 +98,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \ParadoxLabs\CyberSource\Model\Gateway\Context $context,
         array $data = [],
-        \Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
+        ?\Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
     ) {
         parent::__construct($helper, $xml, $responseFactory, $httpClientFactory, $data, $communicatorFactory);
 
@@ -640,7 +640,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
      */
     protected function interpretTransaction(
         \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api,
-        \Magento\Payment\Model\InfoInterface $payment = null
+        ?\Magento\Payment\Model\InfoInterface $payment = null
     ) {
         // NB: Temporal coupling, we assume interpretTransaction will always be run immediately after the transaction
         // it's intended to interpret. Otherwise lastResponse will be the wrong data.

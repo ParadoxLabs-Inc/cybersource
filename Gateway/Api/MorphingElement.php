@@ -21,7 +21,7 @@ class MorphingElement
      * @param Element[] $element
      * @return \ParadoxLabs\CyberSource\Gateway\Api\MorphingElement
      */
-    public function setElement(array $element = null)
+    public function setElement(?array $element = null)
     {
         $this->element = $element;
 

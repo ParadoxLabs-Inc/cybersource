@@ -252,7 +252,7 @@ class TaxReplyItem
      * @param TaxReplyItemJurisdiction[] $jurisdiction
      * @return \ParadoxLabs\CyberSource\Gateway\Api\TaxReplyItem
      */
-    public function setJurisdiction(array $jurisdiction = null)
+    public function setJurisdiction(?array $jurisdiction = null)
     {
         $this->jurisdiction = $jurisdiction;
 

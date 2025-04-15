@@ -171,10 +171,10 @@ class APImportMandateReply
     }
 
     /**
-     * @param \DateTime $dateSigned
+     * @param \DateTime|null $dateSigned
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateReply
      */
-    public function setDateSigned(DateTime $dateSigned = null)
+    public function setDateSigned(?DateTime $dateSigned = null)
     {
         if ($dateSigned == null) {
             $this->dateSigned = null;
@@ -202,10 +202,10 @@ class APImportMandateReply
     }
 
     /**
-     * @param \DateTime $dateCreated
+     * @param \DateTime|null $dateCreated
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateReply
      */
-    public function setDateCreated(DateTime $dateCreated = null)
+    public function setDateCreated(?DateTime $dateCreated = null)
     {
         if ($dateCreated == null) {
             $this->dateCreated = null;
@@ -233,10 +233,10 @@ class APImportMandateReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APImportMandateReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;

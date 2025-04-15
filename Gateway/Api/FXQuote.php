@@ -116,10 +116,10 @@ class FXQuote
     }
 
     /**
-     * @param \DateTime $expirationDateTime
+     * @param \DateTime|null $expirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\FXQuote
      */
-    public function setExpirationDateTime(DateTime $expirationDateTime = null)
+    public function setExpirationDateTime(?DateTime $expirationDateTime = null)
     {
         if ($expirationDateTime == null) {
             $this->expirationDateTime = null;
@@ -185,10 +185,10 @@ class FXQuote
     }
 
     /**
-     * @param \DateTime $receivedDateTime
+     * @param \DateTime|null $receivedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\FXQuote
      */
-    public function setReceivedDateTime(DateTime $receivedDateTime = null)
+    public function setReceivedDateTime(?DateTime $receivedDateTime = null)
     {
         if ($receivedDateTime == null) {
             $this->receivedDateTime = null;

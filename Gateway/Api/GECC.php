@@ -141,7 +141,7 @@ class GECC
      * @param string[] $line
      * @return \ParadoxLabs\CyberSource\Gateway\Api\GECC
      */
-    public function setLine(array $line = null)
+    public function setLine(?array $line = null)
     {
         $this->line = $line;
 

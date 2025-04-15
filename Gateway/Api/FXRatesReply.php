@@ -53,7 +53,7 @@ class FXRatesReply
      * @param FXQuote[] $quote
      * @return \ParadoxLabs\CyberSource\Gateway\Api\FXRatesReply
      */
-    public function setQuote(array $quote = null)
+    public function setQuote(?array $quote = null)
     {
         $this->quote = $quote;
 

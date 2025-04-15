@@ -149,7 +149,7 @@ class CCDCCReply
      * @param paymentCurrencyOffer[] $paymentCurrencyOffer
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCDCCReply
      */
-    public function setPaymentCurrencyOffer(array $paymentCurrencyOffer = null)
+    public function setPaymentCurrencyOffer(?array $paymentCurrencyOffer = null)
     {
         $this->paymentCurrencyOffer = $paymentCurrencyOffer;
 

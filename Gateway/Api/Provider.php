@@ -53,7 +53,7 @@ class Provider
      * @param ProviderField[] $field
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Provider
      */
-    public function setField(array $field = null)
+    public function setField(?array $field = null)
     {
         $this->field = $field;
 

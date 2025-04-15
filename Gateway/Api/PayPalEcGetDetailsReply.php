@@ -845,7 +845,7 @@ class PayPalEcGetDetailsReply
      * @param Item[] $item
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayPalEcGetDetailsReply
      */
-    public function setItem(array $item = null)
+    public function setItem(?array $item = null)
     {
         $this->item = $item;
 

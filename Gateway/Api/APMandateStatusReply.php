@@ -171,10 +171,10 @@ class APMandateStatusReply
     }
 
     /**
-     * @param \DateTime $dateCreated
+     * @param \DateTime|null $dateCreated
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APMandateStatusReply
      */
-    public function setDateCreated(DateTime $dateCreated = null)
+    public function setDateCreated(?DateTime $dateCreated = null)
     {
         if ($dateCreated == null) {
             $this->dateCreated = null;
@@ -202,10 +202,10 @@ class APMandateStatusReply
     }
 
     /**
-     * @param \DateTime $dateSigned
+     * @param \DateTime|null $dateSigned
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APMandateStatusReply
      */
-    public function setDateSigned(DateTime $dateSigned = null)
+    public function setDateSigned(?DateTime $dateSigned = null)
     {
         if ($dateSigned == null) {
             $this->dateSigned = null;
@@ -233,10 +233,10 @@ class APMandateStatusReply
     }
 
     /**
-     * @param \DateTime $dateRevoked
+     * @param \DateTime|null $dateRevoked
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APMandateStatusReply
      */
-    public function setDateRevoked(DateTime $dateRevoked = null)
+    public function setDateRevoked(?DateTime $dateRevoked = null)
     {
         if ($dateRevoked == null) {
             $this->dateRevoked = null;

@@ -126,10 +126,10 @@ class CCCreditReply
     }
 
     /**
-     * @param \DateTime $requestDateTime
+     * @param \DateTime|null $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCreditReply
      */
-    public function setRequestDateTime(DateTime $requestDateTime = null)
+    public function setRequestDateTime(?DateTime $requestDateTime = null)
     {
         if ($requestDateTime == null) {
             $this->requestDateTime = null;

@@ -517,10 +517,10 @@ class PayerAuthEnrollService
     }
 
     /**
-     * @param \DateTime $purchaseTime
+     * @param \DateTime|null $purchaseTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayerAuthEnrollService
      */
-    public function setPurchaseTime(DateTime $purchaseTime = null)
+    public function setPurchaseTime(?DateTime $purchaseTime = null)
     {
         if ($purchaseTime == null) {
             $this->purchaseTime = null;

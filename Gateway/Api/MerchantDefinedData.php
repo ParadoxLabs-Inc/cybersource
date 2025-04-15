@@ -501,7 +501,7 @@ class MerchantDefinedData
      * @param MDDField[] $mddField
      * @return \ParadoxLabs\CyberSource\Gateway\Api\MerchantDefinedData
      */
-    public function setMddField(array $mddField = null)
+    public function setMddField(?array $mddField = null)
     {
         $this->mddField = $mddField;
 

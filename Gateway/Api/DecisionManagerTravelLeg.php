@@ -90,10 +90,10 @@ class DecisionManagerTravelLeg
     }
 
     /**
-     * @param \DateTime $departureDateTime
+     * @param \DateTime|null $departureDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManagerTravelLeg
      */
-    public function setDepartureDateTime(DateTime $departureDateTime = null)
+    public function setDepartureDateTime(?DateTime $departureDateTime = null)
     {
         if ($departureDateTime == null) {
             $this->departureDateTime = null;

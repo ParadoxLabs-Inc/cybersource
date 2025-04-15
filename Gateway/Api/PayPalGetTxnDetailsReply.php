@@ -994,7 +994,7 @@ class PayPalGetTxnDetailsReply
      * @param Item[] $item
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PayPalGetTxnDetailsReply
      */
-    public function setItem(array $item = null)
+    public function setItem(?array $item = null)
     {
         $this->item = $item;
 

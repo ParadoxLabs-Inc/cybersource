@@ -143,10 +143,10 @@ class APTransactionDetailsReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APTransactionDetailsReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;

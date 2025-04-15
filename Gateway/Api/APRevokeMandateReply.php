@@ -176,10 +176,10 @@ class APRevokeMandateReply
     }
 
     /**
-     * @param \DateTime $dateSigned
+     * @param \DateTime|null $dateSigned
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateSigned(DateTime $dateSigned = null)
+    public function setDateSigned(?DateTime $dateSigned = null)
     {
         if ($dateSigned == null) {
             $this->dateSigned = null;
@@ -207,10 +207,10 @@ class APRevokeMandateReply
     }
 
     /**
-     * @param \DateTime $dateCreated
+     * @param \DateTime|null $dateCreated
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateCreated(DateTime $dateCreated = null)
+    public function setDateCreated(?DateTime $dateCreated = null)
     {
         if ($dateCreated == null) {
             $this->dateCreated = null;
@@ -238,10 +238,10 @@ class APRevokeMandateReply
     }
 
     /**
-     * @param \DateTime $dateRevoked
+     * @param \DateTime|null $dateRevoked
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateRevoked(DateTime $dateRevoked = null)
+    public function setDateRevoked(?DateTime $dateRevoked = null)
     {
         if ($dateRevoked == null) {
             $this->dateRevoked = null;
@@ -269,10 +269,10 @@ class APRevokeMandateReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRevokeMandateReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;

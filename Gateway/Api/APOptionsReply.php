@@ -149,7 +149,7 @@ class APOptionsReply
      * @param APOptionsOption[] $option
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APOptionsReply
      */
-    public function setOption(array $option = null)
+    public function setOption(?array $option = null)
     {
         $this->option = $option;
 

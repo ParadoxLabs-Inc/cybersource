@@ -21,7 +21,7 @@ class RuleResultItems
      * @param RuleResultItem[] $ruleResultItem
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RuleResultItems
      */
-    public function setRuleResultItem(array $ruleResultItem = null)
+    public function setRuleResultItem(?array $ruleResultItem = null)
     {
         $this->ruleResultItem = $ruleResultItem;
 

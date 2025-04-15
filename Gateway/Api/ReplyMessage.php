@@ -964,7 +964,7 @@ class ReplyMessage
      * @param string[] $missingField
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setMissingField(array $missingField = null)
+    public function setMissingField(?array $missingField = null)
     {
         $this->missingField = $missingField;
 
@@ -983,7 +983,7 @@ class ReplyMessage
      * @param string[] $invalidField
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setInvalidField(array $invalidField = null)
+    public function setInvalidField(?array $invalidField = null)
     {
         $this->invalidField = $invalidField;
 
@@ -1040,7 +1040,7 @@ class ReplyMessage
      * @param DeniedPartiesMatch[] $deniedPartiesMatch
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setDeniedPartiesMatch(array $deniedPartiesMatch = null)
+    public function setDeniedPartiesMatch(?array $deniedPartiesMatch = null)
     {
         $this->deniedPartiesMatch = $deniedPartiesMatch;
 
@@ -2807,7 +2807,7 @@ class ReplyMessage
      * @param PromotionGroupReply[] $promotionGroup
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setPromotionGroup(array $promotionGroup = null)
+    public function setPromotionGroup(?array $promotionGroup = null)
     {
         $this->promotionGroup = $promotionGroup;
 
@@ -3301,7 +3301,7 @@ class ReplyMessage
      * @param Network[] $network
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setNetwork(array $network = null)
+    public function setNetwork(?array $network = null)
     {
         $this->network = $network;
 
@@ -3472,7 +3472,7 @@ class ReplyMessage
      * @param BalanceInfo[] $balanceInfo
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setBalanceInfo(array $balanceInfo = null)
+    public function setBalanceInfo(?array $balanceInfo = null)
     {
         $this->balanceInfo = $balanceInfo;
 
@@ -3572,10 +3572,10 @@ class ReplyMessage
     }
 
     /**
-     * @param \DateTime $transactionLocalDateTime
+     * @param \DateTime|null $transactionLocalDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage
      */
-    public function setTransactionLocalDateTime(DateTime $transactionLocalDateTime = null)
+    public function setTransactionLocalDateTime(?DateTime $transactionLocalDateTime = null)
     {
         if ($transactionLocalDateTime == null) {
             $this->transactionLocalDateTime = null;

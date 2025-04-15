@@ -21,7 +21,7 @@ class VelocityCountsEarly
      * @param VelocityElement[] $element
      * @return \ParadoxLabs\CyberSource\Gateway\Api\VelocityCountsEarly
      */
-    public function setElement(array $element = null)
+    public function setElement(?array $element = null)
     {
         $this->element = $element;
 

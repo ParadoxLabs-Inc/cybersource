@@ -121,10 +121,10 @@ class CCCaptureReply
     }
 
     /**
-     * @param \DateTime $requestDateTime
+     * @param \DateTime|null $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
      */
-    public function setRequestDateTime(DateTime $requestDateTime = null)
+    public function setRequestDateTime(?DateTime $requestDateTime = null)
     {
         if ($requestDateTime == null) {
             $this->requestDateTime = null;
@@ -228,10 +228,10 @@ class CCCaptureReply
     }
 
     /**
-     * @param \DateTime $fxQuoteRate
+     * @param \DateTime|null $fxQuoteRate
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
      */
-    public function setFxQuoteRate(DateTime $fxQuoteRate = null)
+    public function setFxQuoteRate(?DateTime $fxQuoteRate = null)
     {
         if ($fxQuoteRate == null) {
             $this->fxQuoteRate = null;
@@ -278,10 +278,10 @@ class CCCaptureReply
     }
 
     /**
-     * @param \DateTime $fxQuoteExpirationDateTime
+     * @param \DateTime|null $fxQuoteExpirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCCaptureReply
      */
-    public function setFxQuoteExpirationDateTime(DateTime $fxQuoteExpirationDateTime = null)
+    public function setFxQuoteExpirationDateTime(?DateTime $fxQuoteExpirationDateTime = null)
     {
         if ($fxQuoteExpirationDateTime == null) {
             $this->fxQuoteExpirationDateTime = null;

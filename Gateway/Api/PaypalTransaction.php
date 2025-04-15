@@ -92,10 +92,10 @@ class PaypalTransaction
     }
 
     /**
-     * @param \DateTime $transactionTime
+     * @param \DateTime|null $transactionTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\PaypalTransaction
      */
-    public function setTransactionTime(DateTime $transactionTime = null)
+    public function setTransactionTime(?DateTime $transactionTime = null)
     {
         if ($transactionTime == null) {
             $this->transactionTime = null;

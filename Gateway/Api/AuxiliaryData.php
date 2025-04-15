@@ -21,7 +21,7 @@ class AuxiliaryData
      * @param AuxiliaryField[] $field
      * @return \ParadoxLabs\CyberSource\Gateway\Api\AuxiliaryData
      */
-    public function setField(array $field = null)
+    public function setField(?array $field = null)
     {
         $this->field = $field;
 

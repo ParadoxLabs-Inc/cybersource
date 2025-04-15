@@ -44,7 +44,7 @@ class DecisionManagerTravelData
      * @param DecisionManagerTravelLeg[] $leg
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManagerTravelData
      */
-    public function setLeg(array $leg = null)
+    public function setLeg(?array $leg = null)
     {
         $this->leg = $leg;
 
@@ -68,10 +68,10 @@ class DecisionManagerTravelData
     }
 
     /**
-     * @param \DateTime $departureDateTime
+     * @param \DateTime|null $departureDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\DecisionManagerTravelData
      */
-    public function setDepartureDateTime(DateTime $departureDateTime = null)
+    public function setDepartureDateTime(?DateTime $departureDateTime = null)
     {
         if ($departureDateTime == null) {
             $this->departureDateTime = null;

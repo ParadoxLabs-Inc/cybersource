@@ -485,7 +485,7 @@ class TaxReply
      * @param TaxReplyItem[] $item
      * @return \ParadoxLabs\CyberSource\Gateway\Api\TaxReply
      */
-    public function setItem(array $item = null)
+    public function setItem(?array $item = null)
     {
         $this->item = $item;
 

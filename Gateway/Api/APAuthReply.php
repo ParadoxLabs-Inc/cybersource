@@ -217,10 +217,10 @@ class APAuthReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;
@@ -422,7 +422,7 @@ class APAuthReply
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|false
      */
     public function getUpdateDateTime()
     {
@@ -438,10 +438,10 @@ class APAuthReply
     }
 
     /**
-     * @param \DateTime $updateDateTime
+     * @param \DateTime|null $updateDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
      */
-    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    public function setUpdateDateTime(?DateTime $updateDateTime = null)
     {
         if ($updateDateTime == null) {
             $this->updateDateTime = null;
@@ -453,7 +453,7 @@ class APAuthReply
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|false
      */
     public function getExpirationDateTime()
     {
@@ -469,10 +469,10 @@ class APAuthReply
     }
 
     /**
-     * @param \DateTime $expirationDateTime
+     * @param \DateTime|null $expirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APAuthReply
      */
-    public function setExpirationDateTime(DateTime $expirationDateTime = null)
+    public function setExpirationDateTime(?DateTime $expirationDateTime = null)
     {
         if ($expirationDateTime == null) {
             $this->expirationDateTime = null;

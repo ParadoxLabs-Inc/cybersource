@@ -40,8 +40,8 @@ class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
+     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
+     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -52,8 +52,8 @@ class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Config\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(

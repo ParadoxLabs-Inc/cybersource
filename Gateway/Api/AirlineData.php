@@ -555,7 +555,7 @@ class AirlineData
      * @param Passenger[] $passenger
      * @return \ParadoxLabs\CyberSource\Gateway\Api\AirlineData
      */
-    public function setPassenger(array $passenger = null)
+    public function setPassenger(?array $passenger = null)
     {
         $this->passenger = $passenger;
 
@@ -802,7 +802,7 @@ class AirlineData
      * @param Leg[] $leg
      * @return \ParadoxLabs\CyberSource\Gateway\Api\AirlineData
      */
-    public function setLeg(array $leg = null)
+    public function setLeg(?array $leg = null)
     {
         $this->leg = $leg;
 

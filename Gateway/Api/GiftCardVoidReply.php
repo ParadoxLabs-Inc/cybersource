@@ -114,10 +114,10 @@ class GiftCardVoidReply
     }
 
     /**
-     * @param \DateTime $requestDeTime
+     * @param \DateTime|null $requestDeTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\GiftCardVoidReply
      */
-    public function setRequestDeTime(DateTime $requestDeTime = null)
+    public function setRequestDeTime(?DateTime $requestDeTime = null)
     {
         if ($requestDeTime == null) {
             $this->requestDeTime = null;

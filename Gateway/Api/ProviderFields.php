@@ -21,7 +21,7 @@ class ProviderFields
      * @param Provider[] $provider
      * @return \ParadoxLabs\CyberSource\Gateway\Api\ProviderFields
      */
-    public function setProvider(array $provider = null)
+    public function setProvider(?array $provider = null)
     {
         $this->provider = $provider;
 

@@ -143,10 +143,10 @@ class CCSaleCreditReply
     }
 
     /**
-     * @param \DateTime $authorizedDateTime
+     * @param \DateTime|null $authorizedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCSaleCreditReply
      */
-    public function setAuthorizedDateTime(DateTime $authorizedDateTime = null)
+    public function setAuthorizedDateTime(?DateTime $authorizedDateTime = null)
     {
         if ($authorizedDateTime == null) {
             $this->authorizedDateTime = null;

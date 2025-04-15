@@ -694,10 +694,10 @@ class CCAuthReply
     }
 
     /**
-     * @param \DateTime $authorizedDateTime
+     * @param \DateTime|null $authorizedDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
      */
-    public function setAuthorizedDateTime(DateTime $authorizedDateTime = null)
+    public function setAuthorizedDateTime(?DateTime $authorizedDateTime = null)
     {
         if ($authorizedDateTime == null) {
             $this->authorizedDateTime = null;
@@ -839,10 +839,10 @@ class CCAuthReply
     }
 
     /**
-     * @param \DateTime $fxQuoteRate
+     * @param \DateTime|null $fxQuoteRate
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
      */
-    public function setFxQuoteRate(DateTime $fxQuoteRate = null)
+    public function setFxQuoteRate(?DateTime $fxQuoteRate = null)
     {
         if ($fxQuoteRate == null) {
             $this->fxQuoteRate = null;
@@ -889,10 +889,10 @@ class CCAuthReply
     }
 
     /**
-     * @param \DateTime $fxQuoteExpirationDateTime
+     * @param \DateTime|null $fxQuoteExpirationDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthReply
      */
-    public function setFxQuoteExpirationDateTime(DateTime $fxQuoteExpirationDateTime = null)
+    public function setFxQuoteExpirationDateTime(?DateTime $fxQuoteExpirationDateTime = null)
     {
         if ($fxQuoteExpirationDateTime == null) {
             $this->fxQuoteExpirationDateTime = null;

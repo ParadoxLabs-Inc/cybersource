@@ -1800,7 +1800,7 @@ class RequestMessage
      * @param Item[] $item
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setItem(array $item = null)
+    public function setItem(?array $item = null)
     {
         $this->item = $item;
 
@@ -3130,7 +3130,7 @@ class RequestMessage
      * @param DeviceFingerprintData[] $deviceFingerprintData
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setDeviceFingerprintData(array $deviceFingerprintData = null)
+    public function setDeviceFingerprintData(?array $deviceFingerprintData = null)
     {
         $this->deviceFingerprintData = $deviceFingerprintData;
 
@@ -3567,7 +3567,7 @@ class RequestMessage
      * @param RequestReserved[] $reserved
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setReserved(array $reserved = null)
+    public function setReserved(?array $reserved = null)
     {
         $this->reserved = $reserved;
 
@@ -4047,10 +4047,10 @@ class RequestMessage
     }
 
     /**
-     * @param \DateTime $transactionLocalDateTime
+     * @param \DateTime|null $transactionLocalDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setTransactionLocalDateTime(DateTime $transactionLocalDateTime = null)
+    public function setTransactionLocalDateTime(?DateTime $transactionLocalDateTime = null)
     {
         if ($transactionLocalDateTime == null) {
             $this->transactionLocalDateTime = null;
@@ -4985,7 +4985,7 @@ class RequestMessage
      * @param PromotionGroup[] $promotionGroup
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setPromotionGroup(array $promotionGroup = null)
+    public function setPromotionGroup(?array $promotionGroup = null)
     {
         $this->promotionGroup = $promotionGroup;
 
@@ -5992,7 +5992,7 @@ class RequestMessage
      * @param HealthCare[] $healthCare
      * @return \ParadoxLabs\CyberSource\Gateway\Api\RequestMessage
      */
-    public function setHealthCare(array $healthCare = null)
+    public function setHealthCare(?array $healthCare = null)
     {
         $this->healthCare = $healthCare;
 

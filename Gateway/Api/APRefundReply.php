@@ -192,10 +192,10 @@ class APRefundReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRefundReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;
@@ -337,10 +337,10 @@ class APRefundReply
     }
 
     /**
-     * @param \DateTime $updateDateTime
+     * @param \DateTime|null $updateDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APRefundReply
      */
-    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    public function setUpdateDateTime(?DateTime $updateDateTime = null)
     {
         if ($updateDateTime == null) {
             $this->updateDateTime = null;

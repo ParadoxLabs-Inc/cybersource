@@ -807,7 +807,7 @@ class Card
      * @param Brands[] $brands
      * @return \ParadoxLabs\CyberSource\Gateway\Api\Card
      */
-    public function setBrands(array $brands = null)
+    public function setBrands(?array $brands = null)
     {
         $this->brands = $brands;
 

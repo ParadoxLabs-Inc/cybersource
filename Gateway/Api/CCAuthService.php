@@ -1686,7 +1686,7 @@ class CCAuthService
      * @param string[] $paymentNetworkTransactionInformation
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
      */
-    public function setPaymentNetworkTransactionInformation(array $paymentNetworkTransactionInformation = null)
+    public function setPaymentNetworkTransactionInformation(?array $paymentNetworkTransactionInformation = null)
     {
         $this->paymentNetworkTransactionInformation = $paymentNetworkTransactionInformation;
 
@@ -1705,7 +1705,7 @@ class CCAuthService
      * @param string[] $transactionReason
      * @return \ParadoxLabs\CyberSource\Gateway\Api\CCAuthService
      */
-    public function setTransactionReason(array $transactionReason = null)
+    public function setTransactionReason(?array $transactionReason = null)
     {
         $this->transactionReason = $transactionReason;
 

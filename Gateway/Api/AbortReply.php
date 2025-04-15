@@ -50,7 +50,7 @@ class AbortReply
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|false
      */
     public function getRequestDateTime()
     {
@@ -66,10 +66,10 @@ class AbortReply
     }
 
     /**
-     * @param \DateTime $requestDateTime
+     * @param \DateTime|null $requestDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\AbortReply
      */
-    public function setRequestDateTime(DateTime $requestDateTime = null)
+    public function setRequestDateTime(?DateTime $requestDateTime = null)
     {
         if ($requestDateTime == null) {
             $this->requestDateTime = null;

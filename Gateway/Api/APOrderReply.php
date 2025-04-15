@@ -172,10 +172,10 @@ class APOrderReply
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime|null $dateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APOrderReply
      */
-    public function setDateTime(DateTime $dateTime = null)
+    public function setDateTime(?DateTime $dateTime = null)
     {
         if ($dateTime == null) {
             $this->dateTime = null;
@@ -203,10 +203,10 @@ class APOrderReply
     }
 
     /**
-     * @param \DateTime $updateDateTime
+     * @param \DateTime|null $updateDateTime
      * @return \ParadoxLabs\CyberSource\Gateway\Api\APOrderReply
      */
-    public function setUpdateDateTime(DateTime $updateDateTime = null)
+    public function setUpdateDateTime(?DateTime $updateDateTime = null)
     {
         if ($updateDateTime == null) {
             $this->updateDateTime = null;
