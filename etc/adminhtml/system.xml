@@ -56,7 +56,7 @@
                     <label>Authentication Type</label>
                     <options>
                         <option label="Simple Order API Certificate">cert</option>
-                        <option label="Transaction Key -- WILL NOT WORK AFTER 2025-02-13">transaction_key</option>
+                        <option label="Transaction Key -- WILL NOT WORK AFTER 2025-08-13">transaction_key</option>
                     </options>
                 </field>
                 <field id="soap_transaction_key" translate="label" type="obscure" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="0">
