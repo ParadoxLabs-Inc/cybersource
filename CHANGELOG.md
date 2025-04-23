@@ -1,5 +1,11 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 2.0.1 - Apr 23, 2025
+- Added support for Magento 2.4.8.
+- Fixed inability for guests to use the GraphQL queries for checkout.
+- Fixed PHP 8.4 compatibility.
+- Updated SOAP API transaction key deprecation date (now Aug 13, 2025).
+
 ## 2.0.0 - Jan 13, 2025
 - Added CyberSource SOAP P12 Certificate Authentication (mandatory starting Feb 14, 2025).
 - Added a setting to enable/disable Payer Authentication by card type.
