@@ -643,7 +643,7 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         ?\Magento\Payment\Model\InfoInterface $payment = null
     ) {
         // NB: Temporal coupling, we assume interpretTransaction will always be run immediately after the transaction
-        // it's intended to interpret. Otherwise lastResponse will be the wrong data.
+        // it's intended to interpret. Otherwise, lastResponse will be the wrong data.
         $data = $this->lastResponse;
         $data['transaction_id']       = $api->getRequestID();
         $data['response_code']        = $api->getReasonCode();
@@ -654,13 +654,19 @@ class Gateway extends \ParadoxLabs\TokenBase\Model\AbstractGateway
         /** @var \ParadoxLabs\TokenBase\Model\Gateway\Response $response */
         $response = $this->responseFactory->create(['data' => $data]);
         $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
-        $response->setIsFraud($api->getDecision() === 'REVIEW');
+
+        // Set fraud flag if marked for review or soft declines (AVS and CVV, respectively).
+        if ($api->getDecision() === 'REVIEW' || in_array($api->getReasonCode(), [200, 230], true)) {
+            $response->setIsFraud(true);
+        }
 
         if ($payment !== null && in_array($api->getReasonCode(), [475, 478], true)) {
             $this->payerAuthPersistor->savePayerAuthEnrollReply($payment, $api);
         }
 
-        if (in_array($api->getDecision(), ['ERROR', 'REJECT'], true)) {
+        // Soft declines come in as REJECT, but keep their auth -- just accept with the fraud flag.
+        if (in_array($api->getDecision(), ['ERROR', 'REJECT'], true)
+            && !in_array($api->getReasonCode(), [200, 230], true)) {
             $message = __('Transaction Failed: %1', __($response->getResponseReasonText()));
 
             // Don't log API test errors
