@@ -17,8 +17,8 @@ For full product details, please [visit our website](https://store.paradoxlabs.c
 Requirements
 ============
 
-* Magento 2.3 or 2.4 (or equivalent version of Adobe Commerce, Adobe Commerce Cloud, or Mage-OS)
-* PHP 7.3, 7.4, 8.0, 8.1, or 8.2
+* Magento 2.3 or 2.4 including 2.4.8 (or equivalent version of Adobe Commerce, Adobe Commerce Cloud, or Mage-OS)
+* PHP 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, or 8.4
 * composer 1 or 2
 
 Features
