@@ -281,8 +281,12 @@ define(
                     var script = document.createElement('script');
                     script.type = 'text/javascript';
                     script.src = config.cardinalScript;
+                    if (config.cardinalSRIHash.length > 0) {
+                        script.integrity = config.cardinalSRIHash;
+                        script.crossOrigin = 'anonymous';
+                    }
                     script.addEventListener('load', this.initPayerAuth.bind(this));
-                    document.head.appendChild(script);
+                    document.getElementsByTagName('head')[0].appendChild(script);
                 }
             },
             initPayerAuth: function() {

@@ -168,6 +168,7 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'paramUrl'        => $this->urlBuilder->getUrl('pdl_cybs/secureAccept/getParams'),
                     'fingerprintUrl'  => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
                     'cardinalScript'  => $this->config->getCardinalSongbirdUrl(),
+                    'cardinalSRIHash' => $this->config->getCardinalSongbirdSRIHash(),
                     'cardinalAuthUrl' => $this->urlBuilder->getUrl('pdl_cybs/cardinalCruise/getAuthPayload'),
                     'cardinalJWT'     => $this->jsonWebTokenGenerator->getJwt($this->checkoutSession->getQuote()),
                 ],

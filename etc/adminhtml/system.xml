@@ -138,6 +138,9 @@
                 <field id="apitest_payerauth" translate="label" type="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Test Results</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\PayerAuth</frontend_model>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
                 </field>
                 <field id="cardinal_active" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Payer Authentication</label>
@@ -169,6 +172,44 @@
                     <comment>Note: Not all card types and processors support Payer Authentication.</comment>
                     <depends>
                         <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
+                <field id="cardinal_songbird_url_live" translate="label" type="text" sortOrder="236" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Songbird JS URL (Production)</label>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                        <field id="test">0</field>
+                    </depends>
+                </field>
+                <field id="cardinal_songbird_url_test" translate="label" type="text" sortOrder="236" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Songbird JS URL (Sandbox)</label>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                        <field id="test">1</field>
+                    </depends>
+                </field>
+                <field id="cardinal_songbird_sri_live" translate="label" type="text" sortOrder="237" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Songbird JS Integrity String (Production)</label>
+                    <comment><![CDATA[
+                        These change every 18 months. Get the latest URL and Integrity String from:
+                        <a href="https://developer.cardinaltrusted.com/docs/songbird-js-changes" target="_blank">Cardinal Songbird JS Changes</a><br>
+                        Leave blank to skip SRI hash validation of Songbird JS.
+                   ]]></comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                        <field id="test">0</field>
+                    </depends>
+                </field>
+                <field id="cardinal_songbird_sri_test" translate="label" type="text" sortOrder="237" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Songbird JS Integrity String (Sandbox)</label>
+                    <comment><![CDATA[
+                        These change every 18 months. Get the latest URL and Integrity String from:
+                        <a href="https://developer.cardinaltrusted.com/docs/songbird-js-changes" target="_blank">Cardinal Songbird JS Changes</a><br>
+                        Leave blank to skip SRI hash validation of Songbird JS.
+                   ]]></comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                        <field id="test">1</field>
                     </depends>
                 </field>
                 <field id="heading_checkout" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="0">

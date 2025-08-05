@@ -24,6 +24,15 @@
                 <cardinal_secret_key_id />
                 <cardinal_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <cardinal_card_types>AE,MC,VI</cardinal_card_types>
+                <!--
+                    NOTE: These values must be updated periodically; they rotate quarterly and expire at 18 months.
+                    @todo Update URLs and SRIs regularly
+                    @see https://developer.cardinaltrusted.com/docs/songbird-js-changes
+                -->
+                <cardinal_songbird_url_live>https://static.client.cardinaltrusted.com/songbird/v2.0.0/songbird.js</cardinal_songbird_url_live>
+                <cardinal_songbird_sri_live>sha384-LF1l2lmxu53ZO8yd0LMbIzyAosonuf0vOOz/SVegG9xfS0QtUxW53vB2U0JoWJem</cardinal_songbird_sri_live>
+                <cardinal_songbird_url_test>https://cas.static.client.cardinaltrusted.com/songbird/v2.0.0/songbird.js</cardinal_songbird_url_test>
+                <cardinal_songbird_sri_test>sha384-6nfn2JGFT+s1LF9R3jP+Nn6HFGdlBXNlv4PaMKXNCSec9+hsazo8euFU8te9H5cZ</cardinal_songbird_sri_test>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
                 <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
                 <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>

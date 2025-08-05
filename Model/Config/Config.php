@@ -31,8 +31,8 @@ class Config
     /**
      * Gateway URLs
      */
-    const CARDINAL_LIVE = 'https://songbird.cardinalcommerce.com/edge/v1/songbird.js';
-    const CARDINAL_TEST = 'https://songbirdstag.cardinalcommerce.com/edge/v1/songbird.js';
+    const CARDINAL_LIVE = 'https://songbird.cardinalcommerce.com/edge/v1/songbird.js'; // @deprecated
+    const CARDINAL_TEST = 'https://songbirdstag.cardinalcommerce.com/edge/v1/songbird.js'; // @deprecated
     const REST_LIVE = 'https://api.cybersource.com';
     const REST_TEST = 'https://apitest.cybersource.com';
     const SECUREACCEPT_LIVE = 'https://secureacceptance.cybersource.com';
@@ -586,17 +586,35 @@ class Config
     }
 
     /**
-     * Get the Cardinal Cruise Songbird.js library URL for the configured environment.
+     * Get the Cardinal Cruise Songbird JS library URL for the configured environment.
      *
      * @param int|null $storeId
      * @return string
+     * @see ParadoxLabs_CyberSource::etc/config.xml:27
      */
     public function getCardinalSongbirdUrl($storeId = null)
     {
         if ($this->isSandboxMode($storeId)) {
-            return static::CARDINAL_TEST;
+            return $this->getConfigValue('cardinal_songbird_url_test', $storeId);
         }
 
-        return static::CARDINAL_LIVE;
+        return $this->getConfigValue('cardinal_songbird_url_live', $storeId);
+    }
+
+    /**
+     * Get the Cardinal Cruise Songbird JS library SRI hash for the configured environment.
+     *
+     * @param int|null $storeId
+     * @return string
+     * @see https://developer.cardinaltrusted.com/docs/songbird-js-changes
+     * @see ParadoxLabs_CyberSource::etc/config.xml:28
+     */
+    public function getCardinalSongbirdSRIHash($storeId = null)
+    {
+        if ($this->isSandboxMode($storeId)) {
+            return $this->getConfigValue('cardinal_songbird_sri_test', $storeId);
+        }
+
+        return $this->getConfigValue('cardinal_songbird_sri_live', $storeId);
     }
 }

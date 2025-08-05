@@ -32,6 +32,7 @@ type TokenBaseCheckoutConfig {
     paramUrl: String
     fingerprintUrl: String
     cardinalScript: String
+    cardinalSRIHash: String
     cardinalAuthUrl: String
     cardinalJWT: String
 }
