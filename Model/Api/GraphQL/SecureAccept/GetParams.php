@@ -21,27 +21,9 @@
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\SecureAccept;
 
 /**
- * Soft dependency: Supporting 2.3 GraphQL without breaking <2.3 compatibility.
- * 2.3+ implements \Magento\Framework\GraphQL; lower does not.
- */
-if (!interface_exists('\ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface')) {
-    if (interface_exists('\Magento\Framework\GraphQl\Query\ResolverInterface')) {
-        class_alias(
-            '\Magento\Framework\GraphQl\Query\ResolverInterface',
-            '\ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface'
-        );
-    } else {
-        class_alias(
-            '\ParadoxLabs\TokenBase\Model\Api\GraphQL\FauxResolverInterface',
-            '\ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface'
-        );
-    }
-}
-
-/**
  * GetParams Class
  */
-class GetParams implements \ParadoxLabs\TokenBase\Model\Api\GraphQL\ResolverInterface
+class GetParams implements \Magento\Framework\GraphQl\Query\ResolverInterface
 {
     /**
      * @var \ParadoxLabs\TokenBase\Model\Api\GraphQL
