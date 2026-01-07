@@ -1,5 +1,11 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 2.0.2 - Jan 7, 2026
+- Added settings to allow changing Payer Authentication Songbird JS script URLs and SRI hashes over time.
+- Changed GraphQL to hard dependency, removing compatibility for Magento 2.2.
+- Changed Payer Authentication default JS URLs for Songbird v1 to v2.
+- Fixed support for 'soft decline' responses for AVS and CVV to correctly mark the order as 'suspected fraud'.
+
 ## 2.0.1 - Apr 23, 2025
 - Added support for Magento 2.4.8.
 - Fixed inability for guests to use the GraphQL queries for checkout.
