@@ -30,10 +30,10 @@
                     @see https://developer.cardinaltrusted.com/docs/songbird-js-changes
                     @updated 2.1.0 - October 22, 2025
                 -->
-                <cardinal_songbird_url_live>https://cas.static.client.cardinaltrusted.com/songbird/v2.1.0/songbird.js</cardinal_songbird_url_live>
-                <cardinal_songbird_sri_live>sha384-SyB1z+tPBr7Pv5x7KYYEqP50NDAIID56G6/WjGzhEkqTEqZsQn9ywSmZyPcU5ym2</cardinal_songbird_sri_live>
-                <cardinal_songbird_url_test>https://static.client.cardinaltrusted.com/songbird/v2.1.0/songbird.js</cardinal_songbird_url_test>
-                <cardinal_songbird_sri_test>sha384-ChU6jn6KFsEv8NcjP1ifj3s6LclP7AFS6fTHY2pcBL5yax0FT5viH/cNbOJDnY5E</cardinal_songbird_sri_test>
+                <cardinal_songbird_url_test>https://cas.static.client.cardinaltrusted.com/songbird/v2.1.0/songbird.js</cardinal_songbird_url_test>
+                <cardinal_songbird_sri_test>sha384-SyB1z+tPBr7Pv5x7KYYEqP50NDAIID56G6/WjGzhEkqTEqZsQn9ywSmZyPcU5ym2</cardinal_songbird_sri_test>
+                <cardinal_songbird_url_live>https://static.client.cardinaltrusted.com/songbird/v2.1.0/songbird.js</cardinal_songbird_url_live>
+                <cardinal_songbird_sri_live>sha384-ChU6jn6KFsEv8NcjP1ifj3s6LclP7AFS6fTHY2pcBL5yax0FT5viH/cNbOJDnY5E</cardinal_songbird_sri_live>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
                 <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
                 <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>

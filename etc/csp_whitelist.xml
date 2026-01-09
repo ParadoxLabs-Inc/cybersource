@@ -4,14 +4,14 @@
         <policy id="script-src">
             <values>
                 <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
-                <value id="cardinaltrusted" type="host">*.client.cardinaltrusted.com</value>
+                <value id="cardinaltrusted" type="host">*.cardinaltrusted.com</value>
                 <value id="onlinemetrix" type="host">*.online-metrix.net</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
                 <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
-                <value id="cardinaltrusted" type="host">*.client.cardinaltrusted.com</value>
+                <value id="cardinaltrusted" type="host">*.cardinaltrusted.com</value>
                 <value id="onlinemetrix" type="host">*.online-metrix.net</value>
             </values>
         </policy>
