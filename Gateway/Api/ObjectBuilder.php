@@ -24,9 +24,6 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 use Magento\Sales\Api\Data\OrderInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 
-/**
- * ObjectBuilder Class
- */
 class ObjectBuilder
 {
     const SOAP_DEFAULTS = [

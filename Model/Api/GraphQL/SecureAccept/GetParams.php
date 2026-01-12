@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\SecureAccept;
 
-/**
- * GetParams Class
- */
 class GetParams implements \Magento\Framework\GraphQl\Query\ResolverInterface
 {
     /**

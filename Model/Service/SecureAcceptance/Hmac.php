@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
-/**
- * Hmac Class
- */
 class Hmac
 {
     /**

@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\CardinalCruise;
 
-/**
- * GetAuthPayload Class
- */
 class GetAuthPayload implements \Magento\Framework\GraphQl\Query\ResolverInterface
 {
     /**

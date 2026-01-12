@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Gateway;
 
-/**
- * Context Class
- */
 class Context
 {
     /**

@@ -22,9 +22,6 @@ namespace ParadoxLabs\CyberSource\Controller\CardinalCruise;
 
 use Magento\Framework\Controller\ResultFactory;
 
-/**
- * GetAuthPayload Class
- */
 class GetAuthPayload extends \Magento\Framework\App\Action\Action
 {
     /**

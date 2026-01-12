@@ -22,9 +22,6 @@ namespace ParadoxLabs\CyberSource\Model\Cron;
 
 use ParadoxLabs\CyberSource\Model\Config\Config;
 
-/**
- * AccountUpdater Class
- */
 class AccountUpdater
 {
     const UPDATE_CODES = [

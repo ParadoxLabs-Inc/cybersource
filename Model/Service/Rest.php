@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service;
 
-/**
- * Rest Class
- */
 class Rest
 {
     /**

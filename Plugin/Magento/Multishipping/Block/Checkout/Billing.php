@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Plugin\Magento\Multishipping\Block\Checkout;
 
-/**
- * Billing Class
- */
 class Billing
 {
     /**

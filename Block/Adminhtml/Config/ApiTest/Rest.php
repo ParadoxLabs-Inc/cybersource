@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
-/**
- * Rest Class
- */
 class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
 {
     const CREDENTIAL_KEYS = [

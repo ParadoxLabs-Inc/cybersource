@@ -59,7 +59,9 @@ class WsseSignature
         $pubcert = explode("\n", $certs['cert']);
         array_shift($pubcert);
 
-        while (!trim(array_pop($pubcert))) { /* Empty while loop */ }
+        while (!trim(array_pop($pubcert))) {
+            /* Empty while loop */
+        }
         // array_filter($pubcert);
 
         array_walk($pubcert, 'trim');
@@ -141,11 +143,12 @@ class WsseSignature
         $method = $signedInfo->appendChild($domDocument->createElementNS(self::DS_NS, 'ds:SignatureMethod'));
         $method->setAttribute('Algorithm', self::SIG_ALG);
 
-        foreach ($ids as $id)
-        {
+        foreach ($ids as $id) {
             // find a node and canonicalize it
             $nodes = $domXPath->query("//*[(@wsu:Id='$id')]");
-            if ($nodes->length == 0) { continue; }
+            if ($nodes->length == 0) {
+                continue;
+            }
 
             $canonicalized = $this->canonicalizeNode($nodes->item(0));
 

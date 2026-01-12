@@ -23,9 +23,6 @@ namespace ParadoxLabs\CyberSource\Observer;
 use Magento\Quote\Api\Data\PaymentExtensionInterface;
 use Magento\Sales\Api\Data\OrderPaymentExtensionInterface;
 
-/**
- * PaymentMethodAssignDataObserver Class
- */
 class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\PaymentMethodAssignDataObserver
 {
     /**

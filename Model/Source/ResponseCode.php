@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Source;
 
-/**
- * ResponseCode Class
- */
 class ResponseCode
 {
     /**

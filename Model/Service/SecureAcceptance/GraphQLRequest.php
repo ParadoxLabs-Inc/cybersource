@@ -22,9 +22,6 @@ namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
 
-/**
- * GraphQLRequest Class
- */
 class GraphQLRequest extends AbstractRequestHandler
 {
     /**

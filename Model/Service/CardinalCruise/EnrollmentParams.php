@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 
-/**
- * EnrollmentParams Class
- */
 class EnrollmentParams
 {
     /**

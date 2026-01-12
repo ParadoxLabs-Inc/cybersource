@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
-/**
- * FrontendRequest Class
- */
 class FrontendRequest extends AbstractRequestHandler
 {
     /**

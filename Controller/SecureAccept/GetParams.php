@@ -26,9 +26,6 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 
-/**
- * GetParams Class
- */
 class GetParams extends Action implements CsrfAwareActionInterface, HttpPostActionInterface
 {
     /**

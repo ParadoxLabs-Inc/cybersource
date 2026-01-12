@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 
-/**
- * Persistor Class
- */
 class Persistor
 {
     const PERSIST_KEY = 'payer_auth_enroll_reply';

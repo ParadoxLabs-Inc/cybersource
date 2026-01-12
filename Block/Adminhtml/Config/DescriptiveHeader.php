@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config;
 
-/**
- * DescriptiveHeader Class
- */
 class DescriptiveHeader extends \Magento\Config\Block\System\Config\Form\Field\Heading
 {
     /**

@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Source;
 
-/**
- * CardType Class
- */
 class CardType
 {
     const CARD_TYPE_MAP = [

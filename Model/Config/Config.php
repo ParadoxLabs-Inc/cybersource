@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Config;
 
-/**
- * Config Class
- */
 class Config
 {
     const CODE = 'paradoxlabs_cybersource';

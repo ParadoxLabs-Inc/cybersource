@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
-/**
- * PayerAuth Class
- */
 class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
 {
     const CREDENTIAL_KEYS = [

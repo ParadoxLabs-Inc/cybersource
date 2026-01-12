@@ -22,9 +22,6 @@ namespace ParadoxLabs\CyberSource\Controller\Adminhtml\SecureAccept;
 
 use Magento\Framework\Controller\ResultFactory;
 
-/**
- * GetParams Class
- */
 class GetParams extends \Magento\Backend\App\Action
 {
     /**

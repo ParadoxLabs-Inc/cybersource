@@ -20,11 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 
-/**
- * JsonWebTokenGenerator Class
- *
- * @see https://cardinaldocs.atlassian.net/wiki/spaces/CC/pages/32950/Request+Objects
- */
 class JsonWebTokenGenerator
 {
     /**

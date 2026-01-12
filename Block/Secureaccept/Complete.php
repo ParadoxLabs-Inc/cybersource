@@ -20,9 +20,6 @@
 
 namespace ParadoxLabs\CyberSource\Block\Secureaccept;
 
-/**
- * Complete Class
- */
 class Complete extends \Magento\Framework\View\Element\Template
 {
     /**

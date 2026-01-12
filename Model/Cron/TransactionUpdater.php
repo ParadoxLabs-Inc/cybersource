@@ -23,9 +23,6 @@ namespace ParadoxLabs\CyberSource\Model\Cron;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 
-/**
- * TransactionUpdater Class
- */
 class TransactionUpdater
 {
     /**
