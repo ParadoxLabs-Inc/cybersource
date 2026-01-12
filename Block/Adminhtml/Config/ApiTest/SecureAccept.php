@@ -43,7 +43,7 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
             $this->checkFormFactor();
 
             return __(
-                'Keys entered successfully. (%1)<br />'
+                'Keys entered successfully. (%1)<br>'
                 . '<small class="desc">* Note: We can\'t test Secure Acceptance. After configuring, please verify '
                 . 'the credit card form loads on checkout.</small>',
                 $this->getMethod()->getConfigData('test') ? __('SANDBOX') : __('PRODUCTION')

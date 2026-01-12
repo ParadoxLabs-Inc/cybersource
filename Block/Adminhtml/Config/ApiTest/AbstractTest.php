@@ -89,7 +89,7 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
     protected function getUserManualInstruction()
     {
         return __(
-            '<br /><small class="desc">See the <a href="%1" target="_blank">User Manual</a> for instructions and '
+            '<br><small class="desc">See the <a href="%1" target="_blank">User Manual</a> for instructions and '
             . 'additional information.</small>',
             static::USER_MANUAL_URL
         );

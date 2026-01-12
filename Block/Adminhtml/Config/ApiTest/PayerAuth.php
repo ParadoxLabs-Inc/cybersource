@@ -43,7 +43,7 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
             $this->checkFormFactor();
 
             return __(
-                'Keys entered successfully. (%1)<br />'
+                'Keys entered successfully. (%1)<br>'
                 . '<small class="desc">* Note: We can\'t test Cardinal Cruise. If the values are not correct, trying '
                 . 'to complete 3D Secure on checkout will cause errors.</small>',
                 $this->getMethod()->getConfigData('test') ? __('SANDBOX') : __('PRODUCTION')
