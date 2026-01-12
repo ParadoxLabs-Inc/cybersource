@@ -7,14 +7,14 @@
                           value: getCode(),
                           checked: isChecked,
                           click: selectPaymentMethod,
-                          visible: isRadioButtonVisible()"/>
+                          visible: isRadioButtonVisible()">
         <label class="label" data-bind="attr: {'for': getCode()}"><span data-bind="text: getTitle()"></span></label>
     </div>
 
     <form class="payment-method-content" data-bind="mageInit: {'validation': {}}">
-        <input type="hidden" value="" data-bind="attr: {id: getCode() + '-communicator'}" />
-        <input type="hidden" name="payment[response_jwt]" value="" data-bind="attr: {id: getCode() + '-response-jwt'}, value: responseJWT" />
-        <input type="hidden" name="payment[cc_type]" value="" data-bind="attr: {id: getCode() + '-cc-type'}, value: creditCardType, afterRender: handleSelectedCardType()" />
+        <input type="hidden" value="" data-bind="attr: {id: getCode() + '-communicator'}">
+        <input type="hidden" name="payment[response_jwt]" value="" data-bind="attr: {id: getCode() + '-response-jwt'}, value: responseJWT">
+        <input type="hidden" name="payment[cc_type]" value="" data-bind="attr: {id: getCode() + '-cc-type'}, value: creditCardType, afterRender: handleSelectedCardType()">
 
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
@@ -28,7 +28,7 @@
             <!-- /ko -->
             <!-- ko if: (getLogoImage())-->
             <div class="sorter">
-                <img data-bind="attr: {'src': getLogoImage(), 'alt': $t('Processed by CyberSource, a Visa Solution')}" />
+                <img data-bind="attr: {'src': getLogoImage(), 'alt': $t('Processed by CyberSource, a Visa Solution')}">
             </div>
             <!--/ko-->
             <!-- ko if: (storedCards().length > 0) -->
@@ -72,7 +72,7 @@
                            'data-container': getCode() + '-cc-cvv',
                            'data-validate': JSON.stringify({'required-number':true, 'validate-cc-cvn':'#' + getCode() + '-cc-type'})},
                            enable: true,
-                           textInput: creditCardVerificationNumber" />
+                           textInput: creditCardVerificationNumber">
                         <div class="field-tooltip toggle">
                             <span class="field-tooltip-action action-cvv"
                                   tabindex="0"
@@ -98,7 +98,7 @@
                                value="1"
                                checked="checked"
                                class="checkbox"
-                               data-bind="attr: {id: getCode() + '-save'}, checked: save"/>
+                               data-bind="attr: {id: getCode() + '-save'}, checked: save">
                         <label class="label" data-bind="attr: {for: getCode() + '-save'}">
                             <span><!-- ko text: $t('For your convenience, this data will be stored securely by our payment processor.')--><!-- /ko --></span>
                         </label>
@@ -109,7 +109,7 @@
                                value="1"
                                checked="checked"
                                class="checkbox"
-                               data-bind="attr: {id: getCode() + '-save'}, checked: save"/>
+                               data-bind="attr: {id: getCode() + '-save'}, checked: save">
                         <label class="label" data-bind="attr: {for: getCode() + '-save'}">
                             <span><!-- ko text: $t('Save for next time')--><!-- /ko --></span>
                         </label>
