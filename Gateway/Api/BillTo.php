@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -766,7 +766,7 @@ class BillTo
      */
     public function setIpAddress($ipAddress)
     {
-        $this->ipAddress = mb_substr(preg_replace('/[^\d.]/', '', (string)$ipAddress), 0, 15);
+        $this->ipAddress = mb_substr(preg_replace('/[^\da-fA-F.:]/', '', (string)$ipAddress), 0, 45);
 
         return $this;
     }

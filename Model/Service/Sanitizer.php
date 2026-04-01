@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,13 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service;
+
+use Magento\Framework\Exception\InputException;
 
 /**
  * Sanitizer Class -- input validation and cleaning for Secure Acceptance API request fields
@@ -134,7 +137,7 @@ class Sanitizer
     public function email($input)
     {
         if (!empty($input) && filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
-            throw new \Magento\Framework\Exception\InputException(__('Please enter a valid email address.'));
+            throw new InputException(__('Please enter a valid email address.'));
         }
 
         return $input;
@@ -148,7 +151,7 @@ class Sanitizer
      */
     public function ipAddress($input)
     {
-        return filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ?: null;
+        return filter_var($input, FILTER_VALIDATE_IP) ?: null;
     }
 
     /**
@@ -190,7 +193,7 @@ class Sanitizer
     public function url($input, $maxLength = 255)
     {
         if (filter_var($input, FILTER_VALIDATE_URL) === false) {
-            throw new \Magento\Framework\Exception\InputException(__('CyberSource gateway return URL is invalid.'));
+            throw new InputException(__('CyberSource gateway return URL is invalid.'));
         }
 
         return $this->length($input, $maxLength);
