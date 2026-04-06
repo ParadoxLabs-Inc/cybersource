@@ -12,7 +12,6 @@
     </div>
 
     <form class="payment-method-content" data-bind="mageInit: {'validation': {}}">
-        <input type="hidden" value="" data-bind="attr: {id: getCode() + '-communicator'}">
         <input type="hidden" name="payment[response_jwt]" value="" data-bind="attr: {id: getCode() + '-response-jwt'}, value: responseJWT">
         <input type="hidden" name="payment[cc_type]" value="" data-bind="attr: {id: getCode() + '-cc-type'}, value: creditCardType, afterRender: handleSelectedCardType()">
 
@@ -24,7 +23,8 @@
 
         <fieldset data-bind="attr: {class: 'fieldset payment items ccard ' + getCode(), id: getCode() + '-form-cc'}">
             <!-- ko if: (isShowLegend())-->
-            <legend class="legend"><span><!-- ko text: $t('Credit Card Information')--><!-- /ko --></span></legend><br>
+            <legend class="legend"><span><!-- ko text: $t('Credit Card Information')--><!-- /ko --></span></legend>
+            <br>
             <!-- /ko -->
             <!-- ko if: (getLogoImage())-->
             <div class="sorter">
@@ -56,67 +56,67 @@
             </div>
 
             <!-- ko if: (selectedCard()) -->
-                <div class="field cvv required" data-bind="attr: {id: getCode() + '-cc-type-cvv-div'}, visible: (isCcvShown)">
-                    <label data-bind="attr: {for: getCode() + '-cc-cid'}" class="label">
-                        <span><!-- ko text: $t('Card Verification Number')--><!-- /ko --></span>
-                    </label>
-                    <div class="control _with-tooltip">
-                        <input type="text"
-                               class="input-text cvv"
-                               name="payment[cc_cid]"
-                               value=""
-                               autocomplete="cc-csc"
-                               maxlength="4"
-                               data-bind="attr: {id: getCode() + '-cc-cid',
+            <div class="field cvv required" data-bind="attr: {id: getCode() + '-cc-type-cvv-div'}, visible: (isCcvShown)">
+                <label data-bind="attr: {for: getCode() + '-cc-cid'}" class="label">
+                    <span><!-- ko text: $t('Card Verification Number')--><!-- /ko --></span>
+                </label>
+                <div class="control _with-tooltip">
+                    <input type="text"
+                           class="input-text cvv"
+                           name="payment[cc_cid]"
+                           value=""
+                           autocomplete="cc-csc"
+                           maxlength="4"
+                           data-bind="attr: {id: getCode() + '-cc-cid',
                            title: $t('Card Verification Number'),
                            'data-container': getCode() + '-cc-cvv',
                            'data-validate': JSON.stringify({'required-number':true, 'validate-cc-cvn':'#' + getCode() + '-cc-type'})},
                            enable: true,
                            textInput: creditCardVerificationNumber">
-                        <div class="field-tooltip toggle">
+                    <div class="field-tooltip toggle">
                             <span class="field-tooltip-action action-cvv"
                                   tabindex="0"
                                   data-toggle="dropdown"
                                   data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
                                 <span><!-- ko text: $t('What is this?')--><!-- /ko --></span>
                             </span>
-                            <div class="field-tooltip-content"
-                                 data-target="dropdown"
-                                 data-bind="html: getCvvImageHtml()"></div>
-                        </div>
+                        <div class="field-tooltip-content"
+                             data-target="dropdown"
+                             data-bind="html: getCvvImageHtml()"></div>
                     </div>
                 </div>
-                <!-- ko if: (showSaveOption())-->
-                <div class="field">
-                    <label class="label">
-                        <span></span>
+            </div>
+            <!-- ko if: (showSaveOption())-->
+            <div class="field">
+                <label class="label">
+                    <span></span>
+                </label>
+                <div class="control">
+                    <!-- ko if: (forceSaveCard)-->
+                    <input type="hidden"
+                           name="payment[save]"
+                           value="1"
+                           checked="checked"
+                           class="checkbox"
+                           data-bind="attr: {id: getCode() + '-save'}, checked: save">
+                    <label class="label" data-bind="attr: {for: getCode() + '-save'}">
+                        <span><!-- ko text: $t('For your convenience, this data will be stored securely by our payment processor.')--><!-- /ko --></span>
                     </label>
-                    <div class="control">
-                        <!-- ko if: (forceSaveCard)-->
-                        <input type="hidden"
-                               name="payment[save]"
-                               value="1"
-                               checked="checked"
-                               class="checkbox"
-                               data-bind="attr: {id: getCode() + '-save'}, checked: save">
-                        <label class="label" data-bind="attr: {for: getCode() + '-save'}">
-                            <span><!-- ko text: $t('For your convenience, this data will be stored securely by our payment processor.')--><!-- /ko --></span>
-                        </label>
-                        <!-- /ko -->
-                        <!-- ko if: (!forceSaveCard)-->
-                        <input type="checkbox"
-                               name="payment[save]"
-                               value="1"
-                               checked="checked"
-                               class="checkbox"
-                               data-bind="attr: {id: getCode() + '-save'}, checked: save">
-                        <label class="label" data-bind="attr: {for: getCode() + '-save'}">
-                            <span><!-- ko text: $t('Save for next time')--><!-- /ko --></span>
-                        </label>
-                        <!-- /ko -->
-                    </div>
+                    <!-- /ko -->
+                    <!-- ko if: (!forceSaveCard)-->
+                    <input type="checkbox"
+                           name="payment[save]"
+                           value="1"
+                           checked="checked"
+                           class="checkbox"
+                           data-bind="attr: {id: getCode() + '-save'}, checked: save">
+                    <label class="label" data-bind="attr: {for: getCode() + '-save'}">
+                        <span><!-- ko text: $t('Save for next time')--><!-- /ko --></span>
+                    </label>
+                    <!-- /ko -->
                 </div>
-                <!-- /ko -->
+            </div>
+            <!-- /ko -->
             <!-- /ko -->
         </fieldset>
 

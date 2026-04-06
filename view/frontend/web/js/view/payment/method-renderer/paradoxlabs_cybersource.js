@@ -29,7 +29,7 @@ define(
     ],
     function (ko, $, _, Component, alert, quote) {
         'use strict';
-        var config=window.checkoutConfig.payment.paradoxlabs_cybersource;
+        var config = window.checkoutConfig.payment.paradoxlabs_cybersource;
         return Component.extend({
             defaults: {
                 template: 'ParadoxLabs_CyberSource/payment/secure-acceptance',
@@ -41,11 +41,11 @@ define(
                 responseJWT: null,
                 iframeInitialized: false
             },
-            initVars: function() {
-                this.canSaveCard     = config ? config.canSaveCard : false;
-                this.forceSaveCard   = config ? config.forceSaveCard : false;
+            initVars: function () {
+                this.canSaveCard = config ? config.canSaveCard : false;
+                this.forceSaveCard = config ? config.forceSaveCard : false;
                 this.defaultSaveCard = config ? config.defaultSaveCard : false;
-                this.requireCcv      = config ? config.requireCcv : false;
+                this.requireCcv = config ? config.requireCcv : false;
             },
             initObservable: function () {
                 this.initVars();
@@ -62,12 +62,12 @@ define(
                 this.selectedCard.subscribe(this.checkReinitSecureAcceptanceForm.bind(this));
                 this.selectedCard.subscribe(this.doBinLookup.bind(this));
 
-                this.showIframe = ko.computed(function() {
+                this.showIframe = ko.computed(function () {
                     return (this.selectedCard() === null || this.selectedCard() === undefined)
                            && quote.billingAddress() !== null;
                 }, this);
 
-                this.showSaveOption = ko.computed(function() {
+                this.showSaveOption = ko.computed(function () {
                     if (this.canSaveCard !== true
                         || this.selectedCard() === null
                         || this.selectedCard() === undefined) {
@@ -86,7 +86,7 @@ define(
 
                 this.storedCards = ko.observableArray(config.storedCards);
 
-                this.useVault = ko.computed(function() {
+                this.useVault = ko.computed(function () {
                     return this.storedCards().length > 0;
                 }, this);
 
@@ -95,7 +95,7 @@ define(
 
                 return this;
             },
-            loadFingerprint: function() {
+            loadFingerprint: function () {
                 if (config.fingerprintUrl !== undefined
                     && config.fingerprintUrl !== null
                     && config.fingerprintUrl.length > 1) {
@@ -106,7 +106,7 @@ define(
                     document.head.appendChild(script);
                 }
             },
-            syncSecureAcceptBillingAddress: function() {
+            syncSecureAcceptBillingAddress: function () {
                 // Don't progess until the iframe has rendered, we're the active payment method, we have a billing addr.
                 if ($('#' + this.getCode() + '_iframe').length === 0
                     || quote.paymentMethod() === null
@@ -118,7 +118,7 @@ define(
 
                 this.billingAddressLine(this.getAddressLine(quote.billingAddress()));
             },
-            checkReinitSecureAcceptanceForm: function() {
+            checkReinitSecureAcceptanceForm: function () {
                 if (this.iframeInitialized === false
                     && (this.selectedCard() === null || this.selectedCard() === undefined)
                     && this.storedCards().length > 0) {
@@ -127,12 +127,12 @@ define(
                     this.initSecureAcceptanceForm();
                 }
             },
-            initSecureAcceptanceForm: function() {
+            initSecureAcceptanceForm: function () {
                 this.bindCommunicator();
 
                 // Clear and spinner the CC form while we load new params
                 $('#' + this.getCode() + '_iframe').prop('src', 'about:blank')
-                                                   .trigger('processStart');
+                    .trigger('processStart');
 
                 return $.post({
                     url: config.paramUrl,
@@ -143,7 +143,7 @@ define(
                     error: this.handleAjaxError.bind(this)
                 });
             },
-            loadSecureAcceptanceForm: function(data) {
+            loadSecureAcceptanceForm: function (data) {
                 var form = document.createElement('form');
                 form.target = this.getCode() + '_iframe';
                 form.method = 'post';
@@ -162,7 +162,7 @@ define(
 
                 $('#' + this.getCode() + '_iframe').trigger('processStop');
             },
-            handleAjaxError: function(jqXHR, status, error) {
+            handleAjaxError: function (jqXHR, status, error) {
                 $('#' + this.getCode() + '_iframe').trigger('processStop');
 
                 var message = $.mage.__('A server error occurred. Please try again.');
@@ -172,7 +172,8 @@ define(
                     if (responseJson.message !== undefined) {
                         message = responseJson.message;
                     }
-                } catch (error) {}
+                } catch (error) {
+                }
 
                 try {
                     alert({
@@ -184,34 +185,37 @@ define(
                     window.alert(message);
                 }
             },
-            bindCommunicator: function() {
-                window.jQuery('#' + this.getCode() + '-communicator')
-                    .off('change')
-                    .on('change', this.handleCommunication.bind(this));
-            },
-            handleCommunication: function(event) {
-                var value = event.target.value;
-
-                if (value !== undefined && value !== null && value !== '') {
-                    var message = JSON.parse(value);
-
-                    if (message.success && message.card !== undefined) {
-                        this.storedCards.push(message.card);
-                        this.selectedCard(message.card.id);
-                        this.iframeInitialized = false;
-                    } else if (message.error.length > 0) {
-                        if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
-                            this.initSecureAcceptanceForm();
-                        }
-
-                        alert({
-                            title: $.mage.__('Error'),
-                            content: message.error
-                        });
-                    }
+            bindCommunicator: function () {
+                if (!this._communicatorBound) {
+                    window.addEventListener('message', this.handleCommunication.bind(this));
+                    this._communicatorBound = true;
                 }
             },
-            getAddressLine: function(address) {
+            handleCommunication: function (event) {
+                if (event.origin !== location.origin
+                    || !event.data
+                    || event.data.success === undefined) {
+                    return;
+                }
+
+                var message = event.data;
+
+                if (message.success && message.card !== undefined) {
+                    this.storedCards.push(message.card);
+                    this.selectedCard(message.card.id);
+                    this.iframeInitialized = false;
+                } else if (message.error && message.error.length > 0) {
+                    if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
+                        this.initSecureAcceptanceForm();
+                    }
+
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: message.error
+                    });
+                }
+            },
+            getAddressLine: function (address) {
                 if (address === null) {
                     return null;
                 }
@@ -241,7 +245,7 @@ define(
                     }
                 }
             },
-            getFormParams: function() {
+            getFormParams: function () {
                 var billingAddress = _.pick(
                     quote.billingAddress(),
                     [
@@ -275,7 +279,7 @@ define(
             hasVerification: function () {
                 return this.requireCcv();
             },
-            loadPayerAuth: function() {
+            loadPayerAuth: function () {
                 if (config.cardinalScript.length > 0 && config.cardinalJWT.length > 0) {
                     // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
                     var script = document.createElement('script');
@@ -289,7 +293,7 @@ define(
                     document.getElementsByTagName('head')[0].appendChild(script);
                 }
             },
-            initPayerAuth: function() {
+            initPayerAuth: function () {
                 Cardinal.configure({
                     payment: {
                         displayLoading: true
@@ -302,12 +306,12 @@ define(
 
                 this.doBinLookup(this.selectedCard());
             },
-            handlePayerAuthInit: function(responseData) {
+            handlePayerAuthInit: function (responseData) {
                 if (responseData && responseData.sessionId !== undefined) {
                     this.payerAuthSessionId(responseData.sessionId);
                 }
             },
-            handlePayerAuthCompletion: function(responseData, responseJWT) {
+            handlePayerAuthCompletion: function (responseData, responseJWT) {
                 if (responseData.ErrorNumber > 0) {
                     this.responseJWT(null);
 
@@ -322,7 +326,7 @@ define(
                     this.placeOrder();
                 }
             },
-            doBinLookup: function(selectedCardId) {
+            doBinLookup: function (selectedCardId) {
                 if (typeof Cardinal === 'object' && selectedCardId !== null && selectedCardId !== undefined) {
                     var cards = this.storedCards();
                     for (var key in cards) {
@@ -332,13 +336,13 @@ define(
                     }
                 }
             },
-            getPlaceOrderDeferredObject: function() {
+            getPlaceOrderDeferredObject: function () {
                 // Run Cardinal Cruise BIN lookup while the order processes
                 this.doBinLookup(this.selectedCard());
 
                 return this._super();
             },
-            handleFailedOrder: function(response) {
+            handleFailedOrder: function (response) {
                 this.responseJWT(null);
 
                 var payerAuthMessage = $.mage.__(
@@ -356,7 +360,7 @@ define(
 
                 return this._super();
             },
-            startPayerAuthentication: function() {
+            startPayerAuthentication: function () {
                 $.post({
                     url: config.cardinalAuthUrl,
                     dataType: 'json',
@@ -366,7 +370,7 @@ define(
                     error: this.handleAjaxError.bind(this)
                 });
             },
-            runPayerAuth: function(response) {
+            runPayerAuth: function (response) {
                 Cardinal.continue(
                     'cca',
                     response.authPayload,
@@ -374,7 +378,7 @@ define(
                     response.JWT
                 );
             },
-            getFormKey: function() {
+            getFormKey: function () {
                 return $('input[name="form_key"]').val();
             }
         });

@@ -1,5 +1,9 @@
 <?php
 /** @var \ParadoxLabs\TokenBase\Block\Customer\Form $block */
+
+use Magento\Customer\Helper\Address;
+use Magento\Directory\Helper\Data;
+
 ?>
 <?php $code = $block->escapeHtmlAttr($block->getCode()); ?>
 
@@ -13,49 +17,87 @@
     </h2>
 </div>
 
-<form action="<?= $block->escapeHtmlAttr($block->getAction()) ?>" method="post" id="form-validate" class="checkout-payment-method payment_form_<?= /* @noEscape */ $code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
-    <?= /* @noEscape */ $block->getBlockHtml('formkey') ?>
-    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $block->escapeHtmlAttr($block->getCard()->getHash()) : '' ?>" />
-    <input type="hidden" name="method" value="<?= /* @noEscape */ $code ?>" />
-    <input type="hidden" name="source" value="paymentinfo" />
-    <input type="hidden" id="<?= /* @noEscape */ $code ?>-communicator" value="" />
+<form action="<?= $block->escapeHtmlAttr(
+    $block->getAction()
+) ?>" method="post" id="form-validate" class="checkout-payment-method payment_form_<?= /* @noEscape */
+$code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+    <?= /* @noEscape */
+    $block->getBlockHtml('formkey') ?>
+    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $block->escapeHtmlAttr(
+        $block->getCard()->getHash()
+    ) : '' ?>"/>
+    <input type="hidden" name="method" value="<?= /* @noEscape */
+    $code ?>"/>
+    <input type="hidden" name="source" value="paymentinfo"/>
     <fieldset class="fieldset address">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend><br>
+        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend>
+        <br>
 
-        <?= /* @noEscape */ $block->getNameBlockHtml() ?>
+        <?= /* @noEscape */
+        $block->getNameBlockHtml() ?>
         <div class="field company">
             <label class="label" for="company"><span><?= $block->escapeHtml(__('Company')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[company]" id="company" title="<?= $block->escapeHtmlAttr(__('Company')) ?>" value="<?= $block->escapeHtmlAttr($block->getAddress()->getCompany()) ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('company')) ?>">
+                <input type="text" name="billing[company]" id="company" title="<?= $block->escapeHtmlAttr(
+                    __('Company')
+                ) ?>" value="<?= $block->escapeHtmlAttr(
+                    $block->getAddress()->getCompany()
+                ) ?>" class="input-text <?= $block->escapeHtmlAttr(
+                    $this->helper(Address::class)->getAttributeValidationClass('company')
+                ) ?>">
             </div>
         </div>
-        <?php $phoneValidation = $this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('telephone'); ?>
-        <div class="field telephone<?php if (mb_strpos((string)$phoneValidation, 'required') !== false): ?> required<?php endif; ?>">
+        <?php $phoneValidation = $this->helper(Address::class)->getAttributeValidationClass(
+            'telephone'
+        ); ?>
+        <div class="field telephone<?php if (mb_strpos((string)$phoneValidation, 'required')
+            !== false): ?> required<?php endif; ?>">
             <label class="label" for="telephone"><span><?= $block->escapeHtml(__('Phone Number')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[telephone]" value="<?= $block->escapeHtmlAttr($block->getAddress()->getTelephone()) ?>" title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>" class="input-text <?= $block->escapeHtmlAttr($phoneValidation) ?>" id="telephone">
+                <input type="text" name="billing[telephone]" value="<?= $block->escapeHtmlAttr(
+                    $block->getAddress()->getTelephone()
+                ) ?>" title="<?= $block->escapeHtmlAttr(
+                    __('Phone Number')
+                ) ?>" class="input-text <?= $block->escapeHtmlAttr($phoneValidation) ?>" id="telephone">
             </div>
         </div>
     </fieldset>
     <fieldset class="fieldset address">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Address')) ?></span></legend><br>
+        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Address')) ?></span></legend>
+        <br>
 
-        <?php $_streetValidationClass = $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('street')); ?>
+        <?php $_streetValidationClass = $block->escapeHtmlAttr(
+            $this->helper(Address::class)->getAttributeValidationClass('street')
+        ); ?>
         <div class="field street required">
             <label for="street" class="label"><span><?= $block->escapeHtml(__('Street')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[street][]" value="<?= $block->escapeHtmlAttr($block->getStreetLine(1)) ?>" title="<?= $block->escapeHtmlAttr(__('Street Address')) ?>" id="street" class="input-text <?= /* @noEscape */ $_streetValidationClass ?>"  />
+                <input type="text" name="billing[street][]" value="<?= $block->escapeHtmlAttr(
+                    $block->getStreetLine(1)
+                ) ?>" title="<?= $block->escapeHtmlAttr(
+                    __('Street Address')
+                ) ?>" id="street" class="input-text <?= /* @noEscape */
+                $_streetValidationClass ?>"/>
                 <div class="nested">
                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
                     <?php /** NB: Secure Acceptance only supports 2 street lines according to documentation */ ?>
-                    <?php for ($_i = 1, $_n = min(2, $this->helper(\Magento\Customer\Helper\Address::class)->getStreetLines()); $_i < $_n; $_i++): ?>
-                        <?php $lineNo = (int)($_i+1); ?>
+                    <?php for ($_i = 1,
+                               $_n = min(2, $this->helper(Address::class)->getStreetLines());
+                               $_i < $_n; $_i++): ?>
+                        <?php $lineNo = (int)($_i + 1); ?>
                         <div class="field additional">
-                            <label class="label" for="street_<?= /* @noEscape */ $lineNo ?>">
+                            <label class="label" for="street_<?= /* @noEscape */
+                            $lineNo ?>">
                                 <span><?= $block->escapeHtml(__('Street Address %1', $lineNo)) ?></span>
                             </label>
                             <div class="control">
-                                <input type="text" name="billing[street][]" value="<?= $block->escapeHtmlAttr($block->getStreetLine($lineNo)) ?>" title="<?= $block->escapeHtmlAttr(__('Street Address %1', $lineNo)) ?>" id="street_<?= /* @noEscape */ $lineNo ?>" class="input-text <?= /* @noEscape */ $_streetValidationClass ?>">
+                                <input type="text" name="billing[street][]" value="<?= $block->escapeHtmlAttr(
+                                    $block->getStreetLine($lineNo)
+                                ) ?>" title="<?= $block->escapeHtmlAttr(
+                                    __('Street Address %1', $lineNo)
+                                ) ?>" id="street_<?= /* @noEscape */
+                                $lineNo ?>" class="input-text <?= /* @noEscape */
+                                $_streetValidationClass ?>">
                             </div>
                         </div>
                     <?php endfor; ?>
@@ -65,28 +107,50 @@
         <div class="field city required">
             <label class="label" for="city"><span><?= $block->escapeHtml(__('City')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[city]" value="<?= $block->escapeHtmlAttr($block->getAddress()->getCity()) ?>" title="<?= $block->escapeHtmlAttr(__('City')) ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('city')) ?>" id="city">
+                <input type="text" name="billing[city]" value="<?= $block->escapeHtmlAttr(
+                    $block->getAddress()->getCity()
+                ) ?>" title="<?= $block->escapeHtmlAttr(__('City')) ?>" class="input-text <?= $block->escapeHtmlAttr(
+                    $this->helper(Address::class)->getAttributeValidationClass('city')
+                ) ?>" id="city">
             </div>
         </div>
         <div class="field region required">
             <label class="label" for="region-id"><span><?= $block->escapeHtml(__('State/Province')) ?></span></label>
             <div class="control">
-                <select id="region-id" name="billing[region_id]" title="<?= $block->escapeHtmlAttr(__('State/Province')) ?>" class="validate-select" <?=(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '' ?>>
-                    <option value=""><?= $block->escapeHtml(__('Please select a region, state or province.')) ?></option>
+                <select id="region-id" name="billing[region_id]" title="<?= $block->escapeHtmlAttr(
+                    __('State/Province')
+                ) ?>" class="validate-select" <?= (!$block->getConfig('general/region/display_all'))
+                    ? ' disabled="disabled"' : '' ?>>
+                    <option value=""><?= $block->escapeHtml(
+                            __('Please select a region, state or province.')
+                        ) ?></option>
                 </select>
-                <input type="text" id="region" name="billing[region]" value="<?= $block->escapeHtmlAttr($block->getRegion()) ?>"  title="<?= $block->escapeHtmlAttr(__('State/Province')) ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('region')) ?>"<?=(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '' ?>/>
+                <input type="text" id="region" name="billing[region]" value="<?= $block->escapeHtmlAttr(
+                    $block->getRegion()
+                ) ?>" title="<?= $block->escapeHtmlAttr(
+                    __('State/Province')
+                ) ?>" class="input-text <?= $block->escapeHtmlAttr(
+                    $this->helper(Address::class)->getAttributeValidationClass('region')
+                ) ?>"<?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '' ?>/>
             </div>
         </div>
         <div class="field zip required">
             <label class="label" for="zip"><span><?= $block->escapeHtml(__('Zip/Postal Code')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[postcode]" value="<?= $block->escapeHtmlAttr($block->getAddress()->getPostcode()) ?>" title="<?= $block->escapeHtmlAttr(__('Zip/Postal Code')) ?>" id="zip" class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('postcode')) ?>">
+                <input type="text" name="billing[postcode]" value="<?= $block->escapeHtmlAttr(
+                    $block->getAddress()->getPostcode()
+                ) ?>" title="<?= $block->escapeHtmlAttr(
+                    __('Zip/Postal Code')
+                ) ?>" id="zip" class="input-text validate-zip-international <?= $block->escapeHtmlAttr(
+                    $this->helper(Address::class)->getAttributeValidationClass('postcode')
+                ) ?>">
             </div>
         </div>
         <div class="field country required">
             <label class="label" for="country"><span><?= $block->escapeHtml(__('Country')) ?></span></label>
             <div class="control">
-                <?= /* @noEscape */ $block->getCountryHtmlSelect($block->getAddress()->getCountryId(), 'billing[country_id]') ?>
+                <?= /* @noEscape */
+                $block->getCountryHtmlSelect($block->getAddress()->getCountryId(), 'billing[country_id]') ?>
             </div>
         </div>
     </fieldset>
@@ -98,26 +162,32 @@
         </div>
     </div>
     <fieldset class="fieldset address">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Payment Information')) ?></span></legend><br>
+        <legend class="legend"><span><?= $block->escapeHtml(__('Payment Information')) ?></span></legend>
+        <br>
 
         <div class="field">
             <p><?= $block->escapeHtml(__('Please confirm your address to enter payment info.')) ?></p>
         </div>
     </fieldset>
     <fieldset class="fieldset payment toggle">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend><br>
+        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend>
+        <br>
 
-        <div class="field" id="<?= /* @noEscape */ $code ?>-address">
+        <div class="field" id="<?= /* @noEscape */
+        $code ?>-address">
             <address></address>
             <button type="button" class="action" id="edit-address">
                 <span><?= $block->escapeHtml(__('Edit')) ?></span>
             </button>
         </div>
     </fieldset>
-    <fieldset class="fieldset payment toggle <?= /* @noEscape */ $code ?>">
+    <fieldset class="fieldset payment toggle <?= /* @noEscape */
+    $code ?>">
         <div class="field required">
             <div class="control">
-                <iframe src="about:blank" id="<?= /* @noEscape */ $code ?>_iframe" name="<?= /* @noEscape */ $code ?>_iframe"></iframe>
+                <iframe src="about:blank" id="<?= /* @noEscape */
+                $code ?>_iframe" name="<?= /* @noEscape */
+                $code ?>_iframe"></iframe>
             </div>
         </div>
     </fieldset>
@@ -127,22 +197,25 @@
         "#form-validate": {
             "validation": {},
             "cybersourcePaymentInfoForm": {
-                "target": "<?= /* @noEscape */ $code ?>_iframe",
+                "target": "<?= /* @noEscape */
+    $code ?>_iframe",
                 "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
                 "successUrl": "<?= $block->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
             }
         },
         "#country": {
             "regionUpdater": {
-                "optionalRegionAllowed": <?=($block->getConfig('general/region/display_all') ? 'true' : 'false') ?>,
+                "optionalRegionAllowed": <?= ($block->getConfig('general/region/display_all') ? 'true' : 'false') ?>,
                 "regionListId": "#region-id",
                 "regionInputId": "#region",
                 "postcodeId": "#zip",
                 "form": "#form-validate",
-                "regionJson": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getRegionJson() ?>,
+                "regionJson": <?= /* @noEscape */
+    $this->helper(Data::class)->getRegionJson() ?>,
                 "defaultRegion": "<?= (int)$block->getRegionId() ?>",
-                "countriesWithOptionalZip": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getCountriesWithOptionalZip(true) ?>
-            }
-        }
+                "countriesWithOptionalZip": <?= /* @noEscape */
+    $this->helper(Data::class)->getCountriesWithOptionalZip(true) ?>
     }
+}
+}
 </script>

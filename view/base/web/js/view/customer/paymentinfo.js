@@ -23,7 +23,7 @@ define([
     'Magento_Ui/js/modal/alert',
     'mage/translate',
     'mage/validation'
-], function($, alert) {
+], function ($, alert) {
     'use strict';
 
     $.widget('mage.cybersourcePaymentInfoForm', {
@@ -34,17 +34,17 @@ define([
             fieldPrefix: '#'
         },
 
-        _create: function() {
+        _create: function () {
             this.element.find('#submit-address').on('click', this.showPayment.bind(this));
             this.element.find('#edit-address').on('click', this.showAddress.bind(this));
         },
 
-        showAddress: function() {
+        showAddress: function () {
             this.element.find('.address').show();
             this.element.find('.payment').hide();
         },
 
-        showPayment: function() {
+        showPayment: function () {
             this.element.validation();
             if (this.element.validation('isValid') !== true) {
                 return;
@@ -60,7 +60,7 @@ define([
             this.initSecureAcceptanceForm();
         },
 
-        renderAddress: function() {
+        renderAddress: function () {
             var address = $(this.options.fieldPrefix + 'firstname').val() + ' ';
             address += $(this.options.fieldPrefix + 'lastname').val() + '<br>';
             address += $(this.options.fieldPrefix + 'company').val()
@@ -83,7 +83,7 @@ define([
             this.element.find('address').html(address);
         },
 
-        fixScroll: function() {
+        fixScroll: function () {
             var topPosition = $('fieldset.payment:first').position().top;
 
             if (topPosition < window.scrollY) {
@@ -91,7 +91,7 @@ define([
             }
         },
 
-        initSecureAcceptanceForm: function() {
+        initSecureAcceptanceForm: function () {
             this.bindCommunicator();
 
             // Clear and spinner the CC form while we load new params
@@ -108,7 +108,7 @@ define([
             });
         },
 
-        loadSecureAcceptanceForm: function(data) {
+        loadSecureAcceptanceForm: function (data) {
             var form = document.createElement('form');
             form.target = this.options.target;
             form.method = 'post';
@@ -128,7 +128,7 @@ define([
             this.element.find('iframe').trigger('processStop');
         },
 
-        handleAjaxError: function(jqXHR, status, error) {
+        handleAjaxError: function (jqXHR, status, error) {
             this.element.find('iframe').trigger('processStop');
 
             var message = $.mage.__('A server error occurred. Please try again.');
@@ -138,7 +138,8 @@ define([
                 if (responseJson.message !== undefined) {
                     message = responseJson.message;
                 }
-            } catch (error) {}
+            } catch (error) {
+            }
 
             try {
                 alert({
@@ -151,38 +152,39 @@ define([
             }
         },
 
-        bindCommunicator: function() {
-            window.jQuery('#paradoxlabs_cybersource-communicator')
-                .off('change')
-                .on('change', this.handleCommunication.bind(this));
+        bindCommunicator: function () {
+            if (!this._communicatorBound) {
+                window.addEventListener('message', this.handleCommunication.bind(this));
+                this._communicatorBound = true;
+            }
         },
 
-        handleCommunication: function(event) {
-            var value = event.target.value;
+        handleCommunication: function (event) {
+            if (event.origin !== location.origin
+                || !event.data
+                || event.data.success === undefined) {
+                return;
+            }
 
-            if (value !== undefined && value !== null && value !== '') {
-                var message = JSON.parse(value);
+            var message = event.data;
 
-                if (message.success && message.card !== undefined) {
-                    if (this.options.successUrl !== null) {
-                        // If we have a success URL, redirect there (frontend behavior)
-                        window.location.href = this.options.successUrl;
-                        this.element.trigger('processStart');
-                    } else {
-                        // Trigger form submission to reload the section (admin behavior)
-                        this.element.find('input[name=card_id]').attr('name', '');
-                        this.element.submit();
-                    }
-                } else if (message.error.length > 0) {
-                    if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
-                        this.initSecureAcceptanceForm();
-                    }
-
-                    alert({
-                        title: $.mage.__('Error'),
-                        content: message.error
-                    });
+            if (message.success && message.card !== undefined) {
+                if (this.options.successUrl !== null) {
+                    window.location.href = this.options.successUrl;
+                    this.element.trigger('processStart');
+                } else {
+                    this.element.find('input[name=card_id]').attr('name', '');
+                    this.element.submit();
                 }
+            } else if (message.error && message.error.length > 0) {
+                if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
+                    this.initSecureAcceptanceForm();
+                }
+
+                alert({
+                    title: $.mage.__('Error'),
+                    content: message.error
+                });
             }
         }
     });

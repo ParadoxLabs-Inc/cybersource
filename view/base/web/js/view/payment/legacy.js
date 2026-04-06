@@ -22,7 +22,7 @@ define([
     'jquery',
     'Magento_Ui/js/modal/alert',
     'mage/translate'
-], function($, alert) {
+], function ($, alert) {
     'use strict';
 
     $.widget('mage.cybersourceLegacyForm', {
@@ -30,18 +30,17 @@ define([
             target: null,
             paramUrl: null,
             fingerprintUrl: null,
-            cardSelector: '[name="payment[card_id]"]',
-            communicatorSelector: null
+            cardSelector: '[name="payment[card_id]"]'
         },
 
-        _create: function() {
+        _create: function () {
             this.element.on('change', this.options.cardSelector, this.handleCardSelectChange.bind(this));
 
             this.initFingerprint();
             this.handleCardSelectChange();
         },
 
-        handleCardSelectChange: function() {
+        handleCardSelectChange: function () {
             if (this.element.find(this.options.cardSelector).val() !== '') {
                 this.element.find('div.cvv').show();
                 this.element.find('div.save').toggle(
@@ -59,7 +58,7 @@ define([
             this.initSecureAcceptanceForm();
         },
 
-        initSecureAcceptanceForm: function() {
+        initSecureAcceptanceForm: function () {
             this.bindCommunicator();
 
             // Clear and spinner the CC form while we load new params
@@ -89,7 +88,7 @@ define([
             });
         },
 
-        loadSecureAcceptanceForm: function(data, status, jqXHR) {
+        loadSecureAcceptanceForm: function (data, status, jqXHR) {
             if (data.iframeAction === undefined) {
                 return this.handleAjaxError(jqXHR, status, data);
             }
@@ -113,8 +112,8 @@ define([
             this.element.find('iframe').trigger('processStop');
         },
 
-        handleAjaxError: function(jqXHR, status, error) {
-            var iframe  = this.element.find('iframe');
+        handleAjaxError: function (jqXHR, status, error) {
+            var iframe = this.element.find('iframe');
             var message = $.mage.__('A server error occurred. Please try again.');
 
             iframe.trigger('processStop');
@@ -124,7 +123,8 @@ define([
                 if (responseJson.message !== undefined) {
                     message = responseJson.message;
                 }
-            } catch (error) {}
+            } catch (error) {
+            }
 
             if (iframe.siblings('.message').length > 0) {
                 iframe.siblings('.message').text(message).show();
@@ -143,34 +143,37 @@ define([
             }
         },
 
-        bindCommunicator: function() {
-            window.jQuery(this.options.communicatorSelector)
-                .off('change')
-                .on('change', this.handleCommunication.bind(this));
-        },
-
-        handleCommunication: function(event) {
-            var value = event.target.value;
-
-            if (value !== undefined && value !== null && value !== '') {
-                var message = JSON.parse(value);
-
-                if (message.success && message.card !== undefined) {
-                    this.addAndSelectCard(message.card);
-                } else if (message.error.length > 0) {
-                    if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
-                        this.initSecureAcceptanceForm();
-                    }
-
-                    alert({
-                        title: $.mage.__('Error'),
-                        content: message.error
-                    });
-                }
+        bindCommunicator: function () {
+            if (!this._communicatorBound) {
+                window.addEventListener('message', this.handleCommunication.bind(this));
+                this._communicatorBound = true;
             }
         },
 
-        addAndSelectCard: function(card) {
+        handleCommunication: function (event) {
+            if (event.origin !== location.origin
+                || !event.data
+                || event.data.success === undefined) {
+                return;
+            }
+
+            var message = event.data;
+
+            if (message.success && message.card !== undefined) {
+                this.addAndSelectCard(message.card);
+            } else if (message.error && message.error.length > 0) {
+                if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
+                    this.initSecureAcceptanceForm();
+                }
+
+                alert({
+                    title: $.mage.__('Error'),
+                    content: message.error
+                });
+            }
+        },
+
+        addAndSelectCard: function (card) {
             var option = $('<option>');
             option.val(card.id)
                 .text(card.label)
@@ -182,7 +185,7 @@ define([
             this.element.find(this.options.cardSelector).append(option).val(card.id).trigger('change');
         },
 
-        initFingerprint: function() {
+        initFingerprint: function () {
             if (this.options.fingerprintUrl !== null
                 && this.options.fingerprintUrl.length > 1) {
                 var script = document.createElement('script');
