@@ -38,7 +38,7 @@ try {
     </p>
 <?php endif; ?>
 
-<?php $encodedMessage = json_encode($message) ?>
+<?php $encodedMessage = json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>
 <?php $inlineScript = <<<JS
     /**
      * Show the results after 3 seconds in the event that the communicator fails, but don't otherwise, to avoid visual
