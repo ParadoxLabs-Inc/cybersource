@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,6 +15,7 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
@@ -25,6 +26,7 @@ class ResponseCode
     /**
      * Response code messages (cleaned up for UX purposes), as the API only gives us the response code.
      * Note these are subject to be added to over time.
+     *
      * @see https://support.cybersource.com/s/article/What-does-this-response-code-mean#code_table
      */
     const RESPONSE_CODES = [

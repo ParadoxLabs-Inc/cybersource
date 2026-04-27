@@ -200,7 +200,7 @@
     </type>
 
     <type name="Magento\Multishipping\Block\Checkout\Billing">
-        <plugin name="disable_multiship_cybersource_with_payer_auth" type="ParadoxLabs\CyberSource\Plugin\Magento\Multishipping\Block\Checkout\Billing" />
+        <plugin name="disable_multiship_cybersource_with_payer_auth" type="ParadoxLabs\CyberSource\Plugin\Magento\Multishipping\Block\Checkout\Billing"/>
     </type>
 
     <!-- Proxies for dependency resolution and efficiency -->

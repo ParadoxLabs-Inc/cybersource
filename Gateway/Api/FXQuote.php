@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class FXQuote
 {
@@ -109,7 +109,7 @@ class FXQuote
         } else {
             try {
                 return new DateTime($this->expirationDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -178,7 +178,7 @@ class FXQuote
         } else {
             try {
                 return new DateTime($this->receivedDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

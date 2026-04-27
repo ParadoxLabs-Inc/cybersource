@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,12 +15,24 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Cron;
 
+use Magento\Framework\Exception\LocalizedException;
+use ParadoxLabs\TokenBase\Model\Card;
+use ParadoxLabs\TokenBase\Model\ResourceModel\Card\Collection;
+use Magento\Store\Api\StoreRepositoryInterface;
+use Magento\Store\Model\App\Emulation;
+use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Source\CardType;
+use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
+use ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory;
+use Throwable;
 
 class AccountUpdater
 {
@@ -37,75 +49,27 @@ class AccountUpdater
     ];
 
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Rest
-     */
-    protected $restClient;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Helper\Data
-     */
-    protected $helper;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Api\CardRepositoryInterface
-     */
-    protected $cardRepository;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory
-     */
-    protected $cardCollectionFactory;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Source\CardType
-     */
-    protected $cardType;
-
-    /**
-     * @var \Magento\Store\Api\StoreRepositoryInterface
-     */
-    protected $storeRepository;
-
-    /**
-     * @var \Magento\Store\Model\App\Emulation
-     */
-    protected $emulator;
-
-    /**
      * TransactionUpdater constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Helper\Data $helper
-     * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
+     * @param Rest $restClient
+     * @param Config $config
+     * @param Data $helper
+     * @param CardRepositoryInterface $cardRepository
      * @param \ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory $cardCollectionFactory
-     * @param \ParadoxLabs\CyberSource\Model\Source\CardType $cardType
-     * @param \Magento\Store\Api\StoreRepositoryInterface $storeRepository
-     * @param \Magento\Store\Model\App\Emulation $emulator
+     * @param CardType $cardType
+     * @param StoreRepositoryInterface $storeRepository
+     * @param Emulation $emulator
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
-        Config $config,
-        \ParadoxLabs\CyberSource\Helper\Data $helper,
-        \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
-        \ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory $cardCollectionFactory,
-        \ParadoxLabs\CyberSource\Model\Source\CardType $cardType,
-        \Magento\Store\Api\StoreRepositoryInterface $storeRepository,
-        \Magento\Store\Model\App\Emulation $emulator
+        protected readonly Rest $restClient,
+        protected readonly Config $config,
+        protected readonly Data $helper,
+        protected readonly CardRepositoryInterface $cardRepository,
+        protected readonly CollectionFactory $cardCollectionFactory,
+        protected readonly CardType $cardType,
+        protected readonly StoreRepositoryInterface $storeRepository,
+        protected readonly Emulation $emulator
     ) {
-        $this->restClient = $restClient;
-        $this->config = $config;
-        $this->helper = $helper;
-        $this->cardRepository = $cardRepository;
-        $this->cardCollectionFactory = $cardCollectionFactory;
-        $this->cardType = $cardType;
-        $this->storeRepository = $storeRepository;
-        $this->emulator = $emulator;
     }
 
     /**
@@ -130,7 +94,7 @@ class AccountUpdater
                     $this->runAccountUpdater((int)$store->getId());
 
                     $this->emulator->stopEnvironmentEmulation();
-                } catch (\Exception $exception) {
+                } catch (Throwable $exception) {
                     $this->helper->log(Config::CODE, $exception->getMessage());
                 }
             }
@@ -169,7 +133,7 @@ class AccountUpdater
                 if (!empty($batch['totals']['updatedRecords'])) {
                     try {
                         $this->processBatch($batch);
-                    } catch (\Exception $exception) {
+                    } catch (Throwable $exception) {
                         $this->helper->log(Config::CODE, $exception->getMessage());
                     }
                 }
@@ -182,7 +146,7 @@ class AccountUpdater
      *
      * @param array $batch
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function processBatch($batch)
     {
@@ -191,7 +155,7 @@ class AccountUpdater
             strpos((string)$batch['_links']['reports'][0]['href'], '.com') + 4
         );
 
-        $reply = $this->restClient->get($path, [], 'application/json');
+        $reply  = $this->restClient->get($path, [], 'application/json');
         $report = json_decode((string)$reply, true);
 
         if (!empty($report['records'])) {
@@ -218,7 +182,7 @@ class AccountUpdater
     {
         $cards = $this->loadCards($update['sourceRecord']['token']);
 
-        /** @var \ParadoxLabs\TokenBase\Model\Card $card */
+        /** @var Card $card */
         foreach ($cards as $card) {
             $yr         = $update['responseRecord']['cardExpiryYear'];
             $mo         = $update['responseRecord']['cardExpiryMonth'];
@@ -233,8 +197,8 @@ class AccountUpdater
             $newLast4 = $card->getAdditional('cc_last4');
             $newBin   = $card->getAdditional('cc_bin');
             if (isset($update['responseRecord']['cardNumber'])) {
-                $newLast4 = substr($update['responseRecord']['cardNumber'], -4);
-                $newBin   = substr($update['responseRecord']['cardNumber'], 0, 6);
+                $newLast4 = substr((string) $update['responseRecord']['cardNumber'], -4);
+                $newBin   = substr((string) $update['responseRecord']['cardNumber'], 0, 6);
             }
 
             if ($card->getExpires() !== $newExpires
@@ -296,7 +260,7 @@ class AccountUpdater
      * Load any cards having the given token.
      *
      * @param string $paymentId
-     * @return \ParadoxLabs\TokenBase\Model\ResourceModel\Card\Collection
+     * @return Collection
      */
     public function loadCards($paymentId)
     {

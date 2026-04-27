@@ -3,26 +3,26 @@
     <default>
         <payment>
             <paradoxlabs_cybersource>
-                <version backend_model="ParadoxLabs\CyberSource\Model\Config\Version" />
-                <apitest />
+                <version backend_model="ParadoxLabs\CyberSource\Model\Config\Version"/>
+                <apitest/>
                 <active>0</active>
                 <test>0</test>
                 <title>Credit Card (CyberSource)</title>
-                <organization_id />
-                <merchant_id />
+                <organization_id/>
+                <merchant_id/>
                 <soap_auth_type>transaction_key</soap_auth_type>
-                <soap_transaction_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <soap_cert backend_model="ParadoxLabs\CyberSource\Model\Config\P12Certificate" />
-                <soap_cert_password backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <secureaccept_profile_id />
-                <secureaccept_access_key />
-                <secureaccept_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <rest_secret_key_id />
-                <rest_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <soap_transaction_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <soap_cert backend_model="ParadoxLabs\CyberSource\Model\Config\P12Certificate"/>
+                <soap_cert_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <secureaccept_profile_id/>
+                <secureaccept_access_key/>
+                <secureaccept_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <rest_secret_key_id/>
+                <rest_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <cardinal_active>1</cardinal_active>
-                <cardinal_org_unit_id />
-                <cardinal_secret_key_id />
-                <cardinal_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <cardinal_org_unit_id/>
+                <cardinal_secret_key_id/>
+                <cardinal_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <cardinal_card_types>AE,MC,VI</cardinal_card_types>
                 <!--
                     NOTE: These values must be updated periodically; they rotate quarterly and expire at 18 months.
@@ -41,10 +41,10 @@
                 <order_status>pending</order_status>
                 <show_branding>0</show_branding>
                 <allowspecific>0</allowspecific>
-                <specificcountry />
-                <min_order_total />
-                <max_order_total />
-                <sort_order />
+                <specificcountry/>
+                <min_order_total/>
+                <max_order_total/>
+                <sort_order/>
                 <allow_unsaved>1</allow_unsaved>
                 <require_ccv>0</require_ccv>
                 <reauthorize_partial_invoice>1</reauthorize_partial_invoice>

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,13 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Helper;
+
+use Magento\Framework\Phrase;
 
 /**
  * CyberSource Helper -- response translation maps et al.
@@ -111,7 +114,7 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      * Translate AVS response codes shown on admin order pages.
      *
      * @param string $code
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     public function translateAvs($code)
     {
@@ -126,7 +129,7 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      * Translate CVN response codes shown on admin order pages.
      *
      * @param string $code
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     public function translateCvn($code)
     {
@@ -141,7 +144,7 @@ class Data extends \ParadoxLabs\TokenBase\Helper\Data
      * Translate risk factor codes shown on admin order pages.
      *
      * @param string $code
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     public function translateRiskFactor($code)
     {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,85 +15,70 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
+use ParadoxLabs\TokenBase\Helper\Address;
+use Throwable;
+
 class FrontendRequest extends AbstractRequestHandler
 {
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $customerSession;
-
-    /**
-     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
-     */
-    protected $remoteAddress;
-
-    /**
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * FrontendRequest constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
-     * @param \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer
-     * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
-     * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param Config $config
+     * @param Hmac $hmac
+     * @param Sanitizer $sanitizer
+     * @param Address $addressHelper
+     * @param CardRepositoryInterface $cardRepository
+     * @param RequestInterface $request
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
-     * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param Session $customerSession
+     * @param RemoteAddress $remoteAddress
+     * @param UrlInterface $urlBuilder
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
-        \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer,
-        \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
-        \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
-        \Magento\Framework\App\RequestInterface $request,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
-        \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        Config $config,
+        Hmac $hmac,
+        Sanitizer $sanitizer,
+        Address $addressHelper,
+        CardRepositoryInterface $cardRepository,
+        RequestInterface $request,
+        protected readonly \Magento\Checkout\Model\Session $checkoutSession,
+        protected readonly Session $customerSession,
+        protected readonly RemoteAddress $remoteAddress,
+        protected readonly UrlInterface $urlBuilder,
+        protected readonly StoreManagerInterface $storeManager
     ) {
         parent::__construct($config, $hmac, $sanitizer, $addressHelper, $cardRepository, $request);
-
-        $this->checkoutSession = $checkoutSession;
-        $this->customerSession = $customerSession;
-        $this->remoteAddress = $remoteAddress;
-        $this->urlBuilder = $urlBuilder;
-        $this->storeManager = $storeManager;
     }
 
     /**
      * Get general input parameters for Secure Acceptance checkout.
      *
      * @return array
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws InputException
+     * @throws StateException
      */
     protected function getGeneralParams()
     {
-        $params = parent::getGeneralParams();
+        $params                        = parent::getGeneralParams();
         $params['customer_ip_address'] = $this->sanitizer->ipAddress($this->remoteAddress->getRemoteAddress());
 
         return $params;
@@ -103,14 +88,14 @@ class FrontendRequest extends AbstractRequestHandler
      * Get Secure Acceptance billing address input parameters
      *
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getBillingAddressParams()
     {
         try {
             $billingAddress = parent::getBillingAddressParams();
-        } catch (\Magento\Framework\Exception\InputException $exception) {
+        } catch (InputException) {
             $billingAddress = [];
         }
 
@@ -142,7 +127,7 @@ class FrontendRequest extends AbstractRequestHandler
 
             // Fall back to guest email parameter iff there's none on the quote.
             return $this->request->getParam('guest_email');
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             throw $exception;
         }
     }
@@ -180,7 +165,7 @@ class FrontendRequest extends AbstractRequestHandler
      *
      * @param string $route
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     protected function getSecureAcceptUrl($route)
     {

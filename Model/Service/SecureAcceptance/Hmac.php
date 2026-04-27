@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,27 +15,23 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
+use ParadoxLabs\CyberSource\Model\Config\Config;
+
 class Hmac
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
      * Hmac constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param Config $config
      */
-    public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config
-    ) {
-        $this->config = $config;
+    public function __construct(protected readonly Config $config)
+    {
     }
 
     /**
@@ -56,7 +52,7 @@ class Hmac
         $signedParams = [];
         $signedFields = explode(',', (string)$params['signed_field_names']);
         foreach ($signedFields as $key) {
-            $signedParams[] = $key . '=' . $params[$key];
+            $signedParams[] = $key . '=' . $params[ $key ];
         }
 
         $hmac = hash_hmac(

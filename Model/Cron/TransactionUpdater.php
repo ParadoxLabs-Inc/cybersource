@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,78 +15,49 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Cron;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Sales\Model\Order\Payment;
+use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Api\Data\OrderInterfaceFactory;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Store\Api\StoreRepositoryInterface;
+use Magento\Store\Model\App\Emulation;
+use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use Throwable;
 
 class TransactionUpdater
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Rest
-     */
-    protected $restClient;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
-     */
-    protected $orderRepository;
-
-    /**
-     * @var \Magento\Sales\Api\Data\OrderInterfaceFactory
-     */
-    protected $orderFactory;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Helper\Data
-     */
-    protected $helper;
-
-    /**
-     * @var \Magento\Store\Api\StoreRepositoryInterface
-     */
-    protected $storeRepository;
-
-    /**
-     * @var \Magento\Store\Model\App\Emulation
-     */
-    protected $emulator;
-
-    /**
      * TransactionUpdater constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Sales\Api\Data\OrderInterfaceFactory $orderFactory
-     * @param \ParadoxLabs\CyberSource\Helper\Data $helper
-     * @param \Magento\Store\Api\StoreRepositoryInterface $storeRepository
-     * @param \Magento\Store\Model\App\Emulation $emulator
+     * @param Rest $restClient
+     * @param Config $config
+     * @param OrderRepositoryInterface $orderRepository
+     * @param OrderInterfaceFactory $orderFactory
+     * @param Data $helper
+     * @param StoreRepositoryInterface $storeRepository
+     * @param Emulation $emulator
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
-        Config $config,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Sales\Api\Data\OrderInterfaceFactory $orderFactory,
-        \ParadoxLabs\CyberSource\Helper\Data $helper,
-        \Magento\Store\Api\StoreRepositoryInterface $storeRepository,
-        \Magento\Store\Model\App\Emulation $emulator
+        protected readonly Rest $restClient,
+        protected readonly Config $config,
+        protected readonly OrderRepositoryInterface $orderRepository,
+        protected readonly OrderInterfaceFactory $orderFactory,
+        protected readonly Data $helper,
+        protected readonly StoreRepositoryInterface $storeRepository,
+        protected readonly Emulation $emulator
     ) {
-        $this->restClient = $restClient;
-        $this->config = $config;
-        $this->orderRepository = $orderRepository;
-        $this->orderFactory = $orderFactory;
-        $this->helper = $helper;
-        $this->storeRepository = $storeRepository;
-        $this->emulator = $emulator;
     }
 
     /**
@@ -111,7 +82,7 @@ class TransactionUpdater
                     $this->runTransactionUpdates((int)$store->getId());
 
                     $this->emulator->stopEnvironmentEmulation();
-                } catch (\Exception $exception) {
+                } catch (Throwable $exception) {
                     // A 404 'resource not found' response means there are no updates in the requested timespan. Ignore.
                     if ($exception->getMessage() !== 'Requested Resource Not Found') {
                         $this->helper->log(Config::CODE, $exception->getMessage());
@@ -146,7 +117,7 @@ class TransactionUpdater
             foreach ($reply['conversionDetails'] as $change) {
                 try {
                     $this->processChange($change);
-                } catch (\Exception $exception) {
+                } catch (Throwable $exception) {
                     $this->helper->log(Config::CODE, $exception->getMessage());
                 }
             }
@@ -158,17 +129,17 @@ class TransactionUpdater
      *
      * @param array $change
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function processChange($change)
     {
         if ($change['originalDecision'] === 'REVIEW'
             && in_array($change['newDecision'], ['ACCEPT', 'REJECT'], true) === true) {
-            /** @var \Magento\Sales\Model\Order $order */
+            /** @var Order $order */
             $order = $this->orderFactory->create();
             $order->loadByIncrementId($change['merchantReferenceNumber']);
 
-            if ($order->getId() && $order->getState() === \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
+            if ($order->getId() && $order->getState() === Order::STATE_PAYMENT_REVIEW) {
                 $this->updateOrderStatus($order, $change);
 
                 $this->helper->log(
@@ -187,19 +158,19 @@ class TransactionUpdater
     /**
      * Update order status to approved or denied to reflect the given transaction decision.
      *
-     * @param \Magento\Sales\Api\Data\OrderInterface $order
+     * @param OrderInterface $order
      * @param array $change
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
-    protected function updateOrderStatus(\Magento\Sales\Api\Data\OrderInterface $order, $change)
+    protected function updateOrderStatus(OrderInterface $order, $change)
     {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var Payment $payment */
         $payment = $order->getPayment();
         if ($change['newDecision'] === 'ACCEPT') {
             $payment->setData('parent_transaction_id', $payment->getLastTransId());
             $transaction = $payment->getAuthorizationTransaction();
-            if ($transaction instanceof \Magento\Sales\Model\Order\Payment\Transaction) {
+            if ($transaction instanceof Transaction) {
                 $transaction->setAdditionalInformation('is_transaction_fraud', false);
             }
 

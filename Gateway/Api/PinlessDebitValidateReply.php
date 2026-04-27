@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class PinlessDebitValidateReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
     /**
      * @var string $status
      */
@@ -25,9 +20,8 @@ class PinlessDebitValidateReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -78,7 +72,7 @@ class PinlessDebitValidateReply
         } else {
             try {
                 return new DateTime($this->requestDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

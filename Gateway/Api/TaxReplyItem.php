@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -45,28 +45,18 @@ class TaxReplyItem
     protected $countryTaxAmount;
 
     /**
-     * @var float $totalTaxAmount
-     */
-    protected $totalTaxAmount;
-
-    /**
      * @var TaxReplyItemJurisdiction[] $jurisdiction
      */
     protected $jurisdiction;
 
     /**
-     * @var int $id
-     */
-    protected $id;
-
-    /**
      * @param float $totalTaxAmount
      * @param int $id
      */
-    public function __construct($totalTaxAmount, $id)
-    {
-        $this->totalTaxAmount = $totalTaxAmount;
-        $this->id             = $id;
+    public function __construct(
+        protected $totalTaxAmount,
+        protected $id,
+    ) {
     }
 
     /**

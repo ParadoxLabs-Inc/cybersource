@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class ReplyMessage
 {
@@ -11,21 +11,6 @@ class ReplyMessage
      * @var string $merchantReferenceCode
      */
     protected $merchantReferenceCode;
-
-    /**
-     * @var string $requestID
-     */
-    protected $requestID;
-
-    /**
-     * @var string $decision
-     */
-    protected $decision;
-
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
 
     /**
      * @var string[] $missingField
@@ -36,11 +21,6 @@ class ReplyMessage
      * @var string[] $invalidField
      */
     protected $invalidField;
-
-    /**
-     * @var string $requestToken
-     */
-    protected $requestToken;
 
     /**
      * @var PurchaseTotals $purchaseTotals
@@ -868,12 +848,12 @@ class ReplyMessage
      * @param int $reasonCode
      * @param string $requestToken
      */
-    public function __construct($requestID, $decision, $reasonCode, $requestToken)
-    {
-        $this->requestID    = $requestID;
-        $this->decision     = $decision;
-        $this->reasonCode   = $reasonCode;
-        $this->requestToken = $requestToken;
+    public function __construct(
+        protected $requestID,
+        protected $decision,
+        protected $reasonCode,
+        protected $requestToken
+    ) {
     }
 
     /**
@@ -3565,7 +3545,7 @@ class ReplyMessage
         } else {
             try {
                 return new DateTime($this->transactionLocalDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

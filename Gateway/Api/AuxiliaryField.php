@@ -1,27 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class AuxiliaryField
 {
     /**
-     * @var string $_
-     */
-    protected $_;
-
-    /**
-     * @var int $id
-     */
-    protected $id;
-
-    /**
      * @param string $_
      * @param int $id
      */
-    public function __construct($_, $id)
-    {
-        $this->_  = $_;
-        $this->id = $id;
+    public function __construct(
+        protected $_,
+        protected $id,
+    ) {
     }
 
     /**

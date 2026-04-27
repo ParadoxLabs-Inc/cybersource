@@ -1,14 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PayerAuthSetupReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
     /**
      * @var string $referenceID
      */
@@ -27,9 +22,8 @@ class PayerAuthSetupReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**

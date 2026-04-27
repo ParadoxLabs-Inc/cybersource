@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class APAuthReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
     /**
      * @var string $transactionID
      */
@@ -100,9 +95,8 @@ class APAuthReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -210,7 +204,7 @@ class APAuthReply
         } else {
             try {
                 return new DateTime($this->dateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -431,7 +425,7 @@ class APAuthReply
         } else {
             try {
                 return new DateTime($this->updateDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -462,7 +456,7 @@ class APAuthReply
         } else {
             try {
                 return new DateTime($this->expirationDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

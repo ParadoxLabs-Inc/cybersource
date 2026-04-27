@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,25 +15,29 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config;
 
-class DescriptiveHeader extends \Magento\Config\Block\System\Config\Form\Field\Heading
+use Magento\Config\Block\System\Config\Form\Field\Heading;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+
+class DescriptiveHeader extends Heading
 {
     /**
      * Render settings subheader with comment description.
      *
-     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    public function render(AbstractElement $element)
     {
         return sprintf(
             '<tr class="system-fieldset-sub-head" id="row_%s"><td colspan="5">'
-                . '<h4 id="%s">%s</h4>'
-                . '<p class="comment" style="padding-left:2.8rem">%s</p>'
+            . '<h4 id="%s">%s</h4>'
+            . '<p class="comment" style="padding-left:2.8rem">%s</p>'
             . '</td></tr>',
             $element->getHtmlId(),
             $element->getHtmlId(),

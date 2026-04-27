@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -8,11 +8,6 @@ class HostedDataRetrieveReply
      * @var string $responseMessage
      */
     protected $responseMessage;
-
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
 
     /**
      * @var string $aggregatorMerchantIdentifier
@@ -122,9 +117,8 @@ class HostedDataRetrieveReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**

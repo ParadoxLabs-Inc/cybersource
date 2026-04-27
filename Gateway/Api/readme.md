@@ -1,6 +1,8 @@
-Generated from CyberSource WSDL v1.224 via Wsdl2PhpGenerator library. https://github.com/wsdl2phpgenerator/wsdl2phpgenerator
+Generated from CyberSource WSDL v1.224 via Wsdl2PhpGenerator
+library. https://github.com/wsdl2phpgenerator/wsdl2phpgenerator
 
 generator.php
+
 ```php
 <?php
 require __DIR__ . '/vendor/autoload.php';

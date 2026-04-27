@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class PayerAuthEnrollService
 {
@@ -393,16 +393,10 @@ class PayerAuthEnrollService
     protected $transactionFlowIndicator;
 
     /**
-     * @var boolean $run
-     */
-    protected $run;
-
-    /**
      * @param boolean $run
      */
-    public function __construct($run)
+    public function __construct(protected $run)
     {
-        $this->run = $run;
     }
 
     /**
@@ -510,7 +504,7 @@ class PayerAuthEnrollService
         } else {
             try {
                 return new DateTime($this->purchaseTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -659,7 +653,7 @@ class PayerAuthEnrollService
      */
     public function setMobilePhone($mobilePhone)
     {
-        $this->mobilePhone = substr(preg_replace('/[^0-9]/', '', (string)$mobilePhone), 0, 25);
+        $this->mobilePhone = substr((string) preg_replace('/[^0-9]/', '', (string)$mobilePhone), 0, 25);
 
         return $this;
     }

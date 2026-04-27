@@ -1,14 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Provider
 {
-    /**
-     * @var string $name
-     */
-    protected $name;
-
     /**
      * @var ProviderField[] $field
      */
@@ -17,9 +12,8 @@ class Provider
     /**
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct(protected $name)
     {
-        $this->name = $name;
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -105,16 +105,10 @@ class Leg
     protected $tax;
 
     /**
-     * @var int $id
-     */
-    protected $id;
-
-    /**
      * @param int $id
      */
-    public function __construct($id)
+    public function __construct(protected $id)
     {
-        $this->id = $id;
     }
 
     /**

@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class GiftCardBalanceInquiryReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
     /**
      * @var string $authorizationCode
      */
@@ -35,9 +30,8 @@ class GiftCardBalanceInquiryReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -107,7 +101,7 @@ class GiftCardBalanceInquiryReply
         } else {
             try {
                 return new DateTime($this->requestDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

@@ -13,7 +13,9 @@
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config;
 
-class P12Certificate extends \Magento\Config\Block\System\Config\Form\Field\File
+use Magento\Config\Block\System\Config\Form\Field\File;
+
+class P12Certificate extends File
 {
     public function getValue()
     {
@@ -21,10 +23,11 @@ class P12Certificate extends \Magento\Config\Block\System\Config\Form\Field\File
 
         if (!empty($value)) {
             $value = json_decode($value, true);
+
             return sprintf(
                 '%s (%s)',
                 $value['name'],
-                date('Y-m-d', strtotime($value['uploaded']))
+                date('Y-m-d', strtotime((string) $value['uploaded']))
             );
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,27 +15,35 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
+use Magento\GraphQl\Model\Query\Resolver\Context;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Magento\Framework\UrlInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
+use ParadoxLabs\TokenBase\Helper\Address;
+use ParadoxLabs\TokenBase\Model\Api\GraphQL;
+use Throwable;
 
 class GraphQLRequest extends AbstractRequestHandler
 {
     /**
-     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
-     */
-    protected $remoteAddress;
-
-    /**
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * @var \Magento\GraphQl\Model\Query\Resolver\Context
+     * @var Context
      */
     protected $graphQlContext;
 
@@ -45,75 +53,60 @@ class GraphQLRequest extends AbstractRequestHandler
     protected $graphQlArgs;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
-     */
-    protected $customerRepository;
-
-    /**
-     * @var \Magento\Quote\Api\Data\CartInterface
+     * @var CartInterface
      */
     protected $quote;
 
     /**
-     * @var \ParadoxLabs\TokenBase\Model\Api\GraphQL
-     */
-    protected $graphQL;
-
-    /**
      * FrontendRequest constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
-     * @param \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer
-     * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
-     * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
-     * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL
+     * @param Config $config
+     * @param Hmac $hmac
+     * @param Sanitizer $sanitizer
+     * @param Address $addressHelper
+     * @param CardRepositoryInterface $cardRepository
+     * @param RequestInterface $request
+     * @param RemoteAddress $remoteAddress
+     * @param UrlInterface $urlBuilder
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param GraphQL $graphQL
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
-        \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer,
-        \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
-        \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
-        \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
-        \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-        \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL
+        Config $config,
+        Hmac $hmac,
+        Sanitizer $sanitizer,
+        Address $addressHelper,
+        CardRepositoryInterface $cardRepository,
+        RequestInterface $request,
+        protected readonly RemoteAddress $remoteAddress,
+        protected readonly UrlInterface $urlBuilder,
+        protected readonly CustomerRepositoryInterface $customerRepository,
+        protected readonly GraphQL $graphQL
     ) {
         parent::__construct($config, $hmac, $sanitizer, $addressHelper, $cardRepository, $request);
-
-        $this->remoteAddress = $remoteAddress;
-        $this->urlBuilder = $urlBuilder;
-        $this->customerRepository = $customerRepository;
-        $this->graphQL = $graphQL;
     }
 
     /**
-     * @param \Magento\Framework\GraphQl\Query\Resolver\ContextInterface $context
+     * @param ContextInterface $context
      * @param array $args
      * @return void
      */
     public function setGraphQLContext(ContextInterface $context, array $args)
     {
         $this->graphQlContext = $context;
-        $this->graphQlArgs = $args;
+        $this->graphQlArgs    = $args;
     }
 
     /**
      * Get general input parameters for Secure Acceptance checkout.
      *
      * @return array
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws InputException
+     * @throws StateException
      */
     protected function getGeneralParams()
     {
-        $params = parent::getGeneralParams();
+        $params                        = parent::getGeneralParams();
         $params['customer_ip_address'] = $this->sanitizer->ipAddress($this->remoteAddress->getRemoteAddress());
 
         return $params;
@@ -123,8 +116,8 @@ class GraphQLRequest extends AbstractRequestHandler
      * Get Secure Acceptance billing address input parameters
      *
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getBillingAddressParams()
     {
@@ -191,7 +184,7 @@ class GraphQLRequest extends AbstractRequestHandler
      *
      * @param string $route
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     protected function getSecureAcceptUrl($route)
     {
@@ -213,11 +206,11 @@ class GraphQLRequest extends AbstractRequestHandler
     /**
      * Get quote for the GraphQL request
      *
-     * @return \Magento\Quote\Api\Data\CartInterface
+     * @return CartInterface
      */
     protected function getQuote()
     {
-        if ($this->quote instanceof \Magento\Quote\Api\Data\CartInterface) {
+        if ($this->quote instanceof CartInterface) {
             return $this->quote;
         }
 
@@ -232,7 +225,7 @@ class GraphQLRequest extends AbstractRequestHandler
     /**
      * Get the stored card from the request's card_id card hash, or null if none.
      *
-     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface|null
+     * @return CardInterface|null
      */
     protected function getCard()
     {
@@ -242,7 +235,7 @@ class GraphQLRequest extends AbstractRequestHandler
 
         try {
             return $this->cardRepository->getByHash($this->graphQlArgs['cardId']);
-        } catch (\Exception $exception) {
+        } catch (Throwable) {
             return null;
         }
     }

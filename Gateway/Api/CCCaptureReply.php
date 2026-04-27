@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class CCCaptureReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
     /**
      * @var \DateTime $requestDateTime
      */
@@ -80,9 +75,8 @@ class CCCaptureReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -114,7 +108,7 @@ class CCCaptureReply
         } else {
             try {
                 return new DateTime($this->requestDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -221,7 +215,7 @@ class CCCaptureReply
         } else {
             try {
                 return new DateTime($this->fxQuoteRate);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -271,7 +265,7 @@ class CCCaptureReply
         } else {
             try {
                 return new DateTime($this->fxQuoteExpirationDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

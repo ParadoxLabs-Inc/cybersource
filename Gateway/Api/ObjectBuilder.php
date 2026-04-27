@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -22,6 +22,7 @@
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use Magento\Sales\Api\Data\OrderInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 
 class ObjectBuilder
@@ -40,7 +41,7 @@ class ObjectBuilder
      * @param array $soapOptions
      * @return \ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor
      */
-    public function getProcessor(\ParadoxLabs\CyberSource\Model\Config\Config $config, $soapOptions = [])
+    public function getProcessor(Config $config, $soapOptions = [])
     {
         return new TransactionProcessor(
             static::SOAP_DEFAULTS + $soapOptions,

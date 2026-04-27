@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -61,7 +61,7 @@ class WsseHeader extends SoapHeader
     public function __construct(
         $namespace,
         $name,
-        $data = null,
+        mixed $data = null,
         $mustunderstand = false,
         $actor = null,
         $username = null,

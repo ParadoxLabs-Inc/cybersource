@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,17 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Form;
+
+use Magento\Checkout\Model\Session;
+use Magento\Framework\View\Element\Template\Context;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\TokenBase\Helper\Data;
+use ParadoxLabs\TokenBase\Model\Method\Factory;
 
 /**
  * Credit card input form on checkout
@@ -36,28 +43,23 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Form\Cc
     protected $brandingImage = 'ParadoxLabs_CyberSource::images/logo.webp';
 
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param Context $context
      * @param \Magento\Payment\Model\Config $paymentConfig
-     * @param \ParadoxLabs\TokenBase\Helper\Data $helper
+     * @param Data $helper
      * @param \Magento\Customer\Model\Session $customerSession *Proxy
-     * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
-     * @param \ParadoxLabs\TokenBase\Model\Method\Factory $tokenbaseMethodFactory
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param Session $checkoutSession *Proxy
+     * @param Factory $tokenbaseMethodFactory
+     * @param Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
+        Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
-        \ParadoxLabs\TokenBase\Helper\Data $helper,
+        Data $helper,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \ParadoxLabs\TokenBase\Model\Method\Factory $tokenbaseMethodFactory,
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
+        Session $checkoutSession,
+        Factory $tokenbaseMethodFactory,
+        protected readonly Config $config,
         array $data = []
     ) {
         parent::__construct(
@@ -69,8 +71,6 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Form\Cc
             $tokenbaseMethodFactory,
             $data
         );
-
-        $this->config = $config;
     }
 
     /**

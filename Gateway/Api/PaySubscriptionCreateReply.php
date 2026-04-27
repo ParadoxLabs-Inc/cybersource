@@ -1,19 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class PaySubscriptionCreateReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
-    /**
-     * @var string $subscriptionID
-     */
-    protected $subscriptionID;
-
     /**
      * @var string $instrumentIdentifierID
      */
@@ -38,10 +28,10 @@ class PaySubscriptionCreateReply
      * @param int $reasonCode
      * @param string $subscriptionID
      */
-    public function __construct($reasonCode, $subscriptionID)
-    {
-        $this->reasonCode     = $reasonCode;
-        $this->subscriptionID = $subscriptionID;
+    public function __construct(
+        protected $reasonCode,
+        protected $subscriptionID,
+    ) {
     }
 
     /**

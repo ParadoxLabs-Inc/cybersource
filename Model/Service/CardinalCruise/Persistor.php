@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,53 +15,39 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
+
+use Magento\Checkout\Model\Session;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\State;
+use Magento\Framework\Exception\StateException;
+use Magento\Payment\Model\InfoInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Quote\Model\Quote\Payment;
+use ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage;
 
 class Persistor
 {
     const PERSIST_KEY = 'payer_auth_enroll_reply';
 
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
-     * @var \Magento\Quote\Model\ResourceModel\Quote\Payment
-     */
-    protected $paymentResource;
-
-    /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $appState;
-
-    /**
-     * @var \Magento\Quote\Api\CartRepositoryInterface
-     */
-    protected $cartRepository;
-
-    /**
      * Persistor constructor.
      *
-     * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
+     * @param Session $checkoutSession *Proxy
      * @param \Magento\Quote\Model\ResourceModel\Quote\Payment $paymentResource
-     * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Quote\Api\CartRepositoryInterface $cartRepository
+     * @param State $appState
+     * @param CartRepositoryInterface $cartRepository
      */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Quote\Model\ResourceModel\Quote\Payment $paymentResource,
-        \Magento\Framework\App\State $appState,
-        \Magento\Quote\Api\CartRepositoryInterface $cartRepository
+        protected readonly Session $checkoutSession,
+        protected readonly \Magento\Quote\Model\ResourceModel\Quote\Payment $paymentResource,
+        protected readonly State $appState,
+        protected readonly CartRepositoryInterface $cartRepository
     ) {
-        $this->checkoutSession = $checkoutSession;
-        $this->paymentResource = $paymentResource;
-        $this->appState = $appState;
-        $this->cartRepository = $cartRepository;
     }
 
     /**
@@ -69,13 +55,13 @@ class Persistor
      *
      * Checkout DB transaction rollback vastly limits our options.
      *
-     * @param \Magento\Payment\Model\InfoInterface $payment
-     * @param \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
+     * @param InfoInterface $payment
+     * @param ReplyMessage $api
      * @return void
      */
     public function savePayerAuthEnrollReply(
-        \Magento\Payment\Model\InfoInterface $payment,
-        \ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage $api
+        InfoInterface $payment,
+        ReplyMessage $api
     ) {
         $reply = $api->getPayerAuthEnrollReply();
 
@@ -136,7 +122,7 @@ class Persistor
          * after, so nothing can be written to the database, straight up. But sessions don't get hit by rollback.
          */
 
-        if ($this->appState->getAreaCode() === \Magento\Framework\App\Area::AREA_FRONTEND) {
+        if ($this->appState->getAreaCode() === Area::AREA_FRONTEND) {
             $this->checkoutSession->setData(static::PERSIST_KEY, $payerAuthPayload);
         }
 
@@ -145,7 +131,7 @@ class Persistor
             $payment = $quote->getPayment();
         }
 
-        if ($payment instanceof \Magento\Quote\Model\Quote\Payment) {
+        if ($payment instanceof Payment) {
             $payment->setAdditionalInformation(static::PERSIST_KEY, $payerAuthPayload);
             $this->paymentResource->save($payment);
         }
@@ -154,23 +140,23 @@ class Persistor
     /**
      * Load the latest saved Payer Auth enrollment reply for the current frontend user/checkout attempt
      *
-     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param InfoInterface $payment
      * @return array
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
-    public function loadPayerAuthEnrollReply(\Magento\Payment\Model\InfoInterface $payment)
+    public function loadPayerAuthEnrollReply(InfoInterface $payment)
     {
-        if ($payment instanceof \Magento\Quote\Model\Quote\Payment
+        if ($payment instanceof Payment
             && !empty($payment->getAdditionalInformation(static::PERSIST_KEY))) {
             return $payment->getAdditionalInformation(static::PERSIST_KEY);
         }
 
-        if ($this->appState->getAreaCode() === \Magento\Framework\App\Area::AREA_FRONTEND) {
+        if ($this->appState->getAreaCode() === Area::AREA_FRONTEND) {
             $reply = $this->checkoutSession->getData(static::PERSIST_KEY);
         }
 
         if (empty($reply)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Unable to find Payer Authentication enrollment data. Please try again.')
             );
         }

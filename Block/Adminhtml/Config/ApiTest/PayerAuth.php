@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,12 +15,17 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
-class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
+use Magento\Framework\Phrase;
+use Magento\Framework\Exception\LocalizedException;
+use Throwable;
+
+class PayerAuth extends AbstractTest
 {
     const CREDENTIAL_KEYS = [
         'cardinal_org_unit_id',
@@ -31,7 +36,7 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
     /**
      * Validate the Payer Authentication API keys.
      *
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     protected function testApi()
     {
@@ -45,7 +50,7 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
                 . 'to complete 3D Secure on checkout will cause errors.</small>',
                 $this->getMethod()->getConfigData('test') ? __('SANDBOX') : __('PRODUCTION')
             );
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $e->getMessage() . $this->getUserManualInstruction();
         }
     }
@@ -54,27 +59,27 @@ class PayerAuth extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\
      * Validate whether the Payer Authentication API creds match the expected form factor.
      *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function checkFormFactor()
     {
         // NB: Not guaranteed these will be the same as our test data. May need to adjust the rules over time.
 
         if (strlen((string)$this->getMethod()->getConfigData('cardinal_org_unit_id')) < 24) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('Org Unit ID is shorter than expected; please verify you\'ve entered the correct data.')
             );
         }
 
         if (strlen((string)$this->getMethod()->getConfigData('cardinal_secret_key_id')) < 24) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('API ID is shorter than expected; please verify you\'ve entered the correct data.')
             );
         }
 
         $key = (string)$this->getMethod()->getConfigData('cardinal_secret_key');
         if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $key) === 0) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('API Key is not in the expected format; please verify you\'ve entered the correct data.')
             );
         }

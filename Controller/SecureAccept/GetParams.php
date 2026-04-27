@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,53 +15,49 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Controller\SecureAccept;
 
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
-use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\App\Request\InvalidRequestException;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Data\Form\FormKey\Validator;
+use ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest;
+use Throwable;
 
 class GetParams extends Action implements CsrfAwareActionInterface, HttpPostActionInterface
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest
-     */
-    protected $secureAcceptRequest;
-
-    /**
-     * @var \Magento\Framework\Data\Form\FormKey\Validator
-     */
-    protected $formKey;
-
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest
-     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKey
+     * @param Context $context
+     * @param FrontendRequest $secureAcceptRequest
+     * @param Validator $formKey
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\FrontendRequest $secureAcceptRequest,
-        \Magento\Framework\Data\Form\FormKey\Validator $formKey
+        Context $context,
+        protected readonly FrontendRequest $secureAcceptRequest,
+        protected readonly Validator $formKey
     ) {
         parent::__construct($context);
-
-        $this->secureAcceptRequest = $secureAcceptRequest;
-        $this->formKey = $formKey;
     }
 
     /**
      * Execute action based on request and return result
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
+     * @return ResultInterface|ResponseInterface
      */
     public function execute()
     {
-        /** @var \Magento\Framework\Controller\Result\Json $result */
+        /** @var Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         try {
@@ -71,7 +67,7 @@ class GetParams extends Action implements CsrfAwareActionInterface, HttpPostActi
             ];
 
             $result->setData($payload);
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             $result->setHttpResponseCode(400);
             $result->setData([
                 'message' => $exception->getMessage(),
@@ -85,23 +81,23 @@ class GetParams extends Action implements CsrfAwareActionInterface, HttpPostActi
      * Create exception in case CSRF validation failed.
      * Return null if default exception will suffice.
      *
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param RequestInterface $request
      *
-     * @return \Magento\Framework\App\Request\InvalidRequestException|null
+     * @return InvalidRequestException|null
      */
     public function createCsrfValidationException(
-        \Magento\Framework\App\RequestInterface $request
-    ): ?\Magento\Framework\App\Request\InvalidRequestException {
+        RequestInterface $request
+    ): ?InvalidRequestException {
         $message = __('Invalid Form Key. Please refresh the page.');
 
-        /** @var \Magento\Framework\Controller\Result\Json $result */
+        /** @var Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setHttpResponseCode(403);
         $result->setData([
             'message' => $message,
         ]);
 
-        return new \Magento\Framework\App\Request\InvalidRequestException(
+        return new InvalidRequestException(
             $result,
             [$message]
         );
@@ -111,11 +107,11 @@ class GetParams extends Action implements CsrfAwareActionInterface, HttpPostActi
      * Perform custom request validation.
      * Return null if default validation is needed.
      *
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param RequestInterface $request
      *
      * @return bool|null
      */
-    public function validateForCsrf(\Magento\Framework\App\RequestInterface $request): ?bool
+    public function validateForCsrf(RequestInterface $request): ?bool
     {
         return $this->formKey->validate($request);
     }

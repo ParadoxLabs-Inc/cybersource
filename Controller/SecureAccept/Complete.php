@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,21 +15,29 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Controller\SecureAccept;
 
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\View\Result\Page;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\ResultFactory;
+
 /**
  * Completed Class
  */
-class Complete extends \Magento\Framework\App\Action\Action
+class Complete extends Action
 {
     /**
-     * @param \Magento\Framework\App\Action\Context $context
+     * @param Context $context
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context
+        Context $context
     ) {
         // Initialize session with ID from the CyberSource payload, to prevent SameSite cookie issues.
         if ($context->getRequest()->getParam('req_merchant_defined_data98')) {
@@ -46,12 +54,12 @@ class Complete extends \Magento\Framework\App\Action\Action
     /**
      * Execute action based on request and return result
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
+     * @return ResultInterface|ResponseInterface
      */
     public function execute()
     {
-        /** @var \Magento\Framework\View\Result\Page $result */
-        $result = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_PAGE);
+        /** @var Page $result */
+        $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
 
         return $result;
     }

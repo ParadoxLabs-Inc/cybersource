@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,14 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Info;
+
+use Magento\Framework\DataObject;
+use Magento\Sales\Model\Order\Payment\Info;
 
 /**
  * Credit card info block
@@ -26,37 +30,32 @@ namespace ParadoxLabs\CyberSource\Block\Info;
 class Cc extends \ParadoxLabs\TokenBase\Block\Info\Cc
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Helper\Data
-     */
-    protected $helper;
-
-    /**
      * Prepare credit card related payment info
      *
-     * @param \Magento\Framework\DataObject|array $transport
-     * @return \Magento\Framework\DataObject
+     * @param DataObject|array $transport
+     * @return DataObject
      */
     protected function _prepareSpecificInformation($transport = null)
     {
-        $transport  = parent::_prepareSpecificInformation($transport);
-        $data       = [];
+        $transport = parent::_prepareSpecificInformation($transport);
+        $data      = [];
 
         if ($this->getIsSecureMode() === false) {
-            /** @var \Magento\Sales\Model\Order\Payment\Info $info */
+            /** @var Info $info */
             $info = $this->getInfo();
 
             $avs = $info->getData('cc_avs_status') ?: $info->getAdditionalInformation('ccAuthReply.avsCode');
             if (!empty($avs)) {
-                $data[(string)__('AVS Response')] = $this->helper->translateAvs($avs);
+                $data[ (string)__('AVS Response') ] = $this->helper->translateAvs($avs);
             }
 
             $cvn = $info->getData('cc_cid_status') ?: $info->getAdditionalInformation('ccAuthReply.cvCode');
             if (!empty($cvn)) {
-                $data[(string)__('CVN Response')] = $this->helper->translateCvn($cvn);
+                $data[ (string)__('CVN Response') ] = $this->helper->translateCvn($cvn);
             }
 
             if (!empty($info->getAdditionalInformation('afsReply.afsResult'))) {
-                $data[(string)__('Fraud Risk Score')] = __(
+                $data[ (string)__('Fraud Risk Score') ] = __(
                     '%1/100',
                     $info->getAdditionalInformation('afsReply.afsResult')
                 );
@@ -65,7 +64,7 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Info\Cc
             if (!empty($info->getAdditionalInformation('afsReply.afsFactorCode'))) {
                 $riskFactors = explode('^', (string)$info->getAdditionalInformation('afsReply.afsFactorCode'));
                 foreach ($riskFactors as $code) {
-                    $data[(string)__('Risk Factor')] = $this->helper->translateRiskFactor($code);
+                    $data[ (string)__('Risk Factor') ] = $this->helper->translateRiskFactor($code);
                 }
             }
         }

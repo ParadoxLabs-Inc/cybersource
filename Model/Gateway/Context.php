@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,81 +15,48 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Gateway;
 
+use ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
+
 class Context
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    private $config;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder
-     */
-    private $objectBuilder;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Source\ResponseCode
-     */
-    private $responseCodeSource;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Rest
-     */
-    private $restClient;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor
-     */
-    private $payerAuthPersistor;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder
-     */
-    private $payerAuthJWTEncoder;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams
-     */
-    private $payerAuthEnrollParams;
-
-    /**
      * Context constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder
-     * @param \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource
-     * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $payerAuthJWTEncoder
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams $enrollmentParams
+     * @param Config $config
+     * @param ObjectBuilder $objectBuilder
+     * @param ResponseCode $responseCodeSource
+     * @param Rest $restClient
+     * @param Persistor $payerAuthPersistor
+     * @param JsonWebTokenEncoder $payerAuthJWTEncoder
+     * @param EnrollmentParams $payerAuthEnrollParams
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder $objectBuilder,
-        \ParadoxLabs\CyberSource\Model\Source\ResponseCode $responseCodeSource,
-        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $payerAuthPersistor,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $payerAuthJWTEncoder,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams $enrollmentParams
+        private readonly Config $config,
+        private readonly ObjectBuilder $objectBuilder,
+        private readonly ResponseCode $responseCodeSource,
+        private readonly Rest $restClient,
+        private readonly Persistor $payerAuthPersistor,
+        private readonly JsonWebTokenEncoder $payerAuthJWTEncoder,
+        private readonly EnrollmentParams $payerAuthEnrollParams
     ) {
-        $this->config = $config;
-        $this->objectBuilder = $objectBuilder;
-        $this->responseCodeSource = $responseCodeSource;
-        $this->restClient = $restClient;
-        $this->payerAuthPersistor = $payerAuthPersistor;
-        $this->payerAuthJWTEncoder = $payerAuthJWTEncoder;
-        $this->payerAuthEnrollParams = $enrollmentParams;
     }
 
     /**
      * Get config
      *
-     * @return \ParadoxLabs\CyberSource\Model\Config\Config
+     * @return Config
      */
     public function getConfig()
     {
@@ -99,7 +66,7 @@ class Context
     /**
      * Get objectBuilder
      *
-     * @return \ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder
+     * @return ObjectBuilder
      */
     public function getObjectBuilder()
     {
@@ -109,7 +76,7 @@ class Context
     /**
      * Get responseCodeSource
      *
-     * @return \ParadoxLabs\CyberSource\Model\Source\ResponseCode
+     * @return ResponseCode
      */
     public function getResponseCodeSource()
     {
@@ -119,7 +86,7 @@ class Context
     /**
      * Get restClient
      *
-     * @return \ParadoxLabs\CyberSource\Model\Service\Rest
+     * @return Rest
      */
     public function getRestClient()
     {
@@ -129,7 +96,7 @@ class Context
     /**
      * Get payerAuthPersistor
      *
-     * @return \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor
+     * @return Persistor
      */
     public function getPayerAuthPersistor()
     {
@@ -139,7 +106,7 @@ class Context
     /**
      * Get payerAuthJWTEncoder
      *
-     * @return \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder
+     * @return JsonWebTokenEncoder
      */
     public function getPayerAuthJWTEncoder()
     {
@@ -149,7 +116,7 @@ class Context
     /**
      * Get enrollmentParams
      *
-     * @return \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams
+     * @return EnrollmentParams
      */
     public function getPayerAuthEnrollParams()
     {

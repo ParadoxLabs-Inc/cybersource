@@ -1,20 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class ReplyReserved
 {
     /**
-     * @var string $any
-     */
-    protected $any;
-
-    /**
      * @param string $any
      */
-    public function __construct($any)
+    public function __construct(protected $any)
     {
-        $this->any = $any;
     }
 
     /**

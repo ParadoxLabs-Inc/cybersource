@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -465,16 +465,10 @@ class CCAuthService
     protected $cardProductSubtype;
 
     /**
-     * @var boolean $run
-     */
-    protected $run;
-
-    /**
      * @param boolean $run
      */
-    public function __construct($run)
+    public function __construct(protected $run)
     {
-        $this->run = $run;
     }
 
     /**

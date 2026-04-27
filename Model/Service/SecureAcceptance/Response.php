@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,12 +15,24 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
+use ParadoxLabs\CyberSource\Model\Card;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\SecurityViolationException;
+use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Source\CardType;
+use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
+use ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory;
+use ParadoxLabs\TokenBase\Helper\Address;
+use Throwable;
 
 /**
  * SecureAcceptance Class
@@ -28,66 +40,30 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 class Response
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac
-     */
-    protected $hmac;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Api\CardRepositoryInterface
-     */
-    protected $cardRepository;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory
-     */
-    protected $cardFactory;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Helper\Data
-     */
-    protected $helper;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Source\CardType
-     */
-    protected $cardType;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Helper\Address
-     */
-    protected $addressHelper;
-
-    /**
      * SecureAcceptance constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
-     * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
+     * @param Hmac $hmac
+     * @param CardRepositoryInterface $cardRepository
      * @param \ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory $cardFactory
-     * @param \ParadoxLabs\CyberSource\Helper\Data $helper
-     * @param \ParadoxLabs\CyberSource\Model\Source\CardType $cardType
-     * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
+     * @param Data $helper
+     * @param CardType $cardType
+     * @param Address $addressHelper
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
-        \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
-        \ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory $cardFactory,
-        \ParadoxLabs\CyberSource\Helper\Data $helper,
-        \ParadoxLabs\CyberSource\Model\Source\CardType $cardType,
-        \ParadoxLabs\TokenBase\Helper\Address $addressHelper
+        protected readonly Hmac $hmac,
+        protected readonly CardRepositoryInterface $cardRepository,
+        protected readonly CardInterfaceFactory $cardFactory,
+        protected readonly Data $helper,
+        protected readonly CardType $cardType,
+        protected readonly Address $addressHelper
     ) {
-        $this->hmac = $hmac;
-        $this->cardRepository = $cardRepository;
-        $this->cardFactory = $cardFactory;
-        $this->helper = $helper;
-        $this->cardType = $cardType;
-        $this->addressHelper = $addressHelper;
     }
 
     /**
      * Save and return a stored card for the given Secure Acceptance response
      *
      * @param array $input
-     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
+     * @return CardInterface
      */
     public function saveCard($input)
     {
@@ -100,9 +76,9 @@ class Response
 
         $this->validateRequest($input);
 
-        /** @var \ParadoxLabs\CyberSource\Model\Card $card */
+        /** @var Card $card */
         $card = $this->getCard($input);
-        $card->setPaymentId(isset($input['payment_token']) ? $input['payment_token'] : $input['req_payment_token']);
+        $card->setPaymentId($input['payment_token'] ?? $input['req_payment_token']);
         $card->setCustomerEmail($input['req_bill_to_email']);
         $card->setCustomerId(!empty($input['req_consumer_id']) ? $input['req_consumer_id'] : null);
         $card->setCustomerIp(!empty($input['req_customer_ip_address']) ? $input['req_customer_ip_address'] : null);
@@ -121,27 +97,25 @@ class Response
      * Create an address object from Secure Acceptance response params
      *
      * @param array $input
-     * @return \Magento\Customer\Api\Data\AddressInterface
+     * @return AddressInterface
      * @throws \Exception
      */
     protected function getAddress($input)
     {
         $addressArray = [
-            'firstname' => isset($input['req_bill_to_forename']) ? $input['req_bill_to_forename'] : null,
-            'lastname' => isset($input['req_bill_to_surname']) ? $input['req_bill_to_surname'] : null,
-            'company' => isset($input['req_bill_to_company_name']) ? $input['req_bill_to_company_name'] : null,
+            'firstname' => $input['req_bill_to_forename'] ?? null,
+            'lastname' => $input['req_bill_to_surname'] ?? null,
+            'company' => $input['req_bill_to_company_name'] ?? null,
             'street' => [
-                isset($input['req_bill_to_address_line1']) ? $input['req_bill_to_address_line1'] : null,
-                isset($input['req_bill_to_address_line2']) ? $input['req_bill_to_address_line2'] : null,
+                $input['req_bill_to_address_line1'] ?? null,
+                $input['req_bill_to_address_line2'] ?? null,
             ],
-            'city' => isset($input['req_bill_to_address_city']) ? $input['req_bill_to_address_city'] : null,
-            'region' => isset($input['req_bill_to_address_state']) ? $input['req_bill_to_address_state'] : null,
-            'region_code' => isset($input['req_bill_to_address_state']) ? $input['req_bill_to_address_state'] : null,
-            'postcode' => isset($input['req_bill_to_address_postal_code'])
-                ? $input['req_bill_to_address_postal_code']
-                : null,
-            'country_id' => isset($input['req_bill_to_address_country']) ? $input['req_bill_to_address_country'] : null,
-            'telephone' => isset($input['req_bill_to_phone']) ? $input['req_bill_to_phone'] : null,
+            'city' => $input['req_bill_to_address_city'] ?? null,
+            'region' => $input['req_bill_to_address_state'] ?? null,
+            'region_code' => $input['req_bill_to_address_state'] ?? null,
+            'postcode' => $input['req_bill_to_address_postal_code'] ?? null,
+            'country_id' => $input['req_bill_to_address_country'] ?? null,
+            'telephone' => $input['req_bill_to_phone'] ?? null,
         ];
 
         return $this->addressHelper->buildAddressFromInput($addressArray);
@@ -151,11 +125,11 @@ class Response
      * Set card payment data from Secure Acceptance response params
      *
      * @param array $input
-     * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
+     * @param CardInterface $card
      * @return void
      * @throws \Exception
      */
-    protected function setCardPaymentInfo($input, \ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
+    protected function setCardPaymentInfo($input, CardInterface $card)
     {
         $yr = substr((string)$input['req_card_expiry_date'], -4);
         $mo = substr((string)$input['req_card_expiry_date'], 0, 2);
@@ -197,13 +171,13 @@ class Response
      *
      * @param array $input
      * @return void
-     * @throws \Magento\Framework\Exception\SecurityViolationException
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws SecurityViolationException
+     * @throws InputException
      */
     protected function validateRequest($input)
     {
         if ($input['signature_validation'] !== true) {
-            throw new \Magento\Framework\Exception\SecurityViolationException(
+            throw new SecurityViolationException(
                 __('Invalid request signature.')
             );
         }
@@ -221,7 +195,7 @@ class Response
                 ? __($prompt . ': %1 (%2)', __($input['message']), $input['reason_code'])
                 : __($prompt . '. (%1)', $input['reason_code']);
 
-            throw new \Magento\Framework\Exception\InputException($message);
+            throw new InputException($message);
         }
     }
 
@@ -229,7 +203,7 @@ class Response
      * Get or create a TokenBase Card for the given Secure Acceptance response
      *
      * @param array $input
-     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
+     * @return CardInterface
      */
     protected function getCard($input)
     {
@@ -241,7 +215,7 @@ class Response
                     && (int)$card->getCustomerId() === (int)$input['req_consumer_id']) {
                     return $card;
                 }
-            } catch (\Exception $exception) {
+            } catch (Throwable) {
                 // If card failed to load, store it as a new one instead.
             }
         }

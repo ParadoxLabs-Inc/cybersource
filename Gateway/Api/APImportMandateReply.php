@@ -1,27 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class APImportMandateReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
-    /**
-     * @var string $mandateID
-     */
-    protected $mandateID;
-
-    /**
-     * @var string $status
-     */
-    protected $status;
-
     /**
      * @var string $responseCode
      */
@@ -52,11 +37,11 @@ class APImportMandateReply
      * @param string $mandateID
      * @param string $status
      */
-    public function __construct($reasonCode, $mandateID, $status)
-    {
-        $this->reasonCode = $reasonCode;
-        $this->mandateID  = $mandateID;
-        $this->status     = $status;
+    public function __construct(
+        protected $reasonCode,
+        protected $mandateID,
+        protected $status,
+    ) {
     }
 
     /**
@@ -164,7 +149,7 @@ class APImportMandateReply
         } else {
             try {
                 return new DateTime($this->dateSigned);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -195,7 +180,7 @@ class APImportMandateReply
         } else {
             try {
                 return new DateTime($this->dateCreated);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -226,7 +211,7 @@ class APImportMandateReply
         } else {
             try {
                 return new DateTime($this->dateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

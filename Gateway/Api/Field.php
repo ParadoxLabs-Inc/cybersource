@@ -1,34 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Field
 {
     /**
-     * @var string $provider
-     */
-    protected $provider;
-
-    /**
-     * @var string $name
-     */
-    protected $name;
-
-    /**
-     * @var string $value
-     */
-    protected $value;
-
-    /**
      * @param string $provider
      * @param string $name
      * @param string $value
      */
-    public function __construct($provider, $name, $value)
-    {
-        $this->provider = $provider;
-        $this->name     = $name;
-        $this->value    = $value;
+    public function __construct(
+        protected $provider,
+        protected $name,
+        protected $value,
+    ) {
     }
 
     /**

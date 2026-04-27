@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,23 +15,33 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Controller\Adminhtml\SecureAccept;
 
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\View\Result\Page;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\Auth\Session;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Data\Form\FormKey;
+
 /**
  * Completed Class
  */
-class Complete extends \Magento\Backend\App\Action
+class Complete extends Action
 {
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Data\Form\FormKey $formKey
+     * @param Context $context
+     * @param FormKey $formKey
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Data\Form\FormKey $formKey
+        Context $context,
+        FormKey $formKey
     ) {
         // Initialize session with ID from the CyberSource payload, to prevent SameSite cookie issues.
         $session = $context->getSession();
@@ -40,7 +50,7 @@ class Complete extends \Magento\Backend\App\Action
         $session->start();
 
         $authSession = $context->getAuth()->getAuthStorage();
-        if ($authSession instanceof \Magento\Backend\Model\Auth\Session) {
+        if ($authSession instanceof Session) {
             $authSession->writeClose();
             $authSession->setSessionId($session->getSessionId());
             $authSession->start();
@@ -56,12 +66,12 @@ class Complete extends \Magento\Backend\App\Action
     /**
      * Execute action based on request and return result
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
+     * @return ResultInterface|ResponseInterface
      */
     public function execute()
     {
-        /** @var \Magento\Framework\View\Result\Page $result */
-        $result = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_PAGE);
+        /** @var Page $result */
+        $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
 
         return $result;
     }

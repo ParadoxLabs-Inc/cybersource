@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,27 +15,27 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model;
 
+use Magento\Sales\Model\Order\Payment;
+use Magento\Payment\Model\InfoInterface;
+use ParadoxLabs\TokenBase\Model\AbstractMethod;
+use ParadoxLabs\TokenBase\Model\Gateway\Response;
+
 /**
  * Payment method
  */
-class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
+class Method extends AbstractMethod
 {
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Gateway
-     */
-    protected $gateway;
-
     /**
      * Initialize/return the API gateway class.
      *
+     * @return Gateway
      * @api
-     *
-     * @return \ParadoxLabs\CyberSource\Model\Gateway
      */
     public function gateway()
     {
@@ -49,10 +49,10 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
     /**
      * Resync billing address et al. before auth/capture.
      *
-     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @param InfoInterface $payment
      * @return $this
      */
-    protected function resyncStoredCard(\Magento\Payment\Model\InfoInterface $payment)
+    protected function resyncStoredCard(InfoInterface $payment)
     {
         // All card updates are done via Secure Acceptance requests; skip server-side resync saves.
         return $this;
@@ -61,15 +61,15 @@ class Method extends \ParadoxLabs\TokenBase\Model\AbstractMethod
     /**
      * Store response statuses persistently.
      *
-     * @param \Magento\Payment\Model\InfoInterface $payment
-     * @param \ParadoxLabs\TokenBase\Model\Gateway\Response $response
-     * @return \Magento\Payment\Model\InfoInterface
+     * @param InfoInterface $payment
+     * @param Response $response
+     * @return InfoInterface
      */
     protected function storeTransactionStatuses(
-        \Magento\Payment\Model\InfoInterface $payment,
-        \ParadoxLabs\TokenBase\Model\Gateway\Response $response
+        InfoInterface $payment,
+        Response $response
     ) {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
+        /** @var Payment $payment */
         if (empty($payment->getData('cc_avs_status'))) {
             $payment->setData('cc_avs_status', $response->getData('ccAuthReply.avsCode'));
         }

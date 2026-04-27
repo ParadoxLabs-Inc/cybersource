@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,63 +15,48 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service;
 
+use Magento\Framework\HTTP\ClientInterface;
+use Magento\Framework\HTTP\Client\Curl;
+use Magento\Framework\HTTP\Client\Socket;
+use Exception;
+use Magento\Framework\HTTP\ClientInterfaceFactory;
+use Magento\Framework\HTTP\ZendClientFactory;
+use ParadoxLabs\CyberSource\Helper\Data;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use const CURLOPT_SSL_VERIFYHOST;
+use const CURLOPT_SSL_VERIFYPEER;
+
 class Rest
 {
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @var \Magento\Framework\HTTP\ZendClientFactory
-     * @deprecated Class is nonfunctional in 2.4.6+.
-     * @see \Magento\Framework\HTTP\ClientInterface via $this->communicatorFactory
-     */
-    protected $httpClientFactory;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Helper\Data
-     */
-    protected $helper;
-
     /**
      * @var int|null
      */
     protected $storeId;
 
     /**
-     * @var \Magento\Framework\HTTP\ClientInterfaceFactory
-     */
-    protected $communicatorFactory;
-
-    /**
      * Rest constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param Config $config
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
-     * @param \ParadoxLabs\CyberSource\Helper\Data $helper
-     * @param \Magento\Framework\HTTP\ClientInterfaceFactory|null $communicatorFactory
+     * @param Data $helper
+     * @param \Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        \ParadoxLabs\CyberSource\Helper\Data $helper,
-        ?\Magento\Framework\HTTP\ClientInterfaceFactory $communicatorFactory = null
+        protected readonly Config $config,
+        /**
+         * @deprecated Class is nonfunctional in 2.4.6+.
+         * @see \Magento\Framework\HTTP\ClientInterface via $this->communicatorFactory
+         */
+        protected readonly ZendClientFactory $httpClientFactory,
+        protected readonly Data $helper,
+        protected readonly ClientInterfaceFactory $communicatorFactory,
     ) {
-        $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
-        $this->helper = $helper;
-
-        // BC preservation -- argument added in 1.3.1
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->communicatorFactory = $communicatorFactory ?? $om->get(
-            \Magento\Framework\HTTP\ClientInterfaceFactory::class
-        );
     }
 
     /**
@@ -102,7 +87,7 @@ class Rest
         $client->get($requestUri);
 
         // Throw exception on non-2xx response code
-        if (substr((string)$client->getStatus(), 0, 1) !== '2') {
+        if (!str_starts_with((string)$client->getStatus(), '2')) {
             $responseJson = json_decode((string)$client->getBody(), true);
 
             $message = $responseJson['message']
@@ -111,11 +96,11 @@ class Rest
 
             $this->helper->log(
                 $this->config::CODE,
-                $requestUri . "\n" . 'REQUEST: '.json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
+                $requestUri . "\n" . 'REQUEST: ' . json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
                 true
             );
 
-            throw new \Exception(
+            throw new Exception(
                 $message,
                 $client->getStatus()
             );
@@ -128,15 +113,15 @@ class Rest
      * Get an HTTP client for REST
      *
      * @param string $path
-     * @return \Magento\Framework\HTTP\ClientInterface
+     * @return ClientInterface
      */
     protected function getHttpClient($path)
     {
-        /** @var \Magento\Framework\HTTP\Client\Curl|\Magento\Framework\HTTP\Client\Socket $communicator */
+        /** @var Curl|Socket $communicator */
         $communicator = $this->communicatorFactory->create();
         $communicator->setTimeout(15);
-        $communicator->setOption(\CURLOPT_SSL_VERIFYPEER, true);
-        $communicator->setOption(\CURLOPT_SSL_VERIFYHOST, 2);
+        $communicator->setOption(CURLOPT_SSL_VERIFYPEER, true);
+        $communicator->setOption(CURLOPT_SSL_VERIFYHOST, 2);
 
         return $communicator;
     }
@@ -154,13 +139,14 @@ class Rest
         $host = parse_url((string)$this->config->getRestEndpoint($path, $this->storeId), PHP_URL_HOST);
         $date = date("D, d M Y G:i:s \G\M\T");
 
-        $headers = [];
-        $headers['Date'] = $date;
-        $headers['Host'] = $host;
+        $headers                    = [];
+        $headers['Date']            = $date;
+        $headers['Host']            = $host;
         $headers['v-c-merchant-id'] = $this->config->getMerchantId($this->storeId);
 
         /**
          * Note: POST signing requires additional Digest of payload. Not implemented yet.
+         *
          * @see https://developer.cybersource.com/docs/cybs/en-us/platform/get-started/all/rest/get-started-rest/ \
          * authentication/GenerateHeader/httpSignatureAuthentication.html
          */
@@ -173,7 +159,7 @@ class Rest
             'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId($this->storeId),
         ];
 
-        $signature = base64_encode(
+        $signature            = base64_encode(
             hash_hmac(
                 'sha256',
                 mb_convert_encoding(implode("\n", $signatureParts), 'UTF-8', mb_list_encodings()),
@@ -181,7 +167,7 @@ class Rest
                 true
             )
         );
-        $signatureHeader = [
+        $signatureHeader      = [
             'keyid="' . $this->config->getRestSecretKeyId($this->storeId) . '"',
             'algorithm="HmacSHA256"',
             'headers="' . implode(' ', array_keys($signatureParts)) . '"',

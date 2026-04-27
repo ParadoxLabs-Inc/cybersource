@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class DecisionManagerTravelData
 {
@@ -61,7 +61,7 @@ class DecisionManagerTravelData
         } else {
             try {
                 return new DateTime($this->departureDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

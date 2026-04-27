@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class APBillingAgreementReply
 {
@@ -118,7 +118,7 @@ class APBillingAgreementReply
         } else {
             try {
                 return new DateTime($this->dateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

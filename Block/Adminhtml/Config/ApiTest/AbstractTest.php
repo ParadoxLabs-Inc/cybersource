@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,21 +15,28 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
+use ParadoxLabs\CyberSource\Model\Method;
+use Magento\Framework\Phrase;
+use Magento\Framework\Exception\LocalizedException;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\TokenBase\Block\Adminhtml\Config\ApiTest;
+
 /**
  * AbstractTest Class
  */
-abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Config\ApiTest
+abstract class AbstractTest extends ApiTest
 {
     const CREDENTIAL_KEYS = [];
     const USER_MANUAL_URL = 'https://store.paradoxlabs.com/media/wysiwyg/ParadoxLabs-CyberSource-M2-user-manual.pdf';
 
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Method
+     * @var Method
      */
     protected $method;
 
@@ -37,7 +44,7 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
      * Validate required creds fields for the tested config section.
      *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function checkRequiredFields(array $fields)
     {
@@ -46,14 +53,14 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
         // Don't test unless all details are entered and look valid.
         foreach ($fields as $key) {
             if (empty($method->getConfigData($key))) {
-                throw new \Magento\Framework\Exception\LocalizedException(
+                throw new LocalizedException(
                     __('Please complete all of these settings and save to test.')
                 );
             }
 
             // Verify no non-ASCII characters -- suggests changed encryption key/corrupted data.
             if ($this->containsInvalidCharacters($method->getConfigData($key))) {
-                throw new \Magento\Framework\Exception\LocalizedException(
+                throw new LocalizedException(
                     __('Please re-enter your API keys. They may be corrupted.')
                 );
             }
@@ -63,8 +70,8 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
     /**
      * Get the payment method model, with the correct scope.
      *
-     * @return \ParadoxLabs\CyberSource\Model\Method
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return Method
+     * @throws LocalizedException
      */
     protected function getMethod()
     {
@@ -72,9 +79,9 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
             return $this->method;
         }
 
-        /** @var \ParadoxLabs\CyberSource\Model\Method $method */
+        /** @var Method $method */
         $this->method = $this->methodFactory->getMethodInstance(
-            \ParadoxLabs\CyberSource\Model\Config\Config::CODE
+            Config::CODE
         );
         $this->method->setStore($this->getStoreId());
 
@@ -84,7 +91,7 @@ abstract class AbstractTest extends \ParadoxLabs\TokenBase\Block\Adminhtml\Confi
     /**
      * Get the user manual instruction string and link.
      *
-     * @return \Magento\Framework\Phrase
+     * @return Phrase
      */
     protected function getUserManualInstruction()
     {

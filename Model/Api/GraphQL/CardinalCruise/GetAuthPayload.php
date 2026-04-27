@@ -15,12 +15,22 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\CardinalCruise;
 
-class GetAuthPayload implements \Magento\Framework\GraphQl\Query\ResolverInterface
+use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Query\ResolverInterface;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
+use ParadoxLabs\TokenBase\Model\Api\GraphQL;
+
+class GetAuthPayload implements ResolverInterface
 {
     /**
      * @var \ParadoxLabs\TokenBase\Model\Api\GraphQL
@@ -51,14 +61,14 @@ class GetAuthPayload implements \Magento\Framework\GraphQl\Query\ResolverInterfa
      * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
      */
     public function __construct(
-        \ParadoxLabs\TokenBase\Model\Api\GraphQL $graphQL,
-        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
+        GraphQL $graphQL,
+        CartRepositoryInterface $quoteRepository,
+        Persistor $persistor,
+        JsonWebTokenGenerator $jsonWebTokenGenerator
     ) {
-        $this->graphQL = $graphQL;
-        $this->quoteRepository = $quoteRepository;
-        $this->persistor = $persistor;
+        $this->graphQL               = $graphQL;
+        $this->quoteRepository       = $quoteRepository;
+        $this->persistor             = $persistor;
         $this->jsonWebTokenGenerator = $jsonWebTokenGenerator;
     }
 
@@ -70,13 +80,13 @@ class GetAuthPayload implements \Magento\Framework\GraphQl\Query\ResolverInterfa
      * @param \Magento\Framework\GraphQl\Schema\Type\ResolveInfo $info
      * @param array|null $value
      * @param array|null $args
-     * @throws \Exception
      * @return mixed|\Magento\Framework\GraphQl\Query\Resolver\Value
+     * @throws \Exception
      */
     public function resolve(
-        \Magento\Framework\GraphQl\Config\Element\Field $field,
+        Field $field,
         $context,
-        \Magento\Framework\GraphQl\Schema\Type\ResolveInfo $info,
+        ResolveInfo $info,
         ?array $value = null,
         ?array $args = null
     ) {
@@ -91,7 +101,7 @@ class GetAuthPayload implements \Magento\Framework\GraphQl\Query\ResolverInterfa
         $enrollReply = $this->persistor->loadPayerAuthEnrollReply($quote->getPayment());
 
         return [
-            'authPayload'  => json_encode($this->getAuthPayload($enrollReply)),
+            'authPayload' => json_encode($this->getAuthPayload($enrollReply)),
             'orderPayload' => json_encode($this->getOrderPayload($enrollReply, $quote)),
             'JWT' => $this->jsonWebTokenGenerator->getJwt($quote),
         ];
@@ -114,7 +124,7 @@ class GetAuthPayload implements \Magento\Framework\GraphQl\Query\ResolverInterfa
      * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return array
      */
-    protected function getOrderPayload(array $enrollReply, \Magento\Quote\Api\Data\CartInterface $quote)
+    protected function getOrderPayload(array $enrollReply, CartInterface $quote)
     {
         if (empty($quote->getReservedOrderId())) {
             $quote->reserveOrderId();

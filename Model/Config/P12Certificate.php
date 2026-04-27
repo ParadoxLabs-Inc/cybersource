@@ -13,47 +13,47 @@
 
 namespace ParadoxLabs\CyberSource\Model\Config;
 
+use Magento\Config\Model\Config\Backend\Encrypted;
+use Magento\Config\Model\Config\Backend\File\RequestData\RequestDataInterface;
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\DirectoryList;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Magento\Framework\Validation\ValidationException;
 
-class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
+class P12Certificate extends Encrypted
 {
-    /**
-     * @var \Magento\Config\Model\Config\Backend\File\RequestData\RequestDataInterface
-     */
-    protected $requestData;
-
-    /**
-     * @var \Magento\Framework\Filesystem
-     */
-    protected $filesystem;
-
     /**
      * @var int max KB
      */
     protected $maxFileSize = 50;
 
     /**
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
+     * @param Context $context
+     * @param Registry $registry
+     * @param ScopeConfigInterface $config
+     * @param TypeListInterface $cacheTypeList
+     * @param EncryptorInterface $encryptor
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Config\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
-        \Magento\Framework\Filesystem $filesystem,
-        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        ScopeConfigInterface $config,
+        TypeListInterface $cacheTypeList,
+        EncryptorInterface $encryptor,
+        protected readonly RequestDataInterface $requestData,
+        protected readonly Filesystem $filesystem,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(
@@ -66,9 +66,6 @@ class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
             $resourceCollection,
             $data
         );
-
-        $this->requestData = $requestData;
-        $this->filesystem = $filesystem;
     }
 
     /**
@@ -80,7 +77,7 @@ class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
         $file  = $this->getFileData();
 
         if (!empty($file)) {
-            if (strripos($file['name'], '.p12') !== strlen($file['name']) - 4) {
+            if (strripos((string) $file['name'], '.p12') !== strlen((string) $file['name']) - 4) {
                 throw new ValidationException(__('CyberSource certificate file must be *.p12'));
             }
 
@@ -107,15 +104,15 @@ class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
      */
     protected function getFileData()
     {
-        $file = [];
-        $value = $this->getValue();
+        $file    = [];
+        $value   = $this->getValue();
         $tmpName = $this->requestData->getTmpName($this->getPath());
         if ($tmpName) {
             $file['tmp_name'] = $tmpName;
-            $file['name'] = $this->requestData->getName($this->getPath());
+            $file['name']     = $this->requestData->getName($this->getPath());
         } elseif (!empty($value['tmp_name'])) {
             $file['tmp_name'] = $value['tmp_name'];
-            $file['name'] = isset($value['value']) ? $value['value'] : $value['name'];
+            $file['name']     = isset($value['value']) ? $value['value'] : $value['name'];
         }
 
         return $file;
@@ -124,7 +121,7 @@ class P12Certificate extends \Magento\Config\Model\Config\Backend\Encrypted
     /**
      * Validation callback for checking max file size
      *
-     * @param  string $filePath Path to temporary uploaded file
+     * @param string $filePath Path to temporary uploaded file
      * @return void
      * @throws LocalizedException
      */

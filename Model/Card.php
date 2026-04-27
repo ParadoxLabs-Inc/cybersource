@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,14 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model;
+
+use Magento\Payment\Model\InfoInterface;
+use Throwable;
 
 /**
  * CyberSource card model
@@ -37,7 +41,7 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
 
         // If this is a new card, set its active state to the given value (if any)
         $payment = $this->getInfoInstance();
-        if ($payment instanceof \Magento\Payment\Model\InfoInterface
+        if ($payment instanceof InfoInterface
             && $payment->getAdditionalInformation('save') !== null
             && $this->getOrigData('last_use') === null) {
             $this->setActive((bool)$payment->getAdditionalInformation('save') ? 1 : 0);
@@ -59,13 +63,13 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
          * Delete from the gateway if we have a valid record.
          */
         if (!empty($this->getPaymentId())) {
-            /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
+            /** @var Gateway $gateway */
             $gateway = $this->getMethodInstance()->gateway();
 
             try {
                 $gateway->setCard($this);
                 $gateway->deleteCard();
-            } catch (\Exception $e) {
+            } catch (Throwable $e) {
                 $this->helper->log(
                     $this->getMethod(),
                     sprintf(

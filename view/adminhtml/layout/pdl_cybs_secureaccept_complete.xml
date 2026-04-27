@@ -5,7 +5,7 @@
         <referenceContainer name="menu.wrapper" remove="true"/>
 
         <referenceContainer name="content">
-            <block class="ParadoxLabs\CyberSource\Block\Secureaccept\Complete" name="paradoxlabs_cybersource_secureaccept_completed_content" template="ParadoxLabs_CyberSource::secure-acceptance/complete.phtml" cacheable="false" />
+            <block class="ParadoxLabs\CyberSource\Block\Secureaccept\Complete" name="paradoxlabs_cybersource_secureaccept_completed_content" template="ParadoxLabs_CyberSource::secure-acceptance/complete.phtml" cacheable="false"/>
         </referenceContainer>
     </body>
 </page>

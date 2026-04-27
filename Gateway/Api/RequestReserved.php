@@ -1,27 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class RequestReserved
 {
     /**
-     * @var string $name
-     */
-    protected $name;
-
-    /**
-     * @var string $value
-     */
-    protected $value;
-
-    /**
      * @param string $name
      * @param string $value
      */
-    public function __construct($name, $value)
-    {
-        $this->name  = $name;
-        $this->value = $value;
+    public function __construct(
+        protected $name,
+        protected $value,
+    ) {
     }
 
     /**

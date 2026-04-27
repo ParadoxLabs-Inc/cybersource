@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,39 +15,38 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Secureaccept;
 
-class Complete extends \Magento\Framework\View\Element\Template
-{
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response
-     */
-    protected $responseHandler;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response;
 
+class Complete extends Template
+{
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response $responseHandler
+     * @param Context $context
+     * @param Response $responseHandler
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response $responseHandler,
+        Context $context,
+        protected readonly Response $responseHandler,
         array $data = []
     ) {
         parent::__construct($context, $data);
-
-        $this->responseHandler = $responseHandler;
     }
 
     /**
      * Get/create stored card record based on the input request data from Secure Acceptance.
      *
-     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface
+     * @return CardInterface
      */
     public function getCard()
     {

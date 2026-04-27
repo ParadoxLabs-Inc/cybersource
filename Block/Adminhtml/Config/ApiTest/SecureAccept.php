@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,23 +15,29 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
-class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
+use Magento\Framework\Phrase;
+use Magento\Framework\Exception\LocalizedException;
+use Throwable;
+
+class SecureAccept extends AbstractTest
 {
-    const CREDENTIAL_KEYS = [
-        'secureaccept_profile_id',
-        'secureaccept_access_key',
-        'secureaccept_secret_key',
-    ];
+    const CREDENTIAL_KEYS
+        = [
+            'secureaccept_profile_id',
+            'secureaccept_access_key',
+            'secureaccept_secret_key',
+        ];
 
     /**
      * Validate the Secure Acceptance API keys.
      *
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     protected function testApi()
     {
@@ -45,7 +51,7 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
                 . 'the credit card form loads on checkout.</small>',
                 $this->getMethod()->getConfigData('test') ? __('SANDBOX') : __('PRODUCTION')
             );
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $e->getMessage() . $this->getUserManualInstruction();
         }
     }
@@ -54,25 +60,25 @@ class SecureAccept extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTe
      * Validate whether the Secure Acceptance API creds match the expected form factor.
      *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function checkFormFactor()
     {
         $profileId = (string)$this->getMethod()->getConfigData('secureaccept_profile_id');
         if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $profileId) === 0) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('Profile ID is not in the expected format; please verify you\'ve entered the correct data.')
             );
         }
 
         if (strlen((string)$this->getMethod()->getConfigData('secureaccept_access_key')) !== 32) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('Access Key is not the expected length; please verify you\'ve entered the correct data.')
             );
         }
 
         if (strlen((string)$this->getMethod()->getConfigData('secureaccept_secret_key')) < 256) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('Secret Key is shorter than expected; please verify you\'ve entered the correct data.')
             );
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,23 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
+
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\InputException;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
+use ParadoxLabs\TokenBase\Helper\Address;
+use Throwable;
 
 /**
  * AbstractRequestHandler Class
@@ -26,59 +39,23 @@ namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 abstract class AbstractRequestHandler
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac
-     */
-    protected $hmac;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Sanitizer
-     */
-    protected $sanitizer;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Helper\Address
-     */
-    protected $addressHelper;
-
-    /**
-     * @var \ParadoxLabs\TokenBase\Api\CardRepositoryInterface
-     */
-    protected $cardRepository;
-
-    /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $request;
-
-    /**
      * AbstractRequestHandler constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
-     * @param \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer
-     * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
-     * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param Config $config
+     * @param Hmac $hmac
+     * @param Sanitizer $sanitizer
+     * @param Address $addressHelper
+     * @param CardRepositoryInterface $cardRepository
+     * @param RequestInterface $request
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
-        \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer,
-        \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
-        \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
-        \Magento\Framework\App\RequestInterface $request
+        protected readonly Config $config,
+        protected readonly Hmac $hmac,
+        protected readonly Sanitizer $sanitizer,
+        protected readonly Address $addressHelper,
+        protected readonly CardRepositoryInterface $cardRepository,
+        protected readonly RequestInterface $request
     ) {
-        $this->config = $config;
-        $this->hmac = $hmac;
-        $this->sanitizer = $sanitizer;
-        $this->addressHelper = $addressHelper;
-        $this->cardRepository = $cardRepository;
-        $this->request = $request;
     }
 
     /**
@@ -108,7 +85,7 @@ abstract class AbstractRequestHandler
 
         $params = $this->getGeneralParams();
 
-        $card   = $this->getCard();
+        $card = $this->getCard();
         if ($card !== null) {
             $params += $this->getTokenUpdateParams($card);
         } else {
@@ -127,8 +104,8 @@ abstract class AbstractRequestHandler
      * Get general input parameters for Secure Acceptance checkout.
      *
      * @return array
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws InputException
+     * @throws StateException
      */
     protected function getGeneralParams()
     {
@@ -160,10 +137,10 @@ abstract class AbstractRequestHandler
     /**
      * Get Secure Acceptance parameters for updating an existing token
      *
-     * @param \ParadoxLabs\TokenBase\Api\Data\CardInterface $card
+     * @param CardInterface $card
      * @return array
      */
-    protected function getTokenUpdateParams(\ParadoxLabs\TokenBase\Api\Data\CardInterface $card)
+    protected function getTokenUpdateParams(CardInterface $card)
     {
         return [
             'transaction_type' => $this->sanitizer->alphanumericPunc('update_payment_token', 60),
@@ -191,14 +168,14 @@ abstract class AbstractRequestHandler
      * Get Secure Acceptance billing address input parameters
      *
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function getBillingAddressParams()
     {
-        $post = $this->request->getPostValue('billing');
-        $post['country_id']  = $post['country_id']  ?? $post['countryId']  ?? null;
-        $post['region_id']   = $post['region_id']   ?? $post['regionId']   ?? null;
-        $post['region_code'] = $post['region_code'] ?? $post['regionCode'] ?? null;
+        $post                = $this->request->getPostValue('billing');
+        $post['country_id']  ??= $post['countryId'] ?? null;
+        $post['region_id']   ??= $post['regionId'] ?? null;
+        $post['region_code'] ??= $post['regionCode'] ?? null;
 
         return $this->getAddressFromObject(
             $this->addressHelper->buildAddressFromInput($post)
@@ -208,11 +185,11 @@ abstract class AbstractRequestHandler
     /**
      * Get Secure Acceptance billing address params from the given address object
      *
-     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @param AddressInterface $address
      * @return array
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
-    protected function getAddressFromObject(\Magento\Customer\Api\Data\AddressInterface $address)
+    protected function getAddressFromObject(AddressInterface $address)
     {
         $street = $address->getStreet();
 
@@ -220,7 +197,7 @@ abstract class AbstractRequestHandler
             || empty($address->getLastname())
             || empty($address->getStreet())
             || empty($address->getCountryId())) {
-            throw new \Magento\Framework\Exception\InputException(__('Please enter a billing address.'));
+            throw new InputException(__('Please enter a billing address.'));
         }
 
         return [
@@ -235,11 +212,11 @@ abstract class AbstractRequestHandler
                 2
             ),
             'bill_to_address_line1' => $this->sanitizer->asciiAlphanumericPunc(
-                isset($street[0]) ? $street[0] : null,
+                $street[0] ?? null,
                 60
             ),
             'bill_to_address_line2' => $this->sanitizer->asciiAlphanumericPunc(
-                isset($street[1]) ? $street[1] : null,
+                $street[1] ?? null,
                 60
             ),
             'bill_to_address_postal_code' => $this->sanitizer->postcode(
@@ -253,7 +230,7 @@ abstract class AbstractRequestHandler
     /**
      * Get the stored card from the request's card_id card hash, or null if none.
      *
-     * @return \ParadoxLabs\TokenBase\Api\Data\CardInterface|null
+     * @return CardInterface|null
      */
     protected function getCard()
     {
@@ -263,7 +240,7 @@ abstract class AbstractRequestHandler
 
         try {
             return $this->cardRepository->getByHash($this->request->getParam('card_id'));
-        } catch (\Exception $exception) {
+        } catch (Throwable) {
             return null;
         }
     }
@@ -294,7 +271,7 @@ abstract class AbstractRequestHandler
      *
      * @param string $route
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     abstract protected function getSecureAcceptUrl($route);
 

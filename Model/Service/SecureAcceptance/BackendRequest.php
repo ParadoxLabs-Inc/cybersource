@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,79 +15,69 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\SecureAcceptance;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Backend\Model\Session\Quote;
+use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\Store\Model\StoreManagerInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
+use ParadoxLabs\TokenBase\Helper\Address;
+use ParadoxLabs\TokenBase\Helper\Data;
+use Throwable;
+
 class BackendRequest extends AbstractRequestHandler
 {
     /**
-     * @var \ParadoxLabs\TokenBase\Helper\Data
-     */
-    protected $tokenbaseHelper;
-
-    /**
-     * @var \Magento\Backend\Model\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * @var \Magento\Backend\Model\Session\Quote
-     */
-    protected $backendSession;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * BackendRequest constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac
-     * @param \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer
-     * @param \ParadoxLabs\TokenBase\Helper\Address $addressHelper
-     * @param \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \ParadoxLabs\TokenBase\Helper\Data $tokenbaseHelper
-     * @param \Magento\Backend\Model\UrlInterface $urlBuilder
-     * @param \Magento\Backend\Model\Session\Quote $backendSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param Config $config
+     * @param Hmac $hmac
+     * @param Sanitizer $sanitizer
+     * @param Address $addressHelper
+     * @param CardRepositoryInterface $cardRepository
+     * @param RequestInterface $request
+     * @param Data $tokenbaseHelper
+     * @param UrlInterface $urlBuilder
+     * @param Quote $backendSession
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Hmac $hmac,
-        \ParadoxLabs\CyberSource\Model\Service\Sanitizer $sanitizer,
-        \ParadoxLabs\TokenBase\Helper\Address $addressHelper,
-        \ParadoxLabs\TokenBase\Api\CardRepositoryInterface $cardRepository,
-        \Magento\Framework\App\RequestInterface $request,
-        \ParadoxLabs\TokenBase\Helper\Data $tokenbaseHelper,
-        \Magento\Backend\Model\UrlInterface $urlBuilder,
-        \Magento\Backend\Model\Session\Quote $backendSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        Config $config,
+        Hmac $hmac,
+        Sanitizer $sanitizer,
+        Address $addressHelper,
+        CardRepositoryInterface $cardRepository,
+        RequestInterface $request,
+        protected readonly Data $tokenbaseHelper,
+        protected readonly UrlInterface $urlBuilder,
+        protected readonly Quote $backendSession,
+        protected readonly StoreManagerInterface $storeManager
     ) {
         parent::__construct($config, $hmac, $sanitizer, $addressHelper, $cardRepository, $request);
-
-        $this->tokenbaseHelper = $tokenbaseHelper;
-        $this->urlBuilder = $urlBuilder;
-        $this->backendSession = $backendSession;
-        $this->storeManager = $storeManager;
     }
 
     /**
      * Get Secure Acceptance billing address input parameters
      *
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getBillingAddressParams()
     {
         try {
             $billingAddress = parent::getBillingAddressParams();
-        } catch (\Magento\Framework\Exception\InputException $exception) {
+        } catch (InputException) {
             $billingAddress = [];
         }
 
@@ -114,7 +104,7 @@ class BackendRequest extends AbstractRequestHandler
             }
 
             return $this->backendSession->getQuote()->getBillingAddress()->getEmail();
-        } catch (\Exception $exception) {
+        } catch (Throwable) {
             return null;
         }
     }
@@ -148,7 +138,7 @@ class BackendRequest extends AbstractRequestHandler
      *
      * @param string $route
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     protected function getSecureAcceptUrl($route)
     {
@@ -180,7 +170,7 @@ class BackendRequest extends AbstractRequestHandler
             }
 
             return $this->backendSession->getQuote()->getStoreId();
-        } catch (\Exception $exception) {
+        } catch (Throwable) {
             return $this->storeManager->getStore()->getId();
         }
     }

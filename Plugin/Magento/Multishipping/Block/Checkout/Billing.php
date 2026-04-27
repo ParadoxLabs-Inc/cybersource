@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,27 +15,24 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Plugin\Magento\Multishipping\Block\Checkout;
 
+use Magento\Payment\Model\MethodInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+
 class Billing
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
      * Billing constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param Config $config
      */
-    public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config
-    ) {
-        $this->config = $config;
+    public function __construct(protected readonly Config $config)
+    {
     }
 
     /**
@@ -47,7 +44,7 @@ class Billing
         \Magento\Multishipping\Block\Checkout\Billing $subject,
         $methods
     ) {
-        /** @var \Magento\Payment\Model\MethodInterface $method */
+        /** @var MethodInterface $method */
         foreach ($methods as $key => $method) {
             /**
              * Do not allow CyberSource to be used with Multishipping checkout if Payer Auth is enabled.
@@ -59,9 +56,9 @@ class Billing
              * the way Magento attempts multishipping orders would not be conducive to our process.
              * cf. \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams::populateEnrollmentService()
              */
-            if ($method->getCode() === \ParadoxLabs\CyberSource\Model\Config\Config::CODE
+            if ($method->getCode() === Config::CODE
                 && $this->config->isPayerAuthEnabled()) {
-                unset($methods[$key]);
+                unset($methods[ $key ]);
                 break;
             }
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,50 +15,54 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
-class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
+use Magento\Framework\Phrase;
+use Magento\Backend\Block\Template\Context;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Store\Model\StoreFactory;
+use Magento\Store\Model\WebsiteFactory;
+use ParadoxLabs\TokenBase\Helper\Data;
+use ParadoxLabs\TokenBase\Model\Method\Factory;
+use Throwable;
+
+class Rest extends AbstractTest
 {
-    const CREDENTIAL_KEYS = [
-        'rest_secret_key_id',
-        'rest_secret_key',
-    ];
+    const CREDENTIAL_KEYS
+        = [
+            'rest_secret_key_id',
+            'rest_secret_key',
+        ];
 
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\Rest
-     */
-    protected $restClient;
-
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \ParadoxLabs\TokenBase\Helper\Data $helper
-     * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
-     * @param \ParadoxLabs\TokenBase\Model\Method\Factory $methodFactory
+     * @param Context $context
+     * @param Data $helper
+     * @param StoreFactory $storeFactory
+     * @param WebsiteFactory $websiteFactory
+     * @param Factory $methodFactory
      * @param \ParadoxLabs\CyberSource\Model\Service\Rest $restClient
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \ParadoxLabs\TokenBase\Helper\Data $helper,
-        \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Store\Model\WebsiteFactory $websiteFactory,
-        \ParadoxLabs\TokenBase\Model\Method\Factory $methodFactory,
-        \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
+        Context $context,
+        Data $helper,
+        StoreFactory $storeFactory,
+        WebsiteFactory $websiteFactory,
+        Factory $methodFactory,
+        protected readonly \ParadoxLabs\CyberSource\Model\Service\Rest $restClient,
         array $data = []
     ) {
         parent::__construct($context, $helper, $storeFactory, $websiteFactory, $methodFactory, $data);
-
-        $this->restClient = $restClient;
     }
 
     /**
      * Validate the REST API keys.
      *
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     protected function testApi()
     {
@@ -67,7 +71,7 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
             $this->checkFormFactor();
 
             $this->testConnection();
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $e->getMessage() . $this->getUserManualInstruction();
         }
 
@@ -81,19 +85,19 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
      * Validate whether the REST API creds match the expected form factor.
      *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function checkFormFactor()
     {
         $keyId = (string)$this->getMethod()->getConfigData('rest_secret_key_id');
         if (preg_match('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/i', $keyId) === 0) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('Secret Key ID is not in the expected format; please verify you\'ve entered the correct data.')
             );
         }
 
         if (strlen((string)$this->getMethod()->getConfigData('rest_secret_key')) < 32) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+            throw new LocalizedException(
                 __('Secret Key is shorter than expected; please verify you\'ve entered the correct data.')
             );
         }
@@ -103,7 +107,7 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
      * Test the given REST API credentials.
      *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      * @throws \Exception
      */
     protected function testConnection()
@@ -119,13 +123,13 @@ class Rest extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
         try {
             $this->restClient->setStoreId($this->getStoreId());
             $this->restClient->get('/tss/v2/transactions/1');
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             if ($exception->getCode() === 404) {
                 return;
             }
 
             if ($exception->getCode() === 401) {
-                throw new \Magento\Framework\Exception\LocalizedException(
+                throw new LocalizedException(
                     __('%1: Your API credentials are invalid.', $exception->getMessage())
                 );
             }

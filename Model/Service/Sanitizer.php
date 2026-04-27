@@ -132,7 +132,7 @@ class Sanitizer
      *
      * @param string $input
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     public function email($input)
     {
@@ -179,7 +179,7 @@ class Sanitizer
     {
         $input = preg_replace('/[^0-9xX( ),+\-.*#]/', '', (string)$input);
 
-        return strlen($input) >= 10 ? $this->length($input, $maxLength) : '';
+        return strlen((string) $input) >= 10 ? $this->length($input, $maxLength) : '';
     }
 
     /**
@@ -188,7 +188,7 @@ class Sanitizer
      * @param string $input
      * @param int $maxLength
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     public function url($input, $maxLength = 255)
     {
@@ -213,14 +213,14 @@ class Sanitizer
 
         if ($country === 'US') {
             $input = preg_replace('/[^\d]/', '', $input);
-            if (strlen($input) > 5) {
-                $input = substr($input, 0, 5) . '-' . substr($input, 5, 4);
-            } elseif (strlen($input) < 5) {
-                $input = str_pad($input, 5, '0', STR_PAD_LEFT);
+            if (strlen((string) $input) > 5) {
+                $input = substr((string) $input, 0, 5) . '-' . substr((string) $input, 5, 4);
+            } elseif (strlen((string) $input) < 5) {
+                $input = str_pad((string) $input, 5, '0', STR_PAD_LEFT);
             }
         } elseif ($country === 'CA') {
             $input = preg_replace('/[^a-zA-Z0-9]/', '', $input);
-            $input = substr($input, 0, 3) . ' ' . substr($input, 3, 3);
+            $input = substr((string) $input, 0, 3) . ' ' . substr((string) $input, 3, 3);
         }
 
         return $this->alphanumericPunc($input, 10);

@@ -642,14 +642,14 @@ class BillTo
 
         if ($this->getCountry() === 'US') {
             $postalCode = preg_replace('/[^\d]/', '', $postalCode);
-            if (strlen($postalCode) > 5) {
-                $postalCode = mb_substr($postalCode, 0, 5) . '-' . mb_substr($postalCode, 5, 4);
-            } elseif (strlen($postalCode) < 5) {
-                $postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
+            if (strlen((string) $postalCode) > 5) {
+                $postalCode = mb_substr((string) $postalCode, 0, 5) . '-' . mb_substr((string) $postalCode, 5, 4);
+            } elseif (strlen((string) $postalCode) < 5) {
+                $postalCode = str_pad((string) $postalCode, 5, '0', STR_PAD_LEFT);
             }
         } elseif ($this->getCountry() === 'CA') {
             $postalCode = preg_replace('/[^a-zA-Z0-9]/', '', $postalCode);
-            $postalCode = mb_substr($postalCode, 0, 3) . ' ' . mb_substr($postalCode, 3, 3);
+            $postalCode = mb_substr((string) $postalCode, 0, 3) . ' ' . mb_substr((string) $postalCode, 3, 3);
         }
 
         $this->postalCode = mb_substr(str_replace(':', '', $postalCode), 0, 10);
@@ -766,7 +766,7 @@ class BillTo
      */
     public function setIpAddress($ipAddress)
     {
-        $this->ipAddress = mb_substr(preg_replace('/[^\da-fA-F.:]/', '', (string)$ipAddress), 0, 45);
+        $this->ipAddress = mb_substr((string) preg_replace('/[^\da-fA-F.:]/', '', (string)$ipAddress), 0, 45);
 
         return $this;
     }

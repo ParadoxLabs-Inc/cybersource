@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -462,17 +462,17 @@ class ShipTo
 
         if ($this->getCountry() === 'US') {
             $postalCode = preg_replace('/[^\d]/', '', $postalCode);
-            if (strlen($postalCode) > 5) {
-                $postalCode = mb_substr($postalCode, 0, 5) . '-' . mb_substr($postalCode, 5, 4);
-            } elseif (strlen($postalCode) < 5) {
-                $postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
+            if (strlen((string) $postalCode) > 5) {
+                $postalCode = mb_substr((string) $postalCode, 0, 5) . '-' . mb_substr((string) $postalCode, 5, 4);
+            } elseif (strlen((string) $postalCode) < 5) {
+                $postalCode = str_pad((string) $postalCode, 5, '0', STR_PAD_LEFT);
             }
         } elseif ($this->getCountry() === 'CA') {
             $postalCode = preg_replace('/[^a-zA-Z0-9]/', '', $postalCode);
-            $postalCode = mb_substr($postalCode, 0, 3) . ' ' . mb_substr($postalCode, 3, 3);
+            $postalCode = mb_substr((string) $postalCode, 0, 3) . ' ' . mb_substr((string) $postalCode, 3, 3);
         }
 
-        $this->postalCode = mb_substr($postalCode, 0, 10);
+        $this->postalCode = mb_substr((string) $postalCode, 0, 10);
 
         return $this;
     }

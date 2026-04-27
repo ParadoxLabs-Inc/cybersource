@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,57 +15,50 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Controller\Adminhtml\SecureAccept;
 
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Registry;
+use ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest;
+use Throwable;
 
-class GetParams extends \Magento\Backend\App\Action
+class GetParams extends Action
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest
-     */
-    protected $secureAcceptRequest;
-
-    /**
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry;
-
-    /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
-     */
-    protected $customerRepository;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param Context $context
+     * @param BackendRequest $secureAcceptRequest
+     * @param Registry $registry
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\BackendRequest $secureAcceptRequest,
-        \Magento\Framework\Registry $registry,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+        Context $context,
+        protected readonly BackendRequest $secureAcceptRequest,
+        protected readonly Registry $registry,
+        protected readonly CustomerRepositoryInterface $customerRepository
     ) {
         parent::__construct($context);
-
-        $this->secureAcceptRequest = $secureAcceptRequest;
-        $this->registry = $registry;
-        $this->customerRepository = $customerRepository;
     }
 
     /**
      * Execute action based on request and return result
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
+     * @return ResultInterface|ResponseInterface
      */
     public function execute()
     {
-        /** @var \Magento\Framework\Controller\Result\Json $result */
+        /** @var Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         try {
@@ -77,7 +70,7 @@ class GetParams extends \Magento\Backend\App\Action
             ];
 
             $result->setData($payload);
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             $result->setHttpResponseCode(400);
             $result->setData([
                 'message' => $exception->getMessage(),
@@ -93,8 +86,8 @@ class GetParams extends \Magento\Backend\App\Action
      * This is how we know what customer the current request should process for. Customer view gives ID param.
      *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     protected function initCustomer()
     {

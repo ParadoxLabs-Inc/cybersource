@@ -1,27 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class VelocityElement
 {
     /**
-     * @var string $infoCode
-     */
-    protected $infoCode;
-
-    /**
-     * @var int $count
-     */
-    protected $count;
-
-    /**
      * @param string $infoCode
      * @param int $count
      */
-    public function __construct($infoCode, $count)
-    {
-        $this->infoCode = $infoCode;
-        $this->count    = $count;
+    public function __construct(
+        protected $infoCode,
+        protected $count,
+    ) {
     }
 
     /**

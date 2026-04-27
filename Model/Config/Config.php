@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,10 +15,15 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Config;
+
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\StateException;
+use Magento\Store\Model\ScopeInterface;
 
 class Config
 {
@@ -38,11 +43,6 @@ class Config
     const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl';
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $scopeConfig;
-
-    /**
      * @var int|null
      */
     protected $storeId;
@@ -50,12 +50,10 @@ class Config
     /**
      * Config constructor.
      *
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-    ) {
-        $this->scopeConfig = $scopeConfig;
+    public function __construct(protected readonly ScopeConfigInterface $scopeConfig)
+    {
     }
 
     /**
@@ -67,11 +65,13 @@ class Config
      */
     protected function getConfigValue($key, $storeId = null)
     {
-        return trim((string)$this->scopeConfig->getValue(
-            'payment/' . static::CODE . '/' . $key,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $storeId ?? $this->storeId
-        ));
+        return trim(
+            (string)$this->scopeConfig->getValue(
+                'payment/' . static::CODE . '/' . $key,
+                ScopeInterface::SCOPE_STORE,
+                $storeId ?? $this->storeId
+            )
+        );
     }
 
     /**
@@ -146,7 +146,7 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSoapAuthType($storeId = null)
     {
@@ -158,14 +158,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSoapTransactionKey($storeId = null)
     {
         $value = $this->getConfigValue('soap_transaction_key', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Transaction Key. Please check configuration.')
             );
         }
@@ -178,7 +178,7 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSoapCertificate($storeId = null)
     {
@@ -188,12 +188,12 @@ class Config
         );
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing Simple Order certificate. Please check configuration.')
             );
         }
 
-        return base64_decode($value['contents']);
+        return base64_decode((string) $value['contents']);
     }
 
     /**
@@ -201,14 +201,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSoapCertPassword($storeId = null)
     {
         $value = $this->getConfigValue('soap_cert_password', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing Simple Order certificate password. Please check configuration.')
             );
         }
@@ -221,14 +221,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getRestSecretKeyId($storeId = null)
     {
         $value = $this->getConfigValue('rest_secret_key_id', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource REST Secret Key ID. Please check configuration.')
             );
         }
@@ -241,14 +241,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getRestSecretKey($storeId = null)
     {
         $value = $this->getConfigValue('rest_secret_key', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource REST Secret Key. Please check configuration.')
             );
         }
@@ -277,14 +277,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSecureAcceptProfileId($storeId = null)
     {
         $value = $this->getConfigValue('secureaccept_profile_id', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Secure Acceptance Profile ID. Please check configuration.')
             );
         }
@@ -297,14 +297,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSecureAcceptAccessKey($storeId = null)
     {
         $value = $this->getConfigValue('secureaccept_access_key', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Secure Acceptance Access Key. Please check configuration.')
             );
         }
@@ -317,14 +317,14 @@ class Config
      *
      * @param int|null $storeId
      * @return mixed
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getSecureAcceptSecretKey($storeId = null)
     {
         $value = $this->getConfigValue('secureaccept_secret_key', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Secure Acceptance Secret Key. Please check configuration.')
             );
         }
@@ -494,7 +494,7 @@ class Config
             }
 
             return true;
-        } catch (\Magento\Framework\Exception\StateException $exception) {
+        } catch (StateException) {
             return false;
         }
     }
@@ -517,7 +517,7 @@ class Config
             }
 
             return true;
-        } catch (\Magento\Framework\Exception\StateException $exception) {
+        } catch (StateException) {
             return false;
         }
     }
@@ -527,14 +527,14 @@ class Config
      *
      * @param int|null $storeId
      * @return string
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getCardinalOrgUnitId($storeId = null)
     {
         $value = $this->getConfigValue('cardinal_org_unit_id', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Cardinal Cruise Org Unit ID. Please check configuration.')
             );
         }
@@ -547,14 +547,14 @@ class Config
      *
      * @param int|null $storeId
      * @return string
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getCardinalSecretKeyId($storeId = null)
     {
         $value = $this->getConfigValue('cardinal_secret_key_id', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Cardinal Cruise API ID. Please check configuration.')
             );
         }
@@ -567,14 +567,14 @@ class Config
      *
      * @param int|null $storeId
      * @return string
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws StateException
      */
     public function getCardinalSecretKey($storeId = null)
     {
         $value = $this->getConfigValue('cardinal_secret_key', $storeId);
 
         if (empty($value)) {
-            throw new \Magento\Framework\Exception\StateException(
+            throw new StateException(
                 __('Missing CyberSource Cardinal Cruise API Key. Please check configuration.')
             );
         }

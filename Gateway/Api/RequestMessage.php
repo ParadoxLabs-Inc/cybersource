@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class RequestMessage
 {
@@ -4040,7 +4040,7 @@ class RequestMessage
         } else {
             try {
                 return new DateTime($this->transactionLocalDateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

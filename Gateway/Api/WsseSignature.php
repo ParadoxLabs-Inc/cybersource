@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -21,6 +21,9 @@
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
+use DOMDocument;
+use DOMXPath;
+
 /**
  * WsseSignature Class
  *
@@ -33,9 +36,9 @@ class WsseSignature
     public const WSS_509 = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3';
     public const WSS_ENC = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary';
     public const WSSE_NS = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
-    public const WSU_NS  = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd';
+    public const WSU_NS = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd';
     public const SOAP_NS = 'http://schemas.xmlsoap.org/soap/envelope/';
-    public const DS_NS   = 'http://www.w3.org/2000/09/xmldsig#';
+    public const DS_NS = 'http://www.w3.org/2000/09/xmldsig#';
     public const CANONIC = 'http://www.w3.org/2001/10/xml-exc-c14n#';
     public const SIG_ALG = 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256';
     public const DIG_ALG = 'http://www.w3.org/2001/04/xmlenc#sha256';
@@ -56,10 +59,10 @@ class WsseSignature
         // PKCS12 certificate file
         openssl_pkcs12_read($certificate, $certs, $keyPass);
         $this->privateKey = openssl_pkey_get_private($certs['pkey']);
-        $pubcert = explode("\n", $certs['cert']);
+        $pubcert          = explode("\n", (string) $certs['cert']);
         array_shift($pubcert);
 
-        while (!trim(array_pop($pubcert))) {
+        while (!trim((string) array_pop($pubcert))) {
             /* Empty while loop */
         }
         // array_filter($pubcert);
@@ -93,8 +96,9 @@ class WsseSignature
      */
     public function canonicalizeNode($domNode)
     {
-        $domDocument = new \DOMDocument('1.0', 'utf-8');
+        $domDocument = new DOMDocument('1.0', 'utf-8');
         $domDocument->appendChild($domDocument->importNode($domNode, true));
+
         return $this->canonicalizeXML($domDocument->saveXML($domDocument->documentElement));
     }
 
@@ -107,11 +111,11 @@ class WsseSignature
     protected function canonicalizeXML($data)
     {
         $fname = tempnam(sys_get_temp_dir(), 'temporaryBinarySecurityToken');
-        $f = fopen($fname, 'w+');
+        $f     = fopen($fname, 'w+');
         fwrite($f, $data);
         fclose($f);
 
-        $tempFile = new \DOMDocument('1.0', 'utf-8');
+        $tempFile = new DOMDocument('1.0', 'utf-8');
         $tempFile->load($fname);
         unlink($fname);
 
@@ -127,7 +131,7 @@ class WsseSignature
      */
     public function buildSignedInfo($domDocument, $ids)
     {
-        $domXPath = new \DOMXPath($domDocument);
+        $domXPath = new DOMXPath($domDocument);
         $domXPath->registerNamespace('SOAP-ENV', self::SOAP_NS);
         $domXPath->registerNamespace('wsu', self::WSU_NS);
         $domXPath->registerNamespace('wsse', self::WSSE_NS);
@@ -157,7 +161,9 @@ class WsseSignature
             $referenceElement->setAttribute('URI', '#' . $id);
 
             // Create Transform Element
-            $transforms = $referenceElement->appendChild($domDocument->createElementNS(self::DS_NS, 'ds:Transforms'));
+            $transforms = $referenceElement->appendChild(
+                $domDocument->createElementNS(self::DS_NS, 'ds:Transforms')
+            );
             $transformElement = $transforms->appendChild($domDocument->createElementNS(self::DS_NS, 'ds:Transform'));
 
             // Mark node as Canonicalized
@@ -165,7 +171,9 @@ class WsseSignature
 
             // Add a SHA256 digest
             $digestValue = hash('sha256', $canonicalized, true);
-            $method = $referenceElement->appendChild($domDocument->createElementNS(self::DS_NS, 'ds:DigestMethod'));
+            $method      = $referenceElement->appendChild(
+                $domDocument->createElementNS(self::DS_NS, 'ds:DigestMethod')
+            );
             $method->setAttribute('Algorithm', self::DIG_ALG);
             $referenceElement->appendChild(
                 $domDocument->createElementNS(self::DS_NS, 'ds:DigestValue', base64_encode($digestValue))

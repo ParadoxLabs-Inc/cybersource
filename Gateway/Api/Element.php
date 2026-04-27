@@ -1,34 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class Element
 {
     /**
-     * @var string $infoCode
-     */
-    protected $infoCode;
-
-    /**
-     * @var string $fieldName
-     */
-    protected $fieldName;
-
-    /**
-     * @var int $count
-     */
-    protected $count;
-
-    /**
      * @param string $infoCode
      * @param string $fieldName
      * @param int $count
      */
-    public function __construct($infoCode, $fieldName, $count)
-    {
-        $this->infoCode  = $infoCode;
-        $this->fieldName = $fieldName;
-        $this->count     = $count;
+    public function __construct(
+        protected $infoCode,
+        protected $fieldName,
+        protected $count,
+    ) {
     }
 
     /**

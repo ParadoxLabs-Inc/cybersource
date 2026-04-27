@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,23 +15,30 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest;
 
-class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\AbstractTest
+use Magento\Framework\Phrase;
+use ParadoxLabs\CyberSource\Model\Gateway;
+use Magento\Framework\Exception\LocalizedException;
+use Throwable;
+
+class Soap extends AbstractTest
 {
-    const CREDENTIAL_KEYS = [
-        'organization_id',
-        'merchant_id',
-        'soap_auth_type',
-    ];
+    const CREDENTIAL_KEYS
+        = [
+            'organization_id',
+            'merchant_id',
+            'soap_auth_type',
+        ];
 
     /**
      * Validate and test the SOAP API keys.
      *
-     * @return \Magento\Framework\Phrase|string
+     * @return Phrase|string
      */
     protected function testApi()
     {
@@ -47,12 +54,13 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
 
             $this->checkRequiredFields($requiredKeys);
 
-            /** @var \ParadoxLabs\CyberSource\Model\Gateway $gateway */
+            /** @var Gateway $gateway */
             $gateway = $this->getMethod()->gateway();
             $gateway->testConnection();
-        } catch (\Exception $e) {
-            if (strpos((string)$e->getMessage(), 'UsernameToken') !== false) {
+        } catch (Throwable $e) {
+            if (str_contains((string)$e->getMessage(), 'UsernameToken')) {
                 $soapKey = $this->isCertAuth() ? 'Certificate' : 'Transaction Key';
+
                 return __('Your Merchant ID or SOAP API ' . $soapKey . ' is incorrect.')
                     . $this->getUserManualInstruction();
             }
@@ -72,7 +80,7 @@ class Soap extends \ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Abstr
 
     /**
      * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function isCertAuth(): bool
     {

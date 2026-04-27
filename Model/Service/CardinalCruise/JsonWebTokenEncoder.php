@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,15 +15,21 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 
+use Magento\Framework\Exception\InputException;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use const DATE_ATOM;
+
 /**
  * JsonWebTokenEncoder Class
  *
  * Implements JSON Web Token (JWT) signing and validation for the CardinalCruise API, for Payer Authentication.
+ *
  * @see https://cardinaldocs.atlassian.net/wiki/spaces/CC/pages/196850/JWT+Creation
  * @see https://jwt.io/introduction/
  *
@@ -34,19 +40,12 @@ namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 class JsonWebTokenEncoder
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
      * Hmac constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
+     * @param Config $config
      */
-    public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config
-    ) {
-        $this->config = $config;
+    public function __construct(protected readonly Config $config)
+    {
     }
 
     /**
@@ -55,13 +54,13 @@ class JsonWebTokenEncoder
      * @param string $token
      * @param boolean $validateClaims
      * @return array
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     public function unpack($token, $validateClaims = true)
     {
         $parts = explode('.', (string)$token);
         if (count($parts) !== 3) {
-            throw new \Magento\Framework\Exception\InputException(__('Invalid or malformed JWT supplied.'));
+            throw new InputException(__('Invalid or malformed JWT supplied.'));
         }
 
         $signature = $this->sign($parts[0] . '.' . $parts[1]);
@@ -78,7 +77,7 @@ class JsonWebTokenEncoder
             return $claims;
         }
 
-        throw new \Magento\Framework\Exception\InputException(__('JWT signature verification failed.'));
+        throw new InputException(__('JWT signature verification failed.'));
     }
 
     /**
@@ -129,25 +128,25 @@ class JsonWebTokenEncoder
      * Validate the JWT claims (expiration, etc.)
      *
      * @param array $claims
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     public function validateClaims($claims)
     {
         if (isset($claims['exp']) && (time() >= $claims['exp'])) {
-            throw new \Magento\Framework\Exception\InputException(
-                __("JWT expired at '%1'.", date(\DATE_ATOM, $claims['exp']))
+            throw new InputException(
+                __("JWT expired at '%1'.", date(DATE_ATOM, $claims['exp']))
             );
         }
 
         if (isset($claims['iat']) && (time() < $claims['iat'])) {
-            throw new \Magento\Framework\Exception\InputException(
-                __('JWT was issued in the future (%1).', date(\DATE_ATOM, $claims['iat']))
+            throw new InputException(
+                __('JWT was issued in the future (%1).', date(DATE_ATOM, $claims['iat']))
             );
         }
 
         if (isset($claims['nbf']) && (time() < $claims['nbf'])) {
-            throw new \Magento\Framework\Exception\InputException(
-                __("JWT cannot be used before '%1'.", date(\DATE_ATOM, $claims['nbf']))
+            throw new InputException(
+                __("JWT cannot be used before '%1'.", date(DATE_ATOM, $claims['nbf']))
             );
         }
     }
@@ -189,6 +188,7 @@ class JsonWebTokenEncoder
 
         // Make it URL-friendly per spec
         $part = strtr($part, '+/', '-_');
+
         return trim($part, '=');
     }
 }

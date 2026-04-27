@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
@@ -15,16 +15,10 @@ class APOptionsOption
     protected $name;
 
     /**
-     * @var int $data
-     */
-    protected $data;
-
-    /**
      * @param int $data
      */
-    public function __construct($data)
+    public function __construct(protected $data)
     {
-        $this->data = $data;
     }
 
     /**

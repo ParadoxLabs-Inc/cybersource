@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,11 +15,15 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Observer;
 
+use Magento\Framework\DataObject;
+use Magento\Payment\Model\InfoInterface;
+use Magento\Payment\Model\MethodInterface;
 use Magento\Quote\Api\Data\PaymentExtensionInterface;
 use Magento\Sales\Api\Data\OrderPaymentExtensionInterface;
 
@@ -28,15 +32,15 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
     /**
      * Store the Response JWT on the payment object from checkout input payment data.
      *
-     * @param \Magento\Payment\Model\InfoInterface $payment
-     * @param \Magento\Framework\DataObject $data
-     * @param \Magento\Payment\Model\MethodInterface $method
+     * @param InfoInterface $payment
+     * @param DataObject $data
+     * @param MethodInterface $method
      * @return void
      */
     protected function assignStandardData(
-        \Magento\Payment\Model\InfoInterface $payment,
-        \Magento\Framework\DataObject $data,
-        \Magento\Payment\Model\MethodInterface $method
+        InfoInterface $payment,
+        DataObject $data,
+        MethodInterface $method
     ) {
         parent::assignStandardData($payment, $data, $method);
 

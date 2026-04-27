@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,81 +15,68 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Controller\CardinalCruise;
 
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Quote\Model\Quote;
+use Magento\Checkout\Model\Session;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Quote\Api\CartRepositoryInterface;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator;
+use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
+use Throwable;
 
-class GetAuthPayload extends \Magento\Framework\App\Action\Action
+class GetAuthPayload extends Action
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor
-     */
-    protected $persistor;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator
-     */
-    protected $jsonWebTokenGenerator;
-
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
-     * @var \Magento\Quote\Api\CartRepositoryInterface
-     */
-    protected $quoteRepository;
-
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param Context $context
+     * @param Persistor $persistor
+     * @param JsonWebTokenGenerator $jsonWebTokenGenerator
+     * @param Session $checkoutSession
+     * @param CartRepositoryInterface $quoteRepository
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor $persistor,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator $jsonWebTokenGenerator,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+        Context $context,
+        protected readonly Persistor $persistor,
+        protected readonly JsonWebTokenGenerator $jsonWebTokenGenerator,
+        protected readonly Session $checkoutSession,
+        protected readonly CartRepositoryInterface $quoteRepository
     ) {
         parent::__construct($context);
-
-        $this->persistor = $persistor;
-        $this->jsonWebTokenGenerator = $jsonWebTokenGenerator;
-        $this->checkoutSession = $checkoutSession;
-        $this->quoteRepository = $quoteRepository;
     }
 
     /**
      * Execute action based on request and return result
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
+     * @return ResultInterface|ResponseInterface
      */
     public function execute()
     {
-        /** @var \Magento\Framework\Controller\Result\Json $result */
+        /** @var Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         try {
-            /** @var \Magento\Quote\Model\Quote $quote */
+            /** @var Quote $quote */
             $quote = $this->checkoutSession->getQuote();
 
             $enrollReply = $this->persistor->loadPayerAuthEnrollReply($quote->getPayment());
 
             $payload = [
-                'authPayload'  => $this->getAuthPayload($enrollReply),
+                'authPayload' => $this->getAuthPayload($enrollReply),
                 'orderPayload' => $this->getOrderPayload($enrollReply),
                 'JWT' => $this->jsonWebTokenGenerator->getJwt($this->checkoutSession->getQuote()),
             ];
 
             $result->setData($payload);
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             $result->setHttpResponseCode(400);
             $result->setData([
                 'message' => $exception->getMessage(),
@@ -117,7 +104,7 @@ class GetAuthPayload extends \Magento\Framework\App\Action\Action
      */
     protected function getOrderPayload(array $enrollReply)
     {
-        /** @var \Magento\Quote\Model\Quote $quote */
+        /** @var Quote $quote */
         $quote = $this->checkoutSession->getQuote();
 
         if (empty($quote->getReservedOrderId())) {

@@ -1,20 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 class FaultDetails
 {
     /**
-     * @var string $requestID
-     */
-    protected $requestID;
-
-    /**
      * @param string $requestID
      */
-    public function __construct($requestID)
+    public function __construct(protected $requestID)
     {
-        $this->requestID = $requestID;
     }
 
     /**

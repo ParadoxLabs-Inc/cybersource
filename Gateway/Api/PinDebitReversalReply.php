@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class PinDebitReversalReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
     /**
      * @var string $processorResponse
      */
@@ -40,9 +35,8 @@ class PinDebitReversalReply
     /**
      * @param int $reasonCode
      */
-    public function __construct($reasonCode)
+    public function __construct(protected $reasonCode)
     {
-        $this->reasonCode = $reasonCode;
     }
 
     /**
@@ -131,7 +125,7 @@ class PinDebitReversalReply
         } else {
             try {
                 return new DateTime($this->dateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

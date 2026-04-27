@@ -1,27 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DateTime;
-use Exception;
+use Throwable;
 
 class APRevokeMandateReply
 {
-    /**
-     * @var int $reasonCode
-     */
-    protected $reasonCode;
-
-    /**
-     * @var string $mandateID
-     */
-    protected $mandateID;
-
-    /**
-     * @var string $status
-     */
-    protected $status;
-
     /**
      * @var string $responseCode
      */
@@ -57,11 +42,11 @@ class APRevokeMandateReply
      * @param string $mandateID
      * @param string $status
      */
-    public function __construct($reasonCode, $mandateID, $status)
-    {
-        $this->reasonCode = $reasonCode;
-        $this->mandateID  = $mandateID;
-        $this->status     = $status;
+    public function __construct(
+        protected $reasonCode,
+        protected $mandateID,
+        protected $status,
+    ) {
     }
 
     /**
@@ -169,7 +154,7 @@ class APRevokeMandateReply
         } else {
             try {
                 return new DateTime($this->dateSigned);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -200,7 +185,7 @@ class APRevokeMandateReply
         } else {
             try {
                 return new DateTime($this->dateCreated);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -231,7 +216,7 @@ class APRevokeMandateReply
         } else {
             try {
                 return new DateTime($this->dateRevoked);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }
@@ -262,7 +247,7 @@ class APRevokeMandateReply
         } else {
             try {
                 return new DateTime($this->dateTime);
-            } catch (Exception $e) {
+            } catch (Throwable) {
                 return false;
             }
         }

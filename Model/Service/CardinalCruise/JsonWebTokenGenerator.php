@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,58 +15,48 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
 namespace ParadoxLabs\CyberSource\Model\Service\CardinalCruise;
 
+use Magento\Checkout\Model\Session;
+use Magento\Framework\App\RequestInterface;
+use Magento\Quote\Api\Data\AddressInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Model\Quote;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+
 class JsonWebTokenGenerator
 {
     /**
-     * @var \ParadoxLabs\CyberSource\Model\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @var \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder
-     */
-    protected $encoder;
-
-    /**
-     * @var \Magento\Checkout\Model\Session
+     * @var Session
      */
     protected $checkoutSession;
 
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $request;
-
-    /**
      * JsonWebTokenGenerator constructor.
      *
-     * @param \ParadoxLabs\CyberSource\Model\Config\Config $config
-     * @param \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder
-     * @param \Magento\Checkout\Model\Session $checkoutSession *Proxy
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param Config $config
+     * @param JsonWebTokenEncoder $encoder
+     * @param Session $checkoutSession *Proxy
+     * @param RequestInterface $request
      */
     public function __construct(
-        \ParadoxLabs\CyberSource\Model\Config\Config $config,
-        \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder $encoder,
-        \Magento\Framework\App\RequestInterface $request
+        protected readonly Config $config,
+        protected readonly JsonWebTokenEncoder $encoder,
+        protected readonly RequestInterface $request
     ) {
-        $this->config = $config;
-        $this->encoder = $encoder;
-        $this->request = $request;
     }
 
     /**
      * Get the packed JSON Web Token for the current frontend checkout quote
      *
-     * @param \Magento\Quote\Api\Data\CartInterface $quote
+     * @param CartInterface $quote
      * @return string
      */
-    public function getJwt(\Magento\Quote\Api\Data\CartInterface $quote)
+    public function getJwt(CartInterface $quote)
     {
         if ($this->config->isPayerAuthEnabled() === false) {
             return '';
@@ -88,10 +78,10 @@ class JsonWebTokenGenerator
     /**
      * Get the order payload for the current frontend checkout quote
      *
-     * @param \Magento\Quote\Api\Data\CartInterface $quote
+     * @param CartInterface $quote
      * @return array
      */
-    protected function getOrderPayload(\Magento\Quote\Api\Data\CartInterface $quote)
+    protected function getOrderPayload(CartInterface $quote)
     {
         $email = $quote->getBillingAddress()->getEmail() ?: $this->request->getParam('guest_email');
 
@@ -107,7 +97,7 @@ class JsonWebTokenGenerator
             ],
         ];
 
-        if ($quote instanceof \Magento\Quote\Model\Quote) {
+        if ($quote instanceof Quote) {
             $payload['Cart'] = $this->getPayloadItems($quote);
         }
 
@@ -121,10 +111,10 @@ class JsonWebTokenGenerator
     /**
      * Get an address payload
      *
-     * @param \Magento\Quote\Api\Data\AddressInterface $address
+     * @param AddressInterface $address
      * @return array
      */
-    protected function getPayloadAddress(\Magento\Quote\Api\Data\AddressInterface $address)
+    protected function getPayloadAddress(AddressInterface $address)
     {
         $street = $address->getStreet();
 
@@ -132,9 +122,9 @@ class JsonWebTokenGenerator
             'FirstName' => $address->getFirstname(),
             'MiddleName' => $address->getMiddlename(),
             'LastName' => $address->getLastname(),
-            'Address1' => isset($street[0]) ? $street[0] : null,
-            'Address2' => isset($street[1]) ? $street[1] : null,
-            'Address3' => isset($street[2]) ? $street[2] : null,
+            'Address1' => $street[0] ?? null,
+            'Address2' => $street[1] ?? null,
+            'Address3' => $street[2] ?? null,
             'City' => $address->getCity(),
             'State' => $address->getRegion(),
             'PostalCode' => $address->getPostcode(),
@@ -146,10 +136,10 @@ class JsonWebTokenGenerator
     /**
      * Get the items payload for the given quote
      *
-     * @param \Magento\Quote\Model\Quote $quote
+     * @param Quote $quote
      * @return array
      */
-    protected function getPayloadItems(\Magento\Quote\Model\Quote $quote)
+    protected function getPayloadItems(Quote $quote)
     {
         $items = [];
 

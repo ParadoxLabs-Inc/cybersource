@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright © 2020-present ParadoxLabs, Inc.
  *
@@ -15,6 +15,7 @@
  * limitations under the License.
  *
  * Need help? Try our knowledgebase and support system:
+ *
  * @link https://support.paradoxlabs.com
  */
 
@@ -41,7 +42,7 @@ class CardType
     public function getType($code)
     {
         return array_key_exists($code, static::CARD_TYPE_MAP)
-            ? static::CARD_TYPE_MAP[$code]
+            ? static::CARD_TYPE_MAP[ $code ]
             : 'OT';
     }
 }
