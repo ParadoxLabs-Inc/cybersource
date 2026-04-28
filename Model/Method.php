@@ -37,6 +37,7 @@ class Method extends AbstractMethod
      * @return Gateway
      * @api
      */
+    #[\Override]
     public function gateway()
     {
         if ($this->gateway->isInitialized() !== true) {
@@ -52,6 +53,7 @@ class Method extends AbstractMethod
      * @param InfoInterface $payment
      * @return $this
      */
+    #[\Override]
     protected function resyncStoredCard(InfoInterface $payment)
     {
         // All card updates are done via Secure Acceptance requests; skip server-side resync saves.
@@ -65,6 +67,7 @@ class Method extends AbstractMethod
      * @param Response $response
      * @return InfoInterface
      */
+    #[\Override]
     protected function storeTransactionStatuses(
         InfoInterface $payment,
         Response $response

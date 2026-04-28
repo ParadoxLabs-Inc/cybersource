@@ -88,6 +88,7 @@ class CheckoutProvider extends CcGenericConfigProvider
      *
      * @return array
      */
+    #[\Override]
     public function getConfig()
     {
         if (!$this->methods[ Config::CODE ]->isAvailable()) {

@@ -145,6 +145,7 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return $this
      */
+    #[\Override]
     public function init(array $parameters)
     {
         try {
@@ -254,6 +255,7 @@ class Gateway extends AbstractGateway
      * @return array
      * @throws \Exception
      */
+    #[\Override]
     protected function xmlToArray($xml)
     {
         if (empty($xml)) {
@@ -274,6 +276,7 @@ class Gateway extends AbstractGateway
      * @param string $string
      * @return string
      */
+    #[\Override]
     protected function sanitizeLog($string)
     {
         $string = (string)$string;

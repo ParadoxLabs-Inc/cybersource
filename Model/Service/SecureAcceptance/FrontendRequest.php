@@ -76,6 +76,7 @@ class FrontendRequest extends AbstractRequestHandler
      * @throws InputException
      * @throws StateException
      */
+    #[\Override]
     protected function getGeneralParams()
     {
         $params                        = parent::getGeneralParams();
@@ -91,6 +92,7 @@ class FrontendRequest extends AbstractRequestHandler
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
+    #[\Override]
     public function getBillingAddressParams()
     {
         try {

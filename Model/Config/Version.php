@@ -104,6 +104,7 @@ class Version extends Value implements ProcessorInterface
      *
      * @return $this
      */
+    #[\Override]
     protected function _afterLoad()
     {
         $this->setValue($this->_getDefaultValue());

@@ -37,6 +37,7 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
      * @param MethodInterface $method
      * @return void
      */
+    #[\Override]
     protected function assignStandardData(
         InfoInterface $payment,
         DataObject $data,

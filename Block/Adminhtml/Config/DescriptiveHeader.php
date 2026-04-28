@@ -32,6 +32,7 @@ class DescriptiveHeader extends Heading
      * @param AbstractElement $element
      * @return string
      */
+    #[\Override]
     public function render(AbstractElement $element)
     {
         return sprintf(

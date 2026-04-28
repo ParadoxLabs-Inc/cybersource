@@ -67,7 +67,7 @@ class WsseSignature
         }
         // array_filter($pubcert);
 
-        array_walk($pubcert, 'trim');
+        $pubcert = array_map('trim', $pubcert);
         $pubcert = implode('', $pubcert);
         unset($certs);
 

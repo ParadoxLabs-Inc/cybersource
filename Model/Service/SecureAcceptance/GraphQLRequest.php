@@ -104,6 +104,7 @@ class GraphQLRequest extends AbstractRequestHandler
      * @throws InputException
      * @throws StateException
      */
+    #[\Override]
     protected function getGeneralParams()
     {
         $params                        = parent::getGeneralParams();
@@ -119,6 +120,7 @@ class GraphQLRequest extends AbstractRequestHandler
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
+    #[\Override]
     public function getBillingAddressParams()
     {
         if (!empty($this->graphQlArgs['billingAddress'])) {
@@ -227,6 +229,7 @@ class GraphQLRequest extends AbstractRequestHandler
      *
      * @return CardInterface|null
      */
+    #[\Override]
     protected function getCard()
     {
         if (empty($this->graphQlArgs['cardId'])) {

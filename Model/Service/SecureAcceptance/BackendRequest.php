@@ -73,6 +73,7 @@ class BackendRequest extends AbstractRequestHandler
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
+    #[\Override]
     public function getBillingAddressParams()
     {
         try {

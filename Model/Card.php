@@ -34,6 +34,7 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
      *
      * return $this
      */
+    #[\Override]
     public function beforeSave()
     {
         // Note: All gateway syncing happens via direct posts to Secure Acceptance.
@@ -57,6 +58,7 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
      *
      * @return $this
      */
+    #[\Override]
     public function beforeDelete()
     {
         /**

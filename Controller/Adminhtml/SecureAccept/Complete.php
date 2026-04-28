@@ -82,6 +82,7 @@ class Complete extends Action
      * @return bool
      * @see \Magento\Backend\App\Request\BackendValidator for default request validation.
      */
+    #[\Override]
     public function _processUrlKeys()
     {
         return true;
