@@ -1,48 +1,49 @@
 <?php
 /** @var \ParadoxLabs\TokenBase\Block\Customer\Form $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 use Magento\Customer\Helper\Address;
 use Magento\Directory\Helper\Data;
 
 ?>
-<?php $code = $block->escapeHtmlAttr($block->getCode()); ?>
+<?php $code = $escaper->escapeHtmlAttr($block->getCode()); ?>
 
 <div class="block-title">
     <h2>
         <?php if ($block->isEdit()): ?>
-            <?= $block->escapeHtml(__('Editing %1', $block->getCard()->getLabel())) ?>
+            <?= $escaper->escapeHtml(__('Editing %1', $block->getCard()->getLabel())) ?>
         <?php else: ?>
-            <?= $block->escapeHtml(__('Add A Credit Card')) ?>
+            <?= $escaper->escapeHtml(__('Add A Credit Card')) ?>
         <?php endif; ?>
     </h2>
 </div>
 
-<form action="<?= $block->escapeHtmlAttr(
+<form action="<?= $escaper->escapeHtmlAttr(
     $block->getAction()
 ) ?>" method="post" id="form-validate" class="checkout-payment-method payment_form_<?= /* @noEscape */
-$code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+$code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
     <?= /* @noEscape */
     $block->getBlockHtml('formkey') ?>
-    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $block->escapeHtmlAttr(
+    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $escaper->escapeHtmlAttr(
         $block->getCard()->getHash()
     ) : '' ?>"/>
     <input type="hidden" name="method" value="<?= /* @noEscape */
     $code ?>"/>
     <input type="hidden" name="source" value="paymentinfo"/>
     <fieldset class="fieldset address">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend>
+        <legend class="legend"><span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span></legend>
         <br>
 
         <?= /* @noEscape */
         $block->getNameBlockHtml() ?>
         <div class="field company">
-            <label class="label" for="company"><span><?= $block->escapeHtml(__('Company')) ?></span></label>
+            <label class="label" for="company"><span><?= $escaper->escapeHtml(__('Company')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[company]" id="company" title="<?= $block->escapeHtmlAttr(
+                <input type="text" name="billing[company]" id="company" title="<?= $escaper->escapeHtmlAttr(
                     __('Company')
-                ) ?>" value="<?= $block->escapeHtmlAttr(
+                ) ?>" value="<?= $escaper->escapeHtmlAttr(
                     $block->getAddress()->getCompany()
-                ) ?>" class="input-text <?= $block->escapeHtmlAttr(
+                ) ?>" class="input-text <?= $escaper->escapeHtmlAttr(
                     $this->helper(Address::class)->getAttributeValidationClass('company')
                 ) ?>">
             </div>
@@ -52,29 +53,29 @@ $code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) 
         ); ?>
         <div class="field telephone<?php if (mb_strpos((string)$phoneValidation, 'required')
             !== false): ?> required<?php endif; ?>">
-            <label class="label" for="telephone"><span><?= $block->escapeHtml(__('Phone Number')) ?></span></label>
+            <label class="label" for="telephone"><span><?= $escaper->escapeHtml(__('Phone Number')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[telephone]" value="<?= $block->escapeHtmlAttr(
+                <input type="text" name="billing[telephone]" value="<?= $escaper->escapeHtmlAttr(
                     $block->getAddress()->getTelephone()
-                ) ?>" title="<?= $block->escapeHtmlAttr(
+                ) ?>" title="<?= $escaper->escapeHtmlAttr(
                     __('Phone Number')
-                ) ?>" class="input-text <?= $block->escapeHtmlAttr($phoneValidation) ?>" id="telephone">
+                ) ?>" class="input-text <?= $escaper->escapeHtmlAttr($phoneValidation) ?>" id="telephone">
             </div>
         </div>
     </fieldset>
     <fieldset class="fieldset address">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Address')) ?></span></legend>
+        <legend class="legend"><span><?= $escaper->escapeHtml(__('Cardholder Address')) ?></span></legend>
         <br>
 
-        <?php $_streetValidationClass = $block->escapeHtmlAttr(
+        <?php $_streetValidationClass = $escaper->escapeHtmlAttr(
             $this->helper(Address::class)->getAttributeValidationClass('street')
         ); ?>
         <div class="field street required">
-            <label for="street" class="label"><span><?= $block->escapeHtml(__('Street')) ?></span></label>
+            <label for="street" class="label"><span><?= $escaper->escapeHtml(__('Street')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[street][]" value="<?= $block->escapeHtmlAttr(
+                <input type="text" name="billing[street][]" value="<?= $escaper->escapeHtmlAttr(
                     $block->getStreetLine(1)
-                ) ?>" title="<?= $block->escapeHtmlAttr(
+                ) ?>" title="<?= $escaper->escapeHtmlAttr(
                     __('Street Address')
                 ) ?>" id="street" class="input-text <?= /* @noEscape */
                 $_streetValidationClass ?>"/>
@@ -88,12 +89,12 @@ $code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) 
                         <div class="field additional">
                             <label class="label" for="street_<?= /* @noEscape */
                             $lineNo ?>">
-                                <span><?= $block->escapeHtml(__('Street Address %1', $lineNo)) ?></span>
+                                <span><?= $escaper->escapeHtml(__('Street Address %1', $lineNo)) ?></span>
                             </label>
                             <div class="control">
-                                <input type="text" name="billing[street][]" value="<?= $block->escapeHtmlAttr(
+                                <input type="text" name="billing[street][]" value="<?= $escaper->escapeHtmlAttr(
                                     $block->getStreetLine($lineNo)
-                                ) ?>" title="<?= $block->escapeHtmlAttr(
+                                ) ?>" title="<?= $escaper->escapeHtmlAttr(
                                     __('Street Address %1', $lineNo)
                                 ) ?>" id="street_<?= /* @noEscape */
                                 $lineNo ?>" class="input-text <?= /* @noEscape */
@@ -105,49 +106,49 @@ $code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) 
             </div>
         </div>
         <div class="field city required">
-            <label class="label" for="city"><span><?= $block->escapeHtml(__('City')) ?></span></label>
+            <label class="label" for="city"><span><?= $escaper->escapeHtml(__('City')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[city]" value="<?= $block->escapeHtmlAttr(
+                <input type="text" name="billing[city]" value="<?= $escaper->escapeHtmlAttr(
                     $block->getAddress()->getCity()
-                ) ?>" title="<?= $block->escapeHtmlAttr(__('City')) ?>" class="input-text <?= $block->escapeHtmlAttr(
+                ) ?>" title="<?= $escaper->escapeHtmlAttr(__('City')) ?>" class="input-text <?= $escaper->escapeHtmlAttr(
                     $this->helper(Address::class)->getAttributeValidationClass('city')
                 ) ?>" id="city">
             </div>
         </div>
         <div class="field region required">
-            <label class="label" for="region-id"><span><?= $block->escapeHtml(__('State/Province')) ?></span></label>
+            <label class="label" for="region-id"><span><?= $escaper->escapeHtml(__('State/Province')) ?></span></label>
             <div class="control">
-                <select id="region-id" name="billing[region_id]" title="<?= $block->escapeHtmlAttr(
+                <select id="region-id" name="billing[region_id]" title="<?= $escaper->escapeHtmlAttr(
                     __('State/Province')
                 ) ?>" class="validate-select" <?= (!$block->getConfig('general/region/display_all'))
                     ? ' disabled="disabled"' : '' ?>>
-                    <option value=""><?= $block->escapeHtml(
+                    <option value=""><?= $escaper->escapeHtml(
                             __('Please select a region, state or province.')
                         ) ?></option>
                 </select>
-                <input type="text" id="region" name="billing[region]" value="<?= $block->escapeHtmlAttr(
+                <input type="text" id="region" name="billing[region]" value="<?= $escaper->escapeHtmlAttr(
                     $block->getRegion()
-                ) ?>" title="<?= $block->escapeHtmlAttr(
+                ) ?>" title="<?= $escaper->escapeHtmlAttr(
                     __('State/Province')
-                ) ?>" class="input-text <?= $block->escapeHtmlAttr(
+                ) ?>" class="input-text <?= $escaper->escapeHtmlAttr(
                     $this->helper(Address::class)->getAttributeValidationClass('region')
                 ) ?>"<?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '' ?>/>
             </div>
         </div>
         <div class="field zip required">
-            <label class="label" for="zip"><span><?= $block->escapeHtml(__('Zip/Postal Code')) ?></span></label>
+            <label class="label" for="zip"><span><?= $escaper->escapeHtml(__('Zip/Postal Code')) ?></span></label>
             <div class="control">
-                <input type="text" name="billing[postcode]" value="<?= $block->escapeHtmlAttr(
+                <input type="text" name="billing[postcode]" value="<?= $escaper->escapeHtmlAttr(
                     $block->getAddress()->getPostcode()
-                ) ?>" title="<?= $block->escapeHtmlAttr(
+                ) ?>" title="<?= $escaper->escapeHtmlAttr(
                     __('Zip/Postal Code')
-                ) ?>" id="zip" class="input-text validate-zip-international <?= $block->escapeHtmlAttr(
+                ) ?>" id="zip" class="input-text validate-zip-international <?= $escaper->escapeHtmlAttr(
                     $this->helper(Address::class)->getAttributeValidationClass('postcode')
                 ) ?>">
             </div>
         </div>
         <div class="field country required">
-            <label class="label" for="country"><span><?= $block->escapeHtml(__('Country')) ?></span></label>
+            <label class="label" for="country"><span><?= $escaper->escapeHtml(__('Country')) ?></span></label>
             <div class="control">
                 <?= /* @noEscape */
                 $block->getCountryHtmlSelect($block->getAddress()->getCountryId(), 'billing[country_id]') ?>
@@ -157,27 +158,27 @@ $code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) 
     <div class="actions-toolbar address">
         <div class="primary">
             <button type="button" class="action primary" id="submit-address">
-                <span><?= $block->escapeHtml(__('Confirm Address')) ?></span>
+                <span><?= $escaper->escapeHtml(__('Confirm Address')) ?></span>
             </button>
         </div>
     </div>
     <fieldset class="fieldset address">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Payment Information')) ?></span></legend>
+        <legend class="legend"><span><?= $escaper->escapeHtml(__('Payment Information')) ?></span></legend>
         <br>
 
         <div class="field">
-            <p><?= $block->escapeHtml(__('Please confirm your address to enter payment info.')) ?></p>
+            <p><?= $escaper->escapeHtml(__('Please confirm your address to enter payment info.')) ?></p>
         </div>
     </fieldset>
     <fieldset class="fieldset payment toggle">
-        <legend class="legend"><span><?= $block->escapeHtml(__('Cardholder Information')) ?></span></legend>
+        <legend class="legend"><span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span></legend>
         <br>
 
         <div class="field" id="<?= /* @noEscape */
         $code ?>-address">
             <address></address>
             <button type="button" class="action" id="edit-address">
-                <span><?= $block->escapeHtml(__('Edit')) ?></span>
+                <span><?= $escaper->escapeHtml(__('Edit')) ?></span>
             </button>
         </div>
     </fieldset>
@@ -199,8 +200,8 @@ $code ?>" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) 
             "cybersourcePaymentInfoForm": {
                 "target": "<?= /* @noEscape */
     $code ?>_iframe",
-                "paramUrl": "<?= $block->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
-                "successUrl": "<?= $block->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
+                "paramUrl": "<?= $escaper->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
+                "successUrl": "<?= $escaper->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
             }
         },
         "#country": {
