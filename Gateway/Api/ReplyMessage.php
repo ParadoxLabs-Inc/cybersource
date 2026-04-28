@@ -693,7 +693,7 @@ class ReplyMessage
     protected $routing;
 
     /**
-     * @var \DateTime $transactionLocalDateTime
+     * @var string $transactionLocalDateTime
      */
     protected $transactionLocalDateTime;
 

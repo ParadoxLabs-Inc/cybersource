@@ -13,7 +13,7 @@ class ECCreditReply
     protected $settlementMethod;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

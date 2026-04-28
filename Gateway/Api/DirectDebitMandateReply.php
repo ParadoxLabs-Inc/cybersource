@@ -18,7 +18,7 @@ class DirectDebitMandateReply
     protected $mandateMaturationDate;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

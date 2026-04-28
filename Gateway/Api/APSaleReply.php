@@ -68,7 +68,7 @@ class APSaleReply
     protected $discountAmount;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

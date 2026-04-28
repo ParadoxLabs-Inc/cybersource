@@ -23,7 +23,7 @@ class APInitiateReply
     protected $amount;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

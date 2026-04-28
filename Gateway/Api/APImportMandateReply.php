@@ -18,17 +18,17 @@ class APImportMandateReply
     protected $processorTransactionID;
 
     /**
-     * @var \DateTime $dateSigned
+     * @var string $dateSigned
      */
     protected $dateSigned;
 
     /**
-     * @var \DateTime $dateCreated
+     * @var string $dateCreated
      */
     protected $dateCreated;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

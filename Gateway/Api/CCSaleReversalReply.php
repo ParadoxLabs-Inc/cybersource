@@ -28,7 +28,7 @@ class CCSaleReversalReply
     protected $reconciliationID;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

@@ -108,7 +108,7 @@ class DeviceFingerprint
     protected $agentType;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

@@ -28,7 +28,7 @@ class APRefundReply
     protected $amount;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 
@@ -63,7 +63,7 @@ class APRefundReply
     protected $responseCode;
 
     /**
-     * @var \DateTime $updateDateTime
+     * @var string $updateDateTime
      */
     protected $updateDateTime;
 

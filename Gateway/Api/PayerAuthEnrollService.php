@@ -33,7 +33,7 @@ class PayerAuthEnrollService
     protected $purchaseDescription;
 
     /**
-     * @var \DateTime $purchaseTime
+     * @var string $purchaseTime
      */
     protected $purchaseTime;
 

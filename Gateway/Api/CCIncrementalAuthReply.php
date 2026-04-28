@@ -23,7 +23,7 @@ class CCIncrementalAuthReply
     protected $processorResponse;
 
     /**
-     * @var \DateTime $authorizedDateTime
+     * @var string $authorizedDateTime
      */
     protected $authorizedDateTime;
 

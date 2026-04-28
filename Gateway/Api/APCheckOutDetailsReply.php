@@ -18,7 +18,7 @@ class APCheckOutDetailsReply
     protected $processorResponse;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

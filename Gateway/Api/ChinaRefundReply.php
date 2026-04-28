@@ -8,7 +8,7 @@ use Throwable;
 class ChinaRefundReply
 {
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

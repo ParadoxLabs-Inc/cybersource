@@ -68,17 +68,17 @@ class APCheckStatusReply
     protected $refundBalance;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 
     /**
-     * @var \DateTime $updateDateTime
+     * @var string $updateDateTime
      */
     protected $updateDateTime;
 
     /**
-     * @var \DateTime $expirationDateTime
+     * @var string $expirationDateTime
      */
     protected $expirationDateTime;
 

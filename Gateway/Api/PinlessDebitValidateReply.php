@@ -13,7 +13,7 @@ class PinlessDebitValidateReply
     protected $status;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

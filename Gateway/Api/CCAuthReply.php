@@ -43,7 +43,7 @@ class CCAuthReply
     protected $personalIDCode;
 
     /**
-     * @var \DateTime $authorizedDateTime
+     * @var string $authorizedDateTime
      */
     protected $authorizedDateTime;
 
@@ -78,7 +78,7 @@ class CCAuthReply
     protected $fxQuoteID;
 
     /**
-     * @var \DateTime $fxQuoteRate
+     * @var string $fxQuoteRate
      */
     protected $fxQuoteRate;
 
@@ -88,7 +88,7 @@ class CCAuthReply
     protected $fxQuoteType;
 
     /**
-     * @var \DateTime $fxQuoteExpirationDateTime
+     * @var string $fxQuoteExpirationDateTime
      */
     protected $fxQuoteExpirationDateTime;
 

@@ -18,22 +18,22 @@ class APRevokeMandateReply
     protected $processorTransactionID;
 
     /**
-     * @var \DateTime $dateSigned
+     * @var string $dateSigned
      */
     protected $dateSigned;
 
     /**
-     * @var \DateTime $dateCreated
+     * @var string $dateCreated
      */
     protected $dateCreated;
 
     /**
-     * @var \DateTime $dateRevoked
+     * @var string $dateRevoked
      */
     protected $dateRevoked;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

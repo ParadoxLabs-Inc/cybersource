@@ -8,7 +8,7 @@ use Throwable;
 class CCCaptureReply
 {
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 
@@ -33,7 +33,7 @@ class CCCaptureReply
     protected $fxQuoteID;
 
     /**
-     * @var \DateTime $fxQuoteRate
+     * @var string $fxQuoteRate
      */
     protected $fxQuoteRate;
 
@@ -43,7 +43,7 @@ class CCCaptureReply
     protected $fxQuoteType;
 
     /**
-     * @var \DateTime $fxQuoteExpirationDateTime
+     * @var string $fxQuoteExpirationDateTime
      */
     protected $fxQuoteExpirationDateTime;
 

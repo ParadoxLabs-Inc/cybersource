@@ -43,7 +43,7 @@ class APSessionsReply
     protected $status;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

@@ -13,7 +13,7 @@ class BankTransferRefundReply
     protected $amount;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

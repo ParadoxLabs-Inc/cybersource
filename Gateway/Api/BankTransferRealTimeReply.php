@@ -18,7 +18,7 @@ class BankTransferRealTimeReply
     protected $formAction;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

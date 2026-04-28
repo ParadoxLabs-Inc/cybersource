@@ -8,7 +8,7 @@ use Throwable;
 class VoidReply
 {
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

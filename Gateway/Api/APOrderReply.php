@@ -28,12 +28,12 @@ class APOrderReply
     protected $processorResponse;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 
     /**
-     * @var \DateTime $updateDateTime
+     * @var string $updateDateTime
      */
     protected $updateDateTime;
 

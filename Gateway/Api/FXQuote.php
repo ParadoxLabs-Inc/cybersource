@@ -23,7 +23,7 @@ class FXQuote
     protected $type;
 
     /**
-     * @var \DateTime $expirationDateTime
+     * @var string $expirationDateTime
      */
     protected $expirationDateTime;
 
@@ -38,7 +38,7 @@ class FXQuote
     protected $fundingCurrency;
 
     /**
-     * @var \DateTime $receivedDateTime
+     * @var string $receivedDateTime
      */
     protected $receivedDateTime;
 

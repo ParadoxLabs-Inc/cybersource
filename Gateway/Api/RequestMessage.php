@@ -718,7 +718,7 @@ class RequestMessage
     protected $thirdPartyCertificationNumber;
 
     /**
-     * @var \DateTime $transactionLocalDateTime
+     * @var string $transactionLocalDateTime
      */
     protected $transactionLocalDateTime;
 

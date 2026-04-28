@@ -18,7 +18,7 @@ class PayPalButtonCreateReply
     protected $unencryptedFormData;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

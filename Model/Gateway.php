@@ -217,7 +217,7 @@ class Gateway extends AbstractGateway
 
             throw new RuntimeException(
                 __('CyberSource Gateway error: %1', trim((string)$exception->getMessage())),
-                $exception
+                $exception instanceof \Exception ? $exception : null
             );
         } finally {
             $response = $this->sanitizeLog($this->soapClient->__getLastResponse());

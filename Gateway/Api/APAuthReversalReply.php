@@ -28,7 +28,7 @@ class APAuthReversalReply
     protected $amount;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

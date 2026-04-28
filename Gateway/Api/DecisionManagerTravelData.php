@@ -13,7 +13,7 @@ class DecisionManagerTravelData
     protected $leg;
 
     /**
-     * @var \DateTime $departureDateTime
+     * @var string $departureDateTime
      */
     protected $departureDateTime;
 

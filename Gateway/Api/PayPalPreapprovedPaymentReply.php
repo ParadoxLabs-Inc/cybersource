@@ -8,7 +8,7 @@ use Throwable;
 class PayPalPreapprovedPaymentReply
 {
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

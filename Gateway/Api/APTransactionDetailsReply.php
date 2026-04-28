@@ -23,7 +23,7 @@ class APTransactionDetailsReply
     protected $processorResponse;
 
     /**
-     * @var \DateTime $dateTime
+     * @var string $dateTime
      */
     protected $dateTime;
 

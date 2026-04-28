@@ -18,17 +18,17 @@ class APMandateStatusReply
     protected $processorTransactionID;
 
     /**
-     * @var \DateTime $dateCreated
+     * @var string $dateCreated
      */
     protected $dateCreated;
 
     /**
-     * @var \DateTime $dateSigned
+     * @var string $dateSigned
      */
     protected $dateSigned;
 
     /**
-     * @var \DateTime $dateRevoked
+     * @var string $dateRevoked
      */
     protected $dateRevoked;
 

@@ -18,7 +18,7 @@ class GiftCardVoidReply
     protected $processorResponse;
 
     /**
-     * @var \DateTime $requestDeTime
+     * @var string $requestDeTime
      */
     protected $requestDeTime;
 

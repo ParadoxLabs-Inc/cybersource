@@ -18,7 +18,7 @@ class GiftCardRedemptionReply
     protected $processorResponse;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

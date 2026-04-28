@@ -73,7 +73,7 @@ class CCSaleReply
     protected $accountBalance;
 
     /**
-     * @var \DateTime $authorizedDateTime
+     * @var string $authorizedDateTime
      */
     protected $authorizedDateTime;
 

@@ -13,7 +13,7 @@ class PinlessDebitReversalReply
     protected $amount;
 
     /**
-     * @var \DateTime $requestDateTime
+     * @var string $requestDateTime
      */
     protected $requestDateTime;
 

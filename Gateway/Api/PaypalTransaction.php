@@ -8,7 +8,7 @@ use Throwable;
 class PaypalTransaction
 {
     /**
-     * @var \DateTime $transactionTime
+     * @var string $transactionTime
      */
     protected $transactionTime;
 
