@@ -29,6 +29,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey;
+use Override;
 
 /**
  * Completed Class
@@ -82,7 +83,7 @@ class Complete extends Action
      * @return bool
      * @see \Magento\Backend\App\Request\BackendValidator for default request validation.
      */
-    #[\Override]
+    #[Override]
     public function _processUrlKeys()
     {
         return true;

@@ -28,6 +28,7 @@ use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Store\Model\StoreManagerInterface;
+use Override;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
@@ -73,7 +74,7 @@ class BackendRequest extends AbstractRequestHandler
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
-    #[\Override]
+    #[Override]
     public function getBillingAddressParams()
     {
         try {

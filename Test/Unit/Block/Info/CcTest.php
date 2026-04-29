@@ -13,6 +13,7 @@ use ParadoxLabs\CyberSource\Block\Info\Cc;
 use ParadoxLabs\CyberSource\Helper\Data as Helper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Block\Info\Cc
@@ -359,7 +360,7 @@ class CcTest extends TestCase
      */
     private function invokeProtectedMethod(string $methodName, array $params): mixed
     {
-        $method = new \ReflectionMethod(Cc::class, $methodName);
+        $method = new ReflectionMethod(Cc::class, $methodName);
         $method->setAccessible(true);
 
         return $method->invoke($this->block, ...$params);

@@ -26,6 +26,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use Magento\Framework\Validation\ValidationException;
+use Override;
 
 class P12Certificate extends Encrypted
 {
@@ -71,7 +72,7 @@ class P12Certificate extends Encrypted
     /**
      * @return void
      */
-    #[\Override]
+    #[Override]
     public function beforeSave()
     {
         $value = $this->getValue();

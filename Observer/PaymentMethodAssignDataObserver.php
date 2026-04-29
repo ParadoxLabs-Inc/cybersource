@@ -26,6 +26,7 @@ use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Quote\Api\Data\PaymentExtensionInterface;
 use Magento\Sales\Api\Data\OrderPaymentExtensionInterface;
+use Override;
 
 class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\PaymentMethodAssignDataObserver
 {
@@ -37,7 +38,7 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
      * @param MethodInterface $method
      * @return void
      */
-    #[\Override]
+    #[Override]
     protected function assignStandardData(
         InfoInterface $payment,
         DataObject $data,

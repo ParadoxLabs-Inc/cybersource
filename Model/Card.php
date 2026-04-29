@@ -22,6 +22,7 @@
 namespace ParadoxLabs\CyberSource\Model;
 
 use Magento\Payment\Model\InfoInterface;
+use Override;
 use Throwable;
 
 /**
@@ -34,7 +35,7 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
      *
      * return $this
      */
-    #[\Override]
+    #[Override]
     public function beforeSave()
     {
         // Note: All gateway syncing happens via direct posts to Secure Acceptance.
@@ -58,7 +59,7 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
      *
      * @return $this
      */
-    #[\Override]
+    #[Override]
     public function beforeDelete()
     {
         /**

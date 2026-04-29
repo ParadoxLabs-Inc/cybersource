@@ -23,6 +23,7 @@ namespace ParadoxLabs\CyberSource\Block\Adminhtml\Config;
 
 use Magento\Config\Block\System\Config\Form\Field\Heading;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Override;
 
 class DescriptiveHeader extends Heading
 {
@@ -32,7 +33,7 @@ class DescriptiveHeader extends Heading
      * @param AbstractElement $element
      * @return string
      */
-    #[\Override]
+    #[Override]
     public function render(AbstractElement $element)
     {
         return sprintf(

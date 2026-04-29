@@ -21,6 +21,7 @@
 
 namespace ParadoxLabs\CyberSource\Model\Config;
 
+use Override;
 use ParadoxLabs\TokenBase\Model\Card;
 use Magento\Customer\Model\Session;
 use Magento\Framework\UrlInterface;
@@ -88,7 +89,7 @@ class CheckoutProvider extends CcGenericConfigProvider
      *
      * @return array
      */
-    #[\Override]
+    #[Override]
     public function getConfig()
     {
         if (!$this->methods[ Config::CODE ]->isAvailable()) {

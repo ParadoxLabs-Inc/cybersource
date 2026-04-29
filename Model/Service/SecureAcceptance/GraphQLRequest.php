@@ -26,6 +26,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Override;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\RequestInterface;
@@ -104,7 +105,7 @@ class GraphQLRequest extends AbstractRequestHandler
      * @throws InputException
      * @throws StateException
      */
-    #[\Override]
+    #[Override]
     protected function getGeneralParams()
     {
         $params                        = parent::getGeneralParams();
@@ -120,7 +121,7 @@ class GraphQLRequest extends AbstractRequestHandler
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
-    #[\Override]
+    #[Override]
     public function getBillingAddressParams()
     {
         if (!empty($this->graphQlArgs['billingAddress'])) {
@@ -229,7 +230,7 @@ class GraphQLRequest extends AbstractRequestHandler
      *
      * @return CardInterface|null
      */
-    #[\Override]
+    #[Override]
     protected function getCard()
     {
         if (empty($this->graphQlArgs['cardId'])) {

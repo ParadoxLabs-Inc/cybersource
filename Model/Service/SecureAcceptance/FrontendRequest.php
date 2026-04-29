@@ -30,6 +30,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Override;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
@@ -76,7 +77,7 @@ class FrontendRequest extends AbstractRequestHandler
      * @throws InputException
      * @throws StateException
      */
-    #[\Override]
+    #[Override]
     protected function getGeneralParams()
     {
         $params                        = parent::getGeneralParams();
@@ -92,7 +93,7 @@ class FrontendRequest extends AbstractRequestHandler
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
-    #[\Override]
+    #[Override]
     public function getBillingAddressParams()
     {
         try {

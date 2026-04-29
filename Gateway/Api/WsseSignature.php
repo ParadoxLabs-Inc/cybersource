@@ -23,6 +23,7 @@ namespace ParadoxLabs\CyberSource\Gateway\Api;
 
 use DOMDocument;
 use DOMXPath;
+use RuntimeException;
 
 /**
  * WsseSignature Class
@@ -61,7 +62,7 @@ class WsseSignature
         openssl_pkcs12_read($certificate, $certs, $keyPass);
 
         if (!is_array($certs) || !isset($certs['pkey'], $certs['cert'])) {
-            throw new \RuntimeException('Failed to read PKCS12 certificate.');
+            throw new RuntimeException('Failed to read PKCS12 certificate.');
         }
 
         $this->privateKey = openssl_pkey_get_private($certs['pkey']);

@@ -23,6 +23,7 @@ namespace ParadoxLabs\CyberSource\Block\Info;
 
 use Magento\Framework\DataObject;
 use Magento\Sales\Model\Order\Payment\Info;
+use Override;
 
 /**
  * Credit card info block
@@ -35,7 +36,7 @@ class Cc extends \ParadoxLabs\TokenBase\Block\Info\Cc
      * @param DataObject|array $transport
      * @return DataObject
      */
-    #[\Override]
+    #[Override]
     protected function _prepareSpecificInformation($transport = null)
     {
         $transport = parent::_prepareSpecificInformation($transport);

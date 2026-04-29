@@ -21,6 +21,8 @@
 
 namespace ParadoxLabs\CyberSource\Model;
 
+use Exception;
+use Override;
 use ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder;
 use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
@@ -145,7 +147,7 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return $this
      */
-    #[\Override]
+    #[Override]
     public function init(array $parameters)
     {
         try {
@@ -217,7 +219,7 @@ class Gateway extends AbstractGateway
 
             throw new RuntimeException(
                 __('CyberSource Gateway error: %1', trim((string)$exception->getMessage())),
-                $exception instanceof \Exception ? $exception : null
+                $exception instanceof Exception ? $exception : null
             );
         } finally {
             $response = $this->sanitizeLog($this->soapClient->__getLastResponse());
@@ -255,7 +257,7 @@ class Gateway extends AbstractGateway
      * @return array
      * @throws \Exception
      */
-    #[\Override]
+    #[Override]
     protected function xmlToArray($xml)
     {
         if (empty($xml)) {
@@ -276,7 +278,7 @@ class Gateway extends AbstractGateway
      * @param string $string
      * @return string
      */
-    #[\Override]
+    #[Override]
     protected function sanitizeLog($string)
     {
         $string = (string)$string;
