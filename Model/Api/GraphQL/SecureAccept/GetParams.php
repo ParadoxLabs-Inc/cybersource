@@ -22,6 +22,7 @@
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\SecureAccept;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\GraphQLRequest;
@@ -72,6 +73,11 @@ class GetParams implements ResolverInterface
         ?array $args = null
     ) {
         $this->graphQL->authenticate($context);
+
+        if (!is_array($args) || !isset($args['input']) || !is_array($args['input'])) {
+            throw new GraphQlInputException(__('Required `input` argument is missing.'));
+        }
+
         $this->secureAcceptRequest->setGraphQLContext($context, $args['input']);
 
         return [

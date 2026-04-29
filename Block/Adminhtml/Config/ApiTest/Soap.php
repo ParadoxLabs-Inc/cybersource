@@ -43,7 +43,7 @@ class Soap extends AbstractTest
     protected function testApi()
     {
         try {
-            $requiredKeys = static::CREDENTIAL_KEYS;
+            $requiredKeys = self::CREDENTIAL_KEYS;
 
             if ($this->isCertAuth()) {
                 $requiredKeys[] = 'soap_cert';

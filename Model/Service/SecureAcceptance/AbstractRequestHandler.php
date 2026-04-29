@@ -172,7 +172,7 @@ abstract class AbstractRequestHandler
      */
     public function getBillingAddressParams()
     {
-        $post                = $this->request->getPostValue('billing');
+        $post                = (array)$this->request->getPostValue('billing');
         $post['country_id']  ??= $post['countryId'] ?? null;
         $post['region_id']   ??= $post['regionId'] ?? null;
         $post['region_code'] ??= $post['regionCode'] ?? null;

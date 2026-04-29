@@ -92,10 +92,12 @@ class GetAuthPayload implements ResolverInterface
     ) {
         $this->graphQL->authenticate($context);
 
+        $input = is_array($args['input'] ?? null) ? $args['input'] : [];
+
         /** @var \Magento\Quote\Model\Quote $quote */
-        $quote = $this->graphQL->getQuote($context->getUserId(), $args['input']['cartId'] ?? '');
-        if (empty($quote->getBillingAddress()->getEmail()) && !empty($args['input']['guestEmail'])) {
-            $quote->getBillingAddress()->setEmail($args['input']['guestEmail']);
+        $quote = $this->graphQL->getQuote($context->getUserId(), (string)($input['cartId'] ?? ''));
+        if (empty($quote->getBillingAddress()->getEmail()) && !empty($input['guestEmail'])) {
+            $quote->getBillingAddress()->setEmail($input['guestEmail']);
         }
 
         $enrollReply = $this->persistor->loadPayerAuthEnrollReply($quote->getPayment());

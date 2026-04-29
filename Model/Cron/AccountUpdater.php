@@ -83,11 +83,14 @@ class AccountUpdater
 
         $stores = $this->storeRepository->getList();
         foreach ($stores as $store) {
-            if ($store->getIsActive()
+            $merchantId = (string)$this->config->getMerchantId($store->getId());
+
+            if ($merchantId !== ''
+                && $store->getIsActive()
                 && $this->config->moduleIsActive($store->getId())
-                && !isset($processedAccounts[ $this->config->getMerchantId($store->getId()) ])) {
+                && !isset($processedAccounts[$merchantId])) {
                 try {
-                    $processedAccounts[ $this->config->getMerchantId($store->getId()) ] = 1;
+                    $processedAccounts[$merchantId] = 1;
 
                     $this->emulator->startEnvironmentEmulation($store->getId());
 
@@ -163,9 +166,9 @@ class AccountUpdater
                 // If response is NAN, NED, update BIN/last4/expir
                 // If response is ACL, CCH, DEC, ERR, mark inactive
                 // If response is CUR, NUP, UNA, ignore
-                if (in_array($update['responseRecord']['response'], static::UPDATE_CODES, true)) {
+                if (in_array($update['responseRecord']['response'] ?? null, static::UPDATE_CODES, true)) {
                     $this->updateCard($update);
-                } elseif (in_array($update['responseRecord']['response'], static::INVALID_CODES, true)) {
+                } elseif (in_array($update['responseRecord']['response'] ?? null, static::INVALID_CODES, true)) {
                     $this->disableCard($update);
                 }
             }

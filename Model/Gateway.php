@@ -813,7 +813,7 @@ class Gateway extends AbstractGateway
         );
 
         $validateService = $this->objectBuilder->getPayerAuthValidateService(
-            $decodedJWT['Payload']['Payment']['ProcessorTransactionId'],
+            $decodedJWT['Payload']['Payment']['ProcessorTransactionId'] ?? null,
             $payment->getAdditionalInformation('response_jwt')
         );
 

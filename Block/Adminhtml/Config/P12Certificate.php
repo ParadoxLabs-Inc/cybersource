@@ -24,10 +24,14 @@ class P12Certificate extends File
         if (!empty($value)) {
             $value = json_decode($value, true);
 
+            if (!is_array($value)) {
+                return '';
+            }
+
             return sprintf(
                 '%s (%s)',
-                $value['name'],
-                date('Y-m-d', strtotime((string) $value['uploaded']))
+                $value['name'] ?? '',
+                date('Y-m-d', strtotime((string)($value['uploaded'] ?? '')))
             );
         }
 

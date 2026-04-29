@@ -71,11 +71,14 @@ class TransactionUpdater
 
         $stores = $this->storeRepository->getList();
         foreach ($stores as $store) {
-            if ($store->getIsActive()
+            $merchantId = (string)$this->config->getMerchantId($store->getId());
+
+            if ($merchantId !== ''
+                && $store->getIsActive()
                 && $this->config->moduleIsActive($store->getId())
-                && !isset($processedAccounts[ $this->config->getMerchantId($store->getId()) ])) {
+                && !isset($processedAccounts[$merchantId])) {
                 try {
-                    $processedAccounts[ $this->config->getMerchantId($store->getId()) ] = 1;
+                    $processedAccounts[$merchantId] = 1;
 
                     $this->emulator->startEnvironmentEmulation($store->getId());
 

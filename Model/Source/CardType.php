@@ -41,8 +41,10 @@ class CardType
      */
     public function getType($code)
     {
-        return array_key_exists((string) $code, static::CARD_TYPE_MAP)
-            ? static::CARD_TYPE_MAP[ $code ]
+        $key = (string)$code;
+
+        return array_key_exists($key, self::CARD_TYPE_MAP)
+            ? self::CARD_TYPE_MAP[$key]
             : 'OT';
     }
 }

@@ -187,13 +187,13 @@ class Config
             true
         );
 
-        if (empty($value)) {
+        if (empty($value) || !is_array($value)) {
             throw new StateException(
                 __('Missing Simple Order certificate. Please check configuration.')
             );
         }
 
-        return base64_decode((string) $value['contents']);
+        return base64_decode((string)($value['contents'] ?? ''));
     }
 
     /**

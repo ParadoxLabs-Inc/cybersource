@@ -57,9 +57,15 @@ class WsseSignature
     public function generateSecurityToken($xmlDom, $certificate, $keyPass)
     {
         // PKCS12 certificate file
+        $certs = [];
         openssl_pkcs12_read($certificate, $certs, $keyPass);
+
+        if (!is_array($certs) || !isset($certs['pkey'], $certs['cert'])) {
+            throw new \RuntimeException('Failed to read PKCS12 certificate.');
+        }
+
         $this->privateKey = openssl_pkey_get_private($certs['pkey']);
-        $pubcert          = explode("\n", (string) $certs['cert']);
+        $pubcert          = explode("\n", (string)$certs['cert']);
         array_shift($pubcert);
 
         while (!trim((string) array_pop($pubcert))) {
