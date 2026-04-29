@@ -424,11 +424,17 @@ class TransactionProcessor extends SoapClient
      * @param string $action
      * @param int $version
      * @param bool $oneWay
-     * @return string
+     * @return string|null
      */
     #[ReturnTypeWillChange]
-    function __doRequest($request, $location, $action, $version, $oneWay = false)
-    {
+    public function __doRequest(
+        $request,
+        $location,
+        $action,
+        $version,
+        $oneWay = false,
+        ?string $uriParserClass = null
+    ): ?string {
         if ($this->config->getSoapAuthType() === 'cert') {
             $request = $this->signWithCertificate($request);
         }
