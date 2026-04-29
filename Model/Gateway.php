@@ -177,7 +177,7 @@ class Gateway extends AbstractGateway
     public function createRequest()
     {
         $request = $this->objectBuilder->getRequest($this->config->getMerchantId());
-        $request->setPartnerSolutionID(Config\Config::SOLUTION_ID);
+        $request->setPartnerSolutionID(Config::SOLUTION_ID);
         $request->setClientLibrary($this->config->getClientName());
         $request->setClientLibraryVersion($this->config->getClientVersion());
         $request->setClientEnvironment('Magento 2');
@@ -291,11 +291,16 @@ class Gateway extends AbstractGateway
         }
 
         foreach ($maskFour as $val) {
-            $start  = strpos((string) $string, $val . '>');
+            $start = strpos((string) $string, $val . '>');
+
+            if ($start === false) {
+                continue;
+            }
+
             $end    = strpos((string) $string, '</', $start);
             $tagLen = strlen($val) + 1;
 
-            if ($start !== false && $end > ($start + $tagLen + 4)) {
+            if ($end !== false && $end > ($start + $tagLen + 4)) {
                 $string = substr_replace($string, 'XXXX', $start + $tagLen, $end - 4 - ($start + $tagLen));
             }
         }
