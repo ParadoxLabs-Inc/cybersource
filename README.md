@@ -27,9 +27,9 @@ please [visit our website](https://store.paradoxlabs.com/magento2-cybersource-pa
 Requirements
 ============
 
-* Magento 2.3 or 2.4 including 2.4.8 (or equivalent version of Adobe Commerce, Adobe Commerce Cloud, or Mage-OS)
-* PHP 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, or 8.4
-* composer 1 or 2
+* Adobe Commerce / Magento Open Source 2.4.6 – 2.4.9 (or equivalent version of Adobe Commerce Cloud), or Mage-OS 2.0 – 3.0
+* PHP 8.1, 8.2, 8.3, 8.4, or 8.5
+* composer 2
 
 Features
 ========
