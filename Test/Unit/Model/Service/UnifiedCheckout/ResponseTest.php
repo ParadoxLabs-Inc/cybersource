@@ -694,10 +694,16 @@ class ResponseTest extends TestCase
             ],
         ]);
 
-        $this->expectException(CommandException::class);
-        $this->expectExceptionMessage('Transaction Failed');
+        try {
+            $this->service->place($this->buildPayment(), 24.0);
 
-        $this->service->place($this->buildPayment(), 24.0);
+            $this->fail('Expected CommandException was not thrown');
+        } catch (CommandException $exception) {
+            $this->assertStringContainsString('Transaction Failed', (string)$exception->getMessage());
+            // The DM-reject exception must never carry the approval code (100); it is forced to 0 so it
+            // matches nothing in the retry code space.
+            $this->assertSame(0, $exception->getCode());
+        }
     }
 
     public function testDecisionProfileRejectReasonThrowsEvenWithoutRiskDeclinedStatus(): void
@@ -758,6 +764,10 @@ class ResponseTest extends TestCase
                 'directoryServerTransactionId' => 'f38e6948-5388-41a6-bca4-b49723c19437',
                 'ucafAuthenticationData' => 'someUcafData',
                 'unrelatedField' => 'ignored',
+                // Allowlisted key but non-scalar value: must be skipped by the scalar guard.
+                'token' => [
+                    'unexpected' => 'structure',
+                ],
             ],
         ]);
 
@@ -775,6 +785,8 @@ class ResponseTest extends TestCase
         $this->assertSame('2.2.0', $auth['specificationVersion']);
         // Only the known authentication-result fields are surfaced; unknown keys are dropped.
         $this->assertArrayNotHasKey('unrelatedField', $auth);
+        // Allowlisted but non-scalar values are skipped by the scalar guard.
+        $this->assertArrayNotHasKey('token', $auth);
     }
 
     public function testNoConsumerAuthenticationKeyWhenAuthenticationAbsent(): void

@@ -263,7 +263,9 @@ class Response
      * shouldSuppressDecisionManager() -> enableDecisionManager=false (see below).
      *
      * DEFERRED (OPEN-WALLET-MIT): wallet network-token MIT branching (e.g. Apple/Google Pay network tokens)
-     * is NOT handled here and is deferred pending the S6 verdict.
+     * is NOT handled here and is deferred pending the S6 verdict. Any future wallet/network-token MIT
+     * request builder must also call shouldSuppressDecisionManager() like buildRequest()/
+     * buildStoredCardRequest() do.
      *
      * @param InfoInterface $payment
      * @param CardInterface $card
@@ -810,6 +812,10 @@ class Response
      * stores the whole response data tree as transaction additional info). These are the liability-shift
      * indicators (eci/cavv) the merchant relies on; we surface them rather than letting them be dropped.
      *
+     * NOTE: interpretResponse() copies the whole gateway reply onto the response data, so the raw
+     * consumerAuthenticationInformation tree also rides along verbatim on the transaction record. The
+     * allowlist here is a stable read contract for downstream consumers, NOT a filtering/redaction boundary.
+     *
      * VERIFY (live-UNVERIFIED — no boarded 3DS test card on the sandbox MID): the exact field set returned
      * for a UC-authenticated transaction is SDK/reference-derived (PtsV2PaymentsPost201Response
      * ConsumerAuthenticationInformation). Confirm against a live 3DS challenge + frictionless run that the
@@ -830,7 +836,9 @@ class Response
         $authentication = [];
         foreach (self::CONSUMER_AUTHENTICATION_FIELDS as $field) {
             $value = $authInformation[$field] ?? null;
-            if ($value !== null && $value !== '') {
+            // Scalar guard: a future schema change to an array/object value must not land a non-scalar
+            // on the persisted record.
+            if ($value !== null && $value !== '' && is_scalar($value)) {
                 $authentication[$field] = $value;
             }
         }
@@ -883,9 +891,16 @@ class Response
 
         $code = ctype_digit($responseCode) ? (int)$responseCode : 0;
 
-        $isDecline = $status === 'DECLINED'
-            || in_array($status, self::RISK_DECLINED_STATUSES, true)
+        $isRiskDeclined = in_array($status, self::RISK_DECLINED_STATUSES, true)
             || $errorReason === self::REASON_DECISION_PROFILE_REJECT;
+
+        // A DM reject must never carry the approval code (responseCode 100 with a rejected order); force
+        // the exception code to 0, which matches nothing in the retry code space.
+        if ($isRiskDeclined) {
+            $code = 0;
+        }
+
+        $isDecline = $status === 'DECLINED' || $isRiskDeclined;
 
         if ($isDecline) {
             throw new CommandException($message, null, $code);
