@@ -7,13 +7,13 @@
         "tokenization"
     ],
     "require": {
-        "paradoxlabs/tokenbase": "~4.8.0",
+        "paradoxlabs/tokenbase": "~5.0.0",
         "ext-openssl": "*",
         "ext-soap": "*"
     },
     "type": "magento2-module",
-    "version": "2.0.2",
-    "time": "2026-01-07",
+    "version": "3.0.0",
+    "time": "2026-04-29",
     "license": "Apache-2.0",
     "authors": [
         {
