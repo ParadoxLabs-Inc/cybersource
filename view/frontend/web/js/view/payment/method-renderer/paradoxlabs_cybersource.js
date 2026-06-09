@@ -34,6 +34,14 @@ define(
         var TOKEN_TTL_MS = 14 * 60 * 1000;
         // Placeholder card id used to flag a freshly tokenized (not-yet-vaulted) card to the place-order UI.
         var NEW_CARD_ID = 'unified_checkout_new';
+
+        // ---------------------------------------------------------------------------------------------
+        // Iter-3 additional_data contract (getData()):
+        //   New card  => transient_token = <UC transient-token JWT>, card_id = null (empty).
+        //   Stored card => transient_token = null, card_id = <vault hash>.
+        // The synthetic NEW_CARD_ID placeholder is normalized to null here; it never reaches the
+        // server as a real card_id. Exactly one of {transient_token, card_id} is populated per submit.
+        // ---------------------------------------------------------------------------------------------
         return Component.extend({
             defaults: {
                 template: 'ParadoxLabs_CyberSource/payment/unified-checkout',
@@ -42,7 +50,6 @@ define(
                 storedCards: config ? config.storedCards : [],
                 logoImage: config ? config.logoImage : false,
                 transientToken: null,
-                dropinMounted: false,
                 lastGrandTotal: null
             },
             initVars: function () {
@@ -60,13 +67,21 @@ define(
 
                 this.storedCards = ko.observableArray(config.storedCards);
 
-                quote.billingAddress.subscribe(this.maybeMountDropin.bind(this));
-                quote.paymentMethod.subscribe(this.maybeMountDropin.bind(this));
-                this.selectedCard.subscribe(this.maybeMountDropin.bind(this));
+                // In-flight capture-context jqXHR; tracked so rapid total/card changes can abort a
+                // stale request instead of double-mounting. TTL timer handle for the same reason.
+                this._captureXhr = null;
+                this._ttlTimer = null;
 
-                // Re-request the capture context whenever the grand total changes, so the amount in the
-                // capture mandate stays in sync with the order being placed.
-                quote.totals.subscribe(this.handleTotalChange.bind(this));
+                // Capture subscription handles so dispose() can tear them down; on checkout region
+                // re-render the component is recreated and these would otherwise accumulate (N x handlers).
+                this._subscriptions = [
+                    quote.billingAddress.subscribe(this.maybeMountDropin.bind(this)),
+                    quote.paymentMethod.subscribe(this.maybeMountDropin.bind(this)),
+                    this.selectedCard.subscribe(this.handleSelectedCardChange.bind(this)),
+                    // Re-request the capture context whenever the grand total changes, so the amount in
+                    // the capture mandate stays in sync with the order being placed.
+                    quote.totals.subscribe(this.handleTotalChange.bind(this))
+                ];
 
                 this.showDropin = ko.computed(function () {
                     return (this.selectedCard() === null || this.selectedCard() === undefined)
@@ -99,20 +114,51 @@ define(
 
             /**
              * Mount the Unified Checkout drop-in when we are the active method, have a billing address,
-             * are adding a new card, and have not already mounted.
+             * are adding a new card, and the drop-in is not already mounted/in-flight.
+             *
+             * The guard keys on actual container emptiness rather than a sticky boolean, so a
+             * stored -> new card transition reliably re-mounts (a sticky latch would dead-end).
              */
             maybeMountDropin: function () {
-                if (this.dropinMounted === true
-                    || quote.paymentMethod() === null
+                var screen = $('#' + this.getCode() + '_uc_screen');
+
+                if (quote.paymentMethod() === null
                     || quote.paymentMethod().method !== this.getCode()
                     || this.selectedCard()
                     || quote.billingAddress() === null
-                    || $('#' + this.getCode() + '_uc_screen').length === 0) {
+                    || screen.length === 0
+                    || this._captureXhr !== null
+                    || screen.children().length > 0) {
                     return;
                 }
 
-                this.dropinMounted = true;
                 this.requestCaptureContext();
+            },
+
+            /**
+             * React to a card-selection change.
+             *
+             * - Stored card selected (drop-in hidden): reset captured state + empty the containers so
+             *   returning to "Add new card" re-requests a fresh capture context and re-mounts (C1).
+             * - "Add new card" selected (empty): attempt a mount.
+             * - Synthetic NEW_CARD_ID (a freshly captured token): do nothing, so the capture does not
+             *   re-trigger the mount path (I3).
+             */
+            handleSelectedCardChange: function () {
+                var selected = this.selectedCard();
+
+                if (selected === NEW_CARD_ID) {
+                    return;
+                }
+
+                if (selected) {
+                    // A real stored card is now selected; abandon any pending/mounted drop-in.
+                    this.resetDropinState();
+
+                    return;
+                }
+
+                this.maybeMountDropin();
             },
 
             /**
@@ -124,7 +170,7 @@ define(
                 $('#' + this.getCode() + '_uc_screen').trigger('processStart');
                 this.lastGrandTotal = this.getGrandTotal();
 
-                return $.post({
+                this._captureXhr = $.post({
                     url: config.captureContextUrl,
                     dataType: 'json',
                     data: this.getCaptureContextParams(),
@@ -132,6 +178,13 @@ define(
                     success: this.loadClientLibrary.bind(this),
                     error: this.handleAjaxError.bind(this)
                 });
+
+                // Clear the in-flight handle once settled so a later total change can mount again.
+                this._captureXhr.always(function () {
+                    this._captureXhr = null;
+                }.bind(this));
+
+                return this._captureXhr;
             },
 
             /**
@@ -235,9 +288,11 @@ define(
              * but before a token was captured.
              */
             handleTotalChange: function () {
-                if (this.dropinMounted !== true
-                    || this.transientToken()
-                    || this.lastGrandTotal === null) {
+                // Only relevant once a drop-in is mounted (containers populated) and before a token is
+                // captured. transientToken present => already captured; lastGrandTotal null => never mounted.
+                if (this.transientToken()
+                    || this.lastGrandTotal === null
+                    || $('#' + this.getCode() + '_uc_screen').children().length === 0) {
                     return;
                 }
 
@@ -261,6 +316,33 @@ define(
              * Tear down captured state and re-request a fresh capture context + drop-in.
              */
             remountDropin: function () {
+                this.resetDropinState();
+
+                // resetDropinState() may have flipped selectedCard from NEW_CARD_ID to null, which
+                // fires handleSelectedCardChange -> maybeMountDropin and already kicks off a request.
+                // Only mount here if that did not happen (e.g. total-change while no token captured),
+                // and let the guarded maybeMountDropin avoid a duplicate request either way.
+                this.maybeMountDropin();
+            },
+
+            /**
+             * Tear down any mounted/in-flight drop-in: cancel the TTL timer, abort the in-flight
+             * capture-context request, drop captured token + synthetic card, and empty the containers.
+             *
+             * Called when switching to a stored card and as the first step of a re-mount, so a fresh
+             * mount never races a stale request or double-injects into the same containers (I1).
+             */
+            resetDropinState: function () {
+                if (this._ttlTimer) {
+                    clearTimeout(this._ttlTimer);
+                    this._ttlTimer = null;
+                }
+
+                if (this._captureXhr) {
+                    this._captureXhr.abort();
+                    this._captureXhr = null;
+                }
+
                 this.transientToken(null);
                 this.storedCards.remove(function (card) {
                     return card.id === NEW_CARD_ID;
@@ -269,10 +351,36 @@ define(
                     this.selectedCard(null);
                 }
 
+                this.lastGrandTotal = null;
+
                 $('#' + this.getCode() + '_uc_selection').empty();
                 $('#' + this.getCode() + '_uc_screen').empty();
+            },
 
-                this.requestCaptureContext();
+            /**
+             * KO UI component teardown. Clear the TTL timer, abort any in-flight request, and dispose
+             * the quote subscriptions so a re-rendered checkout region does not leave detached handlers
+             * or a timer firing against a detached DOM (C2).
+             */
+            dispose: function () {
+                if (this._ttlTimer) {
+                    clearTimeout(this._ttlTimer);
+                    this._ttlTimer = null;
+                }
+
+                if (this._captureXhr) {
+                    this._captureXhr.abort();
+                    this._captureXhr = null;
+                }
+
+                if (this._subscriptions) {
+                    this._subscriptions.forEach(function (subscription) {
+                        subscription.dispose();
+                    });
+                    this._subscriptions = [];
+                }
+
+                this._super();
             },
 
             /**
@@ -292,8 +400,14 @@ define(
             },
 
             handleAjaxError: function (jqXHR, status, error) {
+                // jQuery abort()s surface here with status 'abort'; that is an intentional teardown
+                // (stored-card switch / re-mount), not a failure, so swallow it silently.
+                if (status === 'abort') {
+                    return;
+                }
+
                 $('#' + this.getCode() + '_uc_screen').trigger('processStop');
-                this.dropinMounted = false;
+                this._captureXhr = null;
 
                 var message = $.mage.__('A server error occurred. Please try again.');
 
@@ -309,6 +423,7 @@ define(
                         }
                     }
                 } catch (e) {
+                    // responseText was not JSON; keep the default/passed message.
                 }
 
                 try {

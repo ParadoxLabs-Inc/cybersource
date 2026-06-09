@@ -27,6 +27,16 @@ define([
 
     // Placeholder card id used to flag a freshly tokenized (not-yet-vaulted) card to the form.
     var NEW_CARD_ID = 'unified_checkout_new';
+    // Transient token TTL is ~15 minutes; re-request the capture context shortly before it lapses.
+    var TOKEN_TTL_MS = 14 * 60 * 1000;
+
+    // ---------------------------------------------------------------------------------------------
+    // Iter-3 additional_data contract (shared with the KO renderer):
+    //   New card  => transient_token = <UC transient-token JWT>, card_id empty/absent.
+    //   Stored card => transient_token empty, card_id = <vault hash>.
+    // The synthetic NEW_CARD_ID placeholder is a UI affordance only; addAndSelectCard() clears the
+    // submitted card_id value so the placeholder never reaches the server as a real card_id.
+    // ---------------------------------------------------------------------------------------------
 
     $.widget('mage.cybersourceLegacyForm', {
         options: {
@@ -38,33 +48,85 @@ define([
         _create: function () {
             this.element.on('change', this.options.cardSelector, this.handleCardSelectChange.bind(this));
             this.dropinMounted = false;
+            this._captureXhr = null;
+            this._ttlTimer = null;
 
             this.handleCardSelectChange();
         },
 
+        _destroy: function () {
+            if (this._ttlTimer) {
+                clearTimeout(this._ttlTimer);
+                this._ttlTimer = null;
+            }
+
+            if (this._captureXhr) {
+                this._captureXhr.abort();
+                this._captureXhr = null;
+            }
+        },
+
         handleCardSelectChange: function () {
-            if (this.element.find(this.options.cardSelector).val() !== '') {
+            var select = this.element.find(this.options.cardSelector);
+            var selectedOption = this.element.find(this.options.cardSelector + ' option:selected');
+
+            // A real stored card is selected (non-empty value that is not the captured-token placeholder).
+            if (select.val() !== '' && selectedOption.data('id') !== NEW_CARD_ID) {
                 this.element.find('div.cvv').show();
-                this.element.find('div.save').toggle(
-                    !!this.element.find(this.options.cardSelector + ' option:selected').data('new')
-                );
+                this.element.find('div.save').hide();
+                this.teardownDropin();
 
                 return;
             }
 
-            // Hide additional fields when the drop-in is visible
+            // The freshly tokenized "new card" placeholder (value cleared, flagged via data-id).
+            if (selectedOption.data('id') === NEW_CARD_ID) {
+                this.element.find('div.cvv').show();
+                this.element.find('div.save').toggle(!!selectedOption.data('new'));
+
+                return;
+            }
+
+            // 'Add new card' selected: hide additional fields and (re-)mount the drop-in.
             this.element.find('div.cvv').hide();
             this.element.find('div.save').hide();
 
-            // Mount the UC drop-in if 'add new card' is selected
             this.mountDropin();
+        },
+
+        /**
+         * Tear down a mounted/in-flight drop-in when switching to a stored card, so returning to
+         * 'Add new card' re-requests a fresh capture context instead of dead-ending on the latch.
+         */
+        teardownDropin: function () {
+            if (this._ttlTimer) {
+                clearTimeout(this._ttlTimer);
+                this._ttlTimer = null;
+            }
+
+            if (this._captureXhr) {
+                this._captureXhr.abort();
+                this._captureXhr = null;
+            }
+
+            this.element.find(this.options.tokenSelector).val('');
+            this.element.find(this.options.cardSelector + ' option').filter(function () {
+                return $(this).data('id') === NEW_CARD_ID;
+            }).remove();
+            this.element.find('.unified-checkout-selection').empty();
+            this.element.find('.unified-checkout-screen').empty();
+            this.dropinMounted = false;
         },
 
         /**
          * Request a capture context and load the UC client library (once).
          */
         mountDropin: function () {
-            if (this.dropinMounted === true) {
+            // Guard against a duplicate-mount race: an in-flight request or an already populated
+            // screen container means a mount is pending/done; do not issue a second request (I1).
+            if (this.dropinMounted === true
+                || this._captureXhr !== null
+                || this.element.find('.unified-checkout-screen').children().length > 0) {
                 return;
             }
 
@@ -86,7 +148,7 @@ define([
                 payload[inputs[key].name] = $(inputs[key]).val();
             }
 
-            return $.post({
+            this._captureXhr = $.post({
                 url: this.options.captureContextUrl,
                 dataType: 'json',
                 data: payload,
@@ -94,6 +156,21 @@ define([
                 success: this.loadClientLibrary.bind(this),
                 error: this.handleAjaxError.bind(this)
             });
+
+            this._captureXhr.always(function () {
+                this._captureXhr = null;
+            }.bind(this));
+
+            return this._captureXhr;
+        },
+
+        /**
+         * Re-request a fresh capture context + drop-in before the transient-token TTL lapses, so a
+         * long admin/customer session does not submit a stale token (M5).
+         */
+        remountDropin: function () {
+            this.teardownDropin();
+            this.mountDropin();
         },
 
         /**
@@ -155,6 +232,12 @@ define([
                 }.bind(this));
 
             this.element.find('.unified-checkout-screen').trigger('processStop');
+
+            if (this._ttlTimer) {
+                clearTimeout(this._ttlTimer);
+            }
+
+            this._ttlTimer = setTimeout(this.remountDropin.bind(this), TOKEN_TTL_MS);
         },
 
         /**
@@ -178,11 +261,17 @@ define([
         },
 
         handleAjaxError: function (jqXHR, status, error) {
+            // Aborts are intentional teardown (stored-card switch / re-mount), not failures.
+            if (status === 'abort') {
+                return;
+            }
+
             var screen = this.element.find('.unified-checkout-screen');
             var message = $.mage.__('A server error occurred. Please try again.');
 
             screen.trigger('processStop');
             this.dropinMounted = false;
+            this._captureXhr = null;
 
             if (typeof error === 'string' && error.length > 0) {
                 message = error;
@@ -196,6 +285,7 @@ define([
                     }
                 }
             } catch (e) {
+                // responseText was not JSON; keep the default/passed message.
             }
 
             if (screen.siblings('.message').length > 0) {
@@ -217,15 +307,23 @@ define([
         },
 
         addAndSelectCard: function (card) {
+            // The option carries an EMPTY value so the synthetic placeholder is never submitted as a
+            // real card_id (Iter-3 contract); the new-card state is tracked via data-id instead. The
+            // transient_token already holds the captured JWT, which is what the server consumes.
             var option = $('<option>');
-            option.val(card.id)
+            option.val('')
                 .text(card.label)
+                .data('id', card.id)
                 .data('new', card.new)
                 .data('cc_bin', card.cc_bin)
                 .data('cc_last4', card.cc_last4)
                 .data('type', card.type);
 
-            this.element.find(this.options.cardSelector).append(option).val(card.id).trigger('change');
+            var select = this.element.find(this.options.cardSelector);
+            select.find('option').prop('selected', false);
+            select.append(option);
+            option.prop('selected', true);
+            select.trigger('change');
         },
 
         /**

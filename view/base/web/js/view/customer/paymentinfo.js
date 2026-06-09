@@ -26,6 +26,16 @@ define([
 ], function ($, alert) {
     'use strict';
 
+    // Transient token TTL is ~15 minutes; re-request the capture context shortly before it lapses.
+    var TOKEN_TTL_MS = 14 * 60 * 1000;
+
+    // ---------------------------------------------------------------------------------------------
+    // Iter-3 additional_data contract (shared with the KO renderer):
+    //   New card  => transient_token = <UC transient-token JWT>, card_id empty/absent.
+    // This is a dedicated add-card form (no stored-card select); handleTransientToken() strips the
+    // card_id field before submit so only the transient_token represents the new card.
+    // ---------------------------------------------------------------------------------------------
+
     $.widget('mage.cybersourcePaymentInfoForm', {
         options: {
             captureContextUrl: null,
@@ -38,11 +48,50 @@ define([
             this.element.find('#submit-address').on('click', this.showPayment.bind(this));
             this.element.find('#edit-address').on('click', this.showAddress.bind(this));
             this.dropinMounted = false;
+            this._captureXhr = null;
+            this._ttlTimer = null;
+        },
+
+        _destroy: function () {
+            if (this._ttlTimer) {
+                clearTimeout(this._ttlTimer);
+                this._ttlTimer = null;
+            }
+
+            if (this._captureXhr) {
+                this._captureXhr.abort();
+                this._captureXhr = null;
+            }
         },
 
         showAddress: function () {
             this.element.find('.address').show();
             this.element.find('.payment').hide();
+
+            // Returning to edit the address invalidates the mounted drop-in/token; tear it down so a
+            // fresh capture context (with the updated billing address) is requested on the next mount.
+            this.teardownDropin();
+        },
+
+        /**
+         * Tear down a mounted/in-flight drop-in: cancel the TTL timer, abort the request, clear the
+         * captured token and empty the containers so the next mount starts clean.
+         */
+        teardownDropin: function () {
+            if (this._ttlTimer) {
+                clearTimeout(this._ttlTimer);
+                this._ttlTimer = null;
+            }
+
+            if (this._captureXhr) {
+                this._captureXhr.abort();
+                this._captureXhr = null;
+            }
+
+            this.element.find(this.options.tokenSelector).val('');
+            this.element.find('.unified-checkout-selection').empty();
+            this.element.find('.unified-checkout-screen').empty();
+            this.dropinMounted = false;
         },
 
         showPayment: function () {
@@ -96,7 +145,11 @@ define([
          * Request a capture context and load the UC client library (once).
          */
         mountDropin: function () {
-            if (this.dropinMounted === true) {
+            // Guard against a duplicate-mount race: an in-flight request or an already populated
+            // screen container means a mount is pending/done; do not issue a second request (I1).
+            if (this.dropinMounted === true
+                || this._captureXhr !== null
+                || this.element.find('.unified-checkout-screen').children().length > 0) {
                 return;
             }
 
@@ -104,7 +157,7 @@ define([
 
             this.element.find('.unified-checkout-screen').trigger('processStart');
 
-            return $.post({
+            this._captureXhr = $.post({
                 url: this.options.captureContextUrl,
                 dataType: 'json',
                 data: this.element.serialize(),
@@ -112,6 +165,21 @@ define([
                 success: this.loadClientLibrary.bind(this),
                 error: this.handleAjaxError.bind(this)
             });
+
+            this._captureXhr.always(function () {
+                this._captureXhr = null;
+            }.bind(this));
+
+            return this._captureXhr;
+        },
+
+        /**
+         * Re-request a fresh capture context + drop-in before the transient-token TTL lapses, so a
+         * long customer/admin session does not submit a stale token (M5).
+         */
+        remountDropin: function () {
+            this.teardownDropin();
+            this.mountDropin();
         },
 
         /**
@@ -173,6 +241,12 @@ define([
                 }.bind(this));
 
             this.element.find('.unified-checkout-screen').trigger('processStop');
+
+            if (this._ttlTimer) {
+                clearTimeout(this._ttlTimer);
+            }
+
+            this._ttlTimer = setTimeout(this.remountDropin.bind(this), TOKEN_TTL_MS);
         },
 
         /**
@@ -195,8 +269,14 @@ define([
         },
 
         handleAjaxError: function (jqXHR, status, error) {
+            // Aborts are intentional teardown (address edit / re-mount), not failures.
+            if (status === 'abort') {
+                return;
+            }
+
             this.element.find('.unified-checkout-screen').trigger('processStop');
             this.dropinMounted = false;
+            this._captureXhr = null;
 
             var message = $.mage.__('A server error occurred. Please try again.');
 
@@ -212,6 +292,7 @@ define([
                     }
                 }
             } catch (e) {
+                // responseText was not JSON; keep the default/passed message.
             }
 
             try {
