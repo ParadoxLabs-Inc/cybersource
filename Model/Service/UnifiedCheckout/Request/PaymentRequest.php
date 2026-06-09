@@ -59,6 +59,13 @@ class PaymentRequest
     private ?bool $capture = null;
 
     /**
+     * Per-transaction Decision Manager toggle. Null = account default; false = suppress DM on this call.
+     *
+     * @var bool|null
+     */
+    private ?bool $enableDecisionManager = null;
+
+    /**
      * @var string|null
      */
     private ?string $totalAmount = null;
@@ -191,6 +198,29 @@ class PaymentRequest
     }
 
     /**
+     * Get the per-transaction Decision Manager toggle (null = account default, false = suppress).
+     *
+     * @return bool|null
+     */
+    public function getEnableDecisionManager(): ?bool
+    {
+        return $this->enableDecisionManager;
+    }
+
+    /**
+     * Set the per-transaction Decision Manager toggle.
+     *
+     * @param bool|null $enableDecisionManager
+     * @return $this
+     */
+    public function setEnableDecisionManager(?bool $enableDecisionManager): self
+    {
+        $this->enableDecisionManager = $enableDecisionManager;
+
+        return $this;
+    }
+
+    /**
      * Get the order total amount (fixed 2-decimal string, e.g. "24.00").
      *
      * @return string|null
@@ -279,6 +309,7 @@ class PaymentRequest
             'actionList' => $this->actionList,
             'actionTokenTypes' => $this->actionTokenTypes,
             'capture' => $this->capture,
+            'enableDecisionManager' => $this->enableDecisionManager,
         ]);
         if (!empty($processingInformation)) {
             $request['processingInformation'] = $processingInformation;

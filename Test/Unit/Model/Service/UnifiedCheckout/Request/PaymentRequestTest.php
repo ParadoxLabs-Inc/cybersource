@@ -86,4 +86,28 @@ class PaymentRequestTest extends TestCase
         $this->assertSame(['TOKEN_CREATE'], $request->getActionList());
         $this->assertSame(['customer'], $request->getActionTokenTypes());
     }
+
+    public function testToArrayPreservesEnableDecisionManagerFalse(): void
+    {
+        // DM-suppression rides on processingInformation.enableDecisionManager=false; the boolean false must
+        // survive empty-filtering (otherwise the suppression silently drops and DM runs).
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setEnableDecisionManager(false);
+
+        $result = $request->toArray();
+
+        $this->assertArrayHasKey('enableDecisionManager', $result['processingInformation']);
+        $this->assertFalse($result['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testToArrayOmitsEnableDecisionManagerWhenNull(): void
+    {
+        // Default (null) = leave DM at the account default -> the key must be absent, not sent as false.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setActionList(['TOKEN_CREATE']);
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $result['processingInformation']);
+    }
 }

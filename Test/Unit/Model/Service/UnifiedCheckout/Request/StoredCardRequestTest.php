@@ -142,4 +142,27 @@ class StoredCardRequestTest extends TestCase
 
         $this->assertSame([], $request->toArray());
     }
+
+    public function testToArrayPreservesEnableDecisionManagerFalse(): void
+    {
+        // MIT DM-suppression: enableDecisionManager=false must survive empty-filtering on the stored-card
+        // body too (alongside the recurring/MIT initiator block).
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI-1')->setEnableDecisionManager(false);
+
+        $result = $request->toArray();
+
+        $this->assertArrayHasKey('enableDecisionManager', $result['processingInformation']);
+        $this->assertFalse($result['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testToArrayOmitsEnableDecisionManagerWhenNull(): void
+    {
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI-1')->setCapture(false);
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $result['processingInformation']);
+    }
 }

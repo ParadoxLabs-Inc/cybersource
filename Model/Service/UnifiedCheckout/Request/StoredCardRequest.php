@@ -51,6 +51,13 @@ class StoredCardRequest
     private ?bool $capture = null;
 
     /**
+     * Per-transaction Decision Manager toggle. Null = account default; false = suppress DM on this call.
+     *
+     * @var bool|null
+     */
+    private ?bool $enableDecisionManager = null;
+
+    /**
      * @var string|null
      */
     private ?string $commerceIndicator = null;
@@ -146,6 +153,29 @@ class StoredCardRequest
     public function setCapture(?bool $capture): self
     {
         $this->capture = $capture;
+
+        return $this;
+    }
+
+    /**
+     * Get the per-transaction Decision Manager toggle (null = account default, false = suppress).
+     *
+     * @return bool|null
+     */
+    public function getEnableDecisionManager(): ?bool
+    {
+        return $this->enableDecisionManager;
+    }
+
+    /**
+     * Set the per-transaction Decision Manager toggle.
+     *
+     * @param bool|null $enableDecisionManager
+     * @return $this
+     */
+    public function setEnableDecisionManager(?bool $enableDecisionManager): self
+    {
+        $this->enableDecisionManager = $enableDecisionManager;
 
         return $this;
     }
@@ -424,6 +454,7 @@ class StoredCardRequest
         $processingInformation = $this->filterEmpty([
             'capture' => $this->capture,
             'commerceIndicator' => $this->commerceIndicator,
+            'enableDecisionManager' => $this->enableDecisionManager,
         ]);
 
         // The initiator block is emitted only when an initiatorType is set (CIT or MIT).

@@ -111,6 +111,46 @@ class Response
     public const REASON_PROCESSOR_ERROR = 'PROCESSOR_ERROR';
 
     /**
+     * errorInformation.reason value emitted when Decision Manager (or ATO) REJECTS the order.
+     *
+     * The auth can still approve at the processor (responseCode=100, status AUTHORIZED_RISK_DECLINED)
+     * while DM rejects it — we must treat that as a hard decline, not a clean approval.
+     */
+    public const REASON_DECISION_PROFILE_REJECT = 'DECISION_PROFILE_REJECT';
+
+    /**
+     * Payment statuses that represent a Decision Manager / risk REJECT (auth approved but DM declined).
+     */
+    public const RISK_DECLINED_STATUSES = [
+        'AUTHORIZED_RISK_DECLINED',
+        'REJECTED',
+    ];
+
+    /**
+     * consumerAuthenticationInformation fields surfaced from the reply for 3DS liability-shift /
+     * authentication-result record-keeping (the UC completeMandate.consumerAuthentication parity set).
+     */
+    public const CONSUMER_AUTHENTICATION_FIELDS = [
+        'eci',
+        'eciRaw',
+        'cavv',
+        'cavvAlgorithm',
+        'xid',
+        'paresStatus',
+        'authenticationResult',
+        'authenticationStatusMsg',
+        'veresEnrolled',
+        'commerceIndicator',
+        'specificationVersion',
+        'directoryServerTransactionId',
+        'threeDSServerTransactionId',
+        'ucafAuthenticationData',
+        'ucafCollectionIndicator',
+        'indicator',
+        'token',
+    ];
+
+    /**
      * Response constructor.
      *
      * @param Rest $rest
@@ -218,8 +258,9 @@ class Response
      * transaction (storedCredentialUsed=false, no prior reference) from SUBSEQUENT uses, and A4 sends true
      * unconditionally; (3) whether an MIT with no previousTransactionId is accepted or declined/downgraded.
      *
-     * DEFERRED (Iter 4 — DM-suppression-on-MIT parity): the old SOAP path suppressed Decision Manager on
-     * merchant-initiated rebills; that parity is NOT reproduced here yet and is deferred to Iter 4.
+     * DM-suppression-on-MIT parity (Iter 4): the old SOAP path suppressed Decision Manager whenever
+     * amountPaid>0 OR is_subscription_generated; that condition is reproduced here via
+     * shouldSuppressDecisionManager() -> enableDecisionManager=false (see below).
      *
      * DEFERRED (OPEN-WALLET-MIT): wallet network-token MIT branching (e.g. Apple/Google Pay network tokens)
      * is NOT handled here and is deferred pending the S6 verdict.
@@ -270,6 +311,14 @@ class Response
             ->setInstrumentIdentifierId($this->stringOrNull($card->getAdditional('instrument_identifier')))
             ->setStoredCredentialUsed(true);
 
+        // Legacy SOAP parity (Gateway::authorize on feature/php81): a subscription-generated rebill (MIT)
+        // or any follow-on charge with an amount already paid must NOT re-run Decision Manager. UC analog
+        // is processingInformation.enableDecisionManager=false. Done here (not just in the MIT branch) so a
+        // CIT follow-on with amountPaid>0 is suppressed too, exactly as the SOAP condition did.
+        if ($this->shouldSuppressDecisionManager($payment)) {
+            $request->setEnableDecisionManager(false);
+        }
+
         // CIT vs MIT: a subscription-generated payment is merchant-initiated (a scheduled rebill).
         $isMit = (bool)$payment->getAdditionalInformation('is_subscription_generated');
 
@@ -294,6 +343,25 @@ class Response
         }
 
         return $request;
+    }
+
+    /**
+     * Whether Decision Manager should be suppressed for this transaction (legacy SOAP parity).
+     *
+     * Mirrors the feature/php81 Gateway::authorize()/capture() condition exactly: a follow-on charge with
+     * an amount already paid (amountPaid > 0) OR a subscription-generated rebill (MIT) must NOT re-run DM —
+     * it was already screened on the initiating transaction, and an MIT has no cardholder present to screen.
+     *
+     * @param InfoInterface $payment
+     * @return bool
+     */
+    protected function shouldSuppressDecisionManager(InfoInterface $payment): bool
+    {
+        /** @var Payment $payment */
+        $amountPaid = (float)$payment->getAmountPaid();
+
+        return $amountPaid > 0
+            || (bool)$payment->getAdditionalInformation('is_subscription_generated');
     }
 
     /**
@@ -469,6 +537,12 @@ class Response
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()));
 
+        // Legacy SOAP parity: suppress Decision Manager on a follow-on / subscription-generated charge so
+        // DM is not re-run on a transaction it already screened (or an MIT rebill the cardholder isn't on).
+        if ($this->shouldSuppressDecisionManager($payment)) {
+            $request->setEnableDecisionManager(false);
+        }
+
         return $request;
     }
 
@@ -500,8 +574,24 @@ class Response
         // key approval off responseCode === '100' so that scenario succeeds; status is only a fallback when
         // CyberSource returns no responseCode (e.g. INVALID_REQUEST / error replies).
         $authApproved  = $responseCode === self::RESPONSE_CODE_APPROVED;
-        $isApproved    = $authApproved
-            || ($responseCode === '' && in_array($status, self::APPROVED_STATUSES, true));
+
+        // Decision Manager / risk REJECT (Iter 4, D6 parity): the processor can APPROVE the auth
+        // (responseCode=100) while DM declines the order — status AUTHORIZED_RISK_DECLINED / REJECTED with
+        // reason DECISION_PROFILE_REJECT. Unlike the token-forbidden case (which we let stand token-less), a
+        // DM reject MUST fail the transaction so the order is not placed. We override the responseCode-based
+        // approval here, mirroring the legacy SOAP REJECT decision -> CommandException.
+        // VERIFY (live, AVS/CVV soft-decline parity): the legacy SOAP path carved AVS/CVV soft declines
+        // (reasonCodes 200/230) OUT of the REJECT decline — it kept the auth and accepted with the fraud flag.
+        // In REST, AVS/CVV results surface on an otherwise AUTHORIZED/responseCode=100 reply via
+        // processorInformation.avs.code / cardVerification.resultCode, NOT as a RISK_DECLINED status, so they are
+        // expected to pass through as approved here. Confirm on a boarded MID with an AVS/CVV-mismatch test card
+        // that such a reply is not surfaced as AUTHORIZED_RISK_DECLINED/DECISION_PROFILE_REJECT before relying on
+        // this; if it is, restore the soft-decline carve-out (approve + setIsFraud(true)).
+        $isRiskDeclined = in_array($status, self::RISK_DECLINED_STATUSES, true)
+            || $errorReason === self::REASON_DECISION_PROFILE_REJECT;
+
+        $isApproved    = !$isRiskDeclined
+            && ($authApproved || ($responseCode === '' && in_array($status, self::APPROVED_STATUSES, true)));
         $isUnderReview = $this->isUnderReview($status);
 
         // Flatten the raw reply so Method::storeTransactionStatuses() can read ccAuthReply.* keys, and
@@ -532,6 +622,7 @@ class Response
 
         $this->extractTokenInformation($response, $data, $isApproved);
         $this->extractCardMetadata($response, $data);
+        $this->extractConsumerAuthentication($response, $data);
 
         /** @var GatewayResponse $gatewayResponse */
         $gatewayResponse = $this->responseFactory->create(['data' => $data]);
@@ -582,7 +673,14 @@ class Response
         // (100=approved, 2xx=declines). This is NOT the SOAP reasonCode space (102/242/241) that
         // Gateway::capture()/refund() recapture logic keys on. A3 (gateway wiring) must reconcile the two
         // code spaces when routing UC through Method/Gateway, or recapture/decline handling will misfire.
-        return $this->throwForFailure($gatewayResponse, $status, $responseCode, $errorMessage, $payment);
+        return $this->throwForFailure(
+            $gatewayResponse,
+            $status,
+            $responseCode,
+            $errorMessage,
+            $errorReason,
+            $payment
+        );
     }
 
     /**
@@ -703,15 +801,61 @@ class Response
     }
 
     /**
+     * Surface the 3DS authentication-result / liability-shift fields from consumerAuthenticationInformation.
+     *
+     * D6 parity: with 3DS folded into UC completeMandate, the authenticated result rides on the transient
+     * token and the /pts/v2/payments reply returns consumerAuthenticationInformation. We copy the known
+     * authentication-result fields (eci, cavv, paresStatus, xid, veresEnrolled, specificationVersion, …)
+     * into a structured consumer_authentication tree so they persist on the transaction record (TokenBase
+     * stores the whole response data tree as transaction additional info). These are the liability-shift
+     * indicators (eci/cavv) the merchant relies on; we surface them rather than letting them be dropped.
+     *
+     * VERIFY (live-UNVERIFIED — no boarded 3DS test card on the sandbox MID): the exact field set returned
+     * for a UC-authenticated transaction is SDK/reference-derived (PtsV2PaymentsPost201Response
+     * ConsumerAuthenticationInformation). Confirm against a live 3DS challenge + frictionless run that the
+     * liability-shift fields (eci/eciRaw + cavv, or ucafAuthenticationData for Mastercard) are present and
+     * correctly populated before treating UC 3DS as full Cardinal/Songbird parity (the Iter 6 deletion gate).
+     *
+     * @param array<string, mixed> $response
+     * @param array<string, mixed> $data
+     * @return void
+     */
+    protected function extractConsumerAuthentication(array $response, array &$data): void
+    {
+        $authInformation = $response['consumerAuthenticationInformation'] ?? null;
+        if (empty($authInformation) || !is_array($authInformation)) {
+            return;
+        }
+
+        $authentication = [];
+        foreach (self::CONSUMER_AUTHENTICATION_FIELDS as $field) {
+            $value = $authInformation[$field] ?? null;
+            if ($value !== null && $value !== '') {
+                $authentication[$field] = $value;
+            }
+        }
+
+        if ($authentication !== []) {
+            $data['consumer_authentication'] = $authentication;
+        }
+    }
+
+    /**
      * Build the failure message, log it, and throw the matching exception type.
      *
      * Mirrors Gateway::interpretTransaction(): a declined transaction throws CommandException (so
-     * Method's recapture/decline handling is identical), everything else throws RuntimeException.
+     * Method's recapture/decline handling is identical), everything else throws RuntimeException. A
+     * Decision Manager REJECT (status AUTHORIZED_RISK_DECLINED / REJECTED, or reason
+     * DECISION_PROFILE_REJECT) is treated as a decline too — the legacy SOAP REJECT decision did the same,
+     * EXCEPT for the AVS/CVV soft-decline carve-out (reasonCodes 200/230), which is live-UNVERIFIED on REST
+     * (see VERIFY note at interpretResponse()'s $isRiskDeclined). Do not claim full legacy-REJECT parity until
+     * that live check is recorded.
      *
      * @param GatewayResponse $response
      * @param string $status
      * @param string $responseCode
      * @param string $errorMessage
+     * @param string $errorReason
      * @param InfoInterface|null $payment
      * @return GatewayResponse
      * @throws CommandException
@@ -722,6 +866,7 @@ class Response
         string $status,
         string $responseCode,
         string $errorMessage,
+        string $errorReason,
         ?InfoInterface $payment
     ): GatewayResponse {
         $response->setIsError(true);
@@ -738,7 +883,11 @@ class Response
 
         $code = ctype_digit($responseCode) ? (int)$responseCode : 0;
 
-        if ($status === 'DECLINED') {
+        $isDecline = $status === 'DECLINED'
+            || in_array($status, self::RISK_DECLINED_STATUSES, true)
+            || $errorReason === self::REASON_DECISION_PROFILE_REJECT;
+
+        if ($isDecline) {
             throw new CommandException($message, null, $code);
         }
 

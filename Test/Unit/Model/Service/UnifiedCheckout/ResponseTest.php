@@ -85,8 +85,11 @@ class ResponseTest extends TestCase
             });
     }
 
-    private function buildPayment(string $transientToken = 'header.payload.sig'): Payment&MockObject
-    {
+    private function buildPayment(
+        string $transientToken = 'header.payload.sig',
+        float $amountPaid = 0.0,
+        bool $isSubscriptionGenerated = false
+    ): Payment&MockObject {
         $address = $this->createMock(OrderAddressInterface::class);
         $address->method('getFirstname')->willReturn('Jane');
         $address->method('getLastname')->willReturn('Doe');
@@ -106,9 +109,14 @@ class ResponseTest extends TestCase
 
         $payment = $this->createMock(Payment::class);
         $payment->method('getOrder')->willReturn($order);
+        $payment->method('getAmountPaid')->willReturn($amountPaid);
         $payment->method('getAdditionalInformation')
             ->willReturnCallback(
-                static fn(?string $key = null) => $key === 'transient_token' ? $transientToken : null
+                static fn(?string $key = null) => match ($key) {
+                    'transient_token' => $transientToken,
+                    'is_subscription_generated' => $isSubscriptionGenerated,
+                    default => null,
+                }
             );
 
         return $payment;
@@ -427,7 +435,8 @@ class ResponseTest extends TestCase
     private function buildStoredPayment(
         bool $isSubscriptionGenerated = false,
         ?string $parentTransactionId = null,
-        ?string $lastTransId = null
+        ?string $lastTransId = null,
+        float $amountPaid = 0.0
     ): Payment&MockObject {
         $address = $this->createMock(OrderAddressInterface::class);
         $address->method('getFirstname')->willReturn('Jane');
@@ -450,6 +459,7 @@ class ResponseTest extends TestCase
         $payment->method('getOrder')->willReturn($order);
         $payment->method('getParentTransactionId')->willReturn($parentTransactionId);
         $payment->method('getLastTransId')->willReturn($lastTransId);
+        $payment->method('getAmountPaid')->willReturn($amountPaid);
         $payment->method('getAdditionalInformation')
             ->willReturnCallback(
                 static fn(?string $key = null) => $key === 'is_subscription_generated'
@@ -592,5 +602,192 @@ class ResponseTest extends TestCase
         $this->expectException(CommandException::class);
 
         $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
+    }
+
+    // --- Iter 4: Decision Manager suppression on MIT / follow-on (legacy SOAP parity) ---
+
+    public function testStoredCardMitSuppressesDecisionManager(): void
+    {
+        // Legacy parity (Gateway::authorize feature/php81): a subscription-generated (MIT) rebill must NOT
+        // re-run Decision Manager. UC analog: processingInformation.enableDecisionManager = false.
+        $this->primeRest([
+            'id' => 'TXN-MIT-DM',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored($this->buildStoredPayment(true, 'PRIORTXN'), $this->buildCard(), 24.0);
+
+        $this->assertArrayHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+        $this->assertFalse($this->sentBody['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testStoredCardCitDoesNotSuppressDecisionManager(): void
+    {
+        // A first-party (CIT) stored-card charge with nothing yet paid leaves DM at the account default
+        // (no enableDecisionManager key — DM runs).
+        $this->primeRest([
+            'id' => 'TXN-CIT-DM',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored($this->buildStoredPayment(false), $this->buildCard(), 24.0);
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    public function testStoredCardFollowOnAmountPaidSuppressesDecisionManager(): void
+    {
+        // The other legacy suppression leg: amountPaid > 0 (a follow-on auth on an already-paid order)
+        // suppresses DM even when it is NOT a subscription rebill.
+        $this->primeRest([
+            'id' => 'TXN-FOLLOWON-DM',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored(
+            $this->buildStoredPayment(false, null, null, 50.0),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertFalse($this->sentBody['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testNewCardSubscriptionGeneratedSuppressesDecisionManager(): void
+    {
+        // The new-card path (place()) honors the same legacy suppression condition: a subscription-generated
+        // transaction suppresses DM.
+        $this->primeRest(['id' => 'TXN-NEWCARD-MIT', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token', 0.0, true), 24.0);
+
+        $this->assertFalse($this->sentBody['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testNewCardFreshCustomerCheckoutDoesNotSuppressDecisionManager(): void
+    {
+        // A normal new-card storefront checkout (nothing paid, not a subscription) leaves DM running.
+        $this->primeRest(['id' => 'TXN-NEWCARD', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    // --- Iter 4: Decision Manager REJECT propagation ---
+
+    public function testDecisionManagerRejectThrowsCommandExceptionDespiteApprovedResponseCode(): void
+    {
+        // Money-path guard: AUTHORIZED_RISK_DECLINED carries processorInformation.responseCode=100 (the
+        // processor approved the auth) but Decision Manager REJECTED the order (DECISION_PROFILE_REJECT).
+        // It must NOT be placed — it is a hard decline, mirroring the legacy REJECT path.
+        $this->primeRest([
+            'id' => 'TXN-RISK-DECLINED',
+            'status' => 'AUTHORIZED_RISK_DECLINED',
+            'processorInformation' => ['approvalCode' => '123456', 'responseCode' => '100'],
+            'errorInformation' => [
+                'reason' => 'DECISION_PROFILE_REJECT',
+                'message' => 'Decision Manager rejected the order',
+            ],
+        ]);
+
+        $this->expectException(CommandException::class);
+        $this->expectExceptionMessage('Transaction Failed');
+
+        $this->service->place($this->buildPayment(), 24.0);
+    }
+
+    public function testDecisionProfileRejectReasonThrowsEvenWithoutRiskDeclinedStatus(): void
+    {
+        // Defense in depth: regardless of the status string, a DECISION_PROFILE_REJECT reason means DM
+        // rejected the order and the transaction must fail as a decline.
+        $this->primeRest([
+            'id' => 'TXN-REJECTED',
+            'status' => 'REJECTED',
+            'processorInformation' => ['responseCode' => '100'],
+            'errorInformation' => [
+                'reason' => 'DECISION_PROFILE_REJECT',
+                'message' => 'Rejected by Decision Manager',
+            ],
+        ]);
+
+        $this->expectException(CommandException::class);
+
+        $this->service->place($this->buildPayment(), 24.0);
+    }
+
+    public function testDecisionManagerReviewStillApproves(): void
+    {
+        // Contrast with REJECT: a REVIEW hold (AUTHORIZED_PENDING_REVIEW) still approves + flags fraud and
+        // must NOT be treated as a DM reject.
+        $this->primeRest([
+            'id' => 'TXN-REVIEW2',
+            'status' => 'AUTHORIZED_PENDING_REVIEW',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $response = $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertFalse($response->getIsError());
+        $this->assertTrue($response->getIsFraud());
+    }
+
+    // --- Iter 4: 3DS (Payer Auth) authentication-result surfacing ---
+
+    public function testConsumerAuthenticationResultSurfacedOnApprovedResponse(): void
+    {
+        // 3DS via UC completeMandate folds the authenticated result into the transient token; the
+        // /pts/v2/payments reply carries consumerAuthenticationInformation. Surface the liability-shift /
+        // authentication-result fields so they persist on the transaction record.
+        $this->primeRest([
+            'id' => 'TXN-3DS',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+            'consumerAuthenticationInformation' => [
+                'eci' => '05',
+                'eciRaw' => '05',
+                'cavv' => 'AAABCZIhcQAAAABZlyFxAAAAAAA=',
+                'paresStatus' => 'Y',
+                'authenticationResult' => '0',
+                'xid' => 'ABCDEF1234567890',
+                'veresEnrolled' => 'Y',
+                'specificationVersion' => '2.2.0',
+                'directoryServerTransactionId' => 'f38e6948-5388-41a6-bca4-b49723c19437',
+                'ucafAuthenticationData' => 'someUcafData',
+                'unrelatedField' => 'ignored',
+            ],
+        ]);
+
+        $response = $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertFalse($response->getIsError());
+
+        $auth = $response->getData('consumer_authentication');
+        $this->assertIsArray($auth);
+        $this->assertSame('05', $auth['eci']);
+        $this->assertSame('AAABCZIhcQAAAABZlyFxAAAAAAA=', $auth['cavv']);
+        $this->assertSame('Y', $auth['paresStatus']);
+        $this->assertSame('0', $auth['authenticationResult']);
+        $this->assertSame('Y', $auth['veresEnrolled']);
+        $this->assertSame('2.2.0', $auth['specificationVersion']);
+        // Only the known authentication-result fields are surfaced; unknown keys are dropped.
+        $this->assertArrayNotHasKey('unrelatedField', $auth);
+    }
+
+    public function testNoConsumerAuthenticationKeyWhenAuthenticationAbsent(): void
+    {
+        // 3DS disabled / frictionless-without-data: no consumerAuthenticationInformation -> no surfaced key.
+        $this->primeRest([
+            'id' => 'TXN-NO3DS',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $response = $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertNull($response->getData('consumer_authentication'));
     }
 }
