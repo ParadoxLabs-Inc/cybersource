@@ -59,6 +59,12 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
      * Note: parent::execute() has already merged additional_data keys into the top level of $data,
      * so this covers the KO renderer, GraphQL (tokenbase_data), and legacy form-field paths alike.
      *
+     * The client contract is "exactly one of {transient_token, card_id} populated per submit". When no
+     * token is given (stored-card selection, or any re-assign without one), we must clear any token left
+     * over from a prior assign on the same quote payment — Gateway::authorize() checks hasTransientToken()
+     * before the stored-card branch, so a stale token from a failed new-card attempt would otherwise
+     * authorize against the previously entered (wrong) card.
+     *
      * @param InfoInterface $payment
      * @param DataObject $data
      * @return void
@@ -71,6 +77,9 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
 
         if (is_string($token) && $token !== '') {
             $payment->setAdditionalInformation('transient_token', $token);
+        } else {
+            // Empty/null token (e.g. stored card selected): drop any stale token from a prior assign.
+            $payment->unsAdditionalInformation('transient_token');
         }
     }
 }

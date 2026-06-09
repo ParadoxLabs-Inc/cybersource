@@ -15,3 +15,7 @@ type TokenBaseCyberSourceUnifiedCheckoutCaptureContext {
 type TokenBaseCheckoutConfig {
     fingerprintUrl: String
 }
+
+input TokenBaseCardPaymentInput {
+    transient_token: String @doc(description: "CyberSource Unified Checkout transient-token JWT for a newly entered card. Provide exactly one of transient_token or card_id.")
+}

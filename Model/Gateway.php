@@ -43,7 +43,7 @@ use ParadoxLabs\TokenBase\Model\Gateway\Xml;
 use Throwable;
 
 /**
- * CyberSource API Gateway - custom built for perfection.
+ * CyberSource REST/Unified Checkout gateway: routes TokenBase gateway operations to the REST services.
  */
 class Gateway extends AbstractGateway
 {
@@ -53,6 +53,8 @@ class Gateway extends AbstractGateway
     protected $code = Config::CODE;
 
     /**
+     * Retained for the parent's setParameter() plumbing (setTransactionId/setAuthCode).
+     *
      * @var array
      */
     protected $fields = [
@@ -81,7 +83,8 @@ class Gateway extends AbstractGateway
     protected $unifiedCheckoutFollowOn;
 
     /**
-     * Constructor, yeah!
+     * Note: Xml $xml and ClientInterfaceFactory $communicatorFactory are retained solely to satisfy the
+     * TokenBase AbstractGateway parent constructor signature; this gateway does not use them directly.
      *
      * @param Data $helper
      * @param Xml $xml

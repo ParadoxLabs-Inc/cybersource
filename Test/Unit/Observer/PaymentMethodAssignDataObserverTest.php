@@ -69,6 +69,7 @@ class PaymentMethodAssignDataObserverTest extends TestCase
             ->onlyMethods([
                 'getAdditionalInformation',
                 'setAdditionalInformation',
+                'unsAdditionalInformation',
                 'getMethod',
                 'getExtensionAttributes',
             ])
@@ -80,6 +81,12 @@ class PaymentMethodAssignDataObserverTest extends TestCase
         $this->paymentMock->method('setAdditionalInformation')
             ->willReturnCallback(function ($key, $value = null) {
                 $this->additionalInformation[$key] = $value;
+
+                return $this->paymentMock;
+            });
+        $this->paymentMock->method('unsAdditionalInformation')
+            ->willReturnCallback(function ($key = null) {
+                unset($this->additionalInformation[$key]);
 
                 return $this->paymentMock;
             });
@@ -166,6 +173,56 @@ class PaymentMethodAssignDataObserverTest extends TestCase
         $this->observer->execute($this->createEventObserver($data));
 
         $this->assertArrayNotHasKey('arbitrary_key', $this->additionalInformation);
+    }
+
+    public function testExecuteClearsStaleTransientTokenWhenStoredCardSelected(): void
+    {
+        // Re-assign sequence: a failed new-card attempt leaves a transient_token on the payment;
+        // switching to a stored card must clear it, or Gateway::authorize() would charge the old card.
+        $this->helperMock->method('getIsFrontend')
+            ->willReturn(true);
+
+        $cardMock = $this->createMock(CardInterface::class);
+        $cardMock->method('getId')
+            ->willReturn(42);
+        $cardMock->method('getHash')
+            ->willReturn('cardhash123');
+        $cardMock->method('getAdditional')
+            ->willReturn(null);
+
+        $this->cardRepositoryMock->method('getById')
+            ->with('cardhash123')
+            ->willReturn($cardMock);
+
+        // First submit: new card with a transient token.
+        $newCardData = new DataObject([
+            'method' => 'paradoxlabs_cybersource',
+            'additional_data' => [
+                'transient_token' => 'eyJraWQiOiJ0ZXN0In0.payload.sig',
+                'card_id' => null,
+            ],
+        ]);
+
+        $this->observer->execute($this->createEventObserver($newCardData));
+
+        $this->assertSame(
+            'eyJraWQiOiJ0ZXN0In0.payload.sig',
+            $this->additionalInformation['transient_token'] ?? null
+        );
+
+        // Second submit on the SAME payment: stored card selected, transient_token null.
+        $storedCardData = new DataObject([
+            'method' => 'paradoxlabs_cybersource',
+            'additional_data' => [
+                'transient_token' => null,
+                'card_id' => 'cardhash123',
+            ],
+        ]);
+
+        $this->observer->execute($this->createEventObserver($storedCardData));
+
+        $this->assertArrayNotHasKey('transient_token', $this->additionalInformation);
+        $this->assertSame(42, $this->paymentMock->getData('tokenbase_id'));
     }
 
     public function testExecutePreservesTokenbaseStoredCardHandling(): void
