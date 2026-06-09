@@ -30,16 +30,20 @@ define(
     function (ko, $, _, Component, alert, quote) {
         'use strict';
         var config = window.checkoutConfig.payment.paradoxlabs_cybersource;
+        // Transient token TTL is ~15 minutes; re-request the capture context shortly before it lapses.
+        var TOKEN_TTL_MS = 14 * 60 * 1000;
+        // Placeholder card id used to flag a freshly tokenized (not-yet-vaulted) card to the place-order UI.
+        var NEW_CARD_ID = 'unified_checkout_new';
         return Component.extend({
             defaults: {
-                template: 'ParadoxLabs_CyberSource/payment/secure-acceptance',
+                template: 'ParadoxLabs_CyberSource/payment/unified-checkout',
                 save: config ? config.canSaveCard && config.defaultSaveCard : false,
                 selectedCard: config ? config.selectedCard : '',
                 storedCards: config ? config.storedCards : [],
                 logoImage: config ? config.logoImage : false,
-                billingAddressLine: null,
-                responseJWT: null,
-                iframeInitialized: false
+                transientToken: null,
+                dropinMounted: false,
+                lastGrandTotal: null
             },
             initVars: function () {
                 this.canSaveCard = config ? config.canSaveCard : false;
@@ -51,18 +55,20 @@ define(
                 this.initVars();
                 this._super()
                     .observe([
-                        'billingAddressLine',
-                        'payerAuthSessionId',
-                        'responseJWT'
+                        'transientToken'
                     ]);
 
-                quote.billingAddress.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
-                quote.paymentMethod.subscribe(this.syncSecureAcceptBillingAddress.bind(this));
-                this.billingAddressLine.subscribe(this.initSecureAcceptanceForm.bind(this));
-                this.selectedCard.subscribe(this.checkReinitSecureAcceptanceForm.bind(this));
-                this.selectedCard.subscribe(this.doBinLookup.bind(this));
+                this.storedCards = ko.observableArray(config.storedCards);
 
-                this.showIframe = ko.computed(function () {
+                quote.billingAddress.subscribe(this.maybeMountDropin.bind(this));
+                quote.paymentMethod.subscribe(this.maybeMountDropin.bind(this));
+                this.selectedCard.subscribe(this.maybeMountDropin.bind(this));
+
+                // Re-request the capture context whenever the grand total changes, so the amount in the
+                // capture mandate stays in sync with the order being placed.
+                quote.totals.subscribe(this.handleTotalChange.bind(this));
+
+                this.showDropin = ko.computed(function () {
                     return (this.selectedCard() === null || this.selectedCard() === undefined)
                            && quote.billingAddress() !== null;
                 }, this);
@@ -84,95 +90,225 @@ define(
                     return false;
                 }, this);
 
-                this.storedCards = ko.observableArray(config.storedCards);
-
                 this.useVault = ko.computed(function () {
                     return this.storedCards().length > 0;
                 }, this);
 
-                this.loadFingerprint();
-                this.loadPayerAuth();
-
                 return this;
             },
-            loadFingerprint: function () {
-                if (config.fingerprintUrl !== undefined
-                    && config.fingerprintUrl !== null
-                    && config.fingerprintUrl.length > 1) {
-                    // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
-                    var script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.src = config.fingerprintUrl;
-                    document.head.appendChild(script);
-                }
-            },
-            syncSecureAcceptBillingAddress: function () {
-                // Don't progess until the iframe has rendered, we're the active payment method, we have a billing addr.
-                if ($('#' + this.getCode() + '_iframe').length === 0
+
+            /**
+             * Mount the Unified Checkout drop-in when we are the active method, have a billing address,
+             * are adding a new card, and have not already mounted.
+             */
+            maybeMountDropin: function () {
+                if (this.dropinMounted === true
                     || quote.paymentMethod() === null
                     || quote.paymentMethod().method !== this.getCode()
                     || this.selectedCard()
-                    || quote.billingAddress() === null) {
+                    || quote.billingAddress() === null
+                    || $('#' + this.getCode() + '_uc_screen').length === 0) {
                     return;
                 }
 
-                this.billingAddressLine(this.getAddressLine(quote.billingAddress()));
+                this.dropinMounted = true;
+                this.requestCaptureContext();
             },
-            checkReinitSecureAcceptanceForm: function () {
-                if (this.iframeInitialized === false
-                    && (this.selectedCard() === null || this.selectedCard() === undefined)
-                    && this.storedCards().length > 0) {
-                    // The initialized flag is to debounce and ensure we don't reinit unless absolutely necessary.
-                    this.iframeInitialized = true;
-                    this.initSecureAcceptanceForm();
-                }
-            },
-            initSecureAcceptanceForm: function () {
-                this.bindCommunicator();
 
-                // Clear and spinner the CC form while we load new params
-                $('#' + this.getCode() + '_iframe').prop('src', 'about:blank')
-                    .trigger('processStart');
+            /**
+             * Request a capture-context JWT from the frontend endpoint, then load the UC client library.
+             *
+             * @return {jqXHR}
+             */
+            requestCaptureContext: function () {
+                $('#' + this.getCode() + '_uc_screen').trigger('processStart');
+                this.lastGrandTotal = this.getGrandTotal();
 
                 return $.post({
-                    url: config.paramUrl,
+                    url: config.captureContextUrl,
                     dataType: 'json',
-                    data: this.getFormParams(),
+                    data: this.getCaptureContextParams(),
                     global: false,
-                    success: this.loadSecureAcceptanceForm.bind(this),
+                    success: this.loadClientLibrary.bind(this),
                     error: this.handleAjaxError.bind(this)
                 });
             },
-            loadSecureAcceptanceForm: function (data) {
-                var form = document.createElement('form');
-                form.target = this.getCode() + '_iframe';
-                form.method = 'post';
-                form.action = data.iframeAction;
 
-                for (var key in data.iframeParams) {
-                    var input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = key;
-                    input.value = data.iframeParams[key];
-                    form.appendChild(input);
+            /**
+             * Decode the capture-context JWT, inject the UC client library (with SRI), then mount the drop-in.
+             *
+             * @param {Object} data
+             */
+            loadClientLibrary: function (data) {
+                if (!data || !data.captureContext) {
+                    this.handleAjaxError(null, 'error', 'Missing capture context');
+
+                    return;
                 }
 
-                document.body.appendChild(form);
-                form.submit();
+                this.captureContext = data.captureContext;
 
-                $('#' + this.getCode() + '_iframe').trigger('processStop');
+                var ctx;
+                try {
+                    ctx = this.decodeJwtBody(data.captureContext).ctx[0].data;
+                } catch (error) {
+                    this.handleAjaxError(null, 'error', 'Invalid capture context');
+
+                    return;
+                }
+
+                // Bypassing requireJS because UC.js is an external asset served from CyberSource's CDN.
+                var script = document.createElement('script');
+                script.src = ctx.clientLibrary;
+                if (ctx.clientLibraryIntegrity) {
+                    script.integrity = ctx.clientLibraryIntegrity;
+                    script.crossOrigin = 'anonymous';
+                }
+                script.addEventListener('load', this.mountUnifiedCheckout.bind(this));
+                script.addEventListener('error', function () {
+                    this.handleAjaxError(null, 'error', 'Unable to load payment library');
+                }.bind(this));
+                document.getElementsByTagName('head')[0].appendChild(script);
             },
+
+            /**
+             * Mount the UC drop-in via the Accept global into the embedded containers.
+             */
+            mountUnifiedCheckout: function () {
+                if (typeof Accept !== 'function') {
+                    this.handleAjaxError(null, 'error', 'Payment library unavailable');
+
+                    return;
+                }
+
+                Accept(this.captureContext)
+                    .then(function (accept) {
+                        return accept.unifiedPayments();
+                    })
+                    .then(function (unifiedPayments) {
+                        return unifiedPayments.show({
+                            containers: {
+                                paymentSelection: '#' + this.getCode() + '_uc_selection',
+                                paymentScreen: '#' + this.getCode() + '_uc_screen'
+                            }
+                        });
+                    }.bind(this))
+                    .then(this.handleTransientToken.bind(this))
+                    .catch(function (error) {
+                        this.handleAjaxError(null, 'error', error && error.message ? error.message : null);
+                    }.bind(this));
+
+                $('#' + this.getCode() + '_uc_screen').trigger('processStop');
+                this.scheduleTokenRefresh();
+            },
+
+            /**
+             * Store the resolved transient-token JWT and flag a new card so the place-order UI activates.
+             *
+             * @param {String} transientTokenJwt
+             */
+            handleTransientToken: function (transientTokenJwt) {
+                if (!transientTokenJwt) {
+                    return;
+                }
+
+                this.transientToken(transientTokenJwt);
+
+                // Surface a synthetic "new card" so the existing place-order UI (gated on selectedCard) shows.
+                this.storedCards.remove(function (card) {
+                    return card.id === NEW_CARD_ID;
+                });
+                this.storedCards.push({
+                    id: NEW_CARD_ID,
+                    label: $.mage.__('New Card'),
+                    selected: true,
+                    new: true,
+                    type: '',
+                    cc_bin: '',
+                    cc_last4: ''
+                });
+                this.selectedCard(NEW_CARD_ID);
+            },
+
+            /**
+             * Re-request the capture context if the grand total changed while the drop-in was mounted
+             * but before a token was captured.
+             */
+            handleTotalChange: function () {
+                if (this.dropinMounted !== true
+                    || this.transientToken()
+                    || this.lastGrandTotal === null) {
+                    return;
+                }
+
+                if (this.getGrandTotal() !== this.lastGrandTotal) {
+                    this.remountDropin();
+                }
+            },
+
+            /**
+             * Schedule a re-mount before the transient token TTL lapses.
+             */
+            scheduleTokenRefresh: function () {
+                if (this._ttlTimer) {
+                    clearTimeout(this._ttlTimer);
+                }
+
+                this._ttlTimer = setTimeout(this.remountDropin.bind(this), TOKEN_TTL_MS);
+            },
+
+            /**
+             * Tear down captured state and re-request a fresh capture context + drop-in.
+             */
+            remountDropin: function () {
+                this.transientToken(null);
+                this.storedCards.remove(function (card) {
+                    return card.id === NEW_CARD_ID;
+                });
+                if (this.selectedCard() === NEW_CARD_ID) {
+                    this.selectedCard(null);
+                }
+
+                $('#' + this.getCode() + '_uc_selection').empty();
+                $('#' + this.getCode() + '_uc_screen').empty();
+
+                this.requestCaptureContext();
+            },
+
+            /**
+             * Base64url-decode the JWT payload (middle segment) and parse as JSON.
+             *
+             * @param {String} jwt
+             * @return {Object}
+             */
+            decodeJwtBody: function (jwt) {
+                var payload = jwt.split('.')[1];
+                payload = payload.replace(/-/g, '+').replace(/_/g, '/');
+                while (payload.length % 4) {
+                    payload += '=';
+                }
+
+                return JSON.parse(window.atob(payload));
+            },
+
             handleAjaxError: function (jqXHR, status, error) {
-                $('#' + this.getCode() + '_iframe').trigger('processStop');
+                $('#' + this.getCode() + '_uc_screen').trigger('processStop');
+                this.dropinMounted = false;
 
                 var message = $.mage.__('A server error occurred. Please try again.');
 
+                if (typeof error === 'string' && error.length > 0) {
+                    message = error;
+                }
+
                 try {
-                    var responseJson = JSON.parse(jqXHR.responseText);
-                    if (responseJson.message !== undefined) {
-                        message = responseJson.message;
+                    if (jqXHR && jqXHR.responseText) {
+                        var responseJson = JSON.parse(jqXHR.responseText);
+                        if (responseJson.message !== undefined) {
+                            message = responseJson.message;
+                        }
                     }
-                } catch (error) {
+                } catch (e) {
                 }
 
                 try {
@@ -180,72 +316,18 @@ define(
                         title: $.mage.__('Error'),
                         content: message
                     });
-                } catch (error) {
+                } catch (e) {
                     // Fall back to standard alert if jq widget hasn't initialized yet
                     window.alert(message);
                 }
             },
-            bindCommunicator: function () {
-                if (!this._communicatorBound) {
-                    window.addEventListener('message', this.handleCommunication.bind(this));
-                    this._communicatorBound = true;
-                }
-            },
-            handleCommunication: function (event) {
-                if (event.origin !== location.origin
-                    || !event.data
-                    || event.data.success === undefined) {
-                    return;
-                }
 
-                var message = event.data;
-
-                if (message.success && message.card !== undefined) {
-                    this.storedCards.push(message.card);
-                    this.selectedCard(message.card.id);
-                    this.iframeInitialized = false;
-                } else if (message.error && message.error.length > 0) {
-                    if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
-                        this.initSecureAcceptanceForm();
-                    }
-
-                    alert({
-                        title: $.mage.__('Error'),
-                        content: message.error
-                    });
-                }
-            },
-            getAddressLine: function (address) {
-                if (address === null) {
-                    return null;
-                }
-
-                if (typeof address.street === 'string') {
-                    address.street.split("\n");
-                }
-
-                return address.firstname + ' '
-                       + address.lastname + ', '
-                       + address.street.join(' ') + ', '
-                       + address.city + ', '
-                       + address.region + ' '
-                       + address.postcode + ', '
-                       + address.countryId + ' '
-                       + address.telephone;
-            },
-            getData: function () {
-                return {
-                    'method': this.item.method,
-                    'additional_data': {
-                        'card_id': this.selectedCard(),
-                        'cc_cid': this.creditCardVerificationNumber(),
-                        'payerauth_session_id': this.payerAuthSessionId(),
-                        'response_jwt': this.responseJWT(),
-                        'save': this.save()
-                    }
-                }
-            },
-            getFormParams: function () {
+            /**
+             * Build the POST payload for the capture-context endpoint (billing + guest email + form key).
+             *
+             * @return {Object}
+             */
+            getCaptureContextParams: function () {
                 var billingAddress = _.pick(
                     quote.billingAddress(),
                     [
@@ -271,113 +353,37 @@ define(
                     'billing': billingAddress,
                     'source': 'checkout',
                     'guest_email': quote.guestEmail !== undefined ? quote.guestEmail : null,
-                    'card_id': this.selectedCard(),
-                    'payerauth_session_id': this.payerAuthSessionId(),
                     'form_key': this.getFormKey()
-                }
+                };
             },
+
+            /**
+             * Current quote grand total, used to detect amount changes that require a fresh capture context.
+             *
+             * @return {Number|null}
+             */
+            getGrandTotal: function () {
+                var totals = quote.totals();
+
+                return totals && totals.grand_total !== undefined ? totals.grand_total : null;
+            },
+
+            getData: function () {
+                return {
+                    'method': this.item.method,
+                    'additional_data': {
+                        'transient_token': this.transientToken(),
+                        'card_id': this.selectedCard() === NEW_CARD_ID ? null : this.selectedCard(),
+                        'cc_cid': this.creditCardVerificationNumber(),
+                        'save': this.save()
+                    }
+                };
+            },
+
             hasVerification: function () {
                 return this.requireCcv();
             },
-            loadPayerAuth: function () {
-                if (config.cardinalScript.length > 0 && config.cardinalJWT.length > 0) {
-                    // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
-                    var script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.src = config.cardinalScript;
-                    if (config.cardinalSRIHash.length > 0) {
-                        script.integrity = config.cardinalSRIHash;
-                        script.crossOrigin = 'anonymous';
-                    }
-                    script.addEventListener('load', this.initPayerAuth.bind(this));
-                    document.getElementsByTagName('head')[0].appendChild(script);
-                }
-            },
-            initPayerAuth: function () {
-                Cardinal.configure({
-                    payment: {
-                        displayLoading: true
-                    }
-                });
 
-                Cardinal.on('payments.validated', this.handlePayerAuthCompletion.bind(this));
-                Cardinal.on('payments.setupComplete', this.handlePayerAuthInit.bind(this));
-                Cardinal.setup('init', {jwt: config.cardinalJWT});
-
-                this.doBinLookup(this.selectedCard());
-            },
-            handlePayerAuthInit: function (responseData) {
-                if (responseData && responseData.sessionId !== undefined) {
-                    this.payerAuthSessionId(responseData.sessionId);
-                }
-            },
-            handlePayerAuthCompletion: function (responseData, responseJWT) {
-                if (responseData.ErrorNumber > 0) {
-                    this.responseJWT(null);
-
-                    // If Payer Auth CCA failed, throw the error message and let the user deal with it.
-                    alert({
-                        title: $.mage.__('Error'),
-                        content: $.mage.__(responseData.ErrorDescription) + ' (' + responseData.ErrorNumber + ')'
-                    });
-                } else {
-                    // If Payer Auth CCA succeeded, store the JWT and retry the order.
-                    this.responseJWT(responseJWT);
-                    this.placeOrder();
-                }
-            },
-            doBinLookup: function (selectedCardId) {
-                if (typeof Cardinal === 'object' && selectedCardId !== null && selectedCardId !== undefined) {
-                    var cards = this.storedCards();
-                    for (var key in cards) {
-                        if (cards[key].id === selectedCardId) {
-                            Cardinal.trigger('bin.process', cards[key].cc_bin);
-                        }
-                    }
-                }
-            },
-            getPlaceOrderDeferredObject: function () {
-                // Run Cardinal Cruise BIN lookup while the order processes
-                this.doBinLookup(this.selectedCard());
-
-                return this._super();
-            },
-            handleFailedOrder: function (response) {
-                this.responseJWT(null);
-
-                var payerAuthMessage = $.mage.__(
-                    'The entered card is enrolled in Payer Authentication. Please authenticate before continuing.'
-                );
-                var error = JSON.parse(response.responseText);
-                if (error
-                    && typeof error.message !== 'undefined'
-                    && typeof Cardinal === 'object'
-                    && error.message.indexOf(payerAuthMessage) >= 0) {
-                    this.startPayerAuthentication();
-
-                    return;
-                }
-
-                return this._super();
-            },
-            startPayerAuthentication: function () {
-                $.post({
-                    url: config.cardinalAuthUrl,
-                    dataType: 'json',
-                    data: this.getFormParams(),
-                    global: false,
-                    success: this.runPayerAuth.bind(this),
-                    error: this.handleAjaxError.bind(this)
-                });
-            },
-            runPayerAuth: function (response) {
-                Cardinal.continue(
-                    'cca',
-                    response.authPayload,
-                    response.orderPayload,
-                    response.JWT
-                );
-            },
             getFormKey: function () {
                 return $('input[name="form_key"]').val();
             }

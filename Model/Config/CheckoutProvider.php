@@ -130,6 +130,11 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'selectedCard' => $selected,
                     'logoImage' => $this->getLogoImage(),
                     'requireCcv' => $this->requireCcv(),
+                    // Unified Checkout (UC) keys. The renderer requests a capture-context JWT from this
+                    // endpoint, decodes it for the client library URL/SRI, and mounts the UC drop-in.
+                    'captureContextUrl' => $this->urlBuilder->getUrl('pdl_cybs/unifiedCheckout/captureContext'),
+                    'clientVersion' => $this->config->getUcClientVersion(),
+                    'ucLayout' => 'embedded',
                     'paramUrl' => $this->urlBuilder->getUrl('pdl_cybs/secureAccept/getParams'),
                     'fingerprintUrl' => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
                     'cardinalScript' => $this->config->getCardinalSongbirdUrl(),

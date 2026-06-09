@@ -30,6 +30,7 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
     <input type="hidden" name="method" value="<?= /* @noEscape */
     $code ?>"/>
     <input type="hidden" name="source" value="paymentinfo"/>
+    <input type="hidden" name="transient_token" value=""/>
     <fieldset class="fieldset address">
         <legend class="legend"><span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span></legend>
         <br>
@@ -186,9 +187,10 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
     $code ?>">
         <div class="field required">
             <div class="control">
-                <iframe src="about:blank" id="<?= /* @noEscape */
-                $code ?>_iframe" name="<?= /* @noEscape */
-                $code ?>_iframe"></iframe>
+                <div class="unified-checkout-selection" id="<?= /* @noEscape */
+                $code ?>_uc_selection"></div>
+                <div class="unified-checkout-screen" id="<?= /* @noEscape */
+                $code ?>_uc_screen"></div>
             </div>
         </div>
     </fieldset>
@@ -198,9 +200,9 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
         "#form-validate": {
             "validation": {},
             "cybersourcePaymentInfoForm": {
-                "target": "<?= /* @noEscape */
-    $code ?>_iframe",
-                "paramUrl": "<?= $escaper->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
+                "captureContextUrl": "<?= $escaper->escapeJs(
+        $block->getUrl('pdl_cybs/unifiedCheckout/captureContext')
+    ) ?>",
                 "successUrl": "<?= $escaper->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
             }
         },

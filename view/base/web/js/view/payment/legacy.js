@@ -25,18 +25,20 @@ define([
 ], function ($, alert) {
     'use strict';
 
+    // Placeholder card id used to flag a freshly tokenized (not-yet-vaulted) card to the form.
+    var NEW_CARD_ID = 'unified_checkout_new';
+
     $.widget('mage.cybersourceLegacyForm', {
         options: {
-            target: null,
-            paramUrl: null,
-            fingerprintUrl: null,
+            captureContextUrl: null,
+            tokenSelector: '[name="payment[transient_token]"]',
             cardSelector: '[name="payment[card_id]"]'
         },
 
         _create: function () {
             this.element.on('change', this.options.cardSelector, this.handleCardSelectChange.bind(this));
+            this.dropinMounted = false;
 
-            this.initFingerprint();
             this.handleCardSelectChange();
         },
 
@@ -50,20 +52,26 @@ define([
                 return;
             }
 
-            // Hide additional fields when iframe is visible
+            // Hide additional fields when the drop-in is visible
             this.element.find('div.cvv').hide();
             this.element.find('div.save').hide();
 
-            // Re/init iframe if 'add new card' is selected
-            this.initSecureAcceptanceForm();
+            // Mount the UC drop-in if 'add new card' is selected
+            this.mountDropin();
         },
 
-        initSecureAcceptanceForm: function () {
-            this.bindCommunicator();
+        /**
+         * Request a capture context and load the UC client library (once).
+         */
+        mountDropin: function () {
+            if (this.dropinMounted === true) {
+                return;
+            }
 
-            // Clear and spinner the CC form while we load new params
-            this.element.find('iframe').prop('src', 'about:blank')
-                .trigger('processStart');
+            this.dropinMounted = true;
+
+            var screen = this.element.find('.unified-checkout-screen');
+            screen.trigger('processStart');
 
             var payload = {};
             var inputs = this.element.find(':input');
@@ -79,56 +87,121 @@ define([
             }
 
             return $.post({
-                url: this.options.paramUrl,
+                url: this.options.captureContextUrl,
                 dataType: 'json',
                 data: payload,
                 global: false,
-                success: this.loadSecureAcceptanceForm.bind(this),
+                success: this.loadClientLibrary.bind(this),
                 error: this.handleAjaxError.bind(this)
             });
         },
 
-        loadSecureAcceptanceForm: function (data, status, jqXHR) {
-            if (data.iframeAction === undefined) {
+        /**
+         * Decode the capture-context JWT, inject UC.js (with SRI), then mount the drop-in.
+         */
+        loadClientLibrary: function (data, status, jqXHR) {
+            if (!data || !data.captureContext) {
                 return this.handleAjaxError(jqXHR, status, data);
             }
 
-            var form = document.createElement('form');
-            form.target = this.options.target;
-            form.method = 'post';
-            form.action = data.iframeAction;
+            this.captureContext = data.captureContext;
 
-            for (var key in data.iframeParams) {
-                var input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data.iframeParams[key];
-                form.appendChild(input);
+            var ctx;
+            try {
+                ctx = this.decodeJwtBody(data.captureContext).ctx[0].data;
+            } catch (error) {
+                return this.handleAjaxError(null, 'error', 'Invalid capture context');
             }
 
-            document.body.appendChild(form);
-            form.submit();
+            var script = document.createElement('script');
+            script.src = ctx.clientLibrary;
+            if (ctx.clientLibraryIntegrity) {
+                script.integrity = ctx.clientLibraryIntegrity;
+                script.crossOrigin = 'anonymous';
+            }
+            script.addEventListener('load', this.mountUnifiedCheckout.bind(this));
+            script.addEventListener('error', function () {
+                this.handleAjaxError(null, 'error', 'Unable to load payment library');
+            }.bind(this));
+            document.head.appendChild(script);
+        },
 
-            this.element.find('iframe').trigger('processStop');
+        /**
+         * Mount the UC drop-in via the Accept global into the embedded containers.
+         */
+        mountUnifiedCheckout: function () {
+            if (typeof Accept !== 'function') {
+                return this.handleAjaxError(null, 'error', 'Payment library unavailable');
+            }
+
+            var selection = this.element.find('.unified-checkout-selection').attr('id');
+            var screen = this.element.find('.unified-checkout-screen').attr('id');
+
+            Accept(this.captureContext)
+                .then(function (accept) {
+                    return accept.unifiedPayments();
+                })
+                .then(function (unifiedPayments) {
+                    return unifiedPayments.show({
+                        containers: {
+                            paymentSelection: '#' + selection,
+                            paymentScreen: '#' + screen
+                        }
+                    });
+                })
+                .then(this.handleTransientToken.bind(this))
+                .catch(function (error) {
+                    this.handleAjaxError(null, 'error', error && error.message ? error.message : null);
+                }.bind(this));
+
+            this.element.find('.unified-checkout-screen').trigger('processStop');
+        },
+
+        /**
+         * Stash the transient token in the hidden form input and add/select a card so the form submits.
+         */
+        handleTransientToken: function (transientTokenJwt) {
+            if (!transientTokenJwt) {
+                return;
+            }
+
+            this.element.find(this.options.tokenSelector).val(transientTokenJwt);
+
+            this.addAndSelectCard({
+                id: NEW_CARD_ID,
+                label: $.mage.__('New Card'),
+                new: true,
+                type: '',
+                cc_bin: '',
+                cc_last4: ''
+            });
         },
 
         handleAjaxError: function (jqXHR, status, error) {
-            var iframe = this.element.find('iframe');
+            var screen = this.element.find('.unified-checkout-screen');
             var message = $.mage.__('A server error occurred. Please try again.');
 
-            iframe.trigger('processStop');
+            screen.trigger('processStop');
+            this.dropinMounted = false;
 
-            try {
-                var responseJson = JSON.parse(jqXHR.responseText);
-                if (responseJson.message !== undefined) {
-                    message = responseJson.message;
-                }
-            } catch (error) {
+            if (typeof error === 'string' && error.length > 0) {
+                message = error;
             }
 
-            if (iframe.siblings('.message').length > 0) {
-                iframe.siblings('.message').text(message).show();
-                iframe.hide();
+            try {
+                if (jqXHR && jqXHR.responseText) {
+                    var responseJson = JSON.parse(jqXHR.responseText);
+                    if (responseJson.message !== undefined) {
+                        message = responseJson.message;
+                    }
+                }
+            } catch (e) {
+            }
+
+            if (screen.siblings('.message').length > 0) {
+                screen.siblings('.message').text(message).show();
+                screen.hide();
+
                 return;
             }
 
@@ -137,39 +210,9 @@ define([
                     title: $.mage.__('Error'),
                     content: message
                 });
-            } catch (error) {
+            } catch (e) {
                 // Fall back to standard alert if jq widget hasn't initialized yet
                 window.alert(message);
-            }
-        },
-
-        bindCommunicator: function () {
-            if (!this._communicatorBound) {
-                window.addEventListener('message', this.handleCommunication.bind(this));
-                this._communicatorBound = true;
-            }
-        },
-
-        handleCommunication: function (event) {
-            if (event.origin !== location.origin
-                || !event.data
-                || event.data.success === undefined) {
-                return;
-            }
-
-            var message = event.data;
-
-            if (message.success && message.card !== undefined) {
-                this.addAndSelectCard(message.card);
-            } else if (message.error && message.error.length > 0) {
-                if (message.error.indexOf('(101)') === -1 && message.error.indexOf('(102)') === -1) {
-                    this.initSecureAcceptanceForm();
-                }
-
-                alert({
-                    title: $.mage.__('Error'),
-                    content: message.error
-                });
             }
         },
 
@@ -185,14 +228,17 @@ define([
             this.element.find(this.options.cardSelector).append(option).val(card.id).trigger('change');
         },
 
-        initFingerprint: function () {
-            if (this.options.fingerprintUrl !== null
-                && this.options.fingerprintUrl.length > 1) {
-                var script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = this.options.fingerprintUrl;
-                document.head.appendChild(script);
+        /**
+         * Base64url-decode the JWT payload (middle segment) and parse as JSON.
+         */
+        decodeJwtBody: function (jwt) {
+            var payload = jwt.split('.')[1];
+            payload = payload.replace(/-/g, '+').replace(/_/g, '/');
+            while (payload.length % 4) {
+                payload += '=';
             }
+
+            return JSON.parse(window.atob(payload));
         }
     });
 
