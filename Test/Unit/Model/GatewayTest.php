@@ -170,6 +170,8 @@ class GatewayTest extends TestCase
     public function testRefundUnlinkedFallbackFiresOnSoapCode241(): void
     {
         $payment = $this->buildPayment();
+        // Parent txn is the CAPTURE id (PAYID3-capture); the unlinked credit must target the original
+        // PAYMENT id (PAYID3, suffix stripped), NOT the capture id the linked refund failed against.
         $payment->method('getParentTransactionId')->willReturn('PAYID3-capture');
         $card    = $this->createMock(Card::class);
         $this->gateway->setData('card', $card);
@@ -182,7 +184,7 @@ class GatewayTest extends TestCase
         $expected = (new GatewayResponse())->setData(['transaction_id' => 'CREDIT1']);
         $this->followOn->expects($this->once())
             ->method('refundUnlinked')
-            ->with($payment, 5.0, 'CAPID7')
+            ->with($payment, 5.0, 'PAYID3')
             ->willReturn($expected);
 
         $this->assertSame($expected, $this->gateway->refund($payment, 5.0));
@@ -190,6 +192,7 @@ class GatewayTest extends TestCase
 
     public function testVoidDelegatesReversalToFollowOn(): void
     {
+        // Uncaptured auth (totalDue > 0) -> auth reversal on the auth id.
         $payment  = $this->buildPayment();
         $expected = (new GatewayResponse())->setData(['transaction_id' => 'REV1']);
 
@@ -198,6 +201,30 @@ class GatewayTest extends TestCase
         $this->followOn->expects($this->once())
             ->method('void')
             ->with($payment, 24.0, 'AUTHID9')
+            ->willReturn($expected);
+        $this->followOn->expects($this->never())->method('voidCapture');
+
+        $this->assertSame($expected, $this->gateway->void($payment));
+    }
+
+    public function testVoidSettledCaptureRoutesToCaptureVoid(): void
+    {
+        // Settled order (totalDue == 0) -> capture void on the capture id, NOT an auth reversal.
+        $order = $this->createMock(Order::class);
+        $order->method('getTotalDue')->willReturn(0.0);
+        $order->method('getTotalPaid')->willReturn(24.0);
+
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getOrder')->willReturn($order);
+
+        $expected = (new GatewayResponse())->setData(['transaction_id' => 'VC1']);
+
+        $this->gateway->setTransactionId('CAPID7');
+
+        $this->followOn->expects($this->never())->method('void');
+        $this->followOn->expects($this->once())
+            ->method('voidCapture')
+            ->with($payment, 'CAPID7')
             ->willReturn($expected);
 
         $this->assertSame($expected, $this->gateway->void($payment));

@@ -494,8 +494,11 @@ class Gateway extends AbstractGateway
             if ($exception->getCode() === 241) {
                 $this->helper->log($this->code, 'Transaction not refundable. Attempting unlinked credit.');
 
-                // Stash the id we are dropping so the unlinked retry can still target the original payment.
-                $this->setData('refund_fallback_txn_id', (string)$transactionId);
+                // Drop the (capture) id and retry as an unlinked credit. We deliberately do NOT stash the
+                // capture id: an unlinked credit must post against the original PAYMENT id, which
+                // getRefundFallbackTransactionId() resolves from the parent/last transaction id (with the
+                // -capture suffix stripped). Stashing the capture id here would post the credit against the
+                // capture, the wrong target.
                 $this->setTransactionId(null)
                      ->setCard($this->getData('card'));
 
@@ -508,21 +511,17 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Resolve the payment id to target for an unlinked-credit refund fallback.
+     * Resolve the original PAYMENT id to target for an unlinked-credit refund fallback.
      *
-     * Prefers the id stashed when the linked refund was downgraded; otherwise falls back to the payment's
-     * parent/last transaction id (stripped of any -capture/-refund suffix), which shares the REST id space.
+     * An unlinked credit must hit the original payment id, NOT the capture id the linked refund failed
+     * against. We resolve it from the payment's parent/last transaction id, stripped of any
+     * -capture/-refund suffix (REST and SOAP share the same transaction-id space, D4).
      *
      * @param InfoInterface $payment
      * @return string
      */
     protected function getRefundFallbackTransactionId(InfoInterface $payment)
     {
-        $stashed = (string)$this->getData('refund_fallback_txn_id');
-        if ($stashed !== '') {
-            return $stashed;
-        }
-
         /** @var \Magento\Sales\Model\Order\Payment $payment */
         $txnId = $payment->getParentTransactionId() ?: $payment->getLastTransId();
 
@@ -542,13 +541,21 @@ class Gateway extends AbstractGateway
         /** @var Order $order */
         $order = $payment->getOrder();
 
-        $transactionId = $transactionId ?: $this->getTransactionId();
+        $transactionId = (string)($transactionId ?: $this->getTransactionId());
 
-        // REST collapses the SOAP auth-reversal vs void distinction into a single auth reversal against the
-        // stored auth id. We reverse the amount still due, falling back to the amount paid.
-        $amount = (float)($order->getTotalDue() ?: $order->getTotalPaid());
+        // Restore the SOAP auth-reversal vs capture-void distinction. An uncaptured auth (amount still
+        // due) is reversed via POST /pts/v2/payments/{authId}/reversals. Once captured/settled the auth
+        // reversal is rejected by the processor, so the CAPTURE itself must be voided via
+        // POST /pts/v2/captures/{captureId}/voids (the stored parent/current txn id is the capture's REST
+        // id once settled). Keying on totalDue mirrors the SOAP-era branch exactly.
+        if ($order->getTotalDue() > 0) {
+            // Reverse the amount still due, falling back to the amount paid.
+            $amount = (float)($order->getTotalDue() ?: $order->getTotalPaid());
 
-        return $this->unifiedCheckoutFollowOn->void($payment, $amount, (string)$transactionId);
+            return $this->unifiedCheckoutFollowOn->void($payment, $amount, $transactionId);
+        }
+
+        return $this->unifiedCheckoutFollowOn->voidCapture($payment, $transactionId);
     }
 
     /**

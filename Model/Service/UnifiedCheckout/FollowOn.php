@@ -52,16 +52,21 @@ use Throwable;
  * CODE-SPACE RECONCILIATION (the A1/A2 correctness point): the SOAP path threw exceptions whose code was
  * the SOAP reasonCode, and Gateway::capture()/refund() key their recapture/unlinked-credit retry on
  * 102/242 (capture: txn not found / not valid for follow-on) and 241 (refund: not valid for follow-on).
- * REST replies do NOT carry those codes — a follow-on against a missing/again-state id fails with a 4xx
- * HTTP status and an errorInformation.reason string (INVALID_MERCHANT_CONFIGURATION,
- * PROCESSOR_ERROR, NOT_FOUND, etc.). interpretResponse()/normalizeFollowOnException() detect that
- * "follow-on target unusable" condition and re-throw a CommandException carrying the EQUIVALENT SOAP code
- * (242 for capture, 241 for refund) so the existing gateway retry/fallback logic still fires unchanged.
+ * REST replies do NOT carry those codes. FAIL-SAFE rule (A3 review): only a genuinely-not-found / not-
+ * re-presentable id condition maps to the 242/241 retry codes — specifically (1) an HTTP 404 against the
+ * follow-on path, and (2) a 2xx body whose errorInformation.reason is EXACTLY 'NOT_FOUND'. Everything else
+ * is surfaced as-is. In particular, a body that carries a real processorInformation.responseCode (a genuine
+ * auth/capture decline) is ALWAYS thrown as a plain decline (CommandException with its own code / 0), NEVER
+ * as 242/241 — because the retry codes drive a fresh bundled auth+capture (capture) or an unlinked credit
+ * (refund), and mapping a real decline to them would re-charge / re-credit silently. Processor reasons such
+ * as PROCESSOR_ERROR / INVALID_REQUEST are NOT not-found conditions (UC-API-REFERENCE.md §4 shows
+ * PROCESSOR_ERROR on an APPROVED auth) and are deliberately excluded; matching is by exact reason equality,
+ * never substring.
  *
  * VERIFY (UC-API-REFERENCE.md §4/§5): the exact REST error reason/status emitted for an expired or
  * already-consumed follow-on target is NOT live-confirmed (sandbox MID lacks TMS provisioning). The
- * reason-string set in FOLLOWON_NOT_FOUND_REASONS / the 404 status mapping is SDK/reference-derived and
- * must be confirmed against a boarded MID before relying on the auto-recapture path in production.
+ * NOT_FOUND reason / 404 status mapping is SDK/reference-derived and must be confirmed against a boarded MID
+ * before relying on the auto-recapture path in production.
  *
  * @see \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response  (the auth/sale sibling, A1)
  * @see \ParadoxLabs\CyberSource\Model\Gateway::capture()  (the retry logic this feeds)
@@ -87,6 +92,15 @@ class FollowOn
      * Auth reversal (void) path template. {id} = stored auth transaction id.
      */
     public const REVERSAL_PATH = '/pts/v2/payments/%s/reversals';
+
+    /**
+     * Capture void path template. {id} = stored capture transaction id.
+     *
+     * Used to void an already-settled (captured) transaction before it clears, where reversing the
+     * underlying auth id is no longer valid. Confirmed against SDK VoidApi::voidCapture
+     * (POST /pts/v2/captures/{id}/voids, VoidCaptureRequest carries clientReferenceInformation only).
+     */
+    public const CAPTURE_VOID_PATH = '/pts/v2/captures/%s/voids';
 
     /**
      * TMS payment-instrument delete path template. {id} = stored paymentId.
@@ -129,17 +143,16 @@ class FollowOn
     public const SOAP_CODE_REFUND_NOT_FOLLOWABLE = 241;
 
     /**
-     * errorInformation.reason values that indicate the referenced follow-on target is unusable.
+     * The single errorInformation.reason value that means "follow-on target id is unusable / not found".
      *
-     * VERIFY against a boarded MID (UC-API-REFERENCE §5). These mirror the SOAP "transaction not found /
-     * not valid for follow-on" conditions (reasonCodes 102/242/241) in the REST reason-string space.
+     * FAIL-SAFE (A3 review): this is intentionally NARROW. It maps ONLY the genuinely not-found /
+     * not-re-presentable id condition to the SOAP 242/241 retry codes. It must NOT include processor
+     * decisions such as PROCESSOR_ERROR or INVALID_REQUEST: those are real declines/errors (see
+     * UC-API-REFERENCE.md §4 — PROCESSOR_ERROR fires on an APPROVED auth where TMS is unprovisioned, i.e.
+     * NOT a not-found condition). Mapping them to 242/241 would trigger a silent re-charge / re-credit.
+     * Matched by EXACT reason equality, never substring — an ambiguous condition is surfaced, not retried.
      */
-    public const FOLLOWON_NOT_FOUND_REASONS = [
-        'NOT_FOUND',
-        'INVALID_REQUEST',
-        'INVALID_MERCHANT_CONFIGURATION',
-        'PROCESSOR_ERROR',
-    ];
+    public const FOLLOWON_NOT_FOUND_REASON = 'NOT_FOUND';
 
     /**
      * FollowOn constructor.
@@ -230,6 +243,10 @@ class FollowOn
     /**
      * Void (auth reversal) the stored auth transaction id, over REST.
      *
+     * This is the UNCAPTURED-auth path only: it reverses the named auth. For an already-settled
+     * (captured) order, reversing the auth id is rejected by the processor — Gateway::void() must
+     * route that case to voidCapture() instead.
+     *
      * @param InfoInterface $payment
      * @param float $amount Amount to reverse (typically the auth/due amount).
      * @param string $transactionId Stored auth transaction id.
@@ -247,6 +264,38 @@ class FollowOn
         $path    = sprintf(self::REVERSAL_PATH, rawurlencode($transactionId));
 
         return $this->send($path, $request, $payment, self::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE);
+    }
+
+    /**
+     * Void an already-settled CAPTURE over REST (POST /pts/v2/captures/{id}/voids).
+     *
+     * Once an order is captured/settled, the auth reversal path is invalid; the capture itself must be
+     * voided (before it clears) against the capture id. A capture void is full — no amount is sent
+     * (confirmed against SDK VoidApi::voidCapture / VoidCaptureRequest, which carries only
+     * clientReferenceInformation).
+     *
+     * @param InfoInterface $payment
+     * @param string $transactionId Stored capture transaction id.
+     * @return GatewayResponse
+     * @throws CommandException
+     * @throws RuntimeException
+     * @throws Throwable
+     */
+    public function voidCapture(InfoInterface $payment, string $transactionId): GatewayResponse
+    {
+        $this->scopeFromPayment($payment);
+
+        /** @var Payment $payment */
+        $order = $payment->getOrder();
+
+        // A capture void is full; send no amount (clientReferenceInformation only).
+        /** @var FollowOnRequest $request */
+        $request = $this->requestFactory->create();
+        $request->setClientReferenceCode((string)$order->getIncrementId());
+
+        $path = sprintf(self::CAPTURE_VOID_PATH, rawurlencode($transactionId));
+
+        return $this->send($path, $request, $payment, self::SOAP_CODE_REFUND_NOT_FOLLOWABLE);
     }
 
     /**
@@ -355,10 +404,13 @@ class FollowOn
     {
         $status = (int)$exception->getCode();
 
-        // A 404 against a follow-on path means the referenced transaction id is unknown to the processor —
-        // the REST analog of SOAP "transaction not found" (102/242). Surface the SOAP code so the gateway
-        // recapture / unlinked-credit fallback fires.
-        if ($status === 404 || $this->messageIndicatesNotFollowable($exception->getMessage())) {
+        // FAIL-SAFE: only an HTTP 404 maps to the not-followable SOAP code here. A 404 against a follow-on
+        // path means the referenced transaction id is unknown to the processor — the REST analog of SOAP
+        // "transaction not found" (102/242), an id/state problem, so the gateway recapture / unlinked-credit
+        // fallback may fire. We intentionally do NOT substring-match the raw transport message for reason
+        // tokens (it cannot distinguish a genuine processor decline from a not-found id) — anything that is
+        // not a clean 404 is surfaced as-is rather than silently re-charged/re-credited.
+        if ($status === 404) {
             return new CommandException(
                 __('Transaction Failed: %1', __($exception->getMessage())),
                 null,
@@ -367,25 +419,6 @@ class FollowOn
         }
 
         return $exception;
-    }
-
-    /**
-     * Whether an error message/reason indicates the follow-on target is unusable (not-found equivalent).
-     *
-     * @param string $message
-     * @return bool
-     */
-    protected function messageIndicatesNotFollowable(string $message): bool
-    {
-        $haystack = strtoupper($message);
-
-        foreach (self::FOLLOWON_NOT_FOUND_REASONS as $reason) {
-            if (str_contains($haystack, $reason)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -435,14 +468,22 @@ class FollowOn
             $this->helper->log(Config::CODE, sprintf('%s (%s)', (string)$message, $status));
         }
 
-        // Map a follow-on body that came back 2xx-but-unusable (e.g. status=INVALID_REQUEST with a
-        // not-followable reason) onto the SOAP code so the gateway retry logic fires, same as a 404.
-        if ($this->messageIndicatesNotFollowable($errorReason)
-            || $this->messageIndicatesNotFollowable($status)) {
-            throw new CommandException($message, null, $notFollowableSoapCode);
+        $code = ctype_digit($responseCode) ? (int)$responseCode : 0;
+
+        // FAIL-SAFE: a real processor decision (the body carries a processorInformation.responseCode) is
+        // ALWAYS surfaced as a plain decline, NEVER mapped to the 242/241 retry codes. The retry codes are
+        // reserved for "the follow-on target id is unusable", which is an id/state problem — not a
+        // processor decision. Mapping a genuine decline to 242/241 would re-charge / re-credit silently.
+        if ($responseCode !== '') {
+            throw new CommandException($message, null, $code);
         }
 
-        $code = ctype_digit($responseCode) ? (int)$responseCode : 0;
+        // No processor responseCode: an id/state-level failure. Map ONLY the exact NOT_FOUND reason (the
+        // 2xx-but-unusable analog of a 404) onto the SOAP code so the gateway recapture / unlinked-credit
+        // fallback fires. Exact equality, never substring; anything ambiguous is surfaced, not retried.
+        if ($errorReason === self::FOLLOWON_NOT_FOUND_REASON) {
+            throw new CommandException($message, null, $notFollowableSoapCode);
+        }
 
         if ($status === 'DECLINED') {
             throw new CommandException($message, null, $code);

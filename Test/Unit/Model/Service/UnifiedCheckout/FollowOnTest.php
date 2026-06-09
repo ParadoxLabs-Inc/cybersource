@@ -199,6 +199,60 @@ class FollowOnTest extends TestCase
         }
     }
 
+    public function testGenuineProcessorDeclineIsNotMappedToNotFollowableCode(): void
+    {
+        // FAIL-SAFE: a real processor decline carrying errorInformation.reason=PROCESSOR_ERROR AND a
+        // decline responseCode must be thrown as a plain decline (its own code), NEVER as the 242/241
+        // retry code. Mapping it to 242/241 would re-charge (capture) / re-credit (refund) silently.
+        // This test FAILS against the old overbroad PROCESSOR_ERROR substring mapping.
+        $this->primePost([
+            'id' => 'D9',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '203'],
+            'errorInformation' => ['reason' => 'PROCESSOR_ERROR', 'message' => 'Requested service is forbidden'],
+        ]);
+
+        try {
+            $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9');
+            $this->fail('Expected CommandException');
+        } catch (CommandException $e) {
+            $this->assertSame(203, $e->getCode());
+            $this->assertNotSame(FollowOn::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE, $e->getCode());
+        }
+    }
+
+    public function testInvalidRequestReasonIsNotMappedToNotFollowableCode(): void
+    {
+        // FAIL-SAFE: INVALID_REQUEST is no longer a not-found reason; with no decline responseCode it is a
+        // RuntimeException (surfaced), not a 242/241 retry. This FAILS against the old mapping.
+        $this->primePost([
+            'id' => 'X',
+            'status' => 'INVALID_REQUEST',
+            'errorInformation' => ['reason' => 'INVALID_REQUEST', 'message' => 'Invalid field'],
+        ]);
+
+        try {
+            $this->service->refund($this->buildPayment(), 24.0, 'CAPID7');
+            $this->fail('Expected RuntimeException');
+        } catch (RuntimeException $e) {
+            $this->assertNotSame(FollowOn::SOAP_CODE_REFUND_NOT_FOLLOWABLE, $e->getCode());
+        }
+    }
+
+    public function testVoidCaptureBuildsCaptureVoidPathWithoutAmount(): void
+    {
+        $this->primePost(['id' => 'VC1', 'status' => 'VOIDED']);
+
+        $response = $this->service->voidCapture($this->buildPayment(), 'CAPID7');
+
+        $this->assertSame('/pts/v2/captures/CAPID7/voids', $this->lastPath);
+        // A capture void is full; no amount is sent (clientReferenceInformation only).
+        $this->assertArrayNotHasKey('orderInformation', $this->lastBody);
+        $this->assertArrayNotHasKey('reversalInformation', $this->lastBody);
+        $this->assertSame('100000123', $this->lastBody['clientReferenceInformation']['code']);
+        $this->assertFalse($response->getIsError());
+    }
+
     public function testDeclineThrowsCommandExceptionWithResponseCode(): void
     {
         $this->primePost([
