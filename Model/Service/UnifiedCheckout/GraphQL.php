@@ -22,6 +22,7 @@
 namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout;
 
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
@@ -36,6 +37,10 @@ use Throwable;
  *
  * Sources amount/currency/billTo from the resolver-supplied cart and input args; falls back to a
  * billing-only context when no cart is supplied (headless add-card / save-card).
+ *
+ * Target origins: the actual headless storefront origin cannot be derived server-side, so the
+ * "Additional Target Origins" config remains essential for GraphQL clients. The store's base-URL
+ * origin is still derived (harmless; may match), but headless domains must be configured.
  */
 class GraphQL extends CaptureContext
 {
@@ -190,6 +195,26 @@ class GraphQL extends CaptureContext
             return (int)$this->graphQlContext?->getExtensionAttributes()->getStore()->getId();
         } catch (Throwable) {
             return null;
+        }
+    }
+
+    /**
+     * Derive the store's base-URL origin. Headless storefront origins are not derivable here;
+     * they must come from the "Additional Target Origins" config.
+     *
+     * @return string[]
+     */
+    protected function deriveTargetOrigins(): array
+    {
+        try {
+            $origin = $this->normalizeOrigin(
+                $this->graphQlContext?->getExtensionAttributes()->getStore()
+                    ->getBaseUrl(UrlInterface::URL_TYPE_WEB, true)
+            );
+
+            return $origin !== null ? [$origin] : [];
+        } catch (Throwable) {
+            return [];
         }
     }
 

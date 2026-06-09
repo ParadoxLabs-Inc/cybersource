@@ -43,6 +43,7 @@
                 <item name="payment/paradoxlabs_cybersource/test" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/merchant_id" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/rest_secret_key_id" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/uc_target_origins" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>

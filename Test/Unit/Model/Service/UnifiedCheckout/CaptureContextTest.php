@@ -27,6 +27,7 @@ class TestableCaptureContext extends CaptureContext
     public ?string $email = 'jane@example.com';
     public ?int $storeId = 1;
     public bool $saveCard = false;
+    public array $derivedOrigins = [];
 
     protected function getAmount(): ?string
     {
@@ -58,9 +59,19 @@ class TestableCaptureContext extends CaptureContext
         return $this->saveCard;
     }
 
+    protected function deriveTargetOrigins(): array
+    {
+        return $this->derivedOrigins;
+    }
+
     public function exposeMapBillTo(?AddressInterface $address): array
     {
         return $this->mapBillTo($address);
+    }
+
+    public function exposeNormalizeOrigin(?string $url): ?string
+    {
+        return $this->normalizeOrigin($url);
     }
 }
 
@@ -271,6 +282,73 @@ class CaptureContextTest extends TestCase
         $this->assertSame('90210', $result['postalCode']);
         $this->assertSame('US', $result['country']);
         $this->assertSame('jane@example.com', $result['email']);
+    }
+
+    public function testBuildRequestMergesDerivedOriginsBeforeConfigExtras(): void
+    {
+        $this->handler->derivedOrigins = ['https://store.example.com'];
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        // Derived origin first, configured "Additional Target Origins" extras after.
+        $this->assertSame(
+            ['https://store.example.com', 'https://shop.example.com'],
+            $result['targetOrigins']
+        );
+    }
+
+    public function testBuildRequestDedupesDerivedAndConfiguredOrigins(): void
+    {
+        // Config also returns https://shop.example.com (setUp); derived duplicate must collapse.
+        $this->handler->derivedOrigins = ['https://shop.example.com'];
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame(['https://shop.example.com'], $result['targetOrigins']);
+    }
+
+    public function testNormalizeOriginStripsDefaultHttpsPortAndPath(): void
+    {
+        $this->assertSame(
+            'https://shop.example.com',
+            $this->handler->exposeNormalizeOrigin('https://shop.example.com:443/checkout/payment/')
+        );
+    }
+
+    public function testNormalizeOriginKeepsExplicitNonstandardPort(): void
+    {
+        $this->assertSame(
+            'https://shop.example.com:8443',
+            $this->handler->exposeNormalizeOrigin('https://shop.example.com:8443/')
+        );
+    }
+
+    public function testNormalizeOriginStripsPathAndTrailingSlash(): void
+    {
+        $this->assertSame(
+            'https://shop.example.com',
+            $this->handler->exposeNormalizeOrigin('https://shop.example.com/some/store/view/')
+        );
+    }
+
+    public function testNormalizeOriginAllowsHttpLocalhost(): void
+    {
+        $this->assertSame(
+            'http://localhost',
+            $this->handler->exposeNormalizeOrigin('http://localhost/')
+        );
+        $this->assertSame(
+            'http://localhost:8080',
+            $this->handler->exposeNormalizeOrigin('http://localhost:8080/magento/')
+        );
+    }
+
+    public function testNormalizeOriginReturnsNullForInvalidUrl(): void
+    {
+        $this->assertNull($this->handler->exposeNormalizeOrigin(null));
+        $this->assertNull($this->handler->exposeNormalizeOrigin(''));
+        $this->assertNull($this->handler->exposeNormalizeOrigin('not a url'));
+        $this->assertNull($this->handler->exposeNormalizeOrigin('//www.example.com/'));
     }
 
     public function testMapBillToReturnsEmptyForNullAddress(): void

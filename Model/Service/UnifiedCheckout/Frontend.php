@@ -24,6 +24,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Override;
 use ParadoxLabs\CyberSource\Model\Config\Config;
@@ -180,6 +181,24 @@ class Frontend extends CaptureContext
             return (int)$this->storeManager->getStore()->getId();
         } catch (Throwable) {
             return null;
+        }
+    }
+
+    /**
+     * Derive the storefront origin from the store's secure base URL.
+     *
+     * @return string[]
+     */
+    protected function deriveTargetOrigins(): array
+    {
+        try {
+            $origin = $this->normalizeOrigin(
+                $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_WEB, true)
+            );
+
+            return $origin !== null ? [$origin] : [];
+        } catch (Throwable) {
+            return [];
         }
     }
 }

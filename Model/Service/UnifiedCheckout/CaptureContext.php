@@ -95,7 +95,7 @@ abstract class CaptureContext
         $request = $this->requestFactory->create();
 
         $request->setClientVersion($this->config->getUcClientVersion($storeId))
-            ->setTargetOrigins($this->config->getUcTargetOrigins($storeId))
+            ->setTargetOrigins($this->getTargetOrigins($storeId))
             ->setAllowedCardNetworks($this->config->getUcAllowedCardNetworks($storeId))
             ->setAllowedPaymentTypes($this->config->getUcAllowedPaymentTypes($storeId))
             ->setCountry($this->resolveCountry($billTo))
@@ -190,6 +190,59 @@ abstract class CaptureContext
     }
 
     /**
+     * Build the full targetOrigins list: context-derived origins first, then configured extras.
+     *
+     * CyberSource requires exact scheme+host(+port) origins for everywhere UC.js mounts (the UC
+     * iframes enforce frame-ancestors = targetOrigins); wildcards are not supported. The derived
+     * origin covers the current context's host, while the "Additional Target Origins" config adds
+     * extras such as headless storefront domains. Duplicates are removed, derived-first.
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    protected function getTargetOrigins(?int $storeId): array
+    {
+        $origins = array_merge(
+            $this->deriveTargetOrigins(),
+            $this->config->getUcTargetOrigins($storeId)
+        );
+
+        return array_values(array_unique(array_filter($origins)));
+    }
+
+    /**
+     * Normalize a URL to origin form: scheme + lowercase host + explicit port only if non-default.
+     *
+     * No path, no trailing slash. Returns null when the URL lacks a scheme or host.
+     *
+     * @param string|null $url
+     * @return string|null
+     */
+    protected function normalizeOrigin(?string $url): ?string
+    {
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction -- parsing trusted config/base URLs.
+        $parts = $url !== null && $url !== '' ? parse_url($url) : false;
+
+        if (!is_array($parts) || empty($parts['scheme']) || empty($parts['host'])) {
+            return null;
+        }
+
+        $scheme = strtolower($parts['scheme']);
+        $origin = $scheme . '://' . strtolower($parts['host']);
+
+        // Default ports are implied by the scheme; appending them would mismatch browser origins.
+        $defaultPorts = [
+            'http' => 80,
+            'https' => 443,
+        ];
+        if (isset($parts['port']) && $parts['port'] !== ($defaultPorts[$scheme] ?? null)) {
+            $origin .= ':' . $parts['port'];
+        }
+
+        return $origin;
+    }
+
+    /**
      * Whether to surface the UC "save card" checkbox. Defaults to false; subclasses may override.
      *
      * @return bool
@@ -233,4 +286,11 @@ abstract class CaptureContext
      * @return int|null
      */
     abstract protected function getStoreId(): ?int;
+
+    /**
+     * Derive the origin(s) where UC.js will mount for this context, in normalized origin form.
+     *
+     * @return string[]
+     */
+    abstract protected function deriveTargetOrigins(): array;
 }

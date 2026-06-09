@@ -130,6 +130,7 @@
                         <option label="Click to Pay">CLICKTOPAY</option>
                         <option label="Paze">PAZE</option>
                     </options>
+                    <validate>required-entry</validate>
                     <comment>Payment methods offered within the Unified Checkout form. Digital wallets must be enabled on your CyberSource merchant account first.</comment>
                 </field>
                 <field id="uc_allowed_card_networks" translate="label comment" type="multiselect" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -141,10 +142,14 @@
                         <option label="Discover">DISCOVER</option>
                         <option label="Diners Club">DINERSCLUB</option>
                         <option label="JCB">JCB</option>
+                        <option label="Maestro">MAESTRO</option>
+                        <option label="China UnionPay">CUP</option>
+                        <option label="Cartes Bancaires">CARTESBANCAIRES</option>
                     </options>
+                    <validate>required-entry</validate>
                     <comment>Card networks accepted by the Unified Checkout form. Only select networks your merchant account supports.</comment>
                 </field>
-                <field id="uc_billing_type" translate="label comment" type="select" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                <field id="uc_billing_type" translate="label comment" type="select" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Collect Billing Address</label>
                     <options>
                         <option label="Full Address">FULL</option>
@@ -156,16 +161,15 @@
                 <field id="uc_country" translate="label comment" type="select" sortOrder="232" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Merchant Country</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    <can_be_empty>1</can_be_empty>
                     <comment>Country passed to Unified Checkout. Leave empty to use the store's default country.</comment>
                 </field>
                 <field id="uc_locale" translate="label comment" type="text" sortOrder="234" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Form Locale</label>
                     <comment>Locale code for the Unified Checkout form, e.g. en_US. Leave empty to use the store locale.</comment>
                 </field>
-                <field id="uc_target_origins" translate="label comment" type="text" sortOrder="236" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <field id="uc_target_origins" translate="label comment" type="text" sortOrder="236" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Additional Target Origins</label>
-                    <comment>Comma-separated list of exact HTTPS origins (e.g. https://www.example.com) allowed to load the Unified Checkout form, such as headless storefront domains.</comment>
+                    <comment>The current store/admin origin is included automatically. Use this to add extra exact HTTPS origins (e.g. https://www.example.com) allowed to load the Unified Checkout form, such as headless storefront domains. Comma-separated.</comment>
                 </field>
                 <field id="uc_client_version" translate="label comment" type="text" sortOrder="238" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
                     <label>UC.js Client Version</label>

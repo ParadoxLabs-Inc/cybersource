@@ -22,6 +22,7 @@
 namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout;
 
 use Magento\Backend\Model\Session\Quote as BackendSession;
+use Magento\Backend\Model\UrlInterface as BackendUrlInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Override;
@@ -53,6 +54,7 @@ class Backend extends CaptureContext
      * @param BackendSession $backendSession
      * @param StoreManagerInterface $storeManager
      * @param RequestInterface $request
+     * @param BackendUrlInterface $backendUrl
      */
     public function __construct(
         Config $config,
@@ -63,7 +65,8 @@ class Backend extends CaptureContext
         protected readonly Data $tokenbaseHelper,
         protected readonly BackendSession $backendSession,
         protected readonly StoreManagerInterface $storeManager,
-        protected readonly RequestInterface $request
+        protected readonly RequestInterface $request,
+        protected readonly BackendUrlInterface $backendUrl
     ) {
         parent::__construct($config, $rest, $sanitizer, $addressHelper, $requestFactory);
     }
@@ -184,6 +187,23 @@ class Backend extends CaptureContext
             } catch (Throwable) {
                 return null;
             }
+        }
+    }
+
+    /**
+     * Derive the admin origin from the backend base URL (admin order-create and customer-card
+     * mounts live under the admin host).
+     *
+     * @return string[]
+     */
+    protected function deriveTargetOrigins(): array
+    {
+        try {
+            $origin = $this->normalizeOrigin($this->backendUrl->getBaseUrl());
+
+            return $origin !== null ? [$origin] : [];
+        } catch (Throwable) {
+            return [];
         }
     }
 }

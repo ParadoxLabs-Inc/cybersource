@@ -66,6 +66,7 @@ class FrontendTest extends TestCase
         $store = $this->createMock(Store::class);
         $store->method('getId')->willReturn(1);
         $store->method('getBaseCurrencyCode')->willReturn('USD');
+        $store->method('getBaseUrl')->willReturn('https://store.example.com/');
         $this->storeManagerMock->method('getStore')->willReturn($store);
 
         $this->handler = new Frontend(
@@ -122,6 +123,61 @@ class FrontendTest extends TestCase
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         $this->assertSame('US', $result['country']);
         $this->assertFalse($result['captureMandate']['requestSaveCard']);
+    }
+
+    public function testBuildRequestDerivesTargetOriginFromStoreBaseUrlWithoutConfig(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(null);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(false);
+
+        $config = $this->createMock(Config::class);
+        $config->method('getUcClientVersion')->willReturn('0.34');
+        $config->method('getUcTargetOrigins')->willReturn([]);
+        $config->method('getUcAllowedCardNetworks')->willReturn(['VISA']);
+        $config->method('getUcAllowedPaymentTypes')->willReturn(['PANENTRY']);
+        $config->method('getUcBillingType')->willReturn('FULL');
+        $config->method('getUcLocale')->willReturn('en_US');
+        $config->method('getUcCountry')->willReturn('US');
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $requestFactory = $this->createMock(CaptureContextRequestFactory::class);
+        $requestFactory->method('create')
+            ->willReturnCallback(fn() => new CaptureContextRequest());
+
+        $handler = new Frontend(
+            $config,
+            $this->restMock,
+            new Sanitizer(),
+            $this->addressHelperMock,
+            $requestFactory,
+            $this->checkoutSessionMock,
+            $this->customerSessionMock,
+            $this->storeManagerMock,
+            $this->requestMock,
+        );
+
+        $result = $handler->buildRequest()->toArray();
+
+        // Fresh install (no configured extras) must still send the store's own origin.
+        $this->assertSame(['https://store.example.com'], $result['targetOrigins']);
+    }
+
+    public function testBuildRequestMergesDerivedStoreOriginWithConfiguredExtras(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(null);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(false);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        // Derived store origin first, configured extras after, deduped.
+        $this->assertSame(
+            ['https://store.example.com', 'https://shop.example.com'],
+            $result['targetOrigins']
+        );
     }
 
     /**
