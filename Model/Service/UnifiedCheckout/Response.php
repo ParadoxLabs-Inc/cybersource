@@ -30,9 +30,13 @@ use Magento\Sales\Model\Order\Payment;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequestFactory;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequest;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequestFactory;
 use ParadoxLabs\CyberSource\Model\Source\CardType;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
@@ -116,6 +120,7 @@ class Response
      * @param CardType $cardType
      * @param ResponseFactory $responseFactory
      * @param PaymentRequestFactory $requestFactory
+     * @param StoredCardRequestFactory $storedCardRequestFactory
      */
     public function __construct(
         protected readonly Rest $rest,
@@ -124,7 +129,8 @@ class Response
         protected readonly Data $helper,
         protected readonly CardType $cardType,
         protected readonly ResponseFactory $responseFactory,
-        protected readonly PaymentRequestFactory $requestFactory
+        protected readonly PaymentRequestFactory $requestFactory,
+        protected readonly StoredCardRequestFactory $storedCardRequestFactory
     ) {
     }
 
@@ -152,6 +158,176 @@ class Response
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         return $this->interpretResponse($response, $payment);
+    }
+
+    /**
+     * Run a Unified Checkout STORED-CARD (vault / MIT) auth/sale from the card's TMS ids, and interpret it.
+     *
+     * The card is already vaulted, so there is no transient token: we POST /pts/v2/payments with the three
+     * TMS ids under paymentInformation and the stored-credential initiator block, then interpret the reply
+     * exactly like the new-card path. Config/REST scope is taken from the order (same as place()).
+     *
+     * @param InfoInterface $payment
+     * @param CardInterface $card
+     * @param float $amount
+     * @return GatewayResponse
+     * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path).
+     * @throws RuntimeException On an error/invalid response, or a card with no vaulted token.
+     * @throws Throwable
+     */
+    public function placeStored(InfoInterface $payment, CardInterface $card, float $amount): GatewayResponse
+    {
+        /** @var Payment $payment */
+        /** @var OrderInterface $order */
+        $order   = $payment->getOrder();
+        $storeId = $order->getStoreId() !== null ? (int)$order->getStoreId() : null;
+
+        $this->config->setStoreId($storeId);
+        $this->rest->setStoreId($storeId);
+
+        $request  = $this->buildStoredCardRequest($payment, $card, $amount);
+        $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
+
+        return $this->interpretResponse($response, $payment);
+    }
+
+    /**
+     * Assemble the stored-card /pts/v2/payments request DTO from the vaulted card's TMS ids and the amount.
+     *
+     * D5 reverse-mapping (the inverse of CardBuilder's write side): paymentInformation.customer.id <- card
+     * profileId (TMS customer), paymentInformation.paymentInstrument.id <- card paymentId (TMS
+     * paymentInstrument, the MIT key — REQUIRED), paymentInformation.instrumentIdentifier.id <- card
+     * additional[instrument_identifier]. The capture flag is derived from the SERVER-SIDE payment_action
+     * (never client input), identical to buildRequest().
+     *
+     * CIT vs MIT branch: keyed off payment additional_information['is_subscription_generated']. A
+     * subscription/scheduled rebill is a merchant-initiated transaction (MIT) — initiator.type='merchant',
+     * commerceIndicator='recurring', and a best-effort merchantInitiatedTransaction.previousTransactionId
+     * pointing at the prior stored txn id; everything else is a customer-initiated transaction (CIT) —
+     * initiator.type='customer' with no commerceIndicator and no MIT sub-object. storedCredentialUsed is
+     * always true (it's a stored card either way). previousTransactionId is best-effort: it is sourced from
+     * the payment's parent/last txn id, stripped of any -capture/-refund suffix (same as
+     * Gateway::getRefundFallbackTransactionId), and omitted entirely when unreachable.
+     *
+     * VERIFY (live-UNVERIFIED — gate production enablement on a boarded + TMS-provisioned MID): the
+     * stored-credential fields here are SDK/reference-derived only (sandbox TMS is NOT provisioned, so the
+     * stored-card auth has never hit a live MID). Specifically confirm, because each is interchange-/
+     * acceptance-affecting on the money path: (1) commerceIndicator='recurring' is the correct indicator for
+     * these MIT rebills (vs install / a subsequent-auth qualifier); (2) storedCredentialUsed=true is right
+     * for BOTH branches — the stored-credential framework distinguishes the INITIAL credential-on-file
+     * transaction (storedCredentialUsed=false, no prior reference) from SUBSEQUENT uses, and A4 sends true
+     * unconditionally; (3) whether an MIT with no previousTransactionId is accepted or declined/downgraded.
+     *
+     * DEFERRED (Iter 4 — DM-suppression-on-MIT parity): the old SOAP path suppressed Decision Manager on
+     * merchant-initiated rebills; that parity is NOT reproduced here yet and is deferred to Iter 4.
+     *
+     * DEFERRED (OPEN-WALLET-MIT): wallet network-token MIT branching (e.g. Apple/Google Pay network tokens)
+     * is NOT handled here and is deferred pending the S6 verdict.
+     *
+     * @param InfoInterface $payment
+     * @param CardInterface $card
+     * @param float $amount
+     * @return StoredCardRequest
+     * @throws RuntimeException When the card carries no vaulted paymentInstrument id.
+     */
+    public function buildStoredCardRequest(
+        InfoInterface $payment,
+        CardInterface $card,
+        float $amount
+    ): StoredCardRequest {
+        /** @var Payment $payment */
+        /** @var OrderInterface $order */
+        $order = $payment->getOrder();
+
+        // Self-guard (defense in depth — the Gateway guards this too): never authorize a card the system
+        // already knows is un-tokenized. A card can carry a STALE paymentId while still being flagged
+        // uc_token_missing (CardBuilder sets the flag without clearing prior ids), so this flag check must
+        // come BEFORE — and is independent of — the empty-paymentId check below. Keeps the public builder
+        // self-defending regardless of caller.
+        if ($card->getAdditional(CardBuilder::CARD_FLAG_TOKEN_MISSING) === '1') {
+            throw new RuntimeException(
+                __('Stored-card payment requires a vaulted card token. Please re-enter your payment information.')
+            );
+        }
+
+        $paymentInstrumentId = (string)$card->getPaymentId();
+        if ($paymentInstrumentId === '') {
+            throw new RuntimeException(
+                __('Stored-card payment requires a vaulted card token. Please re-enter your payment information.')
+            );
+        }
+
+        /** @var StoredCardRequest $request */
+        $request = $this->storedCardRequestFactory->create();
+
+        $request->setClientReferenceCode((string)$order->getIncrementId())
+            ->setCapture($this->isCapture((int)$order->getStoreId()))
+            ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
+            ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
+            ->setBillTo($this->getBillTo($order->getBillingAddress()))
+            ->setPaymentInstrumentId($paymentInstrumentId)
+            ->setCustomerId($this->stringOrNull($card->getProfileId()))
+            ->setInstrumentIdentifierId($this->stringOrNull($card->getAdditional('instrument_identifier')))
+            ->setStoredCredentialUsed(true);
+
+        // CIT vs MIT: a subscription-generated payment is merchant-initiated (a scheduled rebill).
+        $isMit = (bool)$payment->getAdditionalInformation('is_subscription_generated');
+
+        if ($isMit) {
+            $request->setInitiatorType('merchant')
+                ->setCommerceIndicator('recurring');
+
+            $previousTransactionId = $this->getPreviousTransactionId($payment);
+            if ($previousTransactionId !== '') {
+                $request->setPreviousTransactionId($previousTransactionId);
+            } else {
+                // A merchant-initiated rebill with no prior-transaction reference is a likely processor
+                // decline / rate downgrade. Leave a breadcrumb (no PII) rather than failing here.
+                $this->helper->log(
+                    Config::CODE,
+                    'Unified Checkout: building a merchant-initiated (MIT) stored-card auth with no'
+                    . ' previousTransactionId reference; processor may decline or downgrade the rate.'
+                );
+            }
+        } else {
+            $request->setInitiatorType('customer');
+        }
+
+        return $request;
+    }
+
+    /**
+     * Best-effort prior transaction id for the MIT reference, stripped of any -capture/-refund suffix.
+     *
+     * REST and SOAP share the same transaction-id space (D4); mirrors
+     * Gateway::getRefundFallbackTransactionId(). Returns '' when no prior id is reachable.
+     *
+     * @param InfoInterface $payment
+     * @return string
+     */
+    protected function getPreviousTransactionId(InfoInterface $payment): string
+    {
+        /** @var Payment $payment */
+        $txnId = $payment->getParentTransactionId() ?: $payment->getLastTransId();
+
+        return substr((string)$txnId, 0, strcspn((string)$txnId, '-'));
+    }
+
+    /**
+     * Normalize a scalar to a non-empty string, or null (so the DTO omits an empty TMS id).
+     *
+     * @param mixed $value
+     * @return string|null
+     */
+    protected function stringOrNull(mixed $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $string = (string)$value;
+
+        return $string !== '' ? $string : null;
     }
 
     /**

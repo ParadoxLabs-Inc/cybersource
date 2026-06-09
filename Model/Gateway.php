@@ -26,6 +26,7 @@ use Override;
 use ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder;
 use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
 use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
@@ -49,6 +50,7 @@ use ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Gateway\Context;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\AbstractGateway;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
@@ -330,8 +332,8 @@ class Gateway extends AbstractGateway
      * /pts/v2/payments (auth or sale per server-side payment_action) and returns the gateway Response the
      * rest of the module consumes (Method::afterAuthorize() then maps any minted TMS ids onto the card).
      *
-     * Stored-card (vault / MIT) path: there is no transient token; the card already holds its TMS ids. The
-     * full stored-credential / MIT request-builder is A4 — see buildStoredCardAuth() for the seam.
+     * Stored-card (vault / MIT) path: there is no transient token; the card already holds its TMS ids. We
+     * delegate to buildStoredCardAuth(), which builds the stored-credential request from the vaulted card.
      *
      * @param InfoInterface $payment
      * @param float $amount
@@ -347,40 +349,59 @@ class Gateway extends AbstractGateway
             return $this->unifiedCheckoutResponse->place($payment, (float)$amount);
         }
 
-        // Stored-card / MIT auth from the vaulted TMS ids — A4 owns the request builder.
+        // Stored-card / MIT auth from the vaulted TMS ids.
         return $this->buildStoredCardAuth($payment, (float)$amount);
     }
 
     /**
      * Build and run a stored-card (vault / MIT) authorization from the card's stored TMS ids.
      *
-     * A4 SEAM. A3 leaves this as a clear, documented extension point rather than faking the
-     * stored-credential request. A4 will assemble the /pts/v2/payments body from the card's stored ids —
-     * paymentInformation.customer.id (card profileId), paymentInformation.paymentInstrument.id (card
-     * paymentId), paymentInformation.instrumentIdentifier.id (card additional[instrument_identifier]) —
-     * plus the merchant-initiated / stored-credential initiator block (processingInformation
-     * .authorizationOptions.initiator + commerceIndicator) that A4 owns. Until A4 lands, a stored-card
-     * auth is not yet implemented and we fail loudly rather than silently mis-charging.
+     * Delegates to the UnifiedCheckout\Response stored-credential request builder, which assembles the
+     * /pts/v2/payments body from the card's stored ids — paymentInformation.customer.id (card profileId),
+     * paymentInformation.paymentInstrument.id (card paymentId, the MIT key), and
+     * paymentInformation.instrumentIdentifier.id (card additional[instrument_identifier]) — plus the
+     * merchant-initiated / stored-credential initiator block (processingInformation.authorizationOptions
+     * .initiator + commerceIndicator).
+     *
+     * Guards first: a stored-card auth needs a real vaulted card. If there is no card, or the card was
+     * never tokenized (uc_token_missing flag set, or no paymentId), we fail loudly and log rather than
+     * silently attempt an unrunnable auth — the card must be re-entered.
      *
      * @param InfoInterface $payment
      * @param float $amount
      * @return Response
-     * @throws RuntimeException Always, until A4 implements the stored-credential request builder.
+     * @throws RuntimeException When there is no usable vaulted card to run the stored-credential auth.
+     * @throws Throwable
      */
     protected function buildStoredCardAuth(InfoInterface $payment, float $amount)
     {
-        $this->helper->log(
-            $this->code,
-            'Stored-card (MIT) authorization requested but the Unified Checkout stored-credential request'
-            . ' builder is not yet implemented (A4).'
-        );
+        $card = $this->getCard();
 
-        throw new RuntimeException(
-            __(
-                'Stored-card payments are not yet available for this payment method.'
-                . ' Please re-enter your card details.'
-            )
-        );
+        if (!$card instanceof CardInterface) {
+            throw new RuntimeException(
+                __(
+                    'Stored-card payments require a saved card. Please re-enter your card details.'
+                )
+            );
+        }
+
+        if ($card->getAdditional(CardBuilder::CARD_FLAG_TOKEN_MISSING) === '1'
+            || (string)$card->getPaymentId() === ''
+        ) {
+            $this->helper->log(
+                $this->code,
+                'Stored-card authorization requested but the card has no Unified Checkout token'
+                . ' (uc_token_missing / no paymentId). The card must be re-entered.'
+            );
+
+            throw new RuntimeException(
+                __(
+                    'This saved card is no longer usable. Please re-enter your card details.'
+                )
+            );
+        }
+
+        return $this->unifiedCheckoutResponse->placeStored($payment, $card, (float)$amount);
     }
 
     /**
@@ -440,7 +461,8 @@ class Gateway extends AbstractGateway
      * Run a bundled auth+capture (a Unified Checkout sale) for the given payment and amount.
      *
      * New-card: delegate to the A1 auth/sale service, which sends capture=true (sale). Stored-card MIT
-     * bundling is A4 (the buildStoredCardAuth seam); for now a token-less bundled capture fails loudly.
+     * bundling routes through buildStoredCardAuth(), which builds the stored-credential request from the
+     * vaulted card (capture is derived server-side from payment_action).
      *
      * @param InfoInterface $payment
      * @param float $amount

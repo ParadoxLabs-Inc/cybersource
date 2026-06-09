@@ -14,8 +14,11 @@ use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequestFactory;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequest;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequestFactory;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response;
 use ParadoxLabs\CyberSource\Model\Source\CardType;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
@@ -48,6 +51,9 @@ class ResponseTest extends TestCase
         $requestFactory = $this->createMock(PaymentRequestFactory::class);
         $requestFactory->method('create')->willReturnCallback(fn() => new PaymentRequest());
 
+        $storedCardRequestFactory = $this->createMock(StoredCardRequestFactory::class);
+        $storedCardRequestFactory->method('create')->willReturnCallback(fn() => new StoredCardRequest());
+
         $responseFactory = $this->createMock(ResponseFactory::class);
         $responseFactory->method('create')->willReturnCallback(
             static fn(array $args = []) => (new GatewayResponse())->setData($args['data'] ?? [])
@@ -61,6 +67,7 @@ class ResponseTest extends TestCase
             new CardType(),
             $responseFactory,
             $requestFactory,
+            $storedCardRequestFactory,
         );
     }
 
@@ -136,6 +143,9 @@ class ResponseTest extends TestCase
         $requestFactory = $this->createMock(PaymentRequestFactory::class);
         $requestFactory->method('create')->willReturnCallback(fn() => new PaymentRequest());
 
+        $storedCardRequestFactory = $this->createMock(StoredCardRequestFactory::class);
+        $storedCardRequestFactory->method('create')->willReturnCallback(fn() => new StoredCardRequest());
+
         $service = new Response(
             $this->restMock,
             $config,
@@ -144,6 +154,7 @@ class ResponseTest extends TestCase
             new CardType(),
             $this->createMock(ResponseFactory::class),
             $requestFactory,
+            $storedCardRequestFactory,
         );
 
         $request = $service->buildRequest($this->buildPayment(), 30.5);
@@ -408,5 +419,178 @@ class ResponseTest extends TestCase
         $this->expectExceptionMessage('Missing Unified Checkout payment token');
 
         $this->service->tokenizeCard($this->buildPayment(''), 'USD', 1);
+    }
+
+    /**
+     * Build a stored-card payment (no transient token) with the given subscription/MIT flag and txn ids.
+     */
+    private function buildStoredPayment(
+        bool $isSubscriptionGenerated = false,
+        ?string $parentTransactionId = null,
+        ?string $lastTransId = null
+    ): Payment&MockObject {
+        $address = $this->createMock(OrderAddressInterface::class);
+        $address->method('getFirstname')->willReturn('Jane');
+        $address->method('getLastname')->willReturn('Doe');
+        $address->method('getStreet')->willReturn(['123 Main St']);
+        $address->method('getCity')->willReturn('Austin');
+        $address->method('getRegionCode')->willReturn('TX');
+        $address->method('getPostcode')->willReturn('78701');
+        $address->method('getCountryId')->willReturn('US');
+        $address->method('getEmail')->willReturn('jane@example.com');
+        $address->method('getTelephone')->willReturn('5125551234');
+
+        $order = $this->createMock(Order::class);
+        $order->method('getIncrementId')->willReturn('100000123');
+        $order->method('getStoreId')->willReturn(1);
+        $order->method('getBaseCurrencyCode')->willReturn('USD');
+        $order->method('getBillingAddress')->willReturn($address);
+
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getOrder')->willReturn($order);
+        $payment->method('getParentTransactionId')->willReturn($parentTransactionId);
+        $payment->method('getLastTransId')->willReturn($lastTransId);
+        $payment->method('getAdditionalInformation')
+            ->willReturnCallback(
+                static fn(?string $key = null) => $key === 'is_subscription_generated'
+                    ? $isSubscriptionGenerated
+                    : null
+            );
+
+        return $payment;
+    }
+
+    /**
+     * Build a vaulted card stub carrying the three TMS ids.
+     */
+    private function buildCard(
+        ?string $paymentId = 'PI-CARD',
+        ?string $profileId = 'CUST-CARD',
+        ?string $instrumentIdentifier = 'II-CARD',
+        bool $tokenMissing = false
+    ): CardInterface&MockObject {
+        $card = $this->createMock(CardInterface::class);
+        $card->method('getPaymentId')->willReturn($paymentId);
+        $card->method('getProfileId')->willReturn($profileId);
+        $card->method('getAdditional')->willReturnCallback(
+            static function ($key = null) use ($instrumentIdentifier, $tokenMissing) {
+                return match ($key) {
+                    'instrument_identifier' => $instrumentIdentifier,
+                    'uc_token_missing' => $tokenMissing ? '1' : null,
+                    default => null,
+                };
+            }
+        );
+
+        return $card;
+    }
+
+    public function testPlaceStoredMitPostsExpectedBodyAndApproves(): void
+    {
+        $this->primeRest([
+            'id' => 'TXN-STORED-MIT',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100', 'approvalCode' => '654321'],
+        ]);
+
+        $payment = $this->buildStoredPayment(true, 'PRIORTXN-capture');
+        $response = $this->service->placeStored($payment, $this->buildCard(), 24.0);
+
+        // Approved, no exception.
+        $this->assertFalse($response->getIsError());
+        $this->assertSame('TXN-STORED-MIT', $response->getTransactionId());
+
+        // MIT initiator block.
+        $initiator = $this->sentBody['processingInformation']['authorizationOptions']['initiator'];
+        $this->assertSame('merchant', $initiator['type']);
+        $this->assertTrue($initiator['storedCredentialUsed']);
+        $this->assertSame(
+            'PRIORTXN',
+            $initiator['merchantInitiatedTransaction']['previousTransactionId']
+        );
+        $this->assertSame('recurring', $this->sentBody['processingInformation']['commerceIndicator']);
+
+        // TMS ids from the card; NO transient-token / TOKEN_CREATE artifacts.
+        $this->assertSame('CUST-CARD', $this->sentBody['paymentInformation']['customer']['id']);
+        $this->assertSame('PI-CARD', $this->sentBody['paymentInformation']['paymentInstrument']['id']);
+        $this->assertSame('II-CARD', $this->sentBody['paymentInformation']['instrumentIdentifier']['id']);
+        $this->assertArrayNotHasKey('tokenInformation', $this->sentBody);
+        $this->assertArrayNotHasKey('actionList', $this->sentBody['processingInformation']);
+
+        $this->assertSame('100000123', $this->sentBody['clientReferenceInformation']['code']);
+        $this->assertSame('24.00', $this->sentBody['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('Jane', $this->sentBody['orderInformation']['billTo']['firstName']);
+    }
+
+    public function testPlaceStoredCitSetsCustomerInitiatorAndNoMit(): void
+    {
+        $this->primeRest([
+            'id' => 'TXN-STORED-CIT',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $payment = $this->buildStoredPayment(false, 'PRIORTXN');
+        $this->service->placeStored($payment, $this->buildCard(), 24.0);
+
+        $initiator = $this->sentBody['processingInformation']['authorizationOptions']['initiator'];
+        $this->assertSame('customer', $initiator['type']);
+        $this->assertTrue($initiator['storedCredentialUsed']);
+        // CIT: no MIT sub-object, no recurring indicator.
+        $this->assertArrayNotHasKey('merchantInitiatedTransaction', $initiator);
+        $this->assertArrayNotHasKey('commerceIndicator', $this->sentBody['processingInformation']);
+    }
+
+    public function testPlaceStoredOmitsEmptyCustomerAndInstrumentIds(): void
+    {
+        $this->primeRest([
+            'id' => 'TXN-STORED-MIN',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        // Card with only the required paymentInstrument id.
+        $card = $this->buildCard('PI-ONLY', null, null);
+        $this->service->placeStored($this->buildStoredPayment(), $card, 24.0);
+
+        $this->assertSame('PI-ONLY', $this->sentBody['paymentInformation']['paymentInstrument']['id']);
+        $this->assertArrayNotHasKey('customer', $this->sentBody['paymentInformation']);
+        $this->assertArrayNotHasKey('instrumentIdentifier', $this->sentBody['paymentInformation']);
+    }
+
+    public function testPlaceStoredMissingPaymentInstrumentIdThrows(): void
+    {
+        $card = $this->buildCard(null);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Stored-card payment requires a vaulted card token');
+
+        $this->service->placeStored($this->buildStoredPayment(), $card, 24.0);
+    }
+
+    public function testPlaceStoredTokenMissingCardThrowsEvenWithStalePaymentId(): void
+    {
+        // Defense in depth (HIGH-1): a card flagged uc_token_missing must be rejected by the builder
+        // itself, even when it still carries a STALE paymentId that would pass the empty-id guard.
+        $card = $this->buildCard('STALE-PI', 'CUST-CARD', 'II-CARD', true);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Stored-card payment requires a vaulted card token');
+
+        $this->service->placeStored($this->buildStoredPayment(), $card, 24.0);
+    }
+
+    public function testPlaceStoredDeclineThrowsCommandException(): void
+    {
+        $this->primeRest([
+            'id' => 'TXN-STORED-DECLINE',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '202'],
+            'errorInformation' => ['reason' => 'EXPIRED_CARD', 'message' => 'Card expired'],
+        ]);
+
+        $this->expectException(CommandException::class);
+
+        $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
     }
 }
