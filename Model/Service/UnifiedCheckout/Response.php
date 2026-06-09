@@ -50,7 +50,11 @@ use Throwable;
  *  1. Decision Manager review (AUTHORIZED_PENDING_REVIEW) suppresses tokenInformation entirely — a
  *     successful auth can legitimately carry NO TMS ids. We treat that as success and flag it.
  *  2. TOKEN_CREATE can fail ("Requested service is forbidden" / PROCESSOR_ERROR) while the auth itself
- *     approves. We must not fail the auth for a token-service error — proceed token-less.
+ *     approves. CRITICALLY, the spike confirmed CyberSource reports this as top-level status=DECLINED
+ *     with errorInformation.reason=PROCESSOR_ERROR EVEN THOUGH processorInformation.responseCode=100
+ *     (the auth approved). The authoritative "auth approved" signal is therefore responseCode === '100',
+ *     NOT the top-level status. We must not fail an approved auth for a token-service error -- proceed
+ *     token-less. A genuine auth decline (responseCode != '100', e.g. '202') still fails.
  *
  * @see UC-API-REFERENCE.md §2, §3, §4
  * @see \ParadoxLabs\CyberSource\Model\Gateway::interpretTransaction()
@@ -200,13 +204,20 @@ class Response
      */
     public function interpretResponse(array $response, ?InfoInterface $payment = null): GatewayResponse
     {
-        $status            = (string)($response['status'] ?? '');
-        $processorResponse = (string)($response['processorInformation']['approvalCode'] ?? '');
-        $responseCode      = (string)($response['processorInformation']['responseCode'] ?? '');
-        $errorReason       = (string)($response['errorInformation']['reason'] ?? '');
-        $errorMessage      = (string)($response['errorInformation']['message'] ?? '');
+        $status       = (string)($response['status'] ?? '');
+        $approvalCode = (string)($response['processorInformation']['approvalCode'] ?? '');
+        $responseCode = (string)($response['processorInformation']['responseCode'] ?? '');
+        $errorReason  = (string)($response['errorInformation']['reason'] ?? '');
+        $errorMessage = (string)($response['errorInformation']['message'] ?? '');
 
-        $isApproved   = in_array($status, self::APPROVED_STATUSES, true);
+        // processorInformation.responseCode is the AUTHORITY for approved-vs-declined, NOT the top-level
+        // status. Per the spike (UC-API-REFERENCE §4), a token sub-service failure surfaces as
+        // status=DECLINED + reason=PROCESSOR_ERROR while responseCode stays '100' (the auth approved). We
+        // key approval off responseCode === '100' so that scenario succeeds; status is only a fallback when
+        // CyberSource returns no responseCode (e.g. INVALID_REQUEST / error replies).
+        $authApproved  = $responseCode === self::RESPONSE_CODE_APPROVED;
+        $isApproved    = $authApproved
+            || ($responseCode === '' && in_array($status, self::APPROVED_STATUSES, true));
         $isUnderReview = $this->isUnderReview($status);
 
         // Flatten the raw reply so Method::storeTransactionStatuses() can read ccAuthReply.* keys, and
@@ -217,7 +228,7 @@ class Response
         $data['response_code']        = $responseCode !== '' ? $responseCode : $status;
         $data['response_reason_code'] = $responseCode !== '' ? $responseCode : $status;
         $data['response_reason_text'] = $errorMessage !== '' ? $errorMessage : $status;
-        $data['auth_code']            = $processorResponse;
+        $data['auth_code']            = $approvalCode;
 
         // Map the processorInformation tree to the SOAP-style ccAuthReply.* keys the module reads.
         // Method::storeTransactionStatuses() reads these via $response->getData('ccAuthReply.avsCode'),
@@ -225,8 +236,8 @@ class Response
         $avsCode = $response['processorInformation']['avs']['code'] ?? null;
         $cvCode  = $response['processorInformation']['cardVerification']['resultCode'] ?? null;
 
-        if ($processorResponse !== '') {
-            $data['ccAuthReply.authorizationCode'] = $processorResponse;
+        if ($approvalCode !== '') {
+            $data['ccAuthReply.authorizationCode'] = $approvalCode;
         }
         if ($avsCode !== null && $avsCode !== '') {
             $data['ccAuthReply.avsCode'] = $avsCode;
@@ -247,13 +258,21 @@ class Response
         if ($isApproved) {
             $gatewayResponse->setIsError(false);
 
-            // TOKEN_CREATE may fail ("Requested service is forbidden") while the auth approves; the
-            // auth stands and we proceed token-less (spike isolation finding).
-            if ($errorReason === self::REASON_PROCESSOR_ERROR && empty($data['token_information'])) {
+            // TOKEN_CREATE may fail ("Requested service is forbidden") while the auth approves. The spike
+            // confirmed this surfaces as status=DECLINED + PROCESSOR_ERROR with responseCode=100; because
+            // we key approval off responseCode (not status), we land here and proceed token-less. The
+            // discriminator for "auth stands but token forbidden" is responseCode === '100' (already
+            // established by $authApproved) + PROCESSOR_ERROR + no token returned.
+            if ($authApproved
+                && $errorReason === self::REASON_PROCESSOR_ERROR
+                && empty($data['token_information'])
+            ) {
                 $this->helper->log(
                     Config::CODE,
                     sprintf(
-                        'Unified Checkout auth approved (%s) but TOKEN_CREATE failed: %s. Proceeding token-less.',
+                        'Unified Checkout auth approved (responseCode=%s, status=%s) but TOKEN_CREATE failed:'
+                        . ' %s. Proceeding token-less.',
+                        $responseCode,
                         $status,
                         $errorMessage
                     )
@@ -261,9 +280,24 @@ class Response
                 $gatewayResponse->setData('uc_token_missing', true);
             }
 
+            // TODO (A3): PARTIAL_AUTHORIZED is surfaced but not reconciled. The processor approved a
+            // smaller amount than requested; downstream capture/order totals must be adjusted to the
+            // authorizedAmount rather than treating this as a full approval. Surface it here so A3 can act.
+            if ($status === 'PARTIAL_AUTHORIZED') {
+                $authorizedAmount = $response['orderInformation']['amountDetails']['authorizedAmount'] ?? null;
+                $gatewayResponse->setData('uc_partial_authorized', true);
+                if ($authorizedAmount !== null && $authorizedAmount !== '') {
+                    $gatewayResponse->setData('uc_authorized_amount', $authorizedAmount);
+                }
+            }
+
             return $gatewayResponse;
         }
 
+        // A3 HANDOFF: the exception code below is the UC processorInformation.responseCode space
+        // (100=approved, 2xx=declines). This is NOT the SOAP reasonCode space (102/242/241) that
+        // Gateway::capture()/refund() recapture logic keys on. A3 (gateway wiring) must reconcile the two
+        // code spaces when routing UC through Method/Gateway, or recapture/decline handling will misfire.
         return $this->throwForFailure($gatewayResponse, $status, $responseCode, $errorMessage, $payment);
     }
 

@@ -253,10 +253,13 @@ class ResponseTest extends TestCase
 
     public function testTokenCreateForbiddenWhileAuthApprovedDoesNotFail(): void
     {
-        // The spike isolation finding: auth approves but TOKEN_CREATE is not provisioned.
+        // The spike isolation finding (UC-API-REFERENCE §4): when TOKEN_CREATE is not provisioned the
+        // auth approves (processorInformation.responseCode=100) but CyberSource STILL returns top-level
+        // status=DECLINED + errorInformation.reason=PROCESSOR_ERROR. Approval must key on responseCode,
+        // not status, so this scenario must NOT throw.
         $this->primeRest([
             'id' => 'TXN-NOTMS',
-            'status' => 'AUTHORIZED',
+            'status' => 'DECLINED',
             'processorInformation' => [
                 'approvalCode' => '999999',
                 'responseCode' => '100',
@@ -269,12 +272,56 @@ class ResponseTest extends TestCase
 
         $response = $this->service->place($this->buildPayment(), 24.0);
 
-        // Auth stands; no exception; token-less.
+        // Auth stands; no exception; token-less; tx id + auth code exposed.
         $this->assertFalse($response->getIsError());
         $this->assertSame('TXN-NOTMS', $response->getTransactionId());
         $this->assertSame('999999', $response->getAuthCode());
+        $this->assertSame('100', $response->getResponseCode());
         $this->assertTrue($response->getData('uc_token_missing'));
         $this->assertNull($response->getData('token_information'));
+    }
+
+    public function testGenuineDeclineWithoutApprovedResponseCodeThrows(): void
+    {
+        // Discriminator check: same status=DECLINED, but responseCode is a real decline (202, NOT 100),
+        // so this is a genuine auth decline and MUST still throw CommandException.
+        $this->primeRest([
+            'id' => 'TXN-DECLINE-202',
+            'status' => 'DECLINED',
+            'processorInformation' => [
+                'responseCode' => '202',
+            ],
+            'errorInformation' => [
+                'reason' => 'PROCESSOR_DECLINED',
+                'message' => 'Decline - General decline of the card',
+            ],
+        ]);
+
+        $this->expectException(CommandException::class);
+        $this->expectExceptionMessage('Transaction Failed');
+
+        $this->service->place($this->buildPayment(), 24.0);
+    }
+
+    public function testPartialAuthorizedIsSurfacedNotTreatedAsFullApproval(): void
+    {
+        $this->primeRest([
+            'id' => 'TXN-PARTIAL',
+            'status' => 'PARTIAL_AUTHORIZED',
+            'processorInformation' => [
+                'approvalCode' => '555555',
+                'responseCode' => '100',
+            ],
+            'orderInformation' => [
+                'amountDetails' => ['authorizedAmount' => '10.00'],
+            ],
+        ]);
+
+        $response = $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertFalse($response->getIsError());
+        $this->assertTrue($response->getData('uc_partial_authorized'));
+        $this->assertSame('10.00', $response->getData('uc_authorized_amount'));
     }
 
     public function testMissingTransientTokenThrowsRuntimeException(): void

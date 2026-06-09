@@ -200,12 +200,14 @@ class Sanitizer
     }
 
     /**
-     * Mask PAN and CVV values in a JSON request/response body for secure logging.
+     * Mask PAN, CVV, and the Unified Checkout transient-token JWT in a JSON request/response body
+     * for secure logging.
      *
      * The card number ("number") retains only its last four digits; the security code
-     * ("securityCode") is fully masked. Both quoted-string and unquoted numeric JSON values are
-     * redacted. Operates on the raw JSON string so the exact bytes that were transmitted can be
-     * safely logged.
+     * ("securityCode") is fully masked. The UC transient-token JWT ("transientTokenJwt") is a
+     * single-use credential and is fully masked, since Rest::post() logs maskJson($jsonBody) on the
+     * error path. Both quoted-string and unquoted numeric JSON values are redacted. Operates on the
+     * raw JSON string so the exact bytes that were transmitted can be safely logged.
      *
      * @param string $json
      * @return string
@@ -233,6 +235,14 @@ class Sanitizer
         // ("securityCode":737) values; output is always a quoted "***" to keep valid JSON.
         $json = preg_replace(
             '/("securityCode"\s*:\s*)(?:"[^"]*"|\d+)/',
+            '$1"***"',
+            $json
+        );
+
+        // Fully mask the UC transient-token JWT (a single-use credential). It is always a quoted
+        // string; output is a quoted "***" to keep valid JSON.
+        $json = preg_replace(
+            '/("transientTokenJwt"\s*:\s*)"[^"]*"/',
             '$1"***"',
             $json
         );

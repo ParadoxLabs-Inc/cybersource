@@ -345,6 +345,22 @@ class SanitizerTest extends TestCase
         $this->assertSame('***', $decoded['securityCode']);
     }
 
+    public function testMaskJsonMasksTransientTokenJwt(): void
+    {
+        // The UC transient-token JWT is a single-use credential; Rest::post() logs maskJson($body) on
+        // the error path, so it must never appear in cleartext.
+        $jwt    = 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzZWNyZXQifQ.c2lnbmF0dXJlVmFsdWU';
+        $json   = '{"tokenInformation":{"transientTokenJwt":"' . $jwt . '"}}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString($jwt, $masked);
+        $this->assertStringContainsString('"transientTokenJwt":"***"', $masked);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('***', $decoded['tokenInformation']['transientTokenJwt']);
+    }
+
     public function testUrlValid(): void
     {
         $this->assertSame(
