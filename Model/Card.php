@@ -38,8 +38,8 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
     #[Override]
     public function beforeSave()
     {
-        // Note: All gateway syncing happens via direct posts to Secure Acceptance.
-        // @see \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response for the response handling.
+        // Note: All gateway syncing happens via the Unified Checkout payment response.
+        // @see \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder for the response handling.
 
         // If this is a new card, set its active state to the given value (if any)
         $payment = $this->getInfoInstance();

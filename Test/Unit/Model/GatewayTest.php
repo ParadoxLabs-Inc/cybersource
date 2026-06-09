@@ -9,18 +9,13 @@ use Magento\Framework\HTTP\ClientInterfaceFactory;
 use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
-use ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder;
 use ParadoxLabs\CyberSource\Model\Card;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Gateway;
 use ParadoxLabs\CyberSource\Model\Gateway\Context;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
-use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
@@ -44,12 +39,7 @@ class GatewayTest extends TestCase
 
         $context = new Context(
             $this->createMock(Config::class),
-            $this->createMock(ObjectBuilder::class),
-            $this->createMock(ResponseCode::class),
             $this->createMock(Rest::class),
-            $this->createMock(Persistor::class),
-            $this->createMock(JsonWebTokenEncoder::class),
-            $this->createMock(EnrollmentParams::class),
             $this->ucResponse,
             $this->followOn,
         );

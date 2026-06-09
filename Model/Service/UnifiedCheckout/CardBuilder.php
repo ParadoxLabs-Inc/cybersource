@@ -46,7 +46,6 @@ use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
  * break MIT read-back in A4). We leave the card un-tokenized, flag the condition on the card so it can be
  * reconciled later, log it at info level, and do not throw.
  *
- * @see \ParadoxLabs\CyberSource\Model\Service\SecureAcceptance\Response::setCardPaymentInfo()
  * @see \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response::interpretResponse()
  */
 class CardBuilder
@@ -155,7 +154,7 @@ class CardBuilder
             $card->setPaymentId($paymentInstrumentId);
         }
 
-        // Mirror SecureAcceptance/Response: instrument_identifier doubles as the non-reversible fingerprint.
+        // As in the legacy Secure Acceptance handling: instrument_identifier doubles as the non-reversible fingerprint.
         if ($instrumentIdentifierId !== null) {
             $card->setAdditional('instrument_identifier', $instrumentIdentifierId);
             $card->setAdditional('fingerprint', $instrumentIdentifierId);
@@ -163,7 +162,7 @@ class CardBuilder
     }
 
     /**
-     * Write the cc_* card metadata onto the card, mirroring SecureAcceptance/Response field writes.
+     * Write the cc_* card metadata onto the card, mirroring the legacy Secure Acceptance field writes.
      *
      * @param CardInterface $card
      * @param array<string, mixed> $cardInformation

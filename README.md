@@ -17,7 +17,7 @@ CyberSource does not publish their fee structures; costs will vary by your contr
 Please [contact CyberSource](https://www.cybersource.com/en-us/contact-us/sales.html) for more information.
 
 This extension brings CyberSource’s enterprise payment services to Magento 2. This includes enhanced fraud services (
-Decision Manager), secure payment forms (Secure Acceptance Hosted Checkout), 3D Secure 2 card authentication (Payer
+Decision Manager), secure payment forms (Unified Checkout), 3D Secure 2 card authentication (Payer
 Authentication), and extensive stored card functionality (Token Management Services). This gives you and your customers
 the convenience of stored credit cards, with all the security and protection of CyberSource services.
 

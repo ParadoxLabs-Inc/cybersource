@@ -8,8 +8,7 @@
     ],
     "require": {
         "paradoxlabs/tokenbase": "~5.0.0",
-        "ext-openssl": "*",
-        "ext-soap": "*"
+        "ext-openssl": "*"
     },
     "type": "magento2-module",
     "version": "3.0.0",

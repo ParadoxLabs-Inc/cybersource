@@ -10,10 +10,6 @@
                 <title>Credit Card (CyberSource)</title>
                 <organization_id/>
                 <merchant_id/>
-                <soap_auth_type>transaction_key</soap_auth_type>
-                <soap_transaction_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <soap_cert backend_model="ParadoxLabs\CyberSource\Model\Config\P12Certificate"/>
-                <soap_cert_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <rest_secret_key_id/>
                 <rest_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <!-- Unified Checkout -->

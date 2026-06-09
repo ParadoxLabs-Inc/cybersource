@@ -48,7 +48,7 @@ use Throwable;
  * Consumes the transient-token JWT captured client-side (payment additional_data.transient_token),
  * runs the payment with actionList:[TOKEN_CREATE] to mint the TMS vault ids inline, and translates
  * the JSON reply into the gateway Response object the rest of the module already consumes
- * (mirroring Gateway::interpretTransaction()). Card-saving to the vault is A2; gateway wiring is A3.
+ * (mirroring the SOAP-era Gateway::interpretTransaction()). Card-saving to the vault is A2; gateway wiring is A3.
  *
  * Two confirmed spike findings shape the parsing (see UC-API-REFERENCE.md §4):
  *  1. Decision Manager review (AUTHORIZED_PENDING_REVIEW) suppresses tokenInformation entirely — a
@@ -61,7 +61,6 @@ use Throwable;
  *     token-less. A genuine auth decline (responseCode != '100', e.g. '202') still fails.
  *
  * @see UC-API-REFERENCE.md §2, §3, §4
- * @see \ParadoxLabs\CyberSource\Model\Gateway::interpretTransaction()
  */
 class Response
 {
@@ -551,7 +550,7 @@ class Response
     /**
      * Translate the /pts/v2/payments JSON reply into a gateway Response object.
      *
-     * Mirrors Gateway::interpretTransaction(): sets transaction_id / response_code /
+     * Mirrors the SOAP-era Gateway::interpretTransaction(): sets transaction_id / response_code /
      * response_reason_code / response_reason_text / auth_code, plus the ccAuthReply.* keys that
      * Method::storeTransactionStatuses() reads for AVS/CVV/approval. Throws CommandException on a
      * decline and RuntimeException on an error, so Method handles it identically to the SOAP path.
@@ -851,7 +850,7 @@ class Response
     /**
      * Build the failure message, log it, and throw the matching exception type.
      *
-     * Mirrors Gateway::interpretTransaction(): a declined transaction throws CommandException (so
+     * Mirrors the SOAP-era Gateway::interpretTransaction(): a declined transaction throws CommandException (so
      * Method's recapture/decline handling is identical), everything else throws RuntimeException. A
      * Decision Manager REJECT (status AUTHORIZED_RISK_DECLINED / REJECTED, or reason
      * DECISION_PROFILE_REJECT) is treated as a decline too — the legacy SOAP REJECT decision did the same,

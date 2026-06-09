@@ -112,15 +112,15 @@ class Method extends AbstractMethod
     #[Override]
     protected function resyncStoredCard(InfoInterface $payment)
     {
-        // All card updates are done via Secure Acceptance requests; skip server-side resync saves.
+        // All card updates are done via Unified Checkout payment responses; skip server-side resync saves.
         return $this;
     }
 
     /**
      * Persist the Unified Checkout TMS token onto the vault card after a successful auth.
      *
-     * Runs before AbstractMethod::authorize() saves the card (the SOAP path establishes its token
-     * out-of-band via Secure Acceptance, so it carries none of these keys and is untouched here). When
+     * Runs before AbstractMethod::authorize() saves the card (legacy SA-era cards established their token
+     * out-of-band, so they carry none of these keys and are untouched here). When
      * the gateway returns a UC response (identified by the token_information / uc_token_missing keys set
      * by UnifiedCheckout\Response::interpretResponse()), we map the inline-minted ids onto the loaded
      * card via CardBuilder; the surrounding authorize() flow then saves it. Token-less successes leave

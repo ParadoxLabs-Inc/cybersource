@@ -28,7 +28,6 @@ use Magento\Framework\UrlInterface;
 use Magento\Payment\Model\CcConfig;
 use Magento\Payment\Model\CcGenericConfigProvider;
 use ParadoxLabs\CyberSource\Helper\Data;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator;
 
 /**
  * ConfigProvider Class
@@ -43,7 +42,6 @@ class CheckoutProvider extends CcGenericConfigProvider
      * @param Data $dataHelper
      * @param UrlInterface $urlBuilder
      * @param Config $config
-     * @param JsonWebTokenGenerator $jsonWebTokenGenerator
      * @param array $methodCodes
      */
     public function __construct(
@@ -54,7 +52,6 @@ class CheckoutProvider extends CcGenericConfigProvider
         protected readonly Data $dataHelper,
         protected readonly UrlInterface $urlBuilder,
         protected readonly Config $config,
-        protected readonly JsonWebTokenGenerator $jsonWebTokenGenerator,
         array $methodCodes = []
     ) {
         parent::__construct($ccConfig, $this->paymentHelper, [Config::CODE]);
@@ -136,12 +133,7 @@ class CheckoutProvider extends CcGenericConfigProvider
                     // implicit in the dual-container show(), so clientVersion/ucLayout are not exposed
                     // to the JS (the server still pins clientVersion when building the capture context).
                     'captureContextUrl' => $this->urlBuilder->getUrl('pdl_cybs/unifiedCheckout/captureContext'),
-                    'paramUrl' => $this->urlBuilder->getUrl('pdl_cybs/secureAccept/getParams'),
                     'fingerprintUrl' => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
-                    'cardinalScript' => $this->config->getCardinalSongbirdUrl(),
-                    'cardinalSRIHash' => $this->config->getCardinalSongbirdSRIHash(),
-                    'cardinalAuthUrl' => $this->urlBuilder->getUrl('pdl_cybs/cardinalCruise/getAuthPayload'),
-                    'cardinalJWT' => $this->jsonWebTokenGenerator->getJwt($this->checkoutSession->getQuote()),
                 ],
             ],
         ]);
