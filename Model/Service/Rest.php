@@ -120,10 +120,10 @@ class Rest
      * @param string $path
      * @param array $params
      * @param string $responseType
-     * @return array
+     * @return array Decoded JSON response. Non-array decode results (null/scalar) are cast to an empty/wrapped array.
      * @throws \Exception
      */
-    public function post($path, array $params = [], $responseType = 'application/json')
+    public function post(string $path, array $params = [], string $responseType = 'application/json'): array
     {
         $client   = $this->getHttpClient($path);
         $jsonBody = json_encode($params);
@@ -161,7 +161,7 @@ class Rest
             );
         }
 
-        return json_decode((string)$client->getBody(), true);
+        return (array)json_decode((string)$client->getBody(), true);
     }
 
     /**
@@ -211,9 +211,8 @@ class Rest
          * authentication/GenerateHeader/httpSignatureAuthentication.html
          */
         if ($hasBody) {
-            $digestValue       = 'SHA-256=' . base64_encode(
-                hash('sha256', mb_convert_encoding($jsonBody, 'UTF-8', mb_list_encodings()), true)
-            );
+            // Digest MUST be computed over the exact bytes transmitted as the POST body (raw $jsonBody).
+            $digestValue       = 'SHA-256=' . base64_encode(hash('sha256', $jsonBody, true));
             $headers['Digest'] = $digestValue;
 
             $signatureParts = [

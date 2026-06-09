@@ -315,6 +315,36 @@ class SanitizerTest extends TestCase
         ];
     }
 
+    public function testMaskJsonMasksQuotedPanAndCvv(): void
+    {
+        $json   = '{"number":"4111111111111111","securityCode":"737"}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString('4111111111111111', $masked);
+        $this->assertStringNotContainsString('737', $masked);
+        $this->assertStringContainsString('"number":"************1111"', $masked);
+        $this->assertStringContainsString('"securityCode":"***"', $masked);
+        $this->assertIsArray(json_decode($masked, true));
+    }
+
+    public function testMaskJsonMasksNumericPanAndCvv(): void
+    {
+        // Numeric (unquoted) JSON values must also be redacted.
+        $json   = '{"number":4111111111111111,"securityCode":737}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString('4111111111111111', $masked);
+        $this->assertStringNotContainsString('737', $masked);
+        $this->assertStringContainsString('"number":"************1111"', $masked);
+        $this->assertStringContainsString('"securityCode":"***"', $masked);
+
+        // Output must remain valid JSON.
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('************1111', $decoded['number']);
+        $this->assertSame('***', $decoded['securityCode']);
+    }
+
     public function testUrlValid(): void
     {
         $this->assertSame(

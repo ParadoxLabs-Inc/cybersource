@@ -203,33 +203,37 @@ class Sanitizer
      * Mask PAN and CVV values in a JSON request/response body for secure logging.
      *
      * The card number ("number") retains only its last four digits; the security code
-     * ("securityCode") is fully masked. Operates on the raw JSON string so the exact bytes
-     * that were transmitted can be safely logged.
+     * ("securityCode") is fully masked. Both quoted-string and unquoted numeric JSON values are
+     * redacted. Operates on the raw JSON string so the exact bytes that were transmitted can be
+     * safely logged.
      *
      * @param string $json
      * @return string
      */
-    public function maskJson($json)
+    public function maskJson(string $json): string
     {
         $json = (string)$json;
 
-        // Mask card number, retaining last four digits: "number":"4111111111111111" -> "number":"************1111"
+        // Mask card number, retaining last four digits. Matches both quoted ("number":"4111...")
+        // and numeric ("number":4111...) values; numeric values are emitted as a quoted string so the
+        // masked output ("************1111") remains valid JSON.
         $json = preg_replace_callback(
-            '/("number"\s*:\s*")(\d+)(")/',
+            '/("number"\s*:\s*)(?:"(\d+)"|(\d+))/',
             static function (array $match): string {
-                $number = $match[2];
+                $number = !empty($match[2]) ? $match[2] : ($match[3] ?? '');
                 $last4  = substr($number, -4);
                 $masked = str_repeat('*', max(0, strlen($number) - 4)) . $last4;
 
-                return $match[1] . $masked . $match[3];
+                return $match[1] . '"' . $masked . '"';
             },
             $json
         );
 
-        // Fully mask the security code: "securityCode":"737" -> "securityCode":"***"
+        // Fully mask the security code. Matches both quoted ("securityCode":"737") and numeric
+        // ("securityCode":737) values; output is always a quoted "***" to keep valid JSON.
         $json = preg_replace(
-            '/("securityCode"\s*:\s*")[^"]*(")/',
-            '$1***$2',
+            '/("securityCode"\s*:\s*)(?:"[^"]*"|\d+)/',
+            '$1"***"',
             $json
         );
 

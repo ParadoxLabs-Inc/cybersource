@@ -163,6 +163,38 @@ class RestTest extends TestCase
         $this->assertSame($expectedDigest, $capturedHeaders['Digest']);
     }
 
+    /**
+     * Regression: the Digest MUST be computed over the exact bytes posted as the request body.
+     * The prior implementation hashed mb_convert_encoding($jsonBody, 'UTF-8', mb_list_encodings()),
+     * which corrupts multibyte input and produces a digest that does not match the transmitted body,
+     * causing CyberSource to reject the signature. This test fails against that code and passes after
+     * the fix to hash the raw $jsonBody.
+     */
+    public function testPostDigestIsComputedOverExactPostedBytesForMultibyteBody(): void
+    {
+        // Non-BMP emoji + accented char, encoded as raw UTF-8 bytes (not \uXXXX escapes).
+        $params = ['clientReferenceInformation' => ['comments' => 'café 🚀 résumé']];
+        $exactJsonBody = json_encode($params, JSON_UNESCAPED_UNICODE);
+        $expectedDigest = 'SHA-256=' . base64_encode(hash('sha256', $exactJsonBody, true));
+
+        // signRequest encodes the body internally via json_encode($params); ensure the source
+        // body actually contains multibyte bytes so the regression is meaningful.
+        $this->assertNotSame(
+            $exactJsonBody,
+            mb_convert_encoding($exactJsonBody, 'UTF-8', mb_list_encodings()),
+            'Test body must be multibyte enough that mb_convert_encoding alters it.'
+        );
+
+        $headers = $this->invokeSignRequest(
+            '/pts/v2/payments',
+            $params,
+            'POST',
+            $exactJsonBody
+        );
+
+        $this->assertSame($expectedDigest, $headers['Digest']);
+    }
+
     public function testPostSignatureStringIncludesDigestLineInOrder(): void
     {
         $params = ['amountDetails' => ['totalAmount' => '10.00']];
