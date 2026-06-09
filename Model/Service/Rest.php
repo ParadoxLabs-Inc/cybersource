@@ -29,6 +29,7 @@ use Magento\Framework\HTTP\ClientInterfaceFactory;
 use Magento\Framework\HTTP\ZendClientFactory;
 use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use const CURLOPT_SSL_VERIFYHOST;
 use const CURLOPT_SSL_VERIFYPEER;
 
@@ -56,6 +57,7 @@ class Rest
         protected readonly ZendClientFactory $httpClientFactory,
         protected readonly Data $helper,
         protected readonly ClientInterfaceFactory $communicatorFactory,
+        protected readonly Sanitizer $sanitizer,
     ) {
     }
 
@@ -110,6 +112,59 @@ class Rest
     }
 
     /**
+     * Send a REST API POST request to the given resource path. Will sign the request per API specifications.
+     *
+     * The JSON body is encoded once and reused for both the payload Digest and the request body, so the
+     * digest is computed over the exact bytes transmitted.
+     *
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return array
+     * @throws \Exception
+     */
+    public function post($path, array $params = [], $responseType = 'application/json')
+    {
+        $client   = $this->getHttpClient($path);
+        $jsonBody = json_encode($params);
+
+        $headers = [
+            'Accept' => $responseType,
+            'Content-Type' => 'application/json;charset=utf-8',
+        ];
+        $headers += $this->signRequest($path, $params, 'POST', $jsonBody);
+
+        $requestUri = $this->config->getRestEndpoint($path, $this->storeId);
+
+        $client->setHeaders($headers);
+        $client->post($requestUri, $jsonBody);
+
+        // Throw exception on non-2xx response code
+        if (!str_starts_with((string)$client->getStatus(), '2')) {
+            $responseJson = json_decode((string)$client->getBody(), true);
+
+            $message = $responseJson['message']
+                ?? $responseJson['response']['rmsg']
+                ?? $client->getStatus();
+
+            $this->helper->log(
+                $this->config::CODE,
+                $requestUri . "\n"
+                . 'REQUEST: ' . $this->sanitizer->maskJson($jsonBody) . "\n"
+                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
+                true
+            );
+
+            throw new Exception(
+                $message,
+                $client->getStatus()
+            );
+        }
+
+        return json_decode((string)$client->getBody(), true);
+    }
+
+    /**
      * Get an HTTP client for REST
      *
      * @param string $path
@@ -132,9 +187,10 @@ class Rest
      * @param string $path
      * @param array $params
      * @param string $httpMethod
+     * @param string|null $jsonBody
      * @return array
      */
-    protected function signRequest($path, $params, $httpMethod): array
+    protected function signRequest($path, $params, $httpMethod, ?string $jsonBody = null): array
     {
         $host = parse_url((string)$this->config->getRestEndpoint($path, $this->storeId), PHP_URL_HOST);
         $date = date("D, d M Y G:i:s \G\M\T");
@@ -144,12 +200,32 @@ class Rest
         $headers['Host']            = $host;
         $headers['v-c-merchant-id'] = $this->config->getMerchantId($this->storeId);
 
+        $hasBody = $jsonBody !== null
+            && in_array(strtoupper((string)$httpMethod), ['POST', 'PUT', 'PATCH'], true);
+
         /**
-         * Note: POST signing requires additional Digest of payload. Not implemented yet.
+         * POST/PUT/PATCH signing requires a Digest of the payload, both as a header and within the
+         * signature string. The request-target carries no query string for these methods.
          *
          * @see https://developer.cybersource.com/docs/cybs/en-us/platform/get-started/all/rest/get-started-rest/ \
          * authentication/GenerateHeader/httpSignatureAuthentication.html
          */
+        if ($hasBody) {
+            $digestValue       = 'SHA-256=' . base64_encode(
+                hash('sha256', mb_convert_encoding($jsonBody, 'UTF-8', mb_list_encodings()), true)
+            );
+            $headers['Digest'] = $digestValue;
+
+            $signatureParts = [
+                'host' => 'host: ' . $host,
+                'date' => 'date: ' . $date,
+                'request-target' => 'request-target: ' . strtolower((string)$httpMethod) . ' ' . $path,
+                'digest' => 'digest: ' . $digestValue,
+                'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId($this->storeId),
+            ];
+
+            return $this->buildSignatureHeader($headers, $signatureParts);
+        }
 
         $signatureParts = [
             'host' => 'host: ' . $host,
@@ -159,6 +235,18 @@ class Rest
             'v-c-merchant-id' => 'v-c-merchant-id: ' . $this->config->getMerchantId($this->storeId),
         ];
 
+        return $this->buildSignatureHeader($headers, $signatureParts);
+    }
+
+    /**
+     * Compute the HMAC signature over the given parts and append the Signature header.
+     *
+     * @param array $headers
+     * @param array $signatureParts
+     * @return array
+     */
+    private function buildSignatureHeader(array $headers, array $signatureParts): array
+    {
         $signature            = base64_encode(
             hash_hmac(
                 'sha256',

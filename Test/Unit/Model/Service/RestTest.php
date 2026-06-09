@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service;
 
+use Magento\Framework\HTTP\ClientInterface;
 use Magento\Framework\HTTP\ClientInterfaceFactory;
 use Magento\Framework\HTTP\ZendClientFactory;
 use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -26,6 +28,8 @@ class RestTest extends TestCase
     private Rest $rest;
     private Config|MockObject $configMock;
     private Data|MockObject $helperMock;
+    private ClientInterfaceFactory|MockObject $communicatorFactoryMock;
+    private ClientInterface|MockObject $clientMock;
 
     protected function setUp(): void
     {
@@ -43,13 +47,17 @@ class RestTest extends TestCase
 
         $zendClientFactory = $this->createMock(ZendClientFactory::class);
         $this->helperMock = $this->createMock(Data::class);
-        $communicatorFactory = $this->createMock(ClientInterfaceFactory::class);
+        $this->clientMock = $this->createMock(ClientInterface::class);
+        $this->communicatorFactoryMock = $this->createMock(ClientInterfaceFactory::class);
+        $this->communicatorFactoryMock->method('create')
+            ->willReturn($this->clientMock);
 
         $this->rest = new Rest(
             $this->configMock,
             $zendClientFactory,
             $this->helperMock,
-            $communicatorFactory,
+            $this->communicatorFactoryMock,
+            new Sanitizer(),
         );
     }
 
@@ -135,6 +143,142 @@ class RestTest extends TestCase
         $this->assertStringContainsString('signature="', $headers['Signature']);
     }
 
+    public function testPostComputesDigestHeader(): void
+    {
+        $params = ['clientReferenceInformation' => ['code' => 'order-1']];
+        $jsonBody = json_encode($params);
+        $expectedDigest = 'SHA-256=' . base64_encode(hash('sha256', $jsonBody, true));
+
+        $capturedHeaders = [];
+        $this->clientMock->method('setHeaders')
+            ->willReturnCallback(function ($headers) use (&$capturedHeaders) {
+                $capturedHeaders = $headers;
+            });
+        $this->clientMock->method('getStatus')->willReturn(201);
+        $this->clientMock->method('getBody')->willReturn('{"id":"123"}');
+
+        $this->rest->post('/pts/v2/payments', $params);
+
+        $this->assertArrayHasKey('Digest', $capturedHeaders);
+        $this->assertSame($expectedDigest, $capturedHeaders['Digest']);
+    }
+
+    public function testPostSignatureStringIncludesDigestLineInOrder(): void
+    {
+        $params = ['amountDetails' => ['totalAmount' => '10.00']];
+        $jsonBody = json_encode($params);
+        $digestValue = 'SHA-256=' . base64_encode(hash('sha256', $jsonBody, true));
+
+        $host = 'apitest.cybersource.com';
+        $date = date("D, d M Y G:i:s \G\M\T");
+        $signatureString = implode("\n", [
+            'host: ' . $host,
+            'date: ' . $date,
+            'request-target: post /pts/v2/payments',
+            'digest: ' . $digestValue,
+            'v-c-merchant-id: ' . self::TEST_MERCHANT_ID,
+        ]);
+        $expectedSignature = base64_encode(
+            hash_hmac(
+                'sha256',
+                $signatureString,
+                base64_decode(self::TEST_SECRET_KEY),
+                true
+            )
+        );
+
+        $headers = $this->invokeSignRequest('/pts/v2/payments', $params, 'POST', $jsonBody);
+
+        $this->assertSame($digestValue, $headers['Digest']);
+        $this->assertStringContainsString(
+            'headers="host date request-target digest v-c-merchant-id"',
+            $headers['Signature']
+        );
+        $this->assertStringContainsString('signature="' . $expectedSignature . '"', $headers['Signature']);
+    }
+
+    public function testPostRequestTargetHasNoQueryString(): void
+    {
+        $jsonBody = json_encode(['a' => 'b']);
+        $headers = $this->invokeSignRequest('/pts/v2/payments', ['a' => 'b'], 'POST', $jsonBody);
+
+        // request-target for POST must be "post <path>" only; verify by recomputing without query string.
+        $host = 'apitest.cybersource.com';
+        $date = $headers['Date'];
+        $digestValue = $headers['Digest'];
+        $signatureString = implode("\n", [
+            'host: ' . $host,
+            'date: ' . $date,
+            'request-target: post /pts/v2/payments',
+            'digest: ' . $digestValue,
+            'v-c-merchant-id: ' . self::TEST_MERCHANT_ID,
+        ]);
+        $expectedSignature = base64_encode(
+            hash_hmac('sha256', $signatureString, base64_decode(self::TEST_SECRET_KEY), true)
+        );
+
+        $this->assertStringContainsString('signature="' . $expectedSignature . '"', $headers['Signature']);
+    }
+
+    public function testPostReturnsDecodedArray(): void
+    {
+        $this->clientMock->method('getStatus')->willReturn(201);
+        $this->clientMock->method('getBody')->willReturn('{"id":"abc","status":"AUTHORIZED"}');
+
+        $result = $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+
+        $this->assertSame(['id' => 'abc', 'status' => 'AUTHORIZED'], $result);
+    }
+
+    public function testPostNonTwoXxThrowsWithExtractedMessage(): void
+    {
+        $this->clientMock->method('getStatus')->willReturn(400);
+        $this->clientMock->method('getBody')
+            ->willReturn('{"message":"Declined - invalid account number"}');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Declined - invalid account number');
+        $this->expectExceptionCode(400);
+
+        $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+    }
+
+    public function testPostMasksPanAndCvvInLog(): void
+    {
+        $pan = '4111111111111111';
+        $cvv = '737';
+        $params = [
+            'paymentInformation' => [
+                'card' => [
+                    'number' => $pan,
+                    'securityCode' => $cvv,
+                ],
+            ],
+        ];
+
+        $this->clientMock->method('getStatus')->willReturn(400);
+        $this->clientMock->method('getBody')->willReturn('{"message":"bad"}');
+
+        $loggedMessages = [];
+        $this->helperMock->method('log')
+            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
+                $loggedMessages[] = (string)$message;
+
+                return $this->helperMock;
+            });
+
+        try {
+            $this->rest->post('/pts/v2/payments', $params);
+        } catch (\Exception $e) {
+            // expected non-2xx throw
+        }
+
+        $logged = implode("\n", $loggedMessages);
+        $this->assertNotEmpty($logged);
+        $this->assertStringNotContainsString($pan, $logged);
+        $this->assertStringNotContainsString('"securityCode":"' . $cvv . '"', $logged);
+    }
+
     public function testSetStoreId(): void
     {
         $result = $this->rest->setStoreId(5);
@@ -153,11 +297,15 @@ class RestTest extends TestCase
     /**
      * Helper method to invoke protected signRequest method
      */
-    private function invokeSignRequest(string $path, array $params, string $httpMethod): array
-    {
+    private function invokeSignRequest(
+        string $path,
+        array $params,
+        string $httpMethod,
+        ?string $jsonBody = null
+    ): array {
         $method = new ReflectionMethod(Rest::class, 'signRequest');
         $method->setAccessible(true);
 
-        return $method->invoke($this->rest, $path, $params, $httpMethod);
+        return $method->invoke($this->rest, $path, $params, $httpMethod, $jsonBody);
     }
 }

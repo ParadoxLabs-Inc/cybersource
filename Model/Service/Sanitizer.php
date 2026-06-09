@@ -200,6 +200,43 @@ class Sanitizer
     }
 
     /**
+     * Mask PAN and CVV values in a JSON request/response body for secure logging.
+     *
+     * The card number ("number") retains only its last four digits; the security code
+     * ("securityCode") is fully masked. Operates on the raw JSON string so the exact bytes
+     * that were transmitted can be safely logged.
+     *
+     * @param string $json
+     * @return string
+     */
+    public function maskJson($json)
+    {
+        $json = (string)$json;
+
+        // Mask card number, retaining last four digits: "number":"4111111111111111" -> "number":"************1111"
+        $json = preg_replace_callback(
+            '/("number"\s*:\s*")(\d+)(")/',
+            static function (array $match): string {
+                $number = $match[2];
+                $last4  = substr($number, -4);
+                $masked = str_repeat('*', max(0, strlen($number) - 4)) . $last4;
+
+                return $match[1] . $masked . $match[3];
+            },
+            $json
+        );
+
+        // Fully mask the security code: "securityCode":"737" -> "securityCode":"***"
+        $json = preg_replace(
+            '/("securityCode"\s*:\s*")[^"]*(")/',
+            '$1***$2',
+            $json
+        );
+
+        return $json;
+    }
+
+    /**
      * Enforce postal code format per country.
      *
      * @param string $input
