@@ -81,38 +81,13 @@
                         <field id="soap_auth_type">cert</field>
                     </depends>
                 </field>
-                <field id="heading_secureaccept" translate="label" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Checkout Setup</label>
-                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
-                    <attribute type="shared">1</attribute>
-                    <comment><![CDATA[
-                        All credit card forms use a Secure Acceptance Hosted Checkout profile. You must create the
-                        profile in CyberSource EBC, then enter its ID and API keys here.
-                        <small class="desc"><b>Follow the User Manual instructions to configure the profile correctly.</b></small>
-                        <a href="https://paradoxlabs.com/media/wysiwyg/ParadoxLabs-CyberSource-M2-user-manual.pdf" target="_blank"><small>View the User Manual</small></a>
-                    ]]></comment>
-                </field>
-                <field id="apitest_secureaccept" translate="label" type="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>API Test Results</label>
-                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\SecureAccept</frontend_model>
-                </field>
-                <field id="secureaccept_profile_id" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Profile ID</label>
-                </field>
-                <field id="secureaccept_access_key" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Access Key</label>
-                </field>
-                <field id="secureaccept_secret_key" translate="label" type="obscure" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Secure Acceptance Secret Key</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                </field>
                 <field id="heading_rest" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>REST API Setup</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
                     <attribute type="shared">1</attribute>
                     <comment><![CDATA[
-                        The REST API is used for card and transaction updates, when applicable (via
-                        Account Updater and Decision Manager).
+                        The REST API is used for all payment processing, Unified Checkout, and card/transaction
+                        updates (via Account Updater and Decision Manager). These keys are required.
                     ]]></comment>
                 </field>
                 <field id="apitest_rest" translate="label" type="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -126,91 +101,75 @@
                     <label>REST API Secret Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="heading_cardinalcruise" translate="label" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payer Authentication (3D Secure) Setup</label>
+                <field id="heading_unified_checkout" translate="label" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Unified Checkout Setup</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
                     <attribute type="shared">1</attribute>
                     <comment><![CDATA[
-                        Payer Authentication is available from CyberSource through Cardinal Commerce, using the
-                        "Cardinal Cruise" API. Requires setup by CyberSource support.
+                        All credit card forms use the CyberSource Unified Checkout drop-in (UC.js), authenticated
+                        with the REST API keys above. Digital wallets and Payer Authentication require enablement
+                        on your CyberSource merchant account before turning them on here.
                     ]]></comment>
                 </field>
-                <field id="apitest_payerauth" translate="label" type="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>API Test Results</label>
-                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\PayerAuth</frontend_model>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
-                </field>
-                <field id="cardinal_active" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable Payer Authentication</label>
+                <field id="uc_3ds" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Payer Authentication (3D Secure)</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Note: Enabling this feature will remove the payment method from multishipping checkout.</comment>
+                    <comment>If yes, 3D Secure authentication will run inside the Unified Checkout payment form. Requires Payer Authentication setup by CyberSource support.</comment>
                 </field>
-                <field id="cardinal_org_unit_id" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Cardinal Cruise Org Unit ID</label>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
+                <field id="uc_decision_manager" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Decision Manager</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, Decision Manager fraud screening will be requested on Unified Checkout transactions. Requires Decision Manager on your CyberSource merchant account.</comment>
                 </field>
-                <field id="cardinal_secret_key_id" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Cardinal Cruise API ID</label>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
+                <field id="uc_allowed_payment_types" translate="label comment" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allowed Payment Types</label>
+                    <options>
+                        <option label="Card Entry">PANENTRY</option>
+                        <option label="Apple Pay">APPLEPAY</option>
+                        <option label="Google Pay">GOOGLEPAY</option>
+                        <option label="Click to Pay">CLICKTOPAY</option>
+                        <option label="Paze">PAZE</option>
+                    </options>
+                    <comment>Payment methods offered within the Unified Checkout form. Digital wallets must be enabled on your CyberSource merchant account first.</comment>
                 </field>
-                <field id="cardinal_secret_key" translate="label" type="obscure" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Cardinal Cruise API Key</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
+                <field id="uc_allowed_card_networks" translate="label comment" type="multiselect" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allowed Card Networks</label>
+                    <options>
+                        <option label="Visa">VISA</option>
+                        <option label="Mastercard">MASTERCARD</option>
+                        <option label="American Express">AMEX</option>
+                        <option label="Discover">DISCOVER</option>
+                        <option label="Diners Club">DINERSCLUB</option>
+                        <option label="JCB">JCB</option>
+                    </options>
+                    <comment>Card networks accepted by the Unified Checkout form. Only select networks your merchant account supports.</comment>
                 </field>
-                <field id="cardinal_card_types" translate="label" type="multiselect" sortOrder="235" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Enable for Card Types</label>
-                    <source_model>Magento\Payment\Model\Config\Source\Cctype</source_model>
-                    <comment>Note: Not all card types and processors support Payer Authentication.</comment>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
+                <field id="uc_billing_type" translate="label comment" type="select" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Collect Billing Address</label>
+                    <options>
+                        <option label="Full Address">FULL</option>
+                        <option label="Partial (Postal Code Only)">PARTIAL</option>
+                        <option label="None">NONE</option>
+                    </options>
+                    <comment>How much billing address information the Unified Checkout form collects from the customer.</comment>
                 </field>
-                <field id="cardinal_songbird_url_live" translate="label" type="text" sortOrder="236" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>Songbird JS URL (Production)</label>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                        <field id="test">0</field>
-                    </depends>
+                <field id="uc_country" translate="label comment" type="select" sortOrder="232" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Merchant Country</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                    <comment>Country passed to Unified Checkout. Leave empty to use the store's default country.</comment>
                 </field>
-                <field id="cardinal_songbird_url_test" translate="label" type="text" sortOrder="236" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>Songbird JS URL (Sandbox)</label>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                        <field id="test">1</field>
-                    </depends>
+                <field id="uc_locale" translate="label comment" type="text" sortOrder="234" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Form Locale</label>
+                    <comment>Locale code for the Unified Checkout form, e.g. en_US. Leave empty to use the store locale.</comment>
                 </field>
-                <field id="cardinal_songbird_sri_live" translate="label" type="text" sortOrder="237" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>Songbird JS Integrity String (Production)</label>
-                    <comment><![CDATA[
-                        These change every 18 months. Get the latest URL and Integrity String from:
-                        <a href="https://developer.cardinaltrusted.com/docs/songbird-js-changes" target="_blank">Cardinal Songbird JS Changes</a><br>
-                        Leave blank to skip SRI hash validation of Songbird JS.
-                   ]]></comment>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                        <field id="test">0</field>
-                    </depends>
+                <field id="uc_target_origins" translate="label comment" type="text" sortOrder="236" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Additional Target Origins</label>
+                    <comment>Comma-separated list of exact HTTPS origins (e.g. https://www.example.com) allowed to load the Unified Checkout form, such as headless storefront domains.</comment>
                 </field>
-                <field id="cardinal_songbird_sri_test" translate="label" type="text" sortOrder="237" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>Songbird JS Integrity String (Sandbox)</label>
-                    <comment><![CDATA[
-                        These change every 18 months. Get the latest URL and Integrity String from:
-                        <a href="https://developer.cardinaltrusted.com/docs/songbird-js-changes" target="_blank">Cardinal Songbird JS Changes</a><br>
-                        Leave blank to skip SRI hash validation of Songbird JS.
-                   ]]></comment>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                        <field id="test">1</field>
-                    </depends>
+                <field id="uc_client_version" translate="label comment" type="text" sortOrder="238" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>UC.js Client Version</label>
+                    <comment>Pinned Unified Checkout client library version. Do not change unless directed by ParadoxLabs support.</comment>
                 </field>
                 <field id="heading_checkout" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Settings</label>
