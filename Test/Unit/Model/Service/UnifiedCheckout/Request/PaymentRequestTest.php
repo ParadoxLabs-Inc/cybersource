@@ -1,0 +1,89 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout\Request;
+
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest
+ */
+class PaymentRequestTest extends TestCase
+{
+    public function testToArrayBuildsTheFullPaymentBody(): void
+    {
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('the.transient.jwt')
+            ->setClientReferenceCode('100000123')
+            ->setActionList(['TOKEN_CREATE'])
+            ->setActionTokenTypes(['customer', 'paymentInstrument', 'instrumentIdentifier'])
+            ->setCapture(false)
+            ->setTotalAmount('24.00')
+            ->setCurrency('USD')
+            ->setBillTo([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'country' => 'US',
+            ]);
+
+        $result = $request->toArray();
+
+        $this->assertSame('the.transient.jwt', $result['tokenInformation']['transientTokenJwt']);
+        $this->assertSame('100000123', $result['clientReferenceInformation']['code']);
+        $this->assertSame(['TOKEN_CREATE'], $result['processingInformation']['actionList']);
+        $this->assertSame(
+            ['customer', 'paymentInstrument', 'instrumentIdentifier'],
+            $result['processingInformation']['actionTokenTypes']
+        );
+        $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
+    }
+
+    public function testToArrayPreservesCaptureFalse(): void
+    {
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setCapture(false);
+
+        $result = $request->toArray();
+
+        $this->assertArrayHasKey('capture', $result['processingInformation']);
+        $this->assertFalse($result['processingInformation']['capture']);
+    }
+
+    public function testToArrayPreservesCaptureTrue(): void
+    {
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setCapture(true);
+
+        $result = $request->toArray();
+
+        $this->assertTrue($result['processingInformation']['capture']);
+    }
+
+    public function testToArrayOmitsEmptyBranches(): void
+    {
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt');
+
+        $result = $request->toArray();
+
+        $this->assertArrayHasKey('tokenInformation', $result);
+        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertArrayNotHasKey('clientReferenceInformation', $result);
+        // No actionList/actionTokenTypes/capture set -> processingInformation omitted entirely.
+        $this->assertArrayNotHasKey('processingInformation', $result);
+    }
+
+    public function testSettersFilterEmptyListEntries(): void
+    {
+        $request = new PaymentRequest();
+        $request->setActionList(['TOKEN_CREATE', '', null])
+            ->setActionTokenTypes(['customer', '']);
+
+        $this->assertSame(['TOKEN_CREATE'], $request->getActionList());
+        $this->assertSame(['customer'], $request->getActionTokenTypes());
+    }
+}
