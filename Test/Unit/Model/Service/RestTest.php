@@ -311,6 +311,46 @@ class RestTest extends TestCase
         $this->assertStringNotContainsString('"securityCode":"' . $cvv . '"', $logged);
     }
 
+    public function testPostRawReturnsRawJwtStringNotJsonDecoded(): void
+    {
+        $jwt = 'eyJraWQiOiIwOCJ9.eyJjdHgiOlt7ImRhdGEiOnt9fV19.signature';
+
+        $this->clientMock->method('getStatus')->willReturn(201);
+        $this->clientMock->method('getBody')->willReturn($jwt);
+
+        $result = $this->rest->postRaw('/up/v1/capture-contexts', ['clientVersion' => '0.34']);
+
+        $this->assertSame($jwt, $result);
+    }
+
+    public function testPostRawSendsApplicationJwtAcceptHeader(): void
+    {
+        $capturedHeaders = [];
+        $this->clientMock->method('setHeaders')
+            ->willReturnCallback(function ($headers) use (&$capturedHeaders) {
+                $capturedHeaders = $headers;
+            });
+        $this->clientMock->method('getStatus')->willReturn(201);
+        $this->clientMock->method('getBody')->willReturn('a.b.c');
+
+        $this->rest->postRaw('/up/v1/capture-contexts', ['clientVersion' => '0.34']);
+
+        $this->assertSame('application/jwt', $capturedHeaders['Accept']);
+        $this->assertArrayHasKey('Digest', $capturedHeaders);
+    }
+
+    public function testPostRawNonTwoXxThrows(): void
+    {
+        $this->clientMock->method('getStatus')->willReturn(404);
+        $this->clientMock->method('getBody')->willReturn('{"message":"Not boarded"}');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Not boarded');
+        $this->expectExceptionCode(404);
+
+        $this->rest->postRaw('/up/v1/capture-contexts', ['x' => 'y']);
+    }
+
     public function testSetStoreId(): void
     {
         $result = $this->rest->setStoreId(5);

@@ -165,6 +165,61 @@ class Rest
     }
 
     /**
+     * Send a REST API POST request and return the raw response body string (not JSON-decoded).
+     *
+     * Some CyberSource endpoints (e.g. Unified Checkout capture-context) respond with a bare
+     * JWT string under Content-Type: application/jwt rather than a JSON document. Decoding such
+     * a body as JSON yields null/empty, so this sibling of post() returns the raw bytes. Signing
+     * and error handling are identical to post().
+     *
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return string Raw response body (e.g. a JWT string).
+     * @throws \Exception
+     */
+    public function postRaw(string $path, array $params = [], string $responseType = 'application/jwt'): string
+    {
+        $client   = $this->getHttpClient($path);
+        $jsonBody = json_encode($params);
+
+        $headers = [
+            'Accept' => $responseType,
+            'Content-Type' => 'application/json;charset=utf-8',
+        ];
+        $headers += $this->signRequest($path, $params, 'POST', $jsonBody);
+
+        $requestUri = $this->config->getRestEndpoint($path, $this->storeId);
+
+        $client->setHeaders($headers);
+        $client->post($requestUri, $jsonBody);
+
+        // Throw exception on non-2xx response code
+        if (!str_starts_with((string)$client->getStatus(), '2')) {
+            $responseJson = json_decode((string)$client->getBody(), true);
+
+            $message = $responseJson['message']
+                ?? $responseJson['response']['rmsg']
+                ?? $client->getStatus();
+
+            $this->helper->log(
+                $this->config::CODE,
+                $requestUri . "\n"
+                . 'REQUEST: ' . $this->sanitizer->maskJson($jsonBody) . "\n"
+                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
+                true
+            );
+
+            throw new Exception(
+                $message,
+                $client->getStatus()
+            );
+        }
+
+        return (string)$client->getBody();
+    }
+
+    /**
      * Get an HTTP client for REST
      *
      * @param string $path

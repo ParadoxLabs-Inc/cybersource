@@ -1,0 +1,151 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
+
+use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Api\Data\RegionInterface;
+use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Quote\Model\Quote;
+use Magento\Quote\Model\Quote\Address as QuoteAddress;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Frontend;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequest;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
+use ParadoxLabs\TokenBase\Helper\Address;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Frontend
+ */
+class FrontendTest extends TestCase
+{
+    private Frontend $handler;
+    private Config|MockObject $configMock;
+    private Rest|MockObject $restMock;
+    private Address|MockObject $addressHelperMock;
+    private CheckoutSession|MockObject $checkoutSessionMock;
+    private CustomerSession|MockObject $customerSessionMock;
+    private StoreManagerInterface|MockObject $storeManagerMock;
+    private HttpRequest|MockObject $requestMock;
+
+    protected function setUp(): void
+    {
+        $this->configMock = $this->createMock(Config::class);
+        $this->restMock = $this->createMock(Rest::class);
+        $this->addressHelperMock = $this->createMock(Address::class);
+        $this->checkoutSessionMock = $this->createMock(CheckoutSession::class);
+        $this->customerSessionMock = $this->createMock(CustomerSession::class);
+        $this->storeManagerMock = $this->createMock(StoreManagerInterface::class);
+        $this->requestMock = $this->createMock(HttpRequest::class);
+
+        $requestFactory = $this->createMock(CaptureContextRequestFactory::class);
+        $requestFactory->method('create')
+            ->willReturnCallback(fn() => new CaptureContextRequest());
+
+        // Config passthrough defaults.
+        $this->configMock->method('getUcClientVersion')->willReturn('0.34');
+        $this->configMock->method('getUcTargetOrigins')->willReturn(['https://shop.example.com']);
+        $this->configMock->method('getUcAllowedCardNetworks')->willReturn(['VISA']);
+        $this->configMock->method('getUcAllowedPaymentTypes')->willReturn(['PANENTRY']);
+        $this->configMock->method('getUcBillingType')->willReturn('FULL');
+        $this->configMock->method('getUcLocale')->willReturn('en_US');
+        $this->configMock->method('getUcCountry')->willReturn('US');
+        $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $this->configMock->method('is3dsEnabled')->willReturn(false);
+        $this->configMock->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $store = $this->createMock(Store::class);
+        $store->method('getId')->willReturn(1);
+        $store->method('getBaseCurrencyCode')->willReturn('USD');
+        $this->storeManagerMock->method('getStore')->willReturn($store);
+
+        $this->handler = new Frontend(
+            $this->configMock,
+            $this->restMock,
+            new Sanitizer(),
+            $this->addressHelperMock,
+            $requestFactory,
+            $this->checkoutSessionMock,
+            $this->customerSessionMock,
+            $this->storeManagerMock,
+            $this->requestMock,
+        );
+    }
+
+    public function testBuildRequestSourcesAmountCurrencyAndBillToFromQuote(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $billingAddress = $this->makeQuoteBillingAddress();
+        $quote = $this->getMockBuilder(Quote::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['getBaseGrandTotal', 'getBaseCurrencyCode'])
+            ->onlyMethods(['getBillingAddress'])
+            ->getMock();
+        $quote->method('getBaseGrandTotal')->willReturn(24.0);
+        $quote->method('getBaseCurrencyCode')->willReturn('USD');
+        $quote->method('getBillingAddress')->willReturn($billingAddress);
+
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(99);
+        $this->checkoutSessionMock->method('getQuote')->willReturn($quote);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(true);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
+        $this->assertSame('123', $result['orderInformation']['billTo']['buildingNumber']);
+        // Logged-in customer surfaces save card.
+        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+    }
+
+    public function testBuildRequestBillingOnlyWhenNoQuote(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(null);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(false);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        // No quote -> no amount; billingType still set; store-default currency unused (no amount node).
+        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertSame('FULL', $result['captureMandate']['billingType']);
+        $this->assertSame('US', $result['country']);
+        $this->assertFalse($result['captureMandate']['requestSaveCard']);
+    }
+
+    /**
+     * Build a Magento customer-data billing address (as returned by getDataModel()).
+     */
+    private function makeQuoteBillingAddress(): QuoteAddress|MockObject
+    {
+        $region = $this->createMock(RegionInterface::class);
+        $region->method('getRegionCode')->willReturn('CA');
+
+        $customerAddress = $this->createMock(AddressInterface::class);
+        $customerAddress->method('getFirstname')->willReturn('Jane');
+        $customerAddress->method('getLastname')->willReturn('Doe');
+        $customerAddress->method('getStreet')->willReturn(['123 Main St']);
+        $customerAddress->method('getCity')->willReturn('Los Angeles');
+        $customerAddress->method('getRegion')->willReturn($region);
+        $customerAddress->method('getPostcode')->willReturn('90210');
+        $customerAddress->method('getCountryId')->willReturn('US');
+        $customerAddress->method('getTelephone')->willReturn('5551234567');
+
+        $quoteAddress = $this->createMock(QuoteAddress::class);
+        $quoteAddress->method('getDataModel')->willReturn($customerAddress);
+        $quoteAddress->method('getEmail')->willReturn('jane@example.com');
+
+        return $quoteAddress;
+    }
+}

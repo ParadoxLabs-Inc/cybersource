@@ -599,6 +599,158 @@ class Config
     }
 
     /**
+     * Get the Unified Checkout UC.js client version selector.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcClientVersion($storeId = null)
+    {
+        return $this->getConfigValue('uc_client_version', $storeId) ?: '0.34';
+    }
+
+    /**
+     * Get the Unified Checkout allowed target origins (exact HTTPS origins).
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getUcTargetOrigins($storeId = null)
+    {
+        return $this->explodeConfigList('uc_target_origins', $storeId);
+    }
+
+    /**
+     * Get the Unified Checkout allowed card networks.
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getUcAllowedCardNetworks($storeId = null)
+    {
+        return $this->explodeConfigList('uc_allowed_card_networks', $storeId);
+    }
+
+    /**
+     * Get the Unified Checkout allowed payment types (e.g. PANENTRY, APPLEPAY).
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getUcAllowedPaymentTypes($storeId = null)
+    {
+        return $this->explodeConfigList('uc_allowed_payment_types', $storeId);
+    }
+
+    /**
+     * Get the Unified Checkout captureMandate billingType (FULL|PARTIAL|NONE).
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcBillingType($storeId = null)
+    {
+        return strtoupper($this->getConfigValue('uc_billing_type', $storeId) ?: 'FULL');
+    }
+
+    /**
+     * Get the Unified Checkout ISO-2 country, falling back to store general country.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcCountry($storeId = null)
+    {
+        $value = $this->getConfigValue('uc_country', $storeId);
+
+        if (empty($value)) {
+            $value = trim((string)$this->scopeConfig->getValue(
+                'general/country/default',
+                ScopeInterface::SCOPE_STORE,
+                $storeId ?? $this->storeId
+            ));
+        }
+
+        return strtoupper($value ?: 'US');
+    }
+
+    /**
+     * Get the Unified Checkout locale, falling back to the store general locale.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcLocale($storeId = null)
+    {
+        $value = $this->getConfigValue('uc_locale', $storeId);
+
+        if (empty($value)) {
+            $value = trim((string)$this->scopeConfig->getValue(
+                'general/locale/code',
+                ScopeInterface::SCOPE_STORE,
+                $storeId ?? $this->storeId
+            ));
+        }
+
+        return $value ?: 'en_US';
+    }
+
+    /**
+     * Whether 3DS (consumerAuthentication) is enabled for Unified Checkout.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function is3dsEnabled($storeId = null)
+    {
+        return (bool)$this->getConfigValue('uc_3ds', $storeId);
+    }
+
+    /**
+     * Whether Decision Manager is enabled for Unified Checkout.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isDecisionManagerEnabled($storeId = null)
+    {
+        return (bool)$this->getConfigValue('uc_decision_manager', $storeId);
+    }
+
+    /**
+     * Map the Magento payment_action to the UC completeMandate type.
+     *
+     * authorize -> AUTH, authorize_capture -> CAPTURE; anything else defaults to AUTH.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcCompleteMandateType($storeId = null)
+    {
+        return $this->getConfigValue('payment_action', $storeId) === 'authorize_capture'
+            ? 'CAPTURE'
+            : 'AUTH';
+    }
+
+    /**
+     * Read a comma-delimited config value into a trimmed, non-empty string list.
+     *
+     * @param string $key
+     * @param int|null $storeId
+     * @return string[]
+     */
+    protected function explodeConfigList($key, $storeId = null)
+    {
+        $value = $this->getConfigValue($key, $storeId);
+
+        if ($value === '') {
+            return [];
+        }
+
+        return array_values(array_filter(array_map('trim', explode(',', $value))));
+    }
+
+    /**
      * Get the Cardinal Cruise Songbird JS library SRI hash for the configured environment.
      *
      * @param int|null $storeId
