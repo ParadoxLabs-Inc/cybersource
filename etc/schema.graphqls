@@ -1,6 +1,17 @@
 type Query {
     cyberSourceSecureAcceptParams(input: TokenBaseCyberSourceSecureAcceptInput!): TokenBaseCyberSourceSecureAcceptParams @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\SecureAccept\\GetParams") @doc(description: "Get CyberSource Secure Acceptance form URL and parameters for collecting payment data.")
     cyberSourceCardinalCruiseAuthPayload(input: TokenBaseCyberSourceCardinalCruiseAuthInput!): TokenBaseCyberSourceCardinalCruiseParams @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\CardinalCruise\\GetAuthPayload") @doc(description: "Get CyberSource Cardinal Cruise parameters for completing payer authentication.")
+    cyberSourceUnifiedCheckoutCaptureContext(input: TokenBaseCyberSourceUnifiedCheckoutInput!): TokenBaseCyberSourceUnifiedCheckoutCaptureContext @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\UnifiedCheckout\\CaptureContext") @doc(description: "Get a CyberSource Unified Checkout capture-context JWT for collecting payment data.")
+}
+
+input TokenBaseCyberSourceUnifiedCheckoutInput {
+    cartId: String
+    guestEmail: String
+    billingAddress: CustomerAddressInput
+}
+
+type TokenBaseCyberSourceUnifiedCheckoutCaptureContext {
+    captureContext: String
 }
 
 input TokenBaseCyberSourceSecureAcceptInput {
