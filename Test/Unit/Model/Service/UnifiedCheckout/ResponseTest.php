@@ -331,4 +331,59 @@ class ResponseTest extends TestCase
 
         $this->service->place($this->buildPayment(''), 24.0);
     }
+
+    public function testZeroDollarTokenizeBuildsTokenCreateRequestWithZeroAmountAndNoCapture(): void
+    {
+        $this->primeRest(['id' => 'TKN', 'status' => 'AUTHORIZED']);
+
+        $this->service->tokenizeCard($this->buildPayment('add.card.jwt'), 'USD', 1);
+
+        // Same transient-token + TOKEN_CREATE shape as a purchase...
+        $this->assertSame('add.card.jwt', $this->sentBody['tokenInformation']['transientTokenJwt']);
+        $this->assertSame(['TOKEN_CREATE'], $this->sentBody['processingInformation']['actionList']);
+        $this->assertSame(
+            ['customer', 'paymentInstrument', 'instrumentIdentifier'],
+            $this->sentBody['processingInformation']['actionTokenTypes']
+        );
+        // ...but no charge: $0 amount and capture forced false (authorize-only), and no order code.
+        $this->assertSame('0.00', $this->sentBody['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $this->sentBody['orderInformation']['amountDetails']['currency']);
+        $this->assertArrayHasKey('capture', $this->sentBody['processingInformation']);
+        $this->assertFalse($this->sentBody['processingInformation']['capture']);
+        $this->assertArrayNotHasKey('clientReferenceInformation', $this->sentBody);
+    }
+
+    public function testZeroDollarTokenizeMapsReturnedTmsIds(): void
+    {
+        $this->primeRest([
+            'id' => 'TKN-OK',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+            'tokenInformation' => [
+                'customer' => ['id' => 'CUST-Z'],
+                'paymentInstrument' => ['id' => 'PI-Z'],
+                'instrumentIdentifier' => ['id' => 'II-Z'],
+            ],
+            'paymentInformation' => [
+                'card' => ['type' => '001', 'suffix' => '4242'],
+            ],
+        ]);
+
+        $response = $this->service->tokenizeCard($this->buildPayment('add.card.jwt'), 'USD', 1);
+
+        $this->assertFalse($response->getIsError());
+        $tokens = $response->getData('token_information');
+        $this->assertSame('CUST-Z', $tokens['customer']);
+        $this->assertSame('PI-Z', $tokens['paymentInstrument']);
+        $this->assertSame('II-Z', $tokens['instrumentIdentifier']);
+        $this->assertFalse($response->getData('uc_token_missing'));
+    }
+
+    public function testZeroDollarTokenizeMissingTransientTokenThrows(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Missing Unified Checkout payment token');
+
+        $this->service->tokenizeCard($this->buildPayment(''), 'USD', 1);
+    }
 }

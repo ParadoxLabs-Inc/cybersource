@@ -97,6 +97,11 @@ class Response
     public const RESPONSE_CODE_APPROVED = '100';
 
     /**
+     * The amount sent for the zero-dollar add-card (tokenize-without-charge) path.
+     */
+    public const ZERO_DOLLAR_AMOUNT = '0.00';
+
+    /**
      * errorInformation.reason value emitted when a sub-service (e.g. TOKEN_CREATE) is not provisioned.
      */
     public const REASON_PROCESSOR_ERROR = 'PROCESSOR_ERROR';
@@ -147,6 +152,76 @@ class Response
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         return $this->interpretResponse($response, $payment);
+    }
+
+    /**
+     * Tokenize a card from its transient token WITHOUT a purchase (zero-dollar add-card).
+     *
+     * This is the REST analog of the SOAP paySubscriptionCreate tokenize-without-charge used by the
+     * admin "add card" and customer "save card" flows. We POST /pts/v2/payments with a $0 amount and
+     * capture=false (authorize-only) plus actionList:[TOKEN_CREATE] to mint the TMS vault ids, then let
+     * interpretResponse() expose token_information / card_information for CardBuilder to map onto a new
+     * CardInterface. No order is involved, so the caller supplies the transient token (and optionally a
+     * billing address) on the payment; currency falls back to the store base currency.
+     *
+     * VERIFY: against the live API once TMS is provisioned (UC-API-REFERENCE.md §4). The documented
+     * shape is a $0 authorize-only (totalAmount "0.00", capture=false). If CyberSource rejects a $0
+     * authorization for the configured processor, the fallback is a small auth + immediate void (A3
+     * owns the void). Built to the documented $0 shape here; confirm before enabling in production.
+     *
+     * @param InfoInterface $payment
+     * @param string $currencyCode
+     * @param int|null $storeId
+     * @return GatewayResponse
+     * @throws CommandException On a declined transaction.
+     * @throws RuntimeException On an error/invalid response, or a missing transient token.
+     * @throws Throwable
+     */
+    public function tokenizeCard(
+        InfoInterface $payment,
+        string $currencyCode,
+        ?int $storeId = null
+    ): GatewayResponse {
+        $this->config->setStoreId($storeId);
+        $this->rest->setStoreId($storeId);
+
+        $request  = $this->buildZeroDollarRequest($payment, $currencyCode);
+        $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
+
+        return $this->interpretResponse($response, $payment);
+    }
+
+    /**
+     * Assemble a $0 TOKEN_CREATE /pts/v2/payments request DTO for the zero-dollar add-card path.
+     *
+     * No order context: capture is forced false (authorize-only) and the amount is "0.00". The
+     * transient token is still required; an empty token is a hard error (same as the purchase path).
+     *
+     * @param InfoInterface $payment
+     * @param string $currencyCode
+     * @return PaymentRequest
+     * @throws RuntimeException When no transient token is present on the payment.
+     */
+    public function buildZeroDollarRequest(InfoInterface $payment, string $currencyCode): PaymentRequest
+    {
+        $transientToken = $this->getTransientToken($payment);
+        if ($transientToken === null || $transientToken === '') {
+            throw new RuntimeException(
+                __('Missing Unified Checkout payment token. Please re-enter your payment information.')
+            );
+        }
+
+        /** @var PaymentRequest $request */
+        $request = $this->requestFactory->create();
+
+        $request->setTransientTokenJwt($transientToken)
+            ->setActionList([self::ACTION_TOKEN_CREATE])
+            ->setActionTokenTypes(self::ACTION_TOKEN_TYPES)
+            ->setCapture(false)
+            ->setTotalAmount(self::ZERO_DOLLAR_AMOUNT)
+            ->setCurrency($this->sanitizer->alpha($currencyCode, 3));
+
+        return $request;
     }
 
     /**
