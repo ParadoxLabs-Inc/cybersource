@@ -27,6 +27,8 @@ use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams;
 use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder;
 use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
 use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
 
 class Context
@@ -41,6 +43,8 @@ class Context
      * @param Persistor $payerAuthPersistor
      * @param JsonWebTokenEncoder $payerAuthJWTEncoder
      * @param EnrollmentParams $payerAuthEnrollParams
+     * @param UnifiedCheckoutResponse $unifiedCheckoutResponse
+     * @param FollowOn $unifiedCheckoutFollowOn
      */
     public function __construct(
         private readonly Config $config,
@@ -49,7 +53,9 @@ class Context
         private readonly Rest $restClient,
         private readonly Persistor $payerAuthPersistor,
         private readonly JsonWebTokenEncoder $payerAuthJWTEncoder,
-        private readonly EnrollmentParams $payerAuthEnrollParams
+        private readonly EnrollmentParams $payerAuthEnrollParams,
+        private readonly UnifiedCheckoutResponse $unifiedCheckoutResponse,
+        private readonly FollowOn $unifiedCheckoutFollowOn
     ) {
     }
 
@@ -121,5 +127,25 @@ class Context
     public function getPayerAuthEnrollParams()
     {
         return $this->payerAuthEnrollParams;
+    }
+
+    /**
+     * Get the Unified Checkout auth/sale service (A1).
+     *
+     * @return UnifiedCheckoutResponse
+     */
+    public function getUnifiedCheckoutResponse()
+    {
+        return $this->unifiedCheckoutResponse;
+    }
+
+    /**
+     * Get the Unified Checkout follow-on (capture/refund/void/delete) service (A3).
+     *
+     * @return FollowOn
+     */
+    public function getUnifiedCheckoutFollowOn()
+    {
+        return $this->unifiedCheckoutFollowOn;
     }
 }

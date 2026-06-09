@@ -30,6 +30,7 @@ use Magento\Framework\HTTP\ZendClientFactory;
 use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use const CURLOPT_CUSTOMREQUEST;
 use const CURLOPT_SSL_VERIFYHOST;
 use const CURLOPT_SSL_VERIFYPEER;
 
@@ -86,6 +87,66 @@ class Rest
         }
 
         $client->setHeaders($headers);
+        $client->get($requestUri);
+
+        // Throw exception on non-2xx response code
+        if (!str_starts_with((string)$client->getStatus(), '2')) {
+            $responseJson = json_decode((string)$client->getBody(), true);
+
+            $message = $responseJson['message']
+                ?? $responseJson['response']['rmsg']
+                ?? $client->getStatus();
+
+            $this->helper->log(
+                $this->config::CODE,
+                $requestUri . "\n" . 'REQUEST: ' . json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
+                true
+            );
+
+            throw new Exception(
+                $message,
+                $client->getStatus()
+            );
+        }
+
+        return $client->getBody();
+    }
+
+    /**
+     * Send a REST API DELETE request to the given resource path. Will sign the request per API specifications.
+     *
+     * DELETE signs identically to GET — no request body, therefore no payload Digest — and uses the same
+     * header list (host, date, request-target, v-c-merchant-id). Used for TMS token deletion (deleteCard),
+     * e.g. DELETE /tms/v2/payment-instruments/{id}. CyberSource returns 204 No Content on success, so the
+     * (empty) body is returned as-is rather than JSON-decoded.
+     *
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return string Raw response body (typically empty on a 204).
+     * @throws \Exception
+     */
+    public function delete($path, $params = [], $responseType = 'application/hal+json')
+    {
+        $client = $this->getHttpClient($path);
+
+        $headers = [
+            'Accept' => $responseType,
+            'Content-Type' => 'application/json;charset=utf-8',
+        ];
+        $headers += $this->signRequest($path, $params, 'DELETE');
+
+        $requestUri = $this->config->getRestEndpoint($path, $this->storeId);
+        if (!empty($params)) {
+            $requestUri .= '?' . http_build_query($params);
+        }
+
+        $client->setHeaders($headers);
+
+        // ClientInterface exposes no delete(); the verb is forced via CURLOPT_CUSTOMREQUEST. User-set curl
+        // options are applied AFTER the method defaults inside Curl::makeRequest(), so calling get() and
+        // overriding the verb yields a body-less DELETE that reuses GET's (digest-free) signing path.
+        $client->setOption(CURLOPT_CUSTOMREQUEST, 'DELETE');
         $client->get($requestUri);
 
         // Throw exception on non-2xx response code
