@@ -216,7 +216,8 @@ define([
 
             Accept(this.captureContext)
                 .then(function (accept) {
-                    return accept.unifiedPayments();
+                    // false = embedded layout (sidebar rejects the paymentScreen container)
+                    return accept.unifiedPayments(false);
                 })
                 .then(function (unifiedPayments) {
                     return unifiedPayments.show({
