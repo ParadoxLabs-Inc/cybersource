@@ -103,9 +103,34 @@ class CardBuilder
         $this->applyTokenIds($card, $tokenInformation);
 
         // Clear any stale flag from a prior token-less attempt now that we have real ids.
-        $card->setAdditional(self::CARD_FLAG_TOKEN_MISSING, null);
+        $this->clearTokenMissingFlag($card);
 
         return $card;
+    }
+
+    /**
+     * Remove the uc_token_missing flag from the card's additional data, for real.
+     *
+     * Card::setAdditional($key, null) is a NO-OP for a string key (the real setter only writes when
+     * $value !== null, replaces wholesale when $key is an array, or merges a CardAdditionalInterface).
+     * To actually DELETE the key we read the full additional array, unset the flag, and pass the array
+     * back — the array form sets `$this->additional = $key` (full replace), which drops the key.
+     *
+     * @see \ParadoxLabs\TokenBase\Model\Card::setAdditional()
+     * @param CardInterface $card
+     * @return void
+     */
+    protected function clearTokenMissingFlag(CardInterface $card): void
+    {
+        $additional = $card->getAdditional();
+        if (!is_array($additional) || !array_key_exists(self::CARD_FLAG_TOKEN_MISSING, $additional)) {
+            return;
+        }
+
+        unset($additional[self::CARD_FLAG_TOKEN_MISSING]);
+
+        // Array form => full replace of additional (Card::setAdditional), so the flag is dropped.
+        $card->setAdditional($additional);
     }
 
     /**

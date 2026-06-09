@@ -161,8 +161,9 @@ class Response
      * admin "add card" and customer "save card" flows. We POST /pts/v2/payments with a $0 amount and
      * capture=false (authorize-only) plus actionList:[TOKEN_CREATE] to mint the TMS vault ids, then let
      * interpretResponse() expose token_information / card_information for CardBuilder to map onto a new
-     * CardInterface. No order is involved, so the caller supplies the transient token (and optionally a
-     * billing address) on the payment; currency falls back to the store base currency.
+     * CardInterface. The caller supplies the transient token on the payment; currency is passed in. A
+     * billing address (billTo) is sent for AVS when one is reachable from the payment (via its order's
+     * billing address) — many processors require it for a $0 auth — and is omitted when unavailable.
      *
      * VERIFY: against the live API once TMS is provisioned (UC-API-REFERENCE.md §4). The documented
      * shape is a $0 authorize-only (totalAmount "0.00", capture=false). If CyberSource rejects a $0
@@ -221,7 +222,39 @@ class Response
             ->setTotalAmount(self::ZERO_DOLLAR_AMOUNT)
             ->setCurrency($this->sanitizer->alpha($currencyCode, 3));
 
+        // A $0 add-card auth still wants AVS/billTo where the processor requires it. Source the billing
+        // address from the payment when reachable; omit billTo entirely when none is available.
+        $billTo = $this->getBillTo($this->getPaymentBillingAddress($payment));
+        if ($billTo !== []) {
+            $request->setBillTo($billTo);
+        }
+
         return $request;
+    }
+
+    /**
+     * Best-effort billing address for the add-card payment (no order context guaranteed).
+     *
+     * The zero-dollar payment may be a quote payment or a freshly built order payment; either way the
+     * billing address, when present, hangs off the payment's order. Returns null when none is reachable.
+     *
+     * @param InfoInterface $payment
+     * @return OrderAddressInterface|null
+     */
+    protected function getPaymentBillingAddress(InfoInterface $payment): ?OrderAddressInterface
+    {
+        if (!$payment instanceof Payment) {
+            return null;
+        }
+
+        $order = $payment->getOrder();
+        if (!$order instanceof OrderInterface) {
+            return null;
+        }
+
+        $billingAddress = $order->getBillingAddress();
+
+        return $billingAddress instanceof OrderAddressInterface ? $billingAddress : null;
     }
 
     /**
@@ -258,7 +291,7 @@ class Response
             ->setCapture($this->isCapture((int)$order->getStoreId()))
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
-            ->setBillTo($this->getBillTo($order));
+            ->setBillTo($this->getBillTo($order->getBillingAddress()));
 
         return $request;
     }
@@ -537,14 +570,15 @@ class Response
     }
 
     /**
-     * Map the order billing address to the /pts/v2/payments billTo field tree.
+     * Map a billing address to the /pts/v2/payments billTo field tree.
      *
-     * @param OrderInterface $order
+     * Returns an empty array when no usable address is supplied, so the caller can omit billTo.
+     *
+     * @param OrderAddressInterface|null $billingAddress
      * @return array<string, string|null>
      */
-    protected function getBillTo(OrderInterface $order): array
+    protected function getBillTo(?OrderAddressInterface $billingAddress): array
     {
-        $billingAddress = $order->getBillingAddress();
         if (!$billingAddress instanceof OrderAddressInterface) {
             return [];
         }

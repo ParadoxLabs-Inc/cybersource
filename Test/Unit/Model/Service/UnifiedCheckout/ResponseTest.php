@@ -351,6 +351,29 @@ class ResponseTest extends TestCase
         $this->assertArrayHasKey('capture', $this->sentBody['processingInformation']);
         $this->assertFalse($this->sentBody['processingInformation']['capture']);
         $this->assertArrayNotHasKey('clientReferenceInformation', $this->sentBody);
+        // billTo IS sent for the $0 add-card auth when reachable from the payment (AVS support).
+        $this->assertSame('Jane', $this->sentBody['orderInformation']['billTo']['firstName']);
+        $this->assertSame('78701', $this->sentBody['orderInformation']['billTo']['postalCode']);
+    }
+
+    public function testZeroDollarTokenizeOmitsBillToWhenNoBillingAddress(): void
+    {
+        $this->primeRest(['id' => 'TKN', 'status' => 'AUTHORIZED']);
+
+        // Payment whose order has no billing address: billTo must be omitted, not sent empty.
+        $order = $this->createMock(Order::class);
+        $order->method('getBillingAddress')->willReturn(null);
+
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getOrder')->willReturn($order);
+        $payment->method('getAdditionalInformation')
+            ->willReturnCallback(
+                static fn(?string $key = null) => $key === 'transient_token' ? 'add.card.jwt' : null
+            );
+
+        $this->service->tokenizeCard($payment, 'USD', 1);
+
+        $this->assertArrayNotHasKey('billTo', $this->sentBody['orderInformation'] ?? []);
     }
 
     public function testZeroDollarTokenizeMapsReturnedTmsIds(): void

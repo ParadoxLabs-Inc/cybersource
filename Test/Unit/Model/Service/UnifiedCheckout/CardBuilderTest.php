@@ -28,6 +28,13 @@ class CardBuilderTest extends TestCase
     /**
      * A spy card that records the real setter calls so we assert the mapping, not mock echo.
      *
+     * setAdditional()/getAdditional() replicate the REAL \ParadoxLabs\TokenBase\Model\Card semantics
+     * (Card.php:612-642), not mock-echo: a string key with a null value is a NO-OP; an array $key
+     * REPLACES the whole additional array. This is what makes the stale-flag-clear test meaningful.
+     *
+     * @param array<int, mixed> $profileId
+     * @param array<int, mixed> $paymentId
+     * @param array<string, mixed> $additional
      * @return CardInterface&MockObject
      */
     private function buildCardSpy(array &$profileId, array &$paymentId, array &$additional): CardInterface
@@ -50,9 +57,24 @@ class CardBuilderTest extends TestCase
         );
         $card->method('setAdditional')->willReturnCallback(
             function ($key, $value = null) use (&$additional, $card) {
-                $additional[$key] = $value;
+                // Mirror Card::setAdditional(): write a single key only when value is non-null;
+                // an array key replaces the whole additional array; null scalar is a no-op.
+                if ($value !== null) {
+                    $additional[$key] = $value;
+                } elseif (is_array($key)) {
+                    $additional = $key;
+                }
 
                 return $card;
+            }
+        );
+        $card->method('getAdditional')->willReturnCallback(
+            function ($key = null) use (&$additional) {
+                if ($key !== null) {
+                    return $additional[$key] ?? null;
+                }
+
+                return $additional;
             }
         );
 
@@ -107,8 +129,36 @@ class CardBuilderTest extends TestCase
         $this->assertSame('12', $additional['cc_exp_month']);
         $this->assertSame('2030', $additional['cc_exp_year']);
 
-        // Token-missing flag cleared on a successful tokenization.
-        $this->assertNull($additional[CardBuilder::CARD_FLAG_TOKEN_MISSING]);
+        // Token-missing flag absent on a successful tokenization (never set, nothing to clear).
+        $this->assertArrayNotHasKey(CardBuilder::CARD_FLAG_TOKEN_MISSING, $additional);
+    }
+
+    public function testStaleTokenMissingFlagIsClearedOnSuccessfulTokenization(): void
+    {
+        $profileId  = [];
+        $paymentId  = [];
+        // Card was previously flagged token-less and is now being successfully tokenized.
+        $additional = [CardBuilder::CARD_FLAG_TOKEN_MISSING => '1'];
+
+        $card = $this->buildCardSpy($profileId, $paymentId, $additional);
+
+        $response = $this->buildResponse([
+            'token_information' => [
+                'customer' => 'CUST-123',
+                'paymentInstrument' => 'PI-456',
+                'instrumentIdentifier' => 'II-789',
+            ],
+            'uc_token_missing' => false,
+        ]);
+
+        $this->cardBuilder->applyTokenToCard($card, $response);
+
+        // Real ids written...
+        $this->assertSame(['CUST-123'], $profileId);
+        $this->assertSame(['PI-456'], $paymentId);
+
+        // ...and the stale flag is GONE (this fails with a string-key null no-op clear).
+        $this->assertArrayNotHasKey(CardBuilder::CARD_FLAG_TOKEN_MISSING, $additional);
     }
 
     public function testTokenLessResultDoesNotWriteEmptyIdsAndFlagsCard(): void
@@ -187,6 +237,37 @@ class CardBuilderTest extends TestCase
         $this->assertSame([], $profileId);
         $this->assertSame(['PI-456'], $paymentId);
         $this->assertArrayNotHasKey('instrument_identifier', $additional);
-        $this->assertNull($additional[CardBuilder::CARD_FLAG_TOKEN_MISSING]);
+        $this->assertArrayNotHasKey(CardBuilder::CARD_FLAG_TOKEN_MISSING, $additional);
+    }
+
+    public function testCardInformationKeysMatchResponseExtractorShape(): void
+    {
+        $profileId  = [];
+        $paymentId  = [];
+        $additional = [];
+
+        $card = $this->buildCardSpy($profileId, $paymentId, $additional);
+
+        // These keys are the contract produced by Response::extractCardMetadata() (A1) and consumed
+        // here (A2). Pinning them so the card_information shape can't silently drift between producer
+        // and consumer.
+        $response = $this->buildResponse([
+            'card_information' => [
+                'cc_type' => 'VI',
+                'cc_last4' => '1111',
+                'cc_bin' => '411111',
+                'cc_exp_month' => '12',
+                'cc_exp_year' => '2030',
+            ],
+            'uc_token_missing' => true,
+        ]);
+
+        $this->cardBuilder->applyTokenToCard($card, $response);
+
+        $this->assertSame('VI', $additional['cc_type']);
+        $this->assertSame('1111', $additional['cc_last4']);
+        $this->assertSame('411111', $additional['cc_bin']);
+        $this->assertSame('12', $additional['cc_exp_month']);
+        $this->assertSame('2030', $additional['cc_exp_year']);
     }
 }
