@@ -351,6 +351,40 @@ class RestTest extends TestCase
         $this->rest->postRaw('/up/v1/capture-contexts', ['x' => 'y']);
     }
 
+    /**
+     * Regression mirror of testPostDigestIsComputedOverExactPostedBytesForMultibyteBody for postRaw().
+     *
+     * postRaw() must pass the raw json_encode() bytes to signRequest() unchanged so the Digest header
+     * covers the exact wire body. This test guards against any future change (e.g. inside sendSigned())
+     * that would mangle the body via mb_convert_encoding() before hashing.
+     *
+     * Uses the same signRequest-level technique as the post() regression: pass an explicit $exactJsonBody
+     * with actual multibyte UTF-8 bytes (JSON_UNESCAPED_UNICODE) and assert the Digest is not corrupted.
+     */
+    public function testPostRawDigestIsComputedOverExactPostedBytesForMultibyteBody(): void
+    {
+        // Non-BMP emoji + accented char, encoded as raw UTF-8 bytes (not \uXXXX escapes).
+        $params = ['targetOrigins' => ['café 🚀 résumé']];
+        $exactJsonBody = json_encode($params, JSON_UNESCAPED_UNICODE);
+        $expectedDigest = 'SHA-256=' . base64_encode(hash('sha256', $exactJsonBody, true));
+
+        // Ensure the body is multibyte enough that mb_convert_encoding would alter it.
+        $this->assertNotSame(
+            $exactJsonBody,
+            mb_convert_encoding($exactJsonBody, 'UTF-8', mb_list_encodings()),
+            'Test body must be multibyte enough that mb_convert_encoding alters it.'
+        );
+
+        $headers = $this->invokeSignRequest(
+            '/up/v1/capture-contexts',
+            $params,
+            'POST',
+            $exactJsonBody
+        );
+
+        $this->assertSame($expectedDigest, $headers['Digest']);
+    }
+
     public function testSetStoreId(): void
     {
         $result = $this->rest->setStoreId(5);

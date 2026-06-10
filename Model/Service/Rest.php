@@ -186,41 +186,7 @@ class Rest
      */
     public function post(string $path, array $params = [], string $responseType = 'application/json'): array
     {
-        $client   = $this->getHttpClient($path);
-        $jsonBody = json_encode($params);
-
-        $headers = [
-            'Accept' => $responseType,
-            'Content-Type' => 'application/json;charset=utf-8',
-        ];
-        $headers += $this->signRequest($path, $params, 'POST', $jsonBody);
-
-        $requestUri = $this->config->getRestEndpoint($path, $this->storeId);
-
-        $client->setHeaders($headers);
-        $client->post($requestUri, $jsonBody);
-
-        // Throw exception on non-2xx response code
-        if (!str_starts_with((string)$client->getStatus(), '2')) {
-            $responseJson = json_decode((string)$client->getBody(), true);
-
-            $message = $responseJson['message']
-                ?? $responseJson['response']['rmsg']
-                ?? $client->getStatus();
-
-            $this->helper->log(
-                $this->config::CODE,
-                $requestUri . "\n"
-                . 'REQUEST: ' . $this->sanitizer->maskJson($jsonBody) . "\n"
-                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
-                true
-            );
-
-            throw new Exception(
-                $message,
-                $client->getStatus()
-            );
-        }
+        $client = $this->sendSigned($path, $params, $responseType);
 
         return (array)json_decode((string)$client->getBody(), true);
     }
@@ -240,6 +206,26 @@ class Rest
      * @throws \Exception
      */
     public function postRaw(string $path, array $params = [], string $responseType = 'application/jwt'): string
+    {
+        $client = $this->sendSigned($path, $params, $responseType);
+
+        return (string)$client->getBody();
+    }
+
+    /**
+     * Build, sign, and dispatch a POST request; throw on non-2xx; return the HTTP client on success.
+     *
+     * Encodes $params to JSON once and uses that byte-string for both the request body and the payload
+     * Digest, ensuring the signature covers the exact bytes transmitted. post() and postRaw() differ only
+     * in how they consume the response body — both delegate the signed-send and error block here.
+     *
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return ClientInterface HTTP client after a successful (2xx) response.
+     * @throws \Exception
+     */
+    private function sendSigned(string $path, array $params, string $responseType): ClientInterface
     {
         $client   = $this->getHttpClient($path);
         $jsonBody = json_encode($params);
@@ -277,7 +263,7 @@ class Rest
             );
         }
 
-        return (string)$client->getBody();
+        return $client;
     }
 
     /**
