@@ -91,23 +91,10 @@ class Rest
 
         // Throw exception on non-2xx response code
         if (!str_starts_with((string)$client->getStatus(), '2')) {
-            $responseJson = json_decode((string)$client->getBody(), true);
-
-            $message = $responseJson['message']
-                ?? $responseJson['response']['rmsg']
-                ?? $client->getStatus();
-
-            $this->helper->log(
-                $this->config::CODE,
-                $requestUri . "\n"
-                . 'REQUEST: ' . $this->sanitizer->maskJson(json_encode($params)) . "\n"
-                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
-                true
-            );
-
-            throw new Exception(
-                $message,
-                $client->getStatus()
+            $this->throwOnHttpError(
+                $this->config->getRestEndpoint($path, $this->storeId),
+                json_encode($params),
+                $client
             );
         }
 
@@ -153,23 +140,10 @@ class Rest
 
         // Throw exception on non-2xx response code
         if (!str_starts_with((string)$client->getStatus(), '2')) {
-            $responseJson = json_decode((string)$client->getBody(), true);
-
-            $message = $responseJson['message']
-                ?? $responseJson['response']['rmsg']
-                ?? $client->getStatus();
-
-            $this->helper->log(
-                $this->config::CODE,
-                $requestUri . "\n"
-                . 'REQUEST: ' . $this->sanitizer->maskJson(json_encode($params)) . "\n"
-                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
-                true
-            );
-
-            throw new Exception(
-                $message,
-                $client->getStatus()
+            $this->throwOnHttpError(
+                $this->config->getRestEndpoint($path, $this->storeId),
+                json_encode($params),
+                $client
             );
         }
 
@@ -247,27 +221,46 @@ class Rest
 
         // Throw exception on non-2xx response code
         if (!str_starts_with((string)$client->getStatus(), '2')) {
-            $responseJson = json_decode((string)$client->getBody(), true);
-
-            $message = $responseJson['message']
-                ?? $responseJson['response']['rmsg']
-                ?? $client->getStatus();
-
-            $this->helper->log(
-                $this->config::CODE,
-                $requestUri . "\n"
-                . 'REQUEST: ' . $this->sanitizer->maskJson($jsonBody) . "\n"
-                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
-                true
-            );
-
-            throw new Exception(
-                $message,
-                $client->getStatus()
-            );
+            $this->throwOnHttpError($requestUri, $jsonBody, $client);
         }
 
         return $client;
+    }
+
+    /**
+     * Log a masked error message and throw for any non-2xx HTTP response.
+     *
+     * Shared by get(), delete(), and sendSigned(). The $requestUri logged here must NOT include
+     * a query string — params are already logged (masked) on the REQUEST line, so duplicating them
+     * raw in the URI line would leak PII. get()/delete() pass the bare endpoint URI; sendSigned()
+     * passes the URI it built (POST has no query string).
+     *
+     * @param string $requestUri Endpoint URI without query string.
+     * @param string $jsonParams JSON-encoded request params (will be masked before logging).
+     * @param ClientInterface $client HTTP client after the response has been received.
+     * @return never
+     * @throws \Exception Always throws with the extracted error message and HTTP status code.
+     */
+    private function throwOnHttpError(string $requestUri, string $jsonParams, ClientInterface $client): never
+    {
+        $responseJson = json_decode((string)$client->getBody(), true);
+
+        $message = $responseJson['message']
+            ?? $responseJson['response']['rmsg']
+            ?? $client->getStatus();
+
+        $this->helper->log(
+            $this->config::CODE,
+            $requestUri . "\n"
+            . 'REQUEST: ' . $this->sanitizer->maskJson($jsonParams) . "\n"
+            . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
+            true
+        );
+
+        throw new Exception(
+            $message,
+            $client->getStatus()
+        );
     }
 
     /**

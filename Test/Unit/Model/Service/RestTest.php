@@ -291,24 +291,11 @@ class RestTest extends TestCase
         $this->clientMock->method('getStatus')->willReturn(400);
         $this->clientMock->method('getBody')->willReturn('{"message":"bad"}');
 
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
+        $logged = $this->captureLog(fn() => $this->rest->post('/pts/v2/payments', $params));
 
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->post('/pts/v2/payments', $params);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
         $this->assertNotEmpty($logged);
         $this->assertStringNotContainsString($pan, $logged);
-        $this->assertStringNotContainsString('"securityCode":"' . $cvv . '"', $logged);
+        $this->assertStringNotContainsString($cvv, $logged);
     }
 
     public function testPostRawReturnsRawJwtStringNotJsonDecoded(): void
@@ -394,30 +381,17 @@ class RestTest extends TestCase
 
     public function testGetMasksPanInRequestParamsOnError(): void
     {
-        // Simulate a response body that echoes back card data (e.g. a 422 with card info in the error detail).
-        // The params themselves are search filters (no raw PAN in query string), but the response body can carry PAN.
+        // PAN passed as a request param (e.g. a search filter): must be masked on the REQUEST line.
+        // The query string is stripped from the logged URI, so the only place params appear is the
+        // masked REQUEST: json_encode($params) line produced by throwOnHttpError().
         $pan = '4111111111111111';
-        $params = ['organizationId' => 'testorg', 'offset' => 0];
-        $responseBody = '{"message":"error","paymentInformation":{"card":{"number":"' . $pan . '"}}}';
+        $params = ['paymentInformation' => ['card' => ['number' => $pan]]];
 
         $this->clientMock->method('getStatus')->willReturn(400);
-        $this->clientMock->method('getBody')->willReturn($responseBody);
+        $this->clientMock->method('getBody')->willReturn('{"message":"bad"}');
 
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
+        $logged = $this->captureLog(fn() => $this->rest->get('/tss/v2/searches', $params));
 
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->get('/tss/v2/searches', $params);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
         $this->assertNotEmpty($logged);
         $this->assertStringNotContainsString($pan, $logged);
         $this->assertStringContainsString('************1111', $logged);
@@ -431,21 +405,8 @@ class RestTest extends TestCase
         $this->clientMock->method('getStatus')->willReturn(422);
         $this->clientMock->method('getBody')->willReturn($responseBody);
 
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
+        $logged = $this->captureLog(fn() => $this->rest->get('/tss/v2/searches', []));
 
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->get('/tss/v2/searches', []);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
         $this->assertNotEmpty($logged);
         $this->assertStringNotContainsString($pan, $logged);
         $this->assertStringContainsString('************1111', $logged);
@@ -459,53 +420,11 @@ class RestTest extends TestCase
         $this->clientMock->method('getStatus')->willReturn(400);
         $this->clientMock->method('getBody')->willReturn('{"message":"bad"}');
 
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
+        $logged = $this->captureLog(fn() => $this->rest->get('/tss/v2/searches', $params));
 
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->get('/tss/v2/searches', $params);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
         $this->assertNotEmpty($logged);
-        $this->assertStringNotContainsString('"securityCode":"' . $cvv . '"', $logged);
+        $this->assertStringNotContainsString($cvv, $logged);
         $this->assertStringContainsString('"securityCode":"***"', $logged);
-    }
-
-    public function testDeleteMasksPanInResponseBodyOnErrorWithCardDetails(): void
-    {
-        // Simulate a 404 response that contains card detail including PAN in the body.
-        $pan = '5500005555555559';
-        $responseBody = '{"message":"Not found","paymentInformation":{"card":{"number":"' . $pan . '"}}}';
-
-        $this->clientMock->method('getStatus')->willReturn(404);
-        $this->clientMock->method('getBody')->willReturn($responseBody);
-
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
-
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->delete('/tms/v2/payment-instruments/abc123', []);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
-        $this->assertNotEmpty($logged);
-        $this->assertStringNotContainsString($pan, $logged);
-        $this->assertStringContainsString('************5559', $logged);
     }
 
     public function testDeleteMasksPanInResponseBodyOnError(): void
@@ -516,21 +435,8 @@ class RestTest extends TestCase
         $this->clientMock->method('getStatus')->willReturn(404);
         $this->clientMock->method('getBody')->willReturn($responseBody);
 
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
+        $logged = $this->captureLog(fn() => $this->rest->delete('/tms/v2/payment-instruments/abc123', []));
 
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->delete('/tms/v2/payment-instruments/abc123', []);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
         $this->assertNotEmpty($logged);
         $this->assertStringNotContainsString($pan, $logged);
         $this->assertStringContainsString('************5559', $logged);
@@ -544,23 +450,10 @@ class RestTest extends TestCase
         $this->clientMock->method('getStatus')->willReturn(422);
         $this->clientMock->method('getBody')->willReturn($responseBody);
 
-        $loggedMessages = [];
-        $this->helperMock->method('log')
-            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
-                $loggedMessages[] = (string)$message;
+        $logged = $this->captureLog(fn() => $this->rest->delete('/tms/v2/payment-instruments/abc123', []));
 
-                return $this->helperMock;
-            });
-
-        try {
-            $this->rest->delete('/tms/v2/payment-instruments/abc123', []);
-        } catch (\Exception $e) {
-            // expected non-2xx throw
-        }
-
-        $logged = implode("\n", $loggedMessages);
         $this->assertNotEmpty($logged);
-        $this->assertStringNotContainsString('"securityCode":"' . $cvv . '"', $logged);
+        $this->assertStringNotContainsString($cvv, $logged);
         $this->assertStringContainsString('"securityCode":"***"', $logged);
     }
 
@@ -577,6 +470,29 @@ class RestTest extends TestCase
         $result = $this->rest->setStoreId(null);
 
         $this->assertSame($this->rest, $result);
+    }
+
+    /**
+     * Wire up the helperMock to capture log calls, invoke $callable (swallowing any Throwable),
+     * and return the concatenated log output as a single string.
+     */
+    private function captureLog(callable $callable): string
+    {
+        $loggedMessages = [];
+        $this->helperMock->method('log')
+            ->willReturnCallback(function ($code, $message, $debug = false) use (&$loggedMessages) {
+                $loggedMessages[] = (string)$message;
+
+                return $this->helperMock;
+            });
+
+        try {
+            $callable();
+        } catch (\Throwable $e) {
+            // expected non-2xx throw
+        }
+
+        return implode("\n", $loggedMessages);
     }
 
     /**
