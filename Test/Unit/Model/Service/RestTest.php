@@ -352,37 +352,44 @@ class RestTest extends TestCase
     }
 
     /**
-     * Regression mirror of testPostDigestIsComputedOverExactPostedBytesForMultibyteBody for postRaw().
+     * Regression: postRaw() Digest header must be computed over the exact bytes posted as the request body.
      *
-     * postRaw() must pass the raw json_encode() bytes to signRequest() unchanged so the Digest header
-     * covers the exact wire body. This test guards against any future change (e.g. inside sendSigned())
-     * that would mangle the body via mb_convert_encoding() before hashing.
-     *
-     * Uses the same signRequest-level technique as the post() regression: pass an explicit $exactJsonBody
-     * with actual multibyte UTF-8 bytes (JSON_UNESCAPED_UNICODE) and assert the Digest is not corrupted.
+     * sendSigned() encodes $params via plain json_encode($params) (no flags), so the wire body contains
+     * \uXXXX escapes for non-ASCII characters. The Digest MUST be hashed over that same byte-string —
+     * not over a differently-encoded variant. This test calls postRaw() end-to-end, captures both the
+     * body passed to $client->post() and the headers passed to $client->setHeaders(), and verifies that
+     * Digest = SHA-256=base64(sha256(capturedBody)).
      */
     public function testPostRawDigestIsComputedOverExactPostedBytesForMultibyteBody(): void
     {
-        // Non-BMP emoji + accented char, encoded as raw UTF-8 bytes (not \uXXXX escapes).
+        // Params containing multibyte/unicode values; sendSigned() will encode these with plain json_encode().
         $params = ['targetOrigins' => ['café 🚀 résumé']];
-        $exactJsonBody = json_encode($params, JSON_UNESCAPED_UNICODE);
-        $expectedDigest = 'SHA-256=' . base64_encode(hash('sha256', $exactJsonBody, true));
 
-        // Ensure the body is multibyte enough that mb_convert_encoding would alter it.
-        $this->assertNotSame(
-            $exactJsonBody,
-            mb_convert_encoding($exactJsonBody, 'UTF-8', mb_list_encodings()),
-            'Test body must be multibyte enough that mb_convert_encoding alters it.'
-        );
+        $capturedBody    = null;
+        $capturedHeaders = [];
 
-        $headers = $this->invokeSignRequest(
-            '/up/v1/capture-contexts',
-            $params,
-            'POST',
-            $exactJsonBody
-        );
+        $this->clientMock->method('setHeaders')
+            ->willReturnCallback(function ($headers) use (&$capturedHeaders) {
+                $capturedHeaders = $headers;
+            });
+        $this->clientMock->method('post')
+            ->willReturnCallback(function ($uri, $body) use (&$capturedBody) {
+                $capturedBody = $body;
+            });
+        $this->clientMock->method('getStatus')->willReturn(201);
+        $this->clientMock->method('getBody')->willReturn('a.b.c');
 
-        $this->assertSame($expectedDigest, $headers['Digest']);
+        $result = $this->rest->postRaw('/up/v1/capture-contexts', $params);
+
+        // postRaw() must return the raw body string from the response.
+        $this->assertSame('a.b.c', $result);
+
+        // Digest must be computed over the exact bytes that were posted.
+        $this->assertNotNull($capturedBody, 'client->post() was not called');
+        $expectedDigest = 'SHA-256=' . base64_encode(hash('sha256', $capturedBody, true));
+
+        $this->assertArrayHasKey('Digest', $capturedHeaders);
+        $this->assertSame($expectedDigest, $capturedHeaders['Digest']);
     }
 
     public function testSetStoreId(): void
