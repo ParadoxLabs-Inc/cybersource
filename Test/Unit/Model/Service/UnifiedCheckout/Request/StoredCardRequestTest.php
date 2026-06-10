@@ -165,4 +165,50 @@ class StoredCardRequestTest extends TestCase
 
         $this->assertArrayNotHasKey('enableDecisionManager', $result['processingInformation']);
     }
+
+    public function testToArrayIncludesPartnerAttributionWhenAllSet(): void
+    {
+        // T4: partner solutionId, applicationName, and applicationVersion must appear in
+        // clientReferenceInformation when set.
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')
+            ->setSolutionId('DEQXVEEG')
+            ->setApplicationName('ParadoxLabs_CyberSource')
+            ->setApplicationVersion('3.0.0');
+
+        $result = $request->toArray();
+
+        $this->assertSame('DEQXVEEG', $result['clientReferenceInformation']['partner']['solutionId']);
+        $this->assertSame('ParadoxLabs_CyberSource', $result['clientReferenceInformation']['applicationName']);
+        $this->assertSame('3.0.0', $result['clientReferenceInformation']['applicationVersion']);
+    }
+
+    public function testToArrayFiltersEmptyPartnerBlock(): void
+    {
+        // An empty solutionId must not emit an empty partner block.
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')
+            ->setSolutionId('')
+            ->setApplicationName('ParadoxLabs_CyberSource');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('partner', $result['clientReferenceInformation']);
+    }
+
+    public function testToArrayFiltersEmptyApplicationFields(): void
+    {
+        // Empty applicationName/applicationVersion must not emit those keys.
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')
+            ->setClientReferenceCode('100000123')
+            ->setSolutionId('DEQXVEEG')
+            ->setApplicationName('')
+            ->setApplicationVersion('');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('applicationName', $result['clientReferenceInformation']);
+        $this->assertArrayNotHasKey('applicationVersion', $result['clientReferenceInformation']);
+    }
 }

@@ -110,4 +110,65 @@ class PaymentRequestTest extends TestCase
 
         $this->assertArrayNotHasKey('enableDecisionManager', $result['processingInformation']);
     }
+
+    public function testToArrayIncludesPartnerAttributionWhenAllSet(): void
+    {
+        // T4: partner solutionId, applicationName, and applicationVersion must appear in
+        // clientReferenceInformation when set (shape confirmed by UC-API-REFERENCE §3).
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')
+            ->setSolutionId('DEQXVEEG')
+            ->setApplicationName('ParadoxLabs_CyberSource')
+            ->setApplicationVersion('3.0.0');
+
+        $result = $request->toArray();
+
+        $this->assertSame('DEQXVEEG', $result['clientReferenceInformation']['partner']['solutionId']);
+        $this->assertSame('ParadoxLabs_CyberSource', $result['clientReferenceInformation']['applicationName']);
+        $this->assertSame('3.0.0', $result['clientReferenceInformation']['applicationVersion']);
+    }
+
+    public function testToArrayFiltersEmptyPartnerBlock(): void
+    {
+        // An empty solutionId must not emit an empty partner block.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')
+            ->setSolutionId('')
+            ->setApplicationName('ParadoxLabs_CyberSource')
+            ->setApplicationVersion('3.0.0');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('partner', $result['clientReferenceInformation']);
+    }
+
+    public function testToArrayFiltersEmptyApplicationName(): void
+    {
+        // An empty applicationName must not emit the key.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')
+            ->setClientReferenceCode('100000123')
+            ->setSolutionId('DEQXVEEG')
+            ->setApplicationName('')
+            ->setApplicationVersion('3.0.0');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('applicationName', $result['clientReferenceInformation']);
+        $this->assertArrayHasKey('applicationVersion', $result['clientReferenceInformation']);
+    }
+
+    public function testToArrayFiltersAllPartnerFieldsWhenNoneSet(): void
+    {
+        // No attribution fields set -> clientReferenceInformation should not have partner, applicationName,
+        // or applicationVersion keys.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setClientReferenceCode('100000123');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('partner', $result['clientReferenceInformation']);
+        $this->assertArrayNotHasKey('applicationName', $result['clientReferenceInformation']);
+        $this->assertArrayNotHasKey('applicationVersion', $result['clientReferenceInformation']);
+    }
 }

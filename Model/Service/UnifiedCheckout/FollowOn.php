@@ -291,7 +291,10 @@ class FollowOn
         // A capture void is full; send no amount (clientReferenceInformation only).
         /** @var FollowOnRequest $request */
         $request = $this->requestFactory->create();
-        $request->setClientReferenceCode((string)$order->getIncrementId());
+        $request->setClientReferenceCode((string)$order->getIncrementId())
+            ->setSolutionId($this->config->getSolutionId())
+            ->setApplicationName($this->config->getClientName())
+            ->setApplicationVersion($this->config->getClientVersion());
 
         $path = sprintf(self::CAPTURE_VOID_PATH, rawurlencode($transactionId));
 
@@ -358,7 +361,10 @@ class FollowOn
 
         $request->setClientReferenceCode((string)$order->getIncrementId())
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
-            ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3));
+            ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
+            ->setSolutionId($this->config->getSolutionId())
+            ->setApplicationName($this->config->getClientName())
+            ->setApplicationVersion($this->config->getClientVersion());
 
         return $request;
     }

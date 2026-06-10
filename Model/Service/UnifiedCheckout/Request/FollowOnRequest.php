@@ -60,6 +60,27 @@ class FollowOnRequest
     private bool $reversal = false;
 
     /**
+     * CyberSource partner solution ID (clientReferenceInformation.partner.solutionId).
+     *
+     * @var string|null
+     */
+    private ?string $solutionId = null;
+
+    /**
+     * Extension identifier (clientReferenceInformation.applicationName).
+     *
+     * @var string|null
+     */
+    private ?string $applicationName = null;
+
+    /**
+     * Extension version (clientReferenceInformation.applicationVersion).
+     *
+     * @var string|null
+     */
+    private ?string $applicationVersion = null;
+
+    /**
      * Get the merchant client-reference code (order increment id / origin).
      *
      * @return string|null
@@ -152,6 +173,75 @@ class FollowOnRequest
     }
 
     /**
+     * Get the partner solution ID.
+     *
+     * @return string|null
+     */
+    public function getSolutionId(): ?string
+    {
+        return $this->solutionId;
+    }
+
+    /**
+     * Set the partner solution ID (clientReferenceInformation.partner.solutionId).
+     *
+     * @param string|null $solutionId
+     * @return $this
+     */
+    public function setSolutionId(?string $solutionId): self
+    {
+        $this->solutionId = $solutionId;
+
+        return $this;
+    }
+
+    /**
+     * Get the application name.
+     *
+     * @return string|null
+     */
+    public function getApplicationName(): ?string
+    {
+        return $this->applicationName;
+    }
+
+    /**
+     * Set the application name (clientReferenceInformation.applicationName).
+     *
+     * @param string|null $applicationName
+     * @return $this
+     */
+    public function setApplicationName(?string $applicationName): self
+    {
+        $this->applicationName = $applicationName;
+
+        return $this;
+    }
+
+    /**
+     * Get the application version.
+     *
+     * @return string|null
+     */
+    public function getApplicationVersion(): ?string
+    {
+        return $this->applicationVersion;
+    }
+
+    /**
+     * Set the application version (clientReferenceInformation.applicationVersion).
+     *
+     * @param string|null $applicationVersion
+     * @return $this
+     */
+    public function setApplicationVersion(?string $applicationVersion): self
+    {
+        $this->applicationVersion = $applicationVersion;
+
+        return $this;
+    }
+
+    /**
      * Build the JSON-ready request tree, omitting null/empty leaves.
      *
      * @return array<string, mixed>
@@ -162,7 +252,14 @@ class FollowOnRequest
 
         $clientReferenceInformation = $this->filterEmpty([
             'code' => $this->clientReferenceCode,
+            'applicationName' => $this->applicationName,
+            'applicationVersion' => $this->applicationVersion,
         ]);
+        $partner = $this->filterEmpty(['solutionId' => $this->solutionId]);
+        if (!empty($partner)) {
+            $clientReferenceInformation['partner'] = $partner;
+        }
+
         if (!empty($clientReferenceInformation)) {
             $request['clientReferenceInformation'] = $clientReferenceInformation;
         }

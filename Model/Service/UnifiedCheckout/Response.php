@@ -313,7 +313,10 @@ class Response
             ->setPaymentInstrumentId($paymentInstrumentId)
             ->setCustomerId($this->stringOrNull($card->getProfileId()))
             ->setInstrumentIdentifierId($this->stringOrNull($card->getAdditional('instrument_identifier')))
-            ->setStoredCredentialUsed(true);
+            ->setStoredCredentialUsed(true)
+            ->setSolutionId($this->config->getSolutionId())
+            ->setApplicationName($this->config->getClientName())
+            ->setApplicationVersion($this->config->getClientVersion());
 
         // Legacy SOAP parity (Gateway::authorize on feature/php81): a subscription-generated rebill (MIT)
         // or any follow-on charge with an amount already paid must NOT re-run Decision Manager. UC analog
@@ -434,7 +437,10 @@ class Response
             ->setActionTokenTypes(self::ACTION_TOKEN_TYPES)
             ->setCapture(false)
             ->setTotalAmount(self::ZERO_DOLLAR_AMOUNT)
-            ->setCurrency($this->sanitizer->alpha($currencyCode, 3));
+            ->setCurrency($this->sanitizer->alpha($currencyCode, 3))
+            ->setSolutionId($this->config->getSolutionId())
+            ->setApplicationName($this->config->getClientName())
+            ->setApplicationVersion($this->config->getClientVersion());
 
         // A $0 add-card auth still wants AVS/billTo where the processor requires it. Source the billing
         // address from the payment when reachable; omit billTo entirely when none is available.
@@ -505,7 +511,10 @@ class Response
             ->setCapture($this->isCapture((int)$order->getStoreId()))
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
-            ->setBillTo($this->getBillTo($order->getBillingAddress()));
+            ->setBillTo($this->getBillTo($order->getBillingAddress()))
+            ->setSolutionId($this->config->getSolutionId())
+            ->setApplicationName($this->config->getClientName())
+            ->setApplicationVersion($this->config->getClientVersion());
 
         // Legacy SOAP parity: suppress Decision Manager on a follow-on / subscription-generated charge so
         // DM is not re-run on a transaction it already screened (or an MIT rebill the cardholder isn't on).

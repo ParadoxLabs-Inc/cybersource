@@ -194,9 +194,7 @@ class Config
     /**
      * Get the extension solution ID.
      *
-     * NB: With the SOAP gateway removed, getSolutionId/getClientName/getClientVersion have no runtime
-     * consumer. Kept (with their client_name/client_version config) as candidates for the REST
-     * clientReferenceInformation.partner solutionId/applicationName/applicationVersion fields (Iter 7).
+     * Wired into clientReferenceInformation.partner.solutionId on all REST request DTOs (Iter 7 T4).
      *
      * @return string
      */
