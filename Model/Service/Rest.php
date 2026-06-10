@@ -99,7 +99,9 @@ class Rest
 
             $this->helper->log(
                 $this->config::CODE,
-                $requestUri . "\n" . 'REQUEST: ' . json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
+                $requestUri . "\n"
+                . 'REQUEST: ' . $this->sanitizer->maskJson(json_encode($params)) . "\n"
+                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
                 true
             );
 
@@ -159,7 +161,9 @@ class Rest
 
             $this->helper->log(
                 $this->config::CODE,
-                $requestUri . "\n" . 'REQUEST: ' . json_encode($params) . "\n" . 'RESPONSE: ' . $client->getBody(),
+                $requestUri . "\n"
+                . 'REQUEST: ' . $this->sanitizer->maskJson(json_encode($params)) . "\n"
+                . 'RESPONSE: ' . $this->sanitizer->maskJson((string)$client->getBody()),
                 true
             );
 
