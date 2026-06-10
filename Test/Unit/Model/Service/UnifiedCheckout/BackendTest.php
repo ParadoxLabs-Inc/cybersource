@@ -6,8 +6,12 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
 use Magento\Backend\Model\Session\Quote as BackendSession;
 use Magento\Backend\Model\UrlInterface as BackendUrlInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Api\Data\RegionInterface;
 use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Quote\Model\Quote;
+use Magento\Quote\Model\Quote\Address as QuoteAddress;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use ParadoxLabs\CyberSource\Model\Config\Config;
@@ -40,7 +44,13 @@ class BackendTest extends TestCase
     {
         $this->restMock = $this->createMock(Rest::class);
         $this->addressHelperMock = $this->createMock(Address::class);
-        $this->backendSessionMock = $this->createMock(BackendSession::class);
+        // getQuoteId is a magic (__call) accessor; getQuote is a real method. Declare each via the
+        // appropriate builder so they can be configured per-test.
+        $this->backendSessionMock = $this->getMockBuilder(BackendSession::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['getQuoteId'])
+            ->onlyMethods(['getQuote'])
+            ->getMock();
         $this->storeManagerMock = $this->createMock(StoreManagerInterface::class);
         $this->requestMock = $this->createMock(HttpRequest::class);
         $this->backendUrlMock = $this->createMock(BackendUrlInterface::class);
@@ -87,6 +97,179 @@ class BackendTest extends TestCase
             ['https://admin.example.com', 'https://headless.example.com'],
             $result['targetOrigins']
         );
+    }
+
+    public function testBuildRequestSourcesAmountCurrencyAndBillToFromOrderCreateQuote(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $billingAddress = $this->makeQuoteBillingAddress();
+        $quote = $this->makeQuote(57.0, 'CAD', $billingAddress);
+        $quote->method('getStoreId')->willReturn(1);
+
+        $this->backendSessionMock->method('getQuoteId')->willReturn(99);
+        $this->backendSessionMock->method('getQuote')->willReturn($quote);
+
+        $result = $this->makeHandler([])->buildRequest()->toArray();
+
+        $this->assertSame('57.00', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('CAD', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
+        $this->assertSame('123', $result['orderInformation']['billTo']['buildingNumber']);
+        $this->assertSame('jane@example.com', $result['orderInformation']['billTo']['email']);
+        // Admin always surfaces save card.
+        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+    }
+
+    public function testBuildRequestBillingOnlyWithStoreDefaultCurrencyWhenNoQuote(): void
+    {
+        // Admin add-card: no order-create quote in session, so no amount node and store-default
+        // currency is never emitted. billTo falls through to empty; email from current customer.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+
+        $result = $this->makeHandler([])->buildRequest()->toArray();
+
+        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertSame('FULL', $result['captureMandate']['billingType']);
+        // Save card still offered for the admin add-card case.
+        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+    }
+
+    public function testBuildRequestSourcesBillToFromPostBillingInputOverQuote(): void
+    {
+        // POST billing input takes precedence over the session quote's billing address.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn([
+            'firstName' => 'Bob',
+            'lastName' => 'Smith',
+            'street' => ['500 Market St'],
+            'city' => 'Philadelphia',
+            'regionCode' => 'PA',
+            'postcode' => '19106',
+            'countryId' => 'US',
+            'telephone' => '5559876543',
+        ]);
+
+        $inputAddress = $this->makeCustomerAddress('Bob', 'Smith', '500 Market St', 'PA');
+        $this->addressHelperMock->expects($this->once())
+            ->method('buildAddressFromInput')
+            ->with($this->callback(static function (array $billing): bool {
+                // normalizeBillingInputKeys must add snake_case keys the address helper reads.
+                return ($billing['country_id'] ?? null) === 'US'
+                    && ($billing['region_code'] ?? null) === 'PA';
+            }))
+            ->willReturn($inputAddress);
+
+        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+
+        $result = $this->makeHandler([])->buildRequest()->toArray();
+
+        $this->assertSame('Bob', $result['orderInformation']['billTo']['firstName']);
+        $this->assertSame('500', $result['orderInformation']['billTo']['buildingNumber']);
+        $this->assertSame('PA', $result['orderInformation']['billTo']['administrativeArea']);
+    }
+
+    public function testGetCurrencyCodeFallsBackToStoreDefaultWhenNoQuote(): void
+    {
+        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+
+        $method = new \ReflectionMethod(Backend::class, 'getCurrencyCode');
+
+        // No quote -> upper-cased store base currency (USD from setUp).
+        $this->assertSame('USD', $method->invoke($this->makeHandler([])));
+    }
+
+    public function testGetAmountReturnsNullWhenQuoteTotalMissing(): void
+    {
+        $quote = $this->makeQuote(null, 'USD', $this->createMock(QuoteAddress::class));
+        $this->backendSessionMock->method('getQuoteId')->willReturn(99);
+        $this->backendSessionMock->method('getQuote')->willReturn($quote);
+
+        $method = new \ReflectionMethod(Backend::class, 'getAmount');
+
+        // A quote whose base grand total is null yields a billing-only (null) amount.
+        $this->assertNull($method->invoke($this->makeHandler([])));
+    }
+
+    public function testGetStoreIdFallsBackToCurrentCustomerWhenNoQuote(): void
+    {
+        // No quote -> store ID comes from the registered current customer (1 from setUp).
+        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+
+        $method = new \ReflectionMethod(Backend::class, 'getStoreId');
+
+        $this->assertSame(1, $method->invoke($this->makeHandler([])));
+    }
+
+    /**
+     * Build an order-create quote mock with the given totals/currency/billing address.
+     *
+     * @param float|null $baseGrandTotal
+     * @param string $baseCurrencyCode
+     * @param QuoteAddress|MockObject $billingAddress
+     * @return Quote|MockObject
+     */
+    private function makeQuote(
+        ?float $baseGrandTotal,
+        string $baseCurrencyCode,
+        QuoteAddress|MockObject $billingAddress
+    ): Quote|MockObject {
+        $quote = $this->getMockBuilder(Quote::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['getBaseGrandTotal', 'getBaseCurrencyCode'])
+            ->onlyMethods(['getBillingAddress', 'getStoreId'])
+            ->getMock();
+        $quote->method('getBaseGrandTotal')->willReturn($baseGrandTotal);
+        $quote->method('getBaseCurrencyCode')->willReturn($baseCurrencyCode);
+        $quote->method('getBillingAddress')->willReturn($billingAddress);
+
+        return $quote;
+    }
+
+    /**
+     * Build a Magento customer-data billing address (as returned by getDataModel()).
+     *
+     * @return QuoteAddress|MockObject
+     */
+    private function makeQuoteBillingAddress(): QuoteAddress|MockObject
+    {
+        $quoteAddress = $this->createMock(QuoteAddress::class);
+        $quoteAddress->method('getDataModel')
+            ->willReturn($this->makeCustomerAddress('Jane', 'Doe', '123 Main St', 'CA'));
+        $quoteAddress->method('getEmail')->willReturn('jane@example.com');
+
+        return $quoteAddress;
+    }
+
+    /**
+     * Build a customer-data address with the given identity/street/region.
+     *
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $street1
+     * @param string $regionCode
+     * @return AddressInterface|MockObject
+     */
+    private function makeCustomerAddress(
+        string $firstName,
+        string $lastName,
+        string $street1,
+        string $regionCode
+    ): AddressInterface|MockObject {
+        $region = $this->createMock(RegionInterface::class);
+        $region->method('getRegionCode')->willReturn($regionCode);
+
+        $address = $this->createMock(AddressInterface::class);
+        $address->method('getFirstname')->willReturn($firstName);
+        $address->method('getLastname')->willReturn($lastName);
+        $address->method('getStreet')->willReturn([$street1]);
+        $address->method('getCity')->willReturn('Anytown');
+        $address->method('getRegion')->willReturn($region);
+        $address->method('getPostcode')->willReturn('90210');
+        $address->method('getCountryId')->willReturn('US');
+        $address->method('getTelephone')->willReturn('5551234567');
+
+        return $address;
     }
 
     /**

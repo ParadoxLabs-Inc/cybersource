@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Api\Data\RegionInterface;
 use Magento\GraphQl\Model\Query\ContextExtensionInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
+use Magento\Quote\Model\Quote;
+use Magento\Quote\Model\Quote\Address as QuoteAddress;
 use Magento\Store\Model\Store;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
@@ -126,6 +130,189 @@ class GraphQLTest extends TestCase
         $method = new \ReflectionMethod($handler, 'getCurrencyCode');
 
         $this->assertSame('', $method->invoke($handler));
+    }
+
+    public function testBuildRequestSourcesAmountCurrencyAndBillToFromCart(): void
+    {
+        $billingAddress = $this->makeQuoteBillingAddress();
+        $quote = $this->makeQuote(31.5, 'EUR', $billingAddress);
+        $this->graphQLHelperMock->expects($this->once())
+            ->method('getQuote')
+            ->with(0, 'cart123')
+            ->willReturn($quote);
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, ['cartId' => 'cart123']);
+
+        $result = $handler->buildRequest()->toArray();
+
+        $this->assertSame('31.50', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('EUR', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
+        $this->assertSame('123', $result['orderInformation']['billTo']['buildingNumber']);
+        $this->assertSame('jane@example.com', $result['orderInformation']['billTo']['email']);
+    }
+
+    public function testBuildRequestBillingOnlyWhenNoCartId(): void
+    {
+        // Headless add-card: no cartId -> no cart lookup, no amount node, currency from store.
+        $this->graphQLHelperMock->expects($this->never())->method('getQuote');
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, []);
+
+        $result = $handler->buildRequest()->toArray();
+
+        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertSame('FULL', $result['captureMandate']['billingType']);
+        // Guest (userId 0) does not surface save card.
+        $this->assertFalse($result['captureMandate']['requestSaveCard']);
+    }
+
+    public function testBuildRequestSourcesBillToFromInputBillingAddressOverCart(): void
+    {
+        // Explicit billingAddress input arg takes precedence; the cart is never queried for billTo.
+        $inputAddress = $this->makeCustomerAddress('Bob', 'Smith', '500 Market St', 'PA');
+        $this->addressHelperMock->expects($this->once())
+            ->method('buildAddressFromInput')
+            ->with(['countryId' => 'US', 'regionCode' => 'PA'])
+            ->willReturn($inputAddress);
+        $this->graphQLHelperMock->expects($this->never())->method('getQuote');
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext(
+            $this->contextMock,
+            ['billingAddress' => ['countryId' => 'US', 'regionCode' => 'PA']]
+        );
+
+        $result = $handler->buildRequest()->toArray();
+
+        $this->assertSame('Bob', $result['orderInformation']['billTo']['firstName']);
+        $this->assertSame('500', $result['orderInformation']['billTo']['buildingNumber']);
+        $this->assertSame('PA', $result['orderInformation']['billTo']['administrativeArea']);
+    }
+
+    public function testCanRequestSaveCardTrueForAuthenticatedCustomer(): void
+    {
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('getUserId')->willReturn(42);
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($context, []);
+
+        $method = new \ReflectionMethod(GraphQL::class, 'canRequestSaveCard');
+
+        // Authenticated GraphQL customer (userId > 0) surfaces save card.
+        $this->assertTrue($method->invoke($handler));
+    }
+
+    public function testGetEmailFallsBackToGuestEmailArgWhenNoCart(): void
+    {
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, ['guestEmail' => 'guest@example.com']);
+
+        $method = new \ReflectionMethod(GraphQL::class, 'getEmail');
+
+        // No cart -> guestEmail input arg is the fallback.
+        $this->assertSame('guest@example.com', $method->invoke($handler));
+    }
+
+    public function testGetAmountReturnsNullWhenCartTotalMissing(): void
+    {
+        $quote = $this->makeQuote(null, 'USD', $this->createMock(QuoteAddress::class));
+        $this->graphQLHelperMock->method('getQuote')->with(0, 'cart123')->willReturn($quote);
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, ['cartId' => 'cart123']);
+
+        $method = new \ReflectionMethod(GraphQL::class, 'getAmount');
+
+        $this->assertNull($method->invoke($handler));
+    }
+
+    public function testGetAmountReturnsNullWhenCartLookupThrows(): void
+    {
+        // A failed cart lookup (invalid cart / ownership) degrades to a billing-only context.
+        $this->graphQLHelperMock->method('getQuote')
+            ->willThrowException(new \RuntimeException('no such cart'));
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, ['cartId' => 'bad']);
+
+        $method = new \ReflectionMethod(GraphQL::class, 'getAmount');
+
+        $this->assertNull($method->invoke($handler));
+    }
+
+    /**
+     * Build a cart mock with the given totals/currency/billing address.
+     *
+     * @param float|null $baseGrandTotal
+     * @param string $baseCurrencyCode
+     * @param QuoteAddress|MockObject $billingAddress
+     * @return Quote|MockObject
+     */
+    private function makeQuote(
+        ?float $baseGrandTotal,
+        string $baseCurrencyCode,
+        QuoteAddress|MockObject $billingAddress
+    ): Quote|MockObject {
+        $quote = $this->getMockBuilder(Quote::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['getBaseGrandTotal', 'getBaseCurrencyCode'])
+            ->onlyMethods(['getBillingAddress'])
+            ->getMock();
+        $quote->method('getBaseGrandTotal')->willReturn($baseGrandTotal);
+        $quote->method('getBaseCurrencyCode')->willReturn($baseCurrencyCode);
+        $quote->method('getBillingAddress')->willReturn($billingAddress);
+
+        return $quote;
+    }
+
+    /**
+     * Build a Magento customer-data billing address (as returned by getDataModel()).
+     *
+     * @return QuoteAddress|MockObject
+     */
+    private function makeQuoteBillingAddress(): QuoteAddress|MockObject
+    {
+        $quoteAddress = $this->createMock(QuoteAddress::class);
+        $quoteAddress->method('getDataModel')
+            ->willReturn($this->makeCustomerAddress('Jane', 'Doe', '123 Main St', 'CA'));
+        $quoteAddress->method('getEmail')->willReturn('jane@example.com');
+
+        return $quoteAddress;
+    }
+
+    /**
+     * Build a customer-data address with the given identity/street/region.
+     *
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $street1
+     * @param string $regionCode
+     * @return AddressInterface|MockObject
+     */
+    private function makeCustomerAddress(
+        string $firstName,
+        string $lastName,
+        string $street1,
+        string $regionCode
+    ): AddressInterface|MockObject {
+        $region = $this->createMock(RegionInterface::class);
+        $region->method('getRegionCode')->willReturn($regionCode);
+
+        $address = $this->createMock(AddressInterface::class);
+        $address->method('getFirstname')->willReturn($firstName);
+        $address->method('getLastname')->willReturn($lastName);
+        $address->method('getStreet')->willReturn([$street1]);
+        $address->method('getCity')->willReturn('Anytown');
+        $address->method('getRegion')->willReturn($region);
+        $address->method('getPostcode')->willReturn('90210');
+        $address->method('getCountryId')->willReturn('US');
+        $address->method('getTelephone')->willReturn('5551234567');
+
+        return $address;
     }
 
     /**

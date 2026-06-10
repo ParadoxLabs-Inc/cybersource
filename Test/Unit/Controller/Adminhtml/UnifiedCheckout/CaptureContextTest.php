@@ -100,6 +100,23 @@ class CaptureContextTest extends TestCase
         $this->controller->execute();
     }
 
+    public function testExecuteSkipsCustomerRegistrationForNonNumericId(): void
+    {
+        // initCustomer guards on is_numeric: a non-numeric id must not hit the repository/registry.
+        $this->requestMock->method('getParam')->with('id')->willReturn('abc');
+
+        $this->customerRepositoryMock->expects($this->never())->method('getById');
+        $this->registryMock->expects($this->never())->method('register');
+
+        $this->captureContextMock->method('generate')->willReturn(self::TEST_JWT);
+
+        $this->resultMock->expects($this->once())
+            ->method('setData')
+            ->with(['captureContext' => self::TEST_JWT]);
+
+        $this->assertSame($this->resultMock, $this->controller->execute());
+    }
+
     public function testExecuteReturnsErrorJsonOnFailure(): void
     {
         $this->requestMock->method('getParam')->with('id')->willReturn(null);

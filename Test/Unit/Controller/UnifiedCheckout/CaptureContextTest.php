@@ -8,6 +8,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use ParadoxLabs\CyberSource\Controller\UnifiedCheckout\CaptureContext;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Frontend;
@@ -94,5 +95,22 @@ class CaptureContextTest extends TestCase
             ->willReturn(true);
 
         $this->assertTrue($this->controller->validateForCsrf($request));
+    }
+
+    public function testCreateCsrfValidationExceptionReturns403JsonResult(): void
+    {
+        $request = $this->createMock(RequestInterface::class);
+
+        // CSRF failure must surface a 403 JSON result carrying an error message.
+        $this->resultMock->expects($this->once())
+            ->method('setHttpResponseCode')
+            ->with(403);
+        $this->resultMock->expects($this->once())
+            ->method('setData')
+            ->with($this->callback(static fn(array $data): bool => isset($data['message'])));
+
+        $exception = $this->controller->createCsrfValidationException($request);
+
+        $this->assertInstanceOf(InvalidRequestException::class, $exception);
     }
 }
