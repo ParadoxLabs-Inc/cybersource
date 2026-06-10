@@ -44,11 +44,18 @@ class GraphQLTest extends TestCase
         $store->method('getBaseCurrencyCode')->willReturn('USD');
         $store->method('getBaseUrl')->willReturn('https://store.example.com/');
 
-        // The unit-test code generator emits an empty extension interface, so getStore() must be added.
-        $contextExtension = $this->getMockBuilder(ContextExtensionInterface::class)
-            ->disableOriginalConstructor()
-            ->addMethods(['getStore'])
-            ->getMockForAbstractClass();
+        // The unit-test code generator may or may not emit getStore() on the extension interface
+        // depending on whether the generated stub has been pre-built. Branch accordingly.
+        $builder = $this->getMockBuilder(ContextExtensionInterface::class)
+            ->disableOriginalConstructor();
+
+        if (method_exists(ContextExtensionInterface::class, 'getStore')) {
+            $builder->onlyMethods(['getStore']);
+        } else {
+            $builder->addMethods(['getStore']);
+        }
+
+        $contextExtension = $builder->getMockForAbstractClass();
         $contextExtension->method('getStore')->willReturn($store);
 
         $this->contextMock = $this->createMock(ContextInterface::class);
