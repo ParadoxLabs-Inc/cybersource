@@ -64,6 +64,9 @@ use Throwable;
  */
 class Response
 {
+    use PriorTransactionIdTrait;
+    use StringNormalizationTrait;
+
     /**
      * Payment REST endpoint path.
      */
@@ -245,8 +248,8 @@ class Response
      * pointing at the prior stored txn id; everything else is a customer-initiated transaction (CIT) —
      * initiator.type='customer' with no commerceIndicator and no MIT sub-object. storedCredentialUsed is
      * always true (it's a stored card either way). previousTransactionId is best-effort: it is sourced from
-     * the payment's parent/last txn id, stripped of any -capture/-refund suffix (same as
-     * Gateway::getRefundFallbackTransactionId), and omitted entirely when unreachable.
+     * the payment's parent/last txn id, stripped of any -capture/-refund suffix (the shared
+     * PriorTransactionIdTrait, also used by Gateway's refund fallback), and omitted entirely when unreachable.
      *
      * VERIFY (live-UNVERIFIED — gate production enablement on a boarded + TMS-provisioned MID): the
      * stored-credential fields here are SDK/reference-derived only (sandbox TMS is NOT provisioned, so the
@@ -327,7 +330,7 @@ class Response
             $request->setInitiatorType('merchant')
                 ->setCommerceIndicator('recurring');
 
-            $previousTransactionId = $this->getPreviousTransactionId($payment);
+            $previousTransactionId = $this->getPriorTransactionId($payment);
             if ($previousTransactionId !== '') {
                 $request->setPreviousTransactionId($previousTransactionId);
             } else {
@@ -363,40 +366,6 @@ class Response
 
         return $amountPaid > 0
             || (bool)$payment->getAdditionalInformation('is_subscription_generated');
-    }
-
-    /**
-     * Best-effort prior transaction id for the MIT reference, stripped of any -capture/-refund suffix.
-     *
-     * REST and SOAP share the same transaction-id space (D4); mirrors
-     * Gateway::getRefundFallbackTransactionId(). Returns '' when no prior id is reachable.
-     *
-     * @param InfoInterface $payment
-     * @return string
-     */
-    protected function getPreviousTransactionId(InfoInterface $payment): string
-    {
-        /** @var Payment $payment */
-        $txnId = $payment->getParentTransactionId() ?: $payment->getLastTransId();
-
-        return substr((string)$txnId, 0, strcspn((string)$txnId, '-'));
-    }
-
-    /**
-     * Normalize a scalar to a non-empty string, or null (so the DTO omits an empty TMS id).
-     *
-     * @param mixed $value
-     * @return string|null
-     */
-    protected function stringOrNull(mixed $value): ?string
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        $string = (string)$value;
-
-        return $string !== '' ? $string : null;
     }
 
     /**

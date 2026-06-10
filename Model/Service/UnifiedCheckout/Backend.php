@@ -119,11 +119,9 @@ class Backend extends CaptureContext
         try {
             $billing = (array)$this->request->getPostValue('billing');
             if (!empty($billing)) {
-                $billing['country_id']  ??= $billing['countryId'] ?? null;
-                $billing['region_id']   ??= $billing['regionId'] ?? null;
-                $billing['region_code'] ??= $billing['regionCode'] ?? null;
-
-                return $this->mapBillTo($this->addressHelper->buildAddressFromInput($billing));
+                return $this->mapBillTo(
+                    $this->addressHelper->buildAddressFromInput($this->normalizeBillingInputKeys($billing))
+                );
             }
 
             if ($this->backendSession->getQuoteId()) {

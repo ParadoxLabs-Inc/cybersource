@@ -157,6 +157,24 @@ abstract class CaptureContext
     }
 
     /**
+     * Normalize camelCase billing-input keys to the snake_case keys buildAddressFromInput() expects.
+     *
+     * Frontend/Backend billing input may arrive with camelCase keys (countryId/regionId/regionCode);
+     * the address helper reads snake_case. Existing snake_case keys are never overwritten.
+     *
+     * @param array<string, mixed> $billing
+     * @return array<string, mixed>
+     */
+    protected function normalizeBillingInputKeys(array $billing): array
+    {
+        $billing['country_id']  ??= $billing['countryId'] ?? null;
+        $billing['region_id']   ??= $billing['regionId'] ?? null;
+        $billing['region_code'] ??= $billing['regionCode'] ?? null;
+
+        return $billing;
+    }
+
+    /**
      * Extract the leading numeric building number from a street line (the spike's 404-clearing fix).
      *
      * UC requires a separate buildingNumber when billingType=FULL; CyberSource 404s the capture
@@ -195,7 +213,9 @@ abstract class CaptureContext
      * CyberSource requires exact scheme+host(+port) origins for everywhere UC.js mounts (the UC
      * iframes enforce frame-ancestors = targetOrigins); wildcards are not supported. The derived
      * origin covers the current context's host, while the "Additional Target Origins" config adds
-     * extras such as headless storefront domains. Duplicates are removed, derived-first.
+     * extras such as headless storefront domains. Config extras are normalized to browser-origin
+     * form too (lowercase host, default port stripped, no path); entries that cannot be parsed to
+     * a scheme+host origin are dropped. Duplicates are removed after normalization, derived-first.
      *
      * @param int|null $storeId
      * @return string[]
@@ -204,7 +224,10 @@ abstract class CaptureContext
     {
         $origins = array_merge(
             $this->deriveTargetOrigins(),
-            $this->config->getUcTargetOrigins($storeId)
+            array_map(
+                fn (?string $origin): ?string => $this->normalizeOrigin($origin),
+                $this->config->getUcTargetOrigins($storeId)
+            )
         );
 
         return array_values(array_unique(array_filter($origins)));

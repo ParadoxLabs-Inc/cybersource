@@ -99,6 +99,34 @@ class GraphQLTest extends TestCase
         $this->assertSame(['https://headless.example.com'], $result['targetOrigins']);
     }
 
+    public function testGetCurrencyCodeReturnsEmptyStringWhenStoreContextUnavailable(): void
+    {
+        // A context whose extension attributes carry no store (getStore() => null) must not fatal
+        // the currency resolution chain; it should degrade to '' like the amount path does.
+        $builder = $this->getMockBuilder(ContextExtensionInterface::class)
+            ->disableOriginalConstructor();
+
+        if (method_exists(ContextExtensionInterface::class, 'getStore')) {
+            $builder->onlyMethods(['getStore']);
+        } else {
+            $builder->addMethods(['getStore']);
+        }
+
+        $contextExtension = $builder->getMockForAbstractClass();
+        $contextExtension->method('getStore')->willReturn(null);
+
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('getExtensionAttributes')->willReturn($contextExtension);
+        $context->method('getUserId')->willReturn(0);
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($context, []);
+
+        $method = new \ReflectionMethod($handler, 'getCurrencyCode');
+
+        $this->assertSame('', $method->invoke($handler));
+    }
+
     /**
      * Build a GraphQL handler with the given configured "Additional Target Origins" extras.
      *

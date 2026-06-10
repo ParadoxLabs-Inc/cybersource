@@ -50,6 +50,8 @@ use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
  */
 class CardBuilder
 {
+    use StringNormalizationTrait;
+
     /**
      * Card data flag set when a Unified Checkout auth approved but returned no TMS token.
      *
@@ -205,22 +207,5 @@ class CardBuilder
             $day = date('t', (int)strtotime($expYear . '-' . $expMonth));
             $card->setExpires(sprintf('%s-%s-%s 23:59:59', $expYear, $expMonth, $day));
         }
-    }
-
-    /**
-     * Normalize a scalar value to a non-empty string, or null.
-     *
-     * @param mixed $value
-     * @return string|null
-     */
-    protected function stringOrNull(mixed $value): ?string
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        $string = (string)$value;
-
-        return $string !== '' ? $string : null;
     }
 }

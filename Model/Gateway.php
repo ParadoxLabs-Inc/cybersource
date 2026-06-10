@@ -33,6 +33,7 @@ use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\PriorTransactionIdTrait;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
@@ -47,6 +48,8 @@ use Throwable;
  */
 class Gateway extends AbstractGateway
 {
+    use PriorTransactionIdTrait;
+
     /**
      * @var string
      */
@@ -341,17 +344,15 @@ class Gateway extends AbstractGateway
      *
      * An unlinked credit must hit the original payment id, NOT the capture id the linked refund failed
      * against. We resolve it from the payment's parent/last transaction id, stripped of any
-     * -capture/-refund suffix (REST and SOAP share the same transaction-id space, D4).
+     * -capture/-refund suffix (REST and SOAP share the same transaction-id space, D4) — the shared
+     * PriorTransactionIdTrait resolution, also used for the MIT previousTransactionId reference.
      *
      * @param InfoInterface $payment
      * @return string
      */
     protected function getRefundFallbackTransactionId(InfoInterface $payment)
     {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        $txnId = $payment->getParentTransactionId() ?: $payment->getLastTransId();
-
-        return substr((string)$txnId, 0, strcspn((string)$txnId, '-'));
+        return $this->getPriorTransactionId($payment);
     }
 
     /**

@@ -248,6 +248,42 @@ class CaptureContextTest extends TestCase
         $this->assertSame(['https://shop.example.com'], $result['targetOrigins']);
     }
 
+    public function testBuildRequestNormalizesConfiguredOriginExtras(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcClientVersion')->willReturn('0.34');
+        // Config extras must be normalized to browser-origin form (lowercase host, default port
+        // stripped, no path) and deduped against the derived origin AFTER normalization.
+        $config->method('getUcTargetOrigins')->willReturn([
+            'https://EXAMPLE.com:443/',
+            'https://Headless.example.com/some/path/',
+        ]);
+        $config->method('getUcAllowedCardNetworks')->willReturn([]);
+        $config->method('getUcAllowedPaymentTypes')->willReturn(['PANENTRY']);
+        $config->method('getUcBillingType')->willReturn('FULL');
+        $config->method('getUcLocale')->willReturn('en_US');
+        $config->method('getUcCountry')->willReturn('US');
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $handler = new TestableCaptureContext(
+            $config,
+            $this->restMock,
+            $this->sanitizer,
+            $this->addressHelperMock,
+            $this->requestFactoryMock,
+        );
+        $handler->derivedOrigins = ['https://example.com'];
+
+        $result = $handler->buildRequest()->toArray();
+
+        $this->assertSame(
+            ['https://example.com', 'https://headless.example.com'],
+            $result['targetOrigins']
+        );
+    }
+
     public function testNormalizeOriginStripsDefaultHttpsPortAndPath(): void
     {
         $this->assertSame(

@@ -125,9 +125,15 @@ class GraphQL extends CaptureContext
             return strtoupper((string)$quote->getBaseCurrencyCode());
         }
 
-        return strtoupper(
-            (string)$this->graphQlContext?->getExtensionAttributes()->getStore()->getBaseCurrencyCode()
-        );
+        try {
+            // The extension-attribute/store chain is not null-safe end to end; degrade to '' on a
+            // missing/partial resolver context, consistent with the amount path's null fallback.
+            return strtoupper(
+                (string)$this->graphQlContext?->getExtensionAttributes()->getStore()->getBaseCurrencyCode()
+            );
+        } catch (Throwable) {
+            return '';
+        }
     }
 
     /**
