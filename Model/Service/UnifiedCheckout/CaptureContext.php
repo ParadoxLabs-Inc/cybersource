@@ -28,6 +28,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
+use Psr\Log\LoggerInterface;
 
 /**
  * Builds a Unified Checkout capture-context request and POSTs it to CyberSource, returning the JWT.
@@ -53,13 +54,15 @@ abstract class CaptureContext
      * @param Sanitizer $sanitizer
      * @param Address $addressHelper
      * @param CaptureContextRequestFactory $requestFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         protected readonly Config $config,
         protected readonly Rest $rest,
         protected readonly Sanitizer $sanitizer,
         protected readonly Address $addressHelper,
-        protected readonly CaptureContextRequestFactory $requestFactory
+        protected readonly CaptureContextRequestFactory $requestFactory,
+        protected readonly LoggerInterface $logger
     ) {
     }
 
@@ -222,13 +225,24 @@ abstract class CaptureContext
      */
     protected function getTargetOrigins(?int $storeId): array
     {
-        $origins = array_merge(
-            $this->deriveTargetOrigins(),
-            array_map(
-                fn (?string $origin): ?string => $this->normalizeOrigin($origin),
-                $this->config->getUcTargetOrigins($storeId)
-            )
-        );
+        $configExtras = $this->config->getUcTargetOrigins($storeId);
+        $normalizedExtras = [];
+
+        foreach ($configExtras as $raw) {
+            $normalized = $this->normalizeOrigin($raw);
+
+            if ($normalized === null) {
+                $this->logger->info(
+                    'CyberSource UC: dropping invalid targetOrigins entry (must include scheme): ' . $raw
+                );
+
+                continue;
+            }
+
+            $normalizedExtras[] = $normalized;
+        }
+
+        $origins = array_merge($this->deriveTargetOrigins(), $normalizedExtras);
 
         return array_values(array_unique(array_filter($origins)));
     }

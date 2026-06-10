@@ -310,7 +310,7 @@ class Gateway extends AbstractGateway
             return $this->unifiedCheckoutFollowOn->refundUnlinked(
                 $payment,
                 (float)$amount,
-                (string)$this->getRefundFallbackTransactionId($payment)
+                $this->getRefundFallbackTransactionId($payment)
             );
         }
 
@@ -350,7 +350,7 @@ class Gateway extends AbstractGateway
      * @param InfoInterface $payment
      * @return string
      */
-    protected function getRefundFallbackTransactionId(InfoInterface $payment)
+    protected function getRefundFallbackTransactionId(InfoInterface $payment): string
     {
         return $this->getPriorTransactionId($payment);
     }

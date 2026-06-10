@@ -22,6 +22,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContext
 use ParadoxLabs\TokenBase\Helper\Address;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Frontend
@@ -75,6 +76,7 @@ class FrontendTest extends TestCase
             new Sanitizer(),
             $this->addressHelperMock,
             $requestFactory,
+            $this->createMock(LoggerInterface::class),
             $this->checkoutSessionMock,
             $this->customerSessionMock,
             $this->storeManagerMock,
@@ -153,6 +155,7 @@ class FrontendTest extends TestCase
             new Sanitizer(),
             $this->addressHelperMock,
             $requestFactory,
+            $this->createMock(LoggerInterface::class),
             $this->checkoutSessionMock,
             $this->customerSessionMock,
             $this->storeManagerMock,

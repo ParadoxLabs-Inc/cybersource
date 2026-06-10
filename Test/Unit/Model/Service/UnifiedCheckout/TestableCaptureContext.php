@@ -5,13 +5,38 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
 use Magento\Customer\Api\Data\AddressInterface;
+use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
+use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CaptureContext;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
+use ParadoxLabs\TokenBase\Helper\Address;
+use Psr\Log\LoggerInterface;
 
 /**
  * Concrete test subclass exposing the abstract sourcing hooks.
  */
 class TestableCaptureContext extends CaptureContext
 {
+    public function __construct(
+        Config $config,
+        Rest $rest,
+        Sanitizer $sanitizer,
+        Address $addressHelper,
+        CaptureContextRequestFactory $requestFactory,
+        ?LoggerInterface $logger = null
+    ) {
+        parent::__construct(
+            config: $config,
+            rest: $rest,
+            sanitizer: $sanitizer,
+            addressHelper: $addressHelper,
+            requestFactory: $requestFactory,
+            logger: $logger ?? new \Psr\Log\NullLogger()
+        );
+    }
+
+
     public ?string $amount = '24.00';
     public string $currencyCode = 'USD';
     public array $billTo = [];

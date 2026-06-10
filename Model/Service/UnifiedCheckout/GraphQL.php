@@ -30,6 +30,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL as GraphQLHelper;
+use Psr\Log\LoggerInterface;
 use Throwable;
 
 /**
@@ -67,6 +68,7 @@ class GraphQL extends CaptureContext
      * @param Sanitizer $sanitizer
      * @param Address $addressHelper
      * @param CaptureContextRequestFactory $requestFactory
+     * @param LoggerInterface $logger
      * @param GraphQLHelper $graphQL
      */
     public function __construct(
@@ -75,9 +77,10 @@ class GraphQL extends CaptureContext
         Sanitizer $sanitizer,
         Address $addressHelper,
         CaptureContextRequestFactory $requestFactory,
+        LoggerInterface $logger,
         protected readonly GraphQLHelper $graphQL
     ) {
-        parent::__construct($config, $rest, $sanitizer, $addressHelper, $requestFactory);
+        parent::__construct($config, $rest, $sanitizer, $addressHelper, $requestFactory, $logger);
     }
 
     /**

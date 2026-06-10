@@ -15,6 +15,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContext
 use ParadoxLabs\TokenBase\Helper\Address;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CaptureContext
@@ -27,6 +28,7 @@ class CaptureContextTest extends TestCase
     private Sanitizer $sanitizer;
     private Address|MockObject $addressHelperMock;
     private CaptureContextRequestFactory|MockObject $requestFactoryMock;
+    private LoggerInterface|MockObject $loggerMock;
 
     protected function setUp(): void
     {
@@ -34,6 +36,7 @@ class CaptureContextTest extends TestCase
         $this->restMock = $this->createMock(Rest::class);
         $this->sanitizer = new Sanitizer();
         $this->addressHelperMock = $this->createMock(Address::class);
+        $this->loggerMock = $this->createMock(LoggerInterface::class);
 
         $this->requestFactoryMock = $this->createMock(CaptureContextRequestFactory::class);
         $this->requestFactoryMock->method('create')
@@ -57,6 +60,7 @@ class CaptureContextTest extends TestCase
             $this->sanitizer,
             $this->addressHelperMock,
             $this->requestFactoryMock,
+            $this->loggerMock,
         );
     }
 
@@ -282,6 +286,45 @@ class CaptureContextTest extends TestCase
             ['https://example.com', 'https://headless.example.com'],
             $result['targetOrigins']
         );
+    }
+
+    public function testBuildRequestDropsSchemelessConfigExtrasWithInfoLog(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcClientVersion')->willReturn('0.34');
+        // A schemeless entry (no scheme://) must be dropped and logged; a valid entry is kept.
+        $config->method('getUcTargetOrigins')->willReturn([
+            'headless.example.com',
+            'https://valid.example.com/',
+        ]);
+        $config->method('getUcAllowedCardNetworks')->willReturn([]);
+        $config->method('getUcAllowedPaymentTypes')->willReturn(['PANENTRY']);
+        $config->method('getUcBillingType')->willReturn('FULL');
+        $config->method('getUcLocale')->willReturn('en_US');
+        $config->method('getUcCountry')->willReturn('US');
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('info')
+            ->with($this->stringContains('headless.example.com'));
+
+        $handler = new TestableCaptureContext(
+            $config,
+            $this->restMock,
+            $this->sanitizer,
+            $this->addressHelperMock,
+            $this->requestFactoryMock,
+            $logger,
+        );
+
+        $result = $handler->buildRequest()->toArray();
+
+        // Schemeless entry dropped; valid entry normalized and present.
+        $this->assertSame(['https://valid.example.com'], $result['targetOrigins']);
+        $this->assertNotContains('headless.example.com', $result['targetOrigins']);
     }
 
     public function testNormalizeOriginStripsDefaultHttpsPortAndPath(): void
