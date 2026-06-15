@@ -1,5 +1,18 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 3.0.0 - Jun 17, 2026: PHP 8.1–8.5 compatibility
+
+**WARNING: PHP 8.1 is now the minimum. Now requires ParadoxLabs_TokenBase 5.0.**
+
+- Added support up to PHP 8.5; PHP 8.1+ is now required.
+- Added IPv6 support to Secure Acceptance IP address validation.
+- Added unit test coverage.
+- Changed the Secure Acceptance iframe communicator from jQuery to native, origin-validated postMessage.
+- Fixed a cross-site scripting (XSS) issue on the Secure Acceptance completion page (JSON_HEX encoding).
+- Refactored for PHP 8.1+: constructor property promotion, readonly properties, strict types, import cleanup, and `$escaper` usage in templates.
+
+Note: We are working on CyberSource Unified Checkout support for an upcoming release, to replace Secure Acceptance before its deprecation.
+
 ## 2.0.2 - Jan 7, 2026
 
 - Added settings to allow changing Payer Authentication Songbird JS script URLs and SRI hashes over time.
