@@ -42,10 +42,10 @@ class CcTest extends TestCase
         $this->paymentConfigMock = $this->createMock(PaymentConfig::class);
         $this->helperMock = $this->createMock(Helper::class);
 
-        // Use MockBuilder to add magic methods
+        // getMethod, getCcLast4, getCcType are magic on Order\Payment\Info; they route
+        // through __call to the stubbed getData() below.
         $this->paymentInfoMock = $this->getMockBuilder(PaymentInfo::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getMethod', 'getCcLast4', 'getCcType'])
             ->onlyMethods(['getData', 'getAdditionalInformation'])
             ->getMock();
 
@@ -65,14 +65,12 @@ class CcTest extends TestCase
         $this->appStateMock->method('getAreaCode')
             ->willReturn('frontend');
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturn(null);
 
@@ -93,20 +91,13 @@ class CcTest extends TestCase
         // Set up non-secure mode (admin)
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturnCallback(function ($key) {
-                if ($key === 'cc_avs_status') {
-                    return 'Y';
-                }
-
-                return null;
-            });
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+                ['cc_avs_status', null, 'Y'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturn(null);
 
@@ -126,20 +117,13 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturnCallback(function ($key) {
-                if ($key === 'cc_cid_status') {
-                    return 'M';
-                }
-
-                return null;
-            });
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+                ['cc_cid_status', null, 'M'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturn(null);
 
@@ -159,14 +143,12 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
                 if ($key === 'afsReply.afsResult') {
@@ -188,14 +170,12 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
                 if ($key === 'afsReply.afsFactorCode') {
@@ -221,14 +201,12 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
                 if ($key === 'afsReply.afsFactorCode') {
@@ -263,14 +241,12 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
                 if ($key === 'ccAuthReply.avsCode') {
@@ -296,14 +272,12 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
                 if ($key === 'ccAuthReply.cvCode') {
@@ -329,14 +303,12 @@ class CcTest extends TestCase
     {
         $this->block->setData('is_secure_mode', 0);
 
-        $this->paymentInfoMock->method('getMethod')
-            ->willReturn('paradoxlabs_cybersource');
-        $this->paymentInfoMock->method('getCcLast4')
-            ->willReturn('1234');
-        $this->paymentInfoMock->method('getCcType')
-            ->willReturn('VI');
         $this->paymentInfoMock->method('getData')
-            ->willReturn(null);
+            ->willReturnMap([
+                ['method', null, 'paradoxlabs_cybersource'],
+                ['cc_last4', null, '1234'],
+                ['cc_type', null, 'VI'],
+            ]);
         $this->paymentInfoMock->method('getAdditionalInformation')
             ->willReturn(null);
 

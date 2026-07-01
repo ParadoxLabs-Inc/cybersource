@@ -91,11 +91,14 @@ class FrontendTest extends TestCase
         $billingAddress = $this->makeQuoteBillingAddress();
         $quote = $this->getMockBuilder(Quote::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getBaseGrandTotal', 'getBaseCurrencyCode'])
-            ->onlyMethods(['getBillingAddress'])
+            ->onlyMethods(['getBillingAddress', 'getData'])
             ->getMock();
-        $quote->method('getBaseGrandTotal')->willReturn(24.0);
-        $quote->method('getBaseCurrencyCode')->willReturn('USD');
+        // getBaseGrandTotal/getBaseCurrencyCode are magic on Quote; they route through
+        // DataObject::__call to the stubbed getData() below.
+        $quote->method('getData')->willReturnMap([
+            ['base_grand_total', null, 24.0],
+            ['base_currency_code', null, 'USD'],
+        ]);
         $quote->method('getBillingAddress')->willReturn($billingAddress);
 
         $this->checkoutSessionMock->method('getQuoteId')->willReturn(99);

@@ -6,6 +6,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service;
 
 use Magento\Framework\Exception\InputException;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,6 +24,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider lengthDataProvider
      */
+    #[DataProvider('lengthDataProvider')]
     public function testLength(string $input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->length($input, $maxLength));
@@ -42,6 +44,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider alphaDataProvider
      */
+    #[DataProvider('alphaDataProvider')]
     public function testAlpha(string $input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->alpha($input, $maxLength));
@@ -62,6 +65,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider alphanumericDataProvider
      */
+    #[DataProvider('alphanumericDataProvider')]
     public function testAlphanumeric(string $input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->alphanumeric($input, $maxLength));
@@ -81,6 +85,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider alphanumericPuncDataProvider
      */
+    #[DataProvider('alphanumericPuncDataProvider')]
     public function testAlphanumericPunc(string $input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->alphanumericPunc($input, $maxLength));
@@ -104,6 +109,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider asciiAlphanumericPuncDataProvider
      */
+    #[DataProvider('asciiAlphanumericPuncDataProvider')]
     public function testAsciiAlphanumericPunc(string $input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->asciiAlphanumericPunc($input, $maxLength));
@@ -125,6 +131,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider amountDataProvider
      */
+    #[DataProvider('amountDataProvider')]
     public function testAmount($input, float $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->amount($input));
@@ -149,6 +156,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider isoDateDataProvider
      */
+    #[DataProvider('isoDateDataProvider')]
     public function testIsoDate(string $input, string $expectedPattern): void
     {
         $result = $this->sanitizer->isoDate($input);
@@ -194,6 +202,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider ipAddressDataProvider
      */
+    #[DataProvider('ipAddressDataProvider')]
     public function testIpAddress(string $input, ?string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->ipAddress($input));
@@ -218,6 +227,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider numericDataProvider
      */
+    #[DataProvider('numericDataProvider')]
     public function testNumeric($input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->numeric($input, $maxLength));
@@ -239,6 +249,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider phoneDataProvider
      */
+    #[DataProvider('phoneDataProvider')]
     public function testPhone(string $input, int $maxLength, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->phone($input, $maxLength));
@@ -261,6 +272,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider postcodeUsDataProvider
      */
+    #[DataProvider('postcodeUsDataProvider')]
     public function testPostcodeUs(string $input, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->postcode($input, 'US'));
@@ -282,6 +294,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider postcodeCanadaDataProvider
      */
+    #[DataProvider('postcodeCanadaDataProvider')]
     public function testPostcodeCanada(string $input, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->postcode($input, 'CA'));
@@ -300,6 +313,7 @@ class SanitizerTest extends TestCase
     /**
      * @dataProvider postcodeOtherDataProvider
      */
+    #[DataProvider('postcodeOtherDataProvider')]
     public function testPostcodeOther(string $input, string $country, string $expected): void
     {
         $this->assertSame($expected, $this->sanitizer->postcode($input, $country));

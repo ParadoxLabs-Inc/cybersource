@@ -7,6 +7,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Helper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use ParadoxLabs\CyberSource\Helper\Data;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -35,6 +36,7 @@ class DataTest extends TestCase
     /**
      * @dataProvider avsCodesDataProvider
      */
+    #[DataProvider('avsCodesDataProvider')]
     public function testTranslateAvs(string $code, string $expectedDescription): void
     {
         $result = $this->helper->translateAvs($code);
@@ -77,6 +79,7 @@ class DataTest extends TestCase
     /**
      * @dataProvider cvnCodesDataProvider
      */
+    #[DataProvider('cvnCodesDataProvider')]
     public function testTranslateCvn(string $code, string $expectedDescription): void
     {
         $result = $this->helper->translateCvn($code);
@@ -117,6 +120,7 @@ class DataTest extends TestCase
     /**
      * @dataProvider riskFactorCodesDataProvider
      */
+    #[DataProvider('riskFactorCodesDataProvider')]
     public function testTranslateRiskFactor(string $code, string $expectedDescription): void
     {
         $result = $this->helper->translateRiskFactor($code);

@@ -6,7 +6,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\Data\RegionInterface;
-use Magento\GraphQl\Model\Query\ContextExtensionInterface;
+use Magento\GraphQl\Model\Query\ContextExtension;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address as QuoteAddress;
@@ -49,19 +49,10 @@ class GraphQLTest extends TestCase
         $store->method('getBaseCurrencyCode')->willReturn('USD');
         $store->method('getBaseUrl')->willReturn('https://store.example.com/');
 
-        // The unit-test code generator may or may not emit getStore() on the extension interface
-        // depending on whether the generated stub has been pre-built. Branch accordingly.
-        $builder = $this->getMockBuilder(ContextExtensionInterface::class)
-            ->disableOriginalConstructor();
-
-        if (method_exists(ContextExtensionInterface::class, 'getStore')) {
-            $builder->onlyMethods(['getStore']);
-        } else {
-            $builder->addMethods(['getStore']);
-        }
-
-        $contextExtension = $builder->getMockForAbstractClass();
-        $contextExtension->method('getStore')->willReturn($store);
+        // Use the real generated extension class rather than mocking the interface: it
+        // extends AbstractSimpleObject, so getStore()/setStore() work regardless of
+        // whether the interface stub has been (re)generated with getStore declared.
+        $contextExtension = new ContextExtension(['store' => $store]);
 
         $this->contextMock = $this->createMock(ContextInterface::class);
         $this->contextMock->method('getExtensionAttributes')->willReturn($contextExtension);
@@ -108,17 +99,9 @@ class GraphQLTest extends TestCase
     {
         // A context whose extension attributes carry no store (getStore() => null) must not fatal
         // the currency resolution chain; it should degrade to '' like the amount path does.
-        $builder = $this->getMockBuilder(ContextExtensionInterface::class)
-            ->disableOriginalConstructor();
-
-        if (method_exists(ContextExtensionInterface::class, 'getStore')) {
-            $builder->onlyMethods(['getStore']);
-        } else {
-            $builder->addMethods(['getStore']);
-        }
-
-        $contextExtension = $builder->getMockForAbstractClass();
-        $contextExtension->method('getStore')->willReturn(null);
+        // Real generated extension class (see setUp() for rationale); no store set, so
+        // getStore() naturally returns null.
+        $contextExtension = new ContextExtension();
 
         $context = $this->createMock(ContextInterface::class);
         $context->method('getExtensionAttributes')->willReturn($contextExtension);
@@ -259,11 +242,14 @@ class GraphQLTest extends TestCase
     ): Quote|MockObject {
         $quote = $this->getMockBuilder(Quote::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getBaseGrandTotal', 'getBaseCurrencyCode'])
-            ->onlyMethods(['getBillingAddress'])
+            ->onlyMethods(['getBillingAddress', 'getData'])
             ->getMock();
-        $quote->method('getBaseGrandTotal')->willReturn($baseGrandTotal);
-        $quote->method('getBaseCurrencyCode')->willReturn($baseCurrencyCode);
+        // getBaseGrandTotal/getBaseCurrencyCode are magic on Quote; they route through
+        // DataObject::__call to the stubbed getData() below.
+        $quote->method('getData')->willReturnMap([
+            ['base_grand_total', null, $baseGrandTotal],
+            ['base_currency_code', null, $baseCurrencyCode],
+        ]);
         $quote->method('getBillingAddress')->willReturn($billingAddress);
 
         return $quote;

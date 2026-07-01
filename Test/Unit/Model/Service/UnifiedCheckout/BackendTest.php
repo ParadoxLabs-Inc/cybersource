@@ -44,12 +44,14 @@ class BackendTest extends TestCase
     {
         $this->restMock = $this->createMock(Rest::class);
         $this->addressHelperMock = $this->createMock(Address::class);
-        // getQuoteId is a magic (__call) accessor; getQuote is a real method. Declare each via the
-        // appropriate builder so they can be configured per-test.
+        // getQuoteId is a magic accessor, but unlike DataObject subclasses, SessionManager's
+        // __call() delegates to session storage (unavailable with the constructor disabled) -
+        // there is no getData() to route through. Stub __call() itself instead (real declared
+        // method) so getQuoteId() can be configured per test without addMethods(). getQuote is
+        // a real declared method.
         $this->backendSessionMock = $this->getMockBuilder(BackendSession::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getQuoteId'])
-            ->onlyMethods(['getQuote'])
+            ->onlyMethods(['getQuote', '__call'])
             ->getMock();
         $this->storeManagerMock = $this->createMock(StoreManagerInterface::class);
         $this->requestMock = $this->createMock(HttpRequest::class);
@@ -107,7 +109,7 @@ class BackendTest extends TestCase
         $quote = $this->makeQuote(57.0, 'CAD', $billingAddress);
         $quote->method('getStoreId')->willReturn(1);
 
-        $this->backendSessionMock->method('getQuoteId')->willReturn(99);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(99);
         $this->backendSessionMock->method('getQuote')->willReturn($quote);
 
         $result = $this->makeHandler([])->buildRequest()->toArray();
@@ -126,7 +128,7 @@ class BackendTest extends TestCase
         // Admin add-card: no order-create quote in session, so no amount node and store-default
         // currency is never emitted. billTo falls through to empty; email from current customer.
         $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
-        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(null);
 
         $result = $this->makeHandler([])->buildRequest()->toArray();
 
@@ -160,7 +162,7 @@ class BackendTest extends TestCase
             }))
             ->willReturn($inputAddress);
 
-        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(null);
 
         $result = $this->makeHandler([])->buildRequest()->toArray();
 
@@ -171,7 +173,7 @@ class BackendTest extends TestCase
 
     public function testGetCurrencyCodeFallsBackToStoreDefaultWhenNoQuote(): void
     {
-        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(null);
 
         $method = new \ReflectionMethod(Backend::class, 'getCurrencyCode');
 
@@ -182,7 +184,7 @@ class BackendTest extends TestCase
     public function testGetAmountReturnsNullWhenQuoteTotalMissing(): void
     {
         $quote = $this->makeQuote(null, 'USD', $this->createMock(QuoteAddress::class));
-        $this->backendSessionMock->method('getQuoteId')->willReturn(99);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(99);
         $this->backendSessionMock->method('getQuote')->willReturn($quote);
 
         $method = new \ReflectionMethod(Backend::class, 'getAmount');
@@ -194,7 +196,7 @@ class BackendTest extends TestCase
     public function testGetStoreIdFallsBackToCurrentCustomerWhenNoQuote(): void
     {
         // No quote -> store ID comes from the registered current customer (1 from setUp).
-        $this->backendSessionMock->method('getQuoteId')->willReturn(null);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(null);
 
         $method = new \ReflectionMethod(Backend::class, 'getStoreId');
 
@@ -216,11 +218,14 @@ class BackendTest extends TestCase
     ): Quote|MockObject {
         $quote = $this->getMockBuilder(Quote::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getBaseGrandTotal', 'getBaseCurrencyCode'])
-            ->onlyMethods(['getBillingAddress', 'getStoreId'])
+            ->onlyMethods(['getBillingAddress', 'getStoreId', 'getData'])
             ->getMock();
-        $quote->method('getBaseGrandTotal')->willReturn($baseGrandTotal);
-        $quote->method('getBaseCurrencyCode')->willReturn($baseCurrencyCode);
+        // getBaseGrandTotal/getBaseCurrencyCode are magic on Quote; they route through
+        // DataObject::__call to the stubbed getData() below.
+        $quote->method('getData')->willReturnMap([
+            ['base_grand_total', null, $baseGrandTotal],
+            ['base_currency_code', null, $baseCurrencyCode],
+        ]);
         $quote->method('getBillingAddress')->willReturn($billingAddress);
 
         return $quote;
