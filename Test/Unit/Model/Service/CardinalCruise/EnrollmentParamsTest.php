@@ -18,6 +18,7 @@ use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory as CardCollectionFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -57,6 +58,7 @@ class EnrollmentParamsTest extends TestCase
     /**
      * @dataProvider isNewCustomerDataProvider
      */
+    #[DataProvider('isNewCustomerDataProvider')]
     public function testGetIsNewCustomer(?int $customerId, string $expected): void
     {
         $orderMock = $this->createMock(OrderInterface::class);
@@ -151,6 +153,7 @@ class EnrollmentParamsTest extends TestCase
     /**
      * @dataProvider orderItemsCountDataProvider
      */
+    #[DataProvider('orderItemsCountDataProvider')]
     public function testGetOrderItemsCount(int $itemCount): void
     {
         $items = array_fill(0, $itemCount, $this->createMock(Item::class));

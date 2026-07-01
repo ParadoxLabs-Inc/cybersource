@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Source;
 
 use ParadoxLabs\CyberSource\Model\Source\CardType;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,6 +23,7 @@ class CardTypeTest extends TestCase
     /**
      * @dataProvider cardTypeMappingDataProvider
      */
+    #[DataProvider('cardTypeMappingDataProvider')]
     public function testGetType(string $code, string $expected): void
     {
         $this->assertSame($expected, $this->cardType->getType($code));

@@ -235,15 +235,17 @@ class JsonWebTokenGeneratorTest extends TestCase
         $addressMock->method('getCountryId')->willReturn('US');
         $addressMock->method('getTelephone')->willReturn('555-1234');
 
-        // Use Quote mock - some methods are magic/data accessors, some are real
+        // getGrandTotal/getQuoteCurrencyCode are magic on Quote; they route through
+        // DataObject::__call to the stubbed getData() below.
         $quoteMock = $this->getMockBuilder(Quote::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getBillingAddress', 'isVirtual', 'getAllVisibleItems'])
-            ->addMethods(['getGrandTotal', 'getQuoteCurrencyCode'])
+            ->onlyMethods(['getBillingAddress', 'isVirtual', 'getAllVisibleItems', 'getData'])
             ->getMock();
         $quoteMock->method('getBillingAddress')->willReturn($addressMock);
-        $quoteMock->method('getGrandTotal')->willReturn(100.00);
-        $quoteMock->method('getQuoteCurrencyCode')->willReturn('USD');
+        $quoteMock->method('getData')->willReturnMap([
+            ['grand_total', null, 100.00],
+            ['quote_currency_code', null, 'USD'],
+        ]);
         $quoteMock->method('isVirtual')->willReturn(true);
         $quoteMock->method('getAllVisibleItems')->willReturn([]);
 

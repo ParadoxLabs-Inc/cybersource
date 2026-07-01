@@ -7,6 +7,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use ParadoxLabs\CyberSource\Model\Config\Config;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -42,6 +43,7 @@ class ConfigTest extends TestCase
     /**
      * @dataProvider restEndpointDataProvider
      */
+    #[DataProvider('restEndpointDataProvider')]
     public function testGetRestEndpoint(bool $isSandbox, string $path, string $expected): void
     {
         $this->setupSandboxMode($isSandbox);
@@ -78,6 +80,7 @@ class ConfigTest extends TestCase
     /**
      * @dataProvider secureAcceptEndpointDataProvider
      */
+    #[DataProvider('secureAcceptEndpointDataProvider')]
     public function testGetSecureAcceptEndpoint(bool $isSandbox, string $path, string $expected): void
     {
         $this->setupSandboxMode($isSandbox);
@@ -104,6 +107,7 @@ class ConfigTest extends TestCase
     /**
      * @dataProvider soapWsdlDataProvider
      */
+    #[DataProvider('soapWsdlDataProvider')]
     public function testGetSoapWsdl(bool $isSandbox, string $expected): void
     {
         $this->setupSandboxMode($isSandbox);
@@ -128,6 +132,7 @@ class ConfigTest extends TestCase
     /**
      * @dataProvider fingerprintOrgIdDataProvider
      */
+    #[DataProvider('fingerprintOrgIdDataProvider')]
     public function testGetFingerprintOrgId(bool $isSandbox, string $expected): void
     {
         $this->setupSandboxMode($isSandbox);

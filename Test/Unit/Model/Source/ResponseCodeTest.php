@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Source;
 
 use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,6 +23,7 @@ class ResponseCodeTest extends TestCase
     /**
      * @dataProvider knownResponseCodesDataProvider
      */
+    #[DataProvider('knownResponseCodesDataProvider')]
     public function testGetMessageKnownCodes($code, string $expectedMessage): void
     {
         $this->assertSame($expectedMessage, $this->responseCode->getMessage($code));
