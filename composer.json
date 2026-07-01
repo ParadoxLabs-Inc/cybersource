@@ -12,6 +12,9 @@
         "ext-openssl": "*",
         "ext-soap": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6 || ^10.5 || ^11.0 || ^12.0"
+    },
     "type": "magento2-module",
     "version": "3.0.0",
     "time": "2026-06-17",
