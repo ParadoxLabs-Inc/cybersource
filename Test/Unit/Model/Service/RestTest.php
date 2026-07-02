@@ -156,7 +156,6 @@ class RestTest extends TestCase
     private function invokeSignRequest(string $path, array $params, string $httpMethod): array
     {
         $method = new ReflectionMethod(Rest::class, 'signRequest');
-        $method->setAccessible(true);
 
         return $method->invoke($this->rest, $path, $params, $httpMethod);
     }

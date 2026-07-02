@@ -258,7 +258,6 @@ class EnrollmentParamsTest extends TestCase
     private function invokeProtectedMethod(string $methodName, array $params): mixed
     {
         $method = new ReflectionMethod(EnrollmentParams::class, $methodName);
-        $method->setAccessible(true);
 
         return $method->invoke($this->enrollmentParams, ...$params);
     }

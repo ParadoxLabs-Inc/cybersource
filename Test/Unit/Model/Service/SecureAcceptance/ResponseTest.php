@@ -374,7 +374,6 @@ class ResponseTest extends TestCase
     private function invokeValidateRequest(array $input): void
     {
         $method = new ReflectionMethod(Response::class, 'validateRequest');
-        $method->setAccessible(true);
         $method->invoke($this->response, $input);
     }
 
@@ -384,7 +383,6 @@ class ResponseTest extends TestCase
     private function invokeSetCardPaymentInfo(array $input, $card): void
     {
         $method = new ReflectionMethod(Response::class, 'setCardPaymentInfo');
-        $method->setAccessible(true);
         $method->invoke($this->response, $input, $card);
     }
 
@@ -394,7 +392,6 @@ class ResponseTest extends TestCase
     private function invokeGetCard(array $input)
     {
         $method = new ReflectionMethod(Response::class, 'getCard');
-        $method->setAccessible(true);
         return $method->invoke($this->response, $input);
     }
 }

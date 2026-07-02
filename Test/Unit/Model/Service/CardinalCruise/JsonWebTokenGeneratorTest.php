@@ -264,7 +264,6 @@ class JsonWebTokenGeneratorTest extends TestCase
     private function invokeGetAmount(float $grandTotal, string $currencyCode): float
     {
         $method = new ReflectionMethod(JsonWebTokenGenerator::class, 'getAmount');
-        $method->setAccessible(true);
 
         return $method->invoke($this->generator, $grandTotal, $currencyCode);
     }
@@ -275,7 +274,6 @@ class JsonWebTokenGeneratorTest extends TestCase
     private function invokeGetPayloadAddress(AddressInterface $address): array
     {
         $method = new ReflectionMethod(JsonWebTokenGenerator::class, 'getPayloadAddress');
-        $method->setAccessible(true);
 
         return $method->invoke($this->generator, $address);
     }
@@ -286,7 +284,6 @@ class JsonWebTokenGeneratorTest extends TestCase
     private function invokeGetPayloadItems(Quote $quote): array
     {
         $method = new ReflectionMethod(JsonWebTokenGenerator::class, 'getPayloadItems');
-        $method->setAccessible(true);
 
         return $method->invoke($this->generator, $quote);
     }
