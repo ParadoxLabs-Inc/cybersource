@@ -40,6 +40,8 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
  */
 class StoredCardRequest
 {
+    use FilterEmptyTrait;
+
     /**
      * @var string|null
      */
@@ -666,19 +668,5 @@ class StoredCardRequest
         }
 
         return $orderInformation;
-    }
-
-    /**
-     * Drop null/empty-string/empty-array leaves while preserving boolean false values.
-     *
-     * @param array<string, mixed> $values
-     * @return array<string, mixed>
-     */
-    private function filterEmpty(array $values): array
-    {
-        return array_filter(
-            $values,
-            static fn($value): bool => $value !== null && $value !== '' && $value !== []
-        );
     }
 }

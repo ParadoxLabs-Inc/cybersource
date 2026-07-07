@@ -37,6 +37,8 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
  */
 class FollowOnRequest
 {
+    use FilterEmptyTrait;
+
     /**
      * @var string|null
      */
@@ -283,19 +285,5 @@ class FollowOnRequest
         }
 
         return $request;
-    }
-
-    /**
-     * Drop null/empty-string/empty-array leaves.
-     *
-     * @param array<string, mixed> $values
-     * @return array<string, mixed>
-     */
-    private function filterEmpty(array $values): array
-    {
-        return array_filter(
-            $values,
-            static fn($value): bool => $value !== null && $value !== '' && $value !== []
-        );
     }
 }
