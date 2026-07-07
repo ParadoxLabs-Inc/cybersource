@@ -41,6 +41,7 @@ define([
     $.widget('mage.cybersourceLegacyForm', {
         options: {
             captureContextUrl: null,
+            fingerprintUrl: null,
             tokenSelector: '[name="payment[transient_token]"]',
             cardSelector: '[name="payment[card_id]"]'
         },
@@ -51,6 +52,7 @@ define([
             this._captureXhr = null;
             this._ttlTimer = null;
 
+            this.initFingerprint();
             this.handleCardSelectChange();
         },
 
@@ -325,6 +327,30 @@ define([
             select.append(option);
             option.prop('selected', true);
             select.trigger('change');
+        },
+
+        /**
+         * Inject the CyberSource Decision Manager (online-metrix) device-fingerprint tag.
+         *
+         * Legacy parity: the SA/SOAP widget loaded this so DM could collect the device signal keyed on the
+         * per-quote session id. Same null/length guard as the legacy widget, plus a de-dupe by URL so a
+         * re-init does not append a second identical tag.
+         */
+        initFingerprint: function () {
+            if (this.options.fingerprintUrl === null
+                || this.options.fingerprintUrl.length <= 1) {
+                return;
+            }
+
+            if (document.querySelector('script[data-cybs-fingerprint="' + this.options.fingerprintUrl + '"]')) {
+                return;
+            }
+
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = this.options.fingerprintUrl;
+            script.setAttribute('data-cybs-fingerprint', this.options.fingerprintUrl);
+            document.head.appendChild(script);
         },
 
         /**

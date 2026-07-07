@@ -196,6 +196,29 @@ class StoredCardRequestTest extends TestCase
         $this->assertArrayNotHasKey('partner', $result['clientReferenceInformation']);
     }
 
+    public function testToArrayEmitsDeviceInformationWhenFingerprintSessionIdSet(): void
+    {
+        // Decision Manager device signal (legacy deviceFingerprintID parity): a set fingerprint session id
+        // must surface under deviceInformation.fingerprintSessionId (CIT stored-card charges only).
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')->setFingerprintSessionId('FP-SESSION-1');
+
+        $result = $request->toArray();
+
+        $this->assertSame('FP-SESSION-1', $result['deviceInformation']['fingerprintSessionId']);
+    }
+
+    public function testToArrayOmitsDeviceInformationWhenFingerprintSessionIdNotSet(): void
+    {
+        // No fingerprint session id (default, e.g. an MIT rebill) -> deviceInformation must be absent.
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('deviceInformation', $result);
+    }
+
     public function testToArrayFiltersEmptyApplicationFields(): void
     {
         // Empty applicationName/applicationVersion must not emit those keys.

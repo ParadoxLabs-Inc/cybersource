@@ -347,6 +347,15 @@ class Response
             }
         } else {
             $request->setInitiatorType('customer');
+
+            // Decision Manager device-fingerprint parity: a CIT stored-card charge is cardholder-present,
+            // so forward the device signal (the legacy SOAP Gateway sent deviceFingerprintID on every auth).
+            // Deliberately NOT set on the MIT branch above — a subscription-generated rebill has no
+            // cardholder device present to fingerprint. Set only when fingerprinting is enabled + reachable.
+            $fingerprintSessionId = $this->getFingerprintSessionId($order);
+            if ($fingerprintSessionId !== null) {
+                $request->setFingerprintSessionId($fingerprintSessionId);
+            }
         }
 
         return $request;
@@ -522,7 +531,40 @@ class Response
             $request->setEnableDecisionManager(false);
         }
 
+        // Decision Manager device-fingerprint parity (legacy SOAP Gateway::authorize sent
+        // deviceFingerprintID keyed on the quote session): forward the online-metrix session id so DM can
+        // correlate the client-side device signal. Set only when fingerprinting is enabled + reachable.
+        $fingerprintSessionId = $this->getFingerprintSessionId($order);
+        if ($fingerprintSessionId !== null) {
+            $request->setFingerprintSessionId($fingerprintSessionId);
+        }
+
         return $request;
+    }
+
+    /**
+     * Resolve the Decision Manager device-fingerprint session id for this order, or null when disabled.
+     *
+     * Legacy SOAP parity: Gateway::authorize()/capture() set
+     * request->setDeviceFingerprintID($config->getFingerprintSessionId($order->getQuoteId(), null, true)).
+     * apiScope=true returns the raw session id (no merchant_id prefix — CyberSource prepends it server-side,
+     * matching the merchant-prefixed session id the online-metrix tag collects under client-side). Config
+     * returns null when fingerprinting is disabled/unconfigured, so callers emit deviceInformation only
+     * when a non-empty value comes back and a quote session id is reachable.
+     *
+     * @param OrderInterface $order
+     * @return string|null
+     */
+    protected function getFingerprintSessionId(OrderInterface $order): ?string
+    {
+        $quoteId = $order->getQuoteId();
+        if ($quoteId === null || (string)$quoteId === '') {
+            return null;
+        }
+
+        $sessionId = $this->config->getFingerprintSessionId((string)$quoteId, null, true);
+
+        return ($sessionId !== null && $sessionId !== '') ? $sessionId : null;
     }
 
     /**

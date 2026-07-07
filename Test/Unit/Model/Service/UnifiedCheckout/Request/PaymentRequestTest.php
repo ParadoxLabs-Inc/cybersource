@@ -158,6 +158,29 @@ class PaymentRequestTest extends TestCase
         $this->assertArrayHasKey('applicationVersion', $result['clientReferenceInformation']);
     }
 
+    public function testToArrayEmitsDeviceInformationWhenFingerprintSessionIdSet(): void
+    {
+        // Decision Manager device signal (legacy deviceFingerprintID parity): a set fingerprint session id
+        // must surface under deviceInformation.fingerprintSessionId.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setFingerprintSessionId('FP-SESSION-1');
+
+        $result = $request->toArray();
+
+        $this->assertSame('FP-SESSION-1', $result['deviceInformation']['fingerprintSessionId']);
+    }
+
+    public function testToArrayOmitsDeviceInformationWhenFingerprintSessionIdNotSet(): void
+    {
+        // No fingerprint session id (default) -> deviceInformation must be absent, not an empty object.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('deviceInformation', $result);
+    }
+
     public function testToArrayFiltersAllPartnerFieldsWhenNoneSet(): void
     {
         // No attribution fields set -> clientReferenceInformation should not have partner, applicationName,

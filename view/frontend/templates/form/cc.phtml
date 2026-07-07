@@ -123,7 +123,9 @@ $code ?>">
             "cybersourceLegacyForm": {
                 "captureContextUrl": "<?= $escaper->escapeJs(
         $block->getUrl('pdl_cybs/unifiedCheckout/captureContext')
-    ) ?>"
+    ) ?>",
+                "fingerprintUrl": "<?= /* @noEscape */
+    $block->getFingerprintUrl() ?>"
             }
         }
     }

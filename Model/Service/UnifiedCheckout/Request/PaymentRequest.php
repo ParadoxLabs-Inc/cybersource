@@ -104,6 +104,17 @@ class PaymentRequest
     private ?string $applicationVersion = null;
 
     /**
+     * Decision Manager device-fingerprint session id (deviceInformation.fingerprintSessionId).
+     *
+     * Legacy SOAP parity: the SOAP Gateway sent this as ccAuthService deviceFingerprintID, keyed on the
+     * per-quote online-metrix session id, so Decision Manager can correlate the device signal collected
+     * client-side. Null (default) = fingerprinting disabled/unavailable; the leaf is then omitted.
+     *
+     * @var string|null
+     */
+    private ?string $fingerprintSessionId = null;
+
+    /**
      * Get the transient-token JWT that represents the captured card.
      *
      * @return string|null
@@ -380,6 +391,29 @@ class PaymentRequest
     }
 
     /**
+     * Get the Decision Manager device-fingerprint session id.
+     *
+     * @return string|null
+     */
+    public function getFingerprintSessionId(): ?string
+    {
+        return $this->fingerprintSessionId;
+    }
+
+    /**
+     * Set the Decision Manager device-fingerprint session id (deviceInformation.fingerprintSessionId).
+     *
+     * @param string|null $fingerprintSessionId
+     * @return $this
+     */
+    public function setFingerprintSessionId(?string $fingerprintSessionId): self
+    {
+        $this->fingerprintSessionId = $fingerprintSessionId;
+
+        return $this;
+    }
+
+    /**
      * Build the JSON-ready request tree, omitting null/empty leaves while preserving boolean false.
      *
      * @return array<string, mixed>
@@ -436,6 +470,15 @@ class PaymentRequest
         ]);
         if (!empty($tokenInformation)) {
             $request['tokenInformation'] = $tokenInformation;
+        }
+
+        // Decision Manager device signal (legacy SOAP deviceFingerprintID parity). Emitted only when a
+        // fingerprint session id is present (i.e. fingerprinting enabled + a reachable quote session).
+        $deviceInformation = $this->filterEmpty([
+            'fingerprintSessionId' => $this->fingerprintSessionId,
+        ]);
+        if (!empty($deviceInformation)) {
+            $request['deviceInformation'] = $deviceInformation;
         }
 
         return $request;

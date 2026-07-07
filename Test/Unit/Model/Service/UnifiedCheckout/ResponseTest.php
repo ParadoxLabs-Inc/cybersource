@@ -88,7 +88,8 @@ class ResponseTest extends TestCase
     private function buildPayment(
         string $transientToken = 'header.payload.sig',
         float $amountPaid = 0.0,
-        bool $isSubscriptionGenerated = false
+        bool $isSubscriptionGenerated = false,
+        ?int $quoteId = null
     ): Payment&MockObject {
         $address = $this->createMock(OrderAddressInterface::class);
         $address->method('getFirstname')->willReturn('Jane');
@@ -106,6 +107,7 @@ class ResponseTest extends TestCase
         $order->method('getStoreId')->willReturn(1);
         $order->method('getBaseCurrencyCode')->willReturn('USD');
         $order->method('getBillingAddress')->willReturn($address);
+        $order->method('getQuoteId')->willReturn($quoteId);
 
         $payment = $this->createMock(Payment::class);
         $payment->method('getOrder')->willReturn($order);
@@ -436,7 +438,8 @@ class ResponseTest extends TestCase
         bool $isSubscriptionGenerated = false,
         ?string $parentTransactionId = null,
         ?string $lastTransId = null,
-        float $amountPaid = 0.0
+        float $amountPaid = 0.0,
+        ?int $quoteId = null
     ): Payment&MockObject {
         $address = $this->createMock(OrderAddressInterface::class);
         $address->method('getFirstname')->willReturn('Jane');
@@ -454,6 +457,7 @@ class ResponseTest extends TestCase
         $order->method('getStoreId')->willReturn(1);
         $order->method('getBaseCurrencyCode')->willReturn('USD');
         $order->method('getBillingAddress')->willReturn($address);
+        $order->method('getQuoteId')->willReturn($quoteId);
 
         $payment = $this->createMock(Payment::class);
         $payment->method('getOrder')->willReturn($order);
@@ -675,6 +679,82 @@ class ResponseTest extends TestCase
         $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
 
         $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    // --- PR #1 finding 4: Decision Manager device-fingerprint parity (legacy SOAP deviceFingerprintID) ---
+
+    public function testNewCardEmitsDeviceFingerprintWhenConfigProvidesSessionId(): void
+    {
+        // Fingerprinting enabled + a reachable quote session -> deviceInformation.fingerprintSessionId is sent.
+        $this->configMock->method('getFingerprintSessionId')->willReturn('FP-SESSION-9');
+        $this->primeRest(['id' => 'TXN-FP', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token', 0.0, false, 42), 24.0);
+
+        $this->assertSame(
+            'FP-SESSION-9',
+            $this->sentBody['deviceInformation']['fingerprintSessionId']
+        );
+    }
+
+    public function testNewCardOmitsDeviceFingerprintWhenConfigReturnsNull(): void
+    {
+        // Config returns null (fingerprinting disabled) even with a reachable quote id -> no device signal.
+        $this->configMock->method('getFingerprintSessionId')->willReturn(null);
+        $this->primeRest(['id' => 'TXN-NOFP', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token', 0.0, false, 42), 24.0);
+
+        $this->assertArrayNotHasKey('deviceInformation', $this->sentBody);
+    }
+
+    public function testNewCardOmitsDeviceFingerprintWhenNoQuoteId(): void
+    {
+        // No quote id reachable -> Config is never consulted and no device signal is sent.
+        $this->primeRest(['id' => 'TXN-NOQUOTE', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
+
+        $this->assertArrayNotHasKey('deviceInformation', $this->sentBody);
+    }
+
+    public function testStoredCardCitEmitsDeviceFingerprint(): void
+    {
+        // A CIT stored-card charge is cardholder-present, so the device signal is forwarded.
+        $this->configMock->method('getFingerprintSessionId')->willReturn('FP-CIT');
+        $this->primeRest([
+            'id' => 'TXN-CIT-FP',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored(
+            $this->buildStoredPayment(false, null, null, 0.0, 42),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertSame('FP-CIT', $this->sentBody['deviceInformation']['fingerprintSessionId']);
+    }
+
+    public function testStoredCardMitOmitsDeviceFingerprint(): void
+    {
+        // An MIT (subscription-generated) rebill has no cardholder device present; the fingerprint must be
+        // omitted even when Config would otherwise provide a session id.
+        $this->configMock->method('getFingerprintSessionId')->willReturn('FP-MIT');
+        $this->primeRest([
+            'id' => 'TXN-MIT-NOFP',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored(
+            $this->buildStoredPayment(true, 'PRIORTXN', null, 0.0, 42),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertArrayNotHasKey('deviceInformation', $this->sentBody);
     }
 
     // --- Iter 4: Decision Manager REJECT propagation ---

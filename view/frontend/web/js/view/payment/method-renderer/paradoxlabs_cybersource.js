@@ -109,7 +109,36 @@ define(
                     return this.storedCards().length > 0;
                 }, this);
 
+                this.loadFingerprint();
+
                 return this;
+            },
+
+            /**
+             * Inject the CyberSource Decision Manager (online-metrix) device-fingerprint tag.
+             *
+             * Legacy parity: the SA/SOAP renderer loaded this so DM could collect the device signal keyed on
+             * the per-quote session id. Guarded against duplicate injection because the checkout region can
+             * re-render this component; the tag only needs to load once per page.
+             */
+            loadFingerprint: function () {
+                if (config.fingerprintUrl === undefined
+                    || config.fingerprintUrl === null
+                    || config.fingerprintUrl.length <= 1) {
+                    return;
+                }
+
+                // De-dupe by URL: a re-render must not append a second identical tag.
+                if (document.querySelector('script[data-cybs-fingerprint="' + config.fingerprintUrl + '"]')) {
+                    return;
+                }
+
+                // Bypassing requireJS because this is easy enough and bypasses core .min-ifying.
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = config.fingerprintUrl;
+                script.setAttribute('data-cybs-fingerprint', config.fingerprintUrl);
+                document.head.appendChild(script);
             },
 
             /**

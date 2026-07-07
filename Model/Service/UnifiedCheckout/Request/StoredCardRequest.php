@@ -133,6 +133,17 @@ class StoredCardRequest
     private ?string $applicationVersion = null;
 
     /**
+     * Decision Manager device-fingerprint session id (deviceInformation.fingerprintSessionId).
+     *
+     * Legacy SOAP parity: sent as the ccAuthService deviceFingerprintID so Decision Manager can correlate
+     * the device signal. Only ever set on a CIT (cardholder-present) stored-card charge — an MIT rebill has
+     * no cardholder device present, so it is left null there. Null = fingerprinting disabled/unavailable.
+     *
+     * @var string|null
+     */
+    private ?string $fingerprintSessionId = null;
+
+    /**
      * Get the merchant client-reference code (order increment id / origin).
      *
      * @return string|null
@@ -501,6 +512,29 @@ class StoredCardRequest
     }
 
     /**
+     * Get the Decision Manager device-fingerprint session id.
+     *
+     * @return string|null
+     */
+    public function getFingerprintSessionId(): ?string
+    {
+        return $this->fingerprintSessionId;
+    }
+
+    /**
+     * Set the Decision Manager device-fingerprint session id (deviceInformation.fingerprintSessionId).
+     *
+     * @param string|null $fingerprintSessionId
+     * @return $this
+     */
+    public function setFingerprintSessionId(?string $fingerprintSessionId): self
+    {
+        $this->fingerprintSessionId = $fingerprintSessionId;
+
+        return $this;
+    }
+
+    /**
      * Build the JSON-ready stored-card request tree, omitting null/empty leaves but preserving boolean false.
      *
      * @return array<string, mixed>
@@ -536,6 +570,15 @@ class StoredCardRequest
         $orderInformation = $this->buildOrderInformation();
         if (!empty($orderInformation)) {
             $request['orderInformation'] = $orderInformation;
+        }
+
+        // Decision Manager device signal (legacy SOAP deviceFingerprintID parity). Emitted only when a
+        // fingerprint session id is present — the caller sets it on CIT charges only, never on MIT rebills.
+        $deviceInformation = $this->filterEmpty([
+            'fingerprintSessionId' => $this->fingerprintSessionId,
+        ]);
+        if (!empty($deviceInformation)) {
+            $request['deviceInformation'] = $deviceInformation;
         }
 
         return $request;
