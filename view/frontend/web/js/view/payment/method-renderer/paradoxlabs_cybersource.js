@@ -23,11 +23,11 @@ define(
         'jquery',
         'underscore',
         'ParadoxLabs_TokenBase/js/view/payment/method-renderer/cc',
-        'Magento_Ui/js/modal/alert',
         'Magento_Checkout/js/model/quote',
+        'ParadoxLabs_CyberSource/js/unified-checkout-client',
         'mage/translate'
     ],
-    function (ko, $, _, Component, alert, quote) {
+    function (ko, $, _, Component, quote, ucClient) {
         'use strict';
         var config = window.checkoutConfig.payment.paradoxlabs_cybersource;
         // Transient token TTL is ~15 minutes; re-request the capture context shortly before it lapses.
@@ -230,27 +230,13 @@ define(
 
                 this.captureContext = data.captureContext;
 
-                var ctx;
-                try {
-                    ctx = this.decodeJwtBody(data.captureContext).ctx[0].data;
-                } catch (error) {
-                    this.handleAjaxError(null, 'error', 'Invalid capture context');
-
-                    return;
-                }
-
-                // Bypassing requireJS because UC.js is an external asset served from CyberSource's CDN.
-                var script = document.createElement('script');
-                script.src = ctx.clientLibrary;
-                if (ctx.clientLibraryIntegrity) {
-                    script.integrity = ctx.clientLibraryIntegrity;
-                    script.crossOrigin = 'anonymous';
-                }
-                script.addEventListener('load', this.mountUnifiedCheckout.bind(this));
-                script.addEventListener('error', function () {
-                    this.handleAjaxError(null, 'error', 'Unable to load payment library');
-                }.bind(this));
-                document.getElementsByTagName('head')[0].appendChild(script);
+                ucClient.loadClientLibrary(
+                    data.captureContext,
+                    this.mountUnifiedCheckout.bind(this),
+                    function (message) {
+                        this.handleAjaxError(null, 'error', message);
+                    }.bind(this)
+                );
             },
 
             /**
@@ -263,19 +249,11 @@ define(
                     return;
                 }
 
-                Accept(this.captureContext)
-                    .then(function (accept) {
-                        // false = embedded layout (sidebar rejects the paymentScreen container)
-                        return accept.unifiedPayments(false);
-                    })
-                    .then(function (unifiedPayments) {
-                        return unifiedPayments.show({
-                            containers: {
-                                paymentSelection: '#' + this.getCode() + '_uc_selection',
-                                paymentScreen: '#' + this.getCode() + '_uc_screen'
-                            }
-                        });
-                    }.bind(this))
+                ucClient.mountUnifiedPayments(
+                    this.captureContext,
+                    '#' + this.getCode() + '_uc_selection',
+                    '#' + this.getCode() + '_uc_screen'
+                )
                     .then(this.handleTransientToken.bind(this))
                     .catch(function (error) {
                         this.handleAjaxError(null, 'error', error && error.message ? error.message : null);
@@ -314,14 +292,17 @@ define(
             },
 
             /**
-             * Re-request the capture context if the grand total changed while the drop-in was mounted
-             * but before a token was captured.
+             * Re-request the capture context if the grand total changed after the drop-in was mounted,
+             * whether or not a token was already captured.
+             *
+             * The capture mandate/3DS amount is baked into the capture context (and into any captured
+             * transient token), so a total change from a coupon or shipping update after the customer
+             * finished card entry leaves that amount stale. remountDropin() -> resetDropinState() clears
+             * the captured token + synthetic card, forcing re-entry against a fresh, correctly-priced
+             * context. Guards: lastGrandTotal null => never mounted; empty containers => nothing mounted.
              */
             handleTotalChange: function () {
-                // Only relevant once a drop-in is mounted (containers populated) and before a token is
-                // captured. transientToken present => already captured; lastGrandTotal null => never mounted.
-                if (this.transientToken()
-                    || this.lastGrandTotal === null
+                if (this.lastGrandTotal === null
                     || $('#' + this.getCode() + '_uc_screen').children().length === 0) {
                     return;
                 }
@@ -413,22 +394,6 @@ define(
                 this._super();
             },
 
-            /**
-             * Base64url-decode the JWT payload (middle segment) and parse as JSON.
-             *
-             * @param {String} jwt
-             * @return {Object}
-             */
-            decodeJwtBody: function (jwt) {
-                var payload = jwt.split('.')[1];
-                payload = payload.replace(/-/g, '+').replace(/_/g, '/');
-                while (payload.length % 4) {
-                    payload += '=';
-                }
-
-                return JSON.parse(window.atob(payload));
-            },
-
             handleAjaxError: function (jqXHR, status, error) {
                 // jQuery abort()s surface here with status 'abort'; that is an intentional teardown
                 // (stored-card switch / re-mount), not a failure, so swallow it silently.
@@ -456,15 +421,7 @@ define(
                     // responseText was not JSON; keep the default/passed message.
                 }
 
-                try {
-                    alert({
-                        title: $.mage.__('Error'),
-                        content: message
-                    });
-                } catch (e) {
-                    // Fall back to standard alert if jq widget hasn't initialized yet
-                    window.alert(message);
-                }
+                ucClient.showError(message);
             },
 
             /**

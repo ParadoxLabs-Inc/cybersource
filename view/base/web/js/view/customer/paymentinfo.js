@@ -20,10 +20,10 @@
 /*jshint jquery:true*/
 define([
     'jquery',
-    'Magento_Ui/js/modal/alert',
+    'ParadoxLabs_CyberSource/js/unified-checkout-client',
     'mage/translate',
     'mage/validation'
-], function ($, alert) {
+], function ($, ucClient) {
     'use strict';
 
     // Transient token TTL is ~15 minutes; re-request the capture context shortly before it lapses.
@@ -191,24 +191,13 @@ define([
 
             this.captureContext = data.captureContext;
 
-            var ctx;
-            try {
-                ctx = this.decodeJwtBody(data.captureContext).ctx[0].data;
-            } catch (error) {
-                return this.handleAjaxError(null, 'error', 'Invalid capture context');
-            }
-
-            var script = document.createElement('script');
-            script.src = ctx.clientLibrary;
-            if (ctx.clientLibraryIntegrity) {
-                script.integrity = ctx.clientLibraryIntegrity;
-                script.crossOrigin = 'anonymous';
-            }
-            script.addEventListener('load', this.mountUnifiedCheckout.bind(this));
-            script.addEventListener('error', function () {
-                this.handleAjaxError(null, 'error', 'Unable to load payment library');
-            }.bind(this));
-            document.head.appendChild(script);
+            ucClient.loadClientLibrary(
+                data.captureContext,
+                this.mountUnifiedCheckout.bind(this),
+                function (message) {
+                    this.handleAjaxError(null, 'error', message);
+                }.bind(this)
+            );
         },
 
         /**
@@ -222,19 +211,7 @@ define([
             var selection = this.element.find('.unified-checkout-selection').attr('id');
             var screen = this.element.find('.unified-checkout-screen').attr('id');
 
-            Accept(this.captureContext)
-                .then(function (accept) {
-                    // false = embedded layout (sidebar rejects the paymentScreen container)
-                    return accept.unifiedPayments(false);
-                })
-                .then(function (unifiedPayments) {
-                    return unifiedPayments.show({
-                        containers: {
-                            paymentSelection: '#' + selection,
-                            paymentScreen: '#' + screen
-                        }
-                    });
-                })
+            ucClient.mountUnifiedPayments(this.captureContext, '#' + selection, '#' + screen)
                 .then(this.handleTransientToken.bind(this))
                 .catch(function (error) {
                     this.handleAjaxError(null, 'error', error && error.message ? error.message : null);
@@ -296,28 +273,7 @@ define([
                 // responseText was not JSON; keep the default/passed message.
             }
 
-            try {
-                alert({
-                    title: $.mage.__('Error'),
-                    content: message
-                });
-            } catch (e) {
-                // Fall back to standard alert if jq widget hasn't initialized yet
-                window.alert(message);
-            }
-        },
-
-        /**
-         * Base64url-decode the JWT payload (middle segment) and parse as JSON.
-         */
-        decodeJwtBody: function (jwt) {
-            var payload = jwt.split('.')[1];
-            payload = payload.replace(/-/g, '+').replace(/_/g, '/');
-            while (payload.length % 4) {
-                payload += '=';
-            }
-
-            return JSON.parse(window.atob(payload));
+            ucClient.showError(message);
         }
     });
 
