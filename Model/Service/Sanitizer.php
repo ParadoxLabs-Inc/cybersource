@@ -31,6 +31,21 @@ class Sanitizer
     const ISO_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
+     * JSON keys whose string values must be fully masked when logging request/response bodies.
+     * This covers personal data (billTo email, phone, name, address) that must not appear in logs.
+     */
+    const MASKABLE_STRING_KEYS = [
+        'email',
+        'phoneNumber',
+        'firstName',
+        'lastName',
+        'address1',
+        'address2',
+        'locality',
+        'postalCode',
+    ];
+
+    /**
      * Truncate input at length
      *
      * @param string $input
@@ -200,14 +215,17 @@ class Sanitizer
     }
 
     /**
-     * Mask PAN, CVV, and the Unified Checkout transient-token JWT in a JSON request/response body
-     * for secure logging.
+     * Mask PAN, CVV, the Unified Checkout transient-token JWT, and personal data (email, phone,
+     * name, address) in a JSON request/response body for secure logging.
      *
      * The card number ("number") retains only its last four digits; the security code
      * ("securityCode") is fully masked. The UC transient-token JWT ("transientTokenJwt") is a
      * single-use credential and is fully masked, since Rest::post() logs maskJson($jsonBody) on the
-     * error path. Both quoted-string and unquoted numeric JSON values are redacted. Operates on the
-     * raw JSON string so the exact bytes that were transmitted can be safely logged.
+     * error path. The keys listed in self::MASKABLE_STRING_KEYS (billTo email, phone number, name,
+     * and street address fields, etc.) are also fully masked, since Rest::throwOnHttpError() logs
+     * maskJson() on both the request and response body. Both quoted-string and unquoted numeric JSON
+     * values are redacted. Operates on the raw JSON string so the exact bytes that were transmitted
+     * can be safely logged.
      *
      * @param string $json
      * @return string
@@ -243,6 +261,17 @@ class Sanitizer
         // string; output is a quoted "***" to keep valid JSON.
         $json = preg_replace(
             '/("transientTokenJwt"\s*:\s*)"[^"]*"/',
+            '$1"***"',
+            $json
+        );
+
+        // Fully mask personal data (billTo email, phone number, name, and address fields, etc. --
+        // see self::MASKABLE_STRING_KEYS). These are always quoted strings; values may contain
+        // escaped characters (e.g. \"), so the value pattern tolerates any escaped character or any
+        // character that isn't a bare quote or backslash. Output is a quoted "***" to keep valid JSON.
+        $maskableKeys = implode('|', array_map('preg_quote', static::MASKABLE_STRING_KEYS));
+        $json         = preg_replace(
+            '/("(?:' . $maskableKeys . ')"\s*:\s*)"(?:[^"\\\\]|\\\\.)*"/',
             '$1"***"',
             $json
         );
