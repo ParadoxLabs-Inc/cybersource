@@ -139,16 +139,51 @@ class Method extends AbstractMethod
     ) {
         parent::afterAuthorize($payment, $amount, $response);
 
-        $this->applyUnifiedCheckoutToken($response);
+        $this->applyUnifiedCheckoutToken($payment, $response);
+    }
+
+    /**
+     * Persist the Unified Checkout TMS token onto the vault card after a successful capture/sale.
+     *
+     * With payment_action=authorize_capture, order placement routes through the Adapter's
+     * CaptureCommand -> AbstractMethod::capture() -> afterCapture(), never afterAuthorize(). Without
+     * this override the sale response's token_information would never be mapped onto the card, leaving
+     * it saved with an empty paymentId and no uc_token_missing flag -- permanently unusable (Gateway::
+     * buildStoredCardAuth would throw). Mirror the afterAuthorize() override: run the parent first
+     * (which performs partial-invoice reauthorization), then map the inline-minted ids onto the card.
+     *
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @param Response $response
+     * @return void
+     */
+    #[Override]
+    protected function afterCapture(
+        InfoInterface $payment,
+        $amount,
+        Response $response
+    ) {
+        parent::afterCapture($payment, $amount, $response);
+
+        $this->applyUnifiedCheckoutToken($payment, $response);
     }
 
     /**
      * Map a Unified Checkout token result onto the currently loaded card, when present.
      *
+     * After the token result is applied (or determined absent), the consumed single-use transient_token
+     * is removed from the payment's additional_information. AbstractMethod::authorize()/capture() merge the
+     * gateway response into additional_information AFTER this hook runs, and the response carries no
+     * transient_token key, so the unset here sticks. This prevents the 242 recapture fallback in
+     * Gateway::capture() and admin re-auth from re-posting the expired JWT via place() months later
+     * instead of falling back to the vaulted card via buildStoredCardAuth(). Only clear it on a UC
+     * new-card response (token_information / uc_token_missing set) -- other responses are left untouched.
+     *
+     * @param InfoInterface $payment
      * @param Response $response
      * @return void
      */
-    protected function applyUnifiedCheckoutToken(Response $response): void
+    protected function applyUnifiedCheckoutToken(InfoInterface $payment, Response $response): void
     {
         // Only act on Unified Checkout responses. The SOAP/SA path never sets these keys.
         if ($response->getData('token_information') === null
@@ -157,11 +192,12 @@ class Method extends AbstractMethod
         }
 
         $card = $this->getCard();
-        if (!$card instanceof CardInterface) {
-            return;
+        if ($card instanceof CardInterface) {
+            $this->cardBuilder->applyTokenToCard($card, $response);
         }
 
-        $this->cardBuilder->applyTokenToCard($card, $response);
+        // Single-use token has been consumed by place(); drop it so recapture/re-auth use the vaulted card.
+        $payment->unsAdditionalInformation('transient_token');
     }
 
     /**
