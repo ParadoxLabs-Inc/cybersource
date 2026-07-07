@@ -190,6 +190,9 @@
     <type name="ParadoxLabs\CyberSource\Model\Card">
         <arguments>
             <argument name="cardContext" xsi:type="object">ParadoxLabs\CyberSource\Model\Card\VirtualContext</argument>
+            <!-- Lazy: the UC Response service drags in the REST client, but a Card is loaded for every
+                 vault card; only the paymentinfo add-card path actually exchanges a token. -->
+            <argument name="ucResponse" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response\Proxy</argument>
         </arguments>
     </type>
 

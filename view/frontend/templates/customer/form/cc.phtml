@@ -30,7 +30,7 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
     <input type="hidden" name="method" value="<?= /* @noEscape */
     $code ?>"/>
     <input type="hidden" name="source" value="paymentinfo"/>
-    <input type="hidden" name="transient_token" value=""/>
+    <input type="hidden" name="payment[transient_token]" value=""/>
     <fieldset class="fieldset address">
         <legend class="legend"><span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span></legend>
         <br>
@@ -202,8 +202,7 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
             "cybersourcePaymentInfoForm": {
                 "captureContextUrl": "<?= $escaper->escapeJs(
         $block->getUrl('pdl_cybs/unifiedCheckout/captureContext')
-    ) ?>",
-                "successUrl": "<?= $escaper->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
+    ) ?>"
             }
         },
         "#country": {

@@ -39,8 +39,7 @@ define([
     $.widget('mage.cybersourcePaymentInfoForm', {
         options: {
             captureContextUrl: null,
-            successUrl: null,
-            tokenSelector: '[name="transient_token"]',
+            tokenSelector: '[name="payment[transient_token]"]',
             fieldPrefix: '#'
         },
 
@@ -251,7 +250,13 @@ define([
         },
 
         /**
-         * Stash the transient token in the hidden form input, then submit/redirect.
+         * Stash the transient token in the hidden form input, then submit the form.
+         *
+         * The form posts to the TokenBase paymentinfo save controller, which exchanges the transient
+         * token for a vault card (via Card::beforeSave) and performs its own redirect + success/error
+         * message. We always submit here; the dedicated add-card form carries no stored-card select, so
+         * the card_id field is stripped before submit to leave only the transient_token representing the
+         * new card.
          */
         handleTransientToken: function (transientTokenJwt) {
             if (!transientTokenJwt) {
@@ -260,13 +265,8 @@ define([
 
             this.element.find(this.options.tokenSelector).val(transientTokenJwt);
 
-            if (this.options.successUrl !== null) {
-                window.location.href = this.options.successUrl;
-                this.element.trigger('processStart');
-            } else {
-                this.element.find('input[name=card_id]').attr('name', '');
-                this.element.submit();
-            }
+            this.element.find('input[name=card_id]').attr('name', '');
+            this.element.submit();
         },
 
         handleAjaxError: function (jqXHR, status, error) {
