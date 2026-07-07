@@ -329,4 +329,39 @@ class FollowOnTest extends TestCase
         $this->assertTrue((bool)$response->getData('is_approved'));
         $this->assertCount(2, $this->deletedPaths);
     }
+
+    public function testDeleteCardToleratesInstrument404AndContinuesToCustomer(): void
+    {
+        // A 404 on the payment-instrument delete means the token is already gone from TMS. Treat it as
+        // success and continue to the customer-delete step; the whole operation still approves.
+        $this->restMock->method('delete')->willReturnCallback(function (string $path): string {
+            $this->deletedPaths[] = $path;
+            if (str_contains($path, 'payment-instruments')) {
+                throw new Exception('Not Found', 404);
+            }
+
+            return '';
+        });
+
+        $response = $this->service->deleteCard('PI_GONE', 'CUST_456');
+
+        $this->assertTrue((bool)$response->getData('is_approved'));
+        // Both paths attempted, in order: instrument (404-tolerated) then customer.
+        $this->assertSame('/tms/v2/payment-instruments/PI_GONE', $this->deletedPaths[0]);
+        $this->assertSame('/tms/v2/customers/CUST_456', $this->deletedPaths[1]);
+    }
+
+    public function testDeleteCardPropagatesNonNotFoundInstrumentFailure(): void
+    {
+        // Any non-404 instrument failure (e.g. a 500) is a real error and must propagate.
+        $this->restMock->method('delete')->willReturnCallback(function (string $path): string {
+            $this->deletedPaths[] = $path;
+            throw new Exception('Server error', 500);
+        });
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionCode(500);
+
+        $this->service->deleteCard('PI_123', 'CUST_456');
+    }
 }

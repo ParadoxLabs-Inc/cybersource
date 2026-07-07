@@ -31,6 +31,7 @@ class GatewayTest extends TestCase
     private Gateway $gateway;
     private UnifiedCheckoutResponse|MockObject $ucResponse;
     private FollowOn|MockObject $followOn;
+    private ResponseFactory|MockObject $responseFactory;
 
     protected function setUp(): void
     {
@@ -44,10 +45,15 @@ class GatewayTest extends TestCase
             $this->followOn,
         );
 
+        $this->responseFactory = $this->createMock(ResponseFactory::class);
+        $this->responseFactory->method('create')->willReturnCallback(
+            static fn(array $args = []) => (new GatewayResponse())->setData($args['data'] ?? [])
+        );
+
         $this->gateway = new Gateway(
             $this->createMock(Data::class),
             $this->createMock(Xml::class),
-            $this->createMock(ResponseFactory::class),
+            $this->responseFactory,
             $this->createMock(ClientInterfaceFactory::class),
             $context,
         );
@@ -234,5 +240,22 @@ class GatewayTest extends TestCase
             ->willReturn($expected);
 
         $this->assertSame($expected, $this->gateway->deleteCard());
+    }
+
+    public function testDeleteCardWithEmptyPaymentIdSkipsRemoteDeleteAndApproves(): void
+    {
+        // Untokenized card (uc_token_missing) has no paymentId: an empty-id DELETE would 404 and block the
+        // local card delete. The gateway must skip the remote delete entirely and approve so the card is
+        // removed locally.
+        $card = $this->createMock(Card::class);
+        $card->method('getPaymentId')->willReturn('');
+        $card->method('getProfileId')->willReturn('CUST_456');
+        $this->gateway->setCard($card);
+
+        $this->followOn->expects($this->never())->method('deleteCard');
+
+        $response = $this->gateway->deleteCard();
+
+        $this->assertTrue((bool)$response->getData('is_approved'));
     }
 }

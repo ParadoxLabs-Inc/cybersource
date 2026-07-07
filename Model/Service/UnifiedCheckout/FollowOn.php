@@ -323,7 +323,23 @@ class FollowOn
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $this->rest->delete(sprintf(self::TMS_PAYMENT_INSTRUMENT_PATH, rawurlencode($paymentInstrumentId)));
+        try {
+            $this->rest->delete(sprintf(self::TMS_PAYMENT_INSTRUMENT_PATH, rawurlencode($paymentInstrumentId)));
+        } catch (Throwable $exception) {
+            // A 404 means the payment-instrument token is already gone from TMS — nothing to delete, so
+            // treat it as success and continue to the customer-delete step. Any other failure propagates.
+            if ((int)$exception->getCode() !== 404) {
+                throw $exception;
+            }
+
+            $this->helper->log(
+                Config::CODE,
+                sprintf(
+                    'Unified Checkout: TMS payment-instrument already absent (404), treating as deleted: %s',
+                    $exception->getMessage()
+                )
+            );
+        }
 
         if ($customerId !== null && $customerId !== '') {
             try {
@@ -389,10 +405,12 @@ class FollowOn
     ): GatewayResponse {
         try {
             $response = $this->rest->post($path, $request->toArray());
-        } catch (Exception $exception) {
-            // A non-2xx (e.g. 404 for a missing/expired follow-on target) arrives as an Exception whose
-            // code is the HTTP status. Translate the "follow-on target unusable" case into the SOAP code
-            // the gateway retry logic expects; re-throw everything else as-is.
+        } catch (Throwable $exception) {
+            // A non-2xx (e.g. 404 for a missing/expired follow-on target) arrives as an exception whose
+            // code is the HTTP status. Catching \Throwable (not just Exception) also traps the \Error that
+            // a strict_types coercion could raise on the transport, so the 404 mapping still fires.
+            // Translate the "follow-on target unusable" case into the SOAP code the gateway retry logic
+            // expects; re-throw everything else as-is.
             throw $this->normalizeFollowOnException($exception, $notFollowableSoapCode);
         }
 
@@ -402,11 +420,11 @@ class FollowOn
     /**
      * Translate a Rest transport Exception into the right gateway exception, preserving retry semantics.
      *
-     * @param Exception $exception
+     * @param Throwable $exception
      * @param int $notFollowableSoapCode
      * @return Throwable
      */
-    protected function normalizeFollowOnException(Exception $exception, int $notFollowableSoapCode): Throwable
+    protected function normalizeFollowOnException(Throwable $exception, int $notFollowableSoapCode): Throwable
     {
         $status = (int)$exception->getCode();
 

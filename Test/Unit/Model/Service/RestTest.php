@@ -275,6 +275,45 @@ class RestTest extends TestCase
         $this->rest->post('/pts/v2/payments', ['x' => 'y']);
     }
 
+    /**
+     * Regression: a non-JSON / empty error body (empty 404 body on a TMS DELETE, proxy HTML on a 502)
+     * must still throw a plain \Exception with a NON-EMPTY string message and an int code. Under
+     * strict_types the prior code resolved $message to the int status and `new Exception($int, ...)`
+     * raised a TypeError (an \Error), which then escaped downstream `catch (Exception)` blocks.
+     *
+     * @dataProvider nonJsonErrorBodyProvider
+     */
+    public function testThrowsStringMessageIntCodeOnNonJsonErrorBody(string $body, int $status): void
+    {
+        $this->clientMock->method('getStatus')->willReturn($status);
+        $this->clientMock->method('getBody')->willReturn($body);
+
+        try {
+            $this->rest->delete('/tms/v2/payment-instruments/abc123');
+            $this->fail('Expected an Exception to be thrown');
+        } catch (\Throwable $e) {
+            // MUST be a plain Exception, never a TypeError / \Error.
+            $this->assertInstanceOf(\Exception::class, $e);
+            $this->assertNotInstanceOf(\Error::class, $e);
+            $this->assertIsString($e->getMessage());
+            $this->assertNotSame('', $e->getMessage());
+            $this->assertSame($status, $e->getCode());
+        }
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: int}>
+     */
+    public static function nonJsonErrorBodyProvider(): array
+    {
+        return [
+            'empty 404 body (TMS delete)' => ['', 404],
+            'proxy HTML 502' => ['<html><body>502 Bad Gateway</body></html>', 502],
+            'json null literal' => ['null', 404],
+            'non-string message value' => ['{"message":{"nested":"obj"}}', 400],
+        ];
+    }
+
     public function testPostMasksPanAndCvvInLog(): void
     {
         $pan = '4111111111111111';

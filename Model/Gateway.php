@@ -458,6 +458,22 @@ class Gateway extends AbstractGateway
         $paymentInstrumentId = (string)$card->getPaymentId();
         $customerId          = $card->getProfileId() !== null ? (string)$card->getProfileId() : null;
 
+        // Untokenized card (uc_token_missing — a designed state on this branch): with no paymentId there is
+        // no TMS token to remove, and an empty-id DELETE would 404 and block the local card delete. Skip the
+        // remote delete and approve so the card is removed locally.
+        if ($paymentInstrumentId === '') {
+            $this->helper->log(
+                $this->code,
+                'Card delete requested for an untokenized card (no Unified Checkout paymentId);'
+                . ' skipping TMS delete and removing locally.'
+            );
+
+            /** @var Response $response */
+            $response = $this->responseFactory->create(['data' => ['is_approved' => true]]);
+
+            return $response;
+        }
+
         // Cards are not store-scoped; merchant credentials resolve at the gateway's initialized scope
         // (assumed scope), mirroring the SOAP-era card delete which carried no per-card store id.
         return $this->unifiedCheckoutFollowOn->deleteCard($paymentInstrumentId, $customerId);

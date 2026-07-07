@@ -244,10 +244,17 @@ class Rest
     private function throwOnHttpError(string $requestUri, string $jsonParams, ClientInterface $client): never
     {
         $responseJson = json_decode((string)$client->getBody(), true);
+        $status       = (int)$client->getStatus();
 
-        $message = $responseJson['message']
-            ?? $responseJson['response']['rmsg']
-            ?? $client->getStatus();
+        // The error body may not be JSON at all (empty 404 body on a TMS DELETE, proxy HTML on a 502), so
+        // json_decode() yields null and neither key resolves. The message MUST end up a non-empty string —
+        // strict_types would otherwise make `new Exception($int, ...)` raise a TypeError. Fall back to the
+        // HTTP status, and guard against a non-string 'message' value in the JSON.
+        $message = $responseJson['message'] ?? $responseJson['response']['rmsg'] ?? null;
+
+        if (!is_string($message) || $message === '') {
+            $message = 'HTTP ' . $status;
+        }
 
         $this->helper->log(
             $this->config::CODE,
@@ -259,7 +266,7 @@ class Rest
 
         throw new Exception(
             $message,
-            $client->getStatus()
+            $status
         );
     }
 
