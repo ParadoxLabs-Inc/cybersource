@@ -396,4 +396,84 @@ class CaptureContextTest extends TestCase
         $this->assertArrayNotHasKey('buildingNumber', $result);
         $this->assertSame('Main Street', $result['address1']);
     }
+
+    public function testMapBillToOmitsEmailOnlyWhenEmailIsInvalid(): void
+    {
+        // Sanitizer::email() throws InputException on an invalid address; mapBillTo() must tolerate
+        // that and drop only the 'email' entry, not the rest of the billTo tree.
+        $this->handler->email = 'not-an-email';
+
+        $region = $this->createMock(RegionInterface::class);
+        $region->method('getRegionCode')->willReturn('CA');
+
+        $address = $this->createMock(AddressInterface::class);
+        $address->method('getFirstname')->willReturn('Jane');
+        $address->method('getLastname')->willReturn('Doe');
+        $address->method('getStreet')->willReturn(['123 Main St']);
+        $address->method('getCity')->willReturn('Los Angeles');
+        $address->method('getRegion')->willReturn($region);
+        $address->method('getPostcode')->willReturn('90210');
+        $address->method('getCountryId')->willReturn('US');
+        $address->method('getTelephone')->willReturn('5551234567');
+
+        $result = $this->handler->exposeMapBillTo($address);
+
+        $this->assertArrayNotHasKey('email', $result);
+        $this->assertSame('Jane', $result['firstName']);
+        $this->assertSame('Doe', $result['lastName']);
+        $this->assertSame('123 Main St', $result['address1']);
+        $this->assertSame('Los Angeles', $result['locality']);
+        $this->assertSame('CA', $result['administrativeArea']);
+        $this->assertSame('90210', $result['postalCode']);
+        $this->assertSame('US', $result['country']);
+    }
+
+    public function testMapBillToPreservesValidEmail(): void
+    {
+        $this->handler->email = 'jane@example.com';
+
+        $result = $this->handler->exposeMapBillTo($this->addressStub());
+
+        $this->assertSame('jane@example.com', $result['email']);
+    }
+
+    /**
+     * @dataProvider emptyEmailProvider
+     */
+    public function testMapBillToOmitsEmailWhenNullOrEmpty(?string $email): void
+    {
+        $this->handler->email = $email;
+
+        $result = $this->handler->exposeMapBillTo($this->addressStub());
+
+        $this->assertArrayNotHasKey('email', $result);
+    }
+
+    /**
+     * Minimal address mock for tests that only care about the email field of mapBillTo().
+     *
+     * @return AddressInterface|MockObject
+     */
+    private function addressStub(): AddressInterface|MockObject
+    {
+        $region = $this->createMock(RegionInterface::class);
+        $region->method('getRegionCode')->willReturn('CA');
+
+        $address = $this->createMock(AddressInterface::class);
+        $address->method('getStreet')->willReturn([]);
+        $address->method('getRegion')->willReturn($region);
+
+        return $address;
+    }
+
+    /**
+     * @return array<string, array{0: string|null}>
+     */
+    public static function emptyEmailProvider(): array
+    {
+        return [
+            'null email' => [null],
+            'empty string email' => [''],
+        ];
+    }
 }

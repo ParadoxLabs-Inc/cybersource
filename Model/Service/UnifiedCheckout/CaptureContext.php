@@ -29,6 +29,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContext
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Builds a Unified Checkout capture-context request and POSTs it to CyberSource, returning the JWT.
@@ -154,9 +155,28 @@ abstract class CaptureContext
             ),
             'postalCode' => $this->sanitizer->postcode($address->getPostcode(), $address->getCountryId()),
             'country' => $this->sanitizer->alpha(strtoupper((string)$address->getCountryId()), 2),
-            'email' => $this->sanitizer->email((string)$this->getEmail()),
+            'email' => $this->sanitizeEmail($this->getEmail()),
             'phoneNumber' => $this->sanitizer->phone($address->getTelephone(), 15),
         ], static fn($value): bool => $value !== null && $value !== '');
+    }
+
+    /**
+     * Sanitize the billing email, tolerating an invalid/missing value (Sanitizer::email() may throw).
+     *
+     * @param string|null $email
+     * @return string|null
+     */
+    protected function sanitizeEmail(?string $email): ?string
+    {
+        if ($email === null || $email === '') {
+            return null;
+        }
+
+        try {
+            return $this->sanitizer->email($email);
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     /**
