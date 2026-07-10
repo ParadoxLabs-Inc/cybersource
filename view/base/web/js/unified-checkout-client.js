@@ -20,8 +20,9 @@
 /**
  * Shared Unified Checkout client helpers, consumed by the three UC entry points (the KO renderer,
  * the legacy jQuery widget, and the customer/admin add-card widget). Factors the genuinely identical
- * plumbing — JWT decoding, SRI script injection (de-duped by src), the Accept mount chain, and the
- * alert error surface — while each entry point keeps its own distinct ajax/error-routing behavior.
+ * plumbing — JWT decoding, RequireJS-based UC.js loading (UMD; see loadClientLibrary) with SRI, the
+ * Accept mount chain, and the alert error surface — while each entry point keeps its own distinct
+ * ajax/error-routing behavior.
  */
 define([
     'jquery',
@@ -48,18 +49,18 @@ define([
         },
 
         /**
-         * Decode the capture-context JWT and inject the UC client library (with SRI when the capture
+         * Decode the capture-context JWT and load the UC client library (with SRI when the capture
          * context provides an integrity hash), then invoke onReady once it is available.
          *
-         * De-duped by script src: a long session re-mounts every ~14 minutes and every capture context
-         * points at the same CDN library, so we never append a second identical tag. If a tag with that
-         * src already exists and window.Accept is a function the library is loaded, so onReady fires
-         * immediately; if the tag exists but is still loading we attach to its load/error events rather
-         * than injecting a duplicate.
+         * UC.js is a UMD bundle: when an AMD loader is present (define.amd — always true on a Magento
+         * page) it registers via an anonymous define() and NEVER sets window.Accept, so a raw script
+         * tag dead-ends with a RequireJS "mismatched anonymous define" error and no usable global.
+         * Loading through require([url]) matches the anonymous define to the request and hands us the
+         * export object ({Accept}) directly. RequireJS also de-dupes repeat loads of the same URL.
          *
-         * A tag that fails to load (network/CSP/SRI) is removed from the DOM in its error handler, so
-         * the src-dedup never latches onto a dead tag whose events already fired: the next attempt
-         * injects a fresh tag and gets a live load/error outcome instead of hanging silently.
+         * SRI: RequireJS creates the script node itself, so the integrity/crossorigin attributes are
+         * applied via an onNodeCreated hook keyed by URL (each capture context carries a unique
+         * clientLibrary URL + hash).
          *
          * @param {String} captureContext
          * @param {Function} onReady
@@ -76,44 +77,82 @@ define([
                 return;
             }
 
-            var existing = document.querySelector('script[src="' + ctx.clientLibrary + '"]');
+            this.installSriHook();
+            this._integrities[ctx.clientLibrary] = ctx.clientLibraryIntegrity || null;
 
-            if (existing) {
-                // Already injected. If the library finished loading proceed immediately; otherwise
-                // attach to the in-flight tag rather than injecting a duplicate.
-                if (typeof window.Accept === 'function') {
+            require(
+                [ctx.clientLibrary],
+                function (ucModule) {
+                    // AMD path: exports object. Non-AMD fallback (just in case): window.Accept.
+                    this._accept = ucModule && typeof ucModule.Accept === 'function'
+                        ? ucModule.Accept
+                        : (typeof window.Accept === 'function' ? window.Accept : null);
+
+                    if (this._accept === null) {
+                        onError('Unable to load payment library');
+
+                        return;
+                    }
+
                     onReady();
+                }.bind(this),
+                function (loadError) {
+                    // RequireJS caches load failures per module id; undef so a retry can refetch.
+                    if (loadError && loadError.requireModules) {
+                        loadError.requireModules.forEach(function (moduleId) {
+                            window.require.undef(moduleId);
+                        });
+                    }
 
-                    return;
-                }
-
-                existing.addEventListener('load', onReady);
-                existing.addEventListener('error', function () {
-                    existing.remove();
                     onError('Unable to load payment library');
-                });
-
-                return;
-            }
-
-            // Bypassing requireJS because UC.js is an external asset served from CyberSource's CDN.
-            var script = document.createElement('script');
-            script.src = ctx.clientLibrary;
-            if (ctx.clientLibraryIntegrity) {
-                script.integrity = ctx.clientLibraryIntegrity;
-                script.crossOrigin = 'anonymous';
-            }
-            script.addEventListener('load', onReady);
-            script.addEventListener('error', function () {
-                script.remove();
-                onError('Unable to load payment library');
-            });
-            document.getElementsByTagName('head')[0].appendChild(script);
+                }
+            );
         },
 
         /**
-         * Mount the UC drop-in via the Accept global into the embedded containers and return the
-         * promise resolving to the captured transient-token JWT (callers chain their own handlers).
+         * Install the RequireJS onNodeCreated hook that applies SRI attributes to UC.js script nodes,
+         * chaining any previously configured hook. Idempotent; keyed off the URL->integrity map.
+         */
+        installSriHook: function () {
+            if (this._integrities) {
+                return;
+            }
+
+            this._integrities = {};
+
+            var self = this;
+            var previousHook = window.require.s
+                && window.require.s.contexts
+                && window.require.s.contexts._
+                && window.require.s.contexts._.config.onNodeCreated;
+
+            require.config({
+                onNodeCreated: function (node, config, name, url) {
+                    if (self._integrities[url]) {
+                        node.setAttribute('integrity', self._integrities[url]);
+                        node.setAttribute('crossorigin', 'anonymous');
+                    }
+
+                    if (typeof previousHook === 'function') {
+                        previousHook.apply(this, arguments);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Whether the UC client library has been loaded and its Accept entry point captured.
+         *
+         * @return {Boolean}
+         */
+        isAvailable: function () {
+            return typeof this._accept === 'function' || typeof window.Accept === 'function';
+        },
+
+        /**
+         * Mount the UC drop-in via the captured Accept entry point into the embedded containers and
+         * return the promise resolving to the captured transient-token JWT (callers chain their own
+         * handlers).
          *
          * @param {String} captureContext
          * @param {String} selectionSelector - CSS selector for the paymentSelection container
@@ -121,10 +160,12 @@ define([
          * @return {Promise}
          */
         mountUnifiedPayments: function (captureContext, selectionSelector, screenSelector) {
-            return Accept(captureContext)
-                .then(function (accept) {
+            var accept = typeof this._accept === 'function' ? this._accept : window.Accept;
+
+            return accept(captureContext)
+                .then(function (acceptInstance) {
                     // false = embedded layout (sidebar rejects the paymentScreen container)
-                    return accept.unifiedPayments(false);
+                    return acceptInstance.unifiedPayments(false);
                 })
                 .then(function (unifiedPayments) {
                     return unifiedPayments.show({

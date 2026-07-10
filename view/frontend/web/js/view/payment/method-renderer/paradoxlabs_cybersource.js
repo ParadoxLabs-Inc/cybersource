@@ -272,7 +272,7 @@ define(
              * Mount the UC drop-in via the Accept global into the embedded containers.
              */
             mountUnifiedCheckout: function () {
-                if (typeof Accept !== 'function') {
+                if (!ucClient.isAvailable()) {
                     this.handleAjaxError(null, 'error', 'Payment library unavailable');
 
                     return;
