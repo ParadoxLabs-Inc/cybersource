@@ -3,10 +3,15 @@
     <!--
         Unified Checkout (UC.js drop-in) + Decision Manager device fingerprinting hosts.
 
-        The capture-context JWT's clientLibrary points at the CyberSource API host
-        (apitest.cybersource.com sandbox / api.cybersource.com production, /up/v1/assets/...), not the
-        Flex/Microform hosts. flex/testflex retained pending live confirmation that no UC asset is
-        served from them; drop once a live run confirms.
+        Hosts come from two sources:
+        - Live-observed (2026-07-10): the capture-context JWT's clientLibrary is served from
+          testup.cybersource.com (/uc/v1/assets/.../SecureAcceptance.js); production counterpart
+          up.cybersource.com. DM fingerprinting also frames h.online-metrix.net (frame-src).
+        - UC dev guide Security Recommendations (Appendix p.281): apitest/api.cybersource.com on
+          connect-src, frame-src, child-src, and script-src.
+        The JWT host may change between releases (docs: never hard-code it), so both pairs are listed.
+        flex/testflex (Microform hosts) retained pending a full-flow live run confirming no UC asset
+        loads from them; prune once confirmed.
 
         VERIFY: Digital wallet hosts (Apple Pay, Google Pay, Click to Pay, Paze) are pending live
         confirmation with wallets enabled; expected candidates include pay.google.com,
@@ -16,6 +21,8 @@
         <policy id="script-src">
             <values>
                 <!-- UC.js client library (sandbox + production) -->
+                <value id="cybersource_up" type="host">up.cybersource.com</value>
+                <value id="cybersource_testup" type="host">testup.cybersource.com</value>
                 <value id="cybersource_api" type="host">api.cybersource.com</value>
                 <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
@@ -27,6 +34,8 @@
         <policy id="connect-src">
             <values>
                 <!-- UC.js client API calls (sandbox + production) -->
+                <value id="cybersource_up" type="host">up.cybersource.com</value>
+                <value id="cybersource_testup" type="host">testup.cybersource.com</value>
                 <value id="cybersource_api" type="host">api.cybersource.com</value>
                 <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
@@ -38,12 +47,26 @@
         <policy id="frame-src">
             <values>
                 <!-- UC drop-in iframes (sandbox + production) -->
+                <value id="cybersource_up" type="host">up.cybersource.com</value>
+                <value id="cybersource_testup" type="host">testup.cybersource.com</value>
                 <value id="cybersource_api" type="host">api.cybersource.com</value>
                 <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
                 <value id="cybersource_testflex" type="host">testflex.cybersource.com</value>
                 <!-- 3DS step-up challenge runs inside the UC iframe via Cardinal (frame only) -->
                 <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
+                <!-- Decision Manager device fingerprinting frames h.online-metrix.net (live-observed) -->
+                <value id="onlinemetrix" type="host">*.online-metrix.net</value>
+            </values>
+        </policy>
+        <policy id="child-src">
+            <values>
+                <!-- UC dev guide lists child-src alongside frame-src for the drop-in iframes -->
+                <value id="cybersource_up" type="host">up.cybersource.com</value>
+                <value id="cybersource_testup" type="host">testup.cybersource.com</value>
+                <value id="cybersource_api" type="host">api.cybersource.com</value>
+                <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
+                <value id="onlinemetrix" type="host">*.online-metrix.net</value>
             </values>
         </policy>
         <policy id="img-src">
