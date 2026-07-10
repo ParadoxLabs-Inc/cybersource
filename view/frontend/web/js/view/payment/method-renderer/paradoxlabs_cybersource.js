@@ -79,6 +79,12 @@ define(
                 // Consecutive mount/load failures; latches maybeMountDropin() at MAX_MOUNT_FAILURES.
                 this._mountFailures = 0;
 
+                // Last seen selectedCard value. The TokenBase cc.js base fires
+                // selectedCard.notifySubscribers() on a 100ms interval (form-validation UX), so the
+                // subscription receives constant no-change notifications; the handler must only react
+                // to actual transitions or every tick becomes a mount attempt / latch reset.
+                this._lastSelectedCard = this.selectedCard();
+
                 // Capture subscription handles so dispose() can tear them down; on checkout region
                 // re-render the component is recreated and these would otherwise accumulate (N x handlers).
                 this._subscriptions = [
@@ -187,6 +193,13 @@ define(
              */
             handleSelectedCardChange: function () {
                 var selected = this.selectedCard();
+
+                // Ignore the base class's 100ms notifySubscribers() ticks; act on real changes only.
+                if (selected === this._lastSelectedCard) {
+                    return;
+                }
+
+                this._lastSelectedCard = selected;
 
                 if (selected === NEW_CARD_ID) {
                     return;

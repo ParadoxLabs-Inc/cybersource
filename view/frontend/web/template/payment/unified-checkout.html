@@ -50,12 +50,14 @@
             <div>&nbsp;</div>
             <!-- /ko -->
 
-            <!-- Unified Checkout drop-in (embedded layout). Shown when adding a new card. -->
+            <!-- Unified Checkout drop-in (embedded layout). Shown when adding a new card.
+                 afterRender kicks off the initial mount attempt once the containers exist; the
+                 renderer's quote subscriptions only fire on subsequent changes. -->
             <div class="field card required" data-bind="visible: showDropin()">
                 <div class="unified-checkout-selection"
                      data-bind="attr: {id: getCode() + '_uc_selection'}"></div>
                 <div class="unified-checkout-screen"
-                     data-bind="attr: {id: getCode() + '_uc_screen'}"></div>
+                     data-bind="attr: {id: getCode() + '_uc_screen'}, afterRender: maybeMountDropin"></div>
             </div>
 
             <!-- ko if: (selectedCard()) -->
