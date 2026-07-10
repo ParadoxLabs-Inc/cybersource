@@ -57,6 +57,10 @@ define([
          * immediately; if the tag exists but is still loading we attach to its load/error events rather
          * than injecting a duplicate.
          *
+         * A tag that fails to load (network/CSP/SRI) is removed from the DOM in its error handler, so
+         * the src-dedup never latches onto a dead tag whose events already fired: the next attempt
+         * injects a fresh tag and gets a live load/error outcome instead of hanging silently.
+         *
          * @param {String} captureContext
          * @param {Function} onReady
          * @param {Function} onError - called with a message string on decode failure or script error
@@ -85,6 +89,7 @@ define([
 
                 existing.addEventListener('load', onReady);
                 existing.addEventListener('error', function () {
+                    existing.remove();
                     onError('Unable to load payment library');
                 });
 
@@ -100,6 +105,7 @@ define([
             }
             script.addEventListener('load', onReady);
             script.addEventListener('error', function () {
+                script.remove();
                 onError('Unable to load payment library');
             });
             document.getElementsByTagName('head')[0].appendChild(script);

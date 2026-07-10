@@ -34,6 +34,10 @@ define(
         var TOKEN_TTL_MS = 14 * 60 * 1000;
         // Placeholder card id used to flag a freshly tokenized (not-yet-vaulted) card to the place-order UI.
         var NEW_CARD_ID = 'unified_checkout_new';
+        // Consecutive-failure cap on mount attempts. Quote observables (billing address, payment method)
+        // notify on many checkout actions; without a latch a persistent failure (e.g. UC.js blocked by
+        // CSP) turns every notification into a fresh signed capture-context API call, indefinitely.
+        var MAX_MOUNT_FAILURES = 3;
 
         // ---------------------------------------------------------------------------------------------
         // Iter-3 additional_data contract (getData()):
@@ -71,6 +75,9 @@ define(
                 // stale request instead of double-mounting. TTL timer handle for the same reason.
                 this._captureXhr = null;
                 this._ttlTimer = null;
+
+                // Consecutive mount/load failures; latches maybeMountDropin() at MAX_MOUNT_FAILURES.
+                this._mountFailures = 0;
 
                 // Capture subscription handles so dispose() can tear them down; on checkout region
                 // re-render the component is recreated and these would otherwise accumulate (N x handlers).
@@ -147,6 +154,10 @@ define(
              *
              * The guard keys on actual container emptiness rather than a sticky boolean, so a
              * stored -> new card transition reliably re-mounts (a sticky latch would dead-end).
+             *
+             * The failure latch stops the quote subscriptions from re-requesting forever when the
+             * mount cannot succeed (e.g. UC.js blocked); an explicit "Add new card" re-selection
+             * resets it (handleSelectedCardChange) so a transient outage stays recoverable.
              */
             maybeMountDropin: function () {
                 var screen = $('#' + this.getCode() + '_uc_screen');
@@ -157,6 +168,7 @@ define(
                     || quote.billingAddress() === null
                     || screen.length === 0
                     || this._captureXhr !== null
+                    || this._mountFailures >= MAX_MOUNT_FAILURES
                     || screen.children().length > 0) {
                     return;
                 }
@@ -186,6 +198,10 @@ define(
 
                     return;
                 }
+
+                // Explicit return to "Add new card": clear the failure latch so a past transient
+                // failure does not dead-end a deliberate retry.
+                this._mountFailures = 0;
 
                 this.maybeMountDropin();
             },
@@ -258,6 +274,9 @@ define(
                     .catch(function (error) {
                         this.handleAjaxError(null, 'error', error && error.message ? error.message : null);
                     }.bind(this));
+
+                // The library loaded and a mount is underway; clear the consecutive-failure latch.
+                this._mountFailures = 0;
 
                 $('#' + this.getCode() + '_uc_screen').trigger('processStop');
                 this.scheduleTokenRefresh();
@@ -400,6 +419,8 @@ define(
                 if (status === 'abort') {
                     return;
                 }
+
+                this._mountFailures++;
 
                 $('#' + this.getCode() + '_uc_screen').trigger('processStop');
                 this._captureXhr = null;

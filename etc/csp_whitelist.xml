@@ -3,8 +3,10 @@
     <!--
         Unified Checkout (UC.js drop-in) + Decision Manager device fingerprinting hosts.
 
-        VERIFY (S7): The capture-context clientLibrary host (flex.cybersource.com / testflex.cybersource.com)
-        is pending live confirmation against the host actually served in the capture context JWT.
+        The capture-context JWT's clientLibrary points at the CyberSource API host
+        (apitest.cybersource.com sandbox / api.cybersource.com production, /up/v1/assets/...), not the
+        Flex/Microform hosts. flex/testflex retained pending live confirmation that no UC asset is
+        served from them; drop once a live run confirms.
 
         VERIFY: Digital wallet hosts (Apple Pay, Google Pay, Click to Pay, Paze) are pending live
         confirmation with wallets enabled; expected candidates include pay.google.com,
@@ -14,6 +16,8 @@
         <policy id="script-src">
             <values>
                 <!-- UC.js client library (sandbox + production) -->
+                <value id="cybersource_api" type="host">api.cybersource.com</value>
+                <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
                 <value id="cybersource_testflex" type="host">testflex.cybersource.com</value>
                 <!-- Decision Manager device fingerprinting -->
@@ -23,6 +27,8 @@
         <policy id="connect-src">
             <values>
                 <!-- UC.js client API calls (sandbox + production) -->
+                <value id="cybersource_api" type="host">api.cybersource.com</value>
+                <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
                 <value id="cybersource_testflex" type="host">testflex.cybersource.com</value>
                 <!-- Decision Manager device fingerprinting -->
@@ -32,6 +38,8 @@
         <policy id="frame-src">
             <values>
                 <!-- UC drop-in iframes (sandbox + production) -->
+                <value id="cybersource_api" type="host">api.cybersource.com</value>
+                <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
                 <value id="cybersource_testflex" type="host">testflex.cybersource.com</value>
                 <!-- 3DS step-up challenge runs inside the UC iframe via Cardinal (frame only) -->
