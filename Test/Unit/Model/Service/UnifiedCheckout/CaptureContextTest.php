@@ -74,6 +74,10 @@ class CaptureContextTest extends TestCase
         $this->assertSame(['PANENTRY'], $result['allowedPaymentTypes']);
         $this->assertSame('en_US', $result['locale']);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
+        // Contact collection is always suppressed: Magento collects these and sends them with the txn.
+        $this->assertFalse($result['captureMandate']['requestEmail']);
+        $this->assertFalse($result['captureMandate']['requestPhone']);
+        $this->assertFalse($result['captureMandate']['requestShipping']);
         $this->assertSame('AUTH', $result['completeMandate']['type']);
         $this->assertFalse($result['completeMandate']['decisionManager']);
         $this->assertFalse($result['completeMandate']['consumerAuthentication']);

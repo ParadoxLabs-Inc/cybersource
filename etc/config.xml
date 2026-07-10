@@ -17,7 +17,7 @@
                 <uc_target_origins/>
                 <uc_allowed_card_networks>VISA,MASTERCARD,AMEX,DISCOVER</uc_allowed_card_networks>
                 <uc_allowed_payment_types>PANENTRY</uc_allowed_payment_types>
-                <uc_billing_type>FULL</uc_billing_type>
+                <uc_billing_type>NONE</uc_billing_type>
                 <uc_country/>
                 <uc_locale/>
                 <uc_3ds>0</uc_3ds>

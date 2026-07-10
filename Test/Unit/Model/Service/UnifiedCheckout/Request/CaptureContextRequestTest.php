@@ -43,6 +43,9 @@ class CaptureContextRequestTest extends TestCase
             ->setLocale('en_US')
             ->setBillingType('FULL')
             ->setRequestSaveCard(true)
+            ->setRequestEmail(true)
+            ->setRequestPhone(true)
+            ->setRequestShipping(true)
             ->setCompleteMandateType('AUTH')
             ->setDecisionManager(true)
             ->setConsumerAuthentication(true)
@@ -67,6 +70,9 @@ class CaptureContextRequestTest extends TestCase
 
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         $this->assertTrue($result['captureMandate']['requestSaveCard']);
+        $this->assertTrue($result['captureMandate']['requestEmail']);
+        $this->assertTrue($result['captureMandate']['requestPhone']);
+        $this->assertTrue($result['captureMandate']['requestShipping']);
 
         $this->assertSame('AUTH', $result['completeMandate']['type']);
         $this->assertTrue($result['completeMandate']['decisionManager']);
@@ -106,13 +112,19 @@ class CaptureContextRequestTest extends TestCase
         $this->request
             ->setDecisionManager(false)
             ->setConsumerAuthentication(false)
-            ->setRequestSaveCard(false);
+            ->setRequestSaveCard(false)
+            ->setRequestEmail(false)
+            ->setRequestPhone(false)
+            ->setRequestShipping(false);
 
         $result = $this->request->toArray();
 
         $this->assertFalse($result['completeMandate']['decisionManager']);
         $this->assertFalse($result['completeMandate']['consumerAuthentication']);
         $this->assertFalse($result['captureMandate']['requestSaveCard']);
+        $this->assertFalse($result['captureMandate']['requestEmail']);
+        $this->assertFalse($result['captureMandate']['requestPhone']);
+        $this->assertFalse($result['captureMandate']['requestShipping']);
     }
 
     public function testWalletPaymentTypesPassThrough(): void

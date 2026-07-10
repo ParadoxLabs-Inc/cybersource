@@ -106,6 +106,11 @@ abstract class CaptureContext
             ->setLocale($this->config->getUcLocale($storeId))
             ->setBillingType($this->config->getUcBillingType($storeId))
             ->setRequestSaveCard($this->canRequestSaveCard())
+            // Contact details are collected by Magento (checkout/account/admin forms) and sent with
+            // the payment request; explicit false stops UC from re-collecting them (UC defaults on).
+            ->setRequestEmail(false)
+            ->setRequestPhone(false)
+            ->setRequestShipping(false)
             ->setCompleteMandateType($this->config->getUcCompleteMandateType($storeId))
             ->setDecisionManager($this->config->isDecisionManagerEnabled($storeId))
             ->setConsumerAuthentication($this->config->is3dsEnabled($storeId));

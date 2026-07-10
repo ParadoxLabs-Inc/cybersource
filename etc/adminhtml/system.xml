@@ -117,7 +117,7 @@
                         <option label="Partial (Postal Code Only)">PARTIAL</option>
                         <option label="None">NONE</option>
                     </options>
-                    <comment>How much billing address information the Unified Checkout form collects from the customer.</comment>
+                    <comment>How much billing address information the Unified Checkout form collects from the customer. Checkout already collects a billing address, which is sent with the transaction; None is recommended.</comment>
                 </field>
                 <field id="uc_country" translate="label comment" type="select" sortOrder="232" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Merchant Country</label>

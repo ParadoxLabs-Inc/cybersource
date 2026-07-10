@@ -75,6 +75,21 @@ class CaptureContextRequest
     private ?bool $requestSaveCard = null;
 
     /**
+     * @var bool|null
+     */
+    private ?bool $requestEmail = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $requestPhone = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $requestShipping = null;
+
+    /**
      * @var string|null
      */
     private ?string $completeMandateType = null;
@@ -291,6 +306,75 @@ class CaptureContextRequest
     }
 
     /**
+     * Get whether UC collects the customer email.
+     *
+     * @return bool|null
+     */
+    public function getRequestEmail(): ?bool
+    {
+        return $this->requestEmail;
+    }
+
+    /**
+     * Set whether UC collects the customer email.
+     *
+     * @param bool|null $requestEmail
+     * @return $this
+     */
+    public function setRequestEmail(?bool $requestEmail): self
+    {
+        $this->requestEmail = $requestEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get whether UC collects the customer phone number.
+     *
+     * @return bool|null
+     */
+    public function getRequestPhone(): ?bool
+    {
+        return $this->requestPhone;
+    }
+
+    /**
+     * Set whether UC collects the customer phone number.
+     *
+     * @param bool|null $requestPhone
+     * @return $this
+     */
+    public function setRequestPhone(?bool $requestPhone): self
+    {
+        $this->requestPhone = $requestPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get whether UC collects a shipping address.
+     *
+     * @return bool|null
+     */
+    public function getRequestShipping(): ?bool
+    {
+        return $this->requestShipping;
+    }
+
+    /**
+     * Set whether UC collects a shipping address.
+     *
+     * @param bool|null $requestShipping
+     * @return $this
+     */
+    public function setRequestShipping(?bool $requestShipping): self
+    {
+        $this->requestShipping = $requestShipping;
+
+        return $this;
+    }
+
+    /**
      * Get the completeMandate type (AUTH|CAPTURE|PREFER_AUTH).
      *
      * @return string|null
@@ -447,6 +531,9 @@ class CaptureContextRequest
         $captureMandate = $this->filterEmpty([
             'billingType' => $this->billingType,
             'requestSaveCard' => $this->requestSaveCard,
+            'requestEmail' => $this->requestEmail,
+            'requestPhone' => $this->requestPhone,
+            'requestShipping' => $this->requestShipping,
         ]);
         if (!empty($captureMandate)) {
             $request['captureMandate'] = $captureMandate;
