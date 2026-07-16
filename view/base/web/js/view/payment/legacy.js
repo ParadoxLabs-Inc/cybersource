@@ -27,8 +27,17 @@ define([
 
     // Placeholder card id used to flag a freshly tokenized (not-yet-vaulted) card to the form.
     var NEW_CARD_ID = 'unified_checkout_new';
-    // Transient token TTL is ~15 minutes; re-request the capture context shortly before it lapses.
-    var TOKEN_TTL_MS = 14 * 60 * 1000;
+    // How long after a mount is kicked off to verify the drop-in actually painted. The UC iframe
+    // loads asynchronously and exposes no documented ready event, so this is a wall-clock check.
+    var MOUNT_HEALTH_CHECK_MS = 3000;
+    // Outer bound on a whole mount cycle (request -> UC.js load -> mount). The library load is the one
+    // leg that can stall without ever calling back — neither onReady nor onError — which would leave
+    // dropinMounted stuck true and block every future attempt. Arming the health check when the cycle
+    // opens means that stall is caught and retried like any other dead mount.
+    var CYCLE_TIMEOUT_MS = 45000;
+    // Consecutive dead-mount cap. Bounds the health-check retry so a persistently broken mount stops
+    // rather than looping on signed capture-context calls; the customer is told once when it trips.
+    var MAX_MOUNT_FAILURES = 3;
 
     // ---------------------------------------------------------------------------------------------
     // Iter-3 additional_data contract (shared with the KO renderer):
@@ -50,22 +59,53 @@ define([
             this.element.on('change', this.options.cardSelector, this.handleCardSelectChange.bind(this));
             this.dropinMounted = false;
             this._captureXhr = null;
-            this._ttlTimer = null;
+
+            // Expiry timers, deliberately split: a lapsed capture context can be swapped silently
+            // (nothing captured yet), whereas a lapsed transient token discards card entry the customer
+            // already completed and must be announced. A single mount-armed timer conflated the two and
+            // silently wiped the form out from under them.
+            this._contextTimer = null;
+            this._tokenTimer = null;
+            this._healthTimer = null;
+
+            // Consecutive dead mounts. Deliberately NOT reset by teardownDropin(), or the health-check
+            // retry would clear its own counter on every cycle and never trip; only an explicit
+            // "Add new card" selection resets it, so a deliberate retry still gets a clean budget.
+            this._mountFailures = 0;
+
+            // Invalidates in-flight mount cycles; see loadClientLibrary(). The sticky dropinMounted flag
+            // already blocks concurrent mounts here, but a teardown mid-cycle (stored-card switch, token
+            // expiry) clears it and lets a new cycle start while the old one is still loading — so the
+            // old cycle's callbacks must be discardable rather than left to clobber the new context.
+            this._mountGeneration = 0;
 
             this.initFingerprint();
             this.handleCardSelectChange();
         },
 
         _destroy: function () {
-            if (this._ttlTimer) {
-                clearTimeout(this._ttlTimer);
-                this._ttlTimer = null;
-            }
+            this.clearTimers();
+
+            // Aborting the xhr only stops a cycle still on its ajax leg; one already past it would
+            // otherwise mount into the DOM this widget is being torn down from.
+            this._mountGeneration++;
 
             if (this._captureXhr) {
                 this._captureXhr.abort();
                 this._captureXhr = null;
             }
+        },
+
+        /**
+         * Clear every armed timer.
+         */
+        clearTimers: function () {
+            ['_contextTimer', '_tokenTimer', '_healthTimer'].forEach(function (handle) {
+                if (this[handle]) {
+                    clearTimeout(this[handle]);
+                    this[handle] = null;
+                }
+            }.bind(this));
         },
 
         handleCardSelectChange: function () {
@@ -81,17 +121,24 @@ define([
                 return;
             }
 
-            // The freshly tokenized "new card" placeholder (value cleared, flagged via data-id).
+            // The freshly tokenized "new card" placeholder (value cleared, flagged via data-id). The
+            // drop-in collected the security code during card entry, so asking for it again here is a
+            // pointless second prompt; the field is for stored cards only ("require CCV when using a
+            // stored card"), and the token already carries what the server consumes.
             if (selectedOption.data('id') === NEW_CARD_ID) {
-                this.element.find('div.cvv').show();
+                this.element.find('div.cvv').hide();
                 this.element.find('div.save').toggle(!!selectedOption.data('new'));
 
                 return;
             }
 
-            // 'Add new card' selected: hide additional fields and (re-)mount the drop-in.
+            // 'Add new card' selected: hide additional fields and (re-)mount the drop-in. This is the
+            // deliberate-retry path, so clear the failure budget; a past dead mount must not dead-end
+            // a customer who is explicitly asking for the form again.
             this.element.find('div.cvv').hide();
             this.element.find('div.save').hide();
+
+            this._mountFailures = 0;
 
             this.mountDropin();
         },
@@ -101,10 +148,7 @@ define([
          * 'Add new card' re-requests a fresh capture context instead of dead-ending on the latch.
          */
         teardownDropin: function () {
-            if (this._ttlTimer) {
-                clearTimeout(this._ttlTimer);
-                this._ttlTimer = null;
-            }
+            this.clearTimers();
 
             if (this._captureXhr) {
                 this._captureXhr.abort();
@@ -118,6 +162,10 @@ define([
             this.element.find('.unified-checkout-selection').empty();
             this.element.find('.unified-checkout-screen').empty();
             this.dropinMounted = false;
+
+            // Invalidate any cycle still in flight, so a load or mount started before this teardown
+            // cannot land afterwards and mount against a context this widget has already discarded.
+            this._mountGeneration++;
         },
 
         /**
@@ -128,11 +176,19 @@ define([
             // screen container means a mount is pending/done; do not issue a second request (I1).
             if (this.dropinMounted === true
                 || this._captureXhr !== null
-                || this.element.find('.unified-checkout-screen').children().length > 0) {
+                || this.isDropinMounted()) {
                 return;
             }
 
             this.dropinMounted = true;
+
+            // Open a mount cycle; every async callback below carries this stamp and drops out if a
+            // teardown or a newer cycle has superseded it.
+            var generation = ++this._mountGeneration;
+
+            // Bound the whole cycle from here; mountUnifiedCheckout() re-arms this at the shorter paint
+            // interval once the mount is actually underway.
+            this.scheduleMountHealthCheck(CYCLE_TIMEOUT_MS);
 
             var screen = this.element.find('.unified-checkout-screen');
             screen.trigger('processStart');
@@ -155,7 +211,9 @@ define([
                 dataType: 'json',
                 data: payload,
                 global: false,
-                success: this.loadClientLibrary.bind(this),
+                success: function (data, status, jqXHR) {
+                    this.loadClientLibrary(data, status, jqXHR, generation);
+                }.bind(this),
                 error: this.handleAjaxError.bind(this)
             });
 
@@ -176,28 +234,134 @@ define([
         },
 
         /**
-         * Decode the capture-context JWT, inject UC.js (with SRI), then mount the drop-in.
+         * Whether the drop-in is mounted AND usable.
+         *
+         * Container emptiness alone cannot tell a healthy mount from a dead one: the UC iframe can
+         * attach at 0x0 (FIT_WINDOW never applied), leaving no visible payment UI while a children-only
+         * guard reports "mounted" and refuses to re-mount. Only measurable while visible; a
+         * hidden-but-healthy mount legitimately has no height.
+         *
+         * @return {Boolean}
          */
-        loadClientLibrary: function (data, status, jqXHR) {
+        isDropinMounted: function () {
+            var screen = this.element.find('.unified-checkout-screen');
+
+            if (screen.children().length === 0) {
+                return false;
+            }
+
+            return !screen.is(':visible') || screen.height() > 0;
+        },
+
+        /**
+         * Schedule the mount health check.
+         *
+         * @param {Number} delay - CYCLE_TIMEOUT_MS when arming at cycle open (the library load can stall
+         *                         without ever calling back), MOUNT_HEALTH_CHECK_MS once the mount is
+         *                         underway and only the paint is outstanding.
+         */
+        scheduleMountHealthCheck: function (delay) {
+            if (this._healthTimer) {
+                clearTimeout(this._healthTimer);
+            }
+
+            this._healthTimer = setTimeout(this.checkMountHealth.bind(this), delay);
+        },
+
+        /**
+         * Recover from a mount that attached but never became usable (the 0-height iframe case).
+         *
+         * This is also the only place a mount is confirmed to have actually worked, so it owns clearing
+         * the failure budget. Each dead mount counts against that budget, and exhausting it says so
+         * rather than leaving the customer staring at an empty payment box with no explanation — the
+         * stored-card-switch recovery is not available to someone with no stored cards.
+         */
+        checkMountHealth: function () {
+            this._healthTimer = null;
+
+            if (this.element.find(this.options.tokenSelector).val()
+                || !this.element.find('.unified-checkout-screen').is(':visible')) {
+                return;
+            }
+
+            if (this.isDropinMounted()) {
+                this._mountFailures = 0;
+
+                return;
+            }
+
+            this._mountFailures++;
+
+            if (this._mountFailures >= MAX_MOUNT_FAILURES) {
+                ucClient.showError(
+                    $.mage.__('The payment form could not be loaded. Please reload the page and try again.')
+                );
+
+                return;
+            }
+
+            this.remountDropin();
+        },
+
+        /**
+         * Decode the capture-context JWT, inject UC.js (with SRI), then mount the drop-in.
+         *
+         * The capture context is threaded through as an argument rather than stashed on the instance: it
+         * carries the capture mandate's amount, and a shared property would let a late response from a
+         * superseded cycle overwrite the context the mounted drop-in is bound to.
+         *
+         * @param {Object} data
+         * @param {String} status
+         * @param {Object} jqXHR
+         * @param {Number} generation
+         */
+        loadClientLibrary: function (data, status, jqXHR, generation) {
+            if (!this.isCurrentGeneration(generation)) {
+                return;
+            }
+
             if (!data || !data.captureContext) {
                 return this.handleAjaxError(jqXHR, status, data);
             }
 
-            this.captureContext = data.captureContext;
-
             ucClient.loadClientLibrary(
                 data.captureContext,
-                this.mountUnifiedCheckout.bind(this),
+                this.mountUnifiedCheckout.bind(this, data.captureContext, generation),
                 function (message) {
+                    // A superseded cycle's failure is not this cycle's failure: handleAjaxError clears
+                    // dropinMounted, which is the in-flight guard here, so a stale error would let a
+                    // second mount race the live one. RequireJS de-dupes loads of the same UC.js URL,
+                    // so overlapping cycles share one load and its failure reaches every callback.
+                    if (!this.isCurrentGeneration(generation)) {
+                        return;
+                    }
+
                     this.handleAjaxError(null, 'error', message);
                 }.bind(this)
             );
         },
 
         /**
-         * Mount the UC drop-in via the Accept global into the embedded containers.
+         * Whether an async callback belongs to the current mount cycle.
+         *
+         * @param {Number} generation
+         * @return {Boolean}
          */
-        mountUnifiedCheckout: function () {
+        isCurrentGeneration: function (generation) {
+            return generation === this._mountGeneration;
+        },
+
+        /**
+         * Mount the UC drop-in via the Accept global into the embedded containers.
+         *
+         * @param {String} captureContext
+         * @param {Number} generation
+         */
+        mountUnifiedCheckout: function (captureContext, generation) {
+            if (!this.isCurrentGeneration(generation)) {
+                return;
+            }
+
             if (!ucClient.isAvailable()) {
                 return this.handleAjaxError(null, 'error', 'Payment library unavailable');
             }
@@ -205,19 +369,72 @@ define([
             var selection = this.element.find('.unified-checkout-selection').attr('id');
             var screen = this.element.find('.unified-checkout-screen').attr('id');
 
-            ucClient.mountUnifiedPayments(this.captureContext, '#' + selection, '#' + screen)
-                .then(this.handleTransientToken.bind(this))
+            ucClient.mountUnifiedPayments(captureContext, '#' + selection, '#' + screen)
+                .then(function (transientTokenJwt) {
+                    // A token from a superseded mount belongs to a dead context; never accept it.
+                    if (!this.isCurrentGeneration(generation)) {
+                        return;
+                    }
+
+                    this.handleTransientToken(transientTokenJwt);
+                }.bind(this))
                 .catch(function (error) {
+                    // As above: a superseded mount's rejection must not fail the live cycle.
+                    if (!this.isCurrentGeneration(generation)) {
+                        return;
+                    }
+
                     this.handleAjaxError(null, 'error', error && error.message ? error.message : null);
                 }.bind(this));
 
             this.element.find('.unified-checkout-screen').trigger('processStop');
 
-            if (this._ttlTimer) {
-                clearTimeout(this._ttlTimer);
+            this.scheduleContextRefresh(captureContext);
+            this.scheduleMountHealthCheck(MOUNT_HEALTH_CHECK_MS);
+        },
+
+        /**
+         * Schedule a silent re-mount for when the capture context lapses. Skipped once a token is
+         * captured: the context is spent by then and the token timer owns expiry.
+         */
+        scheduleContextRefresh: function (captureContext) {
+            if (this._contextTimer) {
+                clearTimeout(this._contextTimer);
             }
 
-            this._ttlTimer = setTimeout(this.remountDropin.bind(this), TOKEN_TTL_MS);
+            this._contextTimer = setTimeout(function () {
+                this._contextTimer = null;
+
+                if (this.element.find(this.options.tokenSelector).val()) {
+                    return;
+                }
+
+                this.remountDropin();
+            }.bind(this), ucClient.getRefreshDelay(captureContext));
+        },
+
+        /**
+         * Schedule expiry of a captured transient token. Unlike a context refresh this discards card
+         * entry the customer already completed, so it is always announced rather than silently wiping
+         * the form; the server would reject the stale token anyway.
+         *
+         * @param {String} transientTokenJwt
+         */
+        scheduleTokenExpiry: function (transientTokenJwt) {
+            if (this._tokenTimer) {
+                clearTimeout(this._tokenTimer);
+            }
+
+            this._tokenTimer = setTimeout(function () {
+                this._tokenTimer = null;
+
+                this.remountDropin();
+                this.handleCardSelectChange();
+
+                ucClient.showError(
+                    $.mage.__('Your payment session expired. Please re-enter your card details.')
+                );
+            }.bind(this), ucClient.getRefreshDelay(transientTokenJwt));
         },
 
         /**
@@ -229,6 +446,20 @@ define([
             }
 
             this.element.find(this.options.tokenSelector).val(transientTokenJwt);
+
+            // Card entry is done: the capture context is spent and a pending health check is moot; the
+            // token's own lifetime takes over from here.
+            if (this._contextTimer) {
+                clearTimeout(this._contextTimer);
+                this._contextTimer = null;
+            }
+
+            if (this._healthTimer) {
+                clearTimeout(this._healthTimer);
+                this._healthTimer = null;
+            }
+
+            this.scheduleTokenExpiry(transientTokenJwt);
 
             this.addAndSelectCard({
                 id: NEW_CARD_ID,

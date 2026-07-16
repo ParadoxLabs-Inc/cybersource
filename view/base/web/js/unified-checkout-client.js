@@ -31,6 +31,13 @@ define([
 ], function ($, alert) {
     'use strict';
 
+    // Fallback lifetime for a JWT that carries no usable exp claim. Server-side TTL is ~15 minutes.
+    var FALLBACK_TTL_MS = 14 * 60 * 1000;
+    // Act this far ahead of a JWT's own exp, so the refresh/warning lands before the server rejects it.
+    var EXPIRY_MARGIN_MS = 60 * 1000;
+    // Floor on any expiry-driven delay; see getRefreshDelay() for why zero is unsafe.
+    var MIN_EXPIRY_DELAY_MS = 30 * 1000;
+
     return {
         /**
          * Base64url-decode the JWT payload (middle segment) and parse as JSON.
@@ -46,6 +53,53 @@ define([
             }
 
             return JSON.parse(window.atob(payload));
+        },
+
+        /**
+         * Expiry of a JWT (capture context or transient token) as an epoch-milliseconds timestamp.
+         *
+         * Both JWTs carry their own lifetime; reading it beats assuming a fixed TTL, which drifts out of
+         * step whenever CyberSource changes the server-side window. Returns null when the token cannot be
+         * decoded or carries no numeric exp claim, leaving the caller to fall back.
+         *
+         * @param {String} jwt
+         * @return {Number|null}
+         */
+        getJwtExpiry: function (jwt) {
+            if (typeof jwt !== 'string' || jwt.length === 0) {
+                return null;
+            }
+
+            try {
+                var body = this.decodeJwtBody(jwt);
+
+                return typeof body.exp === 'number' ? body.exp * 1000 : null;
+            } catch (error) {
+                return null;
+            }
+        },
+
+        /**
+         * How long to wait before acting on a JWT's expiry, from now.
+         *
+         * Shared by all three UC entry points, which each have to swap a lapsing capture context or
+         * discard a lapsing transient token. Floored at MIN_EXPIRY_DELAY_MS rather than zero: expiry is
+         * computed against the browser clock, so a skewed client can read a freshly issued JWT as already
+         * expired — and a zero delay there means fire -> re-mount -> fetch a context that also looks
+         * expired -> fire again, an unbounded loop of signed API calls that a mount-failure latch cannot
+         * catch (each mount genuinely succeeds). The floor bounds that to a slow retry.
+         *
+         * @param {String} jwt
+         * @return {Number} milliseconds
+         */
+        getRefreshDelay: function (jwt) {
+            var expiry = this.getJwtExpiry(jwt);
+
+            if (expiry === null) {
+                return FALLBACK_TTL_MS;
+            }
+
+            return Math.max(MIN_EXPIRY_DELAY_MS, expiry - Date.now() - EXPIRY_MARGIN_MS);
         },
 
         /**
