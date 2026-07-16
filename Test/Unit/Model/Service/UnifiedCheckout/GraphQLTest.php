@@ -6,6 +6,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\Data\RegionInterface;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\GraphQl\Model\Query\ContextExtension;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Quote\Model\Quote;
@@ -213,18 +214,62 @@ class GraphQLTest extends TestCase
         $this->assertNull($method->invoke($handler));
     }
 
-    public function testGetAmountReturnsNullWhenCartLookupThrows(): void
+    public function testGetAmountPropagatesCartAuthorizationFailure(): void
     {
-        // A failed cart lookup (invalid cart / ownership) degrades to a billing-only context.
+        // A supplied cartId that cannot be resolved or does not belong to the caller MUST deny. This
+        // previously degraded to a billing-only context and still minted a capture context, leaving the
+        // authorization check non-functional (a regression vs the Secure Acceptance predecessor, which
+        // propagated). Billing-only is reserved for "no cartId supplied" — see testGetAmountWithoutCart.
         $this->graphQLHelperMock->method('getQuote')
-            ->willThrowException(new \RuntimeException('no such cart'));
+            ->willThrowException(
+                new GraphQlAuthorizationException(__('The current user cannot perform operations on cart "bad"'))
+            );
 
         $handler = $this->makeHandler([]);
         $handler->setGraphQLContext($this->contextMock, ['cartId' => 'bad']);
 
         $method = new \ReflectionMethod(GraphQL::class, 'getAmount');
 
-        $this->assertNull($method->invoke($handler));
+        $this->expectException(GraphQlAuthorizationException::class);
+
+        $method->invoke($handler);
+    }
+
+    public function testGetBillToPropagatesCartAuthorizationFailure(): void
+    {
+        // getBillTo() has its own defensive catch (Throwable); it must not re-swallow the denial that
+        // getQuote() raises, or the billing-only fallback silently resurfaces one layer up.
+        $this->graphQLHelperMock->method('getQuote')
+            ->willThrowException(
+                new GraphQlAuthorizationException(__('The current user cannot perform operations on cart "bad"'))
+            );
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, ['cartId' => 'bad']);
+
+        $method = new \ReflectionMethod(GraphQL::class, 'getBillTo');
+
+        $this->expectException(GraphQlAuthorizationException::class);
+
+        $method->invoke($handler);
+    }
+
+    public function testGetEmailPropagatesCartAuthorizationFailure(): void
+    {
+        // Same as getBillTo(): the guestEmail fallback must not mask a cart denial.
+        $this->graphQLHelperMock->method('getQuote')
+            ->willThrowException(
+                new GraphQlAuthorizationException(__('The current user cannot perform operations on cart "bad"'))
+            );
+
+        $handler = $this->makeHandler([]);
+        $handler->setGraphQLContext($this->contextMock, ['cartId' => 'bad', 'guestEmail' => 'guest@example.com']);
+
+        $method = new \ReflectionMethod(GraphQL::class, 'getEmail');
+
+        $this->expectException(GraphQlAuthorizationException::class);
+
+        $method->invoke($handler);
     }
 
     /**

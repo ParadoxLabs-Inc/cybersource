@@ -199,7 +199,7 @@ class Response
         $request  = $this->buildRequest($payment, $amount);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
-        return $this->interpretResponse($response, $payment);
+        return $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
     }
 
     /**
@@ -230,7 +230,9 @@ class Response
         $request  = $this->buildStoredCardRequest($payment, $card, $amount);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
-        return $this->interpretResponse($response, $payment);
+        // StoredCardRequest carries no actionList: the card is already vaulted, so no token is requested
+        // and the token-less reply is expected. Never flag uc_token_missing off this path.
+        return $this->interpretResponse($response, $payment, false);
     }
 
     /**
@@ -415,7 +417,7 @@ class Response
         $request  = $this->buildZeroDollarRequest($payment, $currencyCode);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
-        return $this->interpretResponse($response, $payment);
+        return $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
     }
 
     /**
@@ -575,14 +577,23 @@ class Response
      * Method::storeTransactionStatuses() reads for AVS/CVV/approval. Throws CommandException on a
      * decline and RuntimeException on an error, so Method handles it identically to the SOAP path.
      *
+     * $tokenCreateRequested tells the token-missing logic what the REQUEST asked for. A reply with no
+     * tokenInformation is only anomalous when actionList:[TOKEN_CREATE] was sent (new-card auth, $0
+     * add-card); the stored-card/MIT path never asks for a token, so its token-less reply is normal and
+     * must NOT be flagged. Absent this, a stored-card charge flagged its own vaulted card unusable.
+     *
      * @param array<string, mixed> $response
      * @param InfoInterface|null $payment
+     * @param bool $tokenCreateRequested Whether the request carried actionList:[TOKEN_CREATE].
      * @return GatewayResponse
      * @throws CommandException
      * @throws RuntimeException
      */
-    public function interpretResponse(array $response, ?InfoInterface $payment = null): GatewayResponse
-    {
+    public function interpretResponse(
+        array $response,
+        ?InfoInterface $payment = null,
+        bool $tokenCreateRequested = true
+    ): GatewayResponse {
         $status       = (string)($response['status'] ?? '');
         $approvalCode = (string)($response['processorInformation']['approvalCode'] ?? '');
         $responseCode = (string)($response['processorInformation']['responseCode'] ?? '');
@@ -641,7 +652,7 @@ class Response
             $data['ccAuthReply.cvCode'] = $cvCode;
         }
 
-        $this->extractTokenInformation($response, $data, $isApproved);
+        $this->extractTokenInformation($response, $data, $isApproved, $tokenCreateRequested);
         $this->extractCardMetadata($response, $data);
         $this->extractConsumerAuthentication($response, $data);
 
@@ -659,7 +670,8 @@ class Response
             // we key approval off responseCode (not status), we land here and proceed token-less. The
             // discriminator for "auth stands but token forbidden" is responseCode === '100' (already
             // established by $authApproved) + PROCESSOR_ERROR + no token returned.
-            if ($authApproved
+            if ($tokenCreateRequested
+                && $authApproved
                 && $errorReason === self::REASON_PROCESSOR_ERROR
                 && empty($data['token_information'])
             ) {
@@ -742,19 +754,43 @@ class Response
     }
 
     /**
+     * Whether the given request actually asks CyberSource to mint TMS vault ids.
+     *
+     * Derived from the request we are about to send rather than hardcoded per call site, so that if
+     * actionList ever becomes conditional (e.g. tokenize only when the shopper opts to save the card),
+     * the token-missing logic follows automatically instead of silently drifting.
+     *
+     * @param PaymentRequest $request
+     * @return bool
+     */
+    protected function requestsTokenCreate(PaymentRequest $request): bool
+    {
+        return in_array(self::ACTION_TOKEN_CREATE, $request->getActionList(), true);
+    }
+
+    /**
      * Defensively extract the three TMS ids from tokenInformation into the result, when present.
      *
      * On AUTHORIZED_PENDING_REVIEW (or any approval without tokenInformation) the ids are absent; we
      * record that no token was returned so A2 can decide whether to defer/reconcile tokenization,
      * rather than crashing on missing keys.
      *
+     * $tokenCreateRequested is what makes "missing" meaningful: only a reply to a TOKEN_CREATE request
+     * can be missing a token. When no token was asked for (stored-card / MIT), both keys are left unset
+     * so Method::applyUnifiedCheckoutToken() leaves the already-vaulted card alone.
+     *
      * @param array<string, mixed> $response
      * @param array<string, mixed> $data
      * @param bool $isApproved
+     * @param bool $tokenCreateRequested Whether the request carried actionList:[TOKEN_CREATE].
      * @return void
      */
-    protected function extractTokenInformation(array $response, array &$data, bool $isApproved): void
-    {
+    protected function extractTokenInformation(
+        array $response,
+        array &$data,
+        bool $isApproved,
+        bool $tokenCreateRequested = true
+    ): void {
         $tokenInformation = $response['tokenInformation'] ?? null;
 
         $customerId             = $tokenInformation['customer']['id'] ?? null;
@@ -771,6 +807,17 @@ class Response
             $data['token_information'] = $tokens;
             $data['uc_token_missing']  = false;
 
+            return;
+        }
+
+        // No TOKEN_CREATE was requested: this is the stored-card / MIT path, whose reply carries no
+        // tokenInformation BY DESIGN (the card is already vaulted; StoredCardRequest sends no actionList).
+        // "Missing" is only meaningful relative to what was asked for — flagging here would mark the card's
+        // own good token as missing, and Method::applyUnifiedCheckoutToken() would then stamp
+        // uc_token_missing='1' onto the vaulted card, so Gateway::buildStoredCardAuth() refuses the NEXT
+        // charge ("This saved card is no longer usable"). That killed every subscription rebill after the
+        // first. Leave both keys unset so Method's guard leaves the already-vaulted card untouched.
+        if ($tokenCreateRequested === false) {
             return;
         }
 

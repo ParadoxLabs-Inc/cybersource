@@ -499,6 +499,50 @@ class ResponseTest extends TestCase
         return $card;
     }
 
+    public function testPlaceStoredDoesNotFlagTokenMissing(): void
+    {
+        // A stored-card reply carries no tokenInformation BY DESIGN: the card is already vaulted, so
+        // StoredCardRequest sends no actionList/TOKEN_CREATE. "Missing" is only meaningful relative to
+        // what was requested. Flagging here marked the card's own good token as missing, and
+        // Method::applyUnifiedCheckoutToken() then stamped uc_token_missing='1' onto the vaulted card,
+        // so Gateway::buildStoredCardAuth() refused the NEXT charge -- killing every subscription rebill
+        // after the first. Both keys must stay unset so Method's guard leaves the card untouched.
+        $this->primeRest([
+            'id' => 'TXN-STORED-NOTOKEN',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100', 'approvalCode' => '654321'],
+        ]);
+
+        $response = $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
+
+        $this->assertFalse($response->getIsError());
+        $this->assertNull($response->getData('token_information'));
+        $this->assertNull(
+            $response->getData('uc_token_missing'),
+            'A stored-card charge requests no token, so its token-less reply must not be flagged.'
+        );
+    }
+
+    public function testPlaceStoredDoesNotFlagTokenMissingOnProcessorError(): void
+    {
+        // The token-forbidden carve-out (approved auth + PROCESSOR_ERROR + no token) must likewise only
+        // apply when TOKEN_CREATE was actually requested; otherwise an unrelated processor error on a
+        // stored-card charge would poison the card by the same route.
+        $this->primeRest([
+            'id' => 'TXN-STORED-PROCERR',
+            'status' => 'DECLINED',
+            'errorInformation' => ['reason' => 'PROCESSOR_ERROR', 'message' => 'Requested service is forbidden.'],
+            'processorInformation' => ['responseCode' => '100', 'approvalCode' => '888888'],
+        ]);
+
+        $response = $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
+
+        $this->assertNull(
+            $response->getData('uc_token_missing'),
+            'No token was requested, so a PROCESSOR_ERROR reply must not flag the stored card.'
+        );
+    }
+
     public function testPlaceStoredMitPostsExpectedBodyAndApproves(): void
     {
         $this->primeRest([
