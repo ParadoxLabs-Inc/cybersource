@@ -60,7 +60,7 @@
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_review_payment>0</can_review_payment>
-                <is_gateway>0</is_gateway>
+                <is_gateway>1</is_gateway>
                 <is_offline>0</is_offline>
                 <can_initialize>0</can_initialize>
                 <can_store_bin>1</can_store_bin>
