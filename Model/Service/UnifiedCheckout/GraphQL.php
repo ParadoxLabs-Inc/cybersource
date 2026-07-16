@@ -21,6 +21,8 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout;
 
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Quote\Api\Data\CartInterface;
@@ -157,6 +159,9 @@ class GraphQL extends CaptureContext
             if ($quote !== null) {
                 return $this->mapBillTo($quote->getBillingAddress()->getDataModel());
             }
+        } catch (GraphQlAuthorizationException | GraphQlNoSuchEntityException $exception) {
+            // Cart authorization/lookup failures are the caller's answer, not a missing address.
+            throw $exception;
         } catch (Throwable) {
             // Billing-only context with no resolvable address.
         }
@@ -178,6 +183,9 @@ class GraphQL extends CaptureContext
             }
 
             return $this->graphQlArgs['guestEmail'] ?? null;
+        } catch (GraphQlAuthorizationException | GraphQlNoSuchEntityException $exception) {
+            // Cart authorization/lookup failures are the caller's answer, not a missing email.
+            throw $exception;
         } catch (Throwable) {
             return null;
         }
@@ -242,14 +250,14 @@ class GraphQL extends CaptureContext
             return null;
         }
 
-        try {
-            $this->quote = $this->graphQL->getQuote(
-                $this->graphQlContext->getUserId(),
-                $this->graphQlArgs['cartId']
-            );
-        } catch (Throwable) {
-            return null;
-        }
+        // A supplied cartId must resolve and belong to the caller. GraphQlAuthorizationException /
+        // GraphQlNoSuchEntityException are the authorization gate and MUST reach the caller: swallowing
+        // them here degraded a denial into a billing-only context and still minted a capture context.
+        // Null is reserved for "no cart was supplied" (the headless add-card/save-card path), above.
+        $this->quote = $this->graphQL->getQuote(
+            $this->graphQlContext->getUserId(),
+            $this->graphQlArgs['cartId']
+        );
 
         return $this->quote;
     }
