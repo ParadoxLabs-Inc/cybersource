@@ -337,6 +337,24 @@ class RestTest extends TestCase
         ];
     }
 
+    /**
+     * Regression: a bare, non-JSON error reason (e.g. CyberSource's 404 "Resource not found" on
+     * /pts/v2/payments) must be surfaced as the exception message, not flattened to a status-only
+     * "HTTP 404". Without this the real cause never reaches the order comment/exception, which sent a
+     * CI-wide place-order failure to triage as a generic 404.
+     */
+    public function testSurfacesPlainTextErrorBodyAsMessage(): void
+    {
+        $this->clientMock->method('getStatus')->willReturn(404);
+        $this->clientMock->method('getBody')->willReturn('Resource not found');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Resource not found');
+        $this->expectExceptionCode(404);
+
+        $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+    }
+
     public function testPostMasksPanAndCvvInLog(): void
     {
         $pan = '4111111111111111';
@@ -370,6 +388,27 @@ class RestTest extends TestCase
         $result = $this->rest->postRaw('/up/v1/capture-contexts', ['clientVersion' => '0.34']);
 
         $this->assertSame($jwt, $result);
+    }
+
+    /**
+     * Regression: POST must default to Accept: application/hal+json. CyberSource's gateway answers an
+     * unacceptable Accept on the /pts/v2/* endpoints (which produce hal+json) with a plain-text 404
+     * "Resource not found" — not a 406 — so an application/json default made every payment POST present
+     * as a missing endpoint (CI-wide place-order failures).
+     */
+    public function testPostDefaultsToHalJsonAcceptHeader(): void
+    {
+        $capturedHeaders = [];
+        $this->clientMock->method('setHeaders')
+            ->willReturnCallback(function ($headers) use (&$capturedHeaders) {
+                $capturedHeaders = $headers;
+            });
+        $this->clientMock->method('getStatus')->willReturn(201);
+        $this->clientMock->method('getBody')->willReturn('{}');
+
+        $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+
+        $this->assertSame('application/hal+json', $capturedHeaders['Accept']);
     }
 
     public function testPostRawSendsApplicationJwtAcceptHeader(): void

@@ -156,13 +156,17 @@ class Rest
      * The JSON body is encoded once and reused for both the payload Digest and the request body, so the
      * digest is computed over the exact bytes transmitted.
      *
+     * The Accept default must stay application/hal+json: the /pts/v2/* endpoints produce hal+json, and
+     * CyberSource's gateway answers an unacceptable Accept (e.g. application/json) with a plain-text
+     * 404 "Resource not found" — not a 406 — which presents as a missing endpoint.
+     *
      * @param string $path
      * @param array $params
      * @param string $responseType
      * @return array Decoded JSON response. Non-array decode results (null/scalar) are cast to an empty/wrapped array.
      * @throws \Exception
      */
-    public function post(string $path, array $params = [], string $responseType = 'application/json'): array
+    public function post(string $path, array $params = [], string $responseType = 'application/hal+json'): array
     {
         $client = $this->sendSigned($path, $params, $responseType);
 
@@ -248,12 +252,19 @@ class Rest
 
         // The error body may not be JSON at all (empty 404 body on a TMS DELETE, proxy HTML on a 502), so
         // json_decode() yields null and neither key resolves. The message MUST end up a non-empty string —
-        // strict_types would otherwise make `new Exception($int, ...)` raise a TypeError. Fall back to the
-        // HTTP status, and guard against a non-string 'message' value in the JSON.
+        // strict_types would otherwise make `new Exception($int, ...)` raise a TypeError.
         $message = $responseJson['message'] ?? $responseJson['response']['rmsg'] ?? null;
 
         if (!is_string($message) || $message === '') {
-            $message = 'HTTP ' . $status;
+            // Some CyberSource errors return a bare, non-JSON reason (e.g. a 404 "Resource not found" on
+            // /pts/v2/payments), so the structured keys above are null. Surface that plain-text body so the
+            // real cause reaches the order comment/exception instead of a status-only "HTTP 404". Skip HTML
+            // error pages (proxy 502s) and cap the length; fall back to the status when nothing usable remains.
+            $rawBody = trim((string)$client->getBody());
+
+            $message = ($rawBody !== '' && !str_starts_with($rawBody, '<'))
+                ? $this->sanitizer->maskJson(mb_substr($rawBody, 0, 255))
+                : 'HTTP ' . $status;
         }
 
         $this->helper->log(
