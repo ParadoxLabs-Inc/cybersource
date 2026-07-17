@@ -24,6 +24,8 @@ namespace ParadoxLabs\CyberSource\Observer;
 use Magento\Framework\DataObject;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
+use Magento\Quote\Api\Data\PaymentExtensionInterface;
+use Magento\Sales\Api\Data\OrderPaymentExtensionInterface;
 use Override;
 
 class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\PaymentMethodAssignDataObserver
@@ -77,6 +79,27 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
 
         if (is_string($token) && $token !== '') {
             $payment->setAdditionalInformation('transient_token', $token);
+
+            /**
+             * The mirror of the stale-token case below: a customer's persistent quote can carry a
+             * tokenbase_id from a prior assign (stored-card selection, or an earlier failed attempt).
+             * With no card_id in this submit, the parent's tokenbase_id fallback would reload that
+             * stale card onto the payment, and the StoredCard validator would then treat this
+             * new-card submit as a stored-card payment — with require_ccv on, that demands a CVV
+             * the client correctly never collected, hard-failing every place-order on the quote.
+             * A token submit IS a new card; clear the stale stored-card state so it stays one.
+             * (card_id + token together is a broken client per the contract; leave that to parent.)
+             */
+            if ((string)$data->getData('card_id') === '' && $payment->getData('tokenbase_id') !== null) {
+                $payment->setData('tokenbase_id', null);
+                $payment->unsetData('tokenbase_card');
+
+                $paymentAttributes = $payment->getExtensionAttributes();
+                if ($paymentAttributes instanceof PaymentExtensionInterface
+                    || $paymentAttributes instanceof OrderPaymentExtensionInterface) {
+                    $paymentAttributes->setTokenbaseId(null);
+                }
+            }
         } else {
             // Empty/null token (e.g. stored card selected): drop any stale token from a prior assign.
             $payment->unsAdditionalInformation('transient_token');

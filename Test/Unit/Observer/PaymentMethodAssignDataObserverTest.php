@@ -225,6 +225,37 @@ class PaymentMethodAssignDataObserverTest extends TestCase
         $this->assertSame(42, $this->paymentMock->getData('tokenbase_id'));
     }
 
+    public function testExecuteClearsStaleQuoteTokenbaseIdOnNewCardSubmit(): void
+    {
+        // A customer's persistent quote can carry a tokenbase_id set by a prior attempt (stored-card
+        // selection or an earlier failed order). A new-card submit sends {transient_token, card_id:null};
+        // the stale quote id must not survive it, or the StoredCard validator treats the submit as a
+        // stored-card payment and (with require_ccv) rejects it for a CVV the client rightly never asked
+        // for. The repository must not be touched at all — the stale id may point to a card the parent
+        // observer would otherwise happily reload.
+        $this->paymentMock->setData('tokenbase_id', 931);
+
+        $this->cardRepositoryMock->expects($this->never())
+            ->method('getById');
+
+        $data = new DataObject([
+            'method' => 'paradoxlabs_cybersource',
+            'additional_data' => [
+                'transient_token' => 'eyJraWQiOiJ0ZXN0In0.payload.sig',
+                'card_id' => null,
+            ],
+        ]);
+
+        $this->observer->execute($this->createEventObserver($data));
+
+        $this->assertNull($this->paymentMock->getData('tokenbase_id'));
+        $this->assertFalse($this->paymentMock->hasData('tokenbase_card'));
+        $this->assertSame(
+            'eyJraWQiOiJ0ZXN0In0.payload.sig',
+            $this->additionalInformation['transient_token'] ?? null
+        );
+    }
+
     public function testExecutePreservesTokenbaseStoredCardHandling(): void
     {
         // Stored-card path: no transient_token; TokenBase loads the card and records 'save'.
