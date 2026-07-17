@@ -18,6 +18,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use ParadoxLabs\CyberSource\Model\Card;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UcResponse;
+use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\Card\Context as CardContext;
 use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
 use ParadoxLabs\TokenBase\Model\ResourceModel\Card as CardResource;
@@ -69,12 +70,17 @@ class CardTest extends TestCase
         $store->method('getBaseCurrencyCode')->willReturn(self::CURRENCY);
         $this->storeManager->method('getStore')->willReturn($store);
 
+        // Card::exchangeTransientToken() logs the orphaned-instrument note on an edit-card replace via the
+        // TokenBase helper the parent pulls from the Card Context; give the context a real helper mock.
+        $cardContext = $this->createMock(CardContext::class);
+        $cardContext->method('getHelper')->willReturn($this->createMock(Data::class));
+
         $this->card = new Card(
             $context,
             $this->createMock(Registry::class),
             $this->createMock(ExtensionAttributesFactory::class),
             $this->createMock(AttributeValueFactory::class),
-            $this->createMock(CardContext::class),
+            $cardContext,
             $this->ucResponse,
             $this->cardBuilder,
             $this->storeManager,
@@ -170,20 +176,67 @@ class CardTest extends TestCase
     }
 
     /**
-     * A card that already carries a payment_id (an established vault token) must not be re-tokenized.
+     * Edit-card REPLACE: a card that already carries a payment_id (an established vault token) but receives
+     * a fresh transient token on a paymentinfo save MUST re-exchange and overwrite the stored instrument,
+     * then unset the single-use token. This is the money-path fix: previously the exchange short-circuited
+     * on the existing payment_id, so the stored TMS token kept pointing at the OLD card.
      *
      * @return void
      */
-    public function testExchangeSkipsWhenPaymentIdAlreadySet(): void
+    public function testExchangeReplacesInstrumentWhenPaymentIdAlreadySetOnEdit(): void
     {
+        $gatewayResponse = new GatewayResponse(['token_information' => ['paymentInstrument' => 'PI-NEW']]);
+
         $payment = $this->buildPayment('paymentinfo', self::TOKEN);
-        $payment->expects($this->never())->method('unsAdditionalInformation');
+        $payment->expects($this->once())
+            ->method('unsAdditionalInformation')
+            ->with('transient_token');
 
         $this->card->setInfoInstance($payment);
         $this->card->setPaymentId('PI-EXISTING');
 
-        $this->ucResponse->expects($this->never())->method('tokenizeCard');
-        $this->cardBuilder->expects($this->never())->method('applyTokenToCard');
+        $this->ucResponse->expects($this->once())
+            ->method('tokenizeCard')
+            ->with($payment, self::CURRENCY, self::STORE_ID)
+            ->willReturn($gatewayResponse);
+
+        $this->cardBuilder->expects($this->once())
+            ->method('applyTokenToCard')
+            ->with($this->card, $gatewayResponse)
+            ->willReturn($this->card);
+
+        $this->invokeExchange();
+    }
+
+    /**
+     * Edit-card REPLACE with a token-less approval: the exchange runs (existing payment_id no longer
+     * blocks it) but a uc_token_missing reply must throw so the Save controllers abort the save and the
+     * old card is left intact -- never a silent success on the stale instrument.
+     *
+     * @return void
+     */
+    public function testExchangeThrowsWhenTokenMissingOnEditReplace(): void
+    {
+        $gatewayResponse = new GatewayResponse(['uc_token_missing' => true]);
+
+        $payment = $this->buildPayment('paymentinfo', self::TOKEN);
+        $payment->expects($this->once())
+            ->method('unsAdditionalInformation')
+            ->with('transient_token');
+
+        $this->card->setInfoInstance($payment);
+        $this->card->setPaymentId('PI-EXISTING');
+
+        $this->ucResponse->expects($this->once())
+            ->method('tokenizeCard')
+            ->willReturn($gatewayResponse);
+
+        $this->cardBuilder->expects($this->once())
+            ->method('applyTokenToCard')
+            ->with($this->card, $gatewayResponse)
+            ->willReturn($this->card);
+
+        $this->expectException(LocalizedException::class);
 
         $this->invokeExchange();
     }
