@@ -75,7 +75,6 @@ class VersionTest extends TestCase
     private function invokeAfterLoad(): Version
     {
         $method = new ReflectionMethod(Version::class, '_afterLoad');
-        $method->setAccessible(true);
 
         return $method->invoke($this->model);
     }

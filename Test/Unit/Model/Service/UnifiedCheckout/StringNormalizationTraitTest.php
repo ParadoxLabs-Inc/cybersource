@@ -33,7 +33,6 @@ class StringNormalizationTraitTest extends TestCase
     private function stringOrNull(mixed $value): ?string
     {
         $method = new ReflectionMethod($this->subject, 'stringOrNull');
-        $method->setAccessible(true);
 
         return $method->invoke($this->subject, $value);
     }

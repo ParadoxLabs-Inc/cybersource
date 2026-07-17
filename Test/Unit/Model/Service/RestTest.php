@@ -567,7 +567,6 @@ class RestTest extends TestCase
         ?string $jsonBody = null
     ): array {
         $method = new ReflectionMethod(Rest::class, 'signRequest');
-        $method->setAccessible(true);
 
         return $method->invoke($this->rest, $path, $params, $httpMethod, $jsonBody);
     }

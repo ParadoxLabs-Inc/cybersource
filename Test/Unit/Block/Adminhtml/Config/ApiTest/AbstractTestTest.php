@@ -93,7 +93,6 @@ class AbstractTestTest extends TestCase
     private function invoke(string $name, array $args = []): mixed
     {
         $method = new ReflectionMethod($this->block, $name);
-        $method->setAccessible(true);
 
         return $method->invoke($this->block, ...$args);
     }

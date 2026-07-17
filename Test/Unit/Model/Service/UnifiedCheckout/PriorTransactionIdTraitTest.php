@@ -47,7 +47,6 @@ class PriorTransactionIdTraitTest extends TestCase
     private function getPriorTransactionId(InfoInterface $payment): string
     {
         $method = new ReflectionMethod($this->subject, 'getPriorTransactionId');
-        $method->setAccessible(true);
 
         return $method->invoke($this->subject, $payment);
     }

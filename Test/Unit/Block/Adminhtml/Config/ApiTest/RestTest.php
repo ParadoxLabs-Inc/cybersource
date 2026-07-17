@@ -101,7 +101,6 @@ class RestTest extends TestCase
     private function invoke(string $name, array $args = []): mixed
     {
         $method = new ReflectionMethod(Rest::class, $name);
-        $method->setAccessible(true);
 
         return $method->invoke($this->block, ...$args);
     }
@@ -237,7 +236,6 @@ class RestTest extends TestCase
         $this->restClientMock->method('get')->willThrowException(new \Exception('nope', 404));
 
         $method = new ReflectionMethod(Rest::class, 'testApi');
-        $method->setAccessible(true);
         $method->invoke($block);
     }
 

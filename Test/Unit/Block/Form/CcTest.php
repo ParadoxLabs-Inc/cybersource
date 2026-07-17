@@ -57,7 +57,6 @@ class CcTest extends TestCase
     private function getProtectedProperty(string $name): mixed
     {
         $property = new ReflectionProperty(Cc::class, $name);
-        $property->setAccessible(true);
 
         return $property->getValue($this->block);
     }
