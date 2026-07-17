@@ -210,23 +210,22 @@ define(
             /**
              * Whether the drop-in is mounted AND usable.
              *
-             * Container emptiness alone cannot tell a healthy mount from a dead one: the UC iframe can
-             * attach at 0x0 (FIT_WINDOW never applied), leaving the customer with no visible payment UI
-             * while a children-only guard reports "mounted" and refuses to re-mount forever. A visible
-             * container at zero height is therefore treated as unmounted. The visibility qualifier
-             * matters — showDropin() hides the block via a visible binding, and a hidden-but-healthy
-             * mount legitimately measures zero.
+             * UC renders in two shapes depending on the merchant's enabled payment types: card-only
+             * configurations mount the card form straight into paymentScreen, but with wallets enabled
+             * (Google Pay etc.) it mounts a buttonlist into paymentSelection and leaves paymentScreen
+             * EMPTY until the customer clicks "Checkout with card". Either container holding healthy
+             * content is a live mount; checking only the screen reads the buttonlist shape as dead,
+             * so the health check would remount forever (leaking Accept instances and burning signed
+             * capture-context calls) and then blame the "failed" form at the customer.
+             *
+             * Health per container is delegated to ucClient: children present, and not visible-at-
+             * zero-height (the 0x0 dead-iframe case; hidden-but-healthy legitimately measures zero).
              *
              * @return {Boolean}
              */
             isDropinMounted: function () {
-                var screen = $('#' + this.getCode() + '_uc_screen');
-
-                if (screen.children().length === 0) {
-                    return false;
-                }
-
-                return !screen.is(':visible') || screen.height() > 0;
+                return ucClient.isContainerHealthy($('#' + this.getCode() + '_uc_selection'))
+                    || ucClient.isContainerHealthy($('#' + this.getCode() + '_uc_screen'));
             },
 
             /**
@@ -633,6 +632,10 @@ define(
 
                 $('#' + this.getCode() + '_uc_selection').empty();
                 $('#' + this.getCode() + '_uc_screen').empty();
+
+                // The discarded Accept() instances also left helper iframes on document.body,
+                // out of reach of the container empties above; reap them so re-mounts don't accumulate.
+                ucClient.reapOrphanedFrames();
             },
 
             /**

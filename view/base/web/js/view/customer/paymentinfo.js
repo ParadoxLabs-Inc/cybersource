@@ -123,6 +123,11 @@ define([
             this.element.find(this.options.tokenSelector).val('');
             this.element.find('.unified-checkout-selection').empty();
             this.element.find('.unified-checkout-screen').empty();
+
+            // The discarded Accept() instances also left helper iframes on document.body, out of
+            // reach of the container empties above; reap them so re-mounts don't accumulate.
+            ucClient.reapOrphanedFrames();
+
             this.dropinMounted = false;
 
             // Invalidate any cycle still in flight, so a load or mount started before this teardown
@@ -235,21 +240,19 @@ define([
         /**
          * Whether the drop-in is mounted AND usable.
          *
-         * Container emptiness alone cannot tell a healthy mount from a dead one: the UC iframe can
-         * attach at 0x0 (FIT_WINDOW never applied), leaving no visible payment UI while a children-only
-         * guard reports "mounted" and refuses to re-mount. Only measurable while visible; the drop-in
-         * lives in the hidden '.payment' pane until showPayment() reveals it.
+         * UC renders in two shapes: card-only configurations mount the card form straight into the
+         * screen container, but with wallets enabled it mounts a buttonlist into the selection
+         * container and leaves the screen EMPTY until "Checkout with card" is clicked. Either
+         * container holding healthy content is a live mount; checking only the screen reads the
+         * buttonlist shape as dead and the health check would remount forever. Per-container health
+         * (children present, not visible-at-zero-height — the drop-in lives in the hidden '.payment'
+         * pane until showPayment() reveals it) is delegated to ucClient.
          *
          * @return {Boolean}
          */
         isDropinMounted: function () {
-            var screen = this.element.find('.unified-checkout-screen');
-
-            if (screen.children().length === 0) {
-                return false;
-            }
-
-            return !screen.is(':visible') || screen.height() > 0;
+            return ucClient.isContainerHealthy(this.element.find('.unified-checkout-selection'))
+                || ucClient.isContainerHealthy(this.element.find('.unified-checkout-screen'));
         },
 
         /**

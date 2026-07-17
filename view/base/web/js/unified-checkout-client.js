@@ -232,6 +232,38 @@ define([
         },
 
         /**
+         * Whether a mount container currently holds healthy (painted) UC content.
+         *
+         * Emptiness alone cannot tell a healthy mount from a dead one: the UC iframe can attach at
+         * 0x0 (FIT_WINDOW never applied), leaving no visible payment UI while a children-only check
+         * reports "mounted". A visible container at zero height is therefore unhealthy. The
+         * visibility qualifier matters — a hidden-but-healthy mount legitimately measures zero.
+         *
+         * @param {jQuery} $container
+         * @return {Boolean}
+         */
+        isContainerHealthy: function ($container) {
+            if ($container.length === 0 || $container.children().length === 0) {
+                return false;
+            }
+
+            return !$container.is(':visible') || $container.height() > 0;
+        },
+
+        /**
+         * Remove UC helper iframes left attached to document.body by superseded Accept() instances.
+         *
+         * Each Accept() mount appends side iframes (buttonlist plumbing, overlays) directly to the
+         * body, outside the caller's containers, so emptying those containers on teardown never
+         * reaches them and every re-mount would otherwise leave another set behind. Callers invoke
+         * this while tearing down — the live instance is being discarded too, so removing all UC
+         * frames (testup/up.cybersource.com, /uc/ asset path) is safe.
+         */
+        reapOrphanedFrames: function () {
+            $('body > iframe[src*=".cybersource.com/uc/"]').remove();
+        },
+
+        /**
          * Surface an error via the jq alert widget, falling back to window.alert if it has not
          * initialized yet.
          *
