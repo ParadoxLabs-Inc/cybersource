@@ -179,14 +179,20 @@ class Response
     /**
      * Run a Unified Checkout auth/sale for the given payment and amount, and interpret the reply.
      *
+     * $capture is the OPERATION'S intent (Gateway::authorize() -> false, Gateway::captureBundled() ->
+     * true): Magento already routed the operation off payment_action, so re-deriving the flag from
+     * config here would post an authorization for a bundled capture on an authorize-configured store
+     * (money authorized, never captured). Null falls back to the config-derived placement default.
+     *
      * @param InfoInterface $payment
      * @param float $amount
+     * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
      * @return GatewayResponse
      * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path).
      * @throws RuntimeException On an error/invalid response, or a missing transient token.
      * @throws Throwable
      */
-    public function place(InfoInterface $payment, float $amount): GatewayResponse
+    public function place(InfoInterface $payment, float $amount, ?bool $capture = null): GatewayResponse
     {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
@@ -196,7 +202,7 @@ class Response
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request  = $this->buildRequest($payment, $amount);
+        $request  = $this->buildRequest($payment, $amount, $capture);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         return $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
@@ -209,16 +215,25 @@ class Response
      * TMS ids under paymentInformation and the stored-credential initiator block, then interpret the reply
      * exactly like the new-card path. Config/REST scope is taken from the order (same as place()).
      *
+     * $capture carries the operation's intent exactly as on place(): a bundled capture (Gateway::
+     * captureBundled(), e.g. a subscription rebill invoiced online) must post capture=true regardless
+     * of the configured payment_action, or the paid invoice is backed by an auth that never settles.
+     *
      * @param InfoInterface $payment
      * @param CardInterface $card
      * @param float $amount
+     * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
      * @return GatewayResponse
      * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path).
      * @throws RuntimeException On an error/invalid response, or a card with no vaulted token.
      * @throws Throwable
      */
-    public function placeStored(InfoInterface $payment, CardInterface $card, float $amount): GatewayResponse
-    {
+    public function placeStored(
+        InfoInterface $payment,
+        CardInterface $card,
+        float $amount,
+        ?bool $capture = null
+    ): GatewayResponse {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
         $order   = $payment->getOrder();
@@ -227,7 +242,7 @@ class Response
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request  = $this->buildStoredCardRequest($payment, $card, $amount);
+        $request  = $this->buildStoredCardRequest($payment, $card, $amount, $capture);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         // StoredCardRequest carries no actionList: the card is already vaulted, so no token is requested
@@ -241,8 +256,9 @@ class Response
      * D5 reverse-mapping (the inverse of CardBuilder's write side): paymentInformation.customer.id <- card
      * profileId (TMS customer), paymentInformation.paymentInstrument.id <- card paymentId (TMS
      * paymentInstrument, the MIT key — REQUIRED), paymentInformation.instrumentIdentifier.id <- card
-     * additional[instrument_identifier]. The capture flag is derived from the SERVER-SIDE payment_action
-     * (never client input), identical to buildRequest().
+     * additional[instrument_identifier]. The capture flag is the caller's OPERATION intent when given
+     * (never client input — Gateway passes false for authorize(), true for a bundled capture), falling
+     * back to the SERVER-SIDE payment_action when null, identical to buildRequest().
      *
      * CIT vs MIT branch: keyed off payment additional_information['is_subscription_generated']. A
      * subscription/scheduled rebill is a merchant-initiated transaction (MIT) — initiator.type='merchant',
@@ -274,13 +290,15 @@ class Response
      * @param InfoInterface $payment
      * @param CardInterface $card
      * @param float $amount
+     * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
      * @return StoredCardRequest
      * @throws RuntimeException When the card carries no vaulted paymentInstrument id.
      */
     public function buildStoredCardRequest(
         InfoInterface $payment,
         CardInterface $card,
-        float $amount
+        float $amount,
+        ?bool $capture = null
     ): StoredCardRequest {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
@@ -308,7 +326,7 @@ class Response
         $request = $this->storedCardRequestFactory->create();
 
         $request->setClientReferenceCode((string)$order->getIncrementId())
-            ->setCapture($this->isCapture((int)$order->getStoreId()))
+            ->setCapture($capture ?? $this->isCapture((int)$order->getStoreId()))
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()))
@@ -491,15 +509,17 @@ class Response
     /**
      * Assemble the /pts/v2/payments request DTO from the order/payment and the re-validated amount.
      *
-     * The capture flag is derived from the SERVER-SIDE payment_action (never anything client-supplied):
-     * payment_action=authorize_capture -> capture=true (sale); otherwise capture=false (authorize-only).
+     * The capture flag is the caller's OPERATION intent when given (never anything client-supplied —
+     * Gateway passes false for authorize(), true for a bundled capture). When null it is derived from
+     * the SERVER-SIDE payment_action: authorize_capture -> capture=true (sale); otherwise capture=false.
      *
      * @param InfoInterface $payment
      * @param float $amount
+     * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
      * @return PaymentRequest
      * @throws RuntimeException When no transient token is present on the payment.
      */
-    public function buildRequest(InfoInterface $payment, float $amount): PaymentRequest
+    public function buildRequest(InfoInterface $payment, float $amount, ?bool $capture = null): PaymentRequest
     {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
@@ -519,7 +539,7 @@ class Response
             ->setClientReferenceCode((string)$order->getIncrementId())
             ->setActionList([self::ACTION_TOKEN_CREATE])
             ->setActionTokenTypes(self::ACTION_TOKEN_TYPES)
-            ->setCapture($this->isCapture((int)$order->getStoreId()))
+            ->setCapture($capture ?? $this->isCapture((int)$order->getStoreId()))
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()))
@@ -719,7 +739,8 @@ class Response
     /**
      * Whether the configured payment_action is a sale (auth+capture) rather than authorize-only.
      *
-     * Sourced strictly from server-side config — never from client input.
+     * Sourced strictly from server-side config — never from client input. This is only the FALLBACK
+     * for callers that pass no explicit operation intent; Gateway operations pass theirs explicitly.
      *
      * @param int $storeId
      * @return bool

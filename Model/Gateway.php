@@ -136,11 +136,15 @@ class Gateway extends AbstractGateway
      *
      * New-card path: the payment carries a Unified Checkout transient token (additional_data.transient_token)
      * captured client-side; we delegate to the A1 UnifiedCheckout\Response service, which POSTs
-     * /pts/v2/payments (auth or sale per server-side payment_action) and returns the gateway Response the
-     * rest of the module consumes (Method::afterAuthorize() then maps any minted TMS ids onto the card).
+     * /pts/v2/payments and returns the gateway Response the rest of the module consumes
+     * (Method::afterAuthorize() then maps any minted TMS ids onto the card).
      *
      * Stored-card (vault / MIT) path: there is no transient token; the card already holds its TMS ids. We
      * delegate to buildStoredCardAuth(), which builds the stored-credential request from the vaulted card.
+     *
+     * Either way this posts capture=false: an authorize() operation IS an authorization by definition —
+     * Magento already routed here off payment_action, so the flag must come from the operation, not be
+     * re-derived from config (sales route through capture() -> captureBundled(), which posts true).
      *
      * @param InfoInterface $payment
      * @param float $amount
@@ -153,11 +157,11 @@ class Gateway extends AbstractGateway
     {
         if ($this->hasTransientToken($payment)) {
             // New-card Unified Checkout auth/sale (A1).
-            return $this->unifiedCheckoutResponse->place($payment, (float)$amount);
+            return $this->unifiedCheckoutResponse->place($payment, (float)$amount, false);
         }
 
         // Stored-card / MIT auth from the vaulted TMS ids.
-        return $this->buildStoredCardAuth($payment, (float)$amount);
+        return $this->buildStoredCardAuth($payment, (float)$amount, false);
     }
 
     /**
@@ -174,13 +178,17 @@ class Gateway extends AbstractGateway
      * never tokenized (uc_token_missing flag set, or no paymentId), we fail loudly and log rather than
      * silently attempt an unrunnable auth — the card must be re-entered.
      *
+     * $capture carries the calling operation's intent through to the request: false from authorize()
+     * (auth-only), true from captureBundled() (the bundled sale must actually settle the funds).
+     *
      * @param InfoInterface $payment
      * @param float $amount
+     * @param bool $capture Operation intent: true=bundled sale, false=authorization-only.
      * @return Response
      * @throws RuntimeException When there is no usable vaulted card to run the stored-credential auth.
      * @throws Throwable
      */
-    protected function buildStoredCardAuth(InfoInterface $payment, float $amount)
+    protected function buildStoredCardAuth(InfoInterface $payment, float $amount, bool $capture)
     {
         $card = $this->getCard();
 
@@ -208,7 +216,7 @@ class Gateway extends AbstractGateway
             );
         }
 
-        return $this->unifiedCheckoutResponse->placeStored($payment, $card, (float)$amount);
+        return $this->unifiedCheckoutResponse->placeStored($payment, $card, (float)$amount, $capture);
     }
 
     /**
@@ -267,9 +275,12 @@ class Gateway extends AbstractGateway
     /**
      * Run a bundled auth+capture (a Unified Checkout sale) for the given payment and amount.
      *
-     * New-card: delegate to the A1 auth/sale service, which sends capture=true (sale). Stored-card MIT
-     * bundling routes through buildStoredCardAuth(), which builds the stored-credential request from the
-     * vaulted card (capture is derived server-side from payment_action).
+     * New-card: delegate to the A1 auth/sale service. Stored-card MIT bundling routes through
+     * buildStoredCardAuth(), which builds the stored-credential request from the vaulted card. Both
+     * paths post capture=true explicitly: a bundled capture IS a sale, whatever payment_action says —
+     * Magento records the invoice as PAID off this call, so the request must actually settle the funds
+     * (subscription/MIT rebills, the 242 recapture fallback, and invoicing a closed auth all land here
+     * on authorize-configured stores).
      *
      * @param InfoInterface $payment
      * @param float $amount
@@ -281,10 +292,10 @@ class Gateway extends AbstractGateway
     protected function captureBundled(InfoInterface $payment, float $amount)
     {
         if ($this->hasTransientToken($payment)) {
-            return $this->unifiedCheckoutResponse->place($payment, $amount);
+            return $this->unifiedCheckoutResponse->place($payment, $amount, true);
         }
 
-        return $this->buildStoredCardAuth($payment, $amount);
+        return $this->buildStoredCardAuth($payment, $amount, true);
     }
 
     /**
@@ -420,13 +431,13 @@ class Gateway extends AbstractGateway
             $reply = json_decode((string)$reply, true);
             if ($reply !== false && !empty($reply['conversionDetails'])) {
                 foreach ($reply['conversionDetails'] as $change) {
-                    if ($change['requestId'] === $transactionId) {
+                    if (($change['requestId'] ?? null) === $transactionId) {
                         $response->addData($change);
 
-                        if ($change['newDecision'] === 'ACCEPT') {
+                        if (($change['newDecision'] ?? null) === 'ACCEPT') {
                             $response->setData('is_approved', true);
                         }
-                        if ($change['newDecision'] === 'REJECT') {
+                        if (($change['newDecision'] ?? null) === 'REJECT') {
                             $response->setData('is_denied', true);
                         }
 
