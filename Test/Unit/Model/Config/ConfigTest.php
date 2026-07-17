@@ -198,6 +198,35 @@ class ConfigTest extends TestCase
         $this->assertStringStartsWith('https://custom.domain.com/fp/tags.js?', $result);
     }
 
+    /**
+     * D10: completeMandate.type must follow Magento payment_action semantics — authorize_capture
+     * is a sale (CAPTURE); everything else authorizes only (AUTH). Every consumer suite mocks
+     * Config, so this mapping is the single point where an inversion would force-capture at
+     * checkout for authorize-mode merchants; it must be pinned against the real class.
+     *
+     * @dataProvider completeMandateTypeDataProvider
+     */
+    #[DataProvider('completeMandateTypeDataProvider')]
+    public function testGetUcCompleteMandateTypeMapsPaymentAction(
+        string $paymentAction,
+        string $expected
+    ): void {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payment_action', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($paymentAction);
+
+        $this->assertSame($expected, $this->config->getUcCompleteMandateType());
+    }
+
+    public static function completeMandateTypeDataProvider(): array
+    {
+        return [
+            'authorize maps to AUTH' => ['authorize', 'AUTH'],
+            'authorize_capture maps to CAPTURE' => ['authorize_capture', 'CAPTURE'],
+            'unset payment_action defaults to AUTH' => ['', 'AUTH'],
+        ];
+    }
+
     private function setupSandboxMode(bool $isSandbox): void
     {
         $this->scopeConfigMock->method('getValue')

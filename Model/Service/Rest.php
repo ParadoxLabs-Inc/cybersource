@@ -299,7 +299,10 @@ class Rest
     protected function signRequest($path, $params, $httpMethod, ?string $jsonBody = null): array
     {
         $host = parse_url((string)$this->config->getRestEndpoint($path, $this->storeId), PHP_URL_HOST);
-        $date = date("D, d M Y G:i:s \G\M\T");
+        // RFC 1123/7231 date: hours must be zero-padded (H). The previous 'G' emitted e.g. "9:05:03"
+        // for GMT hours 0-9 — a malformed Date header a strict peer may reject. HMAC is unaffected
+        // (the signature is computed over the header exactly as sent).
+        $date = date("D, d M Y H:i:s \G\M\T");
 
         $headers                    = [];
         $headers['Date']            = $date;

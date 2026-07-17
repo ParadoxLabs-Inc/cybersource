@@ -150,8 +150,13 @@ class GraphQL extends CaptureContext
     {
         try {
             if (!empty($this->graphQlArgs['billingAddress'])) {
+                // CustomerAddressInput uses country_code + a nested region object; normalize to the
+                // flat snake_case keys the address helper reads (as Frontend/Backend do), or the
+                // country/region are silently dropped from the capture-context billTo.
                 return $this->mapBillTo(
-                    $this->addressHelper->buildAddressFromInput($this->graphQlArgs['billingAddress'])
+                    $this->addressHelper->buildAddressFromInput(
+                        $this->normalizeBillingInputKeys((array)$this->graphQlArgs['billingAddress'])
+                    )
                 );
             }
 

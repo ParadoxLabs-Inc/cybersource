@@ -185,17 +185,29 @@ abstract class CaptureContext
     }
 
     /**
-     * Normalize camelCase billing-input keys to the snake_case keys buildAddressFromInput() expects.
+     * Normalize billing-input keys to the flat snake_case keys buildAddressFromInput() expects.
      *
      * Frontend/Backend billing input may arrive with camelCase keys (countryId/regionId/regionCode);
-     * the address helper reads snake_case. Existing snake_case keys are never overwritten.
+     * GraphQL CustomerAddressInput arrives with country_code and a nested region object
+     * (region/region_code/region_id). The address helper reads flat snake_case. Existing flat
+     * snake_case keys are never overwritten.
      *
      * @param array<string, mixed> $billing
      * @return array<string, mixed>
      */
     protected function normalizeBillingInputKeys(array $billing): array
     {
-        $billing['country_id']  ??= $billing['countryId'] ?? null;
+        if (isset($billing['region']) && is_array($billing['region'])) {
+            $region = $billing['region'];
+
+            $billing['region_id']   ??= $region['region_id'] ?? null;
+            $billing['region_code'] ??= $region['region_code'] ?? null;
+            // The customer_address form has no region_code attribute; a 2-letter code in 'region'
+            // is how buildAddressFromInput() resolves the region, so prefer the code over the name.
+            $billing['region'] = $region['region_code'] ?? $region['region'] ?? null;
+        }
+
+        $billing['country_id']  ??= $billing['countryId'] ?? $billing['country_code'] ?? null;
         $billing['region_id']   ??= $billing['regionId'] ?? null;
         $billing['region_code'] ??= $billing['regionCode'] ?? null;
 

@@ -75,9 +75,10 @@ class RestTest extends TestCase
     {
         $headers = $this->invokeSignRequest('/pts/v2/payments', [], 'GET');
 
-        // Date should be in RFC 7231 format
+        // Date must be strict RFC 1123/7231: two-digit (zero-padded) hour. The old \d{1,2} regex
+        // was written around date('G'), which emitted a malformed header for GMT hours 0-9.
         $this->assertMatchesRegularExpression(
-            '/^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} \d{1,2}:\d{2}:\d{2} GMT$/',
+            '/^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} \d{2}:\d{2}:\d{2} GMT$/',
             $headers['Date']
         );
     }
@@ -114,8 +115,19 @@ class RestTest extends TestCase
         $params = ['searchId' => 'abc123', 'limit' => 10];
         $headers = $this->invokeSignRequest('/tss/v2/searches', $params, 'GET');
 
-        // The signature header should reference request-target
-        $this->assertStringContainsString('request-target', $headers['Signature']);
+        // Recompute the exact HMAC with the query string in the request-target (Date reused from
+        // the returned headers, so this is deterministic). Fails if the query string is dropped.
+        $signatureString = implode("\n", [
+            'host: apitest.cybersource.com',
+            'date: ' . $headers['Date'],
+            'request-target: get /tss/v2/searches?searchId=abc123&limit=10',
+            'v-c-merchant-id: ' . self::TEST_MERCHANT_ID,
+        ]);
+        $expectedSignature = base64_encode(
+            hash_hmac('sha256', $signatureString, base64_decode(self::TEST_SECRET_KEY), true)
+        );
+
+        $this->assertStringContainsString('signature="' . $expectedSignature . '"', $headers['Signature']);
     }
 
     public function testSignRequestDifferentPathsProduceDifferentSignatures(): void
@@ -138,9 +150,19 @@ class RestTest extends TestCase
     {
         $headers = $this->invokeSignRequest('/pts/v2/payments', [], 'GET');
 
-        // Signature is computed including lowercase http method
-        // We can verify format by checking signature contains expected parts
-        $this->assertStringContainsString('signature="', $headers['Signature']);
+        // Recompute the exact HMAC with the lowercase method in the request-target (Date reused
+        // from the returned headers). Fails if the method is missing, uppercased, or reordered.
+        $signatureString = implode("\n", [
+            'host: apitest.cybersource.com',
+            'date: ' . $headers['Date'],
+            'request-target: get /pts/v2/payments',
+            'v-c-merchant-id: ' . self::TEST_MERCHANT_ID,
+        ]);
+        $expectedSignature = base64_encode(
+            hash_hmac('sha256', $signatureString, base64_decode(self::TEST_SECRET_KEY), true)
+        );
+
+        $this->assertStringContainsString('signature="' . $expectedSignature . '"', $headers['Signature']);
     }
 
     public function testPostComputesDigestHeader(): void
@@ -201,11 +223,14 @@ class RestTest extends TestCase
         $jsonBody = json_encode($params);
         $digestValue = 'SHA-256=' . base64_encode(hash('sha256', $jsonBody, true));
 
+        $headers = $this->invokeSignRequest('/pts/v2/payments', $params, 'POST', $jsonBody);
+
+        // Reuse the returned Date header (recomputing date() here raced the second boundary and
+        // pinned the header format instead of the signature contract).
         $host = 'apitest.cybersource.com';
-        $date = date("D, d M Y G:i:s \G\M\T");
         $signatureString = implode("\n", [
             'host: ' . $host,
-            'date: ' . $date,
+            'date: ' . $headers['Date'],
             'request-target: post /pts/v2/payments',
             'digest: ' . $digestValue,
             'v-c-merchant-id: ' . self::TEST_MERCHANT_ID,
@@ -218,8 +243,6 @@ class RestTest extends TestCase
                 true
             )
         );
-
-        $headers = $this->invokeSignRequest('/pts/v2/payments', $params, 'POST', $jsonBody);
 
         $this->assertSame($digestValue, $headers['Digest']);
         $this->assertStringContainsString(

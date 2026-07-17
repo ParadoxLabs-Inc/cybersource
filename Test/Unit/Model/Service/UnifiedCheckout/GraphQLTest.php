@@ -156,24 +156,46 @@ class GraphQLTest extends TestCase
     public function testBuildRequestSourcesBillToFromInputBillingAddressOverCart(): void
     {
         // Explicit billingAddress input arg takes precedence; the cart is never queried for billTo.
+        // The input uses the REAL CustomerAddressInput schema shape: country_code (CountryCodeEnum)
+        // plus a nested region object — NOT flat countryId/regionCode, which GraphQL cannot emit.
+        // getBillTo() must normalize those to the flat snake_case keys the address helper reads,
+        // or country/region are silently dropped from the capture-context billTo.
+        $schemaShapedInput = [
+            'firstname' => 'Bob',
+            'lastname' => 'Smith',
+            'street' => ['500 Market St'],
+            'city' => 'Philadelphia',
+            'postcode' => '19106',
+            'country_code' => 'US',
+            'region' => [
+                'region_code' => 'PA',
+                'region_id' => 51,
+            ],
+            'telephone' => '5559876543',
+        ];
+
         $inputAddress = $this->makeCustomerAddress('Bob', 'Smith', '500 Market St', 'PA');
         $this->addressHelperMock->expects($this->once())
             ->method('buildAddressFromInput')
-            ->with(['countryId' => 'US', 'regionCode' => 'PA'])
+            ->with($this->callback(static function (array $billing): bool {
+                // Normalized flat keys buildAddressFromInput() reads; nested region flattened.
+                return ($billing['country_id'] ?? null) === 'US'
+                    && ($billing['region_id'] ?? null) === 51
+                    && ($billing['region_code'] ?? null) === 'PA'
+                    && ($billing['region'] ?? null) === 'PA';
+            }))
             ->willReturn($inputAddress);
         $this->graphQLHelperMock->expects($this->never())->method('getQuote');
 
         $handler = $this->makeHandler([]);
-        $handler->setGraphQLContext(
-            $this->contextMock,
-            ['billingAddress' => ['countryId' => 'US', 'regionCode' => 'PA']]
-        );
+        $handler->setGraphQLContext($this->contextMock, ['billingAddress' => $schemaShapedInput]);
 
         $result = $handler->buildRequest()->toArray();
 
         $this->assertSame('Bob', $result['orderInformation']['billTo']['firstName']);
         $this->assertSame('500', $result['orderInformation']['billTo']['buildingNumber']);
         $this->assertSame('PA', $result['orderInformation']['billTo']['administrativeArea']);
+        $this->assertSame('US', $result['orderInformation']['billTo']['country']);
     }
 
     public function testCanRequestSaveCardTrueForAuthenticatedCustomer(): void

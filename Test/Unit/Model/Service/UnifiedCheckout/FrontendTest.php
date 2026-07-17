@@ -186,6 +186,60 @@ class FrontendTest extends TestCase
         );
     }
 
+    public function testBuildRequestSourcesBillToFromPostBillingInputOverQuote(): void
+    {
+        // POST billing input takes precedence over the session quote. The checkout JS posts the
+        // quote.billingAddress() fields with camelCase keys (countryId/regionId/regionCode — see
+        // getCaptureContextParams() in paradoxlabs_cybersource.js); normalizeBillingInputKeys()
+        // must add the snake_case keys the address helper reads, or country/region are dropped.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn([
+            'firstname' => 'Bob',
+            'lastname' => 'Smith',
+            'street' => ['500 Market St'],
+            'city' => 'Philadelphia',
+            'regionCode' => 'PA',
+            'regionId' => 51,
+            'region' => 'Pennsylvania',
+            'postcode' => '19106',
+            'countryId' => 'US',
+            'telephone' => '5559876543',
+        ]);
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(null);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(false);
+
+        $region = $this->createMock(RegionInterface::class);
+        $region->method('getRegionCode')->willReturn('PA');
+
+        $inputAddress = $this->createMock(AddressInterface::class);
+        $inputAddress->method('getFirstname')->willReturn('Bob');
+        $inputAddress->method('getLastname')->willReturn('Smith');
+        $inputAddress->method('getStreet')->willReturn(['500 Market St']);
+        $inputAddress->method('getCity')->willReturn('Philadelphia');
+        $inputAddress->method('getRegion')->willReturn($region);
+        $inputAddress->method('getPostcode')->willReturn('19106');
+        $inputAddress->method('getCountryId')->willReturn('US');
+        $inputAddress->method('getTelephone')->willReturn('5559876543');
+
+        $this->addressHelperMock->expects($this->once())
+            ->method('buildAddressFromInput')
+            ->with($this->callback(static function (array $billing): bool {
+                // normalizeBillingInputKeys() adds the flat snake_case keys; the string region
+                // name passes through untouched (it is not the nested GraphQL region object).
+                return ($billing['country_id'] ?? null) === 'US'
+                    && ($billing['region_id'] ?? null) === 51
+                    && ($billing['region_code'] ?? null) === 'PA'
+                    && ($billing['region'] ?? null) === 'Pennsylvania';
+            }))
+            ->willReturn($inputAddress);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame('Bob', $result['orderInformation']['billTo']['firstName']);
+        $this->assertSame('500', $result['orderInformation']['billTo']['buildingNumber']);
+        $this->assertSame('PA', $result['orderInformation']['billTo']['administrativeArea']);
+        $this->assertSame('US', $result['orderInformation']['billTo']['country']);
+    }
+
     /**
      * Build a Magento customer-data billing address (as returned by getDataModel()).
      */

@@ -62,7 +62,8 @@ class MethodTest extends TestCase
     public function testAfterCaptureAppliesCardBuilderMappingWhenTokenPresent(): void
     {
         $card     = $this->createMock(CardInterface::class);
-        $response = new Response(['token_information' => ['instrumentIdentifier' => ['id' => 'INSTR-1']]]);
+        // Flat id strings: the shape Response::interpretResponse() actually emits (see ResponseTest).
+        $response = new Response(['token_information' => ['instrumentIdentifier' => 'INSTR-1']]);
         $this->setCard($card);
 
         $this->cardBuilderMock->expects($this->once())
@@ -86,7 +87,8 @@ class MethodTest extends TestCase
     public function testAfterAuthorizeAppliesCardBuilderMappingWhenTokenPresent(): void
     {
         $card     = $this->createMock(CardInterface::class);
-        $response = new Response(['token_information' => ['instrumentIdentifier' => ['id' => 'INSTR-2']]]);
+        // Flat id strings: the shape Response::interpretResponse() actually emits (see ResponseTest).
+        $response = new Response(['token_information' => ['instrumentIdentifier' => 'INSTR-2']]);
         $this->setCard($card);
 
         $this->cardBuilderMock->expects($this->once())
