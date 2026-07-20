@@ -97,7 +97,7 @@ class Version extends Value implements ProcessorInterface
             // No-op
         }
 
-        return __('Unknown (could not read composer.json)');
+        return 'Unknown (could not read composer.json)';
     }
 
     /**
