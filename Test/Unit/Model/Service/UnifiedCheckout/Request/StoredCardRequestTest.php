@@ -22,7 +22,6 @@ class StoredCardRequestTest extends TestCase
             ->setStoredCredentialUsed(true)
             ->setPreviousTransactionId('PRIORTXN1')
             ->setPaymentInstrumentId('PI1')
-            ->setInstrumentIdentifierId('II1')
             ->setTotalAmount('24.00')
             ->setCurrency('USD')
             ->setBillTo([
@@ -45,10 +44,11 @@ class StoredCardRequestTest extends TestCase
         $this->assertArrayNotHasKey('tokenInformation', $result);
         $this->assertArrayNotHasKey('actionList', $result['processingInformation']);
 
-        // Standalone TMS payment instrument: no paymentInformation.customer block, ever.
+        // Standalone TMS payment instrument: no paymentInformation.customer block, ever. And PI-only:
+        // no instrumentIdentifier alongside it (400 INVALID_REQUEST/INVALID_DATA — CAS sandbox spike).
         $this->assertArrayNotHasKey('customer', $result['paymentInformation']);
         $this->assertSame('PI1', $result['paymentInformation']['paymentInstrument']['id']);
-        $this->assertSame('II1', $result['paymentInformation']['instrumentIdentifier']['id']);
+        $this->assertArrayNotHasKey('instrumentIdentifier', $result['paymentInformation']);
 
         $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
         $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
@@ -77,7 +77,6 @@ class StoredCardRequestTest extends TestCase
             ->setInitiatorType('customer')
             ->setStoredCredentialUsed(true)
             ->setPaymentInstrumentId('PI1')
-            ->setInstrumentIdentifierId('II1')
             ->setTotalAmount('24.00')
             ->setCurrency('USD');
 
@@ -109,8 +108,25 @@ class StoredCardRequestTest extends TestCase
         $this->assertSame('recurring', $result['processingInformation']['commerceIndicator']);
     }
 
-    public function testToArrayOmitsEmptyInstrumentIdentifierId(): void
+    public function testToArrayEmitsSecurityCodeUnderCardBlock(): void
     {
+        // require_ccv re-entry: the re-collected code rides under paymentInformation.card.securityCode —
+        // the ONLY key in the card block (PAN/expiration live on the vaulted payment instrument).
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')
+            ->setInitiatorType('customer')
+            ->setStoredCredentialUsed(true)
+            ->setSecurityCode('123');
+
+        $result = $request->toArray();
+
+        $this->assertSame(['securityCode' => '123'], $result['paymentInformation']['card']);
+    }
+
+    public function testToArrayOmitsCardBlockWhenNoSecurityCode(): void
+    {
+        // No re-collected code (default, e.g. an MIT rebill) -> no paymentInformation.card block at all;
+        // only the REQUIRED paymentInstrument id is present.
         $request = new StoredCardRequest();
         $request->setPaymentInstrumentId('PI1')
             ->setInitiatorType('customer')
@@ -118,9 +134,20 @@ class StoredCardRequestTest extends TestCase
 
         $result = $request->toArray();
 
-        // Only the REQUIRED paymentInstrument id is present; instrumentIdentifier omitted when unset.
         $this->assertSame('PI1', $result['paymentInformation']['paymentInstrument']['id']);
+        $this->assertArrayNotHasKey('card', $result['paymentInformation']);
         $this->assertArrayNotHasKey('instrumentIdentifier', $result['paymentInformation']);
+    }
+
+    public function testToArrayOmitsCardBlockWhenSecurityCodeEmpty(): void
+    {
+        // An empty-string code must not emit an empty card block.
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')->setSecurityCode('');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('card', $result['paymentInformation']);
     }
 
     public function testToArrayOmitsInitiatorBlockWhenNoInitiatorType(): void

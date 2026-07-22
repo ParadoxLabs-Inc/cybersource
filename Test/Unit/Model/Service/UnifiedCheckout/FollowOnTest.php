@@ -170,6 +170,27 @@ class FollowOnTest extends TestCase
         }
     }
 
+    public function testCapture404MapsToSoapCode242FromRestRuntimeExceptionShape(): void
+    {
+        // Rest::throwOnHttpError() now throws a Magento RuntimeException (generic message, raw detail on
+        // the cause) with the HTTP status as its code. The 404 -> 242 retry mapping must still fire off
+        // getCode() on that shape exactly as it did for the old plain \Exception.
+        $this->primePostThrows(
+            new RuntimeException(
+                __('The transaction was declined. Please verify your payment details and try again.'),
+                new Exception('Resource not found', 404),
+                404
+            )
+        );
+
+        try {
+            $this->service->capture($this->buildPayment(), 24.0, 'GONE');
+            $this->fail('Expected CommandException');
+        } catch (CommandException $e) {
+            $this->assertSame(FollowOn::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE, $e->getCode());
+        }
+    }
+
     public function testRefund404MapsToSoapCode241(): void
     {
         $this->primePostThrows(new Exception('Not Found', 404));

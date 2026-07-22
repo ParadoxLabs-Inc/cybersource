@@ -285,24 +285,39 @@ class RestTest extends TestCase
         $this->assertSame(['id' => 'abc', 'status' => 'AUTHORIZED'], $result);
     }
 
-    public function testPostNonTwoXxThrowsWithExtractedMessage(): void
+    public function testPostNonTwoXxThrowsLocalizedExceptionWithGenericMessageAndRawCause(): void
     {
+        // A gateway 4xx must surface as a LocalizedException subclass (a plain \Exception is wrapped by
+        // Magento's PaymentInformationManagement into the generic "A server error stopped your order from
+        // being placed"), carrying a GENERIC customer-safe message — never the raw gateway message, which
+        // may leak internals. The raw message + HTTP status ride on the exception CAUSE (getPrevious())
+        // and stay in the log; the HTTP status must round-trip through getCode() EXACTLY (the Gateway
+        // retry logic and FollowOn/deleteCard 404 mapping key on it).
         $this->clientMock->method('getStatus')->willReturn(400);
         $this->clientMock->method('getBody')
             ->willReturn('{"message":"Declined - invalid account number"}');
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Declined - invalid account number');
-        $this->expectExceptionCode(400);
-
-        $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+        try {
+            $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+            $this->fail('Expected a RuntimeException to be thrown');
+        } catch (\Magento\Framework\Exception\RuntimeException $e) {
+            $this->assertSame(
+                'The transaction was declined. Please verify your payment details and try again.',
+                $e->getMessage()
+            );
+            $this->assertSame(400, $e->getCode());
+            $this->assertNotNull($e->getPrevious());
+            $this->assertSame('Declined - invalid account number', $e->getPrevious()->getMessage());
+            $this->assertSame(400, $e->getPrevious()->getCode());
+        }
     }
 
     /**
      * Regression: a non-JSON / empty error body (empty 404 body on a TMS DELETE, proxy HTML on a 502)
-     * must still throw a plain \Exception with a NON-EMPTY string message and an int code. Under
-     * strict_types the prior code resolved $message to the int status and `new Exception($int, ...)`
-     * raised a TypeError (an \Error), which then escaped downstream `catch (Exception)` blocks.
+     * must still throw an Exception with a NON-EMPTY string message and an int code. Under strict_types
+     * the prior code resolved $message to the int status and `new Exception($int, ...)` raised a
+     * TypeError (an \Error), which then escaped downstream `catch (Exception)` blocks. The extracted
+     * detail (which the message assertion originally covered) now rides on the exception CAUSE.
      *
      * @dataProvider nonJsonErrorBodyProvider
      */
@@ -315,12 +330,16 @@ class RestTest extends TestCase
             $this->rest->delete('/tms/v2/payment-instruments/abc123');
             $this->fail('Expected an Exception to be thrown');
         } catch (\Throwable $e) {
-            // MUST be a plain Exception, never a TypeError / \Error.
+            // MUST be an Exception, never a TypeError / \Error.
             $this->assertInstanceOf(\Exception::class, $e);
             $this->assertNotInstanceOf(\Error::class, $e);
             $this->assertIsString($e->getMessage());
             $this->assertNotSame('', $e->getMessage());
             $this->assertSame($status, $e->getCode());
+            // The extracted (fallback) detail must still be reachable on the cause, with the status code.
+            $this->assertNotNull($e->getPrevious());
+            $this->assertNotSame('', $e->getPrevious()->getMessage());
+            $this->assertSame($status, $e->getPrevious()->getCode());
         }
     }
 
@@ -339,20 +358,23 @@ class RestTest extends TestCase
 
     /**
      * Regression: a bare, non-JSON error reason (e.g. CyberSource's 404 "Resource not found" on
-     * /pts/v2/payments) must be surfaced as the exception message, not flattened to a status-only
-     * "HTTP 404". Without this the real cause never reaches the order comment/exception, which sent a
-     * CI-wide place-order failure to triage as a generic 404.
+     * /pts/v2/payments) must be surfaced on the exception CAUSE, not flattened to a status-only
+     * "HTTP 404". Without this the real cause never reaches the log/exception chain, which sent a
+     * CI-wide place-order failure to triage as a generic 404. (The OUTER message is deliberately the
+     * generic customer-safe phrase — the raw reason lives on getPrevious() and in the log.)
      */
-    public function testSurfacesPlainTextErrorBodyAsMessage(): void
+    public function testSurfacesPlainTextErrorBodyOnExceptionCause(): void
     {
         $this->clientMock->method('getStatus')->willReturn(404);
         $this->clientMock->method('getBody')->willReturn('Resource not found');
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Resource not found');
-        $this->expectExceptionCode(404);
-
-        $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+        try {
+            $this->rest->post('/pts/v2/payments', ['x' => 'y']);
+            $this->fail('Expected a RuntimeException to be thrown');
+        } catch (\Magento\Framework\Exception\RuntimeException $e) {
+            $this->assertSame(404, $e->getCode());
+            $this->assertSame('Resource not found', $e->getPrevious()->getMessage());
+        }
     }
 
     public function testPostMasksPanAndCvvInLog(): void
@@ -432,11 +454,13 @@ class RestTest extends TestCase
         $this->clientMock->method('getStatus')->willReturn(404);
         $this->clientMock->method('getBody')->willReturn('{"message":"Not boarded"}');
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Not boarded');
-        $this->expectExceptionCode(404);
-
-        $this->rest->postRaw('/up/v1/capture-contexts', ['x' => 'y']);
+        try {
+            $this->rest->postRaw('/up/v1/capture-contexts', ['x' => 'y']);
+            $this->fail('Expected a RuntimeException to be thrown');
+        } catch (\Magento\Framework\Exception\RuntimeException $e) {
+            $this->assertSame(404, $e->getCode());
+            $this->assertSame('Not boarded', $e->getPrevious()->getMessage());
+        }
     }
 
     /**

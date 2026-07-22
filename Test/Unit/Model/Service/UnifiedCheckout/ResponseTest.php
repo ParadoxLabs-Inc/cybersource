@@ -439,7 +439,8 @@ class ResponseTest extends TestCase
         ?string $parentTransactionId = null,
         ?string $lastTransId = null,
         float $amountPaid = 0.0,
-        ?int $quoteId = null
+        ?int $quoteId = null,
+        ?string $ccCid = null
     ): Payment&MockObject {
         $address = $this->createMock(OrderAddressInterface::class);
         $address->method('getFirstname')->willReturn('Jane');
@@ -464,6 +465,11 @@ class ResponseTest extends TestCase
         $payment->method('getParentTransactionId')->willReturn($parentTransactionId);
         $payment->method('getLastTransId')->willReturn($lastTransId);
         $payment->method('getAmountPaid')->willReturn($amountPaid);
+        // TokenBase's assign-data observer stores the require_ccv re-entered code as payment data cc_cid.
+        $payment->method('getData')
+            ->willReturnCallback(
+                static fn(?string $key = null) => $key === 'cc_cid' ? $ccCid : null
+            );
         $payment->method('getAdditionalInformation')
             ->willReturnCallback(
                 static fn(?string $key = null) => $key === 'is_subscription_generated'
@@ -569,11 +575,13 @@ class ResponseTest extends TestCase
         );
         $this->assertSame('recurring', $this->sentBody['processingInformation']['commerceIndicator']);
 
-        // TMS ids from the card; NO transient-token / TOKEN_CREATE artifacts, and NO customer block
-        // (standalone TMS payment instrument — profileId is never read or sent).
+        // The paymentInstrument id from the card is the ONLY TMS id; NO transient-token / TOKEN_CREATE
+        // artifacts, NO customer block (standalone TMS payment instrument — profileId is never read or
+        // sent), and NO instrumentIdentifier (sending it alongside the paymentInstrument draws a
+        // 400 INVALID_REQUEST/INVALID_DATA — CAS sandbox A/B spike).
         $this->assertArrayNotHasKey('customer', $this->sentBody['paymentInformation']);
         $this->assertSame('PI-CARD', $this->sentBody['paymentInformation']['paymentInstrument']['id']);
-        $this->assertSame('II-CARD', $this->sentBody['paymentInformation']['instrumentIdentifier']['id']);
+        $this->assertArrayNotHasKey('instrumentIdentifier', $this->sentBody['paymentInformation']);
         $this->assertArrayNotHasKey('tokenInformation', $this->sentBody);
         $this->assertArrayNotHasKey('actionList', $this->sentBody['processingInformation']);
 
@@ -601,19 +609,22 @@ class ResponseTest extends TestCase
         $this->assertArrayNotHasKey('commerceIndicator', $this->sentBody['processingInformation']);
     }
 
-    public function testPlaceStoredOmitsEmptyInstrumentIdentifierId(): void
+    public function testPlaceStoredNeverSendsInstrumentIdentifier(): void
     {
+        // CAS sandbox A/B spike (400 root cause): sending paymentInformation.instrumentIdentifier.id
+        // ALONGSIDE the paymentInstrument id is rejected with 400 INVALID_REQUEST/INVALID_DATA; the
+        // paymentInstrument alone authorizes. So even when the card carries an instrument_identifier,
+        // it must never be sent on the stored-card charge.
         $this->primeRest([
             'id' => 'TXN-STORED-MIN',
             'status' => 'AUTHORIZED',
             'processorInformation' => ['responseCode' => '100'],
         ]);
 
-        // Card with only the required paymentInstrument id.
-        $card = $this->buildCard('PI-ONLY', null, null);
-        $this->service->placeStored($this->buildStoredPayment(), $card, 24.0);
+        // buildCard() default carries instrument_identifier II-CARD — it must still be omitted.
+        $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
 
-        $this->assertSame('PI-ONLY', $this->sentBody['paymentInformation']['paymentInstrument']['id']);
+        $this->assertSame('PI-CARD', $this->sentBody['paymentInformation']['paymentInstrument']['id']);
         $this->assertArrayNotHasKey('customer', $this->sentBody['paymentInformation']);
         $this->assertArrayNotHasKey('instrumentIdentifier', $this->sentBody['paymentInformation']);
     }
@@ -731,8 +742,18 @@ class ResponseTest extends TestCase
 
     public function testNewCardEmitsDeviceFingerprintWhenConfigProvidesSessionId(): void
     {
-        // Fingerprinting enabled + a reachable quote session -> deviceInformation.fingerprintSessionId is sent.
-        $this->configMock->method('getFingerprintSessionId')->willReturn('FP-SESSION-9');
+        // Fingerprinting enabled + a reachable quote session -> deviceInformation.fingerprintSessionId is
+        // sent, requested at DEFAULT scope (apiScope=false — the merchant-prefixed session id the frontend
+        // tag profiled under; the bare quote id matches no profiled session on REST).
+        $this->configMock->method('getFingerprintSessionId')
+            ->willReturnCallback(
+                function (string $sessionId, ?int $storeId = null, bool $apiScope = false): string {
+                    $this->assertSame('42', $sessionId);
+                    $this->assertFalse($apiScope, 'REST must use the tag-scope (merchant-prefixed) session id.');
+
+                    return 'FP-SESSION-9';
+                }
+            );
         $this->primeRest(['id' => 'TXN-FP', 'status' => 'AUTHORIZED']);
 
         $this->service->place($this->buildPayment('the.jwt.token', 0.0, false, 42), 24.0);
@@ -766,8 +787,19 @@ class ResponseTest extends TestCase
 
     public function testStoredCardCitEmitsDeviceFingerprint(): void
     {
-        // A CIT stored-card charge is cardholder-present, so the device signal is forwarded.
-        $this->configMock->method('getFingerprintSessionId')->willReturn('FP-CIT');
+        // A CIT stored-card charge is cardholder-present, so the device signal is forwarded. The session
+        // id must be requested at DEFAULT scope (apiScope=false, the merchant-prefixed value the frontend
+        // online-metrix tag profiled under) — REST does not prepend the merchant id server-side the way
+        // SOAP did, so the bare quote id (apiScope=true) matches no profiled session.
+        $this->configMock->method('getFingerprintSessionId')
+            ->willReturnCallback(
+                function (string $sessionId, ?int $storeId = null, bool $apiScope = false): string {
+                    $this->assertSame('42', $sessionId);
+                    $this->assertFalse($apiScope, 'REST must use the tag-scope (merchant-prefixed) session id.');
+
+                    return 'FP-CIT';
+                }
+            );
         $this->primeRest([
             'id' => 'TXN-CIT-FP',
             'status' => 'AUTHORIZED',
@@ -801,6 +833,62 @@ class ResponseTest extends TestCase
         );
 
         $this->assertArrayNotHasKey('deviceInformation', $this->sentBody);
+    }
+
+    // --- Stored-card CVV re-entry (require_ccv) ---
+
+    public function testStoredCardCitForwardsReenteredSecurityCode(): void
+    {
+        // require_ccv: the checkout re-prompts for the security code on a stored card; TokenBase's
+        // assign-data observer stores it as payment data cc_cid. It must be forwarded as
+        // paymentInformation.card.securityCode on the CIT charge.
+        $this->primeRest([
+            'id' => 'TXN-CIT-CVV',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored(
+            $this->buildStoredPayment(false, null, null, 0.0, null, '123'),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertSame('123', $this->sentBody['paymentInformation']['card']['securityCode']);
+    }
+
+    public function testStoredCardCitOmitsCardBlockWithoutSecurityCode(): void
+    {
+        // No re-entered code (require_ccv off, or nothing posted) -> no paymentInformation.card block at
+        // all; the vaulted payment instrument is the only payment information.
+        $this->primeRest([
+            'id' => 'TXN-CIT-NOCVV',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
+
+        $this->assertArrayNotHasKey('card', $this->sentBody['paymentInformation']);
+    }
+
+    public function testStoredCardMitNeverSendsSecurityCode(): void
+    {
+        // An MIT/subscription rebill has no cardholder present; even a stale cc_cid on the payment must
+        // never ride onto the merchant-initiated charge.
+        $this->primeRest([
+            'id' => 'TXN-MIT-NOCVV',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $this->service->placeStored(
+            $this->buildStoredPayment(true, 'PRIORTXN', null, 0.0, null, '123'),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertArrayNotHasKey('card', $this->sentBody['paymentInformation']);
     }
 
     // --- Iter 4: Decision Manager REJECT propagation ---

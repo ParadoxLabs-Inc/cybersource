@@ -262,9 +262,14 @@ class Response
      * Assemble the stored-card /pts/v2/payments request DTO from the vaulted card's TMS ids and the amount.
      *
      * D5 reverse-mapping (the inverse of CardBuilder's write side): paymentInformation.paymentInstrument.id
-     * <- card paymentId (TMS paymentInstrument, the MIT key — REQUIRED),
-     * paymentInformation.instrumentIdentifier.id <- card additional[instrument_identifier]. No customer id:
-     * cards are standalone TMS payment instruments (see ACTION_TOKEN_TYPES). The capture flag is the caller's OPERATION intent when given
+     * <- card paymentId (TMS paymentInstrument, the MIT key — REQUIRED, and the ONLY TMS id sent). The
+     * card's additional[instrument_identifier] is deliberately NOT sent: the CAS sandbox A/B spike
+     * confirmed that sending paymentInformation.instrumentIdentifier.id ALONGSIDE the paymentInstrument id
+     * is rejected with 400 INVALID_REQUEST/INVALID_DATA, while the paymentInstrument alone authorizes (it
+     * already references its instrument identifier server-side). Charging by instrumentIdentifier alone is
+     * NOT a valid fallback either (the API then demands card expiration fields), so PI-only is the
+     * contract. No customer id: cards are standalone TMS payment instruments (see ACTION_TOKEN_TYPES).
+     * The capture flag is the caller's OPERATION intent when given
      * (never client input — Gateway passes false for authorize(), true for a bundled capture), falling
      * back to the SERVER-SIDE payment_action when null, identical to buildRequest().
      *
@@ -272,7 +277,10 @@ class Response
      * subscription/scheduled rebill is a merchant-initiated transaction (MIT) — initiator.type='merchant',
      * commerceIndicator='recurring', and a best-effort merchantInitiatedTransaction.previousTransactionId
      * pointing at the prior stored txn id; everything else is a customer-initiated transaction (CIT) —
-     * initiator.type='customer' with no commerceIndicator and no MIT sub-object. storedCredentialUsed is
+     * initiator.type='customer' with no commerceIndicator and no MIT sub-object. On the CIT branch only, a
+     * security code re-collected at checkout (require_ccv -> payment cc_cid) is forwarded as
+     * paymentInformation.card.securityCode; an MIT rebill has no cardholder present to enter one, so it is
+     * structurally never sent there. storedCredentialUsed is
      * always true (it's a stored card either way). previousTransactionId is best-effort: it is sourced from
      * the payment's parent/last txn id, stripped of any -capture/-refund suffix (the shared
      * PriorTransactionIdTrait, also used by Gateway's refund fallback), and omitted entirely when unreachable.
@@ -339,7 +347,6 @@ class Response
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()))
             ->setPaymentInstrumentId($paymentInstrumentId)
-            ->setInstrumentIdentifierId($this->stringOrNull($card->getAdditional('instrument_identifier')))
             ->setStoredCredentialUsed(true)
             ->setSolutionId($this->config->getSolutionId())
             ->setApplicationName($this->config->getClientName())
@@ -374,6 +381,17 @@ class Response
             }
         } else {
             $request->setInitiatorType('customer');
+
+            // Stored-card CVV re-entry (require_ccv): the checkout re-prompts for the security code on a
+            // stored card and posts it as additional_data cc_cid, which TokenBase's assign-data observer
+            // stores (digits-only) on the payment. Forward it as paymentInformation.card.securityCode when
+            // present. CIT branch only by construction: an MIT rebill has no cardholder present to enter
+            // one, so subscription charges stay securityCode-less.
+            $securityCode = $this->stringOrNull($payment->getData('cc_cid'))
+                ?? $this->stringOrNull($payment->getAdditionalInformation('cc_cid'));
+            if ($securityCode !== null) {
+                $request->setSecurityCode($securityCode);
+            }
 
             // Decision Manager device-fingerprint parity: a CIT stored-card charge is cardholder-present,
             // so forward the device signal (the legacy SOAP Gateway sent deviceFingerprintID on every auth).
@@ -574,12 +592,16 @@ class Response
     /**
      * Resolve the Decision Manager device-fingerprint session id for this order, or null when disabled.
      *
-     * Legacy SOAP parity: Gateway::authorize()/capture() set
-     * request->setDeviceFingerprintID($config->getFingerprintSessionId($order->getQuoteId(), null, true)).
-     * apiScope=true returns the raw session id (no merchant_id prefix — CyberSource prepends it server-side,
-     * matching the merchant-prefixed session id the online-metrix tag collects under client-side). Config
-     * returns null when fingerprinting is disabled/unconfigured, so callers emit deviceInformation only
-     * when a non-empty value comes back and a quote session id is reachable.
+     * Legacy SOAP parity, translated to REST: the SOAP Gateway sent the RAW quote id (apiScope=true) as
+     * deviceFingerprintID because the SOAP service prepended the merchant id server-side to match the
+     * merchant-prefixed session id the online-metrix tag collected client-side. The REST API does NOT
+     * prepend — deviceInformation.fingerprintSessionId must be the SAME session id the profiling tag used
+     * (per CyberSource DM guidance, "use the same session ID for both the device fingerprint provider and
+     * the payment provider request"). The frontend tag is loaded from Config::getFingerprintUrl(quoteId),
+     * whose session_id is merchant_id + quoteId, so we request the same default-scope (merchant-prefixed)
+     * value here — never the bare quote id, which matches no profiled session. Config returns null when
+     * fingerprinting is disabled/unconfigured, so callers emit deviceInformation only when a non-empty
+     * value comes back and a quote session id is reachable.
      *
      * @param OrderInterface $order
      * @return string|null
@@ -591,7 +613,7 @@ class Response
             return null;
         }
 
-        $sessionId = $this->config->getFingerprintSessionId((string)$quoteId, null, true);
+        $sessionId = $this->config->getFingerprintSessionId((string)$quoteId);
 
         return ($sessionId !== null && $sessionId !== '') ? $sessionId : null;
     }

@@ -25,6 +25,7 @@ use Magento\Framework\HTTP\ClientInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\Socket;
 use Exception;
+use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\HTTP\ClientInterfaceFactory;
 use Magento\Framework\HTTP\ZendClientFactory;
 use ParadoxLabs\CyberSource\Helper\Data;
@@ -69,7 +70,7 @@ class Rest
      * @param array $params
      * @param string $responseType
      * @return string
-     * @throws \Exception
+     * @throws RuntimeException On any non-2xx HTTP response (code = HTTP status).
      */
     public function get($path, $params = [], $responseType = 'application/hal+json')
     {
@@ -113,7 +114,7 @@ class Rest
      * @param array $params
      * @param string $responseType
      * @return string Raw response body (typically empty on a 204).
-     * @throws \Exception
+     * @throws RuntimeException On any non-2xx HTTP response (code = HTTP status).
      */
     public function delete($path, $params = [], $responseType = 'application/hal+json')
     {
@@ -164,7 +165,7 @@ class Rest
      * @param array $params
      * @param string $responseType
      * @return array Decoded JSON response. Non-array decode results (null/scalar) are cast to an empty/wrapped array.
-     * @throws \Exception
+     * @throws RuntimeException On any non-2xx HTTP response (code = HTTP status).
      */
     public function post(string $path, array $params = [], string $responseType = 'application/hal+json'): array
     {
@@ -185,7 +186,7 @@ class Rest
      * @param array $params
      * @param string $responseType
      * @return string Raw response body (e.g. a JWT string).
-     * @throws \Exception
+     * @throws RuntimeException On any non-2xx HTTP response (code = HTTP status).
      */
     public function postRaw(string $path, array $params = [], string $responseType = 'application/jwt'): string
     {
@@ -205,7 +206,7 @@ class Rest
      * @param array $params
      * @param string $responseType
      * @return ClientInterface HTTP client after a successful (2xx) response.
-     * @throws \Exception
+     * @throws RuntimeException On any non-2xx HTTP response (code = HTTP status).
      */
     private function sendSigned(string $path, array $params, string $responseType): ClientInterface
     {
@@ -239,11 +240,20 @@ class Rest
      * raw in the URI line would leak PII. get()/delete() pass the bare endpoint URI; sendSigned()
      * passes the URI it built (POST has no query string).
      *
+     * The thrown exception is a LocalizedException subclass with a GENERIC, customer-safe message: a plain
+     * \Exception here was wrapped by Magento's PaymentInformationManagement into the generic "A server
+     * error stopped your order from being placed", while surfacing the raw gateway message instead could
+     * leak processor internals to the shopper. The raw extracted message + HTTP status stay in the log
+     * (masked) and ride on the exception CAUSE (getPrevious()) for programmatic consumers. The HTTP status
+     * is preserved EXACTLY as the exception code — Gateway::capture()/refund() retry logic and
+     * FollowOn/deleteCard 404 mapping all key on getCode(), and LocalizedException round-trips the
+     * constructor $code through getCode() unchanged.
+     *
      * @param string $requestUri Endpoint URI without query string.
      * @param string $jsonParams JSON-encoded request params (will be masked before logging).
      * @param ClientInterface $client HTTP client after the response has been received.
      * @return never
-     * @throws \Exception Always throws with the extracted error message and HTTP status code.
+     * @throws RuntimeException Always throws, with a generic message and the HTTP status as the code.
      */
     private function throwOnHttpError(string $requestUri, string $jsonParams, ClientInterface $client): never
     {
@@ -275,8 +285,9 @@ class Rest
             true
         );
 
-        throw new Exception(
-            $message,
+        throw new RuntimeException(
+            __('The transaction was declined. Please verify your payment details and try again.'),
+            new Exception($message, $status),
             $status
         );
     }

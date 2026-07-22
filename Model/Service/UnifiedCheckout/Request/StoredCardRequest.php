@@ -26,8 +26,12 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
  *
  * Hand-written "type safety without the SDK" (DECISION D14), the stored-card sibling of PaymentRequest.
  * The card is already vaulted, so there is NO transient token and NO actionList/TOKEN_CREATE; instead the
- * TMS ids are sent under paymentInformation (paymentInstrument / instrumentIdentifier — no customer:
- * cards are standalone TMS payment instruments, see Response::ACTION_TOKEN_TYPES),
+ * TMS paymentInstrument id is sent under paymentInformation — ALONE. No instrumentIdentifier: the CAS
+ * sandbox A/B spike confirmed that sending paymentInformation.instrumentIdentifier.id alongside the
+ * paymentInstrument id draws a 400 INVALID_REQUEST/INVALID_DATA, while the paymentInstrument alone (which
+ * references its instrument identifier server-side) authorizes. No customer either: cards are standalone
+ * TMS payment instruments, see Response::ACTION_TOKEN_TYPES. An optional re-collected security code
+ * (require_ccv) rides under paymentInformation.card.securityCode,
  * plus the stored-credential / merchant-initiated initiator block under
  * processingInformation.authorizationOptions.initiator. toArray() emits a clean JSON-ready tree with
  * null/empty leaves omitted, while preserving boolean false (the all-important `capture` flag, where
@@ -88,9 +92,14 @@ class StoredCardRequest
     private ?string $paymentInstrumentId = null;
 
     /**
+     * Re-collected card security code (paymentInformation.card.securityCode), when require_ccv re-prompts.
+     *
+     * Only ever set on a CIT (cardholder-present) stored-card charge — an MIT rebill has no cardholder
+     * present to enter one. Null = no code collected; the card block is omitted entirely.
+     *
      * @var string|null
      */
-    private ?string $instrumentIdentifierId = null;
+    private ?string $securityCode = null;
 
     /**
      * @var string|null
@@ -326,24 +335,24 @@ class StoredCardRequest
     }
 
     /**
-     * Get the TMS instrumentIdentifier id (paymentInformation.instrumentIdentifier.id).
+     * Get the re-collected card security code (paymentInformation.card.securityCode).
      *
      * @return string|null
      */
-    public function getInstrumentIdentifierId(): ?string
+    public function getSecurityCode(): ?string
     {
-        return $this->instrumentIdentifierId;
+        return $this->securityCode;
     }
 
     /**
-     * Set the TMS instrumentIdentifier id.
+     * Set the re-collected card security code.
      *
-     * @param string|null $instrumentIdentifierId
+     * @param string|null $securityCode
      * @return $this
      */
-    public function setInstrumentIdentifierId(?string $instrumentIdentifierId): self
+    public function setSecurityCode(?string $securityCode): self
     {
-        $this->instrumentIdentifierId = $instrumentIdentifierId;
+        $this->securityCode = $securityCode;
 
         return $this;
     }
@@ -595,7 +604,8 @@ class StoredCardRequest
     }
 
     /**
-     * Assemble paymentInformation from the TMS ids (paymentInstrument required; instrumentIdentifier optional).
+     * Assemble paymentInformation: the TMS paymentInstrument id (the ONLY TMS id — see class docblock)
+     * plus the optional re-collected security code.
      *
      * @return array<string, mixed>
      */
@@ -607,8 +617,10 @@ class StoredCardRequest
             $paymentInformation['paymentInstrument'] = ['id' => $this->paymentInstrumentId];
         }
 
-        if ($this->instrumentIdentifierId !== null && $this->instrumentIdentifierId !== '') {
-            $paymentInformation['instrumentIdentifier'] = ['id' => $this->instrumentIdentifierId];
+        // require_ccv re-entry: the card block carries ONLY the security code — never PAN/expiration
+        // (those live on the vaulted payment instrument). Omitted entirely when no code was collected.
+        if ($this->securityCode !== null && $this->securityCode !== '') {
+            $paymentInformation['card'] = ['securityCode' => $this->securityCode];
         }
 
         return $paymentInformation;
