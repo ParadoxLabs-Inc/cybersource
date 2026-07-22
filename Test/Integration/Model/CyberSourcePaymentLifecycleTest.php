@@ -513,7 +513,9 @@ class CyberSourcePaymentLifecycleTest extends TestCase
                 ],
             ];
 
-            // TOKEN_CREATE was requested (new card) => CyberSource mints and returns the three TMS ids.
+            // TOKEN_CREATE was requested (new card) => CyberSource mints and returns the TMS ids. The
+            // stray 'customer' id stays in this stub deliberately: the module must IGNORE it (standalone
+            // payment instruments — no profileId is ever written).
             if (isset($params['tokenInformation']['transientTokenJwt'])) {
                 $reply['tokenInformation'] = [
                     'customer' => ['id' => 'C123'],

@@ -30,11 +30,10 @@ use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
  * Maps the Unified Checkout TMS token result onto a TokenBase vault CardInterface (decision D5).
  *
  * The auth-execution service ({@see Response}) returns a gateway Response that, when TOKEN_CREATE
- * succeeded, carries token_information (the three TMS ids) and card_information (cc_* metadata). This
+ * succeeded, carries token_information (the TMS ids) and card_information (cc_* metadata). This
  * mapper applies the D5 vault mapping, mirroring the field writes of the Secure Acceptance card-save
  * path so existing stored cards remain format-compatible (decision D7 continuity):
  *
- *   profileId                       <- TMS customer id
  *   paymentId                       <- TMS paymentInstrument id (the MIT key; preserves payment_id semantics)
  *   additional[instrument_identifier] <- TMS instrumentIdentifier id (card fingerprint)
  *   additional[cc_type|cc_last4|cc_bin|cc_exp_month|cc_exp_year] <- card metadata
@@ -135,7 +134,10 @@ class CardBuilder
     }
 
     /**
-     * Write the three TMS ids onto the card per the D5 mapping, skipping any individual id that is absent.
+     * Write the TMS ids onto the card per the D5 mapping, skipping any individual id that is absent.
+     *
+     * No profileId: cards are standalone TMS payment instruments — no customer token is requested or
+     * stored (see Response::ACTION_TOKEN_TYPES).
      *
      * @param CardInterface $card
      * @param array<string, mixed> $tokenInformation
@@ -143,15 +145,10 @@ class CardBuilder
      */
     protected function applyTokenIds(CardInterface $card, array $tokenInformation): void
     {
-        $customerId             = $this->stringOrNull($tokenInformation['customer'] ?? null);
         $paymentInstrumentId    = $this->stringOrNull($tokenInformation['paymentInstrument'] ?? null);
         $instrumentIdentifierId = $this->stringOrNull($tokenInformation['instrumentIdentifier'] ?? null);
 
-        // profileId <- TMS customer; paymentId <- TMS paymentInstrument (the MIT key).
-        if ($customerId !== null) {
-            $card->setProfileId($customerId);
-        }
-
+        // paymentId <- TMS paymentInstrument (the MIT key).
         if ($paymentInstrumentId !== null) {
             $card->setPaymentId($paymentInstrumentId);
         }

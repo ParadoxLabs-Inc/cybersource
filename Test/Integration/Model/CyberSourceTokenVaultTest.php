@@ -72,11 +72,13 @@ class CyberSourceTokenVaultTest extends TestCase
     }
 
     /**
-     * D5 vault mapping: a new-card auth with TOKEN_CREATE persists the three TMS ids onto the vault card.
+     * D5 vault mapping: a new-card auth with TOKEN_CREATE persists the TMS ids onto the vault card.
      *
-     *   card profileId                        <- tokenInformation.customer.id
      *   card paymentId                        <- tokenInformation.paymentInstrument.id  (the MIT key)
      *   card additional[instrument_identifier] <- tokenInformation.instrumentIdentifier.id
+     *
+     * No customer token: cards are standalone TMS payment instruments (see Response::ACTION_TOKEN_TYPES),
+     * so profileId is never written.
      *
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/payment_action authorize
@@ -109,7 +111,6 @@ class CyberSourceTokenVaultTest extends TestCase
                     'bin' => '601100',
                 ],
                 'tokenInformation' => [
-                    'customer' => ['id' => 'C123'],
                     'paymentInstrument' => ['id' => 'P456'],
                     'instrumentIdentifier' => ['id' => 'I789'],
                 ],
@@ -122,17 +123,17 @@ class CyberSourceTokenVaultTest extends TestCase
         $order->getPayment()->authorize(true, (float)$order->getBaseGrandTotal());
         $this->orderRepository->save($order);
 
-        // The request must have asked for all three token types.
+        // The request must ask for the standalone token types only — never 'customer'.
         $authCalls = $this->restStub->getCallsMatching('/pts/v2/payments');
         $this->assertSame(
-            ['customer', 'paymentInstrument', 'instrumentIdentifier'],
+            ['paymentInstrument', 'instrumentIdentifier'],
             $authCalls[0]['params']['processingInformation']['actionTokenTypes'] ?? null,
-            'A new-card auth must request all three TMS token types.'
+            'A new-card auth must request the standalone TMS token types (no customer).'
         );
 
         $card = $this->cardRepository->getById($cardId);
 
-        $this->assertSame('C123', (string)$card->getProfileId(), 'profileId <- TMS customer id.');
+        $this->assertEmpty((string)$card->getProfileId(), 'No TMS customer id may be written (standalone PI).');
         $this->assertSame('P456', (string)$card->getPaymentId(), 'paymentId <- TMS paymentInstrument id.');
         $this->assertSame(
             'I789',
@@ -152,7 +153,7 @@ class CyberSourceTokenVaultTest extends TestCase
     }
 
     /**
-     * Deleting a stored card issues real DELETE requests to TMS: the payment-instrument, then the customer.
+     * Deleting a stored card issues a real DELETE request to TMS for the standalone payment-instrument.
      *
      * Rest::delete() forces the verb via CURLOPT_CUSTOMREQUEST and then calls get(); the double records
      * the verb it was invoked with, so this asserts the DELETE verb actually reaches the HTTP boundary
@@ -186,10 +187,9 @@ class CyberSourceTokenVaultTest extends TestCase
         $this->assertSame(
             [
                 '/tms/v2/payment-instruments/P456',
-                '/tms/v2/customers/C123',
             ],
             $this->restStub->getCalledPaths(),
-            'Card delete must remove the TMS payment-instrument, then the customer profile.'
+            'Card delete must remove the TMS payment-instrument only (standalone PI, no customer).'
         );
 
         foreach ($this->restStub->calls as $call) {

@@ -21,7 +21,6 @@ class StoredCardRequestTest extends TestCase
             ->setInitiatorType('merchant')
             ->setStoredCredentialUsed(true)
             ->setPreviousTransactionId('PRIORTXN1')
-            ->setCustomerId('CUST1')
             ->setPaymentInstrumentId('PI1')
             ->setInstrumentIdentifierId('II1')
             ->setTotalAmount('24.00')
@@ -46,7 +45,8 @@ class StoredCardRequestTest extends TestCase
         $this->assertArrayNotHasKey('tokenInformation', $result);
         $this->assertArrayNotHasKey('actionList', $result['processingInformation']);
 
-        $this->assertSame('CUST1', $result['paymentInformation']['customer']['id']);
+        // Standalone TMS payment instrument: no paymentInformation.customer block, ever.
+        $this->assertArrayNotHasKey('customer', $result['paymentInformation']);
         $this->assertSame('PI1', $result['paymentInformation']['paymentInstrument']['id']);
         $this->assertSame('II1', $result['paymentInformation']['instrumentIdentifier']['id']);
 
@@ -76,7 +76,6 @@ class StoredCardRequestTest extends TestCase
             ->setCapture(true)
             ->setInitiatorType('customer')
             ->setStoredCredentialUsed(true)
-            ->setCustomerId('CUST1')
             ->setPaymentInstrumentId('PI1')
             ->setInstrumentIdentifierId('II1')
             ->setTotalAmount('24.00')
@@ -110,7 +109,7 @@ class StoredCardRequestTest extends TestCase
         $this->assertSame('recurring', $result['processingInformation']['commerceIndicator']);
     }
 
-    public function testToArrayOmitsEmptyCustomerAndInstrumentIdentifierIds(): void
+    public function testToArrayOmitsEmptyInstrumentIdentifierId(): void
     {
         $request = new StoredCardRequest();
         $request->setPaymentInstrumentId('PI1')
@@ -119,9 +118,8 @@ class StoredCardRequestTest extends TestCase
 
         $result = $request->toArray();
 
-        // Only the REQUIRED paymentInstrument id is present; customer/instrumentIdentifier omitted.
+        // Only the REQUIRED paymentInstrument id is present; instrumentIdentifier omitted when unset.
         $this->assertSame('PI1', $result['paymentInformation']['paymentInstrument']['id']);
-        $this->assertArrayNotHasKey('customer', $result['paymentInformation']);
         $this->assertArrayNotHasKey('instrumentIdentifier', $result['paymentInformation']);
     }
 

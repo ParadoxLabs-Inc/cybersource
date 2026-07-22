@@ -86,7 +86,7 @@ class CardBuilderTest extends TestCase
         return (new GatewayResponse())->setData($data);
     }
 
-    public function testMapsAllThreeTmsIdsAndMetadataPerD5(): void
+    public function testMapsTmsIdsAndMetadataPerD5(): void
     {
         $profileId  = [];
         $paymentId  = [];
@@ -94,6 +94,7 @@ class CardBuilderTest extends TestCase
 
         $card = $this->buildCardSpy($profileId, $paymentId, $additional);
 
+        // A stray 'customer' key (e.g. from an older gateway response) must be ignored, not mapped.
         $response = $this->buildResponse([
             'token_information' => [
                 'customer' => 'CUST-123',
@@ -114,8 +115,9 @@ class CardBuilderTest extends TestCase
 
         $this->assertSame($card, $result);
 
-        // D5: profileId <- customer; paymentId <- paymentInstrument.
-        $this->assertSame(['CUST-123'], $profileId);
+        // D5: paymentId <- paymentInstrument. No profileId — standalone TMS payment instrument,
+        // the customer key is ignored even when present.
+        $this->assertSame([], $profileId);
         $this->assertSame(['PI-456'], $paymentId);
 
         // D5: instrument_identifier <- instrumentIdentifier (and fingerprint mirror, like SA).
@@ -144,7 +146,6 @@ class CardBuilderTest extends TestCase
 
         $response = $this->buildResponse([
             'token_information' => [
-                'customer' => 'CUST-123',
                 'paymentInstrument' => 'PI-456',
                 'instrumentIdentifier' => 'II-789',
             ],
@@ -154,7 +155,7 @@ class CardBuilderTest extends TestCase
         $this->cardBuilder->applyTokenToCard($card, $response);
 
         // Real ids written...
-        $this->assertSame(['CUST-123'], $profileId);
+        $this->assertSame([], $profileId);
         $this->assertSame(['PI-456'], $paymentId);
 
         // ...and the stale flag is GONE (this fails with a string-key null no-op clear).
@@ -224,7 +225,7 @@ class CardBuilderTest extends TestCase
 
         $card = $this->buildCardSpy($profileId, $paymentId, $additional);
 
-        // Only paymentInstrument present (e.g. customer reused). Write what we have, skip the rest.
+        // Only paymentInstrument present. Write what we have, skip the rest.
         $response = $this->buildResponse([
             'token_information' => [
                 'paymentInstrument' => 'PI-456',

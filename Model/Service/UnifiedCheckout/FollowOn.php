@@ -108,11 +108,6 @@ class FollowOn
     public const TMS_PAYMENT_INSTRUMENT_PATH = '/tms/v2/payment-instruments/%s';
 
     /**
-     * TMS customer delete path template. {id} = stored profileId.
-     */
-    public const TMS_CUSTOMER_PATH = '/tms/v2/customers/%s';
-
-    /**
      * The processor responseCode that maps to a clean approval (mirrors SOAP reasonCode 100).
      */
     public const RESPONSE_CODE_APPROVED = '100';
@@ -302,22 +297,19 @@ class FollowOn
     }
 
     /**
-     * Delete a stored card's TMS token(s): the payment-instrument, and the customer profile when present.
+     * Delete a stored card's TMS token: the standalone payment instrument.
      *
-     * Mirrors the SOAP paySubscriptionDelete: the paymentInstrument id (card paymentId) is the primary
-     * token to remove. When a customer profile id (card profileId) is also stored we delete that too, so
-     * a fully orphaned customer container does not linger in TMS. Customer deletion failure is tolerated
-     * (the instrument is the record that matters); a payment-instrument failure propagates.
+     * Mirrors the SOAP paySubscriptionDelete: the paymentInstrument id (card paymentId) is the token to
+     * remove. Cards are standalone TMS payment instruments (no customer token is created or stored — see
+     * Response::ACTION_TOKEN_TYPES), so there is no customer container to clean up.
      *
      * @param string $paymentInstrumentId Card paymentId (TMS paymentInstrument id).
-     * @param string|null $customerId Card profileId (TMS customer id), when present.
      * @param int|null $storeId
      * @return GatewayResponse
      * @throws Exception When the payment-instrument delete fails.
      */
     public function deleteCard(
         string $paymentInstrumentId,
-        ?string $customerId = null,
         ?int $storeId = null
     ): GatewayResponse {
         $this->config->setStoreId($storeId);
@@ -327,7 +319,7 @@ class FollowOn
             $this->rest->delete(sprintf(self::TMS_PAYMENT_INSTRUMENT_PATH, rawurlencode($paymentInstrumentId)));
         } catch (Throwable $exception) {
             // A 404 means the payment-instrument token is already gone from TMS — nothing to delete, so
-            // treat it as success and continue to the customer-delete step. Any other failure propagates.
+            // treat it as success. Any other failure propagates.
             if ((int)$exception->getCode() !== 404) {
                 throw $exception;
             }
@@ -339,18 +331,6 @@ class FollowOn
                     $exception->getMessage()
                 )
             );
-        }
-
-        if ($customerId !== null && $customerId !== '') {
-            try {
-                $this->rest->delete(sprintf(self::TMS_CUSTOMER_PATH, rawurlencode($customerId)));
-            } catch (Throwable $exception) {
-                // The instrument is gone; a lingering empty customer container is non-fatal. Log and move on.
-                $this->helper->log(
-                    Config::CODE,
-                    sprintf('Unified Checkout: TMS customer delete failed (non-fatal): %s', $exception->getMessage())
-                );
-            }
         }
 
         /** @var GatewayResponse $response */

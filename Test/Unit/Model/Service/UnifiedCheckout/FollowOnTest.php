@@ -283,7 +283,7 @@ class FollowOnTest extends TestCase
         $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9');
     }
 
-    public function testDeleteCardIssuesTmsDeleteOnPaymentInstrumentAndCustomer(): void
+    public function testDeleteCardIssuesTmsDeleteOnPaymentInstrument(): void
     {
         $this->restMock->method('delete')->willReturnCallback(function (string $path): string {
             $this->deletedPaths[] = $path;
@@ -291,64 +291,27 @@ class FollowOnTest extends TestCase
             return '';
         });
 
-        $response = $this->service->deleteCard('PI_123', 'CUST_456');
+        $response = $this->service->deleteCard('PI_123');
 
-        $this->assertSame('/tms/v2/payment-instruments/PI_123', $this->deletedPaths[0]);
-        $this->assertSame('/tms/v2/customers/CUST_456', $this->deletedPaths[1]);
-        $this->assertTrue((bool)$response->getData('is_approved'));
-    }
-
-    public function testDeleteCardWithoutCustomerOnlyDeletesInstrument(): void
-    {
-        $this->restMock->method('delete')->willReturnCallback(function (string $path): string {
-            $this->deletedPaths[] = $path;
-
-            return '';
-        });
-
-        $this->service->deleteCard('PI_123');
-
+        // Cards are standalone TMS payment instruments; only the instrument delete is issued.
         $this->assertCount(1, $this->deletedPaths);
         $this->assertSame('/tms/v2/payment-instruments/PI_123', $this->deletedPaths[0]);
-    }
-
-    public function testDeleteCardToleratesCustomerDeleteFailure(): void
-    {
-        $this->restMock->method('delete')->willReturnCallback(function (string $path): string {
-            $this->deletedPaths[] = $path;
-            if (str_contains($path, 'customers')) {
-                throw new Exception('customer delete failed', 500);
-            }
-
-            return '';
-        });
-
-        // Instrument delete succeeds; customer delete failure is swallowed, no exception escapes.
-        $response = $this->service->deleteCard('PI_123', 'CUST_456');
-
         $this->assertTrue((bool)$response->getData('is_approved'));
-        $this->assertCount(2, $this->deletedPaths);
     }
 
-    public function testDeleteCardToleratesInstrument404AndContinuesToCustomer(): void
+    public function testDeleteCardToleratesInstrument404(): void
     {
         // A 404 on the payment-instrument delete means the token is already gone from TMS. Treat it as
-        // success and continue to the customer-delete step; the whole operation still approves.
+        // success; the whole operation still approves.
         $this->restMock->method('delete')->willReturnCallback(function (string $path): string {
             $this->deletedPaths[] = $path;
-            if (str_contains($path, 'payment-instruments')) {
-                throw new Exception('Not Found', 404);
-            }
-
-            return '';
+            throw new Exception('Not Found', 404);
         });
 
-        $response = $this->service->deleteCard('PI_GONE', 'CUST_456');
+        $response = $this->service->deleteCard('PI_GONE');
 
         $this->assertTrue((bool)$response->getData('is_approved'));
-        // Both paths attempted, in order: instrument (404-tolerated) then customer.
         $this->assertSame('/tms/v2/payment-instruments/PI_GONE', $this->deletedPaths[0]);
-        $this->assertSame('/tms/v2/customers/CUST_456', $this->deletedPaths[1]);
     }
 
     public function testDeleteCardPropagatesNonNotFoundInstrumentFailure(): void
@@ -362,6 +325,6 @@ class FollowOnTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
-        $this->service->deleteCard('PI_123', 'CUST_456');
+        $this->service->deleteCard('PI_123');
     }
 }

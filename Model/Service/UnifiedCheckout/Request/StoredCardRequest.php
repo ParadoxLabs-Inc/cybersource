@@ -26,7 +26,8 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
  *
  * Hand-written "type safety without the SDK" (DECISION D14), the stored-card sibling of PaymentRequest.
  * The card is already vaulted, so there is NO transient token and NO actionList/TOKEN_CREATE; instead the
- * three TMS ids are sent under paymentInformation (customer / paymentInstrument / instrumentIdentifier),
+ * TMS ids are sent under paymentInformation (paymentInstrument / instrumentIdentifier — no customer:
+ * cards are standalone TMS payment instruments, see Response::ACTION_TOKEN_TYPES),
  * plus the stored-credential / merchant-initiated initiator block under
  * processingInformation.authorizationOptions.initiator. toArray() emits a clean JSON-ready tree with
  * null/empty leaves omitted, while preserving boolean false (the all-important `capture` flag, where
@@ -80,11 +81,6 @@ class StoredCardRequest
      * @var string|null
      */
     private ?string $previousTransactionId = null;
-
-    /**
-     * @var string|null
-     */
-    private ?string $customerId = null;
 
     /**
      * @var string|null
@@ -302,29 +298,6 @@ class StoredCardRequest
     public function setPreviousTransactionId(?string $previousTransactionId): self
     {
         $this->previousTransactionId = $previousTransactionId;
-
-        return $this;
-    }
-
-    /**
-     * Get the TMS customer id (paymentInformation.customer.id).
-     *
-     * @return string|null
-     */
-    public function getCustomerId(): ?string
-    {
-        return $this->customerId;
-    }
-
-    /**
-     * Set the TMS customer id.
-     *
-     * @param string|null $customerId
-     * @return $this
-     */
-    public function setCustomerId(?string $customerId): self
-    {
-        $this->customerId = $customerId;
 
         return $this;
     }
@@ -622,17 +595,13 @@ class StoredCardRequest
     }
 
     /**
-     * Assemble paymentInformation from the three TMS ids (paymentInstrument required; the rest optional).
+     * Assemble paymentInformation from the TMS ids (paymentInstrument required; instrumentIdentifier optional).
      *
      * @return array<string, mixed>
      */
     private function buildPaymentInformation(): array
     {
         $paymentInformation = [];
-
-        if ($this->customerId !== null && $this->customerId !== '') {
-            $paymentInformation['customer'] = ['id' => $this->customerId];
-        }
 
         if ($this->paymentInstrumentId !== null && $this->paymentInstrumentId !== '') {
             $paymentInformation['paymentInstrument'] = ['id' => $this->paymentInstrumentId];

@@ -168,8 +168,8 @@ class Gateway extends AbstractGateway
      * Build and run a stored-card (vault / MIT) authorization from the card's stored TMS ids.
      *
      * Delegates to the UnifiedCheckout\Response stored-credential request builder, which assembles the
-     * /pts/v2/payments body from the card's stored ids — paymentInformation.customer.id (card profileId),
-     * paymentInformation.paymentInstrument.id (card paymentId, the MIT key), and
+     * /pts/v2/payments body from the card's stored ids — paymentInformation.paymentInstrument.id
+     * (card paymentId, the MIT key) and
      * paymentInformation.instrumentIdentifier.id (card additional[instrument_identifier]) — plus the
      * merchant-initiated / stored-credential initiator block (processingInformation.authorizationOptions
      * .initiator + commerceIndicator).
@@ -465,9 +465,9 @@ class Gateway extends AbstractGateway
         /** @var \ParadoxLabs\CyberSource\Model\Card $card */
         $card = $this->getCard();
 
-        // paymentId == TMS paymentInstrument id (the MIT key); profileId == TMS customer id, when present.
+        // paymentId == TMS paymentInstrument id (the MIT key). Cards are standalone TMS payment
+        // instruments — no customer token is stored (see Response::ACTION_TOKEN_TYPES).
         $paymentInstrumentId = (string)$card->getPaymentId();
-        $customerId          = $card->getProfileId() !== null ? (string)$card->getProfileId() : null;
 
         // Untokenized card (uc_token_missing — a designed state on this branch): with no paymentId there is
         // no TMS token to remove, and an empty-id DELETE would 404 and block the local card delete. Skip the
@@ -487,6 +487,6 @@ class Gateway extends AbstractGateway
 
         // Cards are not store-scoped; merchant credentials resolve at the gateway's initialized scope
         // (assumed scope), mirroring the SOAP-era card delete which carried no per-card store id.
-        return $this->unifiedCheckoutFollowOn->deleteCard($paymentInstrumentId, $customerId);
+        return $this->unifiedCheckoutFollowOn->deleteCard($paymentInstrumentId);
     }
 }

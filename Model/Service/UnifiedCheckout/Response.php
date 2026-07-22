@@ -78,9 +78,17 @@ class Response
     public const ACTION_TOKEN_CREATE = 'TOKEN_CREATE';
 
     /**
-     * processingInformation.actionTokenTypes — the three TMS ids for the D5 vault mapping.
+     * processingInformation.actionTokenTypes — the TMS ids for the D5 vault mapping.
+     *
+     * Deliberately EXCLUDES 'customer': cards are stored as standalone TMS payment instruments. The
+     * customer (profile) token added nothing here — the module minted one customer PER CARD (TokenBase
+     * is the customer-grouping layer), and customer-token creation is a separately provisioned TMS
+     * vault permission that is not enabled on all merchant accounts ("Requested service is forbidden"
+     * from TOKEN_CREATE, 403 from POST /tms/v2/customers, while paymentInstrument/instrumentIdentifier
+     * creation succeeds). Standalone payment instruments are a first-class TMS token type and fully
+     * support MIT charge and delete.
      */
-    public const ACTION_TOKEN_TYPES = ['customer', 'paymentInstrument', 'instrumentIdentifier'];
+    public const ACTION_TOKEN_TYPES = ['paymentInstrument', 'instrumentIdentifier'];
 
     /**
      * CyberSource payment status values that represent an approved (or accepted-pending) auth.
@@ -253,10 +261,10 @@ class Response
     /**
      * Assemble the stored-card /pts/v2/payments request DTO from the vaulted card's TMS ids and the amount.
      *
-     * D5 reverse-mapping (the inverse of CardBuilder's write side): paymentInformation.customer.id <- card
-     * profileId (TMS customer), paymentInformation.paymentInstrument.id <- card paymentId (TMS
-     * paymentInstrument, the MIT key — REQUIRED), paymentInformation.instrumentIdentifier.id <- card
-     * additional[instrument_identifier]. The capture flag is the caller's OPERATION intent when given
+     * D5 reverse-mapping (the inverse of CardBuilder's write side): paymentInformation.paymentInstrument.id
+     * <- card paymentId (TMS paymentInstrument, the MIT key — REQUIRED),
+     * paymentInformation.instrumentIdentifier.id <- card additional[instrument_identifier]. No customer id:
+     * cards are standalone TMS payment instruments (see ACTION_TOKEN_TYPES). The capture flag is the caller's OPERATION intent when given
      * (never client input — Gateway passes false for authorize(), true for a bundled capture), falling
      * back to the SERVER-SIDE payment_action when null, identical to buildRequest().
      *
@@ -331,7 +339,6 @@ class Response
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()))
             ->setPaymentInstrumentId($paymentInstrumentId)
-            ->setCustomerId($this->stringOrNull($card->getProfileId()))
             ->setInstrumentIdentifierId($this->stringOrNull($card->getAdditional('instrument_identifier')))
             ->setStoredCredentialUsed(true)
             ->setSolutionId($this->config->getSolutionId())
@@ -790,7 +797,7 @@ class Response
     }
 
     /**
-     * Defensively extract the three TMS ids from tokenInformation into the result, when present.
+     * Defensively extract the TMS ids from tokenInformation into the result, when present.
      *
      * On AUTHORIZED_PENDING_REVIEW (or any approval without tokenInformation) the ids are absent; we
      * record that no token was returned so A2 can decide whether to defer/reconcile tokenization,
@@ -814,12 +821,10 @@ class Response
     ): void {
         $tokenInformation = $response['tokenInformation'] ?? null;
 
-        $customerId             = $tokenInformation['customer']['id'] ?? null;
         $paymentInstrumentId    = $tokenInformation['paymentInstrument']['id'] ?? null;
         $instrumentIdentifierId = $tokenInformation['instrumentIdentifier']['id'] ?? null;
 
         $tokens = array_filter([
-            'customer' => $customerId,
             'paymentInstrument' => $paymentInstrumentId,
             'instrumentIdentifier' => $instrumentIdentifierId,
         ], static fn($value): bool => $value !== null && $value !== '');

@@ -228,6 +228,7 @@ class GatewayTest extends TestCase
 
     public function testDeleteCardIssuesTmsDeleteOnStoredPaymentId(): void
     {
+        // profileId stays stubbed to prove deleteCard never reads it (standalone TMS payment instrument).
         $card = $this->createMock(Card::class);
         $card->method('getPaymentId')->willReturn('PI_123');
         $card->method('getProfileId')->willReturn('CUST_456');
@@ -236,7 +237,7 @@ class GatewayTest extends TestCase
         $expected = (new GatewayResponse())->setData(['is_approved' => true]);
         $this->followOn->expects($this->once())
             ->method('deleteCard')
-            ->with('PI_123', 'CUST_456')
+            ->with('PI_123')
             ->willReturn($expected);
 
         $this->assertSame($expected, $this->gateway->deleteCard());

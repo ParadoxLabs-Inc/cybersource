@@ -132,8 +132,10 @@ class ResponseTest extends TestCase
 
         $this->assertSame('the.jwt.token', $this->sentBody['tokenInformation']['transientTokenJwt']);
         $this->assertSame(['TOKEN_CREATE'], $this->sentBody['processingInformation']['actionList']);
+        // No 'customer': cards are standalone TMS payment instruments (customer-token creation is a
+        // separately provisioned vault permission not enabled on all accounts).
         $this->assertSame(
-            ['customer', 'paymentInstrument', 'instrumentIdentifier'],
+            ['paymentInstrument', 'instrumentIdentifier'],
             $this->sentBody['processingInformation']['actionTokenTypes']
         );
         // payment_action=authorize (AUTH) -> capture=false, and the flag must survive empty-filtering.
@@ -194,7 +196,6 @@ class ResponseTest extends TestCase
                 ],
             ],
             'tokenInformation' => [
-                'customer' => ['id' => 'CUST1'],
                 'paymentInstrument' => ['id' => 'PI1'],
                 'instrumentIdentifier' => ['id' => 'II1'],
             ],
@@ -210,9 +211,9 @@ class ResponseTest extends TestCase
         $this->assertSame('Y', $response->getData('ccAuthReply.avsCode'));
         $this->assertSame('M', $response->getData('ccAuthReply.cvCode'));
         $this->assertSame('888888', $response->getData('ccAuthReply.authorizationCode'));
-        // TMS ids extracted into the structured token_information tree.
+        // TMS ids extracted into the structured token_information tree (no customer key).
         $tokens = $response->getData('token_information');
-        $this->assertSame('CUST1', $tokens['customer']);
+        $this->assertArrayNotHasKey('customer', $tokens);
         $this->assertSame('PI1', $tokens['paymentInstrument']);
         $this->assertSame('II1', $tokens['instrumentIdentifier']);
         // Card metadata extracted + mapped through CardType (001 -> VI).
@@ -363,7 +364,7 @@ class ResponseTest extends TestCase
         $this->assertSame('add.card.jwt', $this->sentBody['tokenInformation']['transientTokenJwt']);
         $this->assertSame(['TOKEN_CREATE'], $this->sentBody['processingInformation']['actionList']);
         $this->assertSame(
-            ['customer', 'paymentInstrument', 'instrumentIdentifier'],
+            ['paymentInstrument', 'instrumentIdentifier'],
             $this->sentBody['processingInformation']['actionTokenTypes']
         );
         // ...but no charge: $0 amount and capture forced false (authorize-only), and no order code.
@@ -404,7 +405,6 @@ class ResponseTest extends TestCase
             'status' => 'AUTHORIZED',
             'processorInformation' => ['responseCode' => '100'],
             'tokenInformation' => [
-                'customer' => ['id' => 'CUST-Z'],
                 'paymentInstrument' => ['id' => 'PI-Z'],
                 'instrumentIdentifier' => ['id' => 'II-Z'],
             ],
@@ -417,7 +417,7 @@ class ResponseTest extends TestCase
 
         $this->assertFalse($response->getIsError());
         $tokens = $response->getData('token_information');
-        $this->assertSame('CUST-Z', $tokens['customer']);
+        $this->assertArrayNotHasKey('customer', $tokens);
         $this->assertSame('PI-Z', $tokens['paymentInstrument']);
         $this->assertSame('II-Z', $tokens['instrumentIdentifier']);
         $this->assertFalse($response->getData('uc_token_missing'));
@@ -475,7 +475,8 @@ class ResponseTest extends TestCase
     }
 
     /**
-     * Build a vaulted card stub carrying the three TMS ids.
+     * Build a vaulted card stub carrying the TMS ids. profileId remains stubbed to prove the request
+     * builder never reads it (cards are standalone TMS payment instruments).
      */
     private function buildCard(
         ?string $paymentId = 'PI-CARD',
@@ -568,8 +569,9 @@ class ResponseTest extends TestCase
         );
         $this->assertSame('recurring', $this->sentBody['processingInformation']['commerceIndicator']);
 
-        // TMS ids from the card; NO transient-token / TOKEN_CREATE artifacts.
-        $this->assertSame('CUST-CARD', $this->sentBody['paymentInformation']['customer']['id']);
+        // TMS ids from the card; NO transient-token / TOKEN_CREATE artifacts, and NO customer block
+        // (standalone TMS payment instrument — profileId is never read or sent).
+        $this->assertArrayNotHasKey('customer', $this->sentBody['paymentInformation']);
         $this->assertSame('PI-CARD', $this->sentBody['paymentInformation']['paymentInstrument']['id']);
         $this->assertSame('II-CARD', $this->sentBody['paymentInformation']['instrumentIdentifier']['id']);
         $this->assertArrayNotHasKey('tokenInformation', $this->sentBody);
@@ -599,7 +601,7 @@ class ResponseTest extends TestCase
         $this->assertArrayNotHasKey('commerceIndicator', $this->sentBody['processingInformation']);
     }
 
-    public function testPlaceStoredOmitsEmptyCustomerAndInstrumentIds(): void
+    public function testPlaceStoredOmitsEmptyInstrumentIdentifierId(): void
     {
         $this->primeRest([
             'id' => 'TXN-STORED-MIN',
