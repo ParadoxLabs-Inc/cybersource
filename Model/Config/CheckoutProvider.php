@@ -95,6 +95,7 @@ class CheckoutProvider extends CcGenericConfigProvider
 
         $config            = parent::getConfig();
         $selected          = null;
+        $newestId          = null;
         $storedCardOptions = [];
 
         if ($this->canSaveCard()) {
@@ -112,7 +113,14 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'cc_last4' => $card->getAdditional('cc_last4'),
                 ];
 
-                $selected = $card->getHash();
+                // Preselect the newest stored card (highest id; the collection carries no explicit
+                // ordering), so repeat customers land on a card they already vaulted and the UC
+                // drop-in — a signed capture-context call plus iframe — only mounts if they
+                // explicitly choose "Add new card".
+                if ($newestId === null || (int)$card->getId() > $newestId) {
+                    $newestId = (int)$card->getId();
+                    $selected = $card->getHash();
+                }
             }
         }
 

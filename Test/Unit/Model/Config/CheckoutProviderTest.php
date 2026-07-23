@@ -82,9 +82,16 @@ class CheckoutProviderTest extends TestCase
     /**
      * Build a vaulted card stub.
      */
-    private function buildCard(string $hash, string $label, string $type, string $bin, string $last4): Card&MockObject
-    {
+    private function buildCard(
+        string $hash,
+        string $label,
+        string $type,
+        string $bin,
+        string $last4,
+        int $id = 1,
+    ): Card&MockObject {
         $card = $this->createMock(Card::class);
+        $card->method('getId')->willReturn($id);
         $card->method('getHash')->willReturn($hash);
         $card->method('getLabel')->willReturn($label);
         $card->method('getType')->willReturn($type);
@@ -292,6 +299,23 @@ class CheckoutProviderTest extends TestCase
         ]);
 
         $this->assertSame('hash1', $this->getMethodConfig()['selectedCard']);
+    }
+
+    /**
+     * With several stored cards, the NEWEST (highest id) must be preselected regardless of the
+     * order the collection yields them in — the collection carries no explicit ordering, so the
+     * provider may not rely on iteration order to find the most recent card.
+     */
+    public function testGetConfigPreselectsTheNewestStoredCard(): void
+    {
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(true);
+        $this->dataHelperMock->method('getActiveCustomerCardsByMethod')->willReturn([
+            $this->buildCard('hash3', 'Visa 9999', 'VI', '411111', '9999', 3),
+            $this->buildCard('hash1', 'Visa 1111', 'VI', '411111', '1111', 1),
+            $this->buildCard('hash2', 'MC 4444', 'MC', '555555', '4444', 2),
+        ]);
+
+        $this->assertSame('hash3', $this->getMethodConfig()['selectedCard']);
     }
 
     /**
