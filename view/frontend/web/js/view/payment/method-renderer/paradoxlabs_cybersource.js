@@ -426,20 +426,48 @@ define(
                 this.clearTimer('_healthTimer');
                 this.scheduleTokenExpiry(transientTokenJwt);
 
-                // Surface a synthetic "new card" so the existing place-order UI (gated on selectedCard) shows.
+                // Surface a synthetic "new card" entry, labeled with the card identity decoded from
+                // the token so the selector reads e.g. "Visa ****1111" rather than a bare "New Card".
+                var metadata = ucClient.getCardMetadata(transientTokenJwt);
+
                 this.storedCards.remove(function (card) {
                     return card.id === NEW_CARD_ID;
                 });
+                // Select BEFORE pushing: the push re-renders the select element, and the value
+                // binding re-syncing against the new option list must find selectedCard already
+                // pointing at the entry — the old push-then-select order let that re-sync write
+                // undefined into selectedCard first (a race the auto-place path cannot tolerate).
+                this.selectedCard(NEW_CARD_ID);
                 this.storedCards.push({
                     id: NEW_CARD_ID,
-                    label: $.mage.__('New Card'),
+                    label: this.getNewCardLabel(metadata),
                     selected: true,
                     new: true,
-                    type: '',
-                    cc_bin: '',
-                    cc_last4: ''
+                    type: metadata && metadata.type ? metadata.type : '',
+                    cc_bin: metadata && metadata.bin ? metadata.bin : '',
+                    cc_last4: metadata && metadata.last4 ? metadata.last4 : ''
                 });
-                this.selectedCard(NEW_CARD_ID);
+            },
+
+            /**
+             * Selector label for a freshly tokenized card: "{Brand} ****{last4}" when the token
+             * carries card metadata, the wallet name for wallet tokens, else a generic "New Card".
+             *
+             * @param {Object|null} metadata - ucClient.getCardMetadata() result
+             * @return {String}
+             */
+            getNewCardLabel: function (metadata) {
+                if (metadata && metadata.label && metadata.last4) {
+                    return $.mage.__('%1 ****%2')
+                        .replace('%1', metadata.label)
+                        .replace('%2', metadata.last4);
+                }
+
+                if (metadata && ucClient.getWalletLabel(metadata.paymentType)) {
+                    return ucClient.getWalletLabel(metadata.paymentType);
+                }
+
+                return $.mage.__('New Card');
             },
 
             /**

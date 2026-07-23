@@ -37,6 +37,25 @@ define([
     var EXPIRY_MARGIN_MS = 60 * 1000;
     // Floor on any expiry-driven delay; see getRefreshDelay() for why zero is unsafe.
     var MIN_EXPIRY_DELAY_MS = 30 * 1000;
+    // CyberSource numeric card-type codes -> Magento type code + display brand. Must agree with the
+    // server-side map in Model/Source/CardType, which remains authoritative for the stored cc_type.
+    var CARD_TYPES = {
+        '001': {type: 'VI', label: 'Visa'},
+        '002': {type: 'MC', label: 'Mastercard'},
+        '003': {type: 'AE', label: 'American Express'},
+        '004': {type: 'DI', label: 'Discover'},
+        '005': {type: 'DN', label: 'Diners Club'},
+        '007': {type: 'JCB', label: 'JCB'},
+        '042': {type: 'MI', label: 'Maestro'}
+    };
+    // UC metadata.paymentType values for wallets -> display labels (proper nouns; not translated),
+    // for transient tokens that carry no card fields. PANENTRY is deliberately absent.
+    var WALLET_LABELS = {
+        'APPLEPAY': 'Apple Pay',
+        'GOOGLEPAY': 'Google Pay',
+        'CLICKTOPAY': 'Click to Pay',
+        'PAZE': 'Paze'
+    };
 
     return {
         /**
@@ -53,6 +72,78 @@ define([
             }
 
             return JSON.parse(window.atob(payload));
+        },
+
+        /**
+         * Normalize a transient-token claim field to its scalar string value, or null.
+         *
+         * Real gda-token payloads wrap scalars as {"value": "..."} objects and serialize absent
+         * fields as empty arrays; tolerate wrapped objects, bare scalars, and both absent shapes.
+         *
+         * @param {*} field
+         * @return {String|null}
+         */
+        getTokenFieldValue: function (field) {
+            if (field !== null && typeof field === 'object') {
+                field = field.value;
+            }
+
+            if (typeof field === 'string' && field.length > 0) {
+                return field;
+            }
+
+            if (typeof field === 'number') {
+                return String(field);
+            }
+
+            return null;
+        },
+
+        /**
+         * Extract display card metadata from a transient-token JWT.
+         *
+         * The token payload carries the masked number, bin, expiration, and numeric type under
+         * content.paymentInformation.card (UC Transient Token Format); wallet tokens may omit some
+         * or all card fields but identify themselves via metadata.paymentType. Never throws — any
+         * malformed input yields null, and absent fields yield null members.
+         *
+         * @param {String} jwt
+         * @return {Object|null} {type, label, last4, bin, expMonth, expYear, paymentType} or null
+         */
+        getCardMetadata: function (jwt) {
+            try {
+                var body = this.decodeJwtBody(jwt);
+                var card = body.content
+                    && body.content.paymentInformation
+                    && body.content.paymentInformation.card
+                    || {};
+                var number = card.number !== null && typeof card.number === 'object' ? card.number : {};
+                var masked = this.getTokenFieldValue(number.maskedValue);
+                var last4Match = masked !== null ? masked.match(/(\d{1,4})$/) : null;
+                var typeInfo = CARD_TYPES[this.getTokenFieldValue(card.type)] || null;
+
+                return {
+                    type: typeInfo ? typeInfo.type : null,
+                    label: typeInfo ? typeInfo.label : null,
+                    last4: last4Match !== null ? last4Match[1] : null,
+                    bin: this.getTokenFieldValue(number.bin),
+                    expMonth: this.getTokenFieldValue(card.expirationMonth),
+                    expYear: this.getTokenFieldValue(card.expirationYear),
+                    paymentType: body.metadata ? this.getTokenFieldValue(body.metadata.paymentType) : null
+                };
+            } catch (error) {
+                return null;
+            }
+        },
+
+        /**
+         * Display label for a UC wallet paymentType, or null for card entry/unknown types.
+         *
+         * @param {String|null} paymentType
+         * @return {String|null}
+         */
+        getWalletLabel: function (paymentType) {
+            return WALLET_LABELS[paymentType] || null;
         },
 
         /**
