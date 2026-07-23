@@ -7,7 +7,6 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\Data\RegionInterface;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
-use Magento\GraphQl\Model\Query\ContextExtension;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address as QuoteAddress;
@@ -50,10 +49,10 @@ class GraphQLTest extends TestCase
         $store->method('getBaseCurrencyCode')->willReturn('USD');
         $store->method('getBaseUrl')->willReturn('https://store.example.com/');
 
-        // Use the real generated extension class rather than mocking the interface: it
-        // extends AbstractSimpleObject, so getStore()/setStore() work regardless of
-        // whether the interface stub has been (re)generated with getStore declared.
-        $contextExtension = new ContextExtension(['store' => $store]);
+        // Hand-written stub rather than the raw generated extension class: in CI the class is
+        // generated without the store attribute, so getStore() doesn't exist there. See
+        // ContextExtensionStub for the full rationale.
+        $contextExtension = (new ContextExtensionStub())->setStore($store);
 
         $this->contextMock = $this->createMock(ContextInterface::class);
         $this->contextMock->method('getExtensionAttributes')->willReturn($contextExtension);
@@ -100,9 +99,9 @@ class GraphQLTest extends TestCase
     {
         // A context whose extension attributes carry no store (getStore() => null) must not fatal
         // the currency resolution chain; it should degrade to '' like the amount path does.
-        // Real generated extension class (see setUp() for rationale); no store set, so
-        // getStore() naturally returns null.
-        $contextExtension = new ContextExtension();
+        // Stub extension class (see setUp() for rationale); no store set, so getStore()
+        // naturally returns null.
+        $contextExtension = new ContextExtensionStub();
 
         $context = $this->createMock(ContextInterface::class);
         $context->method('getExtensionAttributes')->willReturn($contextExtension);

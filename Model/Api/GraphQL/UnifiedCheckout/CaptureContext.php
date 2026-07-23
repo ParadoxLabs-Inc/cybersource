@@ -21,13 +21,17 @@
 
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\UnifiedCheckout;
 
+use GraphQL\Error\ClientAware;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\GraphQL as CaptureContextService;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL;
+use Throwable;
 
 /**
  * GraphQL (headless storefront) Unified Checkout capture-context resolver.
@@ -42,10 +46,12 @@ class CaptureContext implements ResolverInterface
      *
      * @param GraphQL $graphQL
      * @param CaptureContextService $captureContext
+     * @param Config $config
      */
     public function __construct(
         protected readonly GraphQL $graphQL,
-        protected readonly CaptureContextService $captureContext
+        protected readonly CaptureContextService $captureContext,
+        protected readonly Config $config
     ) {
     }
 
@@ -58,7 +64,8 @@ class CaptureContext implements ResolverInterface
      * @param array|null $value
      * @param array|null $args
      * @return array<string, string>
-     * @throws \Throwable
+     * @throws GraphQlInputException
+     * @throws Throwable
      */
     public function resolve(
         Field $field,
@@ -69,14 +76,50 @@ class CaptureContext implements ResolverInterface
     ) {
         $this->graphQL->authenticate($context);
 
+        // Guard before any config-credential or gateway work: a disabled method must fail with a
+        // clean "not available" error, not a credential/config error from deeper in the stack.
+        if (!$this->config->moduleIsActive($this->getStoreId($context))) {
+            throw new GraphQlInputException(__('This payment method is not available.'));
+        }
+
         if (!is_array($args) || !isset($args['input']) || !is_array($args['input'])) {
             throw new GraphQlInputException(__('Required `input` argument is missing.'));
         }
 
         $this->captureContext->setGraphQLContext($context, $args['input']);
 
-        return [
-            'captureContext' => $this->captureContext->generate(),
-        ];
+        try {
+            return [
+                'captureContext' => $this->captureContext->generate(),
+            ];
+        } catch (LocalizedException $exception) {
+            if ($exception instanceof ClientAware) {
+                // Already a client-safe GraphQL exception (authorization/no-such-entity/input);
+                // rethrow untouched so its category and message survive.
+                throw $exception;
+            }
+
+            // Non-GraphQL LocalizedExceptions (e.g. StateException for missing REST credentials)
+            // would otherwise be masked as "Internal server error" outside developer mode. Their
+            // messages are merchant-safe configuration errors; surface them to the caller.
+            throw new GraphQlInputException(__($exception->getMessage()), $exception);
+        }
+    }
+
+    /**
+     * Derive the store ID from the resolver context, for config scoping.
+     *
+     * @param ContextInterface $context
+     * @return int|null
+     */
+    protected function getStoreId(ContextInterface $context): ?int
+    {
+        try {
+            // The extension-attribute/store chain is not null-safe end to end; degrade to the
+            // default scope on a missing/partial resolver context.
+            return (int)$context->getExtensionAttributes()->getStore()->getId();
+        } catch (Throwable) {
+            return null;
+        }
     }
 }

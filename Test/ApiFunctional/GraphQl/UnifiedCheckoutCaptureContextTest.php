@@ -348,9 +348,9 @@ QUERY;
      * localized configuration error, and no capture context. Config::getRestSecretKey() throws a
      * StateException while signing, so this never reaches the network.
      *
-     * The resolver must convert that into a GraphQL error carrying the message. It currently
-     * surfaces as a bare "Internal server error" (the real message only reaches `debugMessage`,
-     * and only in developer mode), which is what this test holds the line against.
+     * The resolver converts that into a GraphQlInputException carrying the original message, so
+     * the caller sees the configuration error instead of a bare "Internal server error" (which is
+     * what unwrapped non-GraphQL LocalizedExceptions become outside developer mode).
      */
     #[
         Config(self::CONFIG_ENABLE_PUBLIC_API, '1'),

@@ -46,7 +46,9 @@ class AccountUpdaterTest extends TestCase
     private ?ObjectManager $objectManager = null;
     private ?CardCollectionFactory $cardCollectionFactory = null;
     private ?CyberSourceRestStub $restStub = null;
-    private int $cardSaveCount = 0;
+    // Nullable: Magento 2.4.6/2.4.7's integration framework nulls test properties during
+    // cleanup and fatals on non-nullable typed properties. setUp() resets it to 0 per test.
+    private ?int $cardSaveCount = 0;
 
     /**
      * @inheritDoc
