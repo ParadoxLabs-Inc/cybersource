@@ -74,6 +74,18 @@ class Backend extends CaptureContext
     }
 
     /**
+     * Admin order create is never a customer checkout: the drop-in click only tokenizes the card
+     * (nothing is paid until the admin clicks Submit Order), so the pane mapping must not use the
+     * PAY/auto-place path.
+     *
+     * @return bool
+     */
+    protected function isCustomerCheckout(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the order total amount, or null for the admin add-card billing-only context.
      *
      * @return string|null

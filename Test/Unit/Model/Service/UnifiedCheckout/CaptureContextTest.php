@@ -116,7 +116,8 @@ class CaptureContextTest extends TestCase
 
     /**
      * A no-amount context is add-card (customer payment-info / admin card management): SAVE_CARD
-     * button, UC default confirmation step (omitted), regardless of the auto-place config.
+     * button with the confirmation step suppressed (both surfaces submit right after tokenization,
+     * so UC's review pane is a pure extra click), regardless of the auto-place config.
      */
     public function testBuildRequestForAddCardContextUsesSaveCardButtonNotAutoPlaceMapping(): void
     {
@@ -126,7 +127,25 @@ class CaptureContextTest extends TestCase
         $result = $this->handler->buildRequest()->toArray();
 
         $this->assertSame('SAVE_CARD', $result['buttonType']);
-        $this->assertArrayNotHasKey('showConfirmationStep', $result['captureMandate']);
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
+        $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
+    }
+
+    /**
+     * A with-amount context that is not a customer checkout (admin order create) only tokenizes —
+     * the admin reviews and submits the order themselves — so PAY would be a mislabel and UC's
+     * review step redundant: CARD_PAYMENT button, confirmation step suppressed, regardless of
+     * the auto-place config.
+     */
+    public function testBuildRequestForNonCustomerCheckoutUsesCardPaymentWithoutConfirmationStep(): void
+    {
+        $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
+        $this->handler->customerCheckout = false;
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame('CARD_PAYMENT', $result['buttonType']);
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
         $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
     }
 

@@ -463,14 +463,39 @@ define([
 
             this.scheduleTokenExpiry(transientTokenJwt);
 
+            // Decode display metadata from the token so the synthetic option reads "Visa ****1111"
+            // instead of a bare "New Card" (KO renderer parity); null on any malformed token.
+            var metadata = ucClient.getCardMetadata(transientTokenJwt);
+
             this.addAndSelectCard({
                 id: NEW_CARD_ID,
-                label: $.mage.__('New Card'),
+                label: this.getNewCardLabel(metadata),
                 new: true,
-                type: '',
-                cc_bin: '',
-                cc_last4: ''
+                type: metadata && metadata.type ? metadata.type : '',
+                cc_bin: metadata && metadata.bin ? metadata.bin : '',
+                cc_last4: metadata && metadata.last4 ? metadata.last4 : ''
             });
+        },
+
+        /**
+         * Display label for a freshly tokenized card: "Visa ****1111" when the token metadata
+         * decoded, the wallet name for a wallet token, generic "New Card" otherwise.
+         *
+         * @param {Object|null} metadata - ucClient.getCardMetadata() result
+         * @return {String}
+         */
+        getNewCardLabel: function (metadata) {
+            if (metadata && metadata.label && metadata.last4) {
+                return $.mage.__('%1 ****%2')
+                    .replace('%1', metadata.label)
+                    .replace('%2', metadata.last4);
+            }
+
+            if (metadata && ucClient.getWalletLabel(metadata.paymentType)) {
+                return ucClient.getWalletLabel(metadata.paymentType);
+            }
+
+            return $.mage.__('New Card');
         },
 
         handleAjaxError: function (jqXHR, status, error) {

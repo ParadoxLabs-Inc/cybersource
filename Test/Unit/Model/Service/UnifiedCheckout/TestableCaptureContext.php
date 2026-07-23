@@ -43,6 +43,12 @@ class TestableCaptureContext extends CaptureContext
     public ?string $email = 'jane@example.com';
     public ?int $storeId = 1;
     public array $derivedOrigins = [];
+    public bool $customerCheckout = true;
+
+    protected function isCustomerCheckout(): bool
+    {
+        return $this->customerCheckout;
+    }
 
     protected function getAmount(): ?string
     {

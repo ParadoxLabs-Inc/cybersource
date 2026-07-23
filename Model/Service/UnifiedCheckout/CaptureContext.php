@@ -122,13 +122,20 @@ abstract class CaptureContext
         $amount = $this->getAmount();
 
         // Pane behavior. A no-amount context is add-card (customer payment-info / admin card
-        // management — every subclass returns null there): it always gets the SAVE_CARD button
-        // with UC's default confirmation step, since auto-place is a checkout concept and no
-        // order exists to place. At checkout the auto-place config decides: on, UC's own review
-        // step is redundant (the drop-in button submits the order), so suppress it and label the
-        // button PAY; off, keep the review step and hand back to Place Order.
+        // management — every subclass returns null there): SAVE_CARD button, no confirmation step,
+        // since both surfaces submit the form right after tokenization and UC's review pane would
+        // be a pure extra click. With an amount, admin order create (not a customer checkout) only
+        // tokenizes — the admin reviews the whole order and clicks Submit Order themselves — so it
+        // gets the neutral CARD_PAYMENT label with UC's redundant review step suppressed. At
+        // customer checkout the auto-place config decides: on, UC's own review step is redundant
+        // (the drop-in button submits the order), so suppress it and label the button PAY; off,
+        // keep the review step and hand back to Place Order.
         if ($amount === null) {
-            $request->setButtonType('SAVE_CARD');
+            $request->setShowConfirmationStep(false)
+                ->setButtonType('SAVE_CARD');
+        } elseif (!$this->isCustomerCheckout()) {
+            $request->setShowConfirmationStep(false)
+                ->setButtonType('CARD_PAYMENT');
         } elseif ($this->config->isUcAutoPlaceOrderEnabled($storeId)) {
             $request->setShowConfirmationStep(false)
                 ->setButtonType('PAY');
@@ -335,6 +342,20 @@ abstract class CaptureContext
         }
 
         return $origin;
+    }
+
+    /**
+     * Whether this context is a customer-facing checkout (as opposed to admin order create).
+     *
+     * Drives the with-amount pane mapping in buildRequest(): customer checkouts get the
+     * auto-place-driven PAY/CHECKOUT_AND_CONTINUE behavior; the Backend context overrides this
+     * to false because the admin drop-in only tokenizes and the admin places the order.
+     *
+     * @return bool
+     */
+    protected function isCustomerCheckout(): bool
+    {
+        return true;
     }
 
     /**

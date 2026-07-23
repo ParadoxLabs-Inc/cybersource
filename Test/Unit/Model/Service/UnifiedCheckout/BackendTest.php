@@ -135,6 +135,28 @@ class BackendTest extends TestCase
         $this->assertArrayNotHasKey('orderInformation', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
+        // Admin add-card pane: SAVE_CARD button, review step suppressed.
+        $this->assertSame('SAVE_CARD', $result['buttonType']);
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
+    }
+
+    public function testBuildRequestForOrderCreateQuoteUsesCardPaymentNotAutoPlaceMapping(): void
+    {
+        // Admin order create has an amount, but isCustomerCheckout() is overridden to false: the
+        // drop-in click only tokenizes (the admin clicks Submit Order; nothing is paid on the
+        // click), so PAY/auto-place must not apply even with uc_auto_place_order enabled.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $quote = $this->makeQuote(57.0, 'USD', $this->makeQuoteBillingAddress());
+        $quote->method('getStoreId')->willReturn(1);
+
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(99);
+        $this->backendSessionMock->method('getQuote')->willReturn($quote);
+
+        $result = $this->makeHandler([], true)->buildRequest()->toArray();
+
+        $this->assertSame('CARD_PAYMENT', $result['buttonType']);
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
     }
 
     public function testBuildRequestSourcesBillToFromPostBillingInputOverQuote(): void
@@ -280,10 +302,13 @@ class BackendTest extends TestCase
      * Build a Backend handler with the given configured "Additional Target Origins" extras.
      *
      * @param string[] $configuredOrigins
+     * @param bool $autoPlace
      * @return Backend
      */
-    private function makeHandler(array $configuredOrigins): Backend
-    {
+    private function makeHandler(
+        array $configuredOrigins,
+        bool $autoPlace = false,
+    ): Backend {
         $config = $this->createMock(Config::class);
         $config->method('getUcClientVersion')->willReturn('0.34');
         $config->method('getUcTargetOrigins')->willReturn($configuredOrigins);
@@ -295,6 +320,7 @@ class BackendTest extends TestCase
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
         $config->method('is3dsEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
+        $config->method('isUcAutoPlaceOrderEnabled')->willReturn($autoPlace);
 
         return new Backend(
             $config,
