@@ -359,7 +359,8 @@ class Config
      */
     public function getUcBillingType($storeId = null)
     {
-        return strtoupper($this->getConfigValue('uc_billing_type', $storeId) ?: 'FULL');
+        // Fallback agrees with the config.xml default: checkout already collects billing.
+        return strtoupper($this->getConfigValue('uc_billing_type', $storeId) ?: 'NONE');
     }
 
     /**

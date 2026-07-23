@@ -85,6 +85,21 @@ class CaptureContextRequest
     private ?bool $requestShipping = null;
 
     /**
+     * @var bool|null
+     */
+    private ?bool $showConfirmationStep = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $buttonType = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $includeCardPrefix = null;
+
+    /**
      * @var string|null
      */
     private ?string $completeMandateType = null;
@@ -347,6 +362,75 @@ class CaptureContextRequest
     }
 
     /**
+     * Get whether UC shows its own review/confirmation step after card entry.
+     *
+     * @return bool|null
+     */
+    public function getShowConfirmationStep(): ?bool
+    {
+        return $this->showConfirmationStep;
+    }
+
+    /**
+     * Set whether UC shows its own review/confirmation step after card entry.
+     *
+     * @param bool|null $showConfirmationStep
+     * @return $this
+     */
+    public function setShowConfirmationStep(?bool $showConfirmationStep): self
+    {
+        $this->showConfirmationStep = $showConfirmationStep;
+
+        return $this;
+    }
+
+    /**
+     * Get the drop-in button type (server enum, e.g. PAY|CHECKOUT_AND_CONTINUE|SAVE_CARD).
+     *
+     * @return string|null
+     */
+    public function getButtonType(): ?string
+    {
+        return $this->buttonType;
+    }
+
+    /**
+     * Set the drop-in button type.
+     *
+     * @param string|null $buttonType
+     * @return $this
+     */
+    public function setButtonType(?string $buttonType): self
+    {
+        $this->buttonType = $buttonType;
+
+        return $this;
+    }
+
+    /**
+     * Get whether the transient token includes the 8-digit card prefix (BIN).
+     *
+     * @return bool|null
+     */
+    public function getIncludeCardPrefix(): ?bool
+    {
+        return $this->includeCardPrefix;
+    }
+
+    /**
+     * Set whether the transient token includes the 8-digit card prefix (BIN).
+     *
+     * @param bool|null $includeCardPrefix
+     * @return $this
+     */
+    public function setIncludeCardPrefix(?bool $includeCardPrefix): self
+    {
+        $this->includeCardPrefix = $includeCardPrefix;
+
+        return $this;
+    }
+
+    /**
      * Get the completeMandate type (AUTH|CAPTURE|PREFER_AUTH).
      *
      * @return string|null
@@ -498,6 +582,7 @@ class CaptureContextRequest
             'allowedPaymentTypes' => $this->allowedPaymentTypes,
             'country' => $this->country,
             'locale' => $this->locale,
+            'buttonType' => $this->buttonType,
         ]);
 
         $captureMandate = $this->filterEmpty([
@@ -506,9 +591,18 @@ class CaptureContextRequest
             'requestEmail' => $this->requestEmail,
             'requestPhone' => $this->requestPhone,
             'requestShipping' => $this->requestShipping,
+            // false is meaningful here (suppress UC's review step) and survives filterEmpty.
+            'showConfirmationStep' => $this->showConfirmationStep,
         ]);
         if (!empty($captureMandate)) {
             $request['captureMandate'] = $captureMandate;
+        }
+
+        $tokenResponseOptions = $this->filterEmpty([
+            'includeCardPrefix' => $this->includeCardPrefix,
+        ]);
+        if (!empty($tokenResponseOptions)) {
+            $request['transientTokenResponseOptions'] = $tokenResponseOptions;
         }
 
         $completeMandate = $this->filterEmpty([

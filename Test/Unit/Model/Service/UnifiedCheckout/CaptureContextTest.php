@@ -85,6 +85,51 @@ class CaptureContextTest extends TestCase
         $this->assertFalse($result['completeMandate']['consumerAuthentication']);
     }
 
+    /**
+     * With auto-place on, UC's own review step is redundant (the drop-in button submits the
+     * order): suppress it and label the button PAY. The BIN is always requested in the token.
+     */
+    public function testBuildRequestWithAutoPlaceSuppressesConfirmationStepAndUsesPayButton(): void
+    {
+        $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
+        $this->assertSame('PAY', $result['buttonType']);
+        $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
+    }
+
+    /**
+     * With auto-place off, keep UC's review step and hand back to the Place Order button.
+     */
+    public function testBuildRequestWithoutAutoPlaceKeepsConfirmationStepAndContinueButton(): void
+    {
+        $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(false);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertTrue($result['captureMandate']['showConfirmationStep']);
+        $this->assertSame('CHECKOUT_AND_CONTINUE', $result['buttonType']);
+        $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
+    }
+
+    /**
+     * A no-amount context is add-card (customer payment-info / admin card management): SAVE_CARD
+     * button, UC default confirmation step (omitted), regardless of the auto-place config.
+     */
+    public function testBuildRequestForAddCardContextUsesSaveCardButtonNotAutoPlaceMapping(): void
+    {
+        $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
+        $this->handler->amount = null;
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame('SAVE_CARD', $result['buttonType']);
+        $this->assertArrayNotHasKey('showConfirmationStep', $result['captureMandate']);
+        $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
+    }
+
     public function testBuildRequestMapsPaymentActionToCompleteMandateType(): void
     {
         $config = $this->createMock(Config::class);

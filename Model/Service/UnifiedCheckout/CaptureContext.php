@@ -114,9 +114,29 @@ abstract class CaptureContext
             ->setRequestShipping(false)
             ->setCompleteMandateType($this->config->getUcCompleteMandateType($storeId))
             ->setDecisionManager($this->config->isDecisionManagerEnabled($storeId))
-            ->setConsumerAuthentication($this->config->is3dsEnabled($storeId));
+            ->setConsumerAuthentication($this->config->is3dsEnabled($storeId))
+            // Always request the 8-digit card prefix in the transient token; the decoded BIN feeds
+            // the cc_bin card metadata (TransientTokenReader / client-side selector label).
+            ->setIncludeCardPrefix(true);
 
         $amount = $this->getAmount();
+
+        // Pane behavior. A no-amount context is add-card (customer payment-info / admin card
+        // management — every subclass returns null there): it always gets the SAVE_CARD button
+        // with UC's default confirmation step, since auto-place is a checkout concept and no
+        // order exists to place. At checkout the auto-place config decides: on, UC's own review
+        // step is redundant (the drop-in button submits the order), so suppress it and label the
+        // button PAY; off, keep the review step and hand back to Place Order.
+        if ($amount === null) {
+            $request->setButtonType('SAVE_CARD');
+        } elseif ($this->config->isUcAutoPlaceOrderEnabled($storeId)) {
+            $request->setShowConfirmationStep(false)
+                ->setButtonType('PAY');
+        } else {
+            $request->setShowConfirmationStep(true)
+                ->setButtonType('CHECKOUT_AND_CONTINUE');
+        }
+
         if ($amount !== null) {
             // UC expects a fixed 2-decimal string (e.g. "24.00"); Sanitizer::amount() returns a float.
             $request->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))

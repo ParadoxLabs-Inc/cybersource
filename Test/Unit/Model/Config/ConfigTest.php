@@ -221,6 +221,19 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * The uc_billing_type fallback must agree with the config.xml default (NONE): an empty stored
+     * value and an unconfigured install have to produce the same drop-in.
+     */
+    public function testGetUcBillingTypeDefaultsToNone(): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/uc_billing_type', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn(null);
+
+        $this->assertSame('NONE', $this->config->getUcBillingType());
+    }
+
+    /**
      * D10: completeMandate.type must follow Magento payment_action semantics — authorize_capture
      * is a sale (CAPTURE); everything else authorizes only (AUTH). Every consumer suite mocks
      * Config, so this mapping is the single point where an inversion would force-capture at

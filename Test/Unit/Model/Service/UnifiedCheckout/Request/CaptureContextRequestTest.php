@@ -25,6 +25,9 @@ class CaptureContextRequestTest extends TestCase
         $this->assertSame($this->request, $this->request->setTargetOrigins(['https://example.com']));
         $this->assertSame($this->request, $this->request->setBillingType('FULL'));
         $this->assertSame($this->request, $this->request->setBillTo(['firstName' => 'Jane']));
+        $this->assertSame($this->request, $this->request->setShowConfirmationStep(false));
+        $this->assertSame($this->request, $this->request->setButtonType('PAY'));
+        $this->assertSame($this->request, $this->request->setIncludeCardPrefix(true));
     }
 
     public function testEmptyRequestToArrayIsEmpty(): void
@@ -45,6 +48,9 @@ class CaptureContextRequestTest extends TestCase
             ->setRequestEmail(true)
             ->setRequestPhone(true)
             ->setRequestShipping(true)
+            ->setShowConfirmationStep(true)
+            ->setButtonType('CHECKOUT_AND_CONTINUE')
+            ->setIncludeCardPrefix(true)
             ->setCompleteMandateType('AUTH')
             ->setDecisionManager(true)
             ->setConsumerAuthentication(true)
@@ -73,6 +79,11 @@ class CaptureContextRequestTest extends TestCase
         $this->assertTrue($result['captureMandate']['requestEmail']);
         $this->assertTrue($result['captureMandate']['requestPhone']);
         $this->assertTrue($result['captureMandate']['requestShipping']);
+        $this->assertTrue($result['captureMandate']['showConfirmationStep']);
+        // buttonType is a top-level field, not part of captureMandate.
+        $this->assertSame('CHECKOUT_AND_CONTINUE', $result['buttonType']);
+        $this->assertArrayNotHasKey('buttonType', $result['captureMandate']);
+        $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
 
         $this->assertSame('AUTH', $result['completeMandate']['type']);
         $this->assertTrue($result['completeMandate']['decisionManager']);
@@ -114,7 +125,10 @@ class CaptureContextRequestTest extends TestCase
             ->setConsumerAuthentication(false)
             ->setRequestEmail(false)
             ->setRequestPhone(false)
-            ->setRequestShipping(false);
+            ->setRequestShipping(false)
+            // false is the operative value here — it suppresses UC's review step — and must emit.
+            ->setShowConfirmationStep(false)
+            ->setIncludeCardPrefix(false);
 
         $result = $this->request->toArray();
 
@@ -123,6 +137,19 @@ class CaptureContextRequestTest extends TestCase
         $this->assertFalse($result['captureMandate']['requestEmail']);
         $this->assertFalse($result['captureMandate']['requestPhone']);
         $this->assertFalse($result['captureMandate']['requestShipping']);
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
+        $this->assertFalse($result['transientTokenResponseOptions']['includeCardPrefix']);
+    }
+
+    public function testToArrayOmitsPaneOptionNodesWhenUnset(): void
+    {
+        $this->request->setBillingType('NONE');
+
+        $result = $this->request->toArray();
+
+        $this->assertArrayNotHasKey('buttonType', $result);
+        $this->assertArrayNotHasKey('showConfirmationStep', $result['captureMandate']);
+        $this->assertArrayNotHasKey('transientTokenResponseOptions', $result);
     }
 
     public function testWalletPaymentTypesPassThrough(): void
