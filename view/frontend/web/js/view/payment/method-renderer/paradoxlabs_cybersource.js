@@ -24,10 +24,11 @@ define(
         'underscore',
         'ParadoxLabs_TokenBase/js/view/payment/method-renderer/cc',
         'Magento_Checkout/js/model/quote',
+        'Magento_Checkout/js/model/payment/additional-validators',
         'ParadoxLabs_CyberSource/js/unified-checkout-client',
         'mage/translate'
     ],
-    function (ko, $, _, Component, quote, ucClient) {
+    function (ko, $, _, Component, quote, additionalValidators, ucClient) {
         'use strict';
         var config = window.checkoutConfig.payment.paradoxlabs_cybersource;
         // How long after a mount is kicked off to verify the drop-in actually painted. The UC iframe
@@ -127,10 +128,17 @@ define(
                 }, this);
 
                 this.showSaveOption = ko.computed(function () {
-                    if (this.canSaveCard !== true
-                        || this.selectedCard() === null
-                        || this.selectedCard() === undefined) {
+                    if (this.canSaveCard !== true) {
                         return false;
+                    }
+
+                    // No card selected means the customer is entering a new card in the drop-in;
+                    // the save choice renders alongside it so consent happens BEFORE tokenization
+                    // (auto-place submits straight from the drop-in, with no pause to ask after).
+                    if (this.selectedCard() === null
+                        || this.selectedCard() === undefined
+                        || this.selectedCard() === '') {
+                        return true;
                     }
 
                     var cards = this.storedCards();
@@ -447,6 +455,52 @@ define(
                     cc_bin: metadata && metadata.bin ? metadata.bin : '',
                     cc_last4: metadata && metadata.last4 ? metadata.last4 : ''
                 });
+
+                // NEW-CARD TOKENIZATION ONLY, and only from here: this handler is the sole
+                // resolution point of a user-driven tokenize, and the generation stamp upstream
+                // already discarded superseded cycles (remount/total-change/expiry), so this fires
+                // at most once per tokenization. Stored cards keep CVV entry + manual Place Order.
+                this.maybeAutoPlaceOrder();
+            },
+
+            /**
+             * Place the order automatically after a fresh tokenization, when configured.
+             *
+             * Only when the checkout validators (agreements et al.) pass and place-order is
+             * allowed; on validation failure the validators have shown their messages and the
+             * customer falls back to the always-rendered manual Place Order button. A server-side
+             * failure flows through handleFailedOrder like a manual submit — the consumed token
+             * forces a re-mount, so there is no resubmit/auto-place loop.
+             */
+            maybeAutoPlaceOrder: function () {
+                if (!config.autoPlaceOrder
+                    || !additionalValidators.validate()
+                    || !this.isPlaceOrderActionAllowed()) {
+                    return;
+                }
+
+                this.placeOrder();
+            },
+
+            /**
+             * A failed place order consumed the single-use transient token server-side (whether or
+             * not the gateway was reached, it cannot be trusted for a resubmit). Surface the base
+             * error, then force a re-mount so the customer re-enters against a fresh capture
+             * context instead of resubmitting a dead token. This is a deliberate user-visible
+             * reset, not a mount failure: the NEW_CARD_ID -> null transition clears the failure
+             * latch, and nothing here increments it, so MAX_MOUNT_FAILURES cannot trip from a
+             * declined order — and auto-place cannot loop, since it only refires after the
+             * customer completes card entry again.
+             */
+            handleFailedOrder: function (response) {
+                // Re-mount before the base error alert: the base handler parses the response body
+                // and can throw on a bodyless failure (network drop), which must not leave the
+                // dead token in place.
+                if (this.transientToken()) {
+                    this.remountDropin();
+                }
+
+                this._super(response);
             },
 
             /**

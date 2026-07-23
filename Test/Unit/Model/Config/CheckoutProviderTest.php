@@ -368,6 +368,28 @@ class CheckoutProviderTest extends TestCase
         $this->assertNull($config['selectedCard']);
     }
 
+    /**
+     * The auto-place toggle must reach the renderer: it gates maybeAutoPlaceOrder(), so a config
+     * that never surfaces silently disables the single-step checkout flow.
+     *
+     * @dataProvider autoPlaceOrderDataProvider
+     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('autoPlaceOrderDataProvider')]
+    public function testGetConfigExposesAutoPlaceOrder(bool $enabled): void
+    {
+        $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn($enabled);
+
+        $this->assertSame($enabled, $this->getMethodConfig()['autoPlaceOrder']);
+    }
+
+    public static function autoPlaceOrderDataProvider(): array
+    {
+        return [
+            'enabled' => [true],
+            'disabled' => [false],
+        ];
+    }
+
     public function testGetLogoImageReturnsModuleLogoWhenBrandingEnabled(): void
     {
         $this->methodConfig['show_branding'] = '1';

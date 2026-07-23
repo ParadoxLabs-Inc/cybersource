@@ -147,6 +147,11 @@
                     <attribute type="shared">1</attribute>
                     <comment>'Authorize and Capture' to charge on checkout. Note 'Save Info' does not support Payer Authentication.</comment>
                 </field>
+                <field id="uc_auto_place_order" translate="label comment" type="select" sortOrder="255" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Place Order Automatically After Card Entry</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, completing card entry (or a wallet confirmation) in the payment form places the order immediately, with no separate Place Order click. Terms and conditions and other checkout validations still apply; if any fail, the order is not placed and the customer uses the normal Place Order button.</comment>
+                </field>
                 <field id="order_status" translate="label comment" type="select" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>New Order Status</label>
                     <source_model>ParadoxLabs\TokenBase\Model\Source\OrderStatus</source_model>

@@ -199,6 +199,28 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @dataProvider ucAutoPlaceOrderDataProvider
+     */
+    #[DataProvider('ucAutoPlaceOrderDataProvider')]
+    public function testIsUcAutoPlaceOrderEnabled(?string $configValue, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/uc_auto_place_order', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($configValue);
+
+        $this->assertSame($expected, $this->config->isUcAutoPlaceOrderEnabled());
+    }
+
+    public static function ucAutoPlaceOrderDataProvider(): array
+    {
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            'unset' => [null, false],
+        ];
+    }
+
+    /**
      * D10: completeMandate.type must follow Magento payment_action semantics — authorize_capture
      * is a sale (CAPTURE); everything else authorizes only (AUTH). Every consumer suite mocks
      * Config, so this mapping is the single point where an inversion would force-capture at

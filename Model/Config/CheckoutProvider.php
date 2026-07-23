@@ -142,6 +142,9 @@ class CheckoutProvider extends CcGenericConfigProvider
                     // to the JS (the server still pins clientVersion when building the capture context).
                     'captureContextUrl' => $this->urlBuilder->getUrl('pdl_cybs/unifiedCheckout/captureContext'),
                     'fingerprintUrl' => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
+                    // Auto-submit the order when a new-card tokenization resolves and the checkout
+                    // validators (agreements et al.) pass; see the renderer's maybeAutoPlaceOrder().
+                    'autoPlaceOrder' => $this->config->isUcAutoPlaceOrderEnabled(),
                 ],
             ],
         ]);

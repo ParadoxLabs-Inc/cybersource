@@ -92,6 +92,7 @@
                     </div>
                 </div>
             </div>
+            <!-- /ko -->
             <!-- ko if: (showSaveOption())-->
             <div class="field">
                 <label class="label">
@@ -123,10 +124,13 @@
                 </div>
             </div>
             <!-- /ko -->
-            <!-- /ko -->
         </fieldset>
 
-        <div class="payment-method-content" data-bind="visible: selectedCard()">
+        <!-- Agreements + Place Order render whenever the method is selected (not gated on
+             tokenization), so required agreements can be checked BEFORE card entry and the
+             auto-place path can submit straight from the drop-in without a confirmation
+             staircase. The button's enable binding still tracks isPlaceOrderActionAllowed. -->
+        <div class="payment-method-content">
             <div class="checkout-agreements-block">
                 <!-- ko foreach: $parent.getRegion('before-place-order') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->

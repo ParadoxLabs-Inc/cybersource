@@ -427,6 +427,17 @@ class Config
     }
 
     /**
+     * Whether to place the order automatically after Unified Checkout new-card entry.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isUcAutoPlaceOrderEnabled($storeId = null)
+    {
+        return (bool)$this->getConfigValue('uc_auto_place_order', $storeId);
+    }
+
+    /**
      * Map the Magento payment_action to the UC completeMandate type.
      *
      * authorize -> AUTH, authorize_capture -> CAPTURE; anything else defaults to AUTH.
