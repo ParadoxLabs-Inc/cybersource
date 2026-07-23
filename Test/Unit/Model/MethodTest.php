@@ -154,6 +154,139 @@ class MethodTest extends TestCase
         $this->invokeHook($hook, $payment, $response);
     }
 
+    // --- Payment cc_* re-sync from card_information (UC Task 1) ---
+
+    /**
+     * AbstractMethod copies cc fields from the card PRE-auth (while the card is still empty), so the
+     * UC response's card_information must be re-synced onto the payment post-auth — empty fields only.
+     *
+     * @return void
+     */
+    public function testPaymentCcFieldsFilledFromCardInformationWhenEmpty(): void
+    {
+        $card     = $this->createMock(CardInterface::class);
+        $response = new Response([
+            'token_information' => ['instrumentIdentifier' => 'INSTR-3'],
+            'card_information' => [
+                'cc_type' => 'VI',
+                'cc_last4' => '1111',
+                'cc_bin' => '411111',
+                'cc_exp_month' => '09',
+                'cc_exp_year' => '2029',
+            ],
+        ]);
+        $this->setCard($card);
+        $this->cardBuilderMock->method('applyTokenToCard')->willReturn($card);
+
+        $set     = [];
+        $payment = $this->buildRecordingPayment([], $set);
+
+        $this->invokeApplyToken($payment, $response);
+
+        // cc_last4 maps to the payment's cc_last_4 column; cc_bin has no payment column and is skipped.
+        $this->assertSame(
+            [
+                'cc_type' => 'VI',
+                'cc_last_4' => '1111',
+                'cc_exp_month' => '09',
+                'cc_exp_year' => '2029',
+            ],
+            $set
+        );
+    }
+
+    /**
+     * Fields already set on the payment are NEVER overwritten; only the empty ones are filled.
+     *
+     * @return void
+     */
+    public function testPaymentCcFieldsNeverOverwriteExistingValues(): void
+    {
+        $card     = $this->createMock(CardInterface::class);
+        $response = new Response([
+            'token_information' => ['instrumentIdentifier' => 'INSTR-4'],
+            'card_information' => [
+                'cc_type' => 'MC',
+                'cc_last4' => '4444',
+                'cc_exp_month' => '01',
+                'cc_exp_year' => '2031',
+            ],
+        ]);
+        $this->setCard($card);
+        $this->cardBuilderMock->method('applyTokenToCard')->willReturn($card);
+
+        $set     = [];
+        $payment = $this->buildRecordingPayment(
+            [
+                'cc_type' => 'VI',
+                'cc_last_4' => '1111',
+            ],
+            $set
+        );
+
+        $this->invokeApplyToken($payment, $response);
+
+        $this->assertSame(
+            [
+                'cc_exp_month' => '01',
+                'cc_exp_year' => '2031',
+            ],
+            $set
+        );
+    }
+
+    /**
+     * Guest / unsaved-card orders have no vault card at all; the payment re-sync must still run so
+     * sales_order_payment gets its card identity.
+     *
+     * @return void
+     */
+    public function testPaymentCcResyncAppliesWithoutVaultCard(): void
+    {
+        $response = new Response([
+            'uc_token_missing' => true,
+            'card_information' => [
+                'cc_type' => 'VI',
+                'cc_last4' => '1111',
+            ],
+        ]);
+        // No card set: getCard() returns null, so CardBuilder must not run — but the re-sync must.
+        $this->cardBuilderMock->expects($this->never())->method('applyTokenToCard');
+
+        $set     = [];
+        $payment = $this->buildRecordingPayment([], $set);
+
+        $this->invokeApplyToken($payment, $response);
+
+        $this->assertSame(
+            [
+                'cc_type' => 'VI',
+                'cc_last_4' => '1111',
+            ],
+            $set
+        );
+    }
+
+    /**
+     * A UC response without card_information (e.g. legacy replies) leaves the payment cc fields alone.
+     *
+     * @return void
+     */
+    public function testNoCardInformationWritesNoPaymentCcFields(): void
+    {
+        $card     = $this->createMock(CardInterface::class);
+        $response = new Response(['token_information' => ['instrumentIdentifier' => 'INSTR-5']]);
+        $this->setCard($card);
+        $this->cardBuilderMock->method('applyTokenToCard')->willReturn($card);
+
+        $set     = [];
+        $payment = $this->buildRecordingPayment([], $set);
+
+        $this->invokeApplyToken($payment, $response);
+
+        $this->assertSame([], $set);
+    }
+
     /**
      * @return array<string, array{0: string}>
      */
@@ -194,6 +327,43 @@ class MethodTest extends TestCase
     {
         $method = new \ReflectionMethod(Method::class, $hook);
         $method->invoke($this->method, $payment, self::AMOUNT, $response);
+    }
+
+    /**
+     * Build a payment mock that reads getData from $existingData and records setData into $set.
+     *
+     * @param array<string, string> $existingData
+     * @param array<string, string> $set Captured setData calls, by reference.
+     * @return Payment&MockObject
+     */
+    private function buildRecordingPayment(array $existingData, array &$set): Payment
+    {
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getData')->willReturnCallback(
+            static fn(string $key = '') => $existingData[$key] ?? null
+        );
+        $payment->method('setData')->willReturnCallback(
+            function ($key, $value = null) use (&$set, $payment) {
+                $set[$key] = $value;
+
+                return $payment;
+            }
+        );
+
+        return $payment;
+    }
+
+    /**
+     * Invoke the protected applyUnifiedCheckoutToken directly (bypassing the parent after-hooks).
+     *
+     * @param Payment&MockObject $payment
+     * @param Response $response
+     * @return void
+     */
+    private function invokeApplyToken(Payment $payment, Response $response): void
+    {
+        $method = new \ReflectionMethod(Method::class, 'applyUnifiedCheckoutToken');
+        $method->invoke($this->method, $payment, $response);
     }
 
     /**

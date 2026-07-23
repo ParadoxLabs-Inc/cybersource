@@ -171,6 +171,7 @@ class Response
      * @param ResponseFactory $responseFactory
      * @param PaymentRequestFactory $requestFactory
      * @param StoredCardRequestFactory $storedCardRequestFactory
+     * @param TransientTokenReader $transientTokenReader
      */
     public function __construct(
         protected readonly Rest $rest,
@@ -180,7 +181,8 @@ class Response
         protected readonly CardType $cardType,
         protected readonly ResponseFactory $responseFactory,
         protected readonly PaymentRequestFactory $requestFactory,
-        protected readonly StoredCardRequestFactory $storedCardRequestFactory
+        protected readonly StoredCardRequestFactory $storedCardRequestFactory,
+        protected readonly TransientTokenReader $transientTokenReader
     ) {
     }
 
@@ -213,7 +215,10 @@ class Response
         $request  = $this->buildRequest($payment, $amount, $capture);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
-        return $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
+        $gatewayResponse = $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
+        $this->seedCardInformationFromTransientToken($payment, $gatewayResponse);
+
+        return $gatewayResponse;
     }
 
     /**
@@ -460,7 +465,10 @@ class Response
         $request  = $this->buildZeroDollarRequest($payment, $currencyCode);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
-        return $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
+        $gatewayResponse = $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
+        $this->seedCardInformationFromTransientToken($payment, $gatewayResponse);
+
+        return $gatewayResponse;
     }
 
     /**
@@ -914,6 +922,50 @@ class Response
             'cc_exp_month' => $card['expirationMonth'] ?? null,
             'cc_exp_year' => $card['expirationYear'] ?? null,
         ], static fn($value): bool => $value !== null && $value !== '');
+    }
+
+    /**
+     * Seed card_information from the transient-token JWT, keeping gateway-reply fields where present.
+     *
+     * The /pts/v2/payments reply for a transient-token auth returns ONLY paymentInformation.card.type
+     * (no suffix/bin/expiry), so extractCardMetadata() alone yields just cc_type and the vault card /
+     * order payment lose their last4/bin/expiration. The token payload carries the missing display
+     * metadata; decode it (TransientTokenReader — unverified by design, see its docblock) as the BASE
+     * and let every field the reply DID return override it: the reply is authoritative when present.
+     *
+     * Runs only on the new-card paths (place() / tokenizeCard()) where a transient token exists; the
+     * stored-card path has no token and its card already carries metadata. Decoding is best-effort —
+     * a wallet or malformed token contributes nothing and the reply-derived data stands untouched.
+     *
+     * DEPLOY NOTE: Response is consumed through a generated Proxy (etc/di.xml, Card's lazy ucResponse
+     * argument) — any public-signature change here (including the constructor) requires setup:di:compile
+     * on deployment. Prefer adding behavior via protected helpers like this one.
+     *
+     * @param InfoInterface $payment
+     * @param GatewayResponse $gatewayResponse
+     * @return void
+     */
+    protected function seedCardInformationFromTransientToken(
+        InfoInterface $payment,
+        GatewayResponse $gatewayResponse
+    ): void {
+        $transientToken = $this->getTransientToken($payment);
+        if ($transientToken === null) {
+            return;
+        }
+
+        $decoded = $this->transientTokenReader->read($transientToken);
+        if ($decoded === []) {
+            return;
+        }
+
+        $replyCardInformation = $gatewayResponse->getData('card_information');
+        if (!is_array($replyCardInformation)) {
+            $replyCardInformation = [];
+        }
+
+        // Token-decoded values as the base; reply fields override wherever the gateway returned one.
+        $gatewayResponse->setData('card_information', array_merge($decoded, $replyCardInformation));
     }
 
     /**

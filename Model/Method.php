@@ -196,8 +196,49 @@ class Method extends AbstractMethod
             $this->cardBuilder->applyTokenToCard($card, $response);
         }
 
+        // Re-sync payment cc_* from the response: AbstractMethod copies cc fields from the card PRE-auth
+        // (while the card is still empty), so without this sales_order_payment keeps no card identity.
+        // Runs regardless of card presence — guest/unsaved-card orders have no vault card at all.
+        $this->applyCardInformationToPayment($payment, $response);
+
         // Single-use token has been consumed by place(); drop it so recapture/re-auth use the vaulted card.
         $payment->unsAdditionalInformation('transient_token');
+    }
+
+    /**
+     * Fill empty payment cc_* fields from the UC response's card_information (post-auth re-sync).
+     *
+     * card_information is assembled by UnifiedCheckout\Response from the transient-token payload with
+     * gateway-reply fields taking precedence. Only EMPTY payment fields are filled — anything already
+     * set (e.g. by a checkout flow that provided card details up front) is never overwritten.
+     *
+     * @param InfoInterface $payment
+     * @param Response $response
+     * @return void
+     */
+    protected function applyCardInformationToPayment(InfoInterface $payment, Response $response): void
+    {
+        $cardInformation = $response->getData('card_information');
+        if (!is_array($cardInformation) || $cardInformation === []) {
+            return;
+        }
+
+        /** @var Payment $payment */
+        $fieldMap = [
+            'cc_type' => 'cc_type',
+            'cc_last4' => 'cc_last_4',
+            'cc_exp_month' => 'cc_exp_month',
+            'cc_exp_year' => 'cc_exp_year',
+        ];
+
+        foreach ($fieldMap as $sourceKey => $paymentField) {
+            $value = $cardInformation[$sourceKey] ?? null;
+            if ($value === null || $value === '' || !empty($payment->getData($paymentField))) {
+                continue;
+            }
+
+            $payment->setData($paymentField, (string)$value);
+        }
     }
 
     /**

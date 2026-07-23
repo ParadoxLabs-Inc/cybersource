@@ -17,6 +17,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequestFactory;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\TransientTokenReader;
 use ParadoxLabs\CyberSource\Model\Source\CardType;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
@@ -68,6 +69,7 @@ class ResponseTest extends TestCase
             $responseFactory,
             $requestFactory,
             $storedCardRequestFactory,
+            new TransientTokenReader(new CardType()),
         );
     }
 
@@ -167,6 +169,7 @@ class ResponseTest extends TestCase
             $this->createMock(ResponseFactory::class),
             $requestFactory,
             $storedCardRequestFactory,
+            new TransientTokenReader(new CardType()),
         );
 
         $request = $service->buildRequest($this->buildPayment(), 30.5);
@@ -1015,5 +1018,144 @@ class ResponseTest extends TestCase
         $response = $this->service->place($this->buildPayment(), 24.0);
 
         $this->assertNull($response->getData('consumer_authentication'));
+    }
+
+    // --- UC card-metadata seeding from the transient token (Task 1) ---
+
+    /**
+     * Build a transient-token JWT whose payload matches the real browser-minted gda-0.10.0 shape:
+     * scalar card fields wrapped as {"value": ...}, number as {maskedValue, bin}, absent fields [].
+     *
+     * @param array<string, mixed> $card content.paymentInformation.card subtree.
+     * @return string
+     */
+    private function buildTransientToken(array $card): string
+    {
+        $payload = [
+            'iss' => 'Flex/07',
+            'type' => 'gda-0.10.0',
+            'metadata' => ['paymentType' => 'PANENTRY'],
+            'content' => ['paymentInformation' => ['card' => $card]],
+        ];
+        $encode = static fn(array $data): string => rtrim(
+            strtr(base64_encode((string)json_encode($data)), '+/', '-_'),
+            '='
+        );
+
+        return $encode(['alg' => 'RS256']) . '.' . $encode($payload) . '.c2ln';
+    }
+
+    public function testPlaceSeedsCardInformationFromTransientTokenWhenReplyOmitsIt(): void
+    {
+        // The real /pts/v2/payments transient-token reply returns ONLY paymentInformation.card.type;
+        // here it returns nothing at all — the decoded token must fill the whole card_information set.
+        $this->primeRest([
+            'id' => 'TXN-SEED',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+        ]);
+
+        $token = $this->buildTransientToken([
+            'number' => [
+                'maskedValue' => 'XXXXXXXXXXXX1111',
+                'bin' => '411111',
+            ],
+            'expirationMonth' => ['value' => '09'],
+            'expirationYear' => ['value' => '2029'],
+            'type' => ['value' => '001'],
+            'securityCode' => [],
+        ]);
+
+        $response = $this->service->place($this->buildPayment($token), 24.0);
+
+        $this->assertSame(
+            [
+                'cc_type' => 'VI',
+                'cc_last4' => '1111',
+                'cc_bin' => '411111',
+                'cc_exp_month' => '09',
+                'cc_exp_year' => '2029',
+            ],
+            $response->getData('card_information')
+        );
+    }
+
+    public function testGatewayReplyCardFieldsOverrideTokenDecodedValues(): void
+    {
+        // The reply is authoritative wherever it DOES return data: its type/last4 must win over the
+        // token's, while token-only fields (bin/expiry here) still fill in around it.
+        $this->primeRest([
+            'id' => 'TXN-MERGE',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+            'paymentInformation' => [
+                'card' => [
+                    'type' => '002',
+                    'suffix' => '4444',
+                ],
+            ],
+        ]);
+
+        $token = $this->buildTransientToken([
+            'number' => [
+                'maskedValue' => 'XXXXXXXXXXXX1111',
+                'bin' => '411111',
+            ],
+            'expirationMonth' => ['value' => '09'],
+            'expirationYear' => ['value' => '2029'],
+            'type' => ['value' => '001'],
+        ]);
+
+        $card = $this->service->place($this->buildPayment($token), 24.0)->getData('card_information');
+
+        $this->assertSame('MC', $card['cc_type']);
+        $this->assertSame('4444', $card['cc_last4']);
+        $this->assertSame('411111', $card['cc_bin']);
+        $this->assertSame('09', $card['cc_exp_month']);
+        $this->assertSame('2029', $card['cc_exp_year']);
+    }
+
+    public function testMalformedTransientTokenLeavesReplyMetadataUntouched(): void
+    {
+        $this->primeRest([
+            'id' => 'TXN-BADTOK',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+            'paymentInformation' => [
+                'card' => ['type' => '001'],
+            ],
+        ]);
+
+        $response = $this->service->place($this->buildPayment('not.a-real.jwt'), 24.0);
+
+        $this->assertSame(['cc_type' => 'VI'], $response->getData('card_information'));
+    }
+
+    public function testZeroDollarTokenizeSeedsCardInformationFromTransientToken(): void
+    {
+        // The $0 add-card path saves a vault card off the same reply; it needs the seeded metadata too.
+        $this->primeRest([
+            'id' => 'TXN-ZERO-SEED',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => ['responseCode' => '100'],
+            'tokenInformation' => [
+                'paymentInstrument' => ['id' => 'PI-1'],
+            ],
+        ]);
+
+        $token = $this->buildTransientToken([
+            'number' => [
+                'maskedValue' => 'XXXXXXXXXXXX1111',
+                'bin' => '411111',
+            ],
+            'expirationMonth' => ['value' => '09'],
+            'expirationYear' => ['value' => '2029'],
+            'type' => ['value' => '001'],
+        ]);
+
+        $response = $this->service->tokenizeCard($this->buildPayment($token), 'USD', 1);
+
+        $this->assertSame('1111', $response->getData('card_information')['cc_last4']);
+        $this->assertSame('VI', $response->getData('card_information')['cc_type']);
     }
 }
