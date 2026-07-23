@@ -36,7 +36,7 @@ use Throwable;
  *
  * Mirrors the Secure Acceptance request-handler tree: this abstract base assembles the request from
  * config + context-neutral logic, while subclasses (Frontend/Backend/GraphQL) source the amount,
- * currency, billing address, save-card flag, store ID, and payment_action from their environment.
+ * currency, billing address, store ID, and payment_action from their environment.
  *
  * @see UC-API-REFERENCE.md §1
  */
@@ -105,7 +105,8 @@ abstract class CaptureContext
             ->setCountry($this->resolveCountry($billTo))
             ->setLocale($this->config->getUcLocale($storeId))
             ->setBillingType($this->config->getUcBillingType($storeId))
-            ->setRequestSaveCard($this->canRequestSaveCard())
+            // requestSaveCard is deliberately omitted: the module's own payment[save] checkbox is the
+            // sole save-card consent point (it also covers wallets, which UC's checkbox never did).
             // Contact details are collected by Magento (checkout/account/admin forms) and sent with
             // the payment request; explicit false stops UC from re-collecting them (UC defaults on).
             ->setRequestEmail(false)
@@ -314,16 +315,6 @@ abstract class CaptureContext
         }
 
         return $origin;
-    }
-
-    /**
-     * Whether to surface the UC "save card" checkbox. Defaults to false; subclasses may override.
-     *
-     * @return bool
-     */
-    protected function canRequestSaveCard(): bool
-    {
-        return false;
     }
 
     /**

@@ -42,7 +42,6 @@ class CaptureContextRequestTest extends TestCase
             ->setCountry('US')
             ->setLocale('en_US')
             ->setBillingType('FULL')
-            ->setRequestSaveCard(true)
             ->setRequestEmail(true)
             ->setRequestPhone(true)
             ->setRequestShipping(true)
@@ -69,7 +68,8 @@ class CaptureContextRequestTest extends TestCase
         $this->assertSame('en_US', $result['locale']);
 
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
-        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+        // requestSaveCard is not a DTO field: the module payment[save] checkbox is the consent point.
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
         $this->assertTrue($result['captureMandate']['requestEmail']);
         $this->assertTrue($result['captureMandate']['requestPhone']);
         $this->assertTrue($result['captureMandate']['requestShipping']);
@@ -112,7 +112,6 @@ class CaptureContextRequestTest extends TestCase
         $this->request
             ->setDecisionManager(false)
             ->setConsumerAuthentication(false)
-            ->setRequestSaveCard(false)
             ->setRequestEmail(false)
             ->setRequestPhone(false)
             ->setRequestShipping(false);
@@ -121,7 +120,6 @@ class CaptureContextRequestTest extends TestCase
 
         $this->assertFalse($result['completeMandate']['decisionManager']);
         $this->assertFalse($result['completeMandate']['consumerAuthentication']);
-        $this->assertFalse($result['captureMandate']['requestSaveCard']);
         $this->assertFalse($result['captureMandate']['requestEmail']);
         $this->assertFalse($result['captureMandate']['requestPhone']);
         $this->assertFalse($result['captureMandate']['requestShipping']);

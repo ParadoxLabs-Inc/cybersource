@@ -25,7 +25,6 @@ use Magento\Backend\Model\Session\Quote as BackendSession;
 use Magento\Backend\Model\UrlInterface as BackendUrlInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Override;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
@@ -156,17 +155,6 @@ class Backend extends CaptureContext
         } catch (Throwable) {
             return null;
         }
-    }
-
-    /**
-     * Save-card is always available in admin add-card / order-create flows.
-     *
-     * @return bool
-     */
-    #[Override]
-    protected function canRequestSaveCard(): bool
-    {
-        return true;
     }
 
     /**

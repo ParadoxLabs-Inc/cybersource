@@ -197,16 +197,6 @@ class GraphQL extends CaptureContext
     }
 
     /**
-     * Surface save-card for authenticated GraphQL customers.
-     *
-     * @return bool
-     */
-    protected function canRequestSaveCard(): bool
-    {
-        return (int)($this->graphQlContext?->getUserId() ?? 0) > 0;
-    }
-
-    /**
      * Get the current store ID, for config scoping.
      *
      * @return int|null

@@ -26,7 +26,6 @@ use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Override;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
@@ -158,17 +157,6 @@ class Frontend extends CaptureContext
         } catch (Throwable) {
             return null;
         }
-    }
-
-    /**
-     * Surface the "save card" checkbox for logged-in customers.
-     *
-     * @return bool
-     */
-    #[Override]
-    protected function canRequestSaveCard(): bool
-    {
-        return $this->customerSession->isLoggedIn();
     }
 
     /**

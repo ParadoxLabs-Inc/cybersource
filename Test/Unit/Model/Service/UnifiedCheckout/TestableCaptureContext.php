@@ -42,7 +42,6 @@ class TestableCaptureContext extends CaptureContext
     public array $billTo = [];
     public ?string $email = 'jane@example.com';
     public ?int $storeId = 1;
-    public bool $saveCard = false;
     public array $derivedOrigins = [];
 
     protected function getAmount(): ?string
@@ -68,11 +67,6 @@ class TestableCaptureContext extends CaptureContext
     protected function getStoreId(): ?int
     {
         return $this->storeId;
-    }
-
-    protected function canRequestSaveCard(): bool
-    {
-        return $this->saveCard;
     }
 
     protected function deriveTargetOrigins(): array

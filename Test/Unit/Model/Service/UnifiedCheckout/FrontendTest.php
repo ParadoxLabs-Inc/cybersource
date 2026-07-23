@@ -111,8 +111,8 @@ class FrontendTest extends TestCase
         $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
         $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
         $this->assertSame('123', $result['orderInformation']['billTo']['buildingNumber']);
-        // Logged-in customer surfaces save card.
-        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+        // UC save-card checkbox is never requested; the module payment[save] checkbox governs vaulting.
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
     public function testBuildRequestBillingOnlyWhenNoQuote(): void
@@ -127,7 +127,7 @@ class FrontendTest extends TestCase
         $this->assertArrayNotHasKey('orderInformation', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         $this->assertSame('US', $result['country']);
-        $this->assertFalse($result['captureMandate']['requestSaveCard']);
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
     public function testBuildRequestDerivesTargetOriginFromStoreBaseUrlWithoutConfig(): void

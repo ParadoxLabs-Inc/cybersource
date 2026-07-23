@@ -148,8 +148,8 @@ class GraphQLTest extends TestCase
 
         $this->assertArrayNotHasKey('orderInformation', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
-        // Guest (userId 0) does not surface save card.
-        $this->assertFalse($result['captureMandate']['requestSaveCard']);
+        // UC save-card checkbox is never requested; the module payment[save] checkbox governs vaulting.
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
     public function testBuildRequestSourcesBillToFromInputBillingAddressOverCart(): void
@@ -195,20 +195,6 @@ class GraphQLTest extends TestCase
         $this->assertSame('500', $result['orderInformation']['billTo']['buildingNumber']);
         $this->assertSame('PA', $result['orderInformation']['billTo']['administrativeArea']);
         $this->assertSame('US', $result['orderInformation']['billTo']['country']);
-    }
-
-    public function testCanRequestSaveCardTrueForAuthenticatedCustomer(): void
-    {
-        $context = $this->createMock(ContextInterface::class);
-        $context->method('getUserId')->willReturn(42);
-
-        $handler = $this->makeHandler([]);
-        $handler->setGraphQLContext($context, []);
-
-        $method = new \ReflectionMethod(GraphQL::class, 'canRequestSaveCard');
-
-        // Authenticated GraphQL customer (userId > 0) surfaces save card.
-        $this->assertTrue($method->invoke($handler));
     }
 
     public function testGetEmailFallsBackToGuestEmailArgWhenNoCart(): void

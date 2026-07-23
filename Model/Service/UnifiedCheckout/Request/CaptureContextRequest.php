@@ -72,11 +72,6 @@ class CaptureContextRequest
     /**
      * @var bool|null
      */
-    private ?bool $requestSaveCard = null;
-
-    /**
-     * @var bool|null
-     */
     private ?bool $requestEmail = null;
 
     /**
@@ -278,29 +273,6 @@ class CaptureContextRequest
     public function setBillingType(?string $billingType): self
     {
         $this->billingType = $billingType;
-
-        return $this;
-    }
-
-    /**
-     * Get whether to request the save-card checkbox.
-     *
-     * @return bool|null
-     */
-    public function getRequestSaveCard(): ?bool
-    {
-        return $this->requestSaveCard;
-    }
-
-    /**
-     * Set whether to request the save-card checkbox.
-     *
-     * @param bool|null $requestSaveCard
-     * @return $this
-     */
-    public function setRequestSaveCard(?bool $requestSaveCard): self
-    {
-        $this->requestSaveCard = $requestSaveCard;
 
         return $this;
     }
@@ -530,7 +502,7 @@ class CaptureContextRequest
 
         $captureMandate = $this->filterEmpty([
             'billingType' => $this->billingType,
-            'requestSaveCard' => $this->requestSaveCard,
+            // requestSaveCard deliberately omitted: module payment[save] checkbox is the consent point.
             'requestEmail' => $this->requestEmail,
             'requestPhone' => $this->requestPhone,
             'requestShipping' => $this->requestShipping,

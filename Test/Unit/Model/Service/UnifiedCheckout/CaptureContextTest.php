@@ -78,6 +78,8 @@ class CaptureContextTest extends TestCase
         $this->assertFalse($result['captureMandate']['requestEmail']);
         $this->assertFalse($result['captureMandate']['requestPhone']);
         $this->assertFalse($result['captureMandate']['requestShipping']);
+        // requestSaveCard is never sent: the module's payment[save] checkbox is the sole consent point.
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
         $this->assertSame('AUTH', $result['completeMandate']['type']);
         $this->assertFalse($result['completeMandate']['decisionManager']);
         $this->assertFalse($result['completeMandate']['consumerAuthentication']);

@@ -119,8 +119,8 @@ class BackendTest extends TestCase
         $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
         $this->assertSame('123', $result['orderInformation']['billTo']['buildingNumber']);
         $this->assertSame('jane@example.com', $result['orderInformation']['billTo']['email']);
-        // Admin always surfaces save card.
-        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+        // UC save-card checkbox is never requested; the module payment[save] checkbox governs vaulting.
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
     public function testBuildRequestBillingOnlyWithStoreDefaultCurrencyWhenNoQuote(): void
@@ -134,8 +134,7 @@ class BackendTest extends TestCase
 
         $this->assertArrayNotHasKey('orderInformation', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
-        // Save card still offered for the admin add-card case.
-        $this->assertTrue($result['captureMandate']['requestSaveCard']);
+        $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
     public function testBuildRequestSourcesBillToFromPostBillingInputOverQuote(): void
