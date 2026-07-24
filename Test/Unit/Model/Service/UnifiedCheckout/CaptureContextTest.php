@@ -13,6 +13,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CaptureContext;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -510,6 +511,7 @@ class CaptureContextTest extends TestCase
     /**
      * @dataProvider emptyEmailProvider
      */
+    #[DataProvider('emptyEmailProvider')]
     public function testMapBillToOmitsEmailWhenNullOrEmpty(?string $email): void
     {
         $this->handler->email = $email;

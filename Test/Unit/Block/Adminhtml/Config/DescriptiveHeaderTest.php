@@ -30,16 +30,18 @@ class DescriptiveHeaderTest extends TestCase
      */
     private function buildElement(string $htmlId, string $label, ?string $comment): AbstractElement&MockObject
     {
-        // getHtmlId is declared on AbstractElement; getLabel/getComment are DataObject magic.
+        // getHtmlId is declared on AbstractElement; getLabel/getComment are DataObject magic,
+        // routed through the real __call into the stubbed getData().
         $element = $this->getMockBuilder(AbstractElement::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getHtmlId'])
-            ->addMethods(['getLabel', 'getComment'])
-            ->getMockForAbstractClass();
+            ->onlyMethods(['getHtmlId', 'getData'])
+            ->getMock();
 
         $element->method('getHtmlId')->willReturn($htmlId);
-        $element->method('getLabel')->willReturn($label);
-        $element->method('getComment')->willReturn($comment);
+        $element->method('getData')->willReturnMap([
+            ['label', null, $label],
+            ['comment', null, $comment],
+        ]);
 
         return $element;
     }

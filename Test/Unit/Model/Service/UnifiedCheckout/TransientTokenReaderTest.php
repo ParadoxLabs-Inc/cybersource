@@ -6,6 +6,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\TransientTokenReader;
 use ParadoxLabs\CyberSource\Model\Source\CardType;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -165,6 +166,7 @@ class TransientTokenReaderTest extends TestCase
     /**
      * @dataProvider malformedTokenProvider
      */
+    #[DataProvider('malformedTokenProvider')]
     public function testMalformedInputReturnsEmptyArrayAndNeverThrows(string $jwt): void
     {
         $this->assertSame([], $this->reader->read($jwt));

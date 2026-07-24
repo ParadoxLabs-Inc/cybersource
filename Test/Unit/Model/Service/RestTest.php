@@ -11,6 +11,7 @@ use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -321,6 +322,7 @@ class RestTest extends TestCase
      *
      * @dataProvider nonJsonErrorBodyProvider
      */
+    #[DataProvider('nonJsonErrorBodyProvider')]
     public function testThrowsStringMessageIntCodeOnNonJsonErrorBody(string $body, int $status): void
     {
         $this->clientMock->method('getStatus')->willReturn($status);

@@ -19,6 +19,7 @@ use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\AbstractGateway;
 use ParadoxLabs\TokenBase\Model\AbstractMethod;
 use ParadoxLabs\TokenBase\Model\Gateway\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -112,6 +113,7 @@ class MethodTest extends TestCase
      * @param string $hook
      * @return void
      */
+    #[DataProvider('hookProvider')]
     public function testTransientTokenIsClearedOnUnifiedCheckoutResponse(string $hook): void
     {
         $card     = $this->createMock(CardInterface::class);
@@ -138,6 +140,7 @@ class MethodTest extends TestCase
      * @param string $hook
      * @return void
      */
+    #[DataProvider('hookProvider')]
     public function testNonUnifiedCheckoutResponseLeavesPaymentAndCardUntouched(string $hook): void
     {
         $card     = $this->createMock(CardInterface::class);
