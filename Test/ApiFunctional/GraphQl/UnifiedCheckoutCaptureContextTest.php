@@ -26,13 +26,13 @@ use Magento\Integration\Api\CustomerTokenServiceInterface;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Test\Fixture\CustomerCart as CustomerCartFixture;
 use Magento\Quote\Test\Fixture\GuestCart as GuestCartFixture;
-use Magento\Quote\Test\Fixture\QuoteIdMask as QuoteIdMaskFixture;
 use Magento\TestFramework\Fixture\Config;
 use Magento\TestFramework\Fixture\DataFixture;
 use Magento\TestFramework\Fixture\DataFixtureStorage;
 use Magento\TestFramework\Fixture\DataFixtureStorageManager;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\GraphQlAbstract;
+use ParadoxLabs\CyberSource\Test\ApiFunctional\Fixture\QuoteIdMask as QuoteIdMaskFixture;
 
 /**
  * Web API functional tests for the cyberSourceUnifiedCheckoutCaptureContext GraphQL query
