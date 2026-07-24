@@ -24,7 +24,9 @@ use Magento\Directory\Helper\Data;
 $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
     <?= /* @noEscape */
     $block->getBlockHtml('formkey') ?>
-    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $escaper->escapeHtmlAttr(
+    <?php // The frontend Save controller identifies the edited card by the "id" param (hash) — NOT
+          // "card_id", which it ignores; posting card_id here made every edit save a NEW card. ?>
+    <input type="hidden" name="id" value="<?= $block->getCard()->getId() ? $escaper->escapeHtmlAttr(
         $block->getCard()->getHash()
     ) : '' ?>"/>
     <input type="hidden" name="method" value="<?= /* @noEscape */

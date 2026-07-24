@@ -21,6 +21,7 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout;
 
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddressInterface;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Model\InfoInterface;
@@ -449,6 +450,10 @@ class Response
      * @param InfoInterface $payment
      * @param string $currencyCode
      * @param int|null $storeId
+     * @param CustomerAddressInterface|null $billingAddress Card billing address for AVS; the paymentinfo
+     *        flows carry no order, so the payment-derived fallback inside buildZeroDollarRequest() finds
+     *        nothing without it and CyberSource rejects the $0 auth with MISSING_FIELD billTo.*.
+     * @param string|null $email Customer email for the billTo (customer addresses carry none).
      * @return GatewayResponse
      * @throws CommandException On a declined transaction.
      * @throws RuntimeException On an error/invalid response, or a missing transient token.
@@ -457,12 +462,14 @@ class Response
     public function tokenizeCard(
         InfoInterface $payment,
         string $currencyCode,
-        ?int $storeId = null
+        ?int $storeId = null,
+        ?CustomerAddressInterface $billingAddress = null,
+        ?string $email = null
     ): GatewayResponse {
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request  = $this->buildZeroDollarRequest($payment, $currencyCode);
+        $request  = $this->buildZeroDollarRequest($payment, $currencyCode, $billingAddress, $email);
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         $gatewayResponse = $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
@@ -479,11 +486,17 @@ class Response
      *
      * @param InfoInterface $payment
      * @param string $currencyCode
+     * @param CustomerAddressInterface|null $billingAddress
+     * @param string|null $email
      * @return PaymentRequest
      * @throws RuntimeException When no transient token is present on the payment.
      */
-    public function buildZeroDollarRequest(InfoInterface $payment, string $currencyCode): PaymentRequest
-    {
+    public function buildZeroDollarRequest(
+        InfoInterface $payment,
+        string $currencyCode,
+        ?CustomerAddressInterface $billingAddress = null,
+        ?string $email = null
+    ): PaymentRequest {
         $transientToken = $this->getTransientToken($payment);
         if ($transientToken === null || $transientToken === '') {
             throw new RuntimeException(
@@ -504,14 +517,63 @@ class Response
             ->setApplicationName($this->config->getClientName())
             ->setApplicationVersion($this->config->getClientVersion());
 
-        // A $0 add-card auth still wants AVS/billTo where the processor requires it. Source the billing
-        // address from the payment when reachable; omit billTo entirely when none is available.
-        $billTo = $this->getBillTo($this->getPaymentBillingAddress($payment));
+        // A $0 add-card auth REQUIRES billTo (CyberSource rejects it with MISSING_FIELD
+        // billTo.administrativeArea otherwise — verified live 2026-07-24). Prefer the card's own
+        // billing address when the caller supplies one (the paymentinfo add/edit flows have no order
+        // to derive one from); otherwise fall back to the payment's order billing address.
+        $billTo = $this->getBillToFromCustomerAddress($billingAddress, $email);
+        if ($billTo === []) {
+            $billTo = $this->getBillTo($this->getPaymentBillingAddress($payment));
+        }
+
         if ($billTo !== []) {
             $request->setBillTo($billTo);
         }
 
         return $request;
+    }
+
+    /**
+     * Map a customer (card) billing address to the /pts/v2/payments billTo field tree.
+     *
+     * Customer-address analog of getBillTo(): same field mapping, but reads the customer address
+     * accessors (region object rather than flat regionCode) and takes the email separately, since
+     * customer addresses carry none. Returns an empty array when no address is supplied.
+     *
+     * @param CustomerAddressInterface|null $address
+     * @param string|null $email
+     * @return array<string, string>
+     */
+    protected function getBillToFromCustomerAddress(?CustomerAddressInterface $address, ?string $email): array
+    {
+        if ($address === null) {
+            return [];
+        }
+
+        $street   = (array)$address->getStreet();
+        $address1 = (string)($street[0] ?? '');
+
+        try {
+            $cleanEmail = ($email !== null && $email !== '') ? $this->sanitizer->email($email) : null;
+        } catch (Throwable) {
+            $cleanEmail = null;
+        }
+
+        return array_filter([
+            'firstName' => $this->sanitizer->alphanumericPunc($address->getFirstname(), 60),
+            'lastName' => $this->sanitizer->alphanumericPunc($address->getLastname(), 60),
+            'address1' => $this->sanitizer->alphanumericPunc($address1, 60),
+            'address2' => $this->sanitizer->alphanumericPunc($street[1] ?? null, 60),
+            'locality' => $this->sanitizer->alphanumericPunc($address->getCity(), 50),
+            'administrativeArea' => $this->sanitizer->alphanumericPunc(
+                strtoupper((string)$address->getRegion()?->getRegionCode()),
+                20
+            ),
+            'postalCode' => $this->sanitizer->postcode($address->getPostcode(), (string)$address->getCountryId()),
+            'country' => $this->sanitizer->alpha(strtoupper((string)$address->getCountryId()), 2),
+            'email' => $cleanEmail,
+            'phoneNumber' => $this->sanitizer->phone($address->getTelephone(), 15),
+        ], static fn($value): bool => $value !== null && $value !== '');
     }
 
     /**

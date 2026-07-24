@@ -79,6 +79,14 @@ class Frontend extends CaptureContext
     protected function getAmount(): ?string
     {
         try {
+            // The customer card-management forms post source=paymentinfo: always a tokenization-only
+            // (no-amount) context, even when the customer happens to have an active cart in session —
+            // otherwise the add/edit-card drop-in would render as a checkout (PAY button, DM/3DS
+            // completeMandate) priced at the unrelated cart total.
+            if ($this->request->getParam('source') === 'paymentinfo') {
+                return null;
+            }
+
             if (!$this->checkoutSession->getQuoteId()) {
                 return null;
             }

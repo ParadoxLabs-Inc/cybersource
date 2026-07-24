@@ -123,16 +123,41 @@ class BackendTest extends TestCase
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
+    public function testBuildRequestIgnoresOrderCreateQuoteForPaymentinfoSource(): void
+    {
+        // Admin customer card management (source=paymentinfo) while an order-create quote is open
+        // in the same session: still a zero-amount tokenization-only context.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+        $this->requestMock->method('getParam')->willReturnMap([
+            ['source', null, 'paymentinfo'],
+        ]);
+
+        $billingAddress = $this->makeQuoteBillingAddress();
+        $quote = $this->makeQuote(57.0, 'CAD', $billingAddress);
+        $quote->method('getStoreId')->willReturn(1);
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(99);
+        $this->backendSessionMock->method('getQuote')->willReturn($quote);
+
+        $result = $this->makeHandler([])->buildRequest()->toArray();
+
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('SAVE_CARD', $result['buttonType']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
+    }
+
     public function testBuildRequestBillingOnlyWithStoreDefaultCurrencyWhenNoQuote(): void
     {
-        // Admin add-card: no order-create quote in session, so no amount node and store-default
-        // currency is never emitted. billTo falls through to empty; email from current customer.
+        // Admin add-card: no order-create quote in session -> tokenization-only context. UC demands
+        // a positive totalAmount, so the 0.01 minimum is sent (store-default currency) and
+        // completeMandate is omitted.
         $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
         $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(null);
 
         $result = $this->makeHandler([])->buildRequest()->toArray();
 
-        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
         // Admin add-card pane: SAVE_CARD button, review step suppressed.

@@ -115,6 +115,35 @@ class FrontendTest extends TestCase
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
     }
 
+    public function testBuildRequestIgnoresActiveCartForPaymentinfoSource(): void
+    {
+        // Customer card management (source=paymentinfo) with an unrelated active cart in session:
+        // still a zero-amount tokenization-only context — never priced at the cart total.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+        $this->requestMock->method('getParam')->willReturnMap([
+            ['source', null, 'paymentinfo'],
+        ]);
+        // The currency path still reads the quote (base currency is the same either way); only
+        // the amount must ignore it.
+        $quote = $this->getMockBuilder(Quote::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getData'])
+            ->getMock();
+        $quote->method('getData')->willReturnMap([
+            ['base_grand_total', null, 24.0],
+            ['base_currency_code', null, 'USD'],
+        ]);
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(99);
+        $this->checkoutSessionMock->method('getQuote')->willReturn($quote);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(false);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('SAVE_CARD', $result['buttonType']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
+    }
+
     public function testBuildRequestBillingOnlyWhenNoQuote(): void
     {
         $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
@@ -123,8 +152,11 @@ class FrontendTest extends TestCase
 
         $result = $this->handler->buildRequest()->toArray();
 
-        // No quote -> no amount; billingType still set; store-default currency unused (no amount node).
-        $this->assertArrayNotHasKey('orderInformation', $result);
+        // No quote -> tokenization-only context: UC demands a positive totalAmount, so the 0.01
+        // minimum is sent (store-default currency) and completeMandate is omitted; billingType still set.
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         $this->assertSame('US', $result['country']);
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);

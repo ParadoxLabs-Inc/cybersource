@@ -225,6 +225,39 @@ class PaymentMethodAssignDataObserverTest extends TestCase
         $this->assertSame(42, $this->paymentMock->getData('tokenbase_id'));
     }
 
+    public function testExecuteStripsCardIdOnPaymentinfoEditTokenSubmit(): void
+    {
+        // Paymentinfo edit-card is the one legitimate token+card_id combination: the Save controllers
+        // post the edited card's hash alongside the fresh UC token that replaces it. The card identity
+        // belongs to those controllers — if card_id were mapped onto the payment here, the StoredCard
+        // validator would treat the submit as a stored-card charge and (with require_ccv) demand a CVV
+        // the UC drop-in already collected. The observer must strip card_id so the token alone
+        // represents the entry, and never load the card.
+        $this->paymentMock->setData('tokenbase_source', 'paymentinfo');
+
+        $this->cardRepositoryMock->expects($this->never())
+            ->method('getByHash');
+        $this->cardRepositoryMock->expects($this->never())
+            ->method('getById');
+
+        $data = new DataObject([
+            'method' => 'paradoxlabs_cybersource',
+            'additional_data' => [
+                'transient_token' => 'eyJraWQiOiJ0ZXN0In0.payload.sig',
+                'card_id' => '95fcbee669b6451876ba9d425196df6c',
+            ],
+        ]);
+
+        $this->observer->execute($this->createEventObserver($data));
+
+        $this->assertFalse($data->hasData('card_id'));
+        $this->assertNull($this->paymentMock->getData('tokenbase_id'));
+        $this->assertSame(
+            'eyJraWQiOiJ0ZXN0In0.payload.sig',
+            $this->additionalInformation['transient_token'] ?? null
+        );
+    }
+
     public function testExecuteClearsStaleQuoteTokenbaseIdOnNewCardSubmit(): void
     {
         // A customer's persistent quote can carry a tokenbase_id set by a prior attempt (stored-card

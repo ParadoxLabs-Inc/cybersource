@@ -81,6 +81,18 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
             $payment->setAdditionalInformation('transient_token', $token);
 
             /**
+             * Paymentinfo edit-card is the one legitimate token+card_id combination: the Save
+             * controllers post the edited card's hash alongside the fresh UC token that REPLACES it.
+             * The card identity belongs to those controllers (loaded and ownership-checked there) —
+             * mapping card_id onto the payment here would make the StoredCard validator treat the
+             * submit as a stored-card CHARGE and demand a CVV (require_ccv) that the UC drop-in
+             * already collected inside its iframe. Strip it so the token alone represents the entry.
+             */
+            if ($payment->getData('tokenbase_source') === 'paymentinfo') {
+                $data->unsetData('card_id');
+            }
+
+            /**
              * The mirror of the stale-token case below: a customer's persistent quote can carry a
              * tokenbase_id from a prior assign (stored-card selection, or an earlier failed attempt).
              * With no card_id in this submit, the parent's tokenbase_id fallback would reload that

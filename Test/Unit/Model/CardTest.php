@@ -75,6 +75,24 @@ class CardTest extends TestCase
         $cardContext = $this->createMock(CardContext::class);
         $cardContext->method('getHelper')->willReturn($this->createMock(Data::class));
 
+        // exchangeTransientToken() passes the card's billing address (getAddressObject) into
+        // tokenizeCard; the parent builds it via these two context factories, whose untyped getters
+        // would otherwise return null from the context mock.
+        $addressFactory = $this->getMockBuilder(\Magento\Customer\Api\Data\AddressInterfaceFactory::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['create'])
+            ->getMock();
+        $addressFactory->method('create')
+            ->willReturnCallback(fn() => $this->createMock(\Magento\Customer\Api\Data\AddressInterface::class));
+        $regionFactory = $this->getMockBuilder(\Magento\Customer\Api\Data\RegionInterfaceFactory::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['create'])
+            ->getMock();
+        $regionFactory->method('create')
+            ->willReturnCallback(fn() => $this->createMock(\Magento\Customer\Api\Data\RegionInterface::class));
+        $cardContext->method('getAddressFactory')->willReturn($addressFactory);
+        $cardContext->method('getAddressRegionFactory')->willReturn($regionFactory);
+
         $this->card = new Card(
             $context,
             $this->createMock(Registry::class),

@@ -217,15 +217,20 @@ class CaptureContextTest extends TestCase
         $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
     }
 
-    public function testBuildRequestOmitsAmountForBillingOnlyContext(): void
+    public function testBuildRequestSendsMinimumAmountForBillingOnlyContext(): void
     {
         $this->handler->amount = null;
         $this->handler->billTo = ['firstName' => 'Jane', 'country' => 'US'];
 
         $result = $this->handler->buildRequest()->toArray();
 
-        $this->assertArrayNotHasKey('amountDetails', $result['orderInformation'] ?? []);
+        // UC requires a POSITIVE totalAmount on every capture context (zero and omission both 400,
+        // sandbox-bisected 2026-07-24): no-amount add-card contexts send the 0.01 minimum and omit
+        // completeMandate, so nothing can ever be charged against the context.
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
         $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
         // billingType still set for the no-amount add-card case.
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
     }

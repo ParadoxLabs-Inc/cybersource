@@ -40,9 +40,10 @@ define([
 
     // ---------------------------------------------------------------------------------------------
     // Iter-3 additional_data contract (shared with the KO renderer):
-    //   New card  => transient_token = <UC transient-token JWT>, card_id empty/absent.
-    // This is a dedicated add-card form (no stored-card select); handleTransientToken() strips the
-    // card_id field before submit so only the transient_token represents the new card.
+    //   New card  => transient_token = <UC transient-token JWT>, card identity empty/absent.
+    // This form has no stored-card select; the card-identity hidden field (frontend "id" / admin
+    // "card_id", the card hash) is empty on add-card and set on edit-card, and is posted as-is —
+    // the Save controllers key add-vs-edit(replace) on it.
     // ---------------------------------------------------------------------------------------------
 
     $.widget('mage.cybersourcePaymentInfoForm', {
@@ -413,9 +414,10 @@ define([
          *
          * The form posts to the TokenBase paymentinfo save controller, which exchanges the transient
          * token for a vault card (via Card::beforeSave) and performs its own redirect + success/error
-         * message. We always submit here; the dedicated add-card form carries no stored-card select, so
-         * the card_id field is stripped before submit to leave only the transient_token representing the
-         * new card.
+         * message. We always submit here. The card-identity field (frontend "id" / admin "card_id",
+         * the card hash) is posted AS-IS: empty on add-card, set on edit-card — the Save controllers
+         * key the add-vs-edit(replace) decision on it, so it must never be stripped (stripping it
+         * made every edit save a new card instead of replacing the one being edited).
          */
         handleTransientToken: function (transientTokenJwt) {
             if (!transientTokenJwt) {
@@ -429,7 +431,6 @@ define([
             // but leaving live timers behind that could empty the containers is needless.
             this.clearTimers();
 
-            this.element.find('input[name=card_id]').attr('name', '');
             this.element.submit();
         },
 

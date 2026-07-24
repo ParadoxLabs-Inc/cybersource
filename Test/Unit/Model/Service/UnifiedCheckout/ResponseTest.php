@@ -381,6 +381,46 @@ class ResponseTest extends TestCase
         $this->assertSame('78701', $this->sentBody['orderInformation']['billTo']['postalCode']);
     }
 
+    public function testZeroDollarTokenizeUsesSuppliedCardAddressForBillTo(): void
+    {
+        $this->primeRest(['id' => 'TKN', 'status' => 'AUTHORIZED']);
+
+        // The paymentinfo add/edit flows have no order: the card's own customer-address is passed in
+        // and MUST become the billTo (CyberSource rejects a billTo-less $0 auth with MISSING_FIELD).
+        $region = $this->createMock(\Magento\Customer\Api\Data\RegionInterface::class);
+        $region->method('getRegionCode')->willReturn('PA');
+
+        $cardAddress = $this->createMock(\Magento\Customer\Api\Data\AddressInterface::class);
+        $cardAddress->method('getFirstname')->willReturn('Ryan');
+        $cardAddress->method('getLastname')->willReturn('Hoerr');
+        $cardAddress->method('getStreet')->willReturn(['8 N Queen St', '9th Floor']);
+        $cardAddress->method('getCity')->willReturn('Lancaster');
+        $cardAddress->method('getRegion')->willReturn($region);
+        $cardAddress->method('getPostcode')->willReturn('17603');
+        $cardAddress->method('getCountryId')->willReturn('US');
+        $cardAddress->method('getTelephone')->willReturn('7174313330');
+
+        // Order-less payment: without the supplied address, billTo would fall back to nothing.
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getAdditionalInformation')
+            ->willReturnCallback(
+                static fn(?string $key = null) => $key === 'transient_token' ? 'add.card.jwt' : null
+            );
+
+        $this->service->tokenizeCard($payment, 'USD', 1, $cardAddress, 'ryan@example.com');
+
+        $billTo = $this->sentBody['orderInformation']['billTo'];
+        $this->assertSame('Ryan', $billTo['firstName']);
+        $this->assertSame('8 N Queen St', $billTo['address1']);
+        $this->assertSame('9th Floor', $billTo['address2']);
+        $this->assertSame('Lancaster', $billTo['locality']);
+        $this->assertSame('PA', $billTo['administrativeArea']);
+        $this->assertSame('17603', $billTo['postalCode']);
+        $this->assertSame('US', $billTo['country']);
+        $this->assertSame('ryan@example.com', $billTo['email']);
+        $this->assertSame('7174313330', $billTo['phoneNumber']);
+    }
+
     public function testZeroDollarTokenizeOmitsBillToWhenNoBillingAddress(): void
     {
         $this->primeRest(['id' => 'TKN', 'status' => 'AUTHORIZED']);

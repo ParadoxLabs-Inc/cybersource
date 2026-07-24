@@ -112,14 +112,21 @@ abstract class CaptureContext
             ->setRequestEmail(false)
             ->setRequestPhone(false)
             ->setRequestShipping(false)
-            ->setCompleteMandateType($this->config->getUcCompleteMandateType($storeId))
-            ->setDecisionManager($this->config->isDecisionManagerEnabled($storeId))
-            ->setConsumerAuthentication($this->config->is3dsEnabled($storeId))
             // Always request the 8-digit card prefix in the transient token; the decoded BIN feeds
             // the cc_bin card metadata (TransientTokenReader / client-side selector label).
             ->setIncludeCardPrefix(true);
 
         $amount = $this->getAmount();
+
+        // completeMandate (UC running DM -> payer auth -> auth/capture itself) only makes sense with a
+        // payable amount: UC rejects a mandated CAPTURE of 0.00 as "Invalid total amount". The no-amount
+        // add-card contexts are tokenization-only — the drop-in just returns a transient token and the
+        // server runs its own $0 exchange auth — so the mandate (and its DM/3DS flags) is omitted there.
+        if ($amount !== null) {
+            $request->setCompleteMandateType($this->config->getUcCompleteMandateType($storeId))
+                ->setDecisionManager($this->config->isDecisionManagerEnabled($storeId))
+                ->setConsumerAuthentication($this->config->is3dsEnabled($storeId));
+        }
 
         // Pane behavior. A no-amount context is add-card (customer payment-info / admin card
         // management — every subclass returns null there): SAVE_CARD button, no confirmation step,
@@ -144,11 +151,22 @@ abstract class CaptureContext
                 ->setButtonType('CHECKOUT_AND_CONTINUE');
         }
 
-        if ($amount !== null) {
-            // UC expects a fixed 2-decimal string (e.g. "24.00"); Sanitizer::amount() returns a float.
-            $request->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
-                ->setCurrency($this->sanitizer->alpha($this->getCurrencyCode(), 3));
-        }
+        // UC requires orderInformation.amountDetails with a POSITIVE totalAmount on EVERY capture
+        // context — including tokenization-only ones. Bisected against the sandbox 2026-07-24
+        // (spike probe uc-savecard-amount-probe.php): omit orderInformation -> 400 "$.data: is
+        // missing but it is required"; billTo without amountDetails -> 400 "amountDetails ... is
+        // required"; totalAmount 0/0.00 -> 400 "Invalid total amount" in every shape; 0.01 -> 201.
+        // All of those 400s surfaced as a generic "transaction was declined" on the card-management
+        // forms. So the no-amount add-card contexts send the 0.01 minimum — nothing is ever charged
+        // at that amount: these contexts carry no completeMandate (above), the drop-in only mints a
+        // transient token, and the server-side exchange runs its own $0 auth.
+        // UC expects a fixed 2-decimal string (e.g. "24.00"); Sanitizer::amount() returns a float.
+        $request->setTotalAmount(
+            $amount !== null
+                ? number_format((float)$this->sanitizer->amount($amount), 2, '.', '')
+                : '0.01'
+        );
+        $request->setCurrency($this->sanitizer->alpha($this->getCurrencyCode(), 3));
 
         $request->setBillTo($billTo);
 

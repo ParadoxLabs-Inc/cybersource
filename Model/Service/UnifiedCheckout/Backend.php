@@ -93,6 +93,14 @@ class Backend extends CaptureContext
     protected function getAmount(): ?string
     {
         try {
+            // The admin customer card-management form posts source=paymentinfo: always a
+            // tokenization-only (no-amount) context, even when the admin also has an order-create
+            // quote open in the same session — otherwise the add/edit-card drop-in would price
+            // itself at that unrelated order's total.
+            if ($this->request->getParam('source') === 'paymentinfo') {
+                return null;
+            }
+
             if (!$this->backendSession->getQuoteId()) {
                 return null;
             }

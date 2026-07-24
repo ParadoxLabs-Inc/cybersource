@@ -138,7 +138,9 @@ class GraphQLTest extends TestCase
 
     public function testBuildRequestBillingOnlyWhenNoCartId(): void
     {
-        // Headless add-card: no cartId -> no cart lookup, no amount node, currency from store.
+        // Headless add-card: no cartId -> no cart lookup; tokenization-only context. UC demands a
+        // positive totalAmount, so the 0.01 minimum is sent (store currency) and completeMandate
+        // is omitted.
         $this->graphQLHelperMock->expects($this->never())->method('getQuote');
 
         $handler = $this->makeHandler([]);
@@ -146,7 +148,9 @@ class GraphQLTest extends TestCase
 
         $result = $handler->buildRequest()->toArray();
 
-        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
         // UC save-card checkbox is never requested; the module payment[save] checkbox governs vaulting.
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);

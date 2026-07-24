@@ -165,7 +165,16 @@ class Card extends \ParadoxLabs\TokenBase\Model\Card
         $storeId      = (int)$store->getId();
         $currencyCode = (string)$store->getBaseCurrencyCode();
 
-        $gatewayResponse = $this->ucResponse->tokenizeCard($payment, $currencyCode, $storeId);
+        // The card's own billing address rides along for the $0 auth's billTo: these flows have no
+        // order to derive one from, and CyberSource rejects a billTo-less $0 auth (MISSING_FIELD).
+        // The Save controllers/repository set the address before save, so it is populated here.
+        $gatewayResponse = $this->ucResponse->tokenizeCard(
+            $payment,
+            $currencyCode,
+            $storeId,
+            $this->getAddressObject(),
+            (string)$this->getCustomerEmail() ?: null,
+        );
 
         // CardBuilder replaces (not merges) the gateway ids + metadata, so on a REPLACE the card now points
         // at the newly entered instrument. On a token-less reply it leaves the ids untouched and flags the
