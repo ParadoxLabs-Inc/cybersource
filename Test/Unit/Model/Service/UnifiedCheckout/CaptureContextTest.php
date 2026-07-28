@@ -87,10 +87,12 @@ class CaptureContextTest extends TestCase
     }
 
     /**
-     * With auto-place on, UC's own review step is redundant (the drop-in button submits the
-     * order): suppress it and label the button PAY. The BIN is always requested in the token.
+     * The review step is off unless the merchant asks for it, independently of auto-place. With
+     * auto-place on the final click places the order, so the button is labeled PAY — inert while
+     * the step is off, since UC only ever renders buttonType on that screen. The BIN is always
+     * requested in the token.
      */
-    public function testBuildRequestWithAutoPlaceSuppressesConfirmationStepAndUsesPayButton(): void
+    public function testBuildRequestWithAutoPlaceSuppressesReviewStepAndUsesPayButton(): void
     {
         $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
 
@@ -102,27 +104,44 @@ class CaptureContextTest extends TestCase
     }
 
     /**
-     * With auto-place off, keep UC's review step and hand back to the Place Order button.
+     * With auto-place off the final click hands back to Magento's Place Order button, so the label
+     * is CHECKOUT_AND_CONTINUE. The review step still stays off by default.
      */
-    public function testBuildRequestWithoutAutoPlaceKeepsConfirmationStepAndContinueButton(): void
+    public function testBuildRequestWithoutAutoPlaceSuppressesReviewStepAndUsesContinueButton(): void
     {
         $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(false);
 
         $result = $this->handler->buildRequest()->toArray();
 
-        $this->assertTrue($result['captureMandate']['showConfirmationStep']);
+        $this->assertFalse($result['captureMandate']['showConfirmationStep']);
         $this->assertSame('CHECKOUT_AND_CONTINUE', $result['buttonType']);
         $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
     }
 
     /**
+     * A merchant who turns the review step on gets it at customer checkout, which is also the only
+     * place the buttonType label surfaces.
+     */
+    public function testBuildRequestWithReviewStepEnabledKeepsConfirmationStep(): void
+    {
+        $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
+        $this->configMock->method('isUcReviewStepEnabled')->willReturn(true);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertTrue($result['captureMandate']['showConfirmationStep']);
+        $this->assertSame('PAY', $result['buttonType']);
+    }
+
+    /**
      * A no-amount context is add-card (customer payment-info / admin card management): SAVE_CARD
      * button with the confirmation step suppressed (both surfaces submit right after tokenization,
-     * so UC's review pane is a pure extra click), regardless of the auto-place config.
+     * so UC's review pane is a pure extra click), regardless of the auto-place or review-step config.
      */
     public function testBuildRequestForAddCardContextUsesSaveCardButtonNotAutoPlaceMapping(): void
     {
         $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
+        $this->configMock->method('isUcReviewStepEnabled')->willReturn(true);
         $this->handler->amount = null;
 
         $result = $this->handler->buildRequest()->toArray();
@@ -136,11 +155,12 @@ class CaptureContextTest extends TestCase
      * A with-amount context that is not a customer checkout (admin order create) only tokenizes —
      * the admin reviews and submits the order themselves — so PAY would be a mislabel and UC's
      * review step redundant: CARD_PAYMENT button, confirmation step suppressed, regardless of
-     * the auto-place config.
+     * the auto-place or review-step config.
      */
     public function testBuildRequestForNonCustomerCheckoutUsesCardPaymentWithoutConfirmationStep(): void
     {
         $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn(true);
+        $this->configMock->method('isUcReviewStepEnabled')->willReturn(true);
         $this->handler->customerCheckout = false;
 
         $result = $this->handler->buildRequest()->toArray();

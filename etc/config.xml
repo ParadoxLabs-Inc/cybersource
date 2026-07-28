@@ -23,6 +23,7 @@
                 <uc_3ds>0</uc_3ds>
                 <uc_decision_manager>0</uc_decision_manager>
                 <uc_auto_place_order>1</uc_auto_place_order>
+                <uc_review_step>0</uc_review_step>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
                 <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
                 <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>

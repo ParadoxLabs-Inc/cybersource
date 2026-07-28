@@ -152,6 +152,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, completing card entry (or a wallet confirmation) in the payment form places the order immediately, with no separate Place Order click. Terms and conditions and other checkout validations still apply; if any fail, the order is not placed and the customer uses the normal Place Order button.</comment>
                 </field>
+                <field id="uc_review_step" translate="label comment" type="select" sortOrder="256" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Review Step</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, CyberSource shows its own review screen after card entry, before handing back to checkout. Off by default: it repeats details the customer just entered. Turn it on if you want the final click labeled ('Pay' when placing the order automatically, otherwise 'Confirm and Continue') — the card entry form's own button always reads 'Continue' and cannot be relabeled.</comment>
+                </field>
                 <field id="order_status" translate="label comment" type="select" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>New Order Status</label>
                     <source_model>ParadoxLabs\TokenBase\Model\Source\OrderStatus</source_model>

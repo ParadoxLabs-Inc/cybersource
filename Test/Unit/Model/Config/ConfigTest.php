@@ -221,6 +221,29 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @dataProvider ucReviewStepDataProvider
+     */
+    #[DataProvider('ucReviewStepDataProvider')]
+    public function testIsUcReviewStepEnabled(?string $configValue, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/uc_review_step', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($configValue);
+
+        $this->assertSame($expected, $this->config->isUcReviewStepEnabled());
+    }
+
+    public static function ucReviewStepDataProvider(): array
+    {
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            // Unset must read as off: the field defaults to 0 and an absent value is not consent.
+            'unset' => [null, false],
+        ];
+    }
+
+    /**
      * The uc_billing_type fallback must agree with the config.xml default (NONE): an empty stored
      * value and an unconfigured install have to produce the same drop-in.
      */

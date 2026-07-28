@@ -439,6 +439,25 @@ class Config
     }
 
     /**
+     * Whether to keep Unified Checkout's own review screen after card entry, at customer checkout.
+     *
+     * Off by default: it repeats details the customer just typed, and Magento's own review step
+     * follows it either way. It is the only place UC applies the buttonType label, though, so a
+     * merchant who wants the last click before an auto-placed order to read something other than
+     * the card form's fixed "Continue" turns this on.
+     *
+     * Typed, unlike its older neighbours: buildRequest() feeds this straight into the request tree,
+     * where a null would be filtered out of the payload instead of sent as an explicit false.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isUcReviewStepEnabled(?int $storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('uc_review_step', $storeId);
+    }
+
+    /**
      * Map the Magento payment_action to the UC completeMandate type.
      *
      * authorize -> AUTH, authorize_capture -> CAPTURE; anything else defaults to AUTH.

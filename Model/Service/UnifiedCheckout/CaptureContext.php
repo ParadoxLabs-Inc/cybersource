@@ -133,22 +133,24 @@ abstract class CaptureContext
         // since both surfaces submit the form right after tokenization and UC's review pane would
         // be a pure extra click. With an amount, admin order create (not a customer checkout) only
         // tokenizes — the admin reviews the whole order and clicks Submit Order themselves — so it
-        // gets the neutral CARD_PAYMENT label with UC's redundant review step suppressed. At
-        // customer checkout the auto-place config decides: on, UC's own review step is redundant
-        // (the drop-in button submits the order), so suppress it and label the button PAY; off,
-        // keep the review step and hand back to Place Order.
+        // gets the neutral CARD_PAYMENT label with UC's redundant review step suppressed.
+        //
+        // At customer checkout the merchant chooses (uc_review_step, off by default). buttonType is
+        // still set either way but only ever renders on that review screen — UC gives the card entry
+        // form a fixed "Continue" and ignores buttonType there — so with the step off the label is
+        // inert. It tracks auto-place because that decides what the final click actually does: place
+        // the order (PAY), or hand back to Magento's Place Order (CHECKOUT_AND_CONTINUE).
         if ($amount === null) {
             $request->setShowConfirmationStep(false)
                 ->setButtonType('SAVE_CARD');
         } elseif (!$this->isCustomerCheckout()) {
             $request->setShowConfirmationStep(false)
                 ->setButtonType('CARD_PAYMENT');
-        } elseif ($this->config->isUcAutoPlaceOrderEnabled($storeId)) {
-            $request->setShowConfirmationStep(false)
-                ->setButtonType('PAY');
         } else {
-            $request->setShowConfirmationStep(true)
-                ->setButtonType('CHECKOUT_AND_CONTINUE');
+            $request->setShowConfirmationStep($this->config->isUcReviewStepEnabled($storeId))
+                ->setButtonType(
+                    $this->config->isUcAutoPlaceOrderEnabled($storeId) ? 'PAY' : 'CHECKOUT_AND_CONTINUE'
+                );
         }
 
         // UC requires orderInformation.amountDetails with a POSITIVE totalAmount on EVERY capture
