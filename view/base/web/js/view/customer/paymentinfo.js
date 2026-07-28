@@ -122,7 +122,7 @@ define([
             }
 
             this.element.find(this.options.tokenSelector).val('');
-            ucClient.releaseHeightRatchet(this.element.find('.unified-checkout-selection'));
+            ucClient.releaseMountObservers(this.element.find('.unified-checkout-selection'));
             this.element.find('.unified-checkout-selection').empty();
             this.element.find('.unified-checkout-screen').empty();
 

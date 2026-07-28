@@ -712,7 +712,7 @@ define(
 
                 this.lastGrandTotal = null;
 
-                ucClient.releaseHeightRatchet('#' + this.getCode() + '_uc_selection');
+                ucClient.releaseMountObservers('#' + this.getCode() + '_uc_selection');
                 $('#' + this.getCode() + '_uc_selection').empty();
                 $('#' + this.getCode() + '_uc_screen').empty();
 
