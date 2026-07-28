@@ -37,6 +37,9 @@ define([
     var EXPIRY_MARGIN_MS = 60 * 1000;
     // Floor on any expiry-driven delay; see getRefreshDelay() for why zero is unsafe.
     var MIN_EXPIRY_DELAY_MS = 30 * 1000;
+    // Ceiling on the height floor ratchetHeight() will hold, as a backstop against a pathological
+    // grow-measure-grow cycle. UC's tallest screens land well under this.
+    var MAX_RATCHET_PX = 1000;
     // CyberSource numeric card-type codes -> Magento type code + display brand. Must agree with the
     // server-side map in Model/Source/CardType, which remains authoritative for the stored cc_type.
     var CARD_TYPES = {
@@ -307,6 +310,9 @@ define([
         mountUnifiedPayments: function (captureContext, selectionSelector, screenSelector) {
             var accept = typeof this._accept === 'function' ? this._accept : window.Accept;
 
+            // Idempotent, and armed before the mount so the very first screen sets the floor.
+            this.ratchetHeight(selectionSelector, screenSelector);
+
             return accept(captureContext)
                 .then(function (acceptInstance) {
                     // false = embedded layout (sidebar rejects the paymentScreen container)
@@ -339,6 +345,79 @@ define([
             }
 
             return !$container.is(':visible') || $container.height() > 0;
+        },
+
+        /**
+         * Hold the drop-in's wrapper at the tallest height its mount containers have reached.
+         *
+         * UC clears its containers between steps (payment selection -> card form -> review) and paints
+         * the next screen a frame or more later, so the drop-in momentarily collapses to near zero and
+         * everything below it — the save checkbox, agreements, Place Order — jumps up and back down on
+         * every transition. A ratcheted min-height absorbs the collapse. Growth is left alone: UC
+         * animates its own expansion, and clamping that would fight it.
+         *
+         * The floor goes on the wrapper, never on the mount containers themselves: isContainerHealthy()
+         * reads the screen container's own height to catch a UC iframe that attached at 0x0, and a
+         * min-height there would make every dead mount measure as healthy.
+         *
+         * Heights are measured off the containers rather than the wrapper being written to. Observing
+         * an element whose min-height we set invites a feedback loop wherever the measurement and the
+         * min-height disagree on box model, each pass ratcheting up by the padding.
+         *
+         * No-op without ResizeObserver — the drop-in just keeps bouncing, as it does today.
+         *
+         * @param {String|jQuery|HTMLElement} selection - paymentSelection container
+         * @param {String|jQuery|HTMLElement} screen - paymentScreen container
+         */
+        ratchetHeight: function (selection, screen) {
+            var containers = $(selection).add($(screen));
+            var wrapper = containers.first().parent()[0];
+
+            if (typeof window.ResizeObserver !== 'function'
+                || containers.length === 0
+                || wrapper === undefined
+                || wrapper.pdlUcRatchet !== undefined) {
+                return;
+            }
+
+            var peak = 0;
+            var observer = new window.ResizeObserver(function () {
+                var height = 0;
+
+                containers.each(function () {
+                    height += this.offsetHeight;
+                });
+
+                if (height > peak) {
+                    peak = Math.min(height, MAX_RATCHET_PX);
+                    wrapper.style.minHeight = peak + 'px';
+                }
+            });
+
+            containers.each(function () {
+                observer.observe(this);
+            });
+
+            wrapper.pdlUcRatchet = observer;
+        },
+
+        /**
+         * Drop the height floor and stop observing. Callers invoke this while tearing a mount down, so
+         * that a re-mount — or an error message rendered where the drop-in was — does not inherit the
+         * discarded drop-in's height.
+         *
+         * @param {String|jQuery|HTMLElement} selection - paymentSelection container
+         */
+        releaseHeightRatchet: function (selection) {
+            var wrapper = $(selection).parent()[0];
+
+            if (wrapper === undefined || wrapper.pdlUcRatchet === undefined) {
+                return;
+            }
+
+            wrapper.pdlUcRatchet.disconnect();
+            delete wrapper.pdlUcRatchet;
+            wrapper.style.minHeight = '';
         },
 
         /**
