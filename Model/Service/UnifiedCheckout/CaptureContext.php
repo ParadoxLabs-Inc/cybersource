@@ -118,6 +118,16 @@ abstract class CaptureContext
 
         $amount = $this->getAmount();
 
+        // A non-positive total (100%-off coupon, free trial, zero-priced item) is not payable, and
+        // UC rejects totalAmount 0/0.00 outright (bisect note below) — so a $0 checkout could never
+        // render the drop-in at all. It still has to collect and vault a card, and the server runs
+        // its own $0 exchange auth, which is exactly what the no-amount add-card contexts do. So a
+        // non-positive amount degrades to that same tokenization-only context: normalizing it to
+        // null here keeps a single code path for every decision below.
+        if ($amount !== null && (float)$amount <= 0.0) {
+            $amount = null;
+        }
+
         // completeMandate (UC running DM -> payer auth -> auth/capture itself) only makes sense with a
         // payable amount: UC rejects a mandated CAPTURE of 0.00 as "Invalid total amount". The no-amount
         // add-card contexts are tokenization-only — the drop-in just returns a transient token and the
@@ -129,9 +139,10 @@ abstract class CaptureContext
         }
 
         // Pane behavior. A no-amount context is add-card (customer payment-info / admin card
-        // management — every subclass returns null there): SAVE_CARD button, no confirmation step,
-        // since both surfaces submit the form right after tokenization and UC's review pane would
-        // be a pure extra click. With an amount, admin order create (not a customer checkout) only
+        // management — every subclass returns null there) or a $0 checkout normalized above:
+        // SAVE_CARD button, no confirmation step, since those surfaces submit the form right after
+        // tokenization and UC's review pane would be a pure extra click — and at $0 it would price
+        // the review at the 0.01 placeholder below. With an amount, admin order create (not a customer checkout) only
         // tokenizes — the admin reviews the whole order and clicks Submit Order themselves — so it
         // gets the neutral CARD_PAYMENT label with UC's redundant review step suppressed.
         //
@@ -159,7 +170,8 @@ abstract class CaptureContext
         // missing but it is required"; billTo without amountDetails -> 400 "amountDetails ... is
         // required"; totalAmount 0/0.00 -> 400 "Invalid total amount" in every shape; 0.01 -> 201.
         // All of those 400s surfaced as a generic "transaction was declined" on the card-management
-        // forms. So the no-amount add-card contexts send the 0.01 minimum — nothing is ever charged
+        // forms. So the no-amount contexts (add-card, and $0 checkouts normalized above) send the
+        // 0.01 minimum — nothing is ever charged
         // at that amount: these contexts carry no completeMandate (above), the drop-in only mints a
         // transient token, and the server-side exchange runs its own $0 auth.
         // UC expects a fixed 2-decimal string (e.g. "24.00"); Sanitizer::amount() returns a float.

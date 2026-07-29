@@ -256,27 +256,19 @@ class CaptureContextTest extends TestCase
     }
 
     /**
-     * DEFECT DOCUMENTATION (Bug B) -- INVERT THIS TEST WHEN THE DEFECT IS FIXED.
+     * REGRESSION (Bug B, fixed): a $0 cart degrades to the tokenization-only context.
      *
-     * A $0 cart (100%-off coupon, free trial, zero-priced configurable) is NOT the same thing as the
-     * no-amount add-card context. Frontend::getAmount()/Backend::getAmount() return null only for
-     * source=paymentinfo or a missing quote; a real quote whose base_grand_total is 0.0 yields the
-     * string "0", which is NOT null -- so CaptureContext::buildRequest()
-     * (Model/Service/UnifiedCheckout/CaptureContext.php:120-172) takes the "has an amount" branch:
+     * A $0 cart (100%-off coupon, free trial, zero-priced configurable) is not the add-card case:
+     * Frontend::getAmount()/Backend::getAmount() return null only for source=paymentinfo or a
+     * missing quote, so a real quote whose base_grand_total is 0.0 yields the non-null string "0".
+     * UC rejects totalAmount 0/0.00 with a 400 "Invalid total amount" in every shape (sandbox
+     * bisect, CaptureContext.php in-file note), which surfaced as a generic decline and left the
+     * drop-in unable to render at all.
      *
-     *  - the 0.01 minimum fallback is skipped, because it is guarded on `$amount === null` (:167-171),
-     *    and totalAmount goes out as "0.00";
-     *  - completeMandate (with its DM/3DS flags) is attached, because that too is guarded on
-     *    `$amount !== null` (:126).
-     *
-     * The in-file comment at :160-166 documents the sandbox bisect: totalAmount 0/0.00 is rejected by
-     * Unified Checkout with a 400 "Invalid total amount" in every shape, which surfaces to the shopper
-     * as a generic "transaction was declined". So a $0 cart cannot render the drop-in at all.
-     *
-     * This test pins the CURRENT (wrong) behavior so the suite proves the diagnosis. The companion
-     * skipped test below states what SHOULD happen.
+     * buildRequest() now normalizes a non-positive amount to null, so it takes the same
+     * tokenization-only path as add-card: the 0.01 minimum UC accepts, and no completeMandate.
      */
-    public function testBuildRequestForZeroAmountSendsUnpayableZeroTotal(): void
+    public function testBuildRequestForZeroAmountFallsBackToTokenizationOnlyContext(): void
     {
         // What a $0 quote produces: getAmount() returns the string "0", never null.
         $this->handler->amount = '0';
@@ -284,39 +276,20 @@ class CaptureContextTest extends TestCase
 
         $result = $this->handler->buildRequest()->toArray();
 
-        // DEFECT: "0.00" is rejected by UC with 400 "Invalid total amount"; the 0.01 fallback
-        // never fires because it is guarded on `$amount === null`, and "0" is not null.
-        $this->assertSame('0.00', $result['orderInformation']['amountDetails']['totalAmount']);
-        // DEFECT: a mandate is attached to an amount UC will not accept -- the add-card contexts
-        // deliberately omit it for exactly this reason.
-        $this->assertArrayHasKey('completeMandate', $result);
-        $this->assertSame('AUTH', $result['completeMandate']['type']);
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        // Nothing can be charged against a context with no mandate; the server runs its own $0
+        // exchange auth after the drop-in returns the transient token.
+        $this->assertArrayNotHasKey('completeMandate', $result);
+        $this->assertSame('SAVE_CARD', $result['buttonType']);
     }
 
     /**
-     * CORRECT BEHAVIOR (Bug B) -- unskip when CaptureContext handles a $0 amount.
-     *
-     * A $0 order still needs a card: the drop-in must render, mint a transient token, and let the
-     * server run its own $0 exchange. That is precisely the tokenization-only shape the no-amount
-     * add-card contexts already use, so a zero amount should degrade to it -- send the 0.01 minimum
-     * that UC accepts, and omit completeMandate so nothing can be charged against the context.
-     *
-     * The fix belongs in CaptureContext::buildRequest(): treat a non-positive amount the same as
-     * null at both guards (:126 completeMandate, :167-171 totalAmount fallback), rather than only
-     * testing `=== null`.
+     * A negative total cannot occur through Magento's totals, but must never build a payable
+     * context if it somehow does.
      */
-    public function testBuildRequestForZeroAmountShouldFallBackToTokenizationOnlyContext(): void
+    public function testBuildRequestForNegativeAmountFallsBackToTokenizationOnlyContext(): void
     {
-        $this->markTestSkipped(
-            'Bug B: CaptureContext::buildRequest() (Model/Service/UnifiedCheckout/CaptureContext.php'
-            . ':120-172) guards both the completeMandate block and the 0.01 totalAmount fallback on'
-            . ' `$amount === null`. A $0 quote yields the string "0", so the request goes out with'
-            . ' completeMandate and totalAmount "0.00" -- which UC rejects with 400 "Invalid total'
-            . ' amount" (see the in-file bisect note at :160-166), breaking checkout for any $0 cart.'
-        );
-
-        // @phpstan-ignore-next-line deadCode.unreachable -- retained for the post-fix unskip.
-        $this->handler->amount = '0';
+        $this->handler->amount = '-5.00';
         $this->handler->billTo = ['firstName' => 'Jane', 'country' => 'US'];
 
         $result = $this->handler->buildRequest()->toArray();
