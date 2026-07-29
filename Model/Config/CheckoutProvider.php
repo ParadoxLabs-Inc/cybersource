@@ -193,6 +193,15 @@ class CheckoutProvider extends CcGenericConfigProvider
      */
     public function defaultSaveCard()
     {
+        /**
+         * When saving is mandatory, the 'save for next time' option is never shown, so the
+         * opt-out setting is meaningless (and hidden in the admin). Default to yes; otherwise
+         * checkout would submit save=0 and store the card deactivated, hiding it from reuse.
+         */
+        if ($this->forceSaveCard()) {
+            return true;
+        }
+
         return $this->methods[ Config::CODE ]->getConfigData('savecard_opt_out') ? true : false;
     }
 }

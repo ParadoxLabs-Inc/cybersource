@@ -436,11 +436,61 @@ class CheckoutProviderTest extends TestCase
             'forceSaveCard on when unsaved disallowed' => ['forceSaveCard', 'allow_unsaved', '0', true],
             'forceSaveCard unset defaults on' => ['forceSaveCard', 'allow_unsaved', null, true],
 
-            // defaultSaveCard follows savecard_opt_out.
-            'defaultSaveCard on when opt-out' => ['defaultSaveCard', 'savecard_opt_out', '1', true],
-            'defaultSaveCard off when opt-in' => ['defaultSaveCard', 'savecard_opt_out', '0', false],
-            'defaultSaveCard unset defaults off' => ['defaultSaveCard', 'savecard_opt_out', null, false],
         ];
+    }
+
+    /**
+     * defaultSaveCard follows savecard_opt_out only while the save is optional.
+     *
+     * @dataProvider defaultSaveCardProvider
+     * @param string|null $allowUnsaved
+     * @param string|null $optOut
+     * @param bool $expected
+     * @return void
+     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('defaultSaveCardProvider')]
+    public function testDefaultSaveCard(?string $allowUnsaved, ?string $optOut, bool $expected): void
+    {
+        $this->methodConfig['allow_unsaved']    = $allowUnsaved;
+        $this->methodConfig['savecard_opt_out'] = $optOut;
+
+        $this->assertSame($expected, $this->provider->defaultSaveCard());
+    }
+
+    /**
+     * @return array<string, array{0: string|null, 1: string|null, 2: bool}>
+     */
+    public static function defaultSaveCardProvider(): array
+    {
+        return [
+            'opt-out on, save optional' => ['1', '1', true],
+            'opt-in, save optional' => ['1', '0', false],
+            'opt-out unset, save optional' => ['1', null, false],
+
+            // allow_unsaved=0 hides the save option entirely, so savecard_opt_out is meaningless
+            // (and admin-hidden): the default must still be ON, or checkout submits save=0 and the
+            // card is stored deactivated -- vaulted but invisible for reuse (m2-carat#3).
+            'save forced, opt-in ignored' => ['0', '0', true],
+            'save forced, opt-out ignored' => ['0', '1', true],
+            'save forced by default, opt-in ignored' => [null, '0', true],
+        ];
+    }
+
+    /**
+     * The rendered checkout config must carry the forced-save default, not just the accessor.
+     *
+     * @return void
+     */
+    public function testGetConfigDefaultsSaveCardOnWhenSaveIsForced(): void
+    {
+        $this->methodConfig['allow_unsaved']    = '0';
+        $this->methodConfig['savecard_opt_out'] = '0';
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(false);
+
+        $config = $this->provider->getConfig();
+
+        $this->assertTrue($config['payment'][Config::CODE]['forceSaveCard']);
+        $this->assertTrue($config['payment'][Config::CODE]['defaultSaveCard']);
     }
 
     /**
