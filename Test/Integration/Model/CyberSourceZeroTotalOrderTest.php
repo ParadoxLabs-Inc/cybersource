@@ -205,13 +205,14 @@ class CyberSourceZeroTotalOrderTest extends TestCase
     }
 
     /**
-     * Reload the fixture order. OrderRepository::get() caches, so this goes through the collection.
+     * Reload the fixture order at a request boundary. OrderRepository::get() caches, so this drops the
+     * in-memory sales registries and goes through the collection.
      *
      * @return Order
      */
     private function reloadOrder(): Order
     {
-        $this->resetTransactionCaches();
+        $this->simulateNewRequest();
 
         return $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
     }

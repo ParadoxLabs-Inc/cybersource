@@ -22,6 +22,7 @@ use Magento\Sales\Model\ResourceModel\Order\Payment\Transaction\CollectionFactor
 use Magento\TestFramework\TestCase\AbstractBackendController;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
 use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
+use ParadoxLabs\TokenBase\Model\AbstractMethod;
 
 /**
  * Admin "Void" against a CyberSource order with an open, uncaptured authorization.
@@ -36,8 +37,10 @@ use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
  *
  * These tests require a database and cannot run without the Magento integration harness.
  *
- * NOTE: class-level @magentoConfigFixture is ignored by the harness; config fixtures are on the METHODS,
- * and use DEFAULT scope because the admin request does not run in the order's store scope.
+ * NOTE: class-level @magentoConfigFixture is ignored by the harness; config fixtures are on the METHODS.
+ * They are declared at BOTH default and default_store scope on purpose: the integration App\Config keeps a
+ * pre-merged snapshot per scope, so a value written at default scope is invisible to the store-scoped read
+ * the payment method performs. Without the default_store copy, config.xml's shipped value silently wins.
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
@@ -83,7 +86,9 @@ class VoidPaymentTest extends AbstractBackendController
      * Voiding an authorized-but-uncaptured order reverses the authorization for the amount still due.
      *
      * @magentoConfigFixture payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture payment/paradoxlabs_cybersource/payment_action authorize
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payment_action authorize
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
      * @return void
      */
@@ -112,6 +117,11 @@ class VoidPaymentTest extends AbstractBackendController
             $this->restStub->calls[0]['params']['reversalInformation']['amountDetails']['totalAmount'] ?? null,
             'The reversal must carry the amount still due.'
         );
+
+        // Assert against what the void actually persisted, not what the dispatch left memoised: the
+        // transaction repository handed the controller the authorization while it was still open, and
+        // would keep handing that same open copy back here.
+        $this->simulateNewRequest();
 
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
         $this->assertSame(0.0, (float)$order->getBaseTotalPaid(), 'A void captures nothing.');
@@ -146,12 +156,22 @@ class VoidPaymentTest extends AbstractBackendController
      * 404/NOT_FOUND reversal target, is unit-tested in Test/Unit/Model/MethodTest.)
      *
      * @magentoConfigFixture payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture payment/paradoxlabs_cybersource/payment_action authorize
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payment_action authorize
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
      * @return void
      */
     public function testRejectedReversalIsReportedAsAnErrorAndLeavesTheAuthOpen(): void
     {
+        if (method_exists(AbstractMethod::class, 'isExpectedVoidFailure') === false) {
+            $this->markTestSkipped(
+                'Requires the TokenBase void-error-surfacing change (TokenBase PR #7, branch'
+                . ' fix/void-error-surfacing, tokenbase issue #5). On TokenBase master AbstractMethod::void()'
+                . ' still swallows gateway failures, so there is no behavior here to assert.'
+            );
+        }
+
         $order = $this->authorizeFixtureOrder();
 
         // Re-arm the stub to fail the reversal exactly as the real client fails a non-2xx response.
@@ -184,6 +204,10 @@ class VoidPaymentTest extends AbstractBackendController
             $this->isEmpty(),
             MessageInterface::TYPE_SUCCESS
         );
+
+        // Read the persisted state, not the dispatch's memoised copy — otherwise "the authorization is
+        // still open" would pass on a stale object even if the void HAD closed it on disk.
+        $this->simulateNewRequest();
 
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
         $authTransaction = $order->getPayment()->getAuthorizationTransaction();
@@ -231,7 +255,7 @@ class VoidPaymentTest extends AbstractBackendController
         $order->getPayment()->authorize(true, (float)$order->getBaseGrandTotal());
         $this->_objectManager->get(OrderRepositoryInterface::class)->save($order);
 
-        $this->resetTransactionCaches();
+        $this->simulateNewRequest();
 
         return $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
     }

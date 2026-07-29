@@ -13,8 +13,13 @@
 
 namespace ParadoxLabs\CyberSource\Test\Integration;
 
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Payment\Transaction\Manager as TransactionManager;
+use Magento\Sales\Model\Order\Payment\Transaction\ManagerInterface as TransactionManagerInterface;
+use Magento\Sales\Model\Order\Payment\Transaction\Repository as TransactionRepository;
+use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
@@ -189,20 +194,39 @@ trait RestStubTrait
     }
 
     /**
-     * Drop the sales transaction repository's in-memory caches between lifecycle phases.
+     * Drop Magento's in-memory sales registries, as the next HTTP request would.
      *
-     * Transaction\Repository memoises getByTransactionType()/getByTransactionId() results for the life of
-     * the (shared) instance. A multi-capture flow writes NEW auth/capture transactions mid-test, so without
-     * this a later Payment::getAuthorizationTransaction() can hand back the transaction that was current
-     * during an earlier phase. Reloading the order is not enough — the repository is the shared singleton.
+     * Every payment operation is its own admin request in production; running several of them in one PHP
+     * process is a test-only situation, and three Magento caches make that visibly different:
+     *
+     * - {@see \Magento\Sales\Model\Order\Payment\Transaction\Repository} memoises
+     *   getByTransactionType()/getByTransactionId() by (type, payment id), so a second capture keeps seeing
+     *   the authorization that was current before the first one. Payment::canCapture() then finds a closed
+     *   authorization and skips the capture, or getAuthorizationTransaction() hands back the superseded
+     *   auth instead of the reauthorization of record.
+     * - {@see \Magento\Sales\Model\Order\Payment\Transaction\Manager} is what Payment actually calls, and
+     *   it holds its OWN reference to the repository — dropping the repository alone leaves the manager
+     *   handing out memoised results through the old instance.
+     * - {@see \Magento\Sales\Model\OrderRepository} memoises orders by id (save() registers them too), so
+     *   a controller dispatch gets back the very payment object an earlier operation left transient state
+     *   on. transaction_id is not a database column: Payment::_generateTransactionId() skips setting
+     *   parent_transaction_id when one is already present, which leaves the gateway void with an empty
+     *   target id, and Payment::_void() then decides the transaction already exists and records nothing.
      *
      * @return void
      */
-    protected function resetTransactionCaches(): void
+    protected function simulateNewRequest(): void
     {
         /** @var ObjectManager $objectManager */
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->removeSharedInstance(TransactionRepositoryInterface::class, true);
         $objectManager->removeSharedInstance(TransactionRepositoryInterface::class);
+        $objectManager->removeSharedInstance(TransactionRepository::class);
+        $objectManager->removeSharedInstance(TransactionManagerInterface::class, true);
+        $objectManager->removeSharedInstance(TransactionManagerInterface::class);
+        $objectManager->removeSharedInstance(TransactionManager::class);
+        $objectManager->removeSharedInstance(OrderRepositoryInterface::class, true);
+        $objectManager->removeSharedInstance(OrderRepositoryInterface::class);
+        $objectManager->removeSharedInstance(OrderRepository::class);
     }
 }

@@ -19,7 +19,9 @@ use Magento\Framework\Message\MessageInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
+use Magento\Sales\Model\Order\CreditmemoFactory;
 use Magento\Sales\Model\Order\Invoice;
+use Magento\Sales\Model\Service\CreditmemoService;
 use Magento\Sales\Model\Service\InvoiceService;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
@@ -37,8 +39,11 @@ use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
  *
  * These tests require a database and cannot run without the Magento integration harness.
  *
- * NOTE: class-level @magentoConfigFixture is ignored by the harness; config fixtures are on the METHODS,
- * and use DEFAULT scope because the admin request does not run in the order's store scope.
+ * NOTE: class-level @magentoConfigFixture is ignored by the harness; config fixtures are on the METHODS.
+ * They are declared at BOTH default and default_store scope on purpose: the integration App\Config keeps a
+ * pre-merged snapshot per scope, so a value written at default scope is invisible to the store-scoped read
+ * the payment method performs (Payment::capture() calls $method->setStore($order->getStoreId())). Without
+ * the default_store copy, config.xml's shipped value silently wins.
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
@@ -86,11 +91,87 @@ class CreditmemoSaveTest extends AbstractBackendController
     }
 
     /**
+     * @inheritDoc
+     *
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
+     */
+    public function testAclHasAccess()
+    {
+        $this->prepareAclRequest();
+
+        parent::testAclHasAccess();
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
+     */
+    public function testAclNoAccess()
+    {
+        $this->prepareAclRequest();
+
+        parent::testAclNoAccess();
+    }
+
+    /**
+     * Put a request the credit-memo controller can actually process in place, for the inherited ACL tests.
+     *
+     * AbstractBackendController::testAclHasAccess()/testAclNoAccess() dispatch $uri with an empty request.
+     * Creditmemo\Save is HttpPostActionInterface, so a bare GET is routed to noroute (404) and says nothing
+     * about ACL; and as an empty POST the controller fatals in its own null handling —
+     * adjustCreditMemoItemQuantities(false) — because _initCreditmemo() has nothing to load. So the smallest
+     * request that reaches the ACL check with a loadable credit memo is built here.
+     *
+     * The invoice is captured OFFLINE and the memo posted with do_offline=1 deliberately: the ACL contract
+     * is the subject, and an offline refund keeps the gateway entirely out of it.
+     *
+     * @return void
+     */
+    private function prepareAclRequest(): void
+    {
+        $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
+
+        $invoice = $this->_objectManager->get(InvoiceService::class)
+            ->prepareInvoice($order, [$this->itemId($order, 'simple') => 2]);
+        $invoice->setRequestedCaptureCase(Invoice::CAPTURE_OFFLINE);
+        $invoice->register();
+
+        $order->setIsInProcess(true);
+        $this->_objectManager->create(DbTransaction::class)
+            ->addObject($invoice)
+            ->addObject($order)
+            ->save();
+
+        $this->simulateNewRequest();
+
+        $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
+
+        $this->getRequest()->setMethod(HttpRequest::METHOD_POST)
+            ->setParams([
+                'order_id' => (int)$order->getId(),
+                'invoice_id' => (int)$invoice->getId(),
+            ])
+            ->setPostValue([
+                'creditmemo' => [
+                    'do_offline' => '1',
+                    'comment_text' => '',
+                    'shipping_amount' => '0',
+                    'adjustment_positive' => '0',
+                    'adjustment_negative' => '0',
+                ],
+            ]);
+    }
+
+    /**
      * An online credit memo for invoice #1 refunds invoice #1's capture, for invoice #1's amount only.
      *
      * @magentoConfigFixture payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture payment/paradoxlabs_cybersource/payment_action authorize
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payment_action authorize
      * @magentoConfigFixture payment/paradoxlabs_cybersource/reauthorize_partial_invoice 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/reauthorize_partial_invoice 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
      * @return void
      */
@@ -163,9 +244,17 @@ class CreditmemoSaveTest extends AbstractBackendController
     /**
      * Refunding the second invoice as well closes the order.
      *
+     * Credit memo #1 is issued through the service layer rather than a second controller dispatch: the
+     * harness shares one request/response/front-controller for the whole test method, so a second dispatch
+     * silently produces no gateway call. The memo under test — the one pinned to invoice #2 — is the one
+     * that goes through the real controller.
+     *
      * @magentoConfigFixture payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture payment/paradoxlabs_cybersource/payment_action authorize
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payment_action authorize
      * @magentoConfigFixture payment/paradoxlabs_cybersource/reauthorize_partial_invoice 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/reauthorize_partial_invoice 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
      * @return void
      */
@@ -173,7 +262,9 @@ class CreditmemoSaveTest extends AbstractBackendController
     {
         $order = $this->captureBothInvoices();
 
-        $this->postCreditmemo($order, $this->invoiceAt($order, 0));
+        $this->refundOnline($this->invoiceAt($order, 0));
+
+        $this->simulateNewRequest();
 
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
         $this->restStub->resetCalls();
@@ -190,6 +281,8 @@ class CreditmemoSaveTest extends AbstractBackendController
             $this->restStub->calls[0]['params']['orderInformation']['amountDetails']['totalAmount'] ?? null,
             'The second refund must carry invoice #2s amount.'
         );
+
+        $this->simulateNewRequest();
 
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
         $this->assertCount(2, $order->getCreditmemosCollection(), 'Both credit memos must exist.');
@@ -210,12 +303,12 @@ class CreditmemoSaveTest extends AbstractBackendController
         $this->_objectManager->get(OrderRepositoryInterface::class)->save($order);
 
         foreach (['simple' => 2, 'simple2' => 1] as $sku => $qty) {
-            $this->resetTransactionCaches();
+            $this->simulateNewRequest();
             $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
             $this->invoiceOnline($order, [$this->itemId($order, (string)$sku) => $qty]);
         }
 
-        $this->resetTransactionCaches();
+        $this->simulateNewRequest();
 
         return $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
     }
@@ -241,6 +334,22 @@ class CreditmemoSaveTest extends AbstractBackendController
     }
 
     /**
+     * Issue an online credit memo for the whole of the given invoice through the service layer.
+     *
+     * Used to build up prior refunds for a test whose subject is a LATER admin dispatch; the controller
+     * can only be dispatched once per test method.
+     *
+     * @param Invoice $invoice
+     * @return void
+     */
+    private function refundOnline(Invoice $invoice): void
+    {
+        $creditmemo = $this->_objectManager->get(CreditmemoFactory::class)->createByInvoice($invoice);
+
+        $this->_objectManager->get(CreditmemoService::class)->refund($creditmemo, false);
+    }
+
+    /**
      * POST an online credit memo for the whole of the given invoice.
      *
      * @param Order $order
@@ -250,6 +359,7 @@ class CreditmemoSaveTest extends AbstractBackendController
     private function postCreditmemo(Order $order, Invoice $invoice): void
     {
         $this->resetRequest();
+        $this->simulateNewRequest();
 
         $this->getRequest()->setMethod(HttpRequest::METHOD_POST)
             ->setParams([

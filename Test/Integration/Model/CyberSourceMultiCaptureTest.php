@@ -533,13 +533,14 @@ class CyberSourceMultiCaptureTest extends TestCase
     }
 
     /**
-     * Reload the fixture order with the sales transaction caches cleared first.
+     * Reload the fixture order at a request boundary: Magento's in-memory sales registries are dropped
+     * first, exactly as a fresh admin request would, so each phase sees the transactions on disk.
      *
      * @return Order
      */
     private function reloadOrder(): Order
     {
-        $this->resetTransactionCaches();
+        $this->simulateNewRequest();
 
         return $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
     }
