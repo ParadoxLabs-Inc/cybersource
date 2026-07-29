@@ -27,7 +27,9 @@ use Magento\Sales\Model\Order\Payment;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order\Payment\Transaction\Repository;
 use Override;
+use Magento\Framework\Exception\LocalizedException;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterfaceFactory;
@@ -57,6 +59,7 @@ class Method extends AbstractMethod
      * @param ConfigInterface $config
      * @param Registry $registry
      * @param CardBuilder $cardBuilder
+     * @param UnifiedCheckoutResponse $ucResponse *Proxy
      * @param string $methodCode
      * @param array<string, mixed> $data
      */
@@ -70,6 +73,7 @@ class Method extends AbstractMethod
         ConfigInterface $config,
         Registry $registry,
         protected readonly CardBuilder $cardBuilder,
+        protected readonly UnifiedCheckoutResponse $ucResponse,
         string $methodCode = '',
         array $data = []
     ) {
@@ -101,6 +105,101 @@ class Method extends AbstractMethod
         }
 
         return $this->gateway;
+    }
+
+    /**
+     * Authorize a transaction, minting the vault token even when there is nothing to authorize.
+     *
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @return $this
+     * @throws \Throwable
+     */
+    #[Override]
+    public function authorize(InfoInterface $payment, $amount)
+    {
+        parent::authorize($payment, $amount);
+
+        $this->tokenizeZeroTotalOrder($payment, (float)$amount);
+
+        return $this;
+    }
+
+    /**
+     * Capture a transaction, minting the vault token even when there is nothing to capture.
+     *
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @return $this
+     * @throws \Throwable
+     */
+    #[Override]
+    public function capture(InfoInterface $payment, $amount)
+    {
+        parent::capture($payment, $amount);
+
+        $this->tokenizeZeroTotalOrder($payment, (float)$amount);
+
+        return $this;
+    }
+
+    /**
+     * Exchange the Unified Checkout transient token on a $0 order, which never reaches the gateway.
+     *
+     * AbstractMethod::authorize()/capture() both early-return on `$amount <= 0` AFTER
+     * loadOrCreateCard() has already persisted the new card row, but BEFORE any gateway call and
+     * before afterAuthorize()/afterCapture() — the only places a checkout-sourced card's TMS token is
+     * ever minted. A $0 order (free trial, 100%-off coupon, comped first period) therefore used to
+     * vault a card with an empty payment_id and no uc_token_missing flag: silently unusable, blowing
+     * up months later in Gateway::buildStoredCardAuth() on the first rebill.
+     *
+     * So run the exchange here, on the same $0 TOKEN_CREATE request the paymentinfo add-card path
+     * uses (Response::buildZeroDollarRequest()). It only fires for a non-positive amount with an
+     * unconsumed transient token: a normal purchase mints its token inline through the auth/capture
+     * response, and applyUnifiedCheckoutToken() clears the single-use token afterwards, so an
+     * authorize followed by a $0 capture (or a re-entrant call) cannot double-exchange.
+     *
+     * Failures are deliberately NOT swallowed, unlike the approved-purchase path: there is no
+     * approved purchase to protect here, and the entire reason a $0 order collects a card is the
+     * later rebill. Failing at checkout is preferable to a subscription that can never charge.
+     *
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @return void
+     * @throws LocalizedException When the $0 auth returned no vault token (uc_token_missing).
+     * @throws \Throwable On any tokenize failure (propagated to fail the order).
+     */
+    protected function tokenizeZeroTotalOrder(InfoInterface $payment, float $amount): void
+    {
+        if ($amount > 0
+            || (string)$payment->getAdditionalInformation('transient_token') === '') {
+            return;
+        }
+
+        /** @var Payment $payment */
+        $order = $payment->getOrder();
+
+        // billTo is required on a $0 auth (CyberSource rejects it MISSING_FIELD otherwise); passing
+        // no card address makes buildZeroDollarRequest() derive it from the order billing address.
+        $response = $this->ucResponse->tokenizeCard(
+            $payment,
+            (string)$order->getBaseCurrencyCode(),
+            (int)$order->getStoreId()
+        );
+
+        $this->applyUnifiedCheckoutToken($payment, $response);
+
+        // The parent's card save lives after its `$amount <= 0` return, so persist the minted ids here.
+        $card = $this->getCard();
+        if ($card instanceof CardInterface) {
+            $this->card = $this->cardRepository->save($card);
+        }
+
+        if ((bool)$response->getData('uc_token_missing') === true) {
+            throw new LocalizedException(
+                __('The card could not be saved. Please check your payment information and try again.')
+            );
+        }
     }
 
     /**

@@ -61,6 +61,8 @@
             <argument name="gateway" xsi:type="object">ParadoxLabs\CyberSource\Model\Gateway</argument>
             <argument name="cardFactory" xsi:type="object">ParadoxLabs\CyberSource\Model\CardFactoryVirtualType</argument>
             <argument name="config" xsi:type="object">ParadoxLabs\CyberSource\Gateway\VirtualConfig</argument>
+            <!-- Lazy: the UC Response service drags in the REST client, but is only used on a $0 order. -->
+            <argument name="ucResponse" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response\Proxy</argument>
             <argument name="methodCode" xsi:type="string">paradoxlabs_cybersource</argument>
         </arguments>
     </type>
