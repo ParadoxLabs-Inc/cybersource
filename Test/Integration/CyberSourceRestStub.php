@@ -36,6 +36,34 @@ use ParadoxLabs\CyberSource\Model\Service\Rest;
 class CyberSourceRestStub extends Rest
 {
     /**
+     * Id prefix the sequenced responder mints for /pts/v2/payments replies (authorizations and sales).
+     *
+     * Declared here rather than on RestStubTrait: trait constants require PHP 8.2, and this package
+     * supports 8.1.
+     */
+    public const PAYMENT_ID_PREFIX = 'PAY';
+
+    /**
+     * Id prefix the sequenced responder mints for /captures replies.
+     */
+    public const CAPTURE_ID_PREFIX = 'CAP';
+
+    /**
+     * Id prefix the sequenced responder mints for /refunds replies.
+     */
+    public const REFUND_ID_PREFIX = 'REF';
+
+    /**
+     * Id prefix the sequenced responder mints for /reversals replies.
+     */
+    public const REVERSAL_ID_PREFIX = 'REV';
+
+    /**
+     * Id prefix the sequenced responder mints for /voids replies.
+     */
+    public const VOID_ID_PREFIX = 'VOID';
+
+    /**
      * Recorded calls, in order: ['method' => ..., 'path' => ..., 'params' => [...]].
      *
      * @var array<int, array{method: string, path: string, params: array}>
