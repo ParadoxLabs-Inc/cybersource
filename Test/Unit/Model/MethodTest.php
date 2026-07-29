@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Model;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Framework\Registry;
 use Magento\Sales\Model\Order;
@@ -420,6 +421,64 @@ class MethodTest extends TestCase
 
         $method = new \ReflectionMethod(Method::class, 'tokenizeZeroTotalOrder');
         $method->invoke($this->method, $payment, 0.0);
+    }
+
+    /**
+     * Void-failure classification: only a missing auth-reversal target is a benign no-op.
+     *
+     * Consumed by TokenBase's void-error-surfacing change (AbstractMethod::isExpectedVoidFailure); the
+     * override is inert on older TokenBase, so it is exercised directly here.
+     *
+     * @dataProvider voidFailureProvider
+     * @param \Throwable $exception
+     * @param bool $expected
+     * @return void
+     */
+    #[DataProvider('voidFailureProvider')]
+    public function testVoidFailureClassification(\Throwable $exception, bool $expected): void
+    {
+        $method = new \ReflectionMethod(Method::class, 'isExpectedVoidFailure');
+
+        $this->assertSame($expected, $method->invoke($this->method, $exception));
+    }
+
+    /**
+     * @return array<string, array{0: \Throwable, 1: bool}>
+     */
+    public static function voidFailureProvider(): array
+    {
+        return [
+            // FollowOn maps "the reversal target is unknown to the processor" (404, or an exact
+            // NOT_FOUND reason with no processor responseCode) onto this code, and nothing else.
+            'reversal target not found' => [
+                new CommandException(__('Transaction Failed: NOT_FOUND'), null, 242),
+                true,
+            ],
+            // The capture-void path's code: a capture the processor does not recognize may still have
+            // settled, so it must never be reported as a completed void.
+            'capture void target not found' => [
+                new CommandException(__('Transaction Failed: NOT_FOUND'), null, 241),
+                false,
+            ],
+            'processor decline' => [
+                new CommandException(__('Transaction Failed: Reversal not permitted'), null, 231),
+                false,
+            ],
+            'unmapped command failure' => [
+                new CommandException(__('Transaction Failed: PROCESSOR_ERROR'), null, 0),
+                false,
+            ],
+            'raw transport failure' => [
+                new \Exception('Reversal not permitted for this transaction.', 400),
+                false,
+            ],
+            // Same numeric code, but not a CommandException: a bare transport error must not be
+            // classified by its HTTP status.
+            'transport error with matching status' => [
+                new \Exception('Not Found', 242),
+                false,
+            ],
+        ];
     }
 
     /**

@@ -28,8 +28,9 @@ use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
  *
  * sales/order/voidPayment is the only admin route that reaches Gateway::void(), and the branch it takes is
  * money-relevant: an uncaptured authorization must be REVERSED (/pts/v2/payments/{id}/reversals), never
- * capture-voided. The rejected-reversal path is covered too, because TokenBase swallows gateway failures
- * during void and the resulting (risky) admin-visible outcome is worth pinning.
+ * capture-voided. The rejected-reversal path is covered too: a failure there must reach the admin and leave
+ * the authorization open, which REQUIRES TokenBase's void-error-surfacing change (unmerged TokenBase PR #7,
+ * branch fix/void-error-surfacing) — see testRejectedReversalIsReportedAsAnErrorAndLeavesTheAuthOpen().
  *
  * The inherited testAclHasAccess/testAclNoAccess cover the ACL contract for this route.
  *
@@ -128,25 +129,28 @@ class VoidPaymentTest extends AbstractBackendController
     }
 
     /**
-     * BEHAVIOUR PIN — a REJECTED reversal is reported to the admin as a successful void.
+     * A REJECTED reversal must surface as an admin error, with the authorization left open.
      *
-     * ParadoxLabs\TokenBase\Model\AbstractMethod::void() catches \Throwable around the gateway call and
-     * deliberately swallows it ("Ignore void errors, let Magento proceed like it happened. Most likely the
-     * auth already expired."), then unconditionally sets shouldCloseParentTransaction/isTransactionClosed.
-     * So a hard gateway rejection — e.g. HTTP 400 "reversal not permitted", which is what CyberSource
-     * returns for an authorization that has already settled — produces the SUCCESS message, a recorded VOID
-     * transaction and a closed authorization, with nothing reversed at the processor.
+     * REQUIRES TokenBase's void-error-surfacing change (unmerged TokenBase PR #7, branch
+     * fix/void-error-surfacing, tokenbase issue #5). On TokenBase master this test FAILS, because
+     * AbstractMethod::void() still catches \Throwable around the gateway call and swallows it ("Ignore void
+     * errors, let Magento proceed like it happened. Most likely the auth already expired."), then
+     * unconditionally sets shouldCloseParentTransaction/isTransactionClosed — producing the success message,
+     * a recorded VOID transaction and a closed authorization with nothing reversed at the processor.
      *
-     * That is a deliberate upstream choice, not a CyberSource-layer bug, so this test pins the behaviour
-     * rather than failing on it: if the swallow is ever narrowed (e.g. only for not-found/expired auths,
-     * which is what the comment actually describes), this test must be revisited along with it.
+     * With that change, a gateway failure that the method does not classify as a benign no-op throws
+     * PaymentException from the admin controller, and shouldCloseParentTransaction/isTransactionClosed are
+     * explicitly false so the authorization stays open. HTTP 400 "reversal not permitted" — what CyberSource
+     * returns for an authorization that has already settled — is exactly such a failure: it is not a 404 and
+     * carries no NOT_FOUND reason, so Method::isExpectedVoidFailure() rejects it. (The benign counterpart, a
+     * 404/NOT_FOUND reversal target, is unit-tested in Test/Unit/Model/MethodTest.)
      *
      * @magentoConfigFixture payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture payment/paradoxlabs_cybersource/payment_action authorize
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_order_with_two_items.php
      * @return void
      */
-    public function testRejectedReversalIsSwallowedAndStillReportedAsVoided(): void
+    public function testRejectedReversalIsReportedAsAnErrorAndLeavesTheAuthOpen(): void
     {
         $order = $this->authorizeFixtureOrder();
 
@@ -166,21 +170,35 @@ class VoidPaymentTest extends AbstractBackendController
             $this->restStub->getCalledPaths(),
             'The controller must have attempted the reversal exactly once.'
         );
+
+        // The admin must be told the void failed. Matched loosely: TokenBase owns the wrapper wording,
+        // but the processor's own reason has to reach the admin.
         $this->assertSessionMessages(
-            $this->equalTo([(string)__('The payment has been voided.')]),
+            $this->callback(
+                static fn (array $messages): bool => count($messages) === 1
+                    && str_contains((string)$messages[0], 'Reversal not permitted for this transaction.')
+            ),
+            MessageInterface::TYPE_ERROR
+        );
+        $this->assertSessionMessages(
+            $this->isEmpty(),
             MessageInterface::TYPE_SUCCESS
         );
 
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
         $authTransaction = $order->getPayment()->getAuthorizationTransaction();
-        $this->assertTrue(
-            $authTransaction === false || (bool)$authTransaction->getIsClosed(),
-            'The swallowed failure still closes the authorization — the pinned (risky) behaviour.'
+        $this->assertNotFalse(
+            $authTransaction,
+            'The authorization transaction must still be there after a failed void.'
         );
-        $this->assertContains(
+        $this->assertFalse(
+            (bool)$authTransaction->getIsClosed(),
+            'Nothing was reversed at the processor, so the authorization must be left OPEN.'
+        );
+        $this->assertNotContains(
             Transaction::TYPE_VOID,
             $this->transactionTypes($order),
-            'A void transaction is recorded even though the processor rejected the reversal.'
+            'No void transaction may be recorded for a reversal the processor rejected.'
         );
     }
 

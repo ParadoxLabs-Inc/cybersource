@@ -28,7 +28,9 @@ use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order\Payment\Transaction\Repository;
 use Override;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Payment\Gateway\Command\CommandException;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
@@ -200,6 +202,44 @@ class Method extends AbstractMethod
                 __('The card could not be saved. Please check your payment information and try again.')
             );
         }
+    }
+
+    /**
+     * Classify a void failure: only a missing auth-reversal target counts as a successful no-op.
+     *
+     * TokenBase's void() used to swallow every gateway failure and still report a successful void; it now
+     * surfaces them and asks the gateway which failures are benign. The only CyberSource void failure that
+     * genuinely needs no reversal is "the authorization this reversal targets is unknown to the processor"
+     * — it already expired, was already reversed, or never settled. FollowOn maps exactly that condition
+     * (HTTP 404 on the reversal path, or a 2xx body whose errorInformation.reason is the exact string
+     * NOT_FOUND with no processorInformation.responseCode) onto a CommandException carrying
+     * SOAP_CODE_CAPTURE_NOT_FOLLOWABLE, and deliberately never maps processor decisions onto it.
+     *
+     * Nothing else qualifies. In particular SOAP_CODE_REFUND_NOT_FOLLOWABLE (the capture-void path's code)
+     * is NOT treated as benign: a capture whose id the processor does not recognize may still have settled,
+     * and reporting that as a completed void would hide captured money. Declines, PROCESSOR_ERROR, and any
+     * raw transport failure surface as real failures.
+     *
+     * Known limitation: a misconfigured endpoint/credential set can also produce a 404 on the reversal path,
+     * which would be classified benign here. That is the same fail-safe trade-off FollowOn already makes for
+     * its recapture mapping, and the alternative (substring-matching processor text) is less reliable.
+     *
+     * No #[Override] and no parent:: call without a guard: this method does not exist on TokenBase before
+     * the void-error-surfacing change, where the override is simply never invoked.
+     *
+     * @param \Throwable $exception
+     * @return bool
+     */
+    protected function isExpectedVoidFailure(\Throwable $exception): bool
+    {
+        if ($exception instanceof CommandException
+            && (int)$exception->getCode() === FollowOn::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE) {
+            return true;
+        }
+
+        // Forward-compatible: defer to the base classification (VoidNotNeededException) once it exists.
+        return method_exists(AbstractMethod::class, 'isExpectedVoidFailure')
+            && parent::isExpectedVoidFailure($exception) === true;
     }
 
     /**
