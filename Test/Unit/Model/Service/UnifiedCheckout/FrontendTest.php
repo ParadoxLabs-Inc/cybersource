@@ -144,6 +144,88 @@ class FrontendTest extends TestCase
         $this->assertArrayNotHasKey('completeMandate', $result);
     }
 
+    /**
+     * DEFECT DOCUMENTATION (Bug B) -- INVERT THIS TEST WHEN THE DEFECT IS FIXED.
+     *
+     * A real cart totalling 0.00 (100%-off coupon, free trial, zero-priced item) is not the
+     * add-card case. Frontend::getAmount() (Model/Service/UnifiedCheckout/Frontend.php:79-100)
+     * returns null only for source=paymentinfo or a missing quote id; with a live quote it does
+     * `(string)$total`, and (string)0.0 is "0" -- a non-null string.
+     *
+     * CaptureContext::buildRequest() then takes the has-an-amount branch, so the context goes out
+     * with completeMandate and totalAmount "0.00", which UC rejects with a 400 "Invalid total
+     * amount" (documented by the in-file bisect note at CaptureContext.php:160-166). The shopper
+     * sees a generic decline and cannot check out.
+     *
+     * The companion skipped test states the correct behavior.
+     */
+    public function testBuildRequestForZeroTotalCartSendsUnpayableZeroTotal(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $quote = $this->getMockBuilder(Quote::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getBillingAddress', 'getData'])
+            ->getMock();
+        $quote->method('getData')->willReturnMap([
+            ['base_grand_total', null, 0.0],
+            ['base_currency_code', null, 'USD'],
+        ]);
+        $quote->method('getBillingAddress')->willReturn($this->makeQuoteBillingAddress());
+
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(99);
+        $this->checkoutSessionMock->method('getQuote')->willReturn($quote);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(true);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        // DEFECT: getAmount() returned "0" (not null), so the 0.01 tokenization fallback is skipped
+        // and a mandate is attached to an amount UC will not accept.
+        $this->assertSame('0.00', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertArrayHasKey('completeMandate', $result);
+    }
+
+    /**
+     * CORRECT BEHAVIOR (Bug B) -- unskip when a $0 cart is handled.
+     *
+     * A $0 checkout still has to collect and vault a card (the order may rebill later, and the
+     * gateway runs its own $0 exchange auth server-side). The context should therefore degrade to
+     * the tokenization-only shape already used for add-card: the 0.01 minimum UC accepts, with
+     * completeMandate omitted so nothing can be charged against it.
+     */
+    public function testBuildRequestForZeroTotalCartShouldFallBackToTokenizationOnlyContext(): void
+    {
+        $this->markTestSkipped(
+            'Bug B: Frontend::getAmount() (Model/Service/UnifiedCheckout/Frontend.php:79-100) returns'
+            . ' the string "0" for a $0 quote rather than null, so CaptureContext::buildRequest()'
+            . ' (CaptureContext.php:120-172) attaches completeMandate and sends totalAmount "0.00".'
+            . ' UC rejects that with 400 "Invalid total amount" (bisect note at CaptureContext.php'
+            . ':160-166), so no $0 cart can render the drop-in.'
+        );
+
+        // @phpstan-ignore-next-line deadCode.unreachable -- retained for the post-fix unskip.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $quote = $this->getMockBuilder(Quote::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getBillingAddress', 'getData'])
+            ->getMock();
+        $quote->method('getData')->willReturnMap([
+            ['base_grand_total', null, 0.0],
+            ['base_currency_code', null, 'USD'],
+        ]);
+        $quote->method('getBillingAddress')->willReturn($this->makeQuoteBillingAddress());
+
+        $this->checkoutSessionMock->method('getQuoteId')->willReturn(99);
+        $this->checkoutSessionMock->method('getQuote')->willReturn($quote);
+        $this->customerSessionMock->method('isLoggedIn')->willReturn(true);
+
+        $result = $this->handler->buildRequest()->toArray();
+
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertArrayNotHasKey('completeMandate', $result);
+    }
+
     public function testBuildRequestBillingOnlyWhenNoQuote(): void
     {
         $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);

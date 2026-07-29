@@ -145,6 +145,66 @@ class BackendTest extends TestCase
         $this->assertArrayNotHasKey('completeMandate', $result);
     }
 
+    /**
+     * DEFECT DOCUMENTATION (Bug B) -- INVERT THIS TEST WHEN THE DEFECT IS FIXED.
+     *
+     * Admin order create for a $0 total (100%-off, free replacement) hits the same trap as the
+     * storefront. Backend::getAmount() (Model/Service/UnifiedCheckout/Backend.php:93-114) returns
+     * null only for source=paymentinfo or a missing order-create quote; with a live quote it does
+     * `(string)$total`, and (string)0.0 is "0" -- non-null.
+     *
+     * CaptureContext::buildRequest() (CaptureContext.php:120-172) then sends totalAmount "0.00",
+     * which UC rejects with a 400 "Invalid total amount" (in-file bisect note at :160-166), so the
+     * admin card form dead-ends on a generic decline.
+     *
+     * See the companion skipped test for the correct behavior.
+     */
+    public function testBuildRequestForZeroTotalOrderCreateQuoteSendsUnpayableZeroTotal(): void
+    {
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $quote = $this->makeQuote(0.0, 'USD', $this->makeQuoteBillingAddress());
+        $quote->method('getStoreId')->willReturn(1);
+
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(99);
+        $this->backendSessionMock->method('getQuote')->willReturn($quote);
+
+        $result = $this->makeHandler([])->buildRequest()->toArray();
+
+        // DEFECT: getAmount() returned "0" (not null), so the 0.01 tokenization fallback is skipped.
+        $this->assertSame('0.00', $result['orderInformation']['amountDetails']['totalAmount']);
+    }
+
+    /**
+     * CORRECT BEHAVIOR (Bug B) -- unskip when a $0 order-create quote is handled.
+     *
+     * A $0 admin order still needs a vaulted card, so the context should degrade to the
+     * tokenization-only shape already used for admin add-card: the 0.01 minimum UC accepts.
+     */
+    public function testBuildRequestForZeroTotalOrderCreateQuoteShouldFallBackToMinimumAmount(): void
+    {
+        $this->markTestSkipped(
+            'Bug B: Backend::getAmount() (Model/Service/UnifiedCheckout/Backend.php:93-114) returns'
+            . ' the string "0" for a $0 order-create quote rather than null, so'
+            . ' CaptureContext::buildRequest() (CaptureContext.php:120-172) sends totalAmount "0.00".'
+            . ' UC rejects that with 400 "Invalid total amount" (bisect note at CaptureContext.php'
+            . ':160-166).'
+        );
+
+        // @phpstan-ignore-next-line deadCode.unreachable -- retained for the post-fix unskip.
+        $this->requestMock->method('getPostValue')->with('billing')->willReturn(null);
+
+        $quote = $this->makeQuote(0.0, 'USD', $this->makeQuoteBillingAddress());
+        $quote->method('getStoreId')->willReturn(1);
+
+        $this->backendSessionMock->method('__call')->with('getQuoteId', [])->willReturn(99);
+        $this->backendSessionMock->method('getQuote')->willReturn($quote);
+
+        $result = $this->makeHandler([])->buildRequest()->toArray();
+
+        $this->assertSame('0.01', $result['orderInformation']['amountDetails']['totalAmount']);
+    }
+
     public function testBuildRequestBillingOnlyWithStoreDefaultCurrencyWhenNoQuote(): void
     {
         // Admin add-card: no order-create quote in session -> tokenization-only context. UC demands
