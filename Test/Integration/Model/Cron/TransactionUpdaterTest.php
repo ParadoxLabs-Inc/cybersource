@@ -21,6 +21,7 @@ use Magento\TestFramework\ObjectManager;
 use ParadoxLabs\CyberSource\Model\Cron\TransactionUpdater;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
+use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -36,6 +37,8 @@ use PHPUnit\Framework\TestCase;
  */
 class TransactionUpdaterTest extends TestCase
 {
+    use OomProbeTrait;
+
     private const REVIEW_ORDER = '100000771';
     private const REJECT_ORDER = '100000772';
     private const NEW_ORDER = '100000773';
@@ -49,6 +52,8 @@ class TransactionUpdaterTest extends TestCase
      */
     protected function setUp(): void
     {
+        $this->probeMemory();
+
         parent::setUp();
 
         $this->objectManager = Bootstrap::getObjectManager();
