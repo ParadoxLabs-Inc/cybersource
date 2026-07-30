@@ -51,4 +51,21 @@ trait OomProbeTrait
 
         fwrite(STDERR, PHP_EOL . '### OOM-PROBE running ' . static::class . '::' . $name . PHP_EOL);
     }
+
+    /**
+     * Report allocated memory at a named point, on STDERR.
+     *
+     * Sprinkled through the one test that blows up, so the phase it happens in is visible from the CI log
+     * even though the process dies before PHPUnit can report anything.
+     *
+     * @param string $label
+     * @return void
+     */
+    protected function probeMark(string $label): void
+    {
+        fwrite(
+            STDERR,
+            sprintf('### OOM-PROBE %9.1f MB  %s' . PHP_EOL, memory_get_usage(true) / 1048576, $label)
+        );
+    }
 }
