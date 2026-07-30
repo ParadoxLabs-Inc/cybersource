@@ -27,7 +27,6 @@ use Magento\Sales\Model\Service\InvoiceService;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -50,7 +49,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CyberSourceMultiCaptureTest extends TestCase
 {
-    use OomProbeTrait;
     use RestStubTrait;
 
     private const ORDER_INCREMENT_ID = '100000570';
@@ -72,8 +70,6 @@ class CyberSourceMultiCaptureTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->objectManager = Bootstrap::getObjectManager();

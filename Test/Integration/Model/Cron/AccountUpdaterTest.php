@@ -19,7 +19,6 @@ use Magento\TestFramework\ObjectManager;
 use ParadoxLabs\CyberSource\Model\Cron\AccountUpdater;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Model\Card;
@@ -41,8 +40,6 @@ use PHPUnit\Framework\TestCase;
  */
 class AccountUpdaterTest extends TestCase
 {
-    use OomProbeTrait;
-
     private const REPORT_PATH = '/accountupdater/v1/batches/CS-BATCH-1/report';
     private const REPORT_HREF = 'https://apitest.cybersource.com' . self::REPORT_PATH;
 
@@ -58,8 +55,6 @@ class AccountUpdaterTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->objectManager = Bootstrap::getObjectManager();

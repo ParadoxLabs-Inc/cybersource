@@ -25,7 +25,6 @@ use Magento\Sales\Model\Service\CreditmemoService;
 use Magento\Sales\Model\Service\InvoiceService;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
 
 /**
@@ -52,7 +51,6 @@ use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
  */
 class CreditmemoSaveTest extends AbstractBackendController
 {
-    use OomProbeTrait;
     use RestStubTrait;
 
     private const ORDER_INCREMENT_ID = '100000570';
@@ -77,8 +75,6 @@ class CreditmemoSaveTest extends AbstractBackendController
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->registerRestStub();
@@ -207,19 +203,13 @@ class CreditmemoSaveTest extends AbstractBackendController
                 ],
             ]);
 
-        $this->probeMark('test: before dispatch');
-
         $this->dispatch($this->uri);
-
-        $this->probeMark('test: after dispatch');
 
         $this->assertSessionMessages(
             $this->equalTo([(string)__('You created the credit memo.')]),
             MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('sales/order/view/order_id/' . (int)$order->getId()));
-
-        $this->probeMark('test: after message/redirect asserts');
 
         $this->assertSame(
             ['/pts/v2/captures/' . CyberSourceRestStub::CAPTURE_ID_PREFIX . '1/refunds'],
@@ -232,19 +222,9 @@ class CreditmemoSaveTest extends AbstractBackendController
             'The refund must carry the selected invoice amount, not the order total.'
         );
 
-        $this->probeMark('test: after gateway-call asserts');
-
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
-
-        $this->probeMark('test: order reloaded');
-
         $creditmemos = $order->getCreditmemosCollection();
-
-        $this->probeMark('test: creditmemo collection fetched');
-
         $this->assertCount(1, $creditmemos, 'The controller must have created exactly one credit memo.');
-
-        $this->probeMark('test: creditmemo collection counted');
 
         /** @var Creditmemo $creditmemo */
         $creditmemo = $creditmemos->getFirstItem();
@@ -318,28 +298,17 @@ class CreditmemoSaveTest extends AbstractBackendController
      */
     private function captureBothInvoices(): Order
     {
-        $this->probeMark('captureBothInvoices: enter');
-
         $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
         $order->getPayment()->authorize(true, (float)$order->getBaseGrandTotal());
         $this->_objectManager->get(OrderRepositoryInterface::class)->save($order);
 
-        $this->probeMark('captureBothInvoices: authorized');
-
         foreach (['simple' => 2, 'simple2' => 1] as $sku => $qty) {
             $this->simulateNewRequest();
             $order = $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
-
-            $this->probeMark('captureBothInvoices: invoicing ' . $sku);
-
             $this->invoiceOnline($order, [$this->itemId($order, (string)$sku) => $qty]);
-
-            $this->probeMark('captureBothInvoices: invoiced ' . $sku);
         }
 
         $this->simulateNewRequest();
-
-        $this->probeMark('captureBothInvoices: leave');
 
         return $this->loadOrderByIncrementId(self::ORDER_INCREMENT_ID);
     }

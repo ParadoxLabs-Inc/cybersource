@@ -21,7 +21,6 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Sales\Model\ResourceModel\Order\Payment\Transaction\CollectionFactory as TransactionCollectionFactory;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
 use ParadoxLabs\TokenBase\Model\AbstractMethod;
 
@@ -49,7 +48,6 @@ use ParadoxLabs\TokenBase\Model\AbstractMethod;
  */
 class VoidPaymentTest extends AbstractBackendController
 {
-    use OomProbeTrait;
     use RestStubTrait;
 
     private const ORDER_INCREMENT_ID = '100000570';
@@ -69,8 +67,6 @@ class VoidPaymentTest extends AbstractBackendController
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->registerRestStub();

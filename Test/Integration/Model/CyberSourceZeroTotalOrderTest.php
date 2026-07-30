@@ -17,7 +17,6 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Model\ResourceModel\Card\CollectionFactory as CardCollectionFactory;
@@ -61,7 +60,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CyberSourceZeroTotalOrderTest extends TestCase
 {
-    use OomProbeTrait;
     use RestStubTrait;
 
     private const ORDER_INCREMENT_ID = '100000575';
@@ -76,8 +74,6 @@ class CyberSourceZeroTotalOrderTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->objectManager = Bootstrap::getObjectManager();

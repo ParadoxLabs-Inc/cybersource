@@ -22,7 +22,6 @@ use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Service\InvoiceService;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
 
 /**
@@ -48,7 +47,6 @@ use ParadoxLabs\CyberSource\Test\Integration\RestStubTrait;
  */
 class InvoiceSaveTest extends AbstractBackendController
 {
-    use OomProbeTrait;
     use RestStubTrait;
 
     private const ORDER_INCREMENT_ID = '100000570';
@@ -73,8 +71,6 @@ class InvoiceSaveTest extends AbstractBackendController
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->registerRestStub();

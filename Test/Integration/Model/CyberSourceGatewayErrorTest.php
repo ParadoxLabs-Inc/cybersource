@@ -29,7 +29,6 @@ use ParadoxLabs\CyberSource\Model\Gateway;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
 use ParadoxLabs\CyberSource\Test\Integration\CyberSourceRestStub;
-use ParadoxLabs\CyberSource\Test\Integration\OomProbeTrait;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Throwable;
@@ -50,8 +49,6 @@ use Throwable;
  */
 class CyberSourceGatewayErrorTest extends TestCase
 {
-    use OomProbeTrait;
-
     private const AUTH_TXN_ID = '7810198061286032204805';
     private const CAPTURE_TXN_ID = 'CAP7810198061286032204805';
 
@@ -69,8 +66,6 @@ class CyberSourceGatewayErrorTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->probeMemory();
-
         parent::setUp();
 
         $this->objectManager = Bootstrap::getObjectManager();
