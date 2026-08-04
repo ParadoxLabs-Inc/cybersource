@@ -21,17 +21,18 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Workaround\Override\Fixture\Resolver;
 
 /**
- * An active GUEST cart with a non-zero base grand total and a masked cart id.
+ * A guest cart that is ready to PLACE: addresses, a shipping method, and a Unified Checkout transient
+ * token on the payment.
  *
- * This is the shape the Payer Authentication webapi routes operate on: everything the service reads
- * -- base grand total, base currency, billTo, quote payment -- has to be really persisted, because
- * the point of the integration coverage is that setup() and authenticate() are separate requests
- * that share nothing but the database row.
+ * The cross-request suite drives the real checkout submit against this cart, so everything the place
+ * path reads has to be genuinely persisted -- the point of the coverage is that the Payer
+ * Authentication record survives setup -> authenticate -> quote-to-order conversion on its own.
+ *
+ * The transient token lives on the quote payment (where the checkout client posts it) and carries the
+ * `jti` the record binds to; the test reads it back off the payment rather than minting its own, so
+ * the binding the money path recomputes is provably the one setup() stored.
  */
 
-// product_simple.php carries REQUIRED custom options, which makes Quote::addProduct() refuse the item
-// and return an error string -- silently leaving an empty, zero-total cart behind. The option-less
-// product is what this cart needs: a real base grand total for the amount binding to be worth anything.
 Resolver::getInstance()->requireDataFixture(
     'Magento/Catalog/_files/product_without_options_with_stock_data.php'
 );
@@ -52,8 +53,31 @@ $addressData = [
     'postcode' => '90210',
     'country_id' => 'US',
     'telephone' => '3105551234',
-    'email' => 'payer-auth-guest@example.com',
+    'email' => 'payer-auth-checkout@example.com',
 ];
+
+// An unsigned transient-token JWT: TransientTokenReader does not verify signatures (a forged jti binds
+// an attempt to itself and nothing else), so a hand-built payload is a faithful stand-in. Visa (001).
+$tokenPayload = [
+    'jti' => 'c7a1f0b2-3d4e-4f5a-9b6c-7d8e9f0a1b2c',
+    'content' => [
+        'paymentInformation' => [
+            'card' => [
+                'type' => ['value' => '001'],
+                'expirationMonth' => ['value' => '01'],
+                'expirationYear' => ['value' => '2029'],
+                'number' => [
+                    'maskedValue' => ['value' => 'XXXXXXXXXXXX1111'],
+                    'bin' => ['value' => '411111'],
+                ],
+            ],
+        ],
+    ],
+];
+
+$transientToken = 'eyJhbGciOiJSUzI1NiJ9.'
+    . rtrim(strtr(base64_encode(json_encode($tokenPayload, JSON_THROW_ON_ERROR)), '+/', '-_'), '=')
+    . '.integrationsignature';
 
 /** @var Quote $quote */
 $quote = $objectManager->create(Quote::class);
@@ -62,13 +86,21 @@ $quote->setStoreId($objectManager->get(StoreManagerInterface::class)->getStore()
     ->setIsMultiShipping(false)
     ->setCustomerIsGuest(true)
     ->setCustomerEmail($addressData['email'])
-    ->setReservedOrderId('test_payer_auth_guest');
+    ->setReservedOrderId('test_pa_checkout_guest');
 
 $quote->getBillingAddress()->addData($addressData);
 $quote->getShippingAddress()->addData($addressData);
 
 $quote->addProduct($product, 2);
+
+$quote->getShippingAddress()
+    ->setCollectShippingRates(true)
+    ->collectShippingRates()
+    ->setShippingMethod('flatrate_flatrate');
+
 $quote->getPayment()->setMethod('paradoxlabs_cybersource');
+$quote->getPayment()->setAdditionalInformation('transient_token', $transientToken);
+
 $quote->collectTotals();
 
 /** @var CartRepositoryInterface $cartRepository */

@@ -86,6 +86,16 @@
         </arguments>
     </type>
 
+    <!-- Lazy: Gateway\Context takes this service concretely, so it is built for every payment method
+         instantiation, while its Payer Authentication collaborators are only touched on a charge. -->
+    <type name="ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response">
+        <arguments>
+            <argument name="bindingValidator" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator\Proxy</argument>
+            <argument name="passThroughMapper" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\PayerAuth\PassThroughMapper\Proxy</argument>
+            <argument name="payerAuthPersistor" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor\Proxy</argument>
+        </arguments>
+    </type>
+
     <!-- Validators -->
     <virtualType name="ParadoxLabs\TokenBase\Gateway\VirtualValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
         <arguments>
