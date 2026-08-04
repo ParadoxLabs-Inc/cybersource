@@ -214,7 +214,7 @@
                 <field id="require_ccv" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Require CVN for stored cards</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, CVN will be required for stored cards, and customers may have to enter it twice on checkout. This will not affect recurring transactions.</comment>
+                    <comment>If yes, customers must re-enter the security code to pay with a stored card. New card entry is unaffected: the Unified Checkout form always collects the security code itself. This will not affect recurring transactions.</comment>
                 </field>
                 <field id="reauthorize_partial_invoice" translate="label comment" type="select" sortOrder="370" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Reauthorize on Partial Invoice</label>
