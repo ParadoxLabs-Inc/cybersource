@@ -53,8 +53,6 @@
                 <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
                 <value id="cybersource_testflex" type="host">testflex.cybersource.com</value>
-                <!-- 3DS step-up challenge runs inside the UC iframe via Cardinal (frame only) -->
-                <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
                 <!-- Decision Manager device fingerprinting frames h.online-metrix.net (live-observed) -->
                 <value id="onlinemetrix" type="host">*.online-metrix.net</value>
             </values>
