@@ -76,9 +76,12 @@ use Psr\Log\LoggerInterface;
 class Management implements PayerAuthManagementInterface
 {
     /**
-     * Frontend route the ACS challenge posts its result back to (PA-2 owns the controller).
+     * Frontend route the ACS challenge posts its result back to.
+     *
+     * Must stay in lockstep with \ParadoxLabs\CyberSource\Controller\Payerauth\Callback and the
+     * pdl_cybs front name in etc/frontend/routes.xml; a mismatch is a silent challenge dead-end.
      */
-    public const RETURN_ROUTE = 'paradoxlabs-cybersource/payerauth/return';
+    public const RETURN_ROUTE = 'pdl_cybs/payerauth/callback';
 
     /**
      * Explicitly-set quote (guest wrapper / GraphQL), bypassing session resolution.
@@ -185,16 +188,14 @@ class Management implements PayerAuthManagementInterface
     /**
      * Authenticate with a return URL the caller has already validated.
      *
-     * The GraphQL surface (T6) serves headless storefronts whose origin is NOT the store base URL,
-     * so the same-host rule authenticate() enforces cannot apply there. What that surface actually
-     * enforces is SHAPE, not identity: the URL must be absolute, https, carry a host, and carry no
-     * userinfo component. It does NOT check the host against an allowlist — any https host is
-     * accepted. This method is deliberately absent from the service contract so no REST/webapi
-     * caller can reach it, but a GraphQL caller can still aim the challenge return at a host of its
-     * choosing.
-     *
-     * DEFERRED to PA-2 (client iteration): a merchant-configurable origin allowlist for the headless
-     * return URL. Not implemented here.
+     * The GraphQL surface serves headless storefronts whose origin is NOT the store base URL, so
+     * the same-host rule authenticate() enforces cannot apply there. What that surface enforces is
+     * SHAPE plus ORIGIN: the URL must be absolute, https, carry a plain host and no userinfo
+     * component, and its origin must be the store's secure base-URL origin or one listed in the
+     * merchant's payment/paradoxlabs_cybersource/payer_auth_return_origins config
+     * (Config::getPayerAuthReturnOrigins()). An empty allowlist means same-store-origin only.
+     * This method is deliberately absent from the service contract so no REST/webapi caller can
+     * reach it.
      *
      * @param PayerAuthBrowserInfoInterface $browserInfo
      * @param string $returnUrl Absolute URL, already validated by the caller.

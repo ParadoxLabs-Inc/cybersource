@@ -507,7 +507,7 @@ class ManagementTest extends TestCase
         $this->management->authenticate($this->browserInfo());
 
         $this->assertSame(
-            'https://store.example.com/paradoxlabs-cybersource/payerauth/return',
+            'https://store.example.com/pdl_cybs/payerauth/callback',
             $request()->getReturnUrl()
         );
     }

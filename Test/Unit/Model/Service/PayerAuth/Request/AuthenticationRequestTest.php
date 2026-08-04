@@ -45,7 +45,7 @@ class AuthenticationRequestTest extends TestCase
 
         return $request->setClientReferenceCode('quote-1234')
             ->setReferenceId('2611dbe9-b63b-4ac4-a172-a4278a32aecb')
-            ->setReturnUrl('https://store.example.com/paradoxlabs_cybersource/payerauth/return')
+            ->setReturnUrl('https://store.example.com/pdl_cybs/payerauth/callback')
             ->setTotalAmount('24.00')
             ->setCurrency('USD')
             ->setBillTo([
@@ -73,7 +73,7 @@ class AuthenticationRequestTest extends TestCase
             $result['consumerAuthenticationInformation']['referenceId']
         );
         $this->assertSame(
-            'https://store.example.com/paradoxlabs_cybersource/payerauth/return',
+            'https://store.example.com/pdl_cybs/payerauth/callback',
             $result['consumerAuthenticationInformation']['returnUrl']
         );
         $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
