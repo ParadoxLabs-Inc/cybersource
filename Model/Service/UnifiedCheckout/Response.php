@@ -29,6 +29,9 @@ use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Payment;
 use ParadoxLabs\CyberSource\Model\Config\Config;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\PassThroughMapper;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
@@ -96,13 +99,17 @@ class Response
      *
      * AUTHORIZED_PENDING_REVIEW is a Decision Manager hold — the auth is good but held for review,
      * and (per the spike) carries NO tokenInformation.
+     *
+     * PENDING_AUTHENTICATION is deliberately ABSENT (PA-1 hardening): it means CyberSource wants a
+     * 3DS step-up before the auth exists — no money is authorized and no order may be placed on it.
+     * Payer Authentication resolves entirely BEFORE place in this design, so a payment reply can only
+     * carry it if something went wrong; treating it as approved would place an unpaid order.
      */
     public const APPROVED_STATUSES = [
         'AUTHORIZED',
         'AUTHORIZED_PENDING_REVIEW',
         'PARTIAL_AUTHORIZED',
         'PENDING',
-        'PENDING_AUTHENTICATION',
         'PENDING_REVIEW',
     ];
 
@@ -173,6 +180,9 @@ class Response
      * @param PaymentRequestFactory $requestFactory
      * @param StoredCardRequestFactory $storedCardRequestFactory
      * @param TransientTokenReader $transientTokenReader
+     * @param BindingValidator $bindingValidator
+     * @param PassThroughMapper $passThroughMapper
+     * @param Persistor $payerAuthPersistor
      */
     public function __construct(
         protected readonly Rest $rest,
@@ -183,7 +193,10 @@ class Response
         protected readonly ResponseFactory $responseFactory,
         protected readonly PaymentRequestFactory $requestFactory,
         protected readonly StoredCardRequestFactory $storedCardRequestFactory,
-        protected readonly TransientTokenReader $transientTokenReader
+        protected readonly TransientTokenReader $transientTokenReader,
+        protected readonly BindingValidator $bindingValidator,
+        protected readonly PassThroughMapper $passThroughMapper,
+        protected readonly Persistor $payerAuthPersistor
     ) {
     }
 
@@ -199,7 +212,8 @@ class Response
      * @param float $amount
      * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
      * @return GatewayResponse
-     * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path).
+     * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path), or on a
+     *         failed/stale Payer Authentication record that must not be placed against.
      * @throws RuntimeException On an error/invalid response, or a missing transient token.
      * @throws Throwable
      */
@@ -213,11 +227,23 @@ class Response
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request  = $this->buildRequest($payment, $amount, $capture);
+        $request = $this->buildRequest($payment, $amount, $capture);
+
+        // Payer Authentication: consume the pre-place verdict for THIS card and THIS amount, if any.
+        // Runs before the money call so a failed/stale result blocks placement rather than dropping
+        // the liability shift silently.
+        $payerAuth = $this->attachPayerAuth(
+            $payment,
+            $request,
+            $this->getTransientTokenBinding($payment),
+            $this->getTransientTokenCardType($payment)
+        );
+
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         $gatewayResponse = $this->interpretResponse($response, $payment, $this->requestsTokenCreate($request));
         $this->seedCardInformationFromTransientToken($payment, $gatewayResponse);
+        $this->completePayerAuth($payment, $gatewayResponse, $payerAuth);
 
         return $gatewayResponse;
     }
@@ -238,7 +264,8 @@ class Response
      * @param float $amount
      * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
      * @return GatewayResponse
-     * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path).
+     * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path), or on a
+     *         failed/stale Payer Authentication record that must not be placed against.
      * @throws RuntimeException On an error/invalid response, or a card with no vaulted token.
      * @throws Throwable
      */
@@ -256,12 +283,25 @@ class Response
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request  = $this->buildStoredCardRequest($payment, $card, $amount, $capture);
+        $request = $this->buildStoredCardRequest($payment, $card, $amount, $capture);
+
+        // Payer Authentication on the stored-card CIT (the MIT/admin branches never consult it — see
+        // shouldConsumePayerAuth()). The binding is the vault card id the authentication was run against.
+        $payerAuth = $this->attachPayerAuth(
+            $payment,
+            $request,
+            $this->payerAuthPersistor->cardBinding((int)$card->getId()),
+            $this->stringOrNull($card->getAdditional('cc_type')) ?? ''
+        );
+
         $response = $this->rest->post(self::PAYMENTS_PATH, $request->toArray());
 
         // StoredCardRequest carries no actionList: the card is already vaulted, so no token is requested
         // and the token-less reply is expected. Never flag uc_token_missing off this path.
-        return $this->interpretResponse($response, $payment, false);
+        $gatewayResponse = $this->interpretResponse($response, $payment, false);
+        $this->completePayerAuth($payment, $gatewayResponse, $payerAuth);
+
+        return $gatewayResponse;
     }
 
     /**
@@ -429,6 +469,201 @@ class Response
 
         return $amountPaid > 0
             || (bool)$payment->getAdditionalInformation('is_subscription_generated');
+    }
+
+    /**
+     * Whether this charge may consume a persisted Payer Authentication result at all.
+     *
+     * Payer Auth is a CUSTOMER-INITIATED, browser-originated ceremony, so only those charges consult
+     * the validator:
+     *  - A subscription-generated rebill is merchant-initiated (MIT): there is no cardholder to
+     *    authenticate, no fresh record can exist, and consulting would let a stale record from the
+     *    original checkout throw on an unattended rebill. Same signal as shouldSuppressDecisionManager().
+     *  - Admin/MOTO order creation is exempt by design (PAYER-AUTH-PLAN.md coverage matrix), as is any
+     *    other non-frontend origin (cron, console). TokenBase's helper is the module's existing
+     *    area-origin signal — frontend + REST webapi + GraphQL are "customer-facing", adminhtml and
+     *    crontab are not — so no new dependency and no new definition of "admin" is introduced here.
+     *
+     * An unresolved area code falls through to consulting: that is only consequential when a record
+     * EXISTS, and records are only ever written by the customer-initiated flows above, so it can
+     * neither block an admin order nor bypass a FAILED verdict.
+     *
+     * @param InfoInterface $payment
+     * @return bool
+     */
+    protected function shouldConsumePayerAuth(InfoInterface $payment): bool
+    {
+        if ((bool)$payment->getAdditionalInformation('is_subscription_generated')) {
+            return false;
+        }
+
+        try {
+            return (bool)$this->helper->getIsFrontend();
+        } catch (Throwable $error) {
+            return true;
+        }
+    }
+
+    /**
+     * Resolve the persisted Payer Authentication result for this charge and attach its pass-through.
+     *
+     * The amount and currency are read back off the REQUEST DTO, so the binding check compares the
+     * exact strings the money call will carry — there is no second formatting path to drift from.
+     *
+     * Outcomes: null record (Payer Auth off, or never run) => nothing attached, placement proceeds;
+     * AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing attached
+     * (no liability shift exists to pass) and the outcome is logged; FAILED / stale / abandoned =>
+     * BindingValidator throws CommandException and the placement never happens.
+     *
+     * @param InfoInterface $payment
+     * @param PaymentRequest|StoredCardRequest $request
+     * @param string $binding Binding of the instrument being charged (jti, or Persistor::cardBinding()).
+     * @param string $ccType Magento card type code of the instrument being charged.
+     * @return array{verdict: \ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict,
+     *               ca: array<string, mixed>}|null
+     * @throws CommandException On a failed, abandoned, or stale-but-valuable authentication record.
+     */
+    protected function attachPayerAuth(
+        InfoInterface $payment,
+        PaymentRequest|StoredCardRequest $request,
+        string $binding,
+        string $ccType
+    ): ?array {
+        if ($this->shouldConsumePayerAuth($payment) === false) {
+            return null;
+        }
+
+        $payerAuth = $this->bindingValidator->resolve(
+            $payment,
+            (string)$request->getTotalAmount(),
+            (string)$request->getCurrency(),
+            $binding
+        );
+
+        if ($payerAuth === null) {
+            return null;
+        }
+
+        if ($payerAuth['verdict']->hasLiabilityShift() === false) {
+            // U/B/error shapes: place WITHOUT the shift, exactly as the legacy SOAP path did. No
+            // values from the record are logged — it holds the CAVV.
+            $this->helper->log(
+                Config::CODE,
+                'Payer Authentication: verdict=' . $payerAuth['verdict']->value
+                . '; placing without liability shift.'
+            );
+
+            return $payerAuth;
+        }
+
+        $mapped = $this->passThroughMapper->map($payerAuth['ca'], $ccType);
+
+        if ($mapped['consumerAuthenticationInformation'] !== []) {
+            $request->setConsumerAuthenticationInformation($mapped['consumerAuthenticationInformation']);
+        }
+
+        if ($mapped['commerceIndicator'] !== null) {
+            $request->setCommerceIndicator($mapped['commerceIndicator']);
+        }
+
+        return $payerAuth;
+    }
+
+    /**
+     * Finish the one-shot: surface the consumed result, then drop the record.
+     *
+     * Only ever reached on an APPROVED reply — interpretResponse() throws on decline/error — which is
+     * exactly the intended one-shot timing: a declined or errored place leaves the record in place so
+     * the customer can retry the same authenticated attempt within its TTL. (Per T3's documented
+     * caveat the clear also rides the order transaction, so a rolled-back place keeps the record too.)
+     *
+     * @param InfoInterface $payment
+     * @param GatewayResponse $gatewayResponse
+     * @param array{verdict: \ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict,
+     *              ca: array<string, mixed>}|null $payerAuth
+     * @return void
+     */
+    protected function completePayerAuth(
+        InfoInterface $payment,
+        GatewayResponse $gatewayResponse,
+        ?array $payerAuth
+    ): void {
+        if ($payerAuth === null) {
+            return;
+        }
+
+        $this->surfaceConsumerAuthentication($gatewayResponse, $payerAuth['ca']);
+        $this->payerAuthPersistor->clear($payment);
+    }
+
+    /**
+     * Merge the consumed authentication result onto the response's consumer_authentication tree.
+     *
+     * G2 finding 3: the /pts/v2/payments reply does NOT echo the authentication fields back (its
+     * consumerAuthenticationInformation carries only `token`), so the persisted record is the real
+     * source. Whatever the reply DID supply stays as the base and the record overrides it field by
+     * field, keeping reply-only values (e.g. `token`) while the authoritative auth values win.
+     *
+     * Same key naming, same 17-field whitelist, same scalar guard as the reply-sourced path, so
+     * downstream/admin display is unchanged.
+     *
+     * @param GatewayResponse $gatewayResponse
+     * @param array<string, mixed> $consumerAuthenticationInformation
+     * @return void
+     */
+    protected function surfaceConsumerAuthentication(
+        GatewayResponse $gatewayResponse,
+        array $consumerAuthenticationInformation
+    ): void {
+        $fromRecord = $this->filterConsumerAuthenticationFields($consumerAuthenticationInformation);
+
+        if ($fromRecord === []) {
+            return;
+        }
+
+        $fromReply = $gatewayResponse->getData('consumer_authentication');
+
+        $gatewayResponse->setData(
+            'consumer_authentication',
+            array_merge(is_array($fromReply) ? $fromReply : [], $fromRecord)
+        );
+    }
+
+    /**
+     * Read the transient-token `jti` binding for the card being charged, or '' when unreadable.
+     *
+     * An unreadable binding never matches a persisted record, so a record from a DIFFERENT card entry
+     * is discarded rather than honored — the fail-closed direction.
+     *
+     * @param InfoInterface $payment
+     * @return string
+     */
+    protected function getTransientTokenBinding(InfoInterface $payment): string
+    {
+        $transientToken = $this->getTransientToken($payment);
+
+        if ($transientToken === null) {
+            return '';
+        }
+
+        return $this->transientTokenReader->readJti($transientToken) ?? '';
+    }
+
+    /**
+     * Read the card network of the transient token being charged, or '' when unreadable.
+     *
+     * @param InfoInterface $payment
+     * @return string
+     */
+    protected function getTransientTokenCardType(InfoInterface $payment): string
+    {
+        $transientToken = $this->getTransientToken($payment);
+
+        if ($transientToken === null) {
+            return '';
+        }
+
+        return $this->stringOrNull($this->transientTokenReader->read($transientToken)['cc_type'] ?? null) ?? '';
     }
 
     /**
@@ -1061,9 +1296,28 @@ class Response
             return;
         }
 
+        $authentication = $this->filterConsumerAuthenticationFields($authInformation);
+
+        if ($authentication !== []) {
+            $data['consumer_authentication'] = $authentication;
+        }
+    }
+
+    /**
+     * Reduce a consumerAuthenticationInformation tree to the surfaced whitelist, scalars only.
+     *
+     * Shared by the reply-sourced path (extractConsumerAuthentication) and the record-sourced path
+     * (surfaceConsumerAuthentication) so both emit exactly the same key contract.
+     *
+     * @param array<string, mixed> $consumerAuthenticationInformation
+     * @return array<string, scalar>
+     */
+    protected function filterConsumerAuthenticationFields(array $consumerAuthenticationInformation): array
+    {
         $authentication = [];
+
         foreach (self::CONSUMER_AUTHENTICATION_FIELDS as $field) {
-            $value = $authInformation[$field] ?? null;
+            $value = $consumerAuthenticationInformation[$field] ?? null;
             // Scalar guard: a future schema change to an array/object value must not land a non-scalar
             // on the persisted record.
             if ($value !== null && $value !== '' && is_scalar($value)) {
@@ -1071,9 +1325,7 @@ class Response
             }
         }
 
-        if ($authentication !== []) {
-            $data['consumer_authentication'] = $authentication;
-        }
+        return $authentication;
     }
 
     /**

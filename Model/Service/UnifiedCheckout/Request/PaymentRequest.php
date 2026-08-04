@@ -117,6 +117,28 @@ class PaymentRequest
     private ?string $fingerprintSessionId = null;
 
     /**
+     * Payer Authentication commerce indicator (processingInformation.commerceIndicator).
+     *
+     * The TEXT indicator the /risk/v1/authentications reply returned (vbv, vbv_attempted, spa,
+     * internet, …), passed through verbatim. Null (default) = no payer-auth result to pass through;
+     * the leaf is then omitted and the account default applies, exactly as before Payer Auth existed.
+     *
+     * @var string|null
+     */
+    private ?string $commerceIndicator = null;
+
+    /**
+     * Payer Authentication pass-through block (top-level consumerAuthenticationInformation).
+     *
+     * Already mapped per network by PayerAuth\PassThroughMapper; emitted verbatim (after empty
+     * filtering) so the field contract lives in exactly one place. Empty (default) = nothing to pass
+     * through and the key is omitted entirely.
+     *
+     * @var array<string, string>
+     */
+    private array $consumerAuthenticationInformation = [];
+
+    /**
      * Get the transient-token JWT that represents the captured card.
      *
      * @return string|null
@@ -416,6 +438,52 @@ class PaymentRequest
     }
 
     /**
+     * Get the Payer Authentication commerce indicator.
+     *
+     * @return string|null
+     */
+    public function getCommerceIndicator(): ?string
+    {
+        return $this->commerceIndicator;
+    }
+
+    /**
+     * Set the Payer Authentication commerce indicator (processingInformation.commerceIndicator).
+     *
+     * @param string|null $commerceIndicator
+     * @return $this
+     */
+    public function setCommerceIndicator(?string $commerceIndicator): self
+    {
+        $this->commerceIndicator = $commerceIndicator;
+
+        return $this;
+    }
+
+    /**
+     * Get the Payer Authentication pass-through block.
+     *
+     * @return array<string, string>
+     */
+    public function getConsumerAuthenticationInformation(): array
+    {
+        return $this->consumerAuthenticationInformation;
+    }
+
+    /**
+     * Set the Payer Authentication pass-through block (already network-mapped).
+     *
+     * @param array<string, string> $consumerAuthenticationInformation
+     * @return $this
+     */
+    public function setConsumerAuthenticationInformation(array $consumerAuthenticationInformation): self
+    {
+        $this->consumerAuthenticationInformation = $consumerAuthenticationInformation;
+
+        return $this;
+    }
+
+    /**
      * Build the JSON-ready request tree, omitting null/empty leaves while preserving boolean false.
      *
      * @return array<string, mixed>
@@ -442,6 +510,7 @@ class PaymentRequest
             'actionList' => $this->actionList,
             'actionTokenTypes' => $this->actionTokenTypes,
             'capture' => $this->capture,
+            'commerceIndicator' => $this->commerceIndicator,
             'enableDecisionManager' => $this->enableDecisionManager,
         ]);
         if (!empty($processingInformation)) {
@@ -481,6 +550,14 @@ class PaymentRequest
         ]);
         if (!empty($deviceInformation)) {
             $request['deviceInformation'] = $deviceInformation;
+        }
+
+        // Payer Authentication pass-through (3DS liability shift). Emitted ONLY when a validated
+        // authentication result was attached; an unauthenticated placement is byte-identical to the
+        // pre-Payer-Auth request.
+        $consumerAuthenticationInformation = $this->filterEmpty($this->consumerAuthenticationInformation);
+        if (!empty($consumerAuthenticationInformation)) {
+            $request['consumerAuthenticationInformation'] = $consumerAuthenticationInformation;
         }
 
         return $request;
