@@ -341,6 +341,31 @@ class TransactionUpdaterTest extends TestCase
     }
 
     /**
+     * Another gateway's review backlog does not wake this cron.
+     *
+     * Pins the payment-method scoping of the pending-review lookup: state alone is not enough, or every
+     * store running a second gateway with reviews of its own would poll CyberSource hourly for nothing.
+     *
+     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
+     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_other_method_review_order.php
+     * @return void
+     */
+    public function testIgnoresOrdersInReviewOnAnotherPaymentMethod(): void
+    {
+        $this->registerStub([]);
+
+        $this->runCron();
+
+        $this->assertCount(
+            0,
+            $this->restStub->getCallsMatching('/reporting/v3/conversion-details'),
+            'A review order belonging to another payment method must not trigger a CyberSource poll.'
+        );
+    }
+
+    /**
      * An order in review is polled for whatever uc_decision_manager says.
      *
      * That setting only rides completeMandate on the capture context; the /pts/v2/payments call carries

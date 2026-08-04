@@ -125,12 +125,19 @@ class TransactionUpdater
      * with no store scoping, so a poll made under one store's merchant id can legitimately settle an
      * order belonging to another store on the same organization.
      *
+     * Driven off state, which core indexes (SALES_ORDER_STATE), so the scan is bounded by the number of
+     * orders in payment review rather than the size of sales_order -- payment_review is a transient state
+     * holding a handful of rows even on a large catalog of orders. The join then hits
+     * sales_order_payment.parent_id, also indexed (SALES_ORDER_PAYMENT_PARENT_ID), one row at a time;
+     * method is unindexed but is only ever evaluated against those few rows. Existence is all we need,
+     * so this stops at the first match instead of counting the set.
+     *
      * @return bool
      */
     protected function hasOrdersAwaitingReview(): bool
     {
         $orders = $this->orderCollectionFactory->create();
-        $orders->addFieldToFilter('state', Order::STATE_PAYMENT_REVIEW);
+        $orders->addFieldToFilter('main_table.state', Order::STATE_PAYMENT_REVIEW);
         $orders->getSelect()
             ->join(
                 ['payment' => $orders->getTable('sales_order_payment')],
@@ -138,8 +145,10 @@ class TransactionUpdater
                 []
             )
             ->where('payment.method = ?', Config::CODE);
+        $orders->setPageSize(1)
+            ->setCurPage(1);
 
-        return $orders->getSize() > 0;
+        return $orders->getFirstItem()->getId() !== null;
     }
 
     /**
