@@ -114,7 +114,7 @@ class Config
     }
 
     /**
-     * Get the CyberSource Organization ID, used only to scope Decision Manager conversion-detail queries.
+     * Get the CyberSource Organization ID.
      *
      * @param int|null $storeId
      * @return mixed

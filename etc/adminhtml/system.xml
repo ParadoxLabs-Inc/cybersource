@@ -49,6 +49,9 @@
                     <label>API Test Results</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Rest</frontend_model>
                 </field>
+                <field id="organization_id" translate="label" type="text" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Organization ID</label>
+                </field>
                 <field id="merchant_id" translate="label" type="text" sortOrder="154" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Merchant ID</label>
                 </field>
@@ -78,13 +81,6 @@
                     <label>Enable Decision Manager</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, Decision Manager fraud screening will be requested on Unified Checkout transactions. Requires Decision Manager on your CyberSource merchant account.</comment>
-                </field>
-                <field id="organization_id" translate="label comment" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Decision Manager Organization ID</label>
-                    <comment>Used only to poll Decision Manager for review decisions. This is not an API credential; leave it empty unless CyberSource gave you an organization ID distinct from your merchant ID.</comment>
-                    <depends>
-                        <field id="uc_decision_manager">1</field>
-                    </depends>
                 </field>
                 <field id="uc_allowed_payment_types" translate="label comment" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allowed Payment Types</label>
