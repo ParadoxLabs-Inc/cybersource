@@ -93,6 +93,38 @@ class TransientTokenReaderTest extends TestCase
         ];
     }
 
+    /**
+     * The jti identifies one card-entry attempt; Payer Authentication binds its record to it.
+     *
+     * @return void
+     */
+    public function testReadJtiReturnsTheTokenIdentifier(): void
+    {
+        $this->assertSame(
+            '1E1ADDLZ49ILFQYHW348HBT4FNAD23A6U4RBN2CXBSOHJ5UZRC6O6A28302251CD',
+            $this->reader->readJti(self::buildJwt(self::realShapedPayload()))
+        );
+    }
+
+    public function testReadJtiReturnsNullWhenTheClaimIsAbsent(): void
+    {
+        $payload = self::realShapedPayload();
+        unset($payload['jti']);
+
+        $this->assertNull($this->reader->readJti(self::buildJwt($payload)));
+    }
+
+    /**
+     * @dataProvider malformedTokenProvider
+     * @param string $jwt
+     * @return void
+     */
+    #[DataProvider('malformedTokenProvider')]
+    public function testReadJtiNeverThrowsOnMalformedInput(string $jwt): void
+    {
+        $this->assertNull($this->reader->readJti($jwt));
+    }
+
     public function testReadsFullCardMetadataFromRealShapedToken(): void
     {
         $result = $this->reader->read(self::buildJwt(self::realShapedPayload()));

@@ -43,6 +43,8 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *   amount              ?string  authenticated base amount, 2dp string
  *   currency            ?string  authenticated base currency
  *   binding             ?string  transient-token `jti` (new card) or 'card:' . tokenbase_id (stored)
+ *   transient_token     ?string  new-card path only: the transient token the authentication re-sends
+ *                                (masked-PAN reference, never a PAN; cleared with the record)
  *   created_at          int      unix timestamp of this record's creation
  *
  * The record is authorization-bearing (it carries the liability shift), so it is deliberately bound
@@ -109,10 +111,17 @@ class Persistor
      * @param InfoInterface $payment
      * @param string $referenceId
      * @param string $binding Transient-token `jti`, or self::cardBinding() for a stored card.
+     * @param string|null $transientToken New-card path only: the token the authentication must
+     *                                    re-send, since the PAN never reaches the server and an
+     *                                    uncharged card has no payment-instrument id yet.
      * @return void
      */
-    public function saveReferenceId(InfoInterface $payment, string $referenceId, string $binding): void
-    {
+    public function saveReferenceId(
+        InfoInterface $payment,
+        string $referenceId,
+        string $binding,
+        ?string $transientToken = null
+    ): void {
         $this->saveRecord(
             $payment,
             [
@@ -123,6 +132,7 @@ class Persistor
                 'amount' => null,
                 'currency' => null,
                 'binding' => $binding,
+                'transient_token' => $transientToken,
                 'created_at' => $this->now(),
             ]
         );
@@ -155,10 +165,14 @@ class Persistor
     ): void {
         $existing = $this->load($payment);
         $referenceId = null;
+        $transientToken = null;
 
         if ($existing !== null && isset($existing['binding']) && $existing['binding'] === $binding) {
             $referenceId = isset($existing['reference_id']) && $existing['reference_id'] !== null
                 ? (string)$existing['reference_id']
+                : null;
+            $transientToken = isset($existing['transient_token']) && $existing['transient_token'] !== null
+                ? (string)$existing['transient_token']
                 : null;
         }
 
@@ -174,6 +188,7 @@ class Persistor
                 'amount' => $amount,
                 'currency' => $currency,
                 'binding' => $binding,
+                'transient_token' => $transientToken,
                 'created_at' => $this->now(),
             ]
         );

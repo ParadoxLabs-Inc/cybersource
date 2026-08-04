@@ -146,6 +146,47 @@ class AuthenticationRequestTest extends TestCase
         );
     }
 
+    /**
+     * A newly entered card has no PAN server-side and no payment-instrument id yet, so the
+     * transient token IS the card reference. Same shape the setups call takes (gate G1).
+     *
+     * @return void
+     */
+    public function testTransientTokenShapeEmitsTokenInformation(): void
+    {
+        $request = $this->completeRequest()
+            ->setCard([])
+            ->setTransientToken('the.transient.token');
+
+        $result = $request->toArray();
+
+        $this->assertSame('the.transient.token', $request->getTransientToken());
+        $this->assertSame(['transientToken' => 'the.transient.token'], $result['tokenInformation']);
+        $this->assertArrayNotHasKey('paymentInformation', $result);
+        $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
+    }
+
+    public function testTransientTokenIsMutuallyExclusiveWithTheOtherCardShapes(): void
+    {
+        $request = $this->completeRequest()->setTransientToken('the.transient.token');
+
+        $this->expectException(InputException::class);
+
+        $request->toArray();
+    }
+
+    public function testTransientTokenIsMutuallyExclusiveWithThePaymentInstrumentId(): void
+    {
+        $request = $this->completeRequest()
+            ->setCard([])
+            ->setPaymentInstrumentId('F2C0A1B2C3D4E5F6G7H8I9J0K1L2M3N4')
+            ->setTransientToken('the.transient.token');
+
+        $this->expectException(InputException::class);
+
+        $request->toArray();
+    }
+
     public function testBothCardShapesThrow(): void
     {
         $request = $this->completeRequest()->setPaymentInstrumentId('F2C0A1B2C3D4E5F6G7H8I9J0K1L2M3N4');

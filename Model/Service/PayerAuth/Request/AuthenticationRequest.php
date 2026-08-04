@@ -32,7 +32,8 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FilterEmptyTra
  * 1. FULL browser deviceInformation. Verified live 2026-08-04 (gate G2, finding 1): with only
  *    Accept/User-Agent, an enrolled card silently degrades to veresEnrolled U / vbv_failure, i.e.
  *    a silent 3DS bypass. Missing/empty browser data therefore fails loud.
- * 2. Exactly one card addressing shape — raw card OR TMS payment-instrument id.
+ * 2. Exactly one card addressing shape — raw card, TMS payment-instrument id, or (new card, PAN
+ *    never server-side) the Unified Checkout transient token.
  *
  * referenceId (from authentication-setups) is OPTIONAL: the sandbox runs authentications with no
  * referenceId at all, so the client's DDC timeout can proceed without it (gate G1 bonus finding).
@@ -114,6 +115,13 @@ class AuthenticationRequest
      * @var string|null
      */
     private ?string $paymentInstrumentId = null;
+
+    /**
+     * Unified Checkout transient token (newly entered card, not yet tokenized).
+     *
+     * @var string|null
+     */
+    private ?string $transientToken = null;
 
     /**
      * Browser/device fields, keyed by API field name.
@@ -309,6 +317,34 @@ class AuthenticationRequest
     }
 
     /**
+     * Get the Unified Checkout transient token.
+     *
+     * @return string|null
+     */
+    public function getTransientToken(): ?string
+    {
+        return $this->transientToken;
+    }
+
+    /**
+     * Set the Unified Checkout transient token (tokenInformation.transientToken).
+     *
+     * The new-card path has no other way to address the card: the PAN never reaches the server, and
+     * a card that has not been charged yet has no TMS payment-instrument id. The setups call takes
+     * this exact shape (gate G1, 201-verified), and authentications belongs to the same API family;
+     * it is nonetheless the one shape in this DTO not yet proven live on THIS endpoint.
+     *
+     * @param string|null $transientToken
+     * @return $this
+     */
+    public function setTransientToken(?string $transientToken): self
+    {
+        $this->transientToken = $transientToken;
+
+        return $this;
+    }
+
+    /**
      * Get the browser/device fields.
      *
      * @return array<string, string|null>
@@ -368,9 +404,14 @@ class AuthenticationRequest
 
         $request['orderInformation']  = $orderInformation;
         $request['deviceInformation'] = $this->buildDeviceInformation();
-        $request['paymentInformation'] = !empty($this->card)
-            ? ['card' => $this->card]
-            : ['paymentInstrument' => ['id' => $this->paymentInstrumentId]];
+
+        if ($this->hasTransientToken()) {
+            $request['tokenInformation'] = ['transientToken' => $this->transientToken];
+        } else {
+            $request['paymentInformation'] = !empty($this->card)
+                ? ['card' => $this->card]
+                : ['paymentInstrument' => ['id' => $this->paymentInstrumentId]];
+        }
 
         return $request;
     }
@@ -392,14 +433,15 @@ class AuthenticationRequest
             throw new InputException(__('Payer Authentication requires an amount and currency.'));
         }
 
-        $hasCard = !empty($this->card);
-        $hasPi   = $this->paymentInstrumentId !== null && $this->paymentInstrumentId !== '';
+        $shapes = (int)!empty($this->card)
+            + (int)($this->paymentInstrumentId !== null && $this->paymentInstrumentId !== '')
+            + (int)$this->hasTransientToken();
 
-        if ($hasCard === $hasPi) {
+        if ($shapes !== 1) {
             throw new InputException(
                 __(
-                    'Payer Authentication requires exactly one of card details or a payment'
-                    . ' instrument id.'
+                    'Payer Authentication requires exactly one of card details, a payment'
+                    . ' instrument id, or a transient token.'
                 )
             );
         }
@@ -433,6 +475,16 @@ class AuthenticationRequest
                 )
             );
         }
+    }
+
+    /**
+     * Whether a transient token is set.
+     *
+     * @return bool
+     */
+    private function hasTransientToken(): bool
+    {
+        return $this->transientToken !== null && $this->transientToken !== '';
     }
 
     /**
