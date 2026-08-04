@@ -79,6 +79,7 @@ class TransactionUpdater
             if ($merchantId !== ''
                 && $store->getIsActive()
                 && $this->config->moduleIsActive($store->getId())
+                && $this->config->isDecisionManagerEnabled($store->getId())
                 && !isset($processedAccounts[$merchantId])) {
                 try {
                     $processedAccounts[$merchantId] = 1;
