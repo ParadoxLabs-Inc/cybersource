@@ -281,13 +281,18 @@ class TransactionUpdaterTest extends TestCase
     /**
      * Stores sharing one merchant id are polled once, not once per store.
      *
+     * The store has to be created before the isolation transaction opens: saving a store issues DDL for
+     * catalog_category_product_index_store<id>, and the product the order fixture saves then reindexes
+     * into that table, which MySQL rejects with 1412 (table definition has changed) inside a transaction.
+     *
+     * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
      * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoDataFixture Magento/Store/_files/second_store.php
+     * @magentoDataFixtureBeforeTransaction Magento/Store/_files/second_store.php
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
