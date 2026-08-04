@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2020-present ParadoxLabs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Need help? Try our knowledgebase and support system:
+ *
+ * @link https://support.paradoxlabs.com
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!--
+        Payer Authentication (3-D Secure), customer cart.
+
+        `self` means a customer bearer token is required; the cart is NOT addressed in the URL,
+        because PayerAuthManagementInterface resolves it from the checkout session or, for a
+        tokenized API call, from the user context. There is therefore no %cart_id% data parameter
+        to force: an authenticated caller can only ever reach their own active cart.
+    -->
+    <route url="/V1/carts/mine/paradoxlabs-cybersource/payer-auth/setup" method="POST">
+        <service class="ParadoxLabs\CyberSource\Api\PayerAuthManagementInterface" method="setup"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/carts/mine/paradoxlabs-cybersource/payer-auth/authenticate" method="POST">
+        <service class="ParadoxLabs\CyberSource\Api\PayerAuthManagementInterface" method="authenticate"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/carts/mine/paradoxlabs-cybersource/payer-auth/finalize" method="POST">
+        <service class="ParadoxLabs\CyberSource\Api\PayerAuthManagementInterface" method="finalize"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!--
+        Payer Authentication (3-D Secure), guest cart.
+
+        `anonymous` matches every other guest-cart route in the platform: possession of the masked
+        cart id is the authorization, and GuestPayerAuthManagementInterface additionally refuses any
+        masked id that resolves to a customer-owned cart.
+    -->
+    <route url="/V1/guest-carts/:cartId/paradoxlabs-cybersource/payer-auth/setup" method="POST">
+        <service class="ParadoxLabs\CyberSource\Api\GuestPayerAuthManagementInterface" method="setup"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/:cartId/paradoxlabs-cybersource/payer-auth/authenticate" method="POST">
+        <service class="ParadoxLabs\CyberSource\Api\GuestPayerAuthManagementInterface" method="authenticate"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/:cartId/paradoxlabs-cybersource/payer-auth/finalize" method="POST">
+        <service class="ParadoxLabs\CyberSource\Api\GuestPayerAuthManagementInterface" method="finalize"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>
