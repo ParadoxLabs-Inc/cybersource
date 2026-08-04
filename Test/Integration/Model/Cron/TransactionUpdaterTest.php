@@ -71,7 +71,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -108,7 +107,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -136,7 +134,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -160,7 +157,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -181,7 +177,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -209,7 +204,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -240,7 +234,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -266,7 +259,6 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
@@ -292,12 +284,11 @@ class TransactionUpdaterTest extends TestCase
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/uc_decision_manager 1
      * @magentoDataFixture Magento/Store/_files/second_store.php
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
     public function testDedupesRequestsPerMerchantId(): void
@@ -324,19 +315,19 @@ class TransactionUpdaterTest extends TestCase
     }
 
     /**
-     * Decision Manager off means the reporting endpoint is never touched.
+     * With nothing in payment review the reporting endpoint is never touched.
      *
-     * Conversion details are a Decision Manager product. Polling them on an account without DM provisioned
-     * returns 404 on every run, for every store, forever.
+     * Conversion details only ever resolve orders already sitting in review, so a run with none
+     * outstanding cannot do anything -- and on an account with no fraud product it is an hourly 404
+     * against a report the merchant does not have.
      *
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
-     * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 0
-     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_settled_orders.php
      * @return void
      */
-    public function testSkipsStoresWithDecisionManagerDisabled(): void
+    public function testSkipsPollingWhenNothingAwaitsReview(): void
     {
         $this->registerStub([]);
 
@@ -345,42 +336,42 @@ class TransactionUpdaterTest extends TestCase
         $this->assertCount(
             0,
             $this->restStub->getCallsMatching('/reporting/v3/conversion-details'),
-            'The cron should not poll conversion details when Decision Manager is disabled.'
+            'The cron should not poll conversion details with no order awaiting review.'
         );
     }
 
     /**
-     * A skipped store must not consume the merchant id's one poll.
+     * An order in review is polled for whatever uc_decision_manager says.
      *
-     * The per-merchant dedupe key is only claimed by stores that actually run, so a DM-disabled store
-     * sharing a merchant id with a DM-enabled one cannot suppress it.
+     * That setting only rides completeMandate on the capture context; the /pts/v2/payments call carries
+     * no fraud toggle, so a review hold is decided by the CyberSource account's fraud configuration --
+     * Decision Manager, Fraud Management Essentials, or a processor rule. Gating the cron on the setting
+     * would leave orders held by any of the others stuck in payment review permanently.
      *
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/organization_id CRONORG
      * @magentoConfigFixture current_store payment/paradoxlabs_cybersource/uc_decision_manager 0
-     * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/active 1
-     * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/merchant_id CRONMERCHANT
-     * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/organization_id CRONORG2
-     * @magentoConfigFixture fixture_second_store_store payment/paradoxlabs_cybersource/uc_decision_manager 1
-     * @magentoDataFixture Magento/Store/_files/second_store.php
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_cron_review_orders.php
      * @return void
      */
-    public function testSkippedStoreDoesNotBlockAnotherStoreOnTheSameMerchant(): void
+    public function testResolvesReviewWithDecisionManagerSettingOff(): void
     {
-        $storeRepository = $this->objectManager->get(StoreRepositoryInterface::class);
-        $storeRepository->clean();
-
-        $this->registerStub([]);
+        $this->registerStub([$this->change(self::REVIEW_ORDER, 'REVIEW', 'ACCEPT')]);
 
         $this->runCron();
 
-        $calls = $this->restStub->getCallsMatching('/reporting/v3/conversion-details');
-        $this->assertCount(1, $calls, 'The DM-enabled store should still be polled.');
+        $this->assertCount(
+            1,
+            $this->restStub->getCallsMatching('/reporting/v3/conversion-details'),
+            'A pending review must be polled regardless of the uc_decision_manager setting.'
+        );
+
+        $order = $this->loadOrder(self::REVIEW_ORDER);
         $this->assertSame(
-            'CRONORG2',
-            $calls[0]['params']['organizationId'] ?? null,
-            'The poll should come from the store that has Decision Manager enabled.'
+            Order::STATE_PROCESSING,
+            $order->getState(),
+            'The review must still resolve with the setting off -- FME and DM both produce review holds.'
         );
     }
 

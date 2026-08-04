@@ -29,6 +29,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Magento\Store\Api\StoreRepositoryInterface;
 use Magento\Store\Model\App\Emulation;
 use ParadoxLabs\CyberSource\Helper\Data;
@@ -50,6 +51,7 @@ class TransactionUpdater
      * @param StoreRepositoryInterface $storeRepository
      * @param Emulation $emulator
      * @param TransactionRepositoryInterface $transactionRepository
+     * @param OrderCollectionFactory $orderCollectionFactory
      */
     public function __construct(
         protected readonly Rest $restClient,
@@ -59,7 +61,8 @@ class TransactionUpdater
         protected readonly Data $helper,
         protected readonly StoreRepositoryInterface $storeRepository,
         protected readonly Emulation $emulator,
-        protected readonly TransactionRepositoryInterface $transactionRepository
+        protected readonly TransactionRepositoryInterface $transactionRepository,
+        protected readonly OrderCollectionFactory $orderCollectionFactory
     ) {
     }
 
@@ -70,6 +73,23 @@ class TransactionUpdater
      */
     public function execute()
     {
+        /**
+         * Conversion details only ever resolve orders sitting in payment review (see processChange()),
+         * so with none outstanding the whole run is a provable no-op — and on an account with no fraud
+         * product at all it is an hourly 404 against a reporting endpoint the merchant does not have.
+         *
+         * The gate is deliberately NOT the uc_decision_manager setting. That flag only rides
+         * completeMandate on the capture context; the /pts/v2/payments call the module makes itself
+         * carries no fraud toggle, so whether an auth comes back *_PENDING_REVIEW is decided entirely
+         * by the account's fraud configuration -- Decision Manager, Fraud Management Essentials, or a
+         * processor-level rule. Response::interpretResponse() reads that off the reply status alone,
+         * so an order can land in payment review with the setting off, and gating on it would strand
+         * that order in review permanently. Asking what is actually pending is both safer and tighter.
+         */
+        if ($this->hasOrdersAwaitingReview() === false) {
+            return;
+        }
+
         $processedAccounts = [];
 
         $stores = $this->storeRepository->getList();
@@ -79,7 +99,6 @@ class TransactionUpdater
             if ($merchantId !== ''
                 && $store->getIsActive()
                 && $this->config->moduleIsActive($store->getId())
-                && $this->config->isDecisionManagerEnabled($store->getId())
                 && !isset($processedAccounts[$merchantId])) {
                 try {
                     $processedAccounts[$merchantId] = 1;
@@ -97,6 +116,30 @@ class TransactionUpdater
                 }
             }
         }
+    }
+
+    /**
+     * Whether any order anywhere is still awaiting a Decision Manager review outcome.
+     *
+     * Checked across all stores rather than per store: processChange() resolves orders by increment id
+     * with no store scoping, so a poll made under one store's merchant id can legitimately settle an
+     * order belonging to another store on the same organization.
+     *
+     * @return bool
+     */
+    protected function hasOrdersAwaitingReview(): bool
+    {
+        $orders = $this->orderCollectionFactory->create();
+        $orders->addFieldToFilter('state', Order::STATE_PAYMENT_REVIEW);
+        $orders->getSelect()
+            ->join(
+                ['payment' => $orders->getTable('sales_order_payment')],
+                'payment.parent_id = main_table.entity_id',
+                []
+            )
+            ->where('payment.method = ?', Config::CODE);
+
+        return $orders->getSize() > 0;
     }
 
     /**
