@@ -29,6 +29,8 @@ use ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface;
 use ParadoxLabs\CyberSource\Model\Api\GraphQL\PayerAuth\Authenticate;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data\BrowserInfo;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data\Result;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL;
 use PHPUnit\Framework\TestCase;
 
@@ -52,9 +54,21 @@ class AuthenticateTest extends TestCase
         'timeDifference' => 300,
     ];
 
+    /**
+     * Secure base URL of the cart's store; its origin is always a permitted return target.
+     */
+    private const STORE_BASE_URL = 'https://store.example.com/';
+
+    /**
+     * @var string[]
+     */
+    private array $returnOrigins = [];
+
     protected function setUp(): void
     {
         $this->setUpHarness();
+
+        $this->returnOrigins = [];
     }
 
     public function testResolveAuthenticatesWithStoreDefaultReturnUrlWhenNoneGiven(): void
@@ -103,7 +117,9 @@ class AuthenticateTest extends TestCase
 
     public function testResolveAcceptsForeignHeadlessReturnUrlAndReturnsChallenge(): void
     {
-        // A headless storefront runs on its own origin, so a foreign host is legitimate here.
+        // A headless storefront runs on its own origin; legitimate only once the merchant lists it.
+        $this->returnOrigins = ['https://pwa.example.net'];
+
         $this->managementMock->expects($this->once())
             ->method('authenticateWithValidatedReturnUrl')
             ->with($this->isInstanceOf(PayerAuthBrowserInfoInterface::class), 'https://pwa.example.net/checkout/3ds')
@@ -169,6 +185,64 @@ class AuthenticateTest extends TestCase
         );
     }
 
+    public function testResolveAcceptsTheStoresOwnOriginWithAnEmptyAllowlist(): void
+    {
+        $this->returnOrigins = [];
+
+        $this->assertReturnUrlAccepted('https://store.example.com/checkout/3ds');
+    }
+
+    public function testResolveRejectsAForeignOriginWithAnEmptyAllowlist(): void
+    {
+        // Fail closed: without config, only the store's own origin may receive the ACS POST.
+        $this->returnOrigins = [];
+
+        $this->assertReturnUrlRejected('https://pwa.example.net/checkout/3ds');
+    }
+
+    public function testResolveRejectsAPortMismatchAgainstAnAllowlistedOrigin(): void
+    {
+        $this->returnOrigins = ['https://pwa.example.net'];
+
+        $this->assertReturnUrlRejected('https://pwa.example.net:8443/checkout/3ds');
+    }
+
+    public function testResolveAcceptsAnAllowlistedNonDefaultPort(): void
+    {
+        $this->returnOrigins = ['https://pwa.example.net:8443'];
+
+        $this->assertReturnUrlAccepted('https://pwa.example.net:8443/checkout/3ds');
+    }
+
+    public function testResolveTreatsExplicitDefaultPortInConfigAsPortless(): void
+    {
+        $this->returnOrigins = ['https://pwa.example.net:443'];
+
+        $this->assertReturnUrlAccepted('https://pwa.example.net/checkout/3ds');
+    }
+
+    public function testResolveNeverMatchesAnAllowlistedOriginOnAnotherScheme(): void
+    {
+        // An http entry can never authorize an https URL (and https-only is enforced above anyway).
+        $this->returnOrigins = ['http://pwa.example.net'];
+
+        $this->assertReturnUrlRejected('https://pwa.example.net/checkout/3ds');
+    }
+
+    public function testResolveMatchesOriginsCaseInsensitively(): void
+    {
+        $this->returnOrigins = ['HTTPS://PWA.Example.NET'];
+
+        $this->assertReturnUrlAccepted('https://PWA.example.NET/checkout/3ds');
+    }
+
+    public function testResolveIgnoresUnparsableAllowlistEntries(): void
+    {
+        $this->returnOrigins = ['pwa.example.net', 'not a url', ''];
+
+        $this->assertReturnUrlRejected('https://pwa.example.net/checkout/3ds');
+    }
+
     public function testResolveRequiresBrowserInfo(): void
     {
         $this->managementMock->expects($this->never())->method('authenticate');
@@ -232,6 +306,55 @@ class AuthenticateTest extends TestCase
     }
 
     /**
+     * Assert the return URL passes validation and reaches the service verbatim.
+     *
+     * @param string $returnUrl
+     * @return void
+     */
+    private function assertReturnUrlAccepted(string $returnUrl): void
+    {
+        $this->managementMock->expects($this->once())
+            ->method('authenticateWithValidatedReturnUrl')
+            ->with($this->isInstanceOf(PayerAuthBrowserInfoInterface::class), $returnUrl)
+            ->willReturn((new Result())->setStatus(PayerAuthResultInterface::STATUS_SUCCESS));
+
+        $result = $this->resolveWith(
+            $this->makeResolver(),
+            [
+                'cartId' => self::CART_ID,
+                'returnUrl' => $returnUrl,
+                'browserInfo' => self::BROWSER_INFO,
+            ]
+        );
+
+        $this->assertSame('success', $result['status']);
+    }
+
+    /**
+     * Assert the return URL is refused before any gateway work happens.
+     *
+     * @param string $returnUrl
+     * @return void
+     */
+    private function assertReturnUrlRejected(string $returnUrl): void
+    {
+        $this->managementMock->expects($this->never())->method('authenticateWithValidatedReturnUrl');
+        $this->managementMock->expects($this->never())->method('authenticate');
+
+        $this->expectException(GraphQlInputException::class);
+        $this->expectExceptionMessageMatches('/origin is not permitted/i');
+
+        $this->resolveWith(
+            $this->makeResolver(),
+            [
+                'cartId' => self::CART_ID,
+                'returnUrl' => $returnUrl,
+                'browserInfo' => self::BROWSER_INFO,
+            ]
+        );
+    }
+
+    /**
      * @return Authenticate
      */
     private function makeResolver(): Authenticate
@@ -239,12 +362,22 @@ class AuthenticateTest extends TestCase
         $browserInfoFactory = $this->createMock(PayerAuthBrowserInfoInterfaceFactory::class);
         $browserInfoFactory->method('create')->willReturnCallback(static fn(): BrowserInfo => new BrowserInfo());
 
+        $this->configMock->method('getPayerAuthReturnOrigins')
+            ->willReturnCallback(fn(): array => $this->returnOrigins);
+
+        $store = $this->createMock(Store::class);
+        $store->method('getBaseUrl')->willReturn(self::STORE_BASE_URL);
+
+        $storeManager = $this->createMock(StoreManagerInterface::class);
+        $storeManager->method('getStore')->with(self::STORE_ID)->willReturn($store);
+
         return new Authenticate(
             $this->graphQLMock,
             $this->managementFactoryMock,
             $this->configMock,
             $this->loggerMock,
-            $browserInfoFactory
+            $browserInfoFactory,
+            $storeManager
         );
     }
 }

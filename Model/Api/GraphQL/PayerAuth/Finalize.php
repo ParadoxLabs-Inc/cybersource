@@ -21,6 +21,7 @@
 
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\PayerAuth;
 
+use Magento\Quote\Api\Data\CartInterface;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management;
 
 /**
@@ -36,9 +37,10 @@ class Finalize extends AbstractResolver
      *
      * @param Management $management
      * @param array<string, mixed> $input
+     * @param CartInterface $quote
      * @return array<string, mixed>
      */
-    protected function execute(Management $management, array $input): array
+    protected function execute(Management $management, array $input, CartInterface $quote): array
     {
         return $this->resultPayload($management->finalize());
     }

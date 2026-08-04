@@ -338,6 +338,42 @@ class ConfigTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider payerAuthReturnOriginsDataProvider
+     * @param string|null $value
+     * @param string[] $expected
+     */
+    public function testGetPayerAuthReturnOrigins(?string $value, array $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_return_origins', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($value);
+
+        $this->assertSame($expected, $this->config->getPayerAuthReturnOrigins());
+    }
+
+    /**
+     * @return array<string, array{0: string|null, 1: string[]}>
+     */
+    public static function payerAuthReturnOriginsDataProvider(): array
+    {
+        return [
+            'unset' => [null, []],
+            'empty' => ['', []],
+            'whitespace only' => ["  \n \n", []],
+            'single' => ['https://pwa.example.net', ['https://pwa.example.net']],
+            'multi-line with blanks and whitespace' => [
+                "https://pwa.example.net\n\n  https://app.example.net:8443  \n",
+                ['https://pwa.example.net', 'https://app.example.net:8443'],
+            ],
+            'windows line endings' => [
+                "https://a.example.net\r\nhttps://b.example.net",
+                ['https://a.example.net', 'https://b.example.net'],
+            ],
+            'lowercased' => ['HTTPS://PWA.Example.NET', ['https://pwa.example.net']],
+        ];
+    }
+
     private function setupSandboxMode(bool $isSandbox): void
     {
         $this->scopeConfigMock->method('getValue')
