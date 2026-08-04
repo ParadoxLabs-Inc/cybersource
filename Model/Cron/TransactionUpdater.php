@@ -73,19 +73,7 @@ class TransactionUpdater
      */
     public function execute()
     {
-        /**
-         * Conversion details only ever resolve orders sitting in payment review (see processChange()),
-         * so with none outstanding the whole run is a provable no-op — and on an account with no fraud
-         * product at all it is an hourly 404 against a reporting endpoint the merchant does not have.
-         *
-         * The gate is deliberately NOT the uc_decision_manager setting. That flag only rides
-         * completeMandate on the capture context; the /pts/v2/payments call the module makes itself
-         * carries no fraud toggle, so whether an auth comes back *_PENDING_REVIEW is decided entirely
-         * by the account's fraud configuration -- Decision Manager, Fraud Management Essentials, or a
-         * processor-level rule. Response::interpretResponse() reads that off the reply status alone,
-         * so an order can land in payment review with the setting off, and gating on it would strand
-         * that order in review permanently. Asking what is actually pending is both safer and tighter.
-         */
+        // Nothing in review means nothing to resolve (see processChange()). Skip that.
         if ($this->hasOrdersAwaitingReview() === false) {
             return;
         }
@@ -119,18 +107,9 @@ class TransactionUpdater
     }
 
     /**
-     * Whether any order anywhere is still awaiting a Decision Manager review outcome.
+     * Whether any CyberSource order is awaiting a review outcome.
      *
-     * Checked across all stores rather than per store: processChange() resolves orders by increment id
-     * with no store scoping, so a poll made under one store's merchant id can legitimately settle an
-     * order belonging to another store on the same organization.
-     *
-     * Driven off state, which core indexes (SALES_ORDER_STATE), so the scan is bounded by the number of
-     * orders in payment review rather than the size of sales_order -- payment_review is a transient state
-     * holding a handful of rows even on a large catalog of orders. The join then hits
-     * sales_order_payment.parent_id, also indexed (SALES_ORDER_PAYMENT_PARENT_ID), one row at a time;
-     * method is unindexed but is only ever evaluated against those few rows. Existence is all we need,
-     * so this stops at the first match instead of counting the set.
+     * Checks all stores, because processChange() resolves by increment id with no store scoping.
      *
      * @return bool
      */
