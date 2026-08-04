@@ -72,10 +72,18 @@
                         on your CyberSource merchant account before turning them on here.
                     ]]></comment>
                 </field>
-                <field id="uc_3ds" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable Payer Authentication (3D Secure)</label>
+                <field id="cardinal_active" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Payer Authentication</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, 3D Secure authentication will run inside the Unified Checkout payment form. Requires Payer Authentication setup by CyberSource support.</comment>
+                    <comment>If yes, 3D Secure authentication will run before order placement. Runs on your CyberSource merchant account (requires Payer Authentication enablement by CyberSource support); no Cardinal portal credentials required. Note: Enabling this feature will remove the payment method from multishipping checkout.</comment>
+                </field>
+                <field id="cardinal_card_types" translate="label comment" type="multiselect" sortOrder="195" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable for Card Types</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Cctype</source_model>
+                    <comment>Note: Not all card types and processors support Payer Authentication.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
                 </field>
                 <field id="uc_decision_manager" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enable Decision Manager</label>

@@ -285,6 +285,59 @@ class ConfigTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthEnabled(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthEnabled());
+    }
+
+    public static function payerAuthEnabledDataProvider(): array
+    {
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            'unset' => [null, false],
+        ];
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledForTypeDataProvider
+     */
+    #[DataProvider('payerAuthEnabledForTypeDataProvider')]
+    public function testIsPayerAuthEnabledForType(
+        string $flag,
+        ?string $cardTypes,
+        string $ccType,
+        bool $expected
+    ): void {
+        $this->scopeConfigMock->method('getValue')
+            ->willReturnMap([
+                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, $flag],
+                ['payment/paradoxlabs_cybersource/cardinal_card_types', ScopeInterface::SCOPE_STORE, null, $cardTypes],
+            ]);
+
+        $this->assertSame($expected, $this->config->isPayerAuthEnabledForType($ccType));
+    }
+
+    public static function payerAuthEnabledForTypeDataProvider(): array
+    {
+        return [
+            'type in list' => ['1', 'AE,VI,MC', 'VI', true],
+            'first type in list' => ['1', 'AE,VI,MC', 'AE', true],
+            'type not in list' => ['1', 'AE,VI,MC', 'DI', false],
+            'feature off' => ['0', 'AE,VI,MC', 'VI', false],
+            'empty config value' => ['1', '', 'VI', false],
+            'unset config value' => ['1', null, 'VI', false],
+        ];
+    }
+
     private function setupSandboxMode(bool $isSandbox): void
     {
         $this->scopeConfigMock->method('getValue')

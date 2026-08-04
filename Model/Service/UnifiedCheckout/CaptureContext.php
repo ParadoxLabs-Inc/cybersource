@@ -135,7 +135,7 @@ abstract class CaptureContext
         if ($amount !== null) {
             $request->setCompleteMandateType($this->config->getUcCompleteMandateType($storeId))
                 ->setDecisionManager($this->config->isDecisionManagerEnabled($storeId))
-                ->setConsumerAuthentication($this->config->is3dsEnabled($storeId));
+                ->setConsumerAuthentication($this->config->isPayerAuthEnabled($storeId));
         }
 
         // Pane behavior. A no-amount context is add-card (customer payment-info / admin card

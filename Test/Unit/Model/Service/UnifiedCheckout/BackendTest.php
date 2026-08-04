@@ -370,7 +370,7 @@ class BackendTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
         $config->method('isUcAutoPlaceOrderEnabled')->willReturn($autoPlace);
 

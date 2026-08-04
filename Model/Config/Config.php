@@ -395,14 +395,35 @@ class Config
     }
 
     /**
-     * Whether 3DS (consumerAuthentication) is enabled for Unified Checkout.
+     * Get whether Payer Authentication (3D Secure) is enabled.
+     *
+     * Unlike 3.x, this is the flag alone: Payer Auth runs on the CyberSource merchant account via
+     * the normal REST keys, so there are no Cardinal portal credentials left to validate.
      *
      * @param int|null $storeId
      * @return bool
      */
-    public function is3dsEnabled($storeId = null)
+    public function isPayerAuthEnabled($storeId = null): bool
     {
-        return (bool)$this->getConfigValue('uc_3ds', $storeId);
+        return (bool)$this->getConfigValue('cardinal_active', $storeId);
+    }
+
+    /**
+     * Get whether Payer Authentication is enabled for a specific card type.
+     *
+     * @param string $ccType
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthEnabledForType(string $ccType, $storeId = null): bool
+    {
+        if ($this->isPayerAuthEnabled($storeId) === false) {
+            return false;
+        }
+
+        $enabledTypes = explode(',', (string)$this->getConfigValue('cardinal_card_types', $storeId));
+
+        return in_array($ccType, $enabledTypes, true);
     }
 
     /**

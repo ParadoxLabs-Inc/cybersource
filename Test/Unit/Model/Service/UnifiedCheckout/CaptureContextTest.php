@@ -52,7 +52,7 @@ class CaptureContextTest extends TestCase
         $this->configMock->method('getUcLocale')->willReturn('en_US');
         $this->configMock->method('getUcCountry')->willReturn('US');
         $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $this->configMock->method('is3dsEnabled')->willReturn(false);
+        $this->configMock->method('isPayerAuthEnabled')->willReturn(false);
         $this->configMock->method('isDecisionManagerEnabled')->willReturn(false);
 
         $this->handler = new TestableCaptureContext(
@@ -180,7 +180,7 @@ class CaptureContextTest extends TestCase
         $config->method('getUcBillingType')->willReturn('FULL');
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
         // payment_action=authorize_capture -> CAPTURE
         $config->method('getUcCompleteMandateType')->willReturn('CAPTURE');
@@ -209,7 +209,7 @@ class CaptureContextTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(true);
+        $config->method('isPayerAuthEnabled')->willReturn(true);
         $config->method('isDecisionManagerEnabled')->willReturn(true);
 
         $handler = new TestableCaptureContext(
@@ -407,7 +407,7 @@ class CaptureContextTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
 
         $handler = new TestableCaptureContext(
@@ -442,7 +442,7 @@ class CaptureContextTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
 
         $logger = $this->createMock(LoggerInterface::class);

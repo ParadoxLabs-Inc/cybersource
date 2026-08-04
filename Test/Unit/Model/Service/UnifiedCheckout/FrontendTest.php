@@ -61,7 +61,7 @@ class FrontendTest extends TestCase
         $this->configMock->method('getUcLocale')->willReturn('en_US');
         $this->configMock->method('getUcCountry')->willReturn('US');
         $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $this->configMock->method('is3dsEnabled')->willReturn(false);
+        $this->configMock->method('isPayerAuthEnabled')->willReturn(false);
         $this->configMock->method('isDecisionManagerEnabled')->willReturn(false);
 
         $store = $this->createMock(Store::class);
@@ -217,7 +217,7 @@ class FrontendTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
 
         $requestFactory = $this->createMock(CaptureContextRequestFactory::class);
