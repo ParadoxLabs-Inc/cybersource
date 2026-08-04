@@ -29,24 +29,39 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 /**
  * Decides whether a persisted Payer Authentication result may be used for THIS charge.
  *
- * The record is only worth anything if it authenticated the same money, on the same instrument,
- * recently. Every failure mode discards the record, so a customer is never permanently blocked by
- * a stale one — they simply have to re-verify.
+ * This class is a PURE GATE. It never writes and never clears: a validator that discarded the record
+ * on its way to throwing would make every block one-shot — re-submitting Place Order would find no
+ * record, resolve to null, and place the order unauthenticated. That is a complete 3DS bypass, and it
+ * is why resolve() is read-only. All state transitions happen in the Persistor, driven by the flows:
  *
- * Rules (PA1-IMPLEMENTATION.md, "Shared design contracts"):
- *  - no record            => null. NOT an error: Payer Auth may be off, or a REST integrator may
- *                            simply not have run it.
- *  - FAILED               => discard + CommandException. A failed authentication must never be
- *                            bypassable by re-submitting place.
- *  - CHALLENGE            => the customer abandoned the step-up. Discard + CommandException: an
- *                            unfinished challenge must not place, and must not block permanently.
- *  - amount / currency / binding mismatch, or age > 900s
- *                         => discard. If the record carried a liability shift, CommandException
- *                            (something of value was lost, and placing now would silently drop the
- *                            shift); if it was UNAVAILABLE, return null — nothing was lost.
- *  - usable AUTHENTICATED / ATTEMPTED / UNAVAILABLE
- *                         => return the verdict + `ca`. The record is NOT cleared here: the
- *                            one-shot clear happens after a successful place (T7).
+ *  - authenticate() / finalize()  => saveResult() REPLACES the result (and sets/discharges obligation)
+ *  - setup()                      => saveReferenceId() re-seeds, PRESERVING any obligation
+ *  - Payer Auth off / skipped     => Management clears the record outright
+ *  - approved place               => Response clears the consumed record (the one-shot)
+ *
+ * Rules, in order (PA1-IMPLEMENTATION.md, "Shared design contracts"):
+ *  1. no record            => null. NOT an error: Payer Auth may be off, or a REST integrator may
+ *                             simply not have run it.
+ *  2. FAILED               => CommandException. The record STAYS, so a re-submitted place is blocked
+ *                             the same way — a failed authentication is never bypassable by retrying.
+ *  3. obligation set       => CommandException unless the record now carries a USABLE liability shift
+ *                             covering this charge. An abandoned challenge, or a failure followed by a
+ *                             fresh setup(), keeps blocking until an authentication actually succeeds.
+ *  4. no verdict, no obligation
+ *                          => null. A setup-only record has nothing to consume; it will be replaced by
+ *                             the next authenticate() or cleared by the post-place one-shot.
+ *  5. CHALLENGE            => CommandException. An unfinished step-up must not place. (Rule 3 covers
+ *                             this too; the branch is explicit for clarity.)
+ *  6. AUTHENTICATED / ATTEMPTED / UNAVAILABLE
+ *                          => match rules: currency equal (case-insensitive), binding equal, age
+ *                             <= 900s, and the charge amount <= the authenticated amount. Charging
+ *                             MORE than was authenticated is the attack (authenticate $1, place $500)
+ *                             and demands re-verification; charging LESS is legal — store credit, gift
+ *                             cards and partial-payment modules reduce the gateway charge below the
+ *                             quote grand total, and EMV practice accepts charge <= authenticated.
+ *  7. match failure        => CommandException when the record carried a liability shift (something of
+ *                             value would be silently dropped); null on UNAVAILABLE (nothing of value
+ *                             was there). Either way the record is left alone.
  *
  * @see \ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor
  */
@@ -72,12 +87,14 @@ class BindingValidator
     /**
      * Resolve the usable authentication result for the charge about to be made, if any.
      *
+     * Read-only: no branch of this method mutates the persisted record.
+     *
      * @param InfoInterface $payment
-     * @param string $orderBaseAmount2dp Base grand total being charged, 2dp string.
+     * @param string $orderBaseAmount2dp Base amount being charged, 2dp string.
      * @param string $orderCurrency Base currency code being charged.
      * @param string $currentBinding Binding of the instrument being charged (see Persistor).
      * @return array{verdict: Verdict, ca: array<string, mixed>}|null
-     * @throws CommandException On a failed, abandoned, or stale-but-valuable authentication.
+     * @throws CommandException On a failed, obligated, abandoned, or stale-but-valuable authentication.
      */
     public function resolve(
         InfoInterface $payment,
@@ -94,29 +111,41 @@ class BindingValidator
         $verdict = is_string($record['verdict'] ?? null) ? Verdict::tryFrom($record['verdict']) : null;
 
         if ($verdict === Verdict::FAILED) {
-            $this->discard($payment, 'authentication_failed', $verdict);
+            $this->refuse('authentication_failed', $verdict);
 
             throw new CommandException(
                 __('Your payment could not be verified. Please re-enter your payment information and try again.')
             );
         }
 
-        // A setup-only (or unrecognized) record has no verdict to consume: drop it, place unauthenticated.
-        if ($verdict === null) {
-            $this->discard($payment, 'no_verdict', null);
+        if ($verdict === Verdict::CHALLENGE) {
+            $this->refuse('challenge_incomplete', $verdict);
 
+            throw $this->reverify();
+        }
+
+        $mismatch = $verdict !== null
+            ? $this->findMismatch($record, $orderBaseAmount2dp, $orderCurrency, $currentBinding)
+            : 'no_verdict';
+
+        // A pending obligation (a prior failure or an abandoned challenge) is only discharged by an
+        // authentication that actually succeeded AND covers this charge. Anything less keeps blocking.
+        if ($this->obligation($record) !== null
+            && ($verdict === null || $verdict->hasLiabilityShift() === false || $mismatch !== null)) {
+            $this->refuse('obligation_' . $this->obligation($record), $verdict);
+
+            throw $this->reverify();
+        }
+
+        if ($verdict === null) {
             return null;
         }
 
-        $mismatch = $this->findMismatch($record, $orderBaseAmount2dp, $orderCurrency, $currentBinding);
+        if ($mismatch !== null) {
+            $this->refuse($mismatch, $verdict);
 
-        if ($verdict === Verdict::CHALLENGE || $mismatch !== null) {
-            $this->discard($payment, $mismatch ?? 'challenge_incomplete', $verdict);
-
-            if ($verdict === Verdict::CHALLENGE || $verdict->hasLiabilityShift()) {
-                throw new CommandException(
-                    __('Your payment verification is no longer valid. Please verify your payment again.')
-                );
+            if ($verdict->hasLiabilityShift()) {
+                throw $this->reverify();
             }
 
             return null;
@@ -129,10 +158,25 @@ class BindingValidator
     }
 
     /**
+     * Read the record's outstanding obligation, if any.
+     *
+     * @param array<string, mixed> $record
+     * @return string|null
+     */
+    private function obligation(array $record): ?string
+    {
+        $obligation = $record['obligation'] ?? null;
+
+        return in_array($obligation, [Persistor::OBLIGATION_FAILED, Persistor::OBLIGATION_CHALLENGE], true)
+            ? (string)$obligation
+            : null;
+    }
+
+    /**
      * Identify the first reason this record does not cover the charge, if any.
      *
-     * Amount is compared as an exact 2dp string: the caller normalizes both sides, and any drift at
-     * all (up or down) invalidates the authentication.
+     * The amount rule is DIRECTIONAL: the charge must be <= the authenticated amount. Both sides are
+     * canonical 2dp strings, so they are compared as integer cents; anything unparseable fails closed.
      *
      * @param array<string, mixed> $record
      * @param string $orderBaseAmount2dp
@@ -146,7 +190,10 @@ class BindingValidator
         string $orderCurrency,
         string $currentBinding,
     ): ?string {
-        if (!is_string($record['amount'] ?? null) || $record['amount'] !== $orderBaseAmount2dp) {
+        $authenticated = is_string($record['amount'] ?? null) ? $this->toCents($record['amount']) : null;
+        $charged       = $this->toCents($orderBaseAmount2dp);
+
+        if ($authenticated === null || $charged === null || $charged > $authenticated) {
             return 'amount_mismatch';
         }
 
@@ -174,21 +221,49 @@ class BindingValidator
     }
 
     /**
-     * Discard an unusable record, logging the reason without any of its values.
+     * Convert a canonical 2dp money string to integer cents, or null when it is not one.
      *
-     * @param InfoInterface $payment
+     * Fail-closed by design: an amount this method cannot read is treated as a mismatch, never as a
+     * match. Both sides of the comparison are produced by number_format($x, 2, '.', ''), so a value
+     * that does not have that shape did not come from the money path.
+     *
+     * @param string $amount
+     * @return int|null
+     */
+    private function toCents(string $amount): ?int
+    {
+        if (preg_match('/^-?\d+\.\d{2}$/', $amount) !== 1) {
+            return null;
+        }
+
+        return (int)str_replace('.', '', $amount);
+    }
+
+    /**
+     * Build the "verify again" refusal shown for every recoverable block.
+     *
+     * @return CommandException
+     */
+    private function reverify(): CommandException
+    {
+        return new CommandException(
+            __('Your payment verification is no longer valid. Please verify your payment again.')
+        );
+    }
+
+    /**
+     * Log a refusal, carrying the reason and verdict only — never any value from the record.
+     *
      * @param string $reason
      * @param Verdict|null $verdict
      * @return void
      */
-    private function discard(InfoInterface $payment, string $reason, ?Verdict $verdict): void
+    private function refuse(string $reason, ?Verdict $verdict): void
     {
         $this->helper->log(
             Config::CODE,
-            'Payer Authentication: discarding payer_auth record, reason=' . $reason
+            'Payer Authentication: refusing payer_auth record, reason=' . $reason
             . ', verdict=' . ($verdict !== null ? $verdict->value : 'none')
         );
-
-        $this->persistor->clear($payment);
     }
 }

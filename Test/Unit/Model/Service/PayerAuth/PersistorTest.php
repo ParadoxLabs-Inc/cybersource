@@ -172,6 +172,120 @@ class PersistorTest extends TestCase
         $this->assertNull($record['currency']);
     }
 
+    /**
+     * @return array<string, array{0: Verdict, 1: string|null, 2: string|null}>
+     */
+    public static function obligationMatrixProvider(): array
+    {
+        return [
+            'failed sets the obligation' => [Verdict::FAILED, null, Persistor::OBLIGATION_FAILED],
+            'challenge sets the obligation' => [Verdict::CHALLENGE, null, Persistor::OBLIGATION_CHALLENGE],
+            'authenticated discharges' => [Verdict::AUTHENTICATED, Persistor::OBLIGATION_FAILED, null],
+            'attempted discharges' => [Verdict::ATTEMPTED, Persistor::OBLIGATION_CHALLENGE, null],
+            'unavailable preserves a failure' => [
+                Verdict::UNAVAILABLE,
+                Persistor::OBLIGATION_FAILED,
+                Persistor::OBLIGATION_FAILED,
+            ],
+            'unavailable preserves a challenge' => [
+                Verdict::UNAVAILABLE,
+                Persistor::OBLIGATION_CHALLENGE,
+                Persistor::OBLIGATION_CHALLENGE,
+            ],
+            'unavailable adds nothing' => [Verdict::UNAVAILABLE, null, null],
+        ];
+    }
+
+    /**
+     * @dataProvider obligationMatrixProvider
+     */
+    public function testSaveResultMapsTheVerdictToAnObligation(
+        Verdict $verdict,
+        ?string $priorObligation,
+        ?string $expected
+    ): void {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, $priorObligation);
+
+        $this->persistor->saveResult(
+            $payment,
+            new AuthenticationResult($verdict, ['paresStatus' => 'Y']),
+            '24.00',
+            'USD',
+            'jti-abcdef123456'
+        );
+
+        $this->assertSame($expected, $this->persistor->load($payment)['obligation']);
+    }
+
+    /**
+     * @return array<string, array{0: string|null}>
+     */
+    public static function obligationProvider(): array
+    {
+        return [
+            'failed' => [Persistor::OBLIGATION_FAILED],
+            'challenge' => [Persistor::OBLIGATION_CHALLENGE],
+            'none' => [null],
+        ];
+    }
+
+    /**
+     * A fresh setup must NOT launder an outstanding refusal.
+     *
+     * @dataProvider obligationProvider
+     */
+    public function testSaveReferenceIdPreservesTheObligation(?string $obligation): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, $obligation);
+
+        $this->persistor->saveReferenceId($payment, 'ref-999', 'jti-abcdef123456');
+
+        $record = $this->persistor->load($payment);
+
+        $this->assertSame($obligation, $record['obligation']);
+        $this->assertNull($record['verdict']);
+        $this->assertSame('ref-999', $record['reference_id']);
+    }
+
+    public function testObligationRoundTripsThroughSerialization(): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->persistor->saveResult(
+            $payment,
+            new AuthenticationResult(Verdict::FAILED, ['paresStatus' => 'N']),
+            '24.00',
+            'USD',
+            'jti-abcdef123456'
+        );
+
+        $raw = $payment->getAdditionalInformation(Persistor::PERSIST_KEY);
+
+        $this->assertIsString($raw);
+        $this->assertSame(Persistor::OBLIGATION_FAILED, json_decode($raw, true)['obligation']);
+        $this->assertSame(Persistor::OBLIGATION_FAILED, $this->persistor->load($payment)['obligation']);
+    }
+
+    public function testClearDropsTheObligationToo(): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->persistor->saveResult(
+            $payment,
+            new AuthenticationResult(Verdict::FAILED, []),
+            '24.00',
+            'USD',
+            'jti-abcdef123456'
+        );
+        $this->persistor->clear($payment);
+
+        $this->assertNull($this->persistor->load($payment));
+    }
+
     public function testClearRemovesTheKeyAndPersists(): void
     {
         $payment = $this->quotePayment();
@@ -315,6 +429,31 @@ class PersistorTest extends TestCase
 
         $this->assertStringContainsString('verdict=authenticated', $messages[0]);
         $this->assertStringContainsString('binding=jti-***3456', $messages[0]);
+    }
+
+    /**
+     * Put a record carrying the given obligation onto the payment, via the public API.
+     *
+     * @param MockObject $payment
+     * @param string|null $obligation
+     * @return void
+     */
+    private function seedObligation($payment, ?string $obligation): void
+    {
+        if ($obligation === null) {
+            return;
+        }
+
+        $this->persistor->saveResult(
+            $payment,
+            new AuthenticationResult(
+                $obligation === Persistor::OBLIGATION_FAILED ? Verdict::FAILED : Verdict::CHALLENGE,
+                []
+            ),
+            '24.00',
+            'USD',
+            'jti-abcdef123456'
+        );
     }
 
     /**

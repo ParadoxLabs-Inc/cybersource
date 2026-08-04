@@ -39,6 +39,10 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *   reference_id        ?string  the authentication-setups referenceId (DDC correlation)
  *   auth_transaction_id ?string  consumerAuthenticationInformation.authenticationTransactionId
  *   verdict             ?string  Verdict::value; null while only setup has run
+ *   obligation          ?string  'failed'|'challenge'|null — an OUTSTANDING refusal that survives a
+ *                                re-seed. Set when an authentication fails or challenges; discharged
+ *                                only by a successful (AUTHENTICATED/ATTEMPTED) result. This is what
+ *                                stops "fail, run setup again, place unauthenticated".
  *   ca                  array    full normalized consumerAuthenticationInformation (CAVV lives here)
  *   amount              ?string  authenticated base amount, 2dp string
  *   currency            ?string  authenticated base currency
@@ -51,15 +55,18 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  * to ONE quote payment and never mirrored anywhere with a wider scope: a copy readable from a
  * different quote would be exactly the cross-quote replay the BindingValidator rules exist to stop.
  * Any binding change, or a fresh saveReferenceId(), REPLACES the whole record — a new setup
- * invalidates whatever authentication preceded it.
+ * invalidates whatever authentication preceded it — with ONE exception: `obligation` is carried
+ * across, so a refusal cannot be laundered by simply running setup again.
+ *
+ * This class is the ONLY place the record's state changes. The BindingValidator is a read-only gate;
+ * clearing is done by Management (Payer Auth off / skipped) and by the post-place one-shot.
  *
  * `ca` holds the CAVV/XID and must NEVER be logged or handed to a client DTO; the lifecycle logging
  * here emits the verdict and a masked binding only.
  *
  * Persistence mechanics are adapted from the 3.x `CardinalCruise\Persistor`: the quote payment is
- * written through its RESOURCE directly rather than via the cart repository, because the checkout
- * place-order flow runs inside a DB transaction that rolls back the whole quote on failure. See
- * saveRecord() for the constraint that carries over from master.
+ * written through its RESOURCE directly rather than via the cart repository, which would re-save the
+ * entire quote and recollect totals mid-checkout. See saveRecord() for the commit-timing note.
  *
  * @see \ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator
  */
@@ -74,6 +81,16 @@ class Persistor
      * Binding prefix identifying a stored (vaulted) card by its tokenbase id.
      */
     public const BINDING_CARD_PREFIX = 'card:';
+
+    /**
+     * Obligation left behind by a FAILED authentication.
+     */
+    public const OBLIGATION_FAILED = 'failed';
+
+    /**
+     * Obligation left behind by a CHALLENGE the customer has not finished.
+     */
+    public const OBLIGATION_CHALLENGE = 'challenge';
 
     /**
      * Persistor constructor.
@@ -105,8 +122,10 @@ class Persistor
     /**
      * Seed (or replace) the record at setup time with the authentication-setups referenceId.
      *
-     * Always writes a NEW record: running setup again means a new authentication attempt, so any
-     * prior verdict must not survive it.
+     * Writes a NEW record: running setup again means a new authentication attempt, so any prior
+     * verdict must not survive it. The `obligation` is the deliberate exception — it is PRESERVED.
+     * A failed or abandoned authentication leaves a debt that a fresh setup does not pay: without
+     * this, "authenticate, fail, call setup again, place" would place unauthenticated.
      *
      * @param InfoInterface $payment
      * @param string $referenceId
@@ -128,6 +147,7 @@ class Persistor
                 'reference_id' => $referenceId,
                 'auth_transaction_id' => null,
                 'verdict' => null,
+                'obligation' => $this->readObligation($this->load($payment)),
                 'ca' => [],
                 'amount' => null,
                 'currency' => null,
@@ -148,6 +168,14 @@ class Persistor
      *
      * Preserves the setup referenceId when the binding is unchanged; a different binding replaces
      * the record outright (the prior setup belonged to a different instrument).
+     *
+     * The verdict drives `obligation`:
+     *  - FAILED / CHALLENGE            => record the obligation. It survives a later re-seed, so the
+     *                                     BindingValidator keeps refusing until an authentication
+     *                                     actually succeeds.
+     *  - AUTHENTICATED / ATTEMPTED     => discharge it. The customer completed the ceremony.
+     *  - UNAVAILABLE                   => PRESERVE whatever was there. An outage/bypass result is not
+     *                                     an authentication and must never launder a prior refusal.
      *
      * @param InfoInterface $payment
      * @param AuthenticationResult $result
@@ -184,6 +212,7 @@ class Persistor
                 'reference_id' => $referenceId,
                 'auth_transaction_id' => $result->authenticationTransactionId(),
                 'verdict' => $verdict->value,
+                'obligation' => $this->obligationFor($verdict, $this->readObligation($existing)),
                 'ca' => $result->getConsumerAuthenticationInformation(),
                 'amount' => $amount,
                 'currency' => $currency,
@@ -198,6 +227,38 @@ class Persistor
             'Payer Authentication: payer_auth record saved, verdict=' . $verdict->value
             . ', binding=' . $this->maskBinding($binding)
         );
+    }
+
+    /**
+     * Resolve the obligation a result with this verdict leaves behind.
+     *
+     * @param Verdict $verdict
+     * @param string|null $existing Obligation currently on the record, if any.
+     * @return string|null
+     */
+    private function obligationFor(Verdict $verdict, ?string $existing): ?string
+    {
+        return match ($verdict) {
+            Verdict::FAILED => self::OBLIGATION_FAILED,
+            Verdict::CHALLENGE => self::OBLIGATION_CHALLENGE,
+            Verdict::AUTHENTICATED, Verdict::ATTEMPTED => null,
+            Verdict::UNAVAILABLE => $existing,
+        };
+    }
+
+    /**
+     * Read a recognized obligation off a record, or null.
+     *
+     * @param array<string, mixed>|null $record
+     * @return string|null
+     */
+    private function readObligation(?array $record): ?string
+    {
+        $obligation = $record['obligation'] ?? null;
+
+        return in_array($obligation, [self::OBLIGATION_FAILED, self::OBLIGATION_CHALLENGE], true)
+            ? (string)$obligation
+            : null;
     }
 
     /**
@@ -228,7 +289,12 @@ class Persistor
     }
 
     /**
-     * Drop the record (one-shot consumption after a successful place, or a validation discard).
+     * Drop the record entirely, obligation included.
+     *
+     * Two callers, both of which mean "this cart owes nothing": Management, when Payer Authentication
+     * is off or skipped for this instrument, and Response's post-place one-shot after an approved
+     * charge. The BindingValidator never calls this — a refusal must survive so the retry is refused
+     * the same way.
      *
      * @param InfoInterface $payment
      * @return void
@@ -245,21 +311,22 @@ class Persistor
     }
 
     /**
-     * Write (or remove, on null) the record and persist it rollback-safely.
+     * Write (or remove, on null) the record and persist it.
      *
      * The record is applied to the payment object handed in — so the caller's in-memory state is
      * always correct — and to the quote payment behind it, which is saved through its resource
      * model directly. Direct resource save is what master used: the cart repository would re-save
-     * the entire quote (recollecting totals mid-checkout), and normal quote saves made during
-     * place-order are wiped by the checkout DB transaction rollback.
+     * the entire quote, recollecting totals mid-checkout.
      *
-     * Constraint carried over from master: a write made INSIDE the place-order transaction shares
-     * its connection and is therefore still subject to that rollback. Master papered over this with
-     * a checkout-session copy; PA-1 deliberately does not (see the class docblock: a session-scoped
-     * copy is readable from another quote in the same session, which is a replay hole). It does not
-     * need to — every mutation in the PA-1 flow runs in its own setup/authenticate/finalize request,
-     * outside any order transaction. The one exception is T7's post-place one-shot clear, which is
-     * safe in the same direction: if the place rolls back, the record correctly survives for retry.
+     * COMMIT TIMING (corrected): these writes are NOT inside a place-order transaction and are NOT
+     * rollback-protected. Magento\Sales\Model\Service\OrderService::place() calls $order->place()
+     * and orderRepository->save() WITHOUT wrapping them in a transaction, so a write made here
+     * commits immediately. The consequence for the post-place one-shot clear (Response::
+     * completePayerAuth) is bounded and accepted: the clear commits before orderRepository->save(),
+     * so if the order save then fails after a successful payment, the record is already gone and a
+     * retry would have to re-authenticate. That is the same class of exposure as any post-payment
+     * save failure (the charge itself is likewise already committed at the gateway), and it is
+     * documented here rather than defended against.
      *
      * When no quote payment can be resolved (e.g. a detached order payment whose quote is gone) the
      * change stays in memory only.

@@ -243,6 +243,9 @@ class ManagementTest extends TestCase
         $this->payerAuthEnabled = false;
 
         $this->setupService->expects($this->never())->method('execute');
+        // A record left over from before the merchant disabled Payer Auth must not survive to
+        // hard-block the cart at place time (the BindingValidator no longer self-heals).
+        $this->persistor->expects($this->once())->method('clear');
 
         $result = $this->management->setup(self::TOKEN);
 
@@ -256,6 +259,7 @@ class ManagementTest extends TestCase
         $this->payerAuthEnabled = false;
 
         $this->authenticateService->expects($this->never())->method('execute');
+        $this->persistor->expects($this->once())->method('clear');
 
         $this->assertSame(
             PayerAuthResultInterface::STATUS_SKIPPED,
@@ -297,6 +301,7 @@ class ManagementTest extends TestCase
 
         $this->setupService->expects($this->never())->method('execute');
         $this->persistor->expects($this->never())->method('saveReferenceId');
+        $this->persistor->expects($this->once())->method('clear');
 
         $this->assertTrue($this->management->setup(self::TOKEN)->getSkipped());
     }
@@ -365,6 +370,7 @@ class ManagementTest extends TestCase
         $this->storedCard = $this->card(['payment_id' => '']);
 
         $this->setupService->expects($this->never())->method('execute');
+        $this->persistor->expects($this->once())->method('clear');
 
         $this->assertTrue($this->management->setup(null, 'hash-abc')->getSkipped());
     }
@@ -420,6 +426,23 @@ class ManagementTest extends TestCase
         $this->expectExceptionMessage('Payer Authentication has not been set up for this cart. Run setup first.');
 
         $this->management->authenticate($this->browserInfo());
+    }
+
+    public function testAuthenticateSkipsAndClearsWhenTheCardTypeIsExcluded(): void
+    {
+        $this->excludedTypes = ['AE'];
+
+        $this->persistor->method('load')->willReturn($this->record());
+        $this->tokenReader->method('read')->willReturn(['cc_type' => 'AE']);
+
+        $this->authenticateService->expects($this->never())->method('execute');
+        $this->persistor->expects($this->never())->method('saveResult');
+        $this->persistor->expects($this->once())->method('clear');
+
+        $this->assertSame(
+            PayerAuthResultInterface::STATUS_SKIPPED,
+            $this->management->authenticate($this->browserInfo())->getStatus()
+        );
     }
 
     public function testAuthenticateSourcesTotalsBillToAndServerDerivedDeviceFields(): void

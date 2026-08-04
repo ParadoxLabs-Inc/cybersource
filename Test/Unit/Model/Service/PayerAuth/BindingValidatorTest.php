@@ -49,13 +49,18 @@ class BindingValidatorTest extends TestCase
         $this->helper = $this->createMock(Data::class);
         $this->payment = $this->createMock(InfoInterface::class);
 
+        // The validator is a PURE GATE: no scenario may write or clear. Asserted globally so a new
+        // test cannot reintroduce the discard-on-block bypass without failing here.
+        $this->persistor->expects($this->never())->method('clear');
+        $this->persistor->expects($this->never())->method('saveResult');
+        $this->persistor->expects($this->never())->method('saveReferenceId');
+
         $this->validator = new BindingValidator($this->persistor, $this->helper);
     }
 
     public function testMissingRecordResolvesToNullSilently(): void
     {
         $this->persistor->method('load')->willReturn(null);
-        $this->persistor->expects($this->never())->method('clear');
         $this->helper->expects($this->never())->method('log');
 
         $this->assertNull($this->validator->resolve($this->payment, '24.00', 'USD', 'jti-1'));
@@ -81,7 +86,6 @@ class BindingValidatorTest extends TestCase
         $ca = $this->loadFixture('case-2-1-success')['consumerAuthenticationInformation'];
 
         $this->persistor->method('load')->willReturn($this->record(['verdict' => $verdict->value, 'ca' => $ca]));
-        $this->persistor->expects($this->never())->method('clear');
 
         $this->assertSame(
             ['verdict' => $verdict, 'ca' => $ca],
@@ -98,11 +102,21 @@ class BindingValidatorTest extends TestCase
         $this->assertSame(Verdict::AUTHENTICATED, $result['verdict']);
     }
 
-    public function testFailedRecordIsDiscardedAndBlocksPlacement(): void
+    public function testFailedRecordBlocksPlacementAndSurvivesForTheRetry(): void
     {
-        $this->persistor->method('load')->willReturn($this->record(['verdict' => 'failed']));
-        $this->persistor->expects($this->once())->method('clear')->with($this->payment);
+        $record = $this->record(['verdict' => 'failed', 'obligation' => Persistor::OBLIGATION_FAILED]);
 
+        $this->persistor->method('load')->willReturn($record);
+
+        // First place attempt: blocked.
+        try {
+            $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+            $this->fail('Expected the first place attempt to be blocked.');
+        } catch (CommandException $exception) {
+            $this->assertStringContainsString('Your payment could not be verified.', (string)$exception->getMessage());
+        }
+
+        // Re-submitting Place Order must be blocked identically — the record was NOT discarded.
         $this->expectException(CommandException::class);
         $this->expectExceptionMessage('Your payment could not be verified.');
 
@@ -114,17 +128,17 @@ class BindingValidatorTest extends TestCase
         $this->persistor->method('load')->willReturn(
             $this->record(['verdict' => 'failed', 'amount' => '99.99', 'created_at' => time() - 5000])
         );
-        $this->persistor->expects($this->once())->method('clear');
 
         $this->expectException(CommandException::class);
 
         $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
     }
 
-    public function testAbandonedChallengeRecordIsDiscardedAndBlocksPlacement(): void
+    public function testAbandonedChallengeRecordBlocksPlacement(): void
     {
-        $this->persistor->method('load')->willReturn($this->record(['verdict' => 'challenge', 'ca' => []]));
-        $this->persistor->expects($this->once())->method('clear')->with($this->payment);
+        $this->persistor->method('load')->willReturn(
+            $this->record(['verdict' => 'challenge', 'ca' => [], 'obligation' => Persistor::OBLIGATION_CHALLENGE])
+        );
 
         $this->expectException(CommandException::class);
         $this->expectExceptionMessage('Your payment verification is no longer valid.');
@@ -132,13 +146,30 @@ class BindingValidatorTest extends TestCase
         $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
     }
 
-    public function testSetupOnlyRecordIsDiscardedAndResolvesToNull(): void
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function obligationProvider(): array
+    {
+        return [
+            'failed' => [Persistor::OBLIGATION_FAILED],
+            'challenge' => [Persistor::OBLIGATION_CHALLENGE],
+        ];
+    }
+
+    /**
+     * A wiped-then-re-seeded record (setup run again after a refusal) keeps blocking.
+     *
+     * @dataProvider obligationProvider
+     */
+    public function testOutstandingObligationOnAReSeededRecordStillBlocks(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
             [
-                'reference_id' => 'ref-1',
+                'reference_id' => 'ref-2',
                 'auth_transaction_id' => null,
                 'verdict' => null,
+                'obligation' => $obligation,
                 'ca' => [],
                 'amount' => null,
                 'currency' => null,
@@ -146,7 +177,94 @@ class BindingValidatorTest extends TestCase
                 'created_at' => time(),
             ]
         );
-        $this->persistor->expects($this->once())->method('clear')->with($this->payment);
+
+        $this->expectException(CommandException::class);
+        $this->expectExceptionMessage('Your payment verification is no longer valid.');
+
+        $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+    }
+
+    /**
+     * An UNAVAILABLE result does not discharge an obligation, so the block stands.
+     *
+     * @dataProvider obligationProvider
+     */
+    public function testUnavailableResultDoesNotDischargeAnObligation(string $obligation): void
+    {
+        $this->persistor->method('load')->willReturn(
+            $this->record(['verdict' => Verdict::UNAVAILABLE->value, 'obligation' => $obligation])
+        );
+
+        $this->expectException(CommandException::class);
+        $this->expectExceptionMessage('Your payment verification is no longer valid.');
+
+        $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+    }
+
+    public function testObligationIsDischargedByASuccessfulResult(): void
+    {
+        // The shape the Persistor writes on AUTHENTICATED after a prior refusal: obligation nulled.
+        $this->persistor->method('load')->willReturn(
+            $this->record(['verdict' => Verdict::AUTHENTICATED->value, 'obligation' => null])
+        );
+
+        $result = $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+
+        $this->assertSame(Verdict::AUTHENTICATED, $result['verdict']);
+    }
+
+    /**
+     * An obligation is only overridden by a shift that ACTUALLY covers this charge.
+     *
+     * The Persistor never writes this shape (a successful result discharges the obligation), but the
+     * rule is stated in terms of the record alone, so pin both directions.
+     *
+     * @dataProvider obligationProvider
+     */
+    public function testAnObligatedRecordWithADriftedShiftIsStillBlocked(string $obligation): void
+    {
+        $this->persistor->method('load')->willReturn(
+            $this->record([
+                'verdict' => Verdict::AUTHENTICATED->value,
+                'obligation' => $obligation,
+                'amount' => '1.00',
+            ])
+        );
+
+        $this->expectException(CommandException::class);
+
+        $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+    }
+
+    /**
+     * @dataProvider obligationProvider
+     */
+    public function testAnObligatedRecordCarryingACoveringShiftResolves(string $obligation): void
+    {
+        $this->persistor->method('load')->willReturn(
+            $this->record(['verdict' => Verdict::AUTHENTICATED->value, 'obligation' => $obligation])
+        );
+
+        $result = $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+
+        $this->assertSame(Verdict::AUTHENTICATED, $result['verdict']);
+    }
+
+    public function testSetupOnlyRecordWithNoObligationResolvesToNull(): void
+    {
+        $this->persistor->method('load')->willReturn(
+            [
+                'reference_id' => 'ref-1',
+                'auth_transaction_id' => null,
+                'verdict' => null,
+                'obligation' => null,
+                'ca' => [],
+                'amount' => null,
+                'currency' => null,
+                'binding' => 'jti-abc',
+                'created_at' => time(),
+            ]
+        );
 
         $this->assertNull($this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc'));
     }
@@ -158,7 +276,7 @@ class BindingValidatorTest extends TestCase
     {
         return [
             'amount up' => [[], '24.01', 'USD', 'jti-abc'],
-            'amount down' => [[], '23.99', 'USD', 'jti-abc'],
+            'amount far up' => [[], '500.00', 'USD', 'jti-abc'],
             'amount unformatted' => [[], '24', 'USD', 'jti-abc'],
             'currency swap' => [[], '24.00', 'EUR', 'jti-abc'],
             'binding jti to other jti' => [[], '24.00', 'USD', 'jti-other'],
@@ -174,17 +292,27 @@ class BindingValidatorTest extends TestCase
      * @param array<string, mixed> $overrides
      * @dataProvider driftProvider
      */
-    public function testDriftOnAShiftedRecordDiscardsAndDemandsReverification(
+    public function testDriftOnAShiftedRecordDemandsReverificationAndKeepsTheRecord(
         array $overrides,
         string $amount,
         string $currency,
         string $binding
     ): void {
         $this->persistor->method('load')->willReturn($this->record($overrides));
-        $this->persistor->expects($this->once())->method('clear')->with($this->payment);
 
+        // First attempt blocks...
+        try {
+            $this->validator->resolve($this->payment, $amount, $currency, $binding);
+            $this->fail('Expected the drifted record to block placement.');
+        } catch (CommandException $exception) {
+            $this->assertStringContainsString(
+                'Your payment verification is no longer valid.',
+                (string)$exception->getMessage()
+            );
+        }
+
+        // ...and so does the retry, because nothing was discarded.
         $this->expectException(CommandException::class);
-        $this->expectExceptionMessage('Your payment verification is no longer valid.');
 
         $this->validator->resolve($this->payment, $amount, $currency, $binding);
     }
@@ -193,7 +321,7 @@ class BindingValidatorTest extends TestCase
      * @param array<string, mixed> $overrides
      * @dataProvider driftProvider
      */
-    public function testDriftOnAnUnavailableRecordDiscardsSilently(
+    public function testDriftOnAnUnavailableRecordResolvesToNullSilently(
         array $overrides,
         string $amount,
         string $currency,
@@ -202,15 +330,56 @@ class BindingValidatorTest extends TestCase
         $this->persistor->method('load')->willReturn(
             $this->record($overrides + ['verdict' => Verdict::UNAVAILABLE->value])
         );
-        $this->persistor->expects($this->once())->method('clear')->with($this->payment);
 
         $this->assertNull($this->validator->resolve($this->payment, $amount, $currency, $binding));
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: bool}>
+     */
+    public static function amountDirectionProvider(): array
+    {
+        return [
+            // Authenticated at 30.00.
+            'one cent over blocks' => ['30.01', false],
+            'far over blocks' => ['500.00', false],
+            'exact match passes' => ['30.00', true],
+            'one cent under passes' => ['29.99', true],
+            'store credit reduction passes' => ['5.00', true],
+            'zero passes' => ['0.00', true],
+        ];
+    }
+
+    /**
+     * The amount rule is directional: charge <= authenticated.
+     *
+     * Charging MORE than was authenticated is the attack (authenticate $1, place $500). Charging
+     * LESS is legal — store credit / gift cards / partial-payment modules reduce the gateway charge
+     * below the quote grand total that was authenticated.
+     *
+     * @dataProvider amountDirectionProvider
+     */
+    public function testChargeMayNotExceedTheAuthenticatedAmount(string $charge, bool $allowed): void
+    {
+        $this->persistor->method('load')->willReturn($this->record(['amount' => '30.00']));
+
+        if ($allowed === false) {
+            $this->expectException(CommandException::class);
+            $this->expectExceptionMessage('Your payment verification is no longer valid.');
+
+            $this->validator->resolve($this->payment, $charge, 'USD', 'jti-abc');
+
+            return;
+        }
+
+        $result = $this->validator->resolve($this->payment, $charge, 'USD', 'jti-abc');
+
+        $this->assertSame(Verdict::AUTHENTICATED, $result['verdict']);
     }
 
     public function testRecordIsStillUsableOneSecondInsideTheTtl(): void
     {
         $this->persistor->method('load')->willReturn($this->record(['created_at' => time() - 899]));
-        $this->persistor->expects($this->never())->method('clear');
 
         $result = $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
 
@@ -229,17 +398,16 @@ class BindingValidatorTest extends TestCase
     public function testCurrencyComparisonIsCaseInsensitive(): void
     {
         $this->persistor->method('load')->willReturn($this->record(['currency' => 'usd']));
-        $this->persistor->expects($this->never())->method('clear');
 
         $this->assertNotNull($this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc'));
     }
 
-    public function testDiscardLoggingCarriesNoRecordValues(): void
+    public function testRefusalLoggingCarriesNoRecordValues(): void
     {
         $ca = $this->loadFixture('case-2-1-success')['consumerAuthenticationInformation'];
         $messages = [];
 
-        $this->persistor->method('load')->willReturn($this->record(['ca' => $ca, 'amount' => '99.99']));
+        $this->persistor->method('load')->willReturn($this->record(['ca' => $ca, 'amount' => '9.99']));
         $this->helper->method('log')->willReturnCallback(
             function ($code, $message) use (&$messages) {
                 $messages[] = (string)$message;
@@ -258,7 +426,7 @@ class BindingValidatorTest extends TestCase
         foreach ($messages as $message) {
             $this->assertStringNotContainsString((string)$ca['cavv'], $message);
             $this->assertStringNotContainsString('jti-abc', $message);
-            $this->assertStringNotContainsString('99.99', $message);
+            $this->assertStringNotContainsString('9.99', $message);
         }
 
         $this->assertStringContainsString('reason=amount_mismatch', $messages[0]);
@@ -276,6 +444,7 @@ class BindingValidatorTest extends TestCase
             'reference_id' => 'ref-1',
             'auth_transaction_id' => 'txn-1',
             'verdict' => Verdict::AUTHENTICATED->value,
+            'obligation' => null,
             'ca' => ['paresStatus' => 'Y', 'cavv' => 'AAABCZIhcQAAAABZlyFxAAAAAAA='],
             'amount' => '24.00',
             'currency' => 'USD',

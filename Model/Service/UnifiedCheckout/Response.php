@@ -476,6 +476,9 @@ class Response
      *
      * Payer Auth is a CUSTOMER-INITIATED, browser-originated ceremony, so only those charges consult
      * the validator:
+     *  - Payer Authentication disabled for the store short-circuits everything. The validator is a
+     *    hard gate now (a refused record STAYS refused), so a record written before a merchant
+     *    turned Payer Auth off must be inert rather than a permanent block on that cart.
      *  - A subscription-generated rebill is merchant-initiated (MIT): there is no cardholder to
      *    authenticate, no fresh record can exist, and consulting would let a stale record from the
      *    original checkout throw on an unattended rebill. Same signal as shouldSuppressDecisionManager().
@@ -493,6 +496,10 @@ class Response
      */
     protected function shouldConsumePayerAuth(InfoInterface $payment): bool
     {
+        if ($this->config->isPayerAuthEnabled($this->getPayerAuthStoreId($payment)) === false) {
+            return false;
+        }
+
         if ((bool)$payment->getAdditionalInformation('is_subscription_generated')) {
             return false;
         }
@@ -505,15 +512,41 @@ class Response
     }
 
     /**
+     * Resolve the store scope the Payer Authentication config should be read at.
+     *
+     * Both money paths call $this->config->setStoreId() from the order before reaching here, so a
+     * null return still lands on the right scope; the explicit id is simply the more direct route.
+     *
+     * @param InfoInterface $payment
+     * @return int|null
+     */
+    protected function getPayerAuthStoreId(InfoInterface $payment): ?int
+    {
+        if (!$payment instanceof Payment) {
+            return null;
+        }
+
+        $order = $payment->getOrder();
+
+        if (!$order instanceof OrderInterface || $order->getStoreId() === null) {
+            return null;
+        }
+
+        return (int)$order->getStoreId();
+    }
+
+    /**
      * Resolve the persisted Payer Authentication result for this charge and attach its pass-through.
      *
      * The amount and currency are read back off the REQUEST DTO, so the binding check compares the
      * exact strings the money call will carry — there is no second formatting path to drift from.
      *
-     * Outcomes: null record (Payer Auth off, or never run) => nothing attached, placement proceeds;
-     * AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing attached
-     * (no liability shift exists to pass) and the outcome is logged; FAILED / stale / abandoned =>
-     * BindingValidator throws CommandException and the placement never happens.
+     * Outcomes: Payer Auth disabled, MIT/admin origin, or no record => nothing attached, placement
+     * proceeds; AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing
+     * attached (no liability shift exists to pass) and the outcome is logged; FAILED / obligated /
+     * abandoned / stale => BindingValidator throws CommandException and the placement never happens.
+     * A thrown block leaves the record in place ON PURPOSE, so re-submitting Place Order is refused
+     * identically rather than sailing through unauthenticated.
      *
      * @param InfoInterface $payment
      * @param PaymentRequest|StoredCardRequest $request
@@ -574,8 +607,15 @@ class Response
      *
      * Only ever reached on an APPROVED reply — interpretResponse() throws on decline/error — which is
      * exactly the intended one-shot timing: a declined or errored place leaves the record in place so
-     * the customer can retry the same authenticated attempt within its TTL. (Per T3's documented
-     * caveat the clear also rides the order transaction, so a rolled-back place keeps the record too.)
+     * the customer can retry the same authenticated attempt within its TTL.
+     *
+     * Commit timing (corrected — the earlier claim that this rides an order transaction was wrong):
+     * Magento\Sales\Model\Service\OrderService::place() wraps neither $order->place() nor the
+     * subsequent orderRepository->save() in a DB transaction, so this clear COMMITS IMMEDIATELY. If
+     * the order save then fails after a successful charge, no record survives for the retry and the
+     * customer must re-authenticate. That is a bounded, documented gap of the same class as any
+     * post-payment save failure (the money is already taken at the gateway either way); it is not
+     * defended against here.
      *
      * @param InfoInterface $payment
      * @param GatewayResponse $gatewayResponse
@@ -633,7 +673,7 @@ class Response
      * Read the transient-token `jti` binding for the card being charged, or '' when unreadable.
      *
      * An unreadable binding never matches a persisted record, so a record from a DIFFERENT card entry
-     * is discarded rather than honored — the fail-closed direction.
+     * is refused rather than honored — the fail-closed direction.
      *
      * @param InfoInterface $payment
      * @return string

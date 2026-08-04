@@ -186,9 +186,15 @@ class Management implements PayerAuthManagementInterface
      * Authenticate with a return URL the caller has already validated.
      *
      * The GraphQL surface (T6) serves headless storefronts whose origin is NOT the store base URL,
-     * so the same-host rule authenticate() enforces cannot apply there. That surface validates the
-     * URL against its own configured origins and calls this method; it is deliberately absent from
-     * the service contract so no REST/webapi caller can reach it.
+     * so the same-host rule authenticate() enforces cannot apply there. What that surface actually
+     * enforces is SHAPE, not identity: the URL must be absolute, https, carry a host, and carry no
+     * userinfo component. It does NOT check the host against an allowlist — any https host is
+     * accepted. This method is deliberately absent from the service contract so no REST/webapi
+     * caller can reach it, but a GraphQL caller can still aim the challenge return at a host of its
+     * choosing.
+     *
+     * DEFERRED to PA-2 (client iteration): a merchant-configurable origin allowlist for the headless
+     * return URL. Not implemented here.
      *
      * @param PayerAuthBrowserInfoInterface $browserInfo
      * @param string $returnUrl Absolute URL, already validated by the caller.
@@ -238,7 +244,7 @@ class Management implements PayerAuthManagementInterface
         $storeId = (int)$quote->getStoreId();
 
         if ($this->config->isPayerAuthEnabled($storeId) === false) {
-            return $this->skippedSetup();
+            return $this->skippedSetup($quote);
         }
 
         $hasToken = $transientToken !== null && $transientToken !== '';
@@ -273,7 +279,7 @@ class Management implements PayerAuthManagementInterface
             // Legacy/unreconciled vault card with no TMS instrument (uc_token_missing): there is
             // nothing to authenticate against, and the payment itself will fail loudly later.
             if ($paymentInstrumentId === '') {
-                return $this->skippedSetup();
+                return $this->skippedSetup($quote);
             }
 
             $binding = $this->persistor->cardBinding((int)$card->getId());
@@ -282,7 +288,7 @@ class Management implements PayerAuthManagementInterface
         }
 
         if ($this->isTypeExcluded($ccType, $storeId)) {
-            return $this->skippedSetup();
+            return $this->skippedSetup($quote);
         }
 
         $reply = $this->setupService->execute($request, $storeId);
@@ -323,7 +329,7 @@ class Management implements PayerAuthManagementInterface
         $storeId = (int)$quote->getStoreId();
 
         if ($this->config->isPayerAuthEnabled($storeId) === false) {
-            return $this->skippedResult();
+            return $this->skippedResult($quote);
         }
 
         $payment = $quote->getPayment();
@@ -341,7 +347,7 @@ class Management implements PayerAuthManagementInterface
         $ccType  = $this->applyInstrument($request, $record, $binding, $quote);
 
         if ($this->isTypeExcluded($ccType, $storeId)) {
-            return $this->skippedResult();
+            return $this->skippedResult($quote);
         }
 
         $amount   = $this->baseAmount($quote);
@@ -741,23 +747,51 @@ class Management implements PayerAuthManagementInterface
     }
 
     /**
-     * Build a "Payer Authentication did not run" setup result.
+     * Build a "Payer Authentication did not run" setup result, clearing any record first.
      *
+     * @param Quote $quote
      * @return PayerAuthSetupResultInterface
      */
-    private function skippedSetup(): PayerAuthSetupResultInterface
+    private function skippedSetup(Quote $quote): PayerAuthSetupResultInterface
     {
+        $this->clearRecord($quote);
+
         return $this->setupResultFactory->create()->setSkipped(true);
     }
 
     /**
-     * Build a "Payer Authentication did not run" outcome.
+     * Build a "Payer Authentication did not run" outcome, clearing any record first.
      *
+     * @param Quote $quote
      * @return PayerAuthResultInterface
      */
-    private function skippedResult(): PayerAuthResultInterface
+    private function skippedResult(Quote $quote): PayerAuthResultInterface
     {
+        $this->clearRecord($quote);
+
         return $this->resultFactory->create()->setStatus(PayerAuthResultInterface::STATUS_SKIPPED);
+    }
+
+    /**
+     * Drop any persisted record for a cart Payer Authentication does not apply to.
+     *
+     * Every skip path is a merchant/config decision that THIS charge needs no 3DS: Payer Auth
+     * disabled for the store, an excluded card type, or a vault card with no TMS instrument. A
+     * record left behind from an earlier attempt (a different card, or a state before the merchant
+     * turned Payer Auth off) would otherwise be picked up by the BindingValidator at place time and
+     * hard-block a cart that is not supposed to be authenticated at all. The validator no longer
+     * self-heals by discarding, so the clear has to happen here.
+     *
+     * @param Quote $quote
+     * @return void
+     */
+    private function clearRecord(Quote $quote): void
+    {
+        $payment = $quote->getPayment();
+
+        if ($payment !== null) {
+            $this->persistor->clear($payment);
+        }
     }
 
     /**
@@ -801,6 +835,14 @@ class Management implements PayerAuthManagementInterface
 
     /**
      * Get the quote's base grand total as a fixed 2-decimal string.
+     *
+     * This is the amount PINNED into the record as "what was authenticated", and the direction of
+     * the BindingValidator's amount rule is chosen around it: the charge must be <= this value. The
+     * grand total is the CEILING the cardholder saw and approved, while the amount that reaches the
+     * gateway can legitimately be lower — store credit, gift cards and partial-payment modules all
+     * reduce it after the fact. Authenticating the ceiling and accepting anything at or under it
+     * keeps those flows working while still refusing the attack, which runs the other way: a $1
+     * authentication reused for a $500 charge.
      *
      * @param Quote $quote
      * @return string

@@ -31,6 +31,7 @@ use ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterface;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterfaceFactory;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Authenticate;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Results;
@@ -282,13 +283,17 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
     }
 
     /**
-     * The cart changed after the customer authenticated it: the authentication no longer covers the
-     * money, so the charge must not happen at all.
+     * The cart grew after the customer authenticated it: the authentication no longer covers the
+     * money, so the charge must not happen at all -- and must keep not happening on a retry.
      *
      * This is the binding rule doing the only job that matters -- a client that can authenticate $30
      * and then place $45 with the liability shift has no liability shift, it has a bypass. The
      * assertion that the gateway was never called is therefore the point: blocking after the money
      * moved would not be blocking.
+     *
+     * The qty goes UP deliberately: that is the attack direction. The rule is charge <= authenticated,
+     * so a REDUCTION is legal and is covered separately by
+     * {@see testChargeBelowTheAuthenticatedAmountStillPlaces()}.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
@@ -328,15 +333,28 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
             $stub->getCallsMatching(self::PAYMENTS_PATH),
             'The stale CAVV must never reach the gateway: the money call must not happen at all.'
         );
-        self::assertNull(
+        self::assertNotNull(
             $this->loadRecord(self::GUEST_QUOTE_ID),
-            'The unusable record is discarded, so the customer can re-verify instead of being stuck.'
+            'The record must SURVIVE the block: discarding it would let the retry place unauthenticated.'
+        );
+
+        // Retry-bypass regression: the SAME persisted record refuses again, and again.
+        $this->assertRetryIsStillRefused('verify your payment again');
+
+        self::assertSame(
+            [],
+            $stub->getCallsMatching(self::PAYMENTS_PATH),
+            'The retry must not reach the gateway either.'
         );
     }
 
     /**
-     * A failed authentication is final for that attempt: place must refuse, and must refuse without
-     * quietly charging the card unauthenticated.
+     * A charge BELOW the authenticated amount still places: the rule is charge <= authenticated.
+     *
+     * The authenticated amount is the quote grand total the cardholder approved -- a ceiling. Store
+     * credit, gift cards and partial-payment modules all legitimately reduce what actually reaches the
+     * gateway, and refusing those would break checkout for a case that carries no risk. A cart
+     * reduction is the cheapest way to produce that divergence through the real place path.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
@@ -344,7 +362,60 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
      * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_checkout_quote.php
      * @return void
      */
-    public function testFailedAuthenticationBlocksThePlacement(): void
+    public function testChargeBelowTheAuthenticatedAmountStillPlaces(): void
+    {
+        $stub = $this->registerRestStub($this->payerAuthResponder('case-2-1-success.json'));
+
+        $this->runSetupAndAuthenticate();
+
+        $authenticatedAmount = $this->loadRecord(self::GUEST_QUOTE_ID)['amount'] ?? null;
+        self::assertIsString($authenticatedAmount);
+
+        // Same cart, same card, LESS money than was authenticated.
+        $this->changeCartQuantity(self::GUEST_QUOTE_ID, 1);
+
+        self::assertLessThan(
+            (float)$authenticatedAmount,
+            (float)$this->baseGrandTotal(self::GUEST_QUOTE_ID),
+            'The scenario is meaningless unless the charge actually dropped below the authenticated amount.'
+        );
+
+        $this->simulateNewRequest();
+
+        $order = $this->placeCart();
+
+        self::assertNotEmpty(
+            $stub->getCallsMatching(self::PAYMENTS_PATH),
+            'A charge at or under the authenticated amount must reach the gateway.'
+        );
+
+        $body = $stub->getCallsMatching(self::PAYMENTS_PATH)[0]['params'] ?? [];
+
+        self::assertNotEmpty(
+            $body['consumerAuthenticationInformation']['cavv'] ?? null,
+            'The liability shift must ride the reduced charge.'
+        );
+        self::assertNull(
+            $order->getPayment()->getAdditionalInformation(Persistor::PERSIST_KEY),
+            'The record is one-shot: an approved place must consume it.'
+        );
+    }
+
+    /**
+     * A failed authentication is final: place must refuse, must refuse without quietly charging the
+     * card unauthenticated, and must refuse the RETRY the same way.
+     *
+     * Retry-bypass regression test. The original implementation discarded the record on its way to
+     * throwing, so a second Place Order found nothing, resolved to null, and placed the order
+     * unauthenticated -- a complete 3DS bypass reachable by clicking the button twice.
+     *
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_checkout_quote.php
+     * @return void
+     */
+    public function testFailedAuthenticationBlocksThePlacementAndTheRetry(): void
     {
         $stub = $this->registerRestStub($this->payerAuthResponder('case-2-2-frictionless-fail.json'));
 
@@ -366,10 +437,74 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
             $stub->getCallsMatching(self::PAYMENTS_PATH),
             'A failed authentication must not be silently downgraded to an unauthenticated charge.'
         );
-        self::assertNull(
+        self::assertNotNull(
             $this->loadRecord(self::GUEST_QUOTE_ID),
-            'The failed record is discarded: re-submitting place must not be a way around it.'
+            'The failed record must SURVIVE: discarding it is what made the retry a bypass.'
         );
+
+        // Re-submitting Place Order hits the same wall: the persisted record refuses repeatedly.
+        $this->assertRetryIsStillRefused('could not be verified');
+
+        // And running setup() again does not launder it: the obligation survives the re-seed, so the
+        // "fail, re-run setup, place" route is closed too.
+        $this->simulateNewRequest();
+        $this->management()->setup($this->transientToken());
+
+        $reseeded = $this->loadRecord(self::GUEST_QUOTE_ID);
+
+        self::assertNull($reseeded['verdict'] ?? null, 'A re-seed clears the verdict...');
+        self::assertSame(
+            'failed',
+            $reseeded['obligation'] ?? null,
+            '...but NOT the obligation: that is what stops the re-setup bypass.'
+        );
+
+        $this->assertRetryIsStillRefused('verify your payment again');
+
+        self::assertSame(
+            [],
+            $stub->getCallsMatching(self::PAYMENTS_PATH),
+            'None of the retries may reach the gateway.'
+        );
+    }
+
+    /**
+     * Assert the persisted record refuses the charge again, twice over.
+     *
+     * Deliberately NOT a second placeCart(): a failed CartManagement::placeOrder() unwinds through
+     * QuoteManagement's rollback path, which leaves the integration framework's own isolation
+     * transaction unusable ("Rolled back transaction has not been completed correctly") -- a harness
+     * limit, not product behavior. This asserts the same thing one layer down and against the REAL
+     * record as it sits in the database: reloaded from scratch, the gate refuses, and refuses again.
+     *
+     * @param string $expectedMessage
+     * @return void
+     */
+    private function assertRetryIsStillRefused(string $expectedMessage): void
+    {
+        /** @var BindingValidator $validator */
+        $validator = $this->objectManager->create(BindingValidator::class);
+
+        for ($attempt = 1; $attempt <= 2; $attempt++) {
+            $this->simulateNewRequest();
+
+            $payment = $this->loadQuote(self::GUEST_QUOTE_ID)->getPayment();
+            $record  = $this->objectManager->get(Persistor::class)->load($payment);
+
+            self::assertNotNull($record, 'Attempt ' . $attempt . ': the record must still be there.');
+
+            try {
+                $validator->resolve(
+                    $payment,
+                    $this->baseGrandTotal(self::GUEST_QUOTE_ID),
+                    (string)$this->loadQuote(self::GUEST_QUOTE_ID)->getBaseCurrencyCode(),
+                    (string)($record['binding'] ?? '')
+                );
+                self::fail('Attempt ' . $attempt . ': re-submitting place must not be a way around this.');
+            } catch (CommandException $exception) {
+                self::assertStringContainsString($expectedMessage, $exception->getMessage());
+            }
+        }
     }
 
     /**

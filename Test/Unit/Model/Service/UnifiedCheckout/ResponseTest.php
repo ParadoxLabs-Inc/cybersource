@@ -54,6 +54,7 @@ class ResponseTest extends TestCase
         $this->helperMock = $this->createMock(Data::class);
 
         $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $this->configMock->method('isPayerAuthEnabled')->willReturn(true);
 
         $this->bindingValidatorMock = $this->createMock(BindingValidator::class);
         $this->persistorMock        = $this->createMock(Persistor::class);
@@ -1387,6 +1388,48 @@ class ResponseTest extends TestCase
         $this->service->place($this->buildPayment($this->buildBoundToken()), 24.0);
 
         $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
+    }
+
+    public function testPayerAuthIsNeverConsultedWhenDisabledForTheStore(): void
+    {
+        // A record written before the merchant disabled Payer Auth must be inert: the validator is a
+        // hard gate now, so consulting it would permanently block a cart that needs no 3DS at all.
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(false);
+
+        $this->service = $this->buildService($config);
+
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-PA-OFF', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+
+        // A record IS present and WOULD throw if consulted.
+        $this->bindingValidatorMock->expects($this->never())->method('resolve');
+        $this->persistorMock->expects($this->never())->method('clear');
+
+        $this->service->place($this->buildPayment($this->buildBoundToken()), 24.0);
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
+    }
+
+    public function testStoredCardPayerAuthIsNeverConsultedWhenDisabledForTheStore(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(false);
+
+        $this->service = $this->buildService($config);
+
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-PA-OFF-STORED', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+
+        $this->bindingValidatorMock->expects($this->never())->method('resolve');
+
+        $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
     }
 
     public function testPayerAuthValidationFailureBlocksThePlaceEntirely(): void
