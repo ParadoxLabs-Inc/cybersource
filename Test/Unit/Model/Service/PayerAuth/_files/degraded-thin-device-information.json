@@ -1,0 +1,10 @@
+{
+    "status": "AUTHENTICATION_SUCCESSFUL",
+    "consumerAuthenticationInformation": {
+        "authenticationTransactionId": "6544863123003918014019",
+        "ecommerceIndicator": "vbv_failure",
+        "specificationVersion": "2.2.0",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAB4",
+        "veresEnrolled": "U"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "status": "AUTHENTICATION_SUCCESSFUL",
+    "consumerAuthenticationInformation": {
+        "authenticationTransactionId": "6544862788669574610015",
+        "directoryServerErrorCode": "101",
+        "directoryServerErrorDescription": "Error Processing Message Request 1001",
+        "directoryServerTransactionId": "5e6f7a8b-9c0d-4e2f-8a3b-4c5d6e7f8a9b",
+        "ecommerceIndicator": "vbv_failure",
+        "specificationVersion": "2.2.0",
+        "strongAuthentication": {
+            "OutageExemptionIndicator": "0"
+        },
+        "threeDSServerTransactionId": "a6b5c4d3-2e1f-4a0b-9c8d-7e6f5a4b3c2d",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAB0",
+        "veresEnrolled": "U"
+    }
+}

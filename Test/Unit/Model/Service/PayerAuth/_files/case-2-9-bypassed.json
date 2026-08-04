@@ -1,0 +1,19 @@
+{
+    "status": "AUTHENTICATION_SUCCESSFUL",
+    "consumerAuthenticationInformation": {
+        "acsOperatorID": "MerchantACS",
+        "acsReferenceNumber": "CardinalACS",
+        "acsTransactionId": "6f5e4d3c-2b1a-4f0e-9d8c-7b6a5f4e3d2c",
+        "authenticationTransactionId": "6544862900881796812017",
+        "directoryServerTransactionId": "6f7a8b9c-0d1e-4f3a-8b4c-5d6e7f8a9b0c",
+        "ecommerceIndicator": "internet",
+        "signedParesStatusReason": "01",
+        "specificationVersion": "2.2.0",
+        "strongAuthentication": {
+            "OutageExemptionIndicator": "0"
+        },
+        "threeDSServerTransactionId": "c8d7e6f5-4a3b-4c2d-8e1f-0a9b8c7d6e5f",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAB2",
+        "veresEnrolled": "B"
+    }
+}

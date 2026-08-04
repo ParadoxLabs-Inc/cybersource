@@ -1,0 +1,15 @@
+{
+    "status": "AUTHENTICATION_FAILED",
+    "errorInformation": {
+        "reason": "CONSUMER_AUTHENTICATION_FAILED",
+        "message": "Encountered a Payer Authentication problem. Payer could not be authenticated."
+    },
+    "consumerAuthenticationInformation": {
+        "authenticationTransactionId": "6544862233114029105010",
+        "directoryServerTransactionId": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+        "paresStatus": "N",
+        "specificationVersion": "2.2.0",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAA1",
+        "veresEnrolled": "Y"
+    }
+}
