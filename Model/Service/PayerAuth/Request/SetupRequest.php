@@ -89,7 +89,7 @@ class SetupRequest
     }
 
     /**
-     * Set the Unified Checkout transient token (tokenInformation.transientToken).
+     * Set the Unified Checkout transient token (tokenInformation.transientTokenJwt).
      *
      * @param string|null $transientToken
      * @return $this
@@ -152,7 +152,7 @@ class SetupRequest
         }
 
         if ($hasToken) {
-            $request['tokenInformation'] = ['transientToken' => $this->transientToken];
+            $request['tokenInformation'] = ['transientTokenJwt' => $this->transientToken];
         } else {
             $request['paymentInformation'] = [
                 'paymentInstrument' => ['id' => $this->paymentInstrumentId],

@@ -161,7 +161,7 @@ class AuthenticationRequestTest extends TestCase
         $result = $request->toArray();
 
         $this->assertSame('the.transient.token', $request->getTransientToken());
-        $this->assertSame(['transientToken' => 'the.transient.token'], $result['tokenInformation']);
+        $this->assertSame(['transientTokenJwt' => 'the.transient.token'], $result['tokenInformation']);
         $this->assertArrayNotHasKey('paymentInformation', $result);
         $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
     }

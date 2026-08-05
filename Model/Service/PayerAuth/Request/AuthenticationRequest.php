@@ -327,7 +327,7 @@ class AuthenticationRequest
     }
 
     /**
-     * Set the Unified Checkout transient token (tokenInformation.transientToken).
+     * Set the Unified Checkout transient token (tokenInformation.transientTokenJwt).
      *
      * The new-card path has no other way to address the card: the PAN never reaches the server, and
      * a card that has not been charged yet has no TMS payment-instrument id. The setups call takes
@@ -406,7 +406,7 @@ class AuthenticationRequest
         $request['deviceInformation'] = $this->buildDeviceInformation();
 
         if ($this->hasTransientToken()) {
-            $request['tokenInformation'] = ['transientToken' => $this->transientToken];
+            $request['tokenInformation'] = ['transientTokenJwt' => $this->transientToken];
         } else {
             $request['paymentInformation'] = !empty($this->card)
                 ? ['card' => $this->card]

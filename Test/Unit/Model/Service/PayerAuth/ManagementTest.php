@@ -465,7 +465,7 @@ class ManagementTest extends TestCase
         $this->assertSame('Jane', $emitted['orderInformation']['billTo']['firstName']);
         $this->assertSame('OH', $emitted['orderInformation']['billTo']['administrativeArea']);
         $this->assertSame('ref-123', $emitted['consumerAuthenticationInformation']['referenceId']);
-        $this->assertSame(['transientToken' => self::TOKEN], $emitted['tokenInformation']);
+        $this->assertSame(['transientTokenJwt' => self::TOKEN], $emitted['tokenInformation']);
 
         $device = $emitted['deviceInformation'];
         $this->assertSame('Mozilla/5.0 (RealBrowser)', $device['userAgentBrowserValue']);
