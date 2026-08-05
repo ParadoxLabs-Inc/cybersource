@@ -147,7 +147,14 @@ define(
                     this.transientToken.subscribe(this.handleTransientTokenChange.bind(this)),
                     // Re-request the capture context whenever the grand total changes, so the amount in
                     // the capture mandate stays in sync with the order being placed.
-                    quote.totals.subscribe(this.handleTotalChange.bind(this))
+                    quote.totals.subscribe(this.handleTotalChange.bind(this)),
+                    // Keep the place button visibly disabled for the WHOLE payer-auth sequence,
+                    // including the silent re-verify. The base placeOrder attaches
+                    // .always(isPlaceOrderActionAllowed(true)) AFTER the .fail() handler that starts the
+                    // re-verify, so it re-enables the button on a refusal we are already recovering
+                    // from. Clicks are swallowed by _payerAuthInFlight either way; this only stops the
+                    // button from lying about it.
+                    this.isPlaceOrderActionAllowed.subscribe(this.holdPlaceOrderDuringPayerAuth.bind(this))
                 ];
 
                 this.showDropin = ko.computed(function () {
@@ -824,6 +831,21 @@ define(
                     self._activeChallenge = null;
                     self.handlePayerAuthError(error);
                 });
+            },
+
+            /**
+             * Re-disable the place button if something re-enabled it while payer auth is still running.
+             *
+             * Every terminal payer-auth path clears _payerAuthInFlight BEFORE restoring the button, so
+             * none of them are caught here; the only writer this fires on is the base placeOrder's
+             * .always(). The re-write settles immediately — the resulting notification sees false.
+             *
+             * @param {Boolean} allowed
+             */
+            holdPlaceOrderDuringPayerAuth: function (allowed) {
+                if (allowed === true && this._payerAuthInFlight === true) {
+                    this.isPlaceOrderActionAllowed(false);
+                }
             },
 
             /**
