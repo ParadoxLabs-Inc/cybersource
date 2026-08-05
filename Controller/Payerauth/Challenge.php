@@ -22,11 +22,14 @@
 namespace ParadoxLabs\CyberSource\Controller\Payerauth;
 
 use Magento\Csp\Api\CspAwareActionInterface;
+use Magento\Csp\Helper\CspNonceProvider;
 use Magento\Csp\Model\Policy\FetchPolicy;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Escaper;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 
 /**
  * Same-origin wrapper page that hosts the issuer's 3DS challenge.
@@ -37,31 +40,22 @@ use Magento\Framework\Controller\ResultInterface;
  * relays the return page's completion event back up to the checkout.
  *
  * Stateless: no session, quote, customer, or request parameters are read.
+ *
+ * The page body is built here rather than from a template on purpose. It has no theming, no layout,
+ * and no store data, and a merchant theme override of it would break 3DS at the ACS step with no
+ * visible symptom. The tradeoff is that the script below sits outside the JS lint/build path: treat
+ * it as a fixed protocol stub, and put anything that needs real maintenance in payer-auth-client.js.
  */
 class Challenge implements CspAwareActionInterface, HttpGetActionInterface
 {
     /**
-     * Rendered document. Static: no request data, no store data, nothing to escape.
+     * Challenge relay. Static except for the protocol tag.
      */
-    private const BODY = <<<'HTML'
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="robots" content="noindex,nofollow">
-<title>Payment Authentication</title>
-<style>
-html,body{margin:0;padding:0;height:100%;background:#fff}
-#pl-pa-acs{display:block;border:0;width:100%;height:100%}
-</style>
-</head>
-<body>
-<iframe id="pl-pa-acs" name="pl-pa-acs" title="Payment Authentication"></iframe>
-<script>
+    private const SCRIPT = <<<'JS'
 (function () {
     'use strict';
 
-    var TAG = 'pl-cybersource-payerauth';
+    var TAG = '{{tag}}';
     var ORIGIN = window.location.origin;
     var frame = document.getElementById('pl-pa-acs');
     var started = false;
@@ -158,6 +152,27 @@ html,body{margin:0;padding:0;height:100%;background:#fff}
         window.parent.postMessage({source: TAG, event: 'ready'}, ORIGIN);
     }
 }());
+JS;
+
+    /**
+     * Rendered document. No request data and no store data reach it; see execute() for what is bound.
+     */
+    private const BODY = <<<'HTML'
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>Payment Authentication</title>
+<style>
+html,body{margin:0;padding:0;height:100%;background:#fff}
+#pl-pa-acs{display:block;border:0;width:100%;height:100%}
+</style>
+</head>
+<body>
+<iframe id="pl-pa-acs" name="pl-pa-acs" title="Payment Authentication"></iframe>
+<script{{nonce}}>
+{{script}}
 </script>
 </body>
 </html>
@@ -166,10 +181,18 @@ HTML;
     /**
      * Challenge constructor.
      *
+     * The nonce provider is optional because it only exists on Magento 2.4.7+, and this module
+     * supports 2.4.6. Absent it, the inline script relies on the 'unsafe-inline' script-src that
+     * every pre-nonce CSP configuration grants.
+     *
      * @param ResultFactory $resultFactory
+     * @param Escaper $escaper
+     * @param CspNonceProvider|null $cspNonceProvider
      */
     public function __construct(
-        private readonly ResultFactory $resultFactory
+        private readonly ResultFactory $resultFactory,
+        private readonly Escaper $escaper,
+        private readonly ?CspNonceProvider $cspNonceProvider = null
     ) {
     }
 
@@ -183,9 +206,44 @@ HTML;
         /** @var Raw $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_RAW);
         $result->setHeader('Content-Type', 'text/html; charset=UTF-8');
-        $result->setContents(self::BODY);
+        $result->setContents($this->renderBody());
 
         return $result;
+    }
+
+    /**
+     * Bind the protocol tag and the CSP nonce into the document.
+     *
+     * @return string
+     */
+    private function renderBody(): string
+    {
+        $script = strtr(self::SCRIPT, ['{{tag}}' => MessageProtocol::MESSAGE_TAG]);
+
+        return strtr(
+            self::BODY,
+            [
+                '{{nonce}}' => $this->getNonceAttribute(),
+                '{{script}}' => $script,
+            ]
+        );
+    }
+
+    /**
+     * Build the script tag's nonce attribute, empty when the platform has no nonce support.
+     *
+     * Calling generateNonce() is what adds the nonce to this response's script-src, so it must not
+     * be called speculatively -- only when the attribute is actually going to be emitted.
+     *
+     * @return string
+     */
+    private function getNonceAttribute(): string
+    {
+        if ($this->cspNonceProvider === null) {
+            return '';
+        }
+
+        return ' nonce="' . $this->escaper->escapeHtmlAttr($this->cspNonceProvider->generateNonce()) . '"';
     }
 
     /**

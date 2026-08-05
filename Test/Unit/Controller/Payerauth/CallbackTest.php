@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Test\Unit\Controller\Payerauth;
 
+use Magento\Csp\Helper\CspNonceProvider;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Escaper;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Callback;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -22,6 +25,8 @@ class CallbackTest extends TestCase
     private Callback $controller;
     private Raw|MockObject $resultMock;
     private RequestInterface|MockObject $requestMock;
+    private ResultFactory|MockObject $resultFactoryMock;
+    private Escaper|MockObject $escaperMock;
 
     /**
      * @var string
@@ -41,12 +46,32 @@ class CallbackTest extends TestCase
                 return $this->resultMock;
             });
 
-        $resultFactory = $this->createMock(ResultFactory::class);
-        $resultFactory->method('create')
+        $this->resultFactoryMock = $this->createMock(ResultFactory::class);
+        $this->resultFactoryMock->method('create')
             ->with(ResultFactory::TYPE_RAW)
             ->willReturn($this->resultMock);
 
-        $this->controller = new Callback($resultFactory);
+        $this->escaperMock = $this->createMock(Escaper::class);
+        $this->escaperMock->method('escapeHtml')
+            ->willReturnCallback(static fn ($value): string => (string)$value);
+        $this->escaperMock->method('escapeHtmlAttr')
+            ->willReturnCallback(static fn ($value): string => (string)$value);
+
+        $this->controller = new Callback($this->resultFactoryMock, $this->escaperMock);
+    }
+
+    /**
+     * Build a controller with nonce support present, as on Magento 2.4.7+.
+     *
+     * @param string $nonce
+     * @return Callback
+     */
+    private function controllerWithNonce(string $nonce): Callback
+    {
+        $nonceProvider = $this->createMock(CspNonceProvider::class);
+        $nonceProvider->method('generateNonce')->willReturn($nonce);
+
+        return new Callback($this->resultFactoryMock, $this->escaperMock, $nonceProvider);
     }
 
     public function testAcceptsBothPostAndGetDelivery(): void
@@ -76,10 +101,25 @@ class CallbackTest extends TestCase
         $this->controller->execute();
 
         $this->assertStringContainsString(
-            "window.parent.postMessage({source: 'pl-cybersource-payerauth', event: 'return'}, '*');",
+            "window.parent.postMessage({source: '" . MessageProtocol::MESSAGE_TAG . "', event: 'return'}, '*');",
             $this->body
         );
         $this->assertStringContainsString('You may close this window.', $this->body);
+    }
+
+    public function testScriptCarriesTheCspNonceWhenThePlatformSupportsIt(): void
+    {
+        $this->controllerWithNonce('nonce-value-123')->execute();
+
+        $this->assertStringContainsString('<script nonce="nonce-value-123">', $this->body);
+    }
+
+    public function testScriptOmitsTheNonceAttributeOnPlatformsWithoutNonceSupport(): void
+    {
+        $this->controller->execute();
+
+        $this->assertStringContainsString('<script>', $this->body);
+        $this->assertStringNotContainsString('nonce', $this->body);
     }
 
     public function testMessagePayloadCarriesNoKeysBesidesSourceAndEvent(): void

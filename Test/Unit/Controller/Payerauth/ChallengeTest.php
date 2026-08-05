@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Controller\Payerauth;
 
 use Magento\Csp\Api\Data\PolicyInterface;
+use Magento\Csp\Helper\CspNonceProvider;
 use Magento\Csp\Model\Policy\FetchPolicy;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Escaper;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Challenge;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -21,6 +24,8 @@ class ChallengeTest extends TestCase
 {
     private Challenge $controller;
     private Raw|MockObject $resultMock;
+    private ResultFactory|MockObject $resultFactoryMock;
+    private Escaper|MockObject $escaperMock;
 
     /**
      * @var string
@@ -38,12 +43,32 @@ class ChallengeTest extends TestCase
                 return $this->resultMock;
             });
 
-        $resultFactory = $this->createMock(ResultFactory::class);
-        $resultFactory->method('create')
+        $this->resultFactoryMock = $this->createMock(ResultFactory::class);
+        $this->resultFactoryMock->method('create')
             ->with(ResultFactory::TYPE_RAW)
             ->willReturn($this->resultMock);
 
-        $this->controller = new Challenge($resultFactory);
+        $this->escaperMock = $this->createMock(Escaper::class);
+        $this->escaperMock->method('escapeHtml')
+            ->willReturnCallback(static fn ($value): string => (string)$value);
+        $this->escaperMock->method('escapeHtmlAttr')
+            ->willReturnCallback(static fn ($value): string => (string)$value);
+
+        $this->controller = new Challenge($this->resultFactoryMock, $this->escaperMock);
+    }
+
+    /**
+     * Build a controller with nonce support present, as on Magento 2.4.7+.
+     *
+     * @param string $nonce
+     * @return Challenge
+     */
+    private function controllerWithNonce(string $nonce): Challenge
+    {
+        $nonceProvider = $this->createMock(CspNonceProvider::class);
+        $nonceProvider->method('generateNonce')->willReturn($nonce);
+
+        return new Challenge($this->resultFactoryMock, $this->escaperMock, $nonceProvider);
     }
 
     public function testIsGetOnlyAndNeedsNoCsrfExemption(): void
@@ -59,6 +84,31 @@ class ChallengeTest extends TestCase
             ->with('Content-Type', 'text/html; charset=UTF-8');
 
         $this->assertSame($this->resultMock, $this->controller->execute());
+    }
+
+    public function testScriptCarriesTheCspNonceWhenThePlatformSupportsIt(): void
+    {
+        $this->controllerWithNonce('nonce-value-123')->execute();
+
+        $this->assertStringContainsString('<script nonce="nonce-value-123">', $this->body);
+    }
+
+    public function testScriptOmitsTheNonceAttributeOnPlatformsWithoutNonceSupport(): void
+    {
+        $this->controller->execute();
+
+        $this->assertStringContainsString('<script>', $this->body);
+        $this->assertStringNotContainsString('nonce', $this->body);
+    }
+
+    public function testBodyUsesTheSharedProtocolTag(): void
+    {
+        $this->controller->execute();
+
+        $this->assertStringContainsString(
+            "var TAG = '" . MessageProtocol::MESSAGE_TAG . "';",
+            $this->body
+        );
     }
 
     public function testBodyAnnouncesReadyAndRelaysReturnToItsOwnOrigin(): void
