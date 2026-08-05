@@ -382,16 +382,25 @@ define([
          * Never rejects: every ending is a status the caller can act on. Cancellation is by the
          * close control or Escape only — a backdrop click does not close a payment authentication.
          *
+         * Returns a handle rather than a bare promise so the caller can abort a challenge that is no
+         * longer wanted — e.g. the drop-in remounts (token TTL / total change) mid-challenge and the
+         * whole attempt is being torn down. cancel() settles the promise as 'cancelled' and reaps the
+         * modal; it is a no-op once the challenge has already settled.
+         *
          * @param {String} acsUrl - issuer ACS endpoint from the authenticate/finalize result
          * @param {String} pareq - the challenge request payload (CReq) for that ACS
-         * @return {Promise<Object>} {status: 'return'|'cancelled'|'timeout'|'error'}
+         * @return {{promise: Promise<Object>, cancel: Function}} promise resolves
+         *         {status: 'return'|'cancelled'|'timeout'|'error'}
          */
         runChallenge: function (acsUrl, pareq) {
             if (typeof acsUrl !== 'string' || acsUrl === '' || typeof pareq !== 'string' || pareq === '') {
-                return Promise.resolve({status: 'error'});
+                return {promise: Promise.resolve({status: 'error'}), cancel: function () {}};
             }
 
-            return new Promise(function (resolve) {
+            // Hoisted out of the executor so the returned cancel() can settle the challenge from
+            // outside. The executor runs synchronously, so this is assigned before runChallenge returns.
+            var settleRef = null;
+            var promise = new Promise(function (resolve) {
                 var origin = window.location.origin;
                 var name = nextId('pl-pa-challenge');
                 var previousFocus = document.activeElement;
@@ -435,6 +444,8 @@ define([
 
                     resolve({status: status});
                 }
+
+                settleRef = settle;
 
                 /**
                  * Handle the wrapper's two messages: hand it the challenge when it reports ready,
@@ -540,6 +551,15 @@ define([
                     settle('timeout');
                 }, CHALLENGE_TIMEOUT_MS);
             });
+
+            return {
+                promise: promise,
+                cancel: function () {
+                    if (settleRef !== null) {
+                        settleRef('cancelled');
+                    }
+                }
+            };
         },
 
         /**
