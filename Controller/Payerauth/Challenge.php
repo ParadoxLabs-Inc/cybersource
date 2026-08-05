@@ -145,7 +145,7 @@ html,body{margin:0;padding:0;height:100%;background:#fff}
             return;
         }
 
-        if (data.event === 'challenge' && event.origin === ORIGIN) {
+        if (data.event === 'challenge' && event.origin === ORIGIN && event.source === window.parent) {
             startChallenge(data.acsUrl, data.pareq);
         } else if (data.event === 'return' && frame && event.source === frame.contentWindow) {
             relayReturn();

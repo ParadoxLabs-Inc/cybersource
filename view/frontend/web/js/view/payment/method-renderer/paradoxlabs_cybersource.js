@@ -544,6 +544,15 @@ define(
                     return;
                 }
 
+                // Terminal failure (hard decline, or a second re-verify refusal): drop the payer-auth
+                // latch so the NEXT place re-authenticates. This must run for stored cards too — they
+                // have no transient token, so the remount below (which is what resets the latch for a
+                // new card) never fires, and without this an amount-mismatch loop would leave
+                // _payerAuthCleared/_reverifyAttempted stuck true and every retry would delegate
+                // straight to the base and be refused identically, forever.
+                this._payerAuthCleared = false;
+                this._reverifyAttempted = false;
+
                 // Re-mount before the base error alert: the base handler parses the response body
                 // and can throw on a bodyless failure (network drop), which must not leave the
                 // dead token in place.
@@ -617,9 +626,13 @@ define(
                 }
 
                 // Payer Authentication off for this store: place exactly as before payer auth
-                // existed, with no setup round-trip. The server still enforces enablement; this is
-                // purely to spare a non-3DS store the wasted request on every order.
-                if (config.payerAuthActive !== true) {
+                // existed, with no setup round-trip. This is ONLY a cost optimization, so it must
+                // fail toward running auth: gate on an EXPLICIT false, never on a missing key. A
+                // stale checkoutConfig bundle, a 404'd payer-auth-client.js, or a tab opened before
+                // the merchant enabled 3DS all leave the flag undefined -- in which case we run
+                // setup and let the server answer 'skipped' (one round-trip), rather than silently
+                // placing an unauthenticated order.
+                if (config.payerAuthActive === false) {
                     return this._super(data, event);
                 }
 
