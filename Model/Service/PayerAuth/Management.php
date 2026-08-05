@@ -49,7 +49,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\TransientTokenReader;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data;
 
 /**
  * Payer Authentication orchestration: the one place quote, config, card and the T2 services meet.
@@ -112,7 +112,7 @@ class Management implements PayerAuthManagementInterface
      * @param Sanitizer $sanitizer
      * @param PayerAuthSetupResultInterfaceFactory $setupResultFactory
      * @param PayerAuthResultInterfaceFactory $resultFactory
-     * @param LoggerInterface $logger
+     * @param Data $helper
      */
     public function __construct(
         private readonly Config $config,
@@ -134,7 +134,7 @@ class Management implements PayerAuthManagementInterface
         private readonly Sanitizer $sanitizer,
         private readonly PayerAuthSetupResultInterfaceFactory $setupResultFactory,
         private readonly PayerAuthResultInterfaceFactory $resultFactory,
-        private readonly LoggerInterface $logger
+        private readonly Data $helper
     ) {
     }
 
@@ -899,7 +899,7 @@ class Management implements PayerAuthManagementInterface
     }
 
     /**
-     * Log an unexpected failure (masked by the logger's own handling) and return a generic error.
+     * Log an unexpected failure and return a generic error.
      *
      * Internals never reach the client: a transport failure, a malformed reply or a coding error
      * all surface as the same message, so the endpoint cannot be used to map the gateway.
@@ -910,9 +910,10 @@ class Management implements PayerAuthManagementInterface
      */
     private function unavailable(string $step, \Throwable $exception): LocalizedException
     {
-        $this->logger->error(
+        $this->helper->log(
+            Config::CODE,
             sprintf(
-                'CyberSource Payer Authentication %s failed: %s',
+                'Payer Authentication %s failed: %s',
                 $step,
                 $exception->getMessage()
             )

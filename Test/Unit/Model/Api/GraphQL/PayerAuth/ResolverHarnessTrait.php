@@ -30,7 +30,7 @@ use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\ManagementFactory;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 
 /**
  * Shared mock harness for the Payer Authentication GraphQL resolver tests.
@@ -56,7 +56,7 @@ trait ResolverHarnessTrait
     private $configMock;
 
     /**
-     * @var LoggerInterface|MockObject
+     * @var CyberSourceHelper|MockObject
      */
     private $loggerMock;
 
@@ -107,7 +107,7 @@ trait ResolverHarnessTrait
         $this->configMock = $this->createMock(Config::class);
         $this->configMock->method('moduleIsActive')->willReturn(true);
 
-        $this->loggerMock  = $this->createMock(LoggerInterface::class);
+        $this->loggerMock  = $this->createMock(CyberSourceHelper::class);
         $this->fieldMock   = $this->createMock(Field::class);
         $this->contextMock = $this->createMock(ContextInterface::class);
         $this->infoMock    = $this->createMock(ResolveInfo::class);

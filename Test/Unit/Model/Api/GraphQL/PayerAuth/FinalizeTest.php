@@ -124,8 +124,8 @@ class FinalizeTest extends TestCase
             ->willThrowException(new \RuntimeException('json_decode(): unexpected token in /var/www/app/etc/env.php'));
 
         $this->loggerMock->expects($this->once())
-            ->method('error')
-            ->with($this->stringContains('CyberSource Payer Authentication GraphQL error'));
+            ->method('log')
+            ->with($this->anything(), $this->stringContains('Payer Authentication GraphQL error'));
 
         $this->expectException(GraphQlInputException::class);
         $this->expectExceptionMessage('Payer authentication is temporarily unavailable. Please try again.');

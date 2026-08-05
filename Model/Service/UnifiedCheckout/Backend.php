@@ -31,7 +31,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
 use ParadoxLabs\TokenBase\Helper\Data;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 use Throwable;
 
 /**
@@ -50,7 +50,7 @@ class Backend extends CaptureContext
      * @param Sanitizer $sanitizer
      * @param Address $addressHelper
      * @param CaptureContextRequestFactory $requestFactory
-     * @param LoggerInterface $logger
+     * @param CyberSourceHelper $helper
      * @param Data $tokenbaseHelper
      * @param BackendSession $backendSession
      * @param StoreManagerInterface $storeManager
@@ -63,14 +63,14 @@ class Backend extends CaptureContext
         Sanitizer $sanitizer,
         Address $addressHelper,
         CaptureContextRequestFactory $requestFactory,
-        LoggerInterface $logger,
+        CyberSourceHelper $helper,
         protected readonly Data $tokenbaseHelper,
         protected readonly BackendSession $backendSession,
         protected readonly StoreManagerInterface $storeManager,
         protected readonly RequestInterface $request,
         protected readonly BackendUrlInterface $backendUrl
     ) {
-        parent::__construct($config, $rest, $sanitizer, $addressHelper, $requestFactory, $logger);
+        parent::__construct($config, $rest, $sanitizer, $addressHelper, $requestFactory, $helper);
     }
 
     /**

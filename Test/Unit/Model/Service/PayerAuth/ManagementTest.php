@@ -62,7 +62,7 @@ use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 
 /**
  * @see \ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management
@@ -234,7 +234,7 @@ class ManagementTest extends TestCase
             new Sanitizer(),
             $setupResultFactory,
             $resultFactory,
-            $this->createMock(LoggerInterface::class)
+            $this->createMock(CyberSourceHelper::class)
         );
     }
 

@@ -31,7 +31,7 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\ManagementFactory;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data;
 
 /**
  * GraphQL (headless storefront) Payer Authentication authenticate resolver.
@@ -68,7 +68,7 @@ class Authenticate extends AbstractResolver
      * @param GraphQL $graphQL
      * @param ManagementFactory $managementFactory
      * @param Config $config
-     * @param LoggerInterface $logger
+     * @param Data $helper
      * @param PayerAuthBrowserInfoInterfaceFactory $browserInfoFactory
      * @param StoreManagerInterface $storeManager
      */
@@ -76,11 +76,11 @@ class Authenticate extends AbstractResolver
         GraphQL $graphQL,
         ManagementFactory $managementFactory,
         Config $config,
-        LoggerInterface $logger,
+        Data $helper,
         private readonly PayerAuthBrowserInfoInterfaceFactory $browserInfoFactory,
         private readonly StoreManagerInterface $storeManager
     ) {
-        parent::__construct($graphQL, $managementFactory, $config, $logger);
+        parent::__construct($graphQL, $managementFactory, $config, $helper);
     }
 
     /**
