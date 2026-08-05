@@ -6,8 +6,6 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\PayerAuth;
 
 /**
  * Loads the pinned /risk/v1 reply fixtures captured from the live sandbox 2026-08-04.
- *
- * @see PA1-FIXTURE-SHAPES.md
  */
 trait FixtureLoaderTrait
 {
