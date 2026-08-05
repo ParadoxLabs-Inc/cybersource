@@ -1,5 +1,40 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 4.0.0 - Aug 5, 2026: Unified Checkout + native Payer Authentication
+
+**WARNING: Secure Acceptance, CardinalCommerce Songbird, and the SOAP gateway have been removed.
+This release REQUIRES `bin/magento setup:di:compile` after deployment. Review the behavior changes
+below before upgrading a live store.**
+
+- Added CyberSource Unified Checkout as the only card form, replacing Secure Acceptance. All payment
+  processing now runs on the REST API with your REST key pair.
+- Added native CyberSource Payer Authentication (3-D Secure 2), replacing the CardinalCommerce
+  Songbird integration. No Cardinal portal credentials are needed — Payer Auth runs on your
+  CyberSource merchant account, which CyberSource support must enable for you.
+- Added `Require Payer Authentication`, a new setting (default off) that refuses an order unless
+  Payer Authentication has run for the card being charged. Storefront checkout always runs it; this
+  exists to close the API path. **Without it, a REST or GraphQL integration that skips the
+  payer-auth calls places orders unauthenticated.** Subscription rebills and admin orders are always
+  exempt.
+- Added `Headless Return URL Origins` for the GraphQL payer-auth flow. The store's own base-URL host
+  is always permitted and an empty list allows nothing else, so **separate-origin headless
+  storefronts MUST configure this** or their challenge return is rejected.
+- **Changed: `Enable Payer Authentication` now takes effect on its own.** In 3.x the setting did
+  nothing without completed CardinalCommerce credentials, so a store with the box checked and no
+  Cardinal setup was effectively running with 3DS OFF. Those credentials no longer exist, so the
+  same store gets 3DS ON after upgrading. Confirm the setting reflects what you want before
+  deploying.
+- **Changed: `Enable Decision Manager` now controls fraud screening on checkout authorizations.** It
+  had no effect on Unified Checkout transactions before. Merchant-initiated (subscription) charges
+  and follow-on charges remain exempt from screening, unchanged.
+- Changed the default `Enable for Card Types` list to AE, VI, MC, DI, JCB, DN. Maestro, China
+  UnionPay and Elo are not included — EEA merchants who accept Maestro should add it.
+- Removed the SOAP gateway, Secure Acceptance, and all CardinalCommerce settings. Their stored
+  configuration (including the SOAP, Secure Acceptance and Cardinal secret keys) is deleted on
+  upgrade by a data patch. `Enable Payer Authentication` and `Enable for Card Types` are preserved.
+- Note: the guest payer-auth and capture-context routes are deliberately unthrottled, matching the
+  rest of Magento's guest checkout API. Rate-limit them at your WAF, CDN or reverse proxy.
+
 ## 3.0.0 - Jun 17, 2026: PHP 8.1–8.5 compatibility
 
 **WARNING: PHP 8.1 is now the minimum. Now requires ParadoxLabs_TokenBase 5.0.**
