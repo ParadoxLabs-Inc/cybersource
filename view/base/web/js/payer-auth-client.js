@@ -24,7 +24,11 @@
  * caller (the Luma renderer today, a Hyvä component later) sequences them and owns all UX.
  *
  * The "REST transport" section is the only Luma-coupled code in the file; the DDC and challenge
- * machinery is plain DOM, so a Hyvä port replaces post() and nothing more.
+ * machinery is plain DOM, so a Hyvä port replaces post() and supplies its own styles.
+ *
+ * The challenge modal carries classes and no inline styling — see the pl-payerauth rules in
+ * view/base/web/css/source/_module.less. It is therefore unstyled until that stylesheet applies,
+ * which is safe on checkout: a shopper who has reached payment has already loaded the theme CSS.
  *
  * postMessage discipline mirrors the wrapper page (Controller/PayerAuth/Challenge): every message
  * both ways carries source: 'pl-cybersource-payerauth', and every message from the wrapper is
@@ -50,11 +54,6 @@ define([
     // Ceiling on an issuer challenge. EMV 3DS gives the cardholder ten minutes; past that the ACS
     // itself has abandoned the transaction, so there is nothing left to wait for.
     var CHALLENGE_TIMEOUT_MS = 600000;
-    // Minimum challenge viewport. The 3DS2 challenge window sizes are 250x400 up to 500x600 plus a
-    // full-page option; sizing to the largest fixed size that still fits a small laptop keeps every
-    // issuer layout scrollable-at-worst rather than clipped.
-    var CHALLENGE_MIN_WIDTH_PX = 400;
-    var CHALLENGE_MIN_HEIGHT_PX = 500;
     // Frame/element id counter, so overlapping attempts (a retry begun before the previous frame is
     // reaped) can never collide on a window name — a form target resolves by name, and a duplicate
     // would post the CReq or the JWT into the wrong frame.
@@ -333,6 +332,9 @@ define([
                 frame.setAttribute('height', '0');
                 frame.setAttribute('frameborder', '0');
                 frame.setAttribute('aria-hidden', 'true');
+                // Stays inline, unlike the challenge modal's styling: this is concealment, not
+                // theming, and a stylesheet that has not applied yet would flash the collector
+                // iframe onto the checkout. Nothing here is a merchant-facing surface.
                 frame.style.position = 'absolute';
                 frame.style.left = '-9999px';
                 frame.style.top = '0';
@@ -484,31 +486,21 @@ define([
                 }
 
                 overlay.setAttribute('class', 'pl-payerauth-overlay');
-                overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;'
-                    + 'background:rgba(0,0,0,0.5);display:flex;align-items:center;'
-                    + 'justify-content:center;padding:10px;';
 
                 dialog.setAttribute('class', 'pl-payerauth-modal');
                 dialog.setAttribute('role', 'dialog');
                 dialog.setAttribute('aria-modal', 'true');
                 dialog.setAttribute('aria-labelledby', headingId);
-                dialog.style.cssText = 'position:relative;background:#fff;border-radius:3px;'
-                    + 'box-shadow:0 3px 12px rgba(0,0,0,0.35);display:flex;flex-direction:column;'
-                    + 'width:' + CHALLENGE_MIN_WIDTH_PX + 'px;max-width:100%;'
-                    + 'height:' + (CHALLENGE_MIN_HEIGHT_PX + 50) + 'px;max-height:100%;';
 
-                header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;'
-                    + 'padding:10px 15px;border-bottom:1px solid #e8e8e8;';
+                header.setAttribute('class', 'pl-payerauth-header');
 
                 heading.setAttribute('id', headingId);
-                heading.style.cssText = 'margin:0;font-size:16px;line-height:1.2;';
+                heading.setAttribute('class', 'pl-payerauth-title');
                 heading.appendChild(document.createTextNode($t('Verify Your Payment')));
 
                 close.setAttribute('type', 'button');
-                close.setAttribute('class', 'action-close');
+                close.setAttribute('class', 'action-close pl-payerauth-close');
                 close.setAttribute('aria-label', $t('Cancel payment verification'));
-                close.style.cssText = 'background:none;border:0;font-size:20px;line-height:1;'
-                    + 'cursor:pointer;padding:0 4px;';
                 close.appendChild(document.createTextNode('×'));
                 close.addEventListener('click', function () {
                     settle('cancelled');
@@ -516,10 +508,9 @@ define([
 
                 frame.setAttribute('id', name);
                 frame.setAttribute('name', name);
+                frame.setAttribute('class', 'pl-payerauth-frame');
                 frame.setAttribute('title', $t('Payment Authentication'));
                 frame.setAttribute('frameborder', '0');
-                frame.style.cssText = 'display:block;border:0;width:100%;flex:1 1 auto;'
-                    + 'min-height:' + CHALLENGE_MIN_HEIGHT_PX + 'px;';
 
                 header.appendChild(heading);
                 header.appendChild(close);

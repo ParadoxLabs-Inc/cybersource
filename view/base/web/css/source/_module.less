@@ -1,3 +1,22 @@
+//
+//  Payer Authentication (3DS2) challenge modal
+//  ---------------------------------------------
+//  The markup is built by view/base/web/js/payer-auth-client.js, which attaches these classes and
+//  carries no styling of its own. The Hyva checkout module builds the same markup and owns its own
+//  styles for it -- keep the two in step.
+//
+//  Sizing follows the EMV 3DS2 challenge window sizes, which run from 250x400 up through 500x600
+//  plus a full-page option. This is the largest fixed size that still fits a small laptop, so every
+//  issuer layout ends up scrollable at worst rather than clipped.
+//
+@pl-payerauth-modal__width: 400px;
+@pl-payerauth-frame__min-height: 500px;
+@pl-payerauth-header__height: 50px;
+@pl-payerauth-overlay__background: rgba(0, 0, 0, .5);
+@pl-payerauth-modal__background: #fff;
+@pl-payerauth-modal__box-shadow: 0 3px 12px rgba(0, 0, 0, .35);
+@pl-payerauth-header__border-color: #e8e8e8;
+
 & when (@media-common = true) {
     .payment_form_paradoxlabs_cybersource {
         & .hide,
@@ -17,5 +36,63 @@
 
     #cybersource-complete-results {
         display: none;
+    }
+
+    .pl-payerauth-overlay {
+        align-items: center;
+        background: @pl-payerauth-overlay__background;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        left: 0;
+        padding: 10px;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .pl-payerauth-modal {
+        background: @pl-payerauth-modal__background;
+        border-radius: 3px;
+        box-shadow: @pl-payerauth-modal__box-shadow;
+        display: flex;
+        flex-direction: column;
+        height: (@pl-payerauth-frame__min-height + @pl-payerauth-header__height);
+        max-height: 100%;
+        max-width: 100%;
+        position: relative;
+        width: @pl-payerauth-modal__width;
+
+        .pl-payerauth-header {
+            align-items: center;
+            border-bottom: 1px solid @pl-payerauth-header__border-color;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+        }
+
+        .pl-payerauth-title {
+            font-size: 16px;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .pl-payerauth-close {
+            background: none;
+            border: 0;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            padding: 0 4px;
+        }
+
+        .pl-payerauth-frame {
+            border: 0;
+            display: block;
+            flex: 1 1 auto;
+            min-height: @pl-payerauth-frame__min-height;
+            width: 100%;
+        }
     }
 }
