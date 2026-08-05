@@ -207,7 +207,7 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
         self::assertStringNotContainsString(
             'consumerAuthenticationInformation',
             json_encode($payments[0]['params'], JSON_THROW_ON_ERROR),
-            'With Payer Auth off the payment body must be byte-identical to the pre-PA-1 shape.'
+            'With Payer Auth off the payment body must carry no authentication fields.'
         );
     }
 

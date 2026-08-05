@@ -481,7 +481,7 @@ class Response
      *  - A subscription-generated rebill is merchant-initiated (MIT): there is no cardholder to
      *    authenticate, no fresh record can exist, and consulting would let a stale record from the
      *    original checkout throw on an unattended rebill. Same signal as shouldSuppressDecisionManager().
-     *  - Admin/MOTO order creation is exempt by design (PAYER-AUTH-PLAN.md coverage matrix), as is any
+     *  - Admin/MOTO order creation is exempt by design, as is any
      *    other non-frontend origin (cron, console). TokenBase's helper is the module's existing
      *    area-origin signal — frontend + REST webapi + GraphQL are "customer-facing", adminhtml and
      *    crontab are not — so no new dependency and no new definition of "admin" is introduced here.

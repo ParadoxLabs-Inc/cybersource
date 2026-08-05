@@ -24,8 +24,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\PayerAuth;
 /**
  * Maps a persisted authentication result onto the /pts/v2/payments pass-through fields, per network.
  *
- * The ONE place the per-network mapping lives (PA1-IMPLEMENTATION.md, "Per-network pass-through
- * mapping" / PAYER-AUTH-PLAN.md gate G3):
+ * The ONE place the per-network mapping lives:
  *
  *  - Universal: `cavv`, `xid`, `eciRaw`, `paresStatus`, `paSpecificationVersion` (from the reply's
  *    `specificationVersion`), `directoryServerTransactionId`.
