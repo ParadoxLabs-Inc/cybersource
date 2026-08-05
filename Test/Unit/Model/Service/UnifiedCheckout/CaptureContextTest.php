@@ -16,7 +16,7 @@ use ParadoxLabs\TokenBase\Helper\Address;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CaptureContext
@@ -29,7 +29,7 @@ class CaptureContextTest extends TestCase
     private Sanitizer $sanitizer;
     private Address|MockObject $addressHelperMock;
     private CaptureContextRequestFactory|MockObject $requestFactoryMock;
-    private LoggerInterface|MockObject $loggerMock;
+    private CyberSourceHelper|MockObject $loggerMock;
 
     protected function setUp(): void
     {
@@ -37,7 +37,7 @@ class CaptureContextTest extends TestCase
         $this->restMock = $this->createMock(Rest::class);
         $this->sanitizer = new Sanitizer();
         $this->addressHelperMock = $this->createMock(Address::class);
-        $this->loggerMock = $this->createMock(LoggerInterface::class);
+        $this->loggerMock = $this->createMock(CyberSourceHelper::class);
 
         $this->requestFactoryMock = $this->createMock(CaptureContextRequestFactory::class);
         $this->requestFactoryMock->method('create')
@@ -388,10 +388,10 @@ class CaptureContextTest extends TestCase
         $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
 
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createMock(CyberSourceHelper::class);
         $logger->expects($this->once())
-            ->method('info')
-            ->with($this->stringContains('headless.example.com'));
+            ->method('log')
+            ->with($this->anything(), $this->stringContains('headless.example.com'));
 
         $handler = new TestableCaptureContext(
             $config,

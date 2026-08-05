@@ -37,7 +37,7 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\ManagementFactory;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data;
 use Throwable;
 
 /**
@@ -60,13 +60,13 @@ abstract class AbstractResolver implements ResolverInterface
      * @param GraphQL $graphQL
      * @param ManagementFactory $managementFactory
      * @param Config $config
-     * @param LoggerInterface $logger
+     * @param Data $helper
      */
     public function __construct(
         protected readonly GraphQL $graphQL,
         protected readonly ManagementFactory $managementFactory,
         protected readonly Config $config,
-        protected readonly LoggerInterface $logger
+        protected readonly Data $helper
     ) {
     }
 
@@ -224,9 +224,10 @@ abstract class AbstractResolver implements ResolverInterface
             return new GraphQlInputException(__($exception->getMessage()), $exception);
         }
 
-        $this->logger->error(
+        $this->helper->log(
+            Config::CODE,
             sprintf(
-                'CyberSource Payer Authentication GraphQL error: %s',
+                'Payer Authentication GraphQL error: %s',
                 $exception->getMessage()
             )
         );

@@ -24,7 +24,7 @@ use ParadoxLabs\TokenBase\Helper\Address;
 use ParadoxLabs\TokenBase\Helper\Data;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Backend
@@ -380,7 +380,7 @@ class BackendTest extends TestCase
             new Sanitizer(),
             $this->addressHelperMock,
             $this->requestFactoryMock,
-            $this->createMock(LoggerInterface::class),
+            $this->createMock(CyberSourceHelper::class),
             $this->tokenbaseHelperMock,
             $this->backendSessionMock,
             $this->storeManagerMock,

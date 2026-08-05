@@ -28,7 +28,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data;
 use Throwable;
 
 /**
@@ -55,7 +55,7 @@ abstract class CaptureContext
      * @param Sanitizer $sanitizer
      * @param Address $addressHelper
      * @param CaptureContextRequestFactory $requestFactory
-     * @param LoggerInterface $logger
+     * @param Data $helper
      */
     public function __construct(
         protected readonly Config $config,
@@ -63,7 +63,7 @@ abstract class CaptureContext
         protected readonly Sanitizer $sanitizer,
         protected readonly Address $addressHelper,
         protected readonly CaptureContextRequestFactory $requestFactory,
-        protected readonly LoggerInterface $logger
+        protected readonly Data $helper
     ) {
     }
 
@@ -325,7 +325,8 @@ abstract class CaptureContext
             $normalized = $this->normalizeOrigin($raw);
 
             if ($normalized === null) {
-                $this->logger->info(
+                $this->helper->log(
+                    Config::CODE,
                     'CyberSource UC: dropping invalid targetOrigins entry (must include scheme): ' . $raw
                 );
 
