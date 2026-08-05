@@ -308,6 +308,19 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthRequired(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_required', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthRequired());
+    }
+
+    /**
      * @dataProvider payerAuthEnabledForTypeDataProvider
      */
     #[DataProvider('payerAuthEnabledForTypeDataProvider')]

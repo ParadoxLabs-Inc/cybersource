@@ -22,6 +22,7 @@
                 <uc_locale/>
                 <cardinal_active>0</cardinal_active>
                 <cardinal_card_types>AE,VI,MC,DI,JCB,DN</cardinal_card_types>
+                <payer_auth_required>0</payer_auth_required>
                 <payer_auth_return_origins/>
                 <uc_decision_manager>1</uc_decision_manager>
                 <uc_auto_place_order>1</uc_auto_place_order>

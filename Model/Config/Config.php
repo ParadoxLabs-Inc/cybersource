@@ -409,6 +409,21 @@ class Config
     }
 
     /**
+     * Get whether Payer Authentication must have run before an order may be placed.
+     *
+     * Off by default. The storefront clients always authenticate when Payer Auth is on, so this only
+     * governs API callers (REST/GraphQL) that can skip the payer-auth calls entirely; turning it on
+     * would break any headless integrator that has not wired the ceremony up yet.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthRequired($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('payer_auth_required', $storeId);
+    }
+
+    /**
      * Get whether Payer Authentication is enabled for a specific card type.
      *
      * @param string $ccType

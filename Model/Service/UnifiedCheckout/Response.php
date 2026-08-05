@@ -565,7 +565,9 @@ class Response
      * exact strings the money call will carry — there is no second formatting path to drift from.
      *
      * Outcomes: Payer Auth disabled, MIT/admin origin, or no record => nothing attached, placement
-     * proceeds; AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing
+     * proceeds unless the store requires Payer Auth (see enforcePayerAuthRequired(), which is the
+     * choke point closing the skip-the-calls path for REST/GraphQL callers);
+     * AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing
      * attached (no liability shift exists to pass) and the outcome is logged; FAILED / obligated /
      * abandoned / stale => BindingValidator throws CommandException and the placement never happens.
      * A thrown block leaves the record in place ON PURPOSE, so re-submitting Place Order is refused
@@ -597,6 +599,8 @@ class Response
         );
 
         if ($payerAuth === null) {
+            $this->enforcePayerAuthRequired($payment, $ccType);
+
             return null;
         }
 
@@ -623,6 +627,52 @@ class Response
         }
 
         return $payerAuth;
+    }
+
+    /**
+     * Refuse the placement when the store demands Payer Authentication and none was consumed.
+     *
+     * Called on the ONE outcome that is otherwise indistinguishable from "3DS was never asked for":
+     * BindingValidator resolved to null. The valuable shapes never reach here — a consumed verdict
+     * (including UNAVAILABLE, i.e. the server answered "no authentication available") returns a
+     * result and places, and every failed/obligated/abandoned shape has already thrown. What is left
+     * is the no-record case and the setup-only record: in both, no authentication ever completed for
+     * this charge, which is exactly what require mode exists to stop.
+     *
+     * The caller has already applied every exemption via shouldConsumePayerAuth(): Payer Auth off,
+     * merchant-initiated rebills, and admin/MOTO or other non-frontend origins never get here.
+     *
+     * @param InfoInterface $payment
+     * @param string $ccType Magento card type code of the instrument being charged.
+     * @return void
+     * @throws CommandException When Payer Authentication is required but none was consumed.
+     */
+    protected function enforcePayerAuthRequired(InfoInterface $payment, string $ccType): void
+    {
+        $storeId = $this->getPayerAuthStoreId($payment);
+
+        if ($this->config->isPayerAuthRequired($storeId) === false) {
+            return;
+        }
+
+        // Mirror of Management::isTypeExcluded(): a card type the merchant removed from
+        // cardinal_card_types is never authenticated by the client, so it must never be blocked here.
+        // An unknown/unreadable type is NOT excluded, exactly as the setup path treats it.
+        if ($ccType !== '' && $this->config->isPayerAuthEnabledForType($ccType, $storeId) === false) {
+            return;
+        }
+
+        $this->helper->log(
+            Config::CODE,
+            'Payer Authentication: required by configuration but no usable result was present; refusing.'
+        );
+
+        throw new CommandException(
+            __(
+                'Payer Authentication (3DS) is required for this payment. Please complete payer'
+                . ' authentication before placing the order.'
+            )
+        );
     }
 
     /**

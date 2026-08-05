@@ -85,6 +85,14 @@
                         <field id="cardinal_active">1</field>
                     </depends>
                 </field>
+                <field id="payer_auth_required" translate="label comment" type="select" sortOrder="196" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Require Payer Authentication</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, orders are refused unless Payer Authentication has run for the card being charged. Storefront checkout always runs it, so this only affects API integrations (REST/GraphQL) that skip the payer-auth calls. Subscription rebills and admin orders are always exempt.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
                 <field id="payer_auth_return_origins" translate="label comment" type="textarea" sortOrder="197" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Headless Return URL Origins</label>
                     <comment>One origin per line (scheme://host[:port]) permitted as payer-auth challenge return targets for headless/GraphQL storefronts. The store's own base-URL host is always permitted. Leave empty unless running a separate-origin storefront.</comment>
