@@ -794,7 +794,7 @@ class ResponseTest extends TestCase
         $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
     }
 
-    // --- PA-4 R1: the uc_decision_manager toggle actually governs first-auth DM emission ---
+    // --- The uc_decision_manager toggle governs first-auth DM emission ---
 
     public function testNewCardWithDecisionManagerConfigOffDisablesDecisionManager(): void
     {
@@ -1691,7 +1691,7 @@ class ResponseTest extends TestCase
         $this->assertSame($expected, json_encode($this->sentBody));
     }
 
-    // --- PA-4 R2: server-side "require Payer Authentication" mode ---
+    // --- Server-side "require Payer Authentication" mode ---
 
     /**
      * Build the service with require mode on/off, and the charged card type in/out of the enabled set.
