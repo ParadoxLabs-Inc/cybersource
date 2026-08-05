@@ -195,7 +195,7 @@ class PaymentRequestTest extends TestCase
         $this->assertArrayNotHasKey('applicationVersion', $result['clientReferenceInformation']);
     }
 
-    // --- Payer Authentication pass-through (PA-1 T7) ---
+    // --- Payer Authentication pass-through ---
 
     /**
      * A fully-populated request using ONLY the pre-Payer-Auth setters.

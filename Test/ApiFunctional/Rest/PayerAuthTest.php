@@ -39,21 +39,13 @@ use ParadoxLabs\CyberSource\Test\ApiFunctional\Fixture\QuoteIdMask as QuoteIdMas
  * (services: \ParadoxLabs\CyberSource\Api\PayerAuthManagementInterface and
  * \ParadoxLabs\CyberSource\Api\GuestPayerAuthManagementInterface).
  *
- * NOTE: These tests run against a live application over HTTP, so the CyberSource REST client
- * cannot be stubbed, and the sandbox MID has no Payer Auth provisioning available to the test
- * environment (m2-extension-cybersource#4). Every case below is therefore chosen because it
- * resolves BEFORE any /risk/v1 call is dispatched:
+ * These run against a live application over HTTP, so the REST client cannot be stubbed and the
+ * sandbox MID has no Payer Auth provisioning (m2-extension-cybersource#4). Every case is therefore
+ * one that resolves BEFORE any /risk/v1 call is dispatched: routing and ACL, cart resolution, guest
+ * cart-id enforcement, the disabled-method short circuit, and Management's input guards.
  *
- *  - the routing, the ACL resource (self vs anonymous) and the cart resolution,
- *  - the guest cart-id enforcement,
- *  - the disabled-method short circuit, which by definition issues no gateway call,
- *  - the input guards in Management (instrument ambiguity, unreadable token, missing setup).
- *
- * The gateway-answering behaviour -- the DDC handles, the frictionless verdict, the challenge
- * payload, the record custody across requests, and the assertion that a disabled method makes ZERO
- * calls -- is covered against a stubbed REST boundary in
- * {@see \ParadoxLabs\CyberSource\Test\Integration\Model\CyberSourcePayerAuthWebapiTest}, which is
- * the only layer where the HTTP boundary can be doubled.
+ * Gateway-answering behaviour is covered against a stubbed REST boundary in
+ * {@see \ParadoxLabs\CyberSource\Test\Integration\Model\CyberSourcePayerAuthWebapiTest}.
  */
 class PayerAuthTest extends WebapiAbstract
 {

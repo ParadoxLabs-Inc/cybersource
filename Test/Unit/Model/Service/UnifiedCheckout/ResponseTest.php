@@ -1210,7 +1210,7 @@ class ResponseTest extends TestCase
         $this->assertSame('VI', $response->getData('card_information')['cc_type']);
     }
 
-    // --- Payer Authentication money-path consumption (PA-1 T7) ---
+    // --- Payer Authentication money-path consumption ---
 
     /**
      * Build a transient token carrying a jti (the new-card binding) and a card network code.
@@ -1491,7 +1491,7 @@ class ResponseTest extends TestCase
 
     public function testConsumerAuthenticationIsSurfacedFromThePersistedRecord(): void
     {
-        // G2 finding 3: the payment reply echoes NO auth fields (only `token`), so the persisted
+        // The payment reply echoes NO auth fields (only `token`), so the persisted
         // record is the source. Reply-only values survive; record values win where both exist.
         $this->asCustomerInitiated();
         $this->primeRest([
@@ -1552,7 +1552,7 @@ class ResponseTest extends TestCase
 
     public function testPendingAuthenticationIsNotAnApprovedStatus(): void
     {
-        // PA-1 hardening: PENDING_AUTHENTICATION means the auth does not exist yet. Placing an order
+        // PENDING_AUTHENTICATION means the auth does not exist yet. Placing an order
         // on it would ship unpaid goods.
         $this->assertNotContains('PENDING_AUTHENTICATION', Response::APPROVED_STATUSES);
 
@@ -1569,8 +1569,8 @@ class ResponseTest extends TestCase
 
     public function testPlaceBodyIsUnchangedWhenNoPayerAuthRecordExists(): void
     {
-        // THE regression test: a merchant with Payer Auth off (no record) must post exactly the body
-        // the module posted before PA-1. Transcribed from the pre-change emission, not generated.
+        // Regression: a merchant with Payer Auth off (no record) must post exactly the body the
+        // module posted before Payer Auth existed. Transcribed from the pre-change emission.
         $this->asCustomerInitiated();
         $this->primeRest(['id' => 'TXN-NOPA', 'status' => 'AUTHORIZED', 'processorInformation' => [
             'responseCode' => '100',

@@ -147,10 +147,9 @@ class PassThroughMapper
     /**
      * Derive the UCAF collection indicator: 2 = fully authenticated, 1 = attempted/merchant-only.
      *
-     * paresStatus is the primary source (Y => 2, A => 1) because it is the verdict the classifier
-     * itself keys on, so the indicator can never disagree with the verdict that let this result
-     * through. Mastercard's raw ECI (02 = full authentication, 01 = attempts) is only a fallback for
-     * a reply that omitted paresStatus. Neither present => omitted; a value is never invented.
+     * paresStatus is the primary source (Y => 2, A => 1) because the classifier keys on it, so the
+     * indicator can never disagree with the verdict. Mastercard's raw ECI is only a fallback for a
+     * reply that omitted paresStatus; with neither, the field is omitted rather than invented.
      *
      * @param array<string, mixed> $ca
      * @return string|null
