@@ -27,6 +27,8 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 
 /**
  * Same-origin wrapper page that hosts the issuer's 3DS challenge.
@@ -37,31 +39,22 @@ use Magento\Framework\Controller\ResultInterface;
  * relays the return page's completion event back up to the checkout.
  *
  * Stateless: no session, quote, customer, or request parameters are read.
+ *
+ * The page body is built here rather than from a template on purpose. It has no theming, no layout,
+ * and no store data, and a merchant theme override of it would break 3DS at the ACS step with no
+ * visible symptom. The tradeoff is that the script below sits outside the JS lint/build path: treat
+ * it as a fixed protocol stub, and put anything that needs real maintenance in payer-auth-client.js.
  */
 class Challenge implements CspAwareActionInterface, HttpGetActionInterface
 {
     /**
-     * Rendered document. Static: no request data, no store data, nothing to escape.
+     * Challenge relay. Static except for the protocol tag.
      */
-    private const BODY = <<<'HTML'
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="robots" content="noindex,nofollow">
-<title>Payment Authentication</title>
-<style>
-html,body{margin:0;padding:0;height:100%;background:#fff}
-#pl-pa-acs{display:block;border:0;width:100%;height:100%}
-</style>
-</head>
-<body>
-<iframe id="pl-pa-acs" name="pl-pa-acs" title="Payment Authentication"></iframe>
-<script>
+    private const SCRIPT = <<<'JS'
 (function () {
     'use strict';
 
-    var TAG = 'pl-cybersource-payerauth';
+    var TAG = '{{tag}}';
     var ORIGIN = window.location.origin;
     var frame = document.getElementById('pl-pa-acs');
     var started = false;
@@ -158,7 +151,26 @@ html,body{margin:0;padding:0;height:100%;background:#fff}
         window.parent.postMessage({source: TAG, event: 'ready'}, ORIGIN);
     }
 }());
-</script>
+JS;
+
+    /**
+     * Rendered document. No request data and no store data reach it; see execute() for what is bound.
+     */
+    private const BODY = <<<'HTML'
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>Payment Authentication</title>
+<style>
+html,body{margin:0;padding:0;height:100%;background:#fff}
+#pl-pa-acs{display:block;border:0;width:100%;height:100%}
+</style>
+</head>
+<body>
+<iframe id="pl-pa-acs" name="pl-pa-acs" title="Payment Authentication"></iframe>
+{{script}}
 </body>
 </html>
 HTML;
@@ -167,9 +179,11 @@ HTML;
      * Challenge constructor.
      *
      * @param ResultFactory $resultFactory
+     * @param SecureHtmlRenderer $secureRenderer
      */
     public function __construct(
-        private readonly ResultFactory $resultFactory
+        private readonly ResultFactory $resultFactory,
+        private readonly SecureHtmlRenderer $secureRenderer
     ) {
     }
 
@@ -183,9 +197,25 @@ HTML;
         /** @var Raw $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_RAW);
         $result->setHeader('Content-Type', 'text/html; charset=UTF-8');
-        $result->setContents(self::BODY);
+        $result->setContents($this->renderBody());
 
         return $result;
+    }
+
+    /**
+     * Bind the protocol tag into the document.
+     *
+     * The script tag goes through SecureHtmlRenderer rather than being written out here, so the CSP
+     * module can secure it the same way it secures a template's inline script: a nonce on 2.4.7+,
+     * a sha256 hash on 2.4.6, and nothing at all while the policy still permits 'unsafe-inline'.
+     *
+     * @return string
+     */
+    private function renderBody(): string
+    {
+        $script = strtr(self::SCRIPT, ['{{tag}}' => MessageProtocol::MESSAGE_TAG]);
+
+        return strtr(self::BODY, ['{{script}}' => $this->secureRenderer->renderTag('script', [], $script, false)]);
     }
 
     /**

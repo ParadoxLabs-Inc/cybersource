@@ -10,7 +10,10 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Callback;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +26,9 @@ class CallbackTest extends TestCase
     private Callback $controller;
     private Raw|MockObject $resultMock;
     private RequestInterface|MockObject $requestMock;
+    private ResultFactory|MockObject $resultFactoryMock;
+    private Escaper|MockObject $escaperMock;
+    private SecureHtmlRenderer|MockObject $secureRendererMock;
 
     /**
      * @var string
@@ -42,12 +48,27 @@ class CallbackTest extends TestCase
                 return $this->resultMock;
             });
 
-        $resultFactory = $this->createMock(ResultFactory::class);
-        $resultFactory->method('create')
+        $this->resultFactoryMock = $this->createMock(ResultFactory::class);
+        $this->resultFactoryMock->method('create')
             ->with(ResultFactory::TYPE_RAW)
             ->willReturn($this->resultMock);
 
-        $this->controller = new Callback($resultFactory);
+        $this->escaperMock = $this->createMock(Escaper::class);
+        $this->escaperMock->method('escapeHtml')
+            ->willReturnCallback(static fn ($value): string => (string)$value);
+
+        $this->secureRendererMock = $this->createMock(SecureHtmlRenderer::class);
+        $this->secureRendererMock->method('renderTag')
+            ->willReturnCallback(
+                static fn (string $tag, array $attributes, ?string $content, bool $textContent): string
+                    => '<' . $tag . '>' . $content . '</' . $tag . '>'
+            );
+
+        $this->controller = new Callback(
+            $this->resultFactoryMock,
+            $this->escaperMock,
+            $this->secureRendererMock
+        );
     }
 
     public function testAcceptsBothPostAndGetDelivery(): void
@@ -77,10 +98,19 @@ class CallbackTest extends TestCase
         $this->controller->execute();
 
         $this->assertStringContainsString(
-            "window.parent.postMessage({source: 'pl-cybersource-payerauth', event: 'return'}, '*');",
+            "window.parent.postMessage({source: '" . MessageProtocol::MESSAGE_TAG . "', event: 'return'}, '*');",
             $this->body
         );
         $this->assertStringContainsString('You may close this window.', $this->body);
+    }
+
+    public function testScriptTagIsRenderedThroughSecureHtmlRenderer(): void
+    {
+        $this->secureRendererMock->expects($this->once())
+            ->method('renderTag')
+            ->with('script', [], $this->stringContains('postMessage'), false);
+
+        $this->controller->execute();
     }
 
     public function testMessagePayloadCarriesNoKeysBesidesSourceAndEvent(): void

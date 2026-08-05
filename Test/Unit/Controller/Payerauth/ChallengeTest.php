@@ -10,7 +10,9 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Challenge;
+use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +24,8 @@ class ChallengeTest extends TestCase
 {
     private Challenge $controller;
     private Raw|MockObject $resultMock;
+    private ResultFactory|MockObject $resultFactoryMock;
+    private SecureHtmlRenderer|MockObject $secureRendererMock;
 
     /**
      * @var string
@@ -39,12 +43,19 @@ class ChallengeTest extends TestCase
                 return $this->resultMock;
             });
 
-        $resultFactory = $this->createMock(ResultFactory::class);
-        $resultFactory->method('create')
+        $this->resultFactoryMock = $this->createMock(ResultFactory::class);
+        $this->resultFactoryMock->method('create')
             ->with(ResultFactory::TYPE_RAW)
             ->willReturn($this->resultMock);
 
-        $this->controller = new Challenge($resultFactory);
+        $this->secureRendererMock = $this->createMock(SecureHtmlRenderer::class);
+        $this->secureRendererMock->method('renderTag')
+            ->willReturnCallback(
+                static fn (string $tag, array $attributes, ?string $content, bool $textContent): string
+                    => '<' . $tag . '>' . $content . '</' . $tag . '>'
+            );
+
+        $this->controller = new Challenge($this->resultFactoryMock, $this->secureRendererMock);
     }
 
     public function testIsGetOnlyAndNeedsNoCsrfExemption(): void
@@ -60,6 +71,25 @@ class ChallengeTest extends TestCase
             ->with('Content-Type', 'text/html; charset=UTF-8');
 
         $this->assertSame($this->resultMock, $this->controller->execute());
+    }
+
+    public function testScriptTagIsRenderedThroughSecureHtmlRenderer(): void
+    {
+        $this->secureRendererMock->expects($this->once())
+            ->method('renderTag')
+            ->with('script', [], $this->stringContains('postMessage'), false);
+
+        $this->controller->execute();
+    }
+
+    public function testBodyUsesTheSharedProtocolTag(): void
+    {
+        $this->controller->execute();
+
+        $this->assertStringContainsString(
+            "var TAG = '" . MessageProtocol::MESSAGE_TAG . "';",
+            $this->body
+        );
     }
 
     public function testBodyAnnouncesReadyAndRelaysReturnToItsOwnOrigin(): void
