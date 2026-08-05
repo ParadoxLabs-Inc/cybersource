@@ -566,13 +566,15 @@ define(
             /**
              * Whether a failed place response is the server's payer-auth "verify again" refusal.
              *
-             * FRAGILE: this matches a stable substring of BindingValidator::reverify()'s message
-             * ("Please verify your payment again."). There is no machine-readable error code on the
-             * webapi fault to key on, and a blanket "re-auth on any failure" is wrong here — a genuine
-             * gateway decline consumes the single-use transient token, so re-running setup against it
-             * would surface a confusing auth error instead of the real decline. Scope the automatic
-             * re-auth to the one refusal that leaves the instrument reusable (the binding check runs
-             * before the gateway). If the server message changes, update it here and in BindingValidator.
+             * FRAGILE: this matches a stable substring of BindingValidator::reverify()'s message,
+             * declared server-side as BindingValidator::REVERIFY_MARKER and pinned by
+             * BindingValidatorTest so drift fails the suite rather than silently ending this retry.
+             * There is no machine-readable error code on the webapi fault to key on, and a blanket
+             * "re-auth on any failure" is wrong here — a genuine gateway decline consumes the
+             * single-use transient token, so re-running setup against it would surface a confusing
+             * auth error instead of the real decline. Scope the automatic re-auth to the one refusal
+             * that leaves the instrument reusable (the binding check runs before the gateway). If the
+             * server message changes, update it here and in BindingValidator.
              *
              * @param {Object} response - the failed place jqXHR-like response
              * @return {Boolean}

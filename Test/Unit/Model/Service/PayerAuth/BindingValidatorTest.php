@@ -433,6 +433,33 @@ class BindingValidatorTest extends TestCase
     }
 
     /**
+     * The re-verify refusal is a CONTRACT with the checkout client, not just copy.
+     *
+     * isReverifyFailure() in view/frontend/web/js/view/payment/method-renderer/paradoxlabs_cybersource.js
+     * substring-matches this sentence to decide whether to re-run the ceremony automatically; JS cannot
+     * import a PHP constant, so this assertion is the coupling control. If it fails, either restore the
+     * wording or change the JS matcher in the same commit — otherwise the auto-retry silently dies and
+     * customers hit a dead end on every stale-record refusal.
+     */
+    public function testReverifyRefusalWordingIsPinnedToTheCheckoutClientMatcher(): void
+    {
+        $this->persistor->method('load')->willReturn(
+            $this->record(['verdict' => 'challenge', 'ca' => [], 'obligation' => Persistor::OBLIGATION_CHALLENGE])
+        );
+
+        try {
+            $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+            self::fail('An abandoned challenge must be refused.');
+        } catch (CommandException $exception) {
+            self::assertSame(
+                'Your payment verification is no longer valid. Please verify your payment again.',
+                $exception->getMessage()
+            );
+            self::assertStringContainsString(BindingValidator::REVERIFY_MARKER, $exception->getMessage());
+        }
+    }
+
+    /**
      * Build a usable AUTHENTICATED record for $24.00 USD bound to jti-abc.
      *
      * @param array<string, mixed> $overrides

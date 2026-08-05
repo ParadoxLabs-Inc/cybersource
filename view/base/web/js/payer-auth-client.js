@@ -27,7 +27,7 @@
  * only Luma-coupled code in the file (mage/storage + the checkout url-builder/quote models); the DDC
  * and challenge machinery is plain DOM and lifts as-is. A Hyvä port replaces post() and nothing more.
  *
- * postMessage discipline mirrors the wrapper page (Controller/PayerAuth/Challenge): every message
+ * postMessage discipline mirrors the wrapper page (Controller/Payerauth/Challenge): every message
  * both ways carries source: 'pl-cybersource-payerauth', and every message from the wrapper is
  * checked for BOTH same-origin and identity of the sending window. The DDC collector is third-party
  * and gets the weaker window-identity check only — see runDdc.
@@ -42,7 +42,7 @@ define([
 ], function (storage, coreUrl, urlBuilder, quote, customer, $t) {
     'use strict';
 
-    // Message source tag. Must match Controller/PayerAuth/Challenge and Controller/PayerAuth/Callback.
+    // Message source tag. Must match Controller/Payerauth/Challenge and Controller/Payerauth/Callback.
     var TAG = 'pl-cybersource-payerauth';
     // Ceiling on device data collection. The collector is best-effort by design (its result reaches
     // CyberSource out of band, keyed by the reference id), so a silent collector must not block the
