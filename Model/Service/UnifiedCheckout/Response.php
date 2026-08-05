@@ -401,7 +401,7 @@ class Response
         // or any follow-on charge with an amount already paid must NOT re-run Decision Manager. UC analog
         // is processingInformation.enableDecisionManager=false. Done here (not just in the MIT branch) so a
         // CIT follow-on with amountPaid>0 is suppressed too, exactly as the SOAP condition did.
-        if ($this->shouldSuppressDecisionManager($payment)) {
+        if ($this->shouldDisableDecisionManager($payment, (int)$order->getStoreId())) {
             $request->setEnableDecisionManager(false);
         }
 
@@ -471,6 +471,23 @@ class Response
     }
 
     /**
+     * Whether processingInformation.enableDecisionManager=false must be sent for this charge.
+     *
+     * Forced off when the transaction is exempt (MIT / follow-on, legacy parity) or the merchant
+     * disabled the `uc_decision_manager` toggle; otherwise left unset so the account profile governs.
+     * The $0 add-card path uses `validate_card_storage` instead — see buildZeroDollarRequest().
+     *
+     * @param InfoInterface $payment
+     * @param int|null $storeId
+     * @return bool
+     */
+    protected function shouldDisableDecisionManager(InfoInterface $payment, ?int $storeId): bool
+    {
+        return $this->shouldSuppressDecisionManager($payment)
+            || $this->config->isDecisionManagerEnabled($storeId) === false;
+    }
+
+    /**
      * Whether this charge may consume a persisted Payer Authentication result at all.
      *
      * Payer Auth is a CUSTOMER-INITIATED, browser-originated ceremony, so only those charges consult
@@ -486,9 +503,9 @@ class Response
      *    area-origin signal — frontend + REST webapi + GraphQL are "customer-facing", adminhtml and
      *    crontab are not — so no new dependency and no new definition of "admin" is introduced here.
      *
-     * An unresolved area code falls through to consulting — fail-closed: records are only written by
-     * the customer-initiated flows above, so it can neither block an admin order (adminhtml resolves
-     * normally) nor bypass a FAILED verdict.
+     * An unresolved area code falls through to consulting — fail-closed: it cannot block an admin
+     * order (adminhtml resolves normally) or bypass a FAILED verdict, and with payer_auth_required
+     * on it refuses a no-record placement.
      *
      * @param InfoInterface $payment
      * @return bool
@@ -541,7 +558,8 @@ class Response
      * exact strings the money call will carry — there is no second formatting path to drift from.
      *
      * Outcomes: Payer Auth disabled, MIT/admin origin, or no record => nothing attached, placement
-     * proceeds; AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing
+     * proceeds unless the store requires Payer Auth (enforcePayerAuthRequired());
+     * AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing
      * attached (no liability shift exists to pass) and the outcome is logged; FAILED / obligated /
      * abandoned / stale => BindingValidator throws CommandException and the placement never happens.
      * A thrown block leaves the record in place ON PURPOSE, so re-submitting Place Order is refused
@@ -573,6 +591,8 @@ class Response
         );
 
         if ($payerAuth === null) {
+            $this->enforcePayerAuthRequired($payment, $ccType);
+
             return null;
         }
 
@@ -599,6 +619,46 @@ class Response
         }
 
         return $payerAuth;
+    }
+
+    /**
+     * Refuse the placement when the store demands Payer Authentication and none was consumed.
+     *
+     * Called only when BindingValidator resolved to null — the one outcome indistinguishable from
+     * "3DS was never asked for". Every consumed verdict (including UNAVAILABLE) places, every
+     * failed/obligated/abandoned shape has already thrown, and the caller has applied the
+     * exemptions (Payer Auth off, MIT, non-frontend origin) via shouldConsumePayerAuth().
+     *
+     * @param InfoInterface $payment
+     * @param string $ccType Magento card type code of the instrument being charged.
+     * @return void
+     * @throws CommandException When Payer Authentication is required but none was consumed.
+     */
+    protected function enforcePayerAuthRequired(InfoInterface $payment, string $ccType): void
+    {
+        $storeId = $this->getPayerAuthStoreId($payment);
+
+        if ($this->config->isPayerAuthRequired($storeId) === false) {
+            return;
+        }
+
+        // A type outside cardinal_card_types is never authenticated by the client, so it is not
+        // blocked; an unknown type is not excluded (mirrors Management::isTypeExcluded()).
+        if ($ccType !== '' && $this->config->isPayerAuthEnabledForType($ccType, $storeId) === false) {
+            return;
+        }
+
+        $this->helper->log(
+            Config::CODE,
+            'Payer Authentication: required by configuration but no usable result was present; refusing.'
+        );
+
+        throw new CommandException(
+            __(
+                'Payer Authentication (3DS) is required for this payment. Please complete payer'
+                . ' authentication before placing the order.'
+            )
+        );
     }
 
     /**
@@ -784,6 +844,12 @@ class Response
             ->setApplicationName($this->config->getClientName())
             ->setApplicationVersion($this->config->getClientVersion());
 
+        // 3.x parity (validate_card_storage): card storage is not fraud-screened unless the merchant
+        // opts in; opting in leaves the flag unset so the account profile governs.
+        if ($this->config->isCardStorageValidationEnabled() === false) {
+            $request->setEnableDecisionManager(false);
+        }
+
         // A $0 add-card auth REQUIRES billTo (CyberSource rejects it with MISSING_FIELD
         // billTo.administrativeArea otherwise — verified live 2026-07-24). Prefer the card's own
         // billing address when the caller supplies one (the paymentinfo add/edit flows have no order
@@ -911,7 +977,7 @@ class Response
 
         // Legacy SOAP parity: suppress Decision Manager on a follow-on / subscription-generated charge so
         // DM is not re-run on a transaction it already screened (or an MIT rebill the cardholder isn't on).
-        if ($this->shouldSuppressDecisionManager($payment)) {
+        if ($this->shouldDisableDecisionManager($payment, (int)$order->getStoreId())) {
             $request->setEnableDecisionManager(false);
         }
 

@@ -6,6 +6,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\PayerAuth\Request;
 
 use Magento\Framework\Exception\InputException;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Request\AuthenticationRequest;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -254,6 +255,7 @@ class AuthenticationRequestTest extends TestCase
      * @return void
      * @dataProvider requiredDeviceFieldProvider
      */
+    #[DataProvider('requiredDeviceFieldProvider')]
     public function testEachMissingBrowserFieldThrows(string $field): void
     {
         $device = $this->deviceInformation();
@@ -272,6 +274,7 @@ class AuthenticationRequestTest extends TestCase
      * @return void
      * @dataProvider requiredDeviceFieldProvider
      */
+    #[DataProvider('requiredDeviceFieldProvider')]
     public function testEachEmptyBrowserFieldThrows(string $field): void
     {
         $device          = $this->deviceInformation();

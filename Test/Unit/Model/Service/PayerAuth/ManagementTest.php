@@ -60,6 +60,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\TransientTokenReader;
 use ParadoxLabs\TokenBase\Api\CardRepositoryInterface;
 use ParadoxLabs\TokenBase\Api\Data\CardInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
@@ -193,9 +194,11 @@ class ManagementTest extends TestCase
         $this->quote->method('getId')->willReturn(1234);
         $this->quote->method('getStoreId')->willReturn(self::STORE_ID);
         $this->quote->method('getPayment')->willReturn($this->payment);
-        $this->quote->method('getCustomerId')->willReturn(42);
-        $this->quote->method('getBaseGrandTotal')->willReturn(24.0);
-        $this->quote->method('getBaseCurrencyCode')->willReturn('usd');
+        $this->quote->method('getData')->willReturnMap([
+            ['customer_id', null, 42],
+            ['base_grand_total', null, 24.0],
+            ['base_currency_code', null, 'usd'],
+        ]);
         $this->quote->method('getBillingAddress')->willReturn($this->billingAddress());
 
         $this->checkoutSession->method('getQuoteId')->willReturn(99);
@@ -273,6 +276,7 @@ class ManagementTest extends TestCase
      * @param string|null $cardHash
      * @return void
      */
+    #[DataProvider('ambiguousSetupInputProvider')]
     public function testSetupRequiresExactlyOneCardReference(?string $transientToken, ?string $cardHash): void
     {
         $this->expectException(InputException::class);
@@ -379,7 +383,9 @@ class ManagementTest extends TestCase
     {
         $quote = $this->quoteMock();
         $quote->method('getStoreId')->willReturn(self::STORE_ID);
-        $quote->method('getCustomerId')->willReturn(null);
+        $quote->method('getData')->willReturnMap([
+            ['customer_id', null, null],
+        ]);
         $this->management->setQuote($quote);
 
         $this->cardRepository->expects($this->never())->method('getByHash');
@@ -527,6 +533,7 @@ class ManagementTest extends TestCase
      * @param string $returnUrl
      * @return void
      */
+    #[DataProvider('badReturnUrlProvider')]
     public function testAuthenticateRejectsUnsafeReturnUrls(string $returnUrl): void
     {
         $this->persistor->method('load')->willReturn($this->record());
@@ -577,6 +584,7 @@ class ManagementTest extends TestCase
      * @param string $status
      * @return void
      */
+    #[DataProvider('verdictProvider')]
     public function testVerdictsMapToClientStatuses(Verdict $verdict, string $status): void
     {
         $this->persistor->method('load')->willReturn($this->record());
@@ -660,6 +668,7 @@ class ManagementTest extends TestCase
      * @param array<string, mixed>|null $record
      * @return void
      */
+    #[DataProvider('unfinalizableRecordProvider')]
     public function testFinalizeRefusesWithoutAPendingChallenge(?array $record): void
     {
         $this->persistor->method('load')->willReturn($record);
@@ -837,7 +846,8 @@ class ManagementTest extends TestCase
     }
 
     /**
-     * Build a quote mock, with its magic data getters made stubbable.
+     * Build a quote mock. Magic data getters (getCustomerId, getBaseGrandTotal, ...) route
+     * through DataObject::__call() into the stubbed getData(), which callers configure.
      *
      * @return Quote|MockObject
      */
@@ -845,8 +855,7 @@ class ManagementTest extends TestCase
     {
         return $this->getMockBuilder(Quote::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getId', 'getStoreId', 'getPayment', 'getBillingAddress'])
-            ->addMethods(['getCustomerId', 'getBaseGrandTotal', 'getBaseCurrencyCode', 'getCustomerEmail'])
+            ->onlyMethods(['getId', 'getStoreId', 'getPayment', 'getBillingAddress', 'getData'])
             ->getMock();
     }
 

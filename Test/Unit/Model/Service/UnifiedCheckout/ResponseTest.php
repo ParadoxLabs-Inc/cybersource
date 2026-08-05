@@ -27,6 +27,7 @@ use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -55,6 +56,8 @@ class ResponseTest extends TestCase
 
         $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
         $this->configMock->method('isPayerAuthEnabled')->willReturn(true);
+        // uc_decision_manager defaults to 1 (config.xml); the config-off cases build their own mock.
+        $this->configMock->method('isDecisionManagerEnabled')->willReturn(true);
 
         $this->bindingValidatorMock = $this->createMock(BindingValidator::class);
         $this->persistorMock        = $this->createMock(Persistor::class);
@@ -790,6 +793,82 @@ class ResponseTest extends TestCase
         $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
 
         $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    // --- The uc_decision_manager toggle governs first-auth DM emission ---
+
+    public function testNewCardWithDecisionManagerConfigOffDisablesDecisionManager(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(true);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildRequest($this->buildPayment(), 24.0);
+
+        $this->assertFalse($request->toArray()['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testStoredCardCitWithDecisionManagerConfigOffDisablesDecisionManager(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(true);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildStoredCardRequest(
+            $this->buildStoredPayment(false),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertFalse($request->toArray()['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testNewCardWithDecisionManagerConfigOnEmitsNothing(): void
+    {
+        // Config-on is NOT sent as true: the field stays unset so the CyberSource account profile governs.
+        $this->primeRest(['id' => 'TXN-DM-ON', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    public function testMitSuppressionWinsRegardlessOfDecisionManagerToggle(): void
+    {
+        // The MIT/follow-on exemption is unconditional: DM stays off even with the toggle on.
+        $this->primeRest(['id' => 'TXN-DM-MIT-ON', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token', 0.0, true), 24.0);
+
+        $this->assertFalse($this->sentBody['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testZeroDollarAddCardSkipsDecisionManagerByDefault(): void
+    {
+        // 3.x parity (validate_card_storage=0, the default): the card-storage auth is not fraud-screened,
+        // regardless of the checkout screening toggle. The checkout toggle must not leak into this path.
+        $config = $this->createMock(Config::class);
+        $config->method('isDecisionManagerEnabled')->willReturn(true);
+        $config->method('isCardStorageValidationEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildZeroDollarRequest($this->buildPayment(), 'USD');
+
+        $this->assertFalse($request->toArray()['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testZeroDollarAddCardLeavesDecisionManagerToTheAccountWhenValidationIsOn(): void
+    {
+        // validate_card_storage=1: no flag is sent, so the account profile governs — same convention as
+        // the checkout paths when screening is enabled.
+        $config = $this->createMock(Config::class);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+        $config->method('isCardStorageValidationEnabled')->willReturn(true);
+
+        $request = $this->buildService($config)->buildZeroDollarRequest($this->buildPayment(), 'USD');
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $request->toArray()['processingInformation']);
     }
 
     // --- PR #1 finding 4: Decision Manager device-fingerprint parity (legacy SOAP deviceFingerprintID) ---
@@ -1611,5 +1690,221 @@ class ResponseTest extends TestCase
             . '"email":"jane@example.com","phoneNumber":"5125551234"}}}';
 
         $this->assertSame($expected, json_encode($this->sentBody));
+    }
+
+    // --- Server-side "require Payer Authentication" mode ---
+
+    /**
+     * Build the service with require mode on/off, and the charged card type in/out of the enabled set.
+     */
+    private function requireModeService(bool $required, bool $typeEnabled = true): Response
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(true);
+        $config->method('isDecisionManagerEnabled')->willReturn(true);
+        $config->method('isPayerAuthRequired')->willReturn($required);
+        $config->method('isPayerAuthEnabledForType')->willReturn($typeEnabled);
+
+        return $this->buildService($config);
+    }
+
+    /**
+     * The BindingValidator state table (see its class docblock) collapses to exactly three outcomes at
+     * this boundary. Every case is enumerated here so require mode is pinned against all of them.
+     *
+     * @return array<string, array{0: string}>
+     */
+    public static function bindingValidatorStateProvider(): array
+    {
+        return [
+            'case 1: no record at all' => ['null'],
+            'case 2: FAILED verdict' => ['throw'],
+            'case 3: outstanding obligation' => ['throw'],
+            'case 4: setup-only record, no verdict' => ['null'],
+            'case 5: unfinished CHALLENGE' => ['throw'],
+            'case 6: AUTHENTICATED covering the charge' => ['authenticated'],
+            'case 6: ATTEMPTED covering the charge' => ['attempted'],
+            'case 6: UNAVAILABLE covering the charge' => ['unavailable'],
+            'case 7: mismatch on a record carrying a shift' => ['throw'],
+            'case 7: mismatch on an UNAVAILABLE record' => ['null'],
+        ];
+    }
+
+    /**
+     * @dataProvider bindingValidatorStateProvider
+     */
+    #[DataProvider('bindingValidatorStateProvider')]
+    public function testRequireModeOnBlocksOnlyTheNoResultStates(string $outcome): void
+    {
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-REQ', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+        $this->primeBindingValidator($outcome);
+
+        $service = $this->requireModeService(true);
+
+        if ($outcome === 'null') {
+            $this->expectException(CommandException::class);
+            $this->expectExceptionMessage('Payer Authentication (3DS) is required for this payment.');
+        } elseif ($outcome === 'throw') {
+            $this->expectException(CommandException::class);
+            $this->expectExceptionMessage('Your payment verification is no longer valid.');
+        }
+
+        $service->place($this->buildPayment($this->buildBoundToken('JTI-1', '001')), 24.0);
+
+        // Only the consumed-verdict states reach here: a usable result, INCLUDING the shift-less
+        // UNAVAILABLE ("the server answered, no authentication was available"), still places.
+        $this->assertSame('24.00', $this->sentBody['orderInformation']['amountDetails']['totalAmount']);
+    }
+
+    /**
+     * @dataProvider bindingValidatorStateProvider
+     */
+    #[DataProvider('bindingValidatorStateProvider')]
+    public function testRequireModeOffNeverAddsABlock(string $outcome): void
+    {
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-NOREQ', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+        $this->primeBindingValidator($outcome);
+
+        $service = $this->requireModeService(false);
+
+        // Only the validator's own refusals throw; the no-result states place as they always have.
+        if ($outcome === 'throw') {
+            $this->expectException(CommandException::class);
+        }
+
+        $service->place($this->buildPayment($this->buildBoundToken('JTI-1', '001')), 24.0);
+
+        $this->assertSame('24.00', $this->sentBody['orderInformation']['amountDetails']['totalAmount']);
+    }
+
+    private function primeBindingValidator(string $outcome): void
+    {
+        $verdict = match ($outcome) {
+            'authenticated' => Verdict::AUTHENTICATED,
+            'attempted' => Verdict::ATTEMPTED,
+            'unavailable' => Verdict::UNAVAILABLE,
+            default => null,
+        };
+
+        if ($outcome === 'throw') {
+            $this->bindingValidatorMock->method('resolve')->willThrowException(
+                new CommandException(
+                    __('Your payment verification is no longer valid. Please verify your payment again.')
+                )
+            );
+
+            return;
+        }
+
+        $this->bindingValidatorMock->method('resolve')->willReturn(
+            $verdict !== null
+                ? ['verdict' => $verdict, 'ca' => $verdict === Verdict::UNAVAILABLE
+                    ? []
+                    : $this->loadCa('case-2-1-success')]
+                : null
+        );
+    }
+
+    public function testRequireModeBlocksTheStoredCardPlaceToo(): void
+    {
+        $this->asCustomerInitiated();
+        $this->restMock->expects($this->never())->method('post');
+        $this->bindingValidatorMock->method('resolve')->willReturn(null);
+
+        $this->expectException(CommandException::class);
+        $this->expectExceptionMessage('Payer Authentication (3DS) is required for this payment.');
+
+        $this->requireModeService(true)->placeStored(
+            $this->buildStoredPayment(),
+            $this->buildCard('PI-CARD', 'CUST-CARD', 'II-CARD', false, 7, 'VI'),
+            24.0
+        );
+    }
+
+    public function testRequireModeDoesNotBlockACardTypeTheClientWouldNeverAuthenticate(): void
+    {
+        // The type is out of cardinal_card_types, so no client ever runs the ceremony for it.
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-REQ-TYPE', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+        $this->bindingValidatorMock->method('resolve')->willReturn(null);
+
+        $this->requireModeService(true, false)
+            ->place($this->buildPayment($this->buildBoundToken('JTI-1', '001')), 24.0);
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
+    }
+
+    public function testRequireModeStillBlocksWhenTheCardTypeIsUnreadable(): void
+    {
+        // Mirror of Management::isTypeExcluded(): an unknown type is not excluded, so it is not exempt.
+        $this->asCustomerInitiated();
+        $this->restMock->expects($this->never())->method('post');
+        $this->bindingValidatorMock->method('resolve')->willReturn(null);
+
+        $service = $this->requireModeService(true, false);
+
+        $this->expectException(CommandException::class);
+
+        $service->place($this->buildPayment('the.jwt.token'), 24.0);
+    }
+
+    public function testRequireModeExemptsMerchantInitiatedRebills(): void
+    {
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-REQ-MIT', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+
+        $this->bindingValidatorMock->expects($this->never())->method('resolve');
+
+        $this->requireModeService(true)->placeStored(
+            $this->buildStoredPayment(true, 'PRIORTXN'),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
+    }
+
+    public function testRequireModeExemptsAdminOrders(): void
+    {
+        $this->helperMock->method('getIsFrontend')->willReturn(false);
+        $this->primeRest(['id' => 'TXN-REQ-ADMIN', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+
+        $this->bindingValidatorMock->expects($this->never())->method('resolve');
+
+        $this->requireModeService(true)->place($this->buildPayment($this->buildBoundToken()), 24.0);
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
+    }
+
+    public function testRequireModeIsInertWhenPayerAuthIsDisabledForTheStore(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(false);
+        $config->method('isPayerAuthRequired')->willReturn(true);
+
+        $this->asCustomerInitiated();
+        $this->primeRest(['id' => 'TXN-REQ-PAOFF', 'status' => 'AUTHORIZED', 'processorInformation' => [
+            'responseCode' => '100',
+        ]]);
+
+        $this->bindingValidatorMock->expects($this->never())->method('resolve');
+
+        $this->buildService($config)->place($this->buildPayment($this->buildBoundToken()), 24.0);
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
     }
 }

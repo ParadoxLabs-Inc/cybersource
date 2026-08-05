@@ -146,7 +146,11 @@ define(
                     this.transientToken.subscribe(this.handleTransientTokenChange.bind(this)),
                     // Re-request the capture context whenever the grand total changes, so the amount in
                     // the capture mandate stays in sync with the order being placed.
-                    quote.totals.subscribe(this.handleTotalChange.bind(this))
+                    quote.totals.subscribe(this.handleTotalChange.bind(this)),
+                    // Keep the place button visibly disabled through the whole payer-auth sequence:
+                    // the base placeOrder's .always() re-enables it mid-recovery during the silent
+                    // re-verify. Clicks are swallowed by _payerAuthInFlight either way.
+                    this.isPlaceOrderActionAllowed.subscribe(this.holdPlaceOrderDuringPayerAuth.bind(this))
                 ];
 
                 this.showDropin = ko.computed(function () {
@@ -560,10 +564,10 @@ define(
             /**
              * Whether a failed place response is the server's payer-auth "verify again" refusal.
              *
-             * Matches a stable substring of BindingValidator::reverify()'s message; keep both sides in
-             * step (the webapi fault carries no machine-readable code). A blanket re-auth on any
-             * failure would be wrong: a genuine decline consumes the single-use transient token, so
-             * only this refusal — which precedes the gateway — is retried.
+             * Matches BindingValidator::REVERIFY_MARKER, pinned by BindingValidatorTest so drift
+             * fails the suite (the webapi fault carries no machine-readable code). A blanket
+             * re-auth on any failure would be wrong: a genuine decline consumes the single-use
+             * transient token, so only this refusal — which precedes the gateway — is retried.
              *
              * @param {Object} response - the failed place jqXHR-like response
              * @return {Boolean}
@@ -808,6 +812,20 @@ define(
                     self._activeChallenge = null;
                     self.handlePayerAuthError(error);
                 });
+            },
+
+            /**
+             * Re-disable the place button if something re-enabled it while payer auth is still running.
+             *
+             * Terminal paths clear _payerAuthInFlight before restoring the button, so only the base
+             * placeOrder's .always() triggers this.
+             *
+             * @param {Boolean} allowed
+             */
+            holdPlaceOrderDuringPayerAuth: function (allowed) {
+                if (allowed === true && this._payerAuthInFlight === true) {
+                    this.isPlaceOrderActionAllowed(false);
+                }
             },
 
             /**

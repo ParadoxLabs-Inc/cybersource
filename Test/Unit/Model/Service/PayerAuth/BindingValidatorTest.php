@@ -10,6 +10,7 @@ use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -81,6 +82,7 @@ class BindingValidatorTest extends TestCase
     /**
      * @dataProvider usableVerdictProvider
      */
+    #[DataProvider('usableVerdictProvider')]
     public function testUsableRecordReturnsVerdictAndCaWithoutClearing(Verdict $verdict): void
     {
         $ca = $this->loadFixture('case-2-1-success')['consumerAuthenticationInformation'];
@@ -162,6 +164,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testOutstandingObligationOnAReSeededRecordStillBlocks(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -189,6 +192,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testUnavailableResultDoesNotDischargeAnObligation(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -221,6 +225,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testAnObligatedRecordWithADriftedShiftIsStillBlocked(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -239,6 +244,7 @@ class BindingValidatorTest extends TestCase
     /**
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testAnObligatedRecordCarryingACoveringShiftResolves(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -292,6 +298,7 @@ class BindingValidatorTest extends TestCase
      * @param array<string, mixed> $overrides
      * @dataProvider driftProvider
      */
+    #[DataProvider('driftProvider')]
     public function testDriftOnAShiftedRecordDemandsReverificationAndKeepsTheRecord(
         array $overrides,
         string $amount,
@@ -321,6 +328,7 @@ class BindingValidatorTest extends TestCase
      * @param array<string, mixed> $overrides
      * @dataProvider driftProvider
      */
+    #[DataProvider('driftProvider')]
     public function testDriftOnAnUnavailableRecordResolvesToNullSilently(
         array $overrides,
         string $amount,
@@ -359,6 +367,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider amountDirectionProvider
      */
+    #[DataProvider('amountDirectionProvider')]
     public function testChargeMayNotExceedTheAuthenticatedAmount(string $charge, bool $allowed): void
     {
         $this->persistor->method('load')->willReturn($this->record(['amount' => '30.00']));
@@ -430,6 +439,33 @@ class BindingValidatorTest extends TestCase
         }
 
         $this->assertStringContainsString('reason=amount_mismatch', $messages[0]);
+    }
+
+    /**
+     * The re-verify refusal is a CONTRACT with the checkout client, not just copy.
+     *
+     * isReverifyFailure() in view/frontend/web/js/view/payment/method-renderer/paradoxlabs_cybersource.js
+     * substring-matches this sentence to decide whether to re-run the ceremony automatically; JS cannot
+     * import a PHP constant, so this assertion is the coupling control. If it fails, either restore the
+     * wording or change the JS matcher in the same commit — otherwise the auto-retry silently dies and
+     * customers hit a dead end on every stale-record refusal.
+     */
+    public function testReverifyRefusalWordingIsPinnedToTheCheckoutClientMatcher(): void
+    {
+        $this->persistor->method('load')->willReturn(
+            $this->record(['verdict' => 'challenge', 'ca' => [], 'obligation' => Persistor::OBLIGATION_CHALLENGE])
+        );
+
+        try {
+            $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+            self::fail('An abandoned challenge must be refused.');
+        } catch (CommandException $exception) {
+            self::assertSame(
+                'Your payment verification is no longer valid. Please verify your payment again.',
+                $exception->getMessage()
+            );
+            self::assertStringContainsString(BindingValidator::REVERIFY_MARKER, $exception->getMessage());
+        }
     }
 
     /**

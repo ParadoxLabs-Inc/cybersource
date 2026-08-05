@@ -409,6 +409,20 @@ class Config
     }
 
     /**
+     * Get whether Payer Authentication must have run before an order may be placed.
+     *
+     * The storefront clients always authenticate when Payer Auth is on, so this only governs
+     * REST/GraphQL callers that skip the payer-auth calls.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthRequired($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('payer_auth_required', $storeId);
+    }
+
+    /**
      * Get whether Payer Authentication is enabled for a specific card type.
      *
      * @param string $ccType
@@ -461,6 +475,20 @@ class Config
     public function isDecisionManagerEnabled($storeId = null)
     {
         return (bool)$this->getConfigValue('uc_decision_manager', $storeId);
+    }
+
+    /**
+     * Whether Decision Manager should also screen the $0 card-storage authorization.
+     *
+     * 3.x parity: card storage is not screened unless the merchant opts in, because screening every
+     * add-card raises transaction fees. See Response::buildZeroDollarRequest().
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isCardStorageValidationEnabled($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('validate_card_storage', $storeId);
     }
 
     /**

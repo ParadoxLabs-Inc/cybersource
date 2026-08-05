@@ -13,6 +13,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Challenge;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -134,6 +135,7 @@ class ChallengeTest extends TestCase
     /**
      * @dataProvider forbiddenMarkerProvider
      */
+    #[DataProvider('forbiddenMarkerProvider')]
     public function testBodyLeaksNoSessionOrCustomerData(string $marker): void
     {
         $this->controller->execute();

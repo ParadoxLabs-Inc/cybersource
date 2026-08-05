@@ -308,6 +308,32 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthRequired(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_required', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthRequired());
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsCardStorageValidationEnabled(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/validate_card_storage', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isCardStorageValidationEnabled());
+    }
+
+    /**
      * @dataProvider payerAuthEnabledForTypeDataProvider
      */
     #[DataProvider('payerAuthEnabledForTypeDataProvider')]
@@ -343,6 +369,7 @@ class ConfigTest extends TestCase
      * @param string|null $value
      * @param string[] $expected
      */
+    #[DataProvider('payerAuthReturnOriginsDataProvider')]
     public function testGetPayerAuthReturnOrigins(?string $value, array $expected): void
     {
         $this->scopeConfigMock->method('getValue')
