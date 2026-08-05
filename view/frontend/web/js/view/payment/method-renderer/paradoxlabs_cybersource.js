@@ -148,12 +148,9 @@ define(
                     // Re-request the capture context whenever the grand total changes, so the amount in
                     // the capture mandate stays in sync with the order being placed.
                     quote.totals.subscribe(this.handleTotalChange.bind(this)),
-                    // Keep the place button visibly disabled for the WHOLE payer-auth sequence,
-                    // including the silent re-verify. The base placeOrder attaches
-                    // .always(isPlaceOrderActionAllowed(true)) AFTER the .fail() handler that starts the
-                    // re-verify, so it re-enables the button on a refusal we are already recovering
-                    // from. Clicks are swallowed by _payerAuthInFlight either way; this only stops the
-                    // button from lying about it.
+                    // Keep the place button visibly disabled through the whole payer-auth sequence:
+                    // the base placeOrder's .always() re-enables it mid-recovery during the silent
+                    // re-verify. Clicks are swallowed by _payerAuthInFlight either way.
                     this.isPlaceOrderActionAllowed.subscribe(this.holdPlaceOrderDuringPayerAuth.bind(this))
                 ];
 
@@ -573,15 +570,10 @@ define(
             /**
              * Whether a failed place response is the server's payer-auth "verify again" refusal.
              *
-             * FRAGILE: this matches a stable substring of BindingValidator::reverify()'s message,
-             * declared server-side as BindingValidator::REVERIFY_MARKER and pinned by
-             * BindingValidatorTest so drift fails the suite rather than silently ending this retry.
-             * There is no machine-readable error code on the webapi fault to key on, and a blanket
-             * "re-auth on any failure" is wrong here — a genuine gateway decline consumes the
-             * single-use transient token, so re-running setup against it would surface a confusing
-             * auth error instead of the real decline. Scope the automatic re-auth to the one refusal
-             * that leaves the instrument reusable (the binding check runs before the gateway). If the
-             * server message changes, update it here and in BindingValidator.
+             * Matches BindingValidator::REVERIFY_MARKER, pinned by BindingValidatorTest so drift
+             * fails the suite (the webapi fault carries no machine-readable code). A blanket
+             * re-auth on any failure would be wrong: a genuine decline consumes the single-use
+             * transient token, so only this refusal — which precedes the gateway — is retried.
              *
              * @param {Object} response - the failed place jqXHR-like response
              * @return {Boolean}
@@ -836,9 +828,8 @@ define(
             /**
              * Re-disable the place button if something re-enabled it while payer auth is still running.
              *
-             * Every terminal payer-auth path clears _payerAuthInFlight BEFORE restoring the button, so
-             * none of them are caught here; the only writer this fires on is the base placeOrder's
-             * .always(). The re-write settles immediately — the resulting notification sees false.
+             * Terminal paths clear _payerAuthInFlight before restoring the button, so only the base
+             * placeOrder's .always() triggers this.
              *
              * @param {Boolean} allowed
              */

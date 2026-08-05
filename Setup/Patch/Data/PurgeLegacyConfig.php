@@ -28,15 +28,10 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 /**
  * Drop the config rows for the integrations 4.0.0 removed: SOAP, Secure Acceptance, CardinalCommerce.
  *
- * These are dead settings after the Unified Checkout migration, and three of them (the SOAP transaction
- * key and certificate password, the Secure Acceptance secret key, the Cardinal secret key) are encrypted
- * credentials with nothing left to authenticate — leaving them in core_config_data keeps live secrets on
- * disk for an integration the module can no longer speak. The rows are deleted in every scope, which is
- * also what makes the patch idempotent: a re-run simply matches nothing.
- *
- * Deliberately NOT purged: `cardinal_active` and `cardinal_card_types`. Both are still live settings in
- * 4.0.0 — Payer Authentication now runs natively on the CyberSource merchant account — and deleting them
- * would silently turn 3DS off for every merchant who had it on.
+ * Several are encrypted credentials with nothing left to authenticate. Rows are deleted in every
+ * scope; a re-run matches nothing, so the patch is idempotent. `cardinal_active` and
+ * `cardinal_card_types` stay — both are live settings in 4.0.0, and deleting them would silently
+ * turn 3DS off.
  */
 class PurgeLegacyConfig implements DataPatchInterface
 {

@@ -411,9 +411,8 @@ class Config
     /**
      * Get whether Payer Authentication must have run before an order may be placed.
      *
-     * Off by default. The storefront clients always authenticate when Payer Auth is on, so this only
-     * governs API callers (REST/GraphQL) that can skip the payer-auth calls entirely; turning it on
-     * would break any headless integrator that has not wired the ceremony up yet.
+     * The storefront clients always authenticate when Payer Auth is on, so this only governs
+     * REST/GraphQL callers that skip the payer-auth calls.
      *
      * @param int|null $storeId
      * @return bool
@@ -481,10 +480,8 @@ class Config
     /**
      * Whether Decision Manager should also screen the $0 card-storage authorization.
      *
-     * 3.x parity (`validate_card_storage`): Secure Acceptance sent skip_decision_manager=true on card
-     * storage unless the merchant opted in, because screening every add-card raises transaction fees.
-     * The Unified Checkout $0 TOKEN_CREATE auth is governed by the same setting — see
-     * Response::buildZeroDollarRequest().
+     * 3.x parity: card storage is not screened unless the merchant opts in, because screening every
+     * add-card raises transaction fees. See Response::buildZeroDollarRequest().
      *
      * @param int|null $storeId
      * @return bool

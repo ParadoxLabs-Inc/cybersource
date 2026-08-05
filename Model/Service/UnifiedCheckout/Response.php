@@ -474,15 +474,9 @@ class Response
     /**
      * Whether processingInformation.enableDecisionManager=false must be sent for this charge.
      *
-     * Two independent reasons, either of which forces the flag off:
-     *  - the transaction itself is exempt (MIT / follow-on) — shouldSuppressDecisionManager(), legacy parity;
-     *  - the merchant turned the `uc_decision_manager` toggle off for this store.
-     *
-     * When neither applies the flag is left unset (empty-filtered out of the request) rather than sent as
-     * true, so the CyberSource account profile keeps governing screening exactly as it does today.
-     *
-     * The $0 add-card path does NOT consult this: card-storage screening has its own dedicated setting
-     * (`validate_card_storage`, 3.x parity) — see buildZeroDollarRequest().
+     * Forced off when the transaction is exempt (MIT / follow-on, legacy parity) or the merchant
+     * disabled the `uc_decision_manager` toggle; otherwise left unset so the account profile governs.
+     * The $0 add-card path uses `validate_card_storage` instead — see buildZeroDollarRequest().
      *
      * @param InfoInterface $payment
      * @param int|null $storeId
@@ -510,10 +504,9 @@ class Response
      *    area-origin signal — frontend + REST webapi + GraphQL are "customer-facing", adminhtml and
      *    crontab are not — so no new dependency and no new definition of "admin" is introduced here.
      *
-     * An unresolved area code falls through to consulting: records are only ever written by the
-     * customer-initiated flows above, so it can neither block an admin order (adminhtml resolves
-     * normally) nor bypass a FAILED verdict. With payer_auth_required on, the fall-through also
-     * refuses a no-record placement from an unresolvable origin — fail-closed by design.
+     * An unresolved area code falls through to consulting — fail-closed: it cannot block an admin
+     * order (adminhtml resolves normally) or bypass a FAILED verdict, and with payer_auth_required
+     * on it refuses a no-record placement.
      *
      * @param InfoInterface $payment
      * @return bool
@@ -566,8 +559,7 @@ class Response
      * exact strings the money call will carry — there is no second formatting path to drift from.
      *
      * Outcomes: Payer Auth disabled, MIT/admin origin, or no record => nothing attached, placement
-     * proceeds unless the store requires Payer Auth (see enforcePayerAuthRequired(), which is the
-     * choke point closing the skip-the-calls path for REST/GraphQL callers);
+     * proceeds unless the store requires Payer Auth (enforcePayerAuthRequired());
      * AUTHENTICATED/ATTEMPTED => per-network pass-through attached; UNAVAILABLE => nothing
      * attached (no liability shift exists to pass) and the outcome is logged; FAILED / obligated /
      * abandoned / stale => BindingValidator throws CommandException and the placement never happens.
@@ -633,15 +625,10 @@ class Response
     /**
      * Refuse the placement when the store demands Payer Authentication and none was consumed.
      *
-     * Called on the ONE outcome that is otherwise indistinguishable from "3DS was never asked for":
-     * BindingValidator resolved to null. The valuable shapes never reach here — a consumed verdict
-     * (including UNAVAILABLE, i.e. the server answered "no authentication available") returns a
-     * result and places, and every failed/obligated/abandoned shape has already thrown. What is left
-     * is the no-record case and the setup-only record: in both, no authentication ever completed for
-     * this charge, which is exactly what require mode exists to stop.
-     *
-     * The caller has already applied every exemption via shouldConsumePayerAuth(): Payer Auth off,
-     * merchant-initiated rebills, and admin/MOTO or other non-frontend origins never get here.
+     * Called only when BindingValidator resolved to null — the one outcome indistinguishable from
+     * "3DS was never asked for". Every consumed verdict (including UNAVAILABLE) places, every
+     * failed/obligated/abandoned shape has already thrown, and the caller has applied the
+     * exemptions (Payer Auth off, MIT, non-frontend origin) via shouldConsumePayerAuth().
      *
      * @param InfoInterface $payment
      * @param string $ccType Magento card type code of the instrument being charged.
@@ -656,9 +643,8 @@ class Response
             return;
         }
 
-        // Mirror of Management::isTypeExcluded(): a card type the merchant removed from
-        // cardinal_card_types is never authenticated by the client, so it must never be blocked here.
-        // An unknown/unreadable type is NOT excluded, exactly as the setup path treats it.
+        // A type outside cardinal_card_types is never authenticated by the client, so it is not
+        // blocked; an unknown type is not excluded (mirrors Management::isTypeExcluded()).
         if ($ccType !== '' && $this->config->isPayerAuthEnabledForType($ccType, $storeId) === false) {
             return;
         }
@@ -866,10 +852,8 @@ class Response
             ->setApplicationName($this->config->getClientName())
             ->setApplicationVersion($this->config->getClientVersion());
 
-        // 3.x parity (validate_card_storage): the card-storage auth is NOT fraud-screened unless the
-        // merchant opted in — Secure Acceptance sent skip_decision_manager=true by default, because
-        // screening every add-card raises transaction fees. Opting in leaves the flag unset so the
-        // account profile governs, same as the checkout paths.
+        // 3.x parity (validate_card_storage): card storage is not fraud-screened unless the merchant
+        // opts in; opting in leaves the flag unset so the account profile governs.
         if ($this->config->isCardStorageValidationEnabled() === false) {
             $request->setEnableDecisionManager(false);
         }

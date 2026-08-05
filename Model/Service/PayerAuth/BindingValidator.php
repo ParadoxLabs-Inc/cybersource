@@ -73,16 +73,10 @@ class BindingValidator
     public const MAX_AGE_SECONDS = 900;
 
     /**
-     * The substring of the re-verify refusal that the checkout client keys its auto-retry on.
-     *
-     * The webapi fault carries no machine-readable code, so
-     * view/frontend/web/js/view/payment/method-renderer/paradoxlabs_cybersource.js
-     * ::isReverifyFailure() matches this text to decide whether re-running the ceremony is safe.
-     * Drift silently ends that auto-retry, so BindingValidatorTest pins both this marker and the
-     * exact sentence below.
-     *
-     * The sentence itself stays an inline literal in reverify() because Magento's i18n phrase
-     * collector only reads literals inside __(); this constant is the named anchor both sides cite.
+     * The substring of the re-verify refusal that the client's isReverifyFailure() auto-retry keys
+     * on (the webapi fault carries no machine-readable code). Drift silently ends that retry, so
+     * BindingValidatorTest pins this marker and the exact sentence; the sentence stays an inline
+     * literal in reverify() for the i18n phrase collector.
      */
     public const REVERIFY_MARKER = 'verify your payment again';
 
@@ -256,9 +250,8 @@ class BindingValidator
     /**
      * Build the "verify again" refusal shown for every recoverable block.
      *
-     * The wording is load-bearing: it must keep containing self::REVERIFY_MARKER, or the checkout
-     * client's one-shot re-verify (isReverifyFailure() in paradoxlabs_cybersource.js) stops firing
-     * and the customer is left with a dead end instead of an automatic retry.
+     * The wording must keep containing self::REVERIFY_MARKER or the checkout client's one-shot
+     * re-verify stops firing.
      *
      * @return CommandException
      */
