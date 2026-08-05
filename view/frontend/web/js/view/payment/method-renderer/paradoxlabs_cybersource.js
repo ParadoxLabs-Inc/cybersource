@@ -112,19 +112,18 @@ define(
                 // to actual transitions or every tick becomes a mount attempt / latch reset.
                 this._lastSelectedCard = this.selectedCard();
 
-                // Payer authentication (3-D Secure 2) state machine. The pre-place sequence runs inside
-                // the placeOrder() override; these fields drive its latch/re-entry discipline.
+                // Payer authentication (3-D Secure 2) state machine, driving the latch/re-entry
+                // discipline of the pre-place sequence inside the placeOrder() override.
                 //   _payerAuthCleared     - this place attempt has passed payer auth; placeOrder()
-                //                           delegates straight to the base (the parent placeOrder()).
-                //   _payerAuthInFlight    - the sequence is running; blocks a second concurrent run
+                //                           delegates straight to the base.
+                //   _payerAuthInFlight    - a sequence is running; blocks a second concurrent run
                 //                           (double-click, or auto-place racing a manual click).
                 //   _payerAuthGeneration  - stamps each sequence so a teardown (resetPayerAuthState)
-                //                           invalidates in-flight continuations; mirrors the
-                //                           mount-generation idiom used for the drop-in above.
+                //                           invalidates in-flight continuations.
                 //   _reverifyAttempted    - at most one automatic re-auth after a server "verify again"
                 //                           refusal, per instrument (reset on any card/token change).
                 //   _activeChallenge      - the in-flight runChallenge() handle, so a mid-challenge
-                //                           remount can cancel the modal (task: drop-in remount).
+                //                           remount can cancel the modal.
                 this._payerAuthCleared = false;
                 this._payerAuthInFlight = false;
                 this._payerAuthGeneration = 0;
@@ -526,14 +525,11 @@ define(
              * customer completes card entry again.
              */
             handleFailedOrder: function (response) {
-                // Server re-verify path (PA-1 BindingValidator::reverify): the order already passed
-                // CLIENT payer auth this attempt (latch set), yet the server refused because the
-                // persisted authentication no longer covers the charge (stale/incomplete/mismatched).
-                // That refusal fires BEFORE the gateway is reached, so the instrument is intact — re-run
-                // the payer-auth sequence once automatically, reusing the same token/card, then re-place.
-                // A second refusal falls through to the base error. Reset per-instrument via
-                // resetPayerAuthState. NB: skipped here on purpose is the drop-in remount below, so the
-                // token is preserved for the re-auth.
+                // Server re-verify path (BindingValidator::reverify): client payer auth passed this
+                // attempt, but the server refused because the persisted authentication no longer
+                // covers the charge. That refusal fires BEFORE the gateway, so the instrument is
+                // intact — re-run the sequence once with the same token/card, then re-place. Returning
+                // early deliberately skips the drop-in remount below, preserving the token.
                 if (this._payerAuthCleared === true
                     && this._reverifyAttempted !== true
                     && this.isReverifyFailure(response)) {
@@ -545,11 +541,9 @@ define(
                 }
 
                 // Terminal failure (hard decline, or a second re-verify refusal): drop the payer-auth
-                // latch so the NEXT place re-authenticates. This must run for stored cards too — they
-                // have no transient token, so the remount below (which is what resets the latch for a
-                // new card) never fires, and without this an amount-mismatch loop would leave
-                // _payerAuthCleared/_reverifyAttempted stuck true and every retry would delegate
-                // straight to the base and be refused identically, forever.
+                // latch so the NEXT place re-authenticates. Required for stored cards especially —
+                // they have no transient token, so the remount below never fires and the latch would
+                // stay set, delegating every retry straight to the base to be refused identically.
                 this._payerAuthCleared = false;
                 this._reverifyAttempted = false;
 
@@ -566,13 +560,10 @@ define(
             /**
              * Whether a failed place response is the server's payer-auth "verify again" refusal.
              *
-             * FRAGILE: this matches a stable substring of BindingValidator::reverify()'s message
-             * ("Please verify your payment again."). There is no machine-readable error code on the
-             * webapi fault to key on, and a blanket "re-auth on any failure" is wrong here — a genuine
-             * gateway decline consumes the single-use transient token, so re-running setup against it
-             * would surface a confusing auth error instead of the real decline. Scope the automatic
-             * re-auth to the one refusal that leaves the instrument reusable (the binding check runs
-             * before the gateway). If the server message changes, update it here and in BindingValidator.
+             * Matches a stable substring of BindingValidator::reverify()'s message; keep both sides in
+             * step (the webapi fault carries no machine-readable code). A blanket re-auth on any
+             * failure would be wrong: a genuine decline consumes the single-use transient token, so
+             * only this refusal — which precedes the gateway — is retried.
              *
              * @param {Object} response - the failed place jqXHR-like response
              * @return {Boolean}
@@ -596,21 +587,19 @@ define(
             /**
              * Place-order funnel with a payer-authentication (3DS2) pre-step.
              *
-             * This overrides the base checkout placeOrder() — the one method every place path funnels
-             * through: the manual button (click: placeOrder), the auto-place path after tokenization
-             * (maybeAutoPlaceOrder), and stored-card submits. Payer auth must fully resolve before the
-             * order is placed, so:
-             *   - latch set (_payerAuthCleared) => delegate straight to the base placeOrder. This
-             *     synchronous _super() is the ONLY point _super is valid: Magento's UI-component _super
-             *     is unavailable from a promise callback, so the async sequence re-ENTERS placeOrder()
-             *     to reach this branch rather than calling _super() from a continuation.
+             * Overrides the base placeOrder(), which every place path funnels through (manual button,
+             * auto-place after tokenization, stored-card submits):
+             *   - latch set (_payerAuthCleared) => delegate straight to the base. This synchronous
+             *     _super() is the ONLY point _super is valid: Magento's UI-component _super is
+             *     unavailable from a promise callback, so the async sequence re-ENTERS placeOrder()
+             *     to reach this branch instead of calling _super() from a continuation.
              *   - a sequence already running (_payerAuthInFlight) => no-op, so a double-click or an
              *     auto-place racing a manual click cannot start two sequences.
-             *   - otherwise run the payer-auth sequence (runPayerAuth), which re-enters here on success.
+             *   - otherwise run runPayerAuth(), which re-enters here on success.
              *
-             * The base's own validate()/additionalValidators/isPlaceOrderActionAllowed gate is applied
-             * up front so a payer-auth round-trip (and a possible challenge modal) is never spent on an
-             * order that would not place — e.g. before required agreements are checked.
+             * The base's validate()/additionalValidators gate is applied up front so a payer-auth
+             * round-trip (and a possible challenge modal) is never spent on an order that would not
+             * place.
              *
              * @param {Object} [data]
              * @param {Object} [event]
@@ -625,13 +614,10 @@ define(
                     return this._super(data, event);
                 }
 
-                // Payer Authentication off for this store: place exactly as before payer auth
-                // existed, with no setup round-trip. This is ONLY a cost optimization, so it must
-                // fail toward running auth: gate on an EXPLICIT false, never on a missing key. A
-                // stale checkoutConfig bundle, a 404'd payer-auth-client.js, or a tab opened before
-                // the merchant enabled 3DS all leave the flag undefined -- in which case we run
-                // setup and let the server answer 'skipped' (one round-trip), rather than silently
-                // placing an unauthenticated order.
+                // Payer Authentication off for this store: skip the setup round-trip. This is ONLY a
+                // cost optimization, so it gates on an EXPLICIT false, never on a missing key — a
+                // stale checkoutConfig leaves the flag undefined, and running setup for a 'skipped'
+                // answer beats silently placing an unauthenticated order.
                 if (config.payerAuthActive === false) {
                     return this._super(data, event);
                 }

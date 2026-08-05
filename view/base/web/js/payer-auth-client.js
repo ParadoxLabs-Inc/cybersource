@@ -23,9 +23,8 @@
  * challenge, and the REST transport — and nothing else: no retries, no messaging, no state. The
  * caller (the Luma renderer today, a Hyvä component later) sequences them and owns all UX.
  *
- * Transport and DOM are deliberately separated. Everything below the "REST transport" banner is the
- * only Luma-coupled code in the file (mage/storage + the checkout url-builder/quote models); the DDC
- * and challenge machinery is plain DOM and lifts as-is. A Hyvä port replaces post() and nothing more.
+ * The "REST transport" section is the only Luma-coupled code in the file; the DDC and challenge
+ * machinery is plain DOM, so a Hyvä port replaces post() and nothing more.
  *
  * postMessage discipline mirrors the wrapper page (Controller/PayerAuth/Challenge): every message
  * both ways carries source: 'pl-cybersource-payerauth', and every message from the wrapper is
@@ -255,18 +254,16 @@ define([
          * Run 3DS device data collection: form-POST the access token as JWT into a hidden iframe
          * pointed at the collector, and wait briefly for its completion message.
          *
-         * Best-effort by contract. The collector's payload reaches CyberSource out of band, so the
-         * only thing waiting buys is a better chance the profile has landed before the enrollment
-         * check runs — hence a resolve-either-way promise that NEVER rejects and never hangs. A
-         * missing token or URL resolves immediately.
+         * Best-effort by contract: the collector's payload reaches CyberSource out of band, so this
+         * NEVER rejects and never hangs — waiting only improves the odds the profile lands before
+         * the enrollment check runs.
          *
          * The iframe is 0x0 and positioned off-screen rather than display:none: display:none frames
          * are not laid out, and collectors that measure or paint can stall in one.
          *
-         * The completion message is third-party (the collector's own origin, issuer/CyberSource
-         * controlled and not portably knowable), so it gets the window-identity check — it must come
-         * from the frame we created — instead of an origin check. It carries no data we act on: the
-         * arrival, or the timeout, is the entire signal.
+         * The completion message comes from a third-party origin that is not portably knowable, so
+         * it gets the window-identity check instead of an origin check. It carries no data we act
+         * on — its arrival, or the timeout, is the entire signal.
          *
          * @param {String} accessToken - the setup result's access token (a JWT)
          * @param {String} deviceDataCollectionUrl - the setup result's collector URL
@@ -372,20 +369,18 @@ define([
          * The modal frames OUR OWN same-origin wrapper page (pdl_cybs/payerauth/challenge), never
          * the ACS directly: the wrapper receives acsUrl and pareq by postMessage — keeping both out
          * of any URL, history entry, or access log — POSTs the CReq into its own child frame, and
-         * relays the return event back up. This is why nothing here talks to the issuer at all.
+         * relays the return event back up. Nothing here talks to the issuer.
          *
          * Both messages from the wrapper are checked for same-origin AND for coming from the frame
          * we created. A hostile same-origin frame could at most forge 'return' early, which costs a
-         * finalize call that re-reads the real outcome from CyberSource — it cannot manufacture an
-         * authentication.
+         * finalize call that re-reads the real outcome from CyberSource.
          *
          * Never rejects: every ending is a status the caller can act on. Cancellation is by the
          * close control or Escape only — a backdrop click does not close a payment authentication.
          *
-         * Returns a handle rather than a bare promise so the caller can abort a challenge that is no
-         * longer wanted — e.g. the drop-in remounts (token TTL / total change) mid-challenge and the
-         * whole attempt is being torn down. cancel() settles the promise as 'cancelled' and reaps the
-         * modal; it is a no-op once the challenge has already settled.
+         * Returns a handle rather than a bare promise so the caller can abort a challenge it no
+         * longer wants (e.g. the drop-in remounts mid-challenge). cancel() settles the promise as
+         * 'cancelled' and reaps the modal; it is a no-op once the challenge has settled.
          *
          * @param {String} acsUrl - issuer ACS endpoint from the authenticate/finalize result
          * @param {String} pareq - the challenge request payload (CReq) for that ACS
