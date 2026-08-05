@@ -219,10 +219,8 @@ class Sanitizer
      * name, address) in a JSON request/response body for secure logging.
      *
      * The card number ("number") retains only its last four digits; the security code
-     * ("securityCode") is fully masked. Single-use credentials are fully masked: the UC
-     * transient-token JWT ("transientTokenJwt"/"transientToken") and the payer-auth secrets
-     * ("cavv"/"xid"/"ucafAuthenticationData"/"accessToken"/"pareq") that ride /risk/v1 traffic,
-     * since Rest logs masked request and response bodies on the error path.
+     * ("securityCode") is fully masked, as are the single-use credentials on the UC and payer-auth
+     * traffic, since Rest logs masked request and response bodies on the error path.
      * The keys listed in self::MASKABLE_STRING_KEYS (billTo email, phone number, name,
      * and street address fields, etc.) are also fully masked, since Rest::throwOnHttpError() logs
      * maskJson() on both the request and response body. Both quoted-string and unquoted numeric JSON
@@ -259,12 +257,11 @@ class Sanitizer
             $json
         );
 
-        // Fully mask single-use credentials: the UC transient-token JWT under BOTH key spellings
-        // ("transientTokenJwt" on /pts/v2/payments, "transientToken" on the payer-auth setups call),
-        // and the payer-auth secrets that ride /risk/v1 replies -- cavv/xid (the authentication
-        // cryptogram; xid mirrors the cavv value in observed replies), ucafAuthenticationData (the
-        // Mastercard AAV), accessToken (DDC JWT), and pareq (the challenge CReq). All are always
-        // quoted strings; output is a quoted "***" to keep valid JSON.
+        // Fully mask single-use credentials. The transient token carries BOTH key spellings on the
+        // wire: "transientTokenJwt" on /pts/v2/payments, "transientToken" on the payer-auth setups
+        // call. The rest are payer-auth secrets on /risk/v1 replies: cavv/xid (cryptogram),
+        // ucafAuthenticationData (Mastercard AAV), accessToken (DDC JWT), pareq (challenge CReq).
+        // All are always quoted strings; output is a quoted "***" to keep valid JSON.
         $json = preg_replace(
             '/("(?:transientToken(?:Jwt)?|cavv|xid|ucafAuthenticationData|accessToken|pareq)"\s*:\s*)"[^"]*"/',
             '$1"***"',

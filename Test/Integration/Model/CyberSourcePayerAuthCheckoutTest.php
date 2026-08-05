@@ -46,15 +46,13 @@ use PHPUnit\Framework\TestCase;
  * Payer Authentication across the whole checkout: setup and authenticate in their own requests, then a
  * real quote-to-order submit that has to find, validate and consume what they left behind.
  *
- * The unit suite proves each seam in isolation and T5 proves the transport; what only this level can
- * prove is that the record survives the trip -- persisted on a quote payment by one request, copied to
- * the order payment by Magento's own conversion, and read back by the money call in a third. Every
- * assertion here is therefore on the REQUEST BODY the module posted or on the persisted sales record,
- * never on an intermediate return value.
+ * What only this level proves is that the record survives the trip -- persisted on a quote payment by
+ * one request, copied to the order payment by Magento's conversion, and read back by the money call in
+ * a third. Assertions are therefore on the REQUEST BODY the module posted or on the persisted sales
+ * record, never on an intermediate return value.
  *
- * The REST boundary is stubbed ({@see CyberSourceRestStub}), with /risk/v1 answered from the very
- * reply fixtures the unit suite pins, so a fixture corrected against live evidence corrects both
- * layers at once.
+ * The REST boundary is stubbed ({@see CyberSourceRestStub}), with /risk/v1 answered from the reply
+ * fixtures the unit suite pins, so a fixture corrected against live evidence corrects both layers.
  *
  * Area is `frontend` deliberately: {@see Response::shouldConsumePayerAuth()} only consults the record
  * on customer-facing origins, so a global-area test would pass against a money path that never looked.
@@ -151,7 +149,7 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
 
         $payment = $order->getPayment();
 
-        // The /pts/v2/payments reply echoes none of this back (G2 finding 3), so anything on the order
+        // The /pts/v2/payments reply echoes none of this back, so anything on the order
         // can only have come from the persisted record. TokenBase flattens the response tree onto the
         // payment, hence the dotted keys.
         self::assertSame('05', $payment->getAdditionalInformation('consumer_authentication.eci'));
@@ -169,11 +167,10 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
     }
 
     /**
-     * Payer Authentication turned off: the checkout must place exactly as it did before PA-1 existed.
+     * Payer Authentication turned off: the checkout must place exactly as it did before it existed.
      *
-     * Two assertions, both absolute -- no /risk/v1 traffic at all (a merchant who has not enabled 3DS
-     * must not be billed for authentication calls) and not one byte of authentication data in the
-     * payment body (the pre-PA-1 request shape, unchanged).
+     * Two absolutes -- no /risk/v1 traffic at all (a merchant who has not enabled 3DS must not be
+     * billed for authentication calls) and no authentication data in the payment body.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 0
@@ -218,9 +215,8 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
      * The stored-card flow, end to end: a vault card is authenticated by its TMS payment instrument and
      * charged by the same one.
      *
-     * The setups request shape is asserted because it is the G1 finding in practice -- a vaulted card
-     * has no transient token, so the authentication has to address the payment instrument directly or
-     * there is nothing to authenticate.
+     * The setups request shape is asserted: a vaulted card has no transient token, so the
+     * authentication has to address the payment instrument directly.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
@@ -286,13 +282,9 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
      * The cart grew after the customer authenticated it: the authentication no longer covers the
      * money, so the charge must not happen at all -- and must keep not happening on a retry.
      *
-     * This is the binding rule doing the only job that matters -- a client that can authenticate $30
-     * and then place $45 with the liability shift has no liability shift, it has a bypass. The
-     * assertion that the gateway was never called is therefore the point: blocking after the money
-     * moved would not be blocking.
-     *
-     * The qty goes UP deliberately: that is the attack direction. The rule is charge <= authenticated,
-     * so a REDUCTION is legal and is covered separately by
+     * The gateway must never have been called: blocking after the money moved would not be blocking.
+     * The qty goes UP deliberately -- that is the attack direction. The rule is charge <=
+     * authenticated, so a REDUCTION is legal and is covered by
      * {@see testChargeBelowTheAuthenticatedAmountStillPlaces()}.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
@@ -405,9 +397,8 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
      * A failed authentication is final: place must refuse, must refuse without quietly charging the
      * card unauthenticated, and must refuse the RETRY the same way.
      *
-     * Retry-bypass regression test. The original implementation discarded the record on its way to
-     * throwing, so a second Place Order found nothing, resolved to null, and placed the order
-     * unauthenticated -- a complete 3DS bypass reachable by clicking the button twice.
+     * Retry-bypass regression: discarding the record while throwing would leave the second Place
+     * Order with nothing to find, placing unauthenticated -- a 3DS bypass one click away.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1

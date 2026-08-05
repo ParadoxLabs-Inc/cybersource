@@ -26,9 +26,9 @@ namespace ParadoxLabs\CyberSource\Api\Data;
  *
  * CLIENT-COLLECTED FIELDS ONLY. User-Agent, Accept and IP address are deliberately absent: the
  * server derives them from the actual HTTP request, because a client that could set them could
- * describe a browser that never existed. Every field here is required — CyberSource silently
- * degrades an enrolled card to "not enrolled" when the browser profile is thin (gate G2), which is
- * a silent 3DS bypass, so incomplete input is rejected rather than sent.
+ * describe a browser that never existed. Every field here is required: verified live that a thin
+ * browser profile silently degrades an enrolled card to "not enrolled" — a 3DS bypass — so
+ * incomplete input is rejected rather than sent.
  *
  * @api
  */

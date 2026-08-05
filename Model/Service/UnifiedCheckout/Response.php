@@ -100,10 +100,9 @@ class Response
      * AUTHORIZED_PENDING_REVIEW is a Decision Manager hold — the auth is good but held for review,
      * and (per the spike) carries NO tokenInformation.
      *
-     * PENDING_AUTHENTICATION is deliberately ABSENT (PA-1 hardening): it means CyberSource wants a
-     * 3DS step-up before the auth exists — no money is authorized and no order may be placed on it.
-     * Payer Authentication resolves entirely BEFORE place in this design, so a payment reply can only
-     * carry it if something went wrong; treating it as approved would place an unpaid order.
+     * PENDING_AUTHENTICATION is deliberately ABSENT: it means CyberSource wants a 3DS step-up and no
+     * money is authorized yet. Payer Authentication resolves entirely BEFORE place in this design, so
+     * treating it as approved would place an unpaid order.
      */
     public const APPROVED_STATUSES = [
         'AUTHORIZED',
@@ -532,7 +531,7 @@ class Response
      * Resolve the store scope the Payer Authentication config should be read at.
      *
      * Both money paths call $this->config->setStoreId() from the order before reaching here, so a
-     * null return still lands on the right scope; the explicit id is simply the more direct route.
+     * null return still lands on the right scope.
      *
      * @param InfoInterface $payment
      * @return int|null
@@ -669,13 +668,9 @@ class Response
      * exactly the intended one-shot timing: a declined or errored place leaves the record in place so
      * the customer can retry the same authenticated attempt within its TTL.
      *
-     * Commit timing (corrected — the earlier claim that this rides an order transaction was wrong):
-     * Magento\Sales\Model\Service\OrderService::place() wraps neither $order->place() nor the
-     * subsequent orderRepository->save() in a DB transaction, so this clear COMMITS IMMEDIATELY. If
-     * the order save then fails after a successful charge, no record survives for the retry and the
-     * customer must re-authenticate. That is a bounded, documented gap of the same class as any
-     * post-payment save failure (the money is already taken at the gateway either way); it is not
-     * defended against here.
+     * Commit timing: OrderService::place() wraps neither $order->place() nor orderRepository->save()
+     * in a DB transaction, so this clear COMMITS IMMEDIATELY. Accepted gap: if the order save then
+     * fails after a successful charge, no record survives and the customer must re-authenticate.
      *
      * @param InfoInterface $payment
      * @param GatewayResponse $gatewayResponse
@@ -699,13 +694,10 @@ class Response
     /**
      * Merge the consumed authentication result onto the response's consumer_authentication tree.
      *
-     * G2 finding 3: the /pts/v2/payments reply does NOT echo the authentication fields back (its
+     * Live probe: the /pts/v2/payments reply does NOT echo the authentication fields back (its
      * consumerAuthenticationInformation carries only `token`), so the persisted record is the real
-     * source. Whatever the reply DID supply stays as the base and the record overrides it field by
-     * field, keeping reply-only values (e.g. `token`) while the authoritative auth values win.
-     *
-     * Same key naming, same 17-field whitelist, same scalar guard as the reply-sourced path, so
-     * downstream/admin display is unchanged.
+     * source. The reply stays as the base and the record overrides it field by field, keeping
+     * reply-only values while the authoritative auth values win.
      *
      * @param GatewayResponse $gatewayResponse
      * @param array<string, mixed> $consumerAuthenticationInformation
@@ -732,8 +724,8 @@ class Response
     /**
      * Read the transient-token `jti` binding for the card being charged, or '' when unreadable.
      *
-     * An unreadable binding never matches a persisted record, so a record from a DIFFERENT card entry
-     * is refused rather than honored — the fail-closed direction.
+     * Fail-closed: an unreadable binding never matches a persisted record, so a record from a
+     * DIFFERENT card entry is refused rather than honored.
      *
      * @param InfoInterface $payment
      * @return string

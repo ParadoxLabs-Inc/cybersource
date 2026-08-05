@@ -51,22 +51,17 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *                                (masked-PAN reference, never a PAN; cleared with the record)
  *   created_at          int      unix timestamp of this record's creation
  *
- * The record is authorization-bearing (it carries the liability shift), so it is deliberately bound
- * to ONE quote payment and never mirrored anywhere with a wider scope: a copy readable from a
- * different quote would be exactly the cross-quote replay the BindingValidator rules exist to stop.
- * Any binding change, or a fresh saveReferenceId(), REPLACES the whole record — a new setup
- * invalidates whatever authentication preceded it — with ONE exception: `obligation` is carried
- * across, so a refusal cannot be laundered by simply running setup again.
+ * The record is authorization-bearing (it carries the liability shift), so it is bound to ONE quote
+ * payment and never mirrored anywhere wider — a copy readable from another quote is the cross-quote
+ * replay the BindingValidator rules exist to stop. Any binding change, or a fresh saveReferenceId(),
+ * REPLACES the whole record, with ONE exception: `obligation` carries across, so a refusal cannot be
+ * laundered by running setup again.
  *
  * This class is the ONLY place the record's state changes. The BindingValidator is a read-only gate;
  * clearing is done by Management (Payer Auth off / skipped) and by the post-place one-shot.
  *
  * `ca` holds the CAVV/XID and must NEVER be logged or handed to a client DTO; the lifecycle logging
  * here emits the verdict and a masked binding only.
- *
- * Persistence mechanics are adapted from the 3.x `CardinalCruise\Persistor`: the quote payment is
- * written through its RESOURCE directly rather than via the cart repository, which would re-save the
- * entire quote and recollect totals mid-checkout. See saveRecord() for the commit-timing note.
  *
  * @see \ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator
  */
@@ -122,10 +117,9 @@ class Persistor
     /**
      * Seed (or replace) the record at setup time with the authentication-setups referenceId.
      *
-     * Writes a NEW record: running setup again means a new authentication attempt, so any prior
-     * verdict must not survive it. The `obligation` is the deliberate exception — it is PRESERVED.
-     * A failed or abandoned authentication leaves a debt that a fresh setup does not pay: without
-     * this, "authenticate, fail, call setup again, place" would place unauthenticated.
+     * Writes a NEW record: a new setup is a new attempt, so no prior verdict survives it. The
+     * `obligation` is the deliberate exception — without preserving it, "authenticate, fail, call
+     * setup again, place" would place unauthenticated.
      *
      * @param InfoInterface $payment
      * @param string $referenceId
@@ -170,12 +164,11 @@ class Persistor
      * the record outright (the prior setup belonged to a different instrument).
      *
      * The verdict drives `obligation`:
-     *  - FAILED / CHALLENGE            => record the obligation. It survives a later re-seed, so the
-     *                                     BindingValidator keeps refusing until an authentication
-     *                                     actually succeeds.
-     *  - AUTHENTICATED / ATTEMPTED     => discharge it. The customer completed the ceremony.
-     *  - UNAVAILABLE                   => PRESERVE whatever was there. An outage/bypass result is not
-     *                                     an authentication and must never launder a prior refusal.
+     *  - FAILED / CHALLENGE        => record it. It survives a re-seed, so the BindingValidator keeps
+     *                                 refusing until an authentication succeeds.
+     *  - AUTHENTICATED / ATTEMPTED => discharge it.
+     *  - UNAVAILABLE               => PRESERVE whatever was there: an outage/bypass result is not an
+     *                                 authentication and must never launder a prior refusal.
      *
      * @param InfoInterface $payment
      * @param AuthenticationResult $result
@@ -291,10 +284,9 @@ class Persistor
     /**
      * Drop the record entirely, obligation included.
      *
-     * Two callers, both of which mean "this cart owes nothing": Management, when Payer Authentication
-     * is off or skipped for this instrument, and Response's post-place one-shot after an approved
-     * charge. The BindingValidator never calls this — a refusal must survive so the retry is refused
-     * the same way.
+     * Two callers, both meaning "this cart owes nothing": Management (Payer Auth off or skipped) and
+     * Response's post-place one-shot. The BindingValidator never calls this — a refusal must survive
+     * so the retry is refused the same way.
      *
      * @param InfoInterface $payment
      * @return void
@@ -313,20 +305,14 @@ class Persistor
     /**
      * Write (or remove, on null) the record and persist it.
      *
-     * The record is applied to the payment object handed in — so the caller's in-memory state is
-     * always correct — and to the quote payment behind it, which is saved through its resource
-     * model directly. Direct resource save is what master used: the cart repository would re-save
-     * the entire quote, recollecting totals mid-checkout.
+     * The record is applied to the payment object handed in and to the quote payment behind it,
+     * saved through its resource model directly (3.x parity): the cart repository would re-save the
+     * entire quote and recollect totals mid-checkout.
      *
-     * COMMIT TIMING (corrected): these writes are NOT inside a place-order transaction and are NOT
-     * rollback-protected. Magento\Sales\Model\Service\OrderService::place() calls $order->place()
-     * and orderRepository->save() WITHOUT wrapping them in a transaction, so a write made here
-     * commits immediately. The consequence for the post-place one-shot clear (Response::
-     * completePayerAuth) is bounded and accepted: the clear commits before orderRepository->save(),
-     * so if the order save then fails after a successful payment, the record is already gone and a
-     * retry would have to re-authenticate. That is the same class of exposure as any post-payment
-     * save failure (the charge itself is likewise already committed at the gateway), and it is
-     * documented here rather than defended against.
+     * COMMIT TIMING: OrderService::place() does not wrap $order->place() and orderRepository->save()
+     * in a transaction, so writes here commit immediately and are not rolled back. Accepted
+     * consequence for the post-place one-shot clear: if the order save fails after a successful
+     * charge, the record is already gone and a retry must re-authenticate.
      *
      * When no quote payment can be resolved (e.g. a detached order payment whose quote is gone) the
      * change stays in memory only.
@@ -407,8 +393,8 @@ class Persistor
     /**
      * Current unix timestamp.
      *
-     * Plain time() is deliberate: created_at only drives a 15-minute freshness tolerance, it is not
-     * a security nonce and does not need a monotonic or injectable clock.
+     * Plain time() is deliberate: created_at only drives a 15-minute freshness tolerance, not a
+     * security nonce.
      *
      * @return int
      */

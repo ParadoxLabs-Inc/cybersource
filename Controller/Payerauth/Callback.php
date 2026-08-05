@@ -33,13 +33,11 @@ use Magento\Framework\Controller\ResultInterface;
 /**
  * Payer authentication challenge return target (the ACS 'returnUrl').
  *
- * The issuer's ACS delivers the CRes here by cross-origin form POST (some implementations use a GET
- * redirect instead), inside the challenge iframe. This action is deliberately inert: it reads NOTHING
- * from the request, touches no session, quote, or customer, and echoes nothing back. The persisted
- * payer-auth record is authoritative and the finalize call re-reads the outcome from CyberSource, so
- * the CRes payload -- including its transaction id -- has no value here and is never interpreted.
- *
- * All it does is signal "the challenge frame came back" to the wrapper page that frames it.
+ * The issuer's ACS delivers the CRes here by cross-origin form POST (or a GET redirect), inside the
+ * challenge iframe. This action is deliberately inert: it reads NOTHING from the request, touches no
+ * session, quote, or customer, and echoes nothing back. Finalize re-reads the outcome from
+ * CyberSource, so the CRes payload -- transaction id included -- is never interpreted here. All this
+ * does is signal "the challenge frame came back" to the wrapper page framing it.
  */
 class Callback implements CsrfAwareActionInterface, HttpPostActionInterface, HttpGetActionInterface
 {

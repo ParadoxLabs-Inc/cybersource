@@ -96,9 +96,9 @@ class CyberSourcePayerAuthWebapiTest extends TestCase
      *
      * authenticate() derives userAgentBrowserValue, httpAcceptBrowserValue and ipAddress from the
      * live HTTP request rather than from client input, and AuthenticationRequest rejects an
-     * incomplete deviceInformation tree outright (gate G2: a thin profile silently degrades an
-     * enrolled card to "not enrolled", which is a 3DS bypass). The integration harness builds its
-     * request from an empty $_SERVER, so without this the service has nothing to derive.
+     * incomplete deviceInformation tree outright (a thin profile silently degrades an enrolled card
+     * to "not enrolled" -- a 3DS bypass). The integration harness builds its request from an empty
+     * $_SERVER, so without this the service has nothing to derive.
      *
      * @return void
      */

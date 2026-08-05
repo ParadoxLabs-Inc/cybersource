@@ -29,10 +29,9 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 /**
  * Decides whether a persisted Payer Authentication result may be used for THIS charge.
  *
- * This class is a PURE GATE. It never writes and never clears: a validator that discarded the record
- * on its way to throwing would make every block one-shot — re-submitting Place Order would find no
- * record, resolve to null, and place the order unauthenticated. That is a complete 3DS bypass, and it
- * is why resolve() is read-only. All state transitions happen in the Persistor, driven by the flows:
+ * This class is a PURE GATE: it never writes and never clears. Discarding the record on the way to
+ * throwing would make every block one-shot — a re-submitted Place Order would find no record and
+ * place unauthenticated, a complete 3DS bypass. All state transitions happen in the Persistor:
  *
  *  - authenticate() / finalize()  => saveResult() REPLACES the result (and sets/discharges obligation)
  *  - setup()                      => saveReferenceId() re-seeds, PRESERVING any obligation
@@ -42,8 +41,7 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  * Rules, in order (PA1-IMPLEMENTATION.md, "Shared design contracts"):
  *  1. no record            => null. NOT an error: Payer Auth may be off, or a REST integrator may
  *                             simply not have run it.
- *  2. FAILED               => CommandException. The record STAYS, so a re-submitted place is blocked
- *                             the same way — a failed authentication is never bypassable by retrying.
+ *  2. FAILED               => CommandException. The record STAYS, so retrying cannot bypass it.
  *  3. obligation set       => CommandException unless the record now carries a USABLE liability shift
  *                             covering this charge. An abandoned challenge, or a failure followed by a
  *                             fresh setup(), keeps blocking until an authentication actually succeeds.
@@ -55,10 +53,9 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *  6. AUTHENTICATED / ATTEMPTED / UNAVAILABLE
  *                          => match rules: currency equal (case-insensitive), binding equal, age
  *                             <= 900s, and the charge amount <= the authenticated amount. Charging
- *                             MORE than was authenticated is the attack (authenticate $1, place $500)
- *                             and demands re-verification; charging LESS is legal — store credit, gift
- *                             cards and partial-payment modules reduce the gateway charge below the
- *                             quote grand total, and EMV practice accepts charge <= authenticated.
+ *                             MORE is the attack (authenticate $1, place $500); charging LESS is legal
+ *                             — store credit and partial payments reduce the charge below the quote
+ *                             total, and EMV practice accepts charge <= authenticated.
  *  7. match failure        => CommandException when the record carried a liability shift (something of
  *                             value would be silently dropped); null on UNAVAILABLE (nothing of value
  *                             was there). Either way the record is left alone.
@@ -94,8 +91,6 @@ class BindingValidator
 
     /**
      * Resolve the usable authentication result for the charge about to be made, if any.
-     *
-     * Read-only: no branch of this method mutates the persisted record.
      *
      * @param InfoInterface $payment
      * @param string $orderBaseAmount2dp Base amount being charged, 2dp string.
@@ -184,7 +179,7 @@ class BindingValidator
      * Identify the first reason this record does not cover the charge, if any.
      *
      * The amount rule is DIRECTIONAL: the charge must be <= the authenticated amount. Both sides are
-     * canonical 2dp strings, so they are compared as integer cents; anything unparseable fails closed.
+     * canonical 2dp strings, compared as integer cents.
      *
      * @param array<string, mixed> $record
      * @param string $orderBaseAmount2dp
@@ -231,9 +226,8 @@ class BindingValidator
     /**
      * Convert a canonical 2dp money string to integer cents, or null when it is not one.
      *
-     * Fail-closed by design: an amount this method cannot read is treated as a mismatch, never as a
-     * match. Both sides of the comparison are produced by number_format($x, 2, '.', ''), so a value
-     * that does not have that shape did not come from the money path.
+     * Fail-closed: an unreadable amount is a mismatch, never a match. Both sides are produced by
+     * number_format($x, 2, '.', ''), so any other shape did not come from the money path.
      *
      * @param string $amount
      * @return int|null

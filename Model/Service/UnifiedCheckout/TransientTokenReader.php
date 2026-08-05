@@ -96,11 +96,10 @@ class TransientTokenReader
     /**
      * Read the token's own identifier (the JWT `jti` claim), or null when absent/malformed.
      *
-     * The jti identifies ONE card-entry attempt, which is what the Payer Authentication record is
-     * bound to for a newly entered card: it changes with every re-entry of the drop-in, so a record
-     * authenticated for one token can never be replayed against a different card. As with read(),
-     * no signature verification is performed — a forged jti binds an attempt to itself and nothing
-     * else, and the token still has to satisfy CyberSource on the money path.
+     * The jti identifies ONE card-entry attempt and changes with every re-entry of the drop-in, so
+     * binding the Payer Authentication record to it stops a record being replayed against a
+     * different card. No signature is verified (as in read()): a forged jti binds an attempt to
+     * itself and nothing else, and the token still has to satisfy CyberSource on the money path.
      *
      * @param string $transientTokenJwt
      * @return string|null
