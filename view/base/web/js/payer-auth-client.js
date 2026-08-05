@@ -18,7 +18,7 @@
  */
 
 /**
- * Shared Payer Authentication (3-D Secure 2) client. Owns the four browser-side primitives the
+ * Shared Payer Authentication (3D Secure 2) client. Owns the four browser-side primitives the
  * three-step server contract needs — browser profiling, device data collection, the issuer
  * challenge, and the REST transport — and nothing else: no retries, no messaging, no state. The
  * caller (the Luma renderer today, a Hyvä component later) sequences them and owns all UX.

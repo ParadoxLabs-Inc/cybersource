@@ -112,7 +112,7 @@ define(
                 // to actual transitions or every tick becomes a mount attempt / latch reset.
                 this._lastSelectedCard = this.selectedCard();
 
-                // Payer authentication (3-D Secure 2) state machine, driving the latch/re-entry
+                // Payer authentication (3D Secure 2) state machine, driving the latch/re-entry
                 // discipline of the pre-place sequence inside the placeOrder() override.
                 //   _payerAuthCleared     - this place attempt has passed payer auth; placeOrder()
                 //                           delegates straight to the base.
