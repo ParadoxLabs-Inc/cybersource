@@ -31,12 +31,14 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 
 /**
- * Same-origin wrapper page that hosts the issuer's 3DS challenge.
+ * Same-origin wrapper page that hosts the Cardinal step-up frame for the issuer's 3DS challenge.
  *
  * The checkout frames this page and postMessages the challenge parameters to it; the page never takes
- * them from the URL, keeping the CReq out of URLs, logs, and referrers. It then form-POSTs
- * creq=<pareq> to the ACS in its own child iframe (the raw EMV 3DS shape CyberSource returns), and
- * relays the return page's completion event back up to the checkout.
+ * them from the URL, keeping the step-up JWT out of URLs, logs, and referrers. It then form-POSTs
+ * JWT=<accessToken> to the Cardinal step-up URL in its own child iframe. Cardinal's frame runs the
+ * CReq/CRes exchange with the ACS itself (with its own session data — the CRes never touches us; a
+ * direct-to-ACS POST cannot work, because the AReq registered Cardinal's TermURL for the CRes), then
+ * POSTs to our return URL, whose completion event this page relays back up to the checkout.
  *
  * Stateless: no session, quote, customer, or request parameters are read.
  *
@@ -61,23 +63,23 @@ class Challenge implements CspAwareActionInterface, HttpGetActionInterface
     var relayed = false;
 
     /**
-     * Form-POST the CReq to the issuer's ACS inside our child iframe.
+     * Form-POST the step-up JWT to Cardinal's step-up frame inside our child iframe.
      *
-     * @param {string} acsUrl
-     * @param {string} pareq
+     * @param {string} stepUpUrl
+     * @param {string} jwt
      * @return {void}
      */
-    function startChallenge(acsUrl, pareq) {
+    function startChallenge(stepUpUrl, jwt) {
         var parsed;
         var form;
         var input;
 
-        if (started || typeof acsUrl !== 'string' || typeof pareq !== 'string') {
+        if (started || typeof stepUpUrl !== 'string' || typeof jwt !== 'string') {
             return;
         }
 
         try {
-            parsed = new URL(acsUrl);
+            parsed = new URL(stepUpUrl);
         } catch (e) {
             return;
         }
@@ -90,14 +92,14 @@ class Challenge implements CspAwareActionInterface, HttpGetActionInterface
 
         form = document.createElement('form');
         form.setAttribute('method', 'POST');
-        form.setAttribute('action', acsUrl);
+        form.setAttribute('action', stepUpUrl);
         form.setAttribute('target', 'pl-pa-acs');
         form.style.display = 'none';
 
         input = document.createElement('input');
         input.setAttribute('type', 'hidden');
-        input.setAttribute('name', 'creq');
-        input.value = pareq;
+        input.setAttribute('name', 'JWT');
+        input.value = jwt;
 
         form.appendChild(input);
         document.body.appendChild(form);
@@ -139,7 +141,7 @@ class Challenge implements CspAwareActionInterface, HttpGetActionInterface
         }
 
         if (data.event === 'challenge' && event.origin === ORIGIN && event.source === window.parent) {
-            startChallenge(data.acsUrl, data.pareq);
+            startChallenge(data.stepUpUrl, data.jwt);
         } else if (data.event === 'return' && frame && event.source === frame.contentWindow) {
             relayReturn();
         }
@@ -222,9 +224,9 @@ HTML;
      * Relax framing and form submission for this route only.
      *
      * Magento's default storefront policy sets both frame-src and form-action to 'self' alone, which
-     * blocks the ACS iframe and the CReq POST. Production ACS URLs are issuer-controlled and
-     * unbounded, so no host list is possible -- the https: scheme source is the tightest workable
-     * grant. Returned policies merge by id, so 'self' and any whitelisted hosts are preserved; the
+     * blocks the step-up iframe and the JWT POST. The child frame starts at Cardinal's step-up URL
+     * but then navigates through issuer-controlled ACS pages, which are unbounded, so no host list
+     * is possible -- the https: scheme source is the tightest workable grant. Returned policies merge by id, so 'self' and any whitelisted hosts are preserved; the
      * policy applies only to this controller (Magento\Csp\Model\Collector\ControllerCollector), so
      * the checkout page's CSP is untouched.
      *

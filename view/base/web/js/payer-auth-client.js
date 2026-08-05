@@ -225,7 +225,7 @@ define([
          * @param {Object} browserInfo - as returned by collectBrowserInfo()
          * @param {String} [returnUrl] - absolute HTTPS URL; omitted entirely when not given, so the
          *                               server's own challenge-return route applies
-         * @return {Promise<Object>} {status, acsUrl|acs_url, pareq}
+         * @return {Promise<Object>} {status, stepUpUrl|step_up_url, accessToken|access_token}
          */
         authenticate: function (browserInfo, returnUrl) {
             var payload = {browserInfo: browserInfo};
@@ -243,7 +243,7 @@ define([
          * Takes nothing: the attempt is identified server-side by the quote. The outcome is read
          * from CyberSource, never from anything the challenge posted back.
          *
-         * @return {Promise<Object>} {status, acsUrl|acs_url, pareq}
+         * @return {Promise<Object>} {status, stepUpUrl|step_up_url, accessToken|access_token}
          */
         finalize: function () {
             return post('finalize', {});
@@ -369,9 +369,10 @@ define([
          * times out.
          *
          * The modal frames OUR OWN same-origin wrapper page (pdl_cybs/payerauth/challenge), never
-         * the ACS directly: the wrapper receives acsUrl and pareq by postMessage — keeping both out
-         * of any URL, history entry, or access log — POSTs the CReq into its own child frame, and
-         * relays the return event back up. Nothing here talks to the issuer.
+         * Cardinal or the ACS directly: the wrapper receives stepUpUrl and the step-up JWT by
+         * postMessage — keeping both out of any URL, history entry, or access log — POSTs the JWT
+         * into Cardinal's step-up frame as its own child, and relays the return event back up.
+         * Cardinal's frame runs the CReq/CRes exchange with the issuer; nothing here does.
          *
          * Both messages from the wrapper are checked for same-origin AND for coming from the frame
          * we created. A hostile same-origin frame could at most forge 'return' early, which costs a
@@ -384,13 +385,14 @@ define([
          * longer wants (e.g. the drop-in remounts mid-challenge). cancel() settles the promise as
          * 'cancelled' and reaps the modal; it is a no-op once the challenge has settled.
          *
-         * @param {String} acsUrl - issuer ACS endpoint from the authenticate/finalize result
-         * @param {String} pareq - the challenge request payload (CReq) for that ACS
+         * @param {String} stepUpUrl - Cardinal step-up URL from the authenticate/finalize result
+         * @param {String} accessToken - the challenge-scoped step-up JWT for that attempt
          * @return {{promise: Promise<Object>, cancel: Function}} promise resolves
          *         {status: 'return'|'cancelled'|'timeout'|'error'}
          */
-        runChallenge: function (acsUrl, pareq) {
-            if (typeof acsUrl !== 'string' || acsUrl === '' || typeof pareq !== 'string' || pareq === '') {
+        runChallenge: function (stepUpUrl, accessToken) {
+            if (typeof stepUpUrl !== 'string' || stepUpUrl === ''
+                || typeof accessToken !== 'string' || accessToken === '') {
                 return {promise: Promise.resolve({status: 'error'}), cancel: function () {}};
             }
 
@@ -465,7 +467,7 @@ define([
                     if (data.event === 'ready' && !started) {
                         started = true;
                         frame.contentWindow.postMessage(
-                            {source: TAG, event: 'challenge', acsUrl: acsUrl, pareq: pareq},
+                            {source: TAG, event: 'challenge', stepUpUrl: stepUpUrl, jwt: accessToken},
                             origin
                         );
                     } else if (data.event === 'return') {

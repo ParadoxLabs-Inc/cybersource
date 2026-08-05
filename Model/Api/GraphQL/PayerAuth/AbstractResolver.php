@@ -186,6 +186,8 @@ abstract class AbstractResolver implements ResolverInterface
             'status' => $result->getStatus(),
             'acsUrl' => $result->getAcsUrl(),
             'pareq' => $result->getPareq(),
+            'stepUpUrl' => $result->getStepUpUrl(),
+            'accessToken' => $result->getAccessToken(),
         ];
     }
 

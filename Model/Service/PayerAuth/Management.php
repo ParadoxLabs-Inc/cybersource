@@ -742,7 +742,9 @@ class Management implements PayerAuthManagementInterface
             Verdict::FAILED => $dto->setStatus(PayerAuthResultInterface::STATUS_FAILED),
             Verdict::CHALLENGE => $dto->setStatus(PayerAuthResultInterface::STATUS_CHALLENGE)
                 ->setAcsUrl($result->acsUrl())
-                ->setPareq($result->pareq()),
+                ->setPareq($result->pareq())
+                ->setStepUpUrl($result->stepUpUrl())
+                ->setAccessToken($result->accessToken()),
             default => $dto->setStatus(PayerAuthResultInterface::STATUS_SUCCESS),
         };
     }

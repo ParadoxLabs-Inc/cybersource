@@ -590,8 +590,10 @@ class ManagementTest extends TestCase
         $this->persistor->method('load')->willReturn($this->record());
         $this->captureAuthenticationRequest(
             new AuthenticationResult($verdict, [
-                'acsUrl' => 'https://acs.example.com/step-up',
+                'acsUrl' => 'https://acs.example.com/creq',
                 'pareq' => 'eyJjaGFsbGVuZ2UiOiJ0cnVlIn0=',
+                'stepUpUrl' => 'https://centinel.example.com/V2/Cruise/StepUp',
+                'accessToken' => 'eyJhbGciOiJIUzI1NiJ9.step-up.jwt',
                 'cavv' => 'AAABCZIhcQAAAABZlyFxAAAAAAA=',
                 'authenticationTransactionId' => 'txn-1',
             ])
@@ -602,11 +604,15 @@ class ManagementTest extends TestCase
         $this->assertSame($status, $result->getStatus());
 
         if ($status === PayerAuthResultInterface::STATUS_CHALLENGE) {
-            $this->assertSame('https://acs.example.com/step-up', $result->getAcsUrl());
+            $this->assertSame('https://acs.example.com/creq', $result->getAcsUrl());
             $this->assertSame('eyJjaGFsbGVuZ2UiOiJ0cnVlIn0=', $result->getPareq());
+            $this->assertSame('https://centinel.example.com/V2/Cruise/StepUp', $result->getStepUpUrl());
+            $this->assertSame('eyJhbGciOiJIUzI1NiJ9.step-up.jwt', $result->getAccessToken());
         } else {
             $this->assertNull($result->getAcsUrl());
             $this->assertNull($result->getPareq());
+            $this->assertNull($result->getStepUpUrl());
+            $this->assertNull($result->getAccessToken());
         }
     }
 
@@ -631,7 +637,18 @@ class ManagementTest extends TestCase
         sort($methods);
 
         $this->assertSame(
-            ['getAcsUrl', 'getPareq', 'getStatus', 'setAcsUrl', 'setPareq', 'setStatus'],
+            [
+                'getAccessToken',
+                'getAcsUrl',
+                'getPareq',
+                'getStatus',
+                'getStepUpUrl',
+                'setAccessToken',
+                'setAcsUrl',
+                'setPareq',
+                'setStatus',
+                'setStepUpUrl',
+            ],
             $methods
         );
     }

@@ -46,6 +46,16 @@ class Result implements PayerAuthResultInterface
     private ?string $pareq = null;
 
     /**
+     * @var string|null
+     */
+    private ?string $stepUpUrl = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $accessToken = null;
+
+    /**
      * @inheritDoc
      */
     public function getStatus(): string
@@ -95,6 +105,42 @@ class Result implements PayerAuthResultInterface
     public function setPareq(?string $pareq): PayerAuthResultInterface
     {
         $this->pareq = $pareq;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStepUpUrl(): ?string
+    {
+        return $this->stepUpUrl;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setStepUpUrl(?string $stepUpUrl): PayerAuthResultInterface
+    {
+        $this->stepUpUrl = $stepUpUrl;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccessToken(): ?string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setAccessToken(?string $accessToken): PayerAuthResultInterface
+    {
+        $this->accessToken = $accessToken;
 
         return $this;
     }

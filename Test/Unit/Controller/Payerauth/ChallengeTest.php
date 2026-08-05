@@ -121,15 +121,15 @@ class ChallengeTest extends TestCase
         );
     }
 
-    public function testBodyPostsTheCreqToAValidatedHttpsAcsUrl(): void
+    public function testBodyPostsTheJwtToAValidatedHttpsStepUpUrl(): void
     {
         $this->controller->execute();
 
         $this->assertStringContainsString("parsed.protocol !== 'https:'", $this->body);
         $this->assertStringContainsString("form.setAttribute('method', 'POST');", $this->body);
-        $this->assertStringContainsString("form.setAttribute('action', acsUrl);", $this->body);
+        $this->assertStringContainsString("form.setAttribute('action', stepUpUrl);", $this->body);
         $this->assertStringContainsString("form.setAttribute('target', 'pl-pa-acs');", $this->body);
-        $this->assertStringContainsString("input.setAttribute('name', 'creq');", $this->body);
+        $this->assertStringContainsString("input.setAttribute('name', 'JWT');", $this->body);
     }
 
     /**

@@ -255,7 +255,7 @@ class CyberSourcePayerAuthWebapiTest extends TestCase
 
     /**
      * A challenged authentication must hand the client exactly what the step-up iframe needs -- the
-     * issuer ACS URL and the base64 CReq -- and nothing else.
+     * Cardinal step-up URL and its JWT (plus the informational ACS URL / CReq) -- and nothing else.
      *
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
      * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
@@ -275,10 +275,15 @@ class CyberSourcePayerAuthWebapiTest extends TestCase
 
         self::assertSame(PayerAuthResultInterface::STATUS_CHALLENGE, $result->getStatus());
         self::assertSame(
+            'https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp',
+            $result->getStepUpUrl()
+        );
+        self::assertNotEmpty($result->getAccessToken(), 'The step-up form POST needs the step-up JWT.');
+        self::assertSame(
             'https://1merchantacsstag.cardinalcommerce.com/MerchantACSWeb/creq.jsp',
             $result->getAcsUrl()
         );
-        self::assertNotEmpty($result->getPareq(), 'The step-up form POST needs the CReq payload.');
+        self::assertNotEmpty($result->getPareq(), 'The CReq payload should still be surfaced.');
 
         $record = $this->loadRecord();
         self::assertSame(Verdict::CHALLENGE->value, $record['verdict'] ?? null);

@@ -260,7 +260,7 @@ class Sanitizer
         // Fully mask single-use credentials. The transient token carries BOTH key spellings on the
         // wire: "transientTokenJwt" on /pts/v2/payments, "transientToken" on the payer-auth setups
         // call. The rest are payer-auth secrets on /risk/v1 replies: cavv/xid (cryptogram),
-        // ucafAuthenticationData (Mastercard AAV), accessToken (DDC JWT), pareq (challenge CReq).
+        // ucafAuthenticationData (Mastercard AAV), accessToken (DDC + step-up JWTs), pareq (CReq).
         // All are always quoted strings; output is a quoted "***" to keep valid JSON.
         $json = preg_replace(
             '/("(?:transientToken(?:Jwt)?|cavv|xid|ucafAuthenticationData|accessToken|pareq)"\s*:\s*)"[^"]*"/',

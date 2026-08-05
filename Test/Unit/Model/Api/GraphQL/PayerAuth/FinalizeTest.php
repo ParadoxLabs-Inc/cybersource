@@ -63,7 +63,7 @@ class FinalizeTest extends TestCase
         $result = $this->resolveWith($this->makeResolver(), ['cartId' => self::CART_ID]);
 
         $this->assertSame(
-            ['status' => 'success', 'acsUrl' => null, 'pareq' => null],
+            ['status' => 'success', 'acsUrl' => null, 'pareq' => null, 'stepUpUrl' => null, 'accessToken' => null],
             $result
         );
     }
@@ -88,7 +88,7 @@ class FinalizeTest extends TestCase
         );
 
         $this->assertSame(
-            ['status' => 'failed', 'acsUrl' => null, 'pareq' => null],
+            ['status' => 'failed', 'acsUrl' => null, 'pareq' => null, 'stepUpUrl' => null, 'accessToken' => null],
             $result
         );
     }

@@ -747,7 +747,7 @@ define(
              * Route an authenticate/finalize outcome: success/skipped => place; failed => decline;
              * challenge => run the issuer step-up.
              *
-             * @param {Object} result - {status, acsUrl|acs_url, pareq}
+             * @param {Object} result - {status, stepUpUrl|step_up_url, accessToken|access_token}
              * @param {Number} generation
              * @return {Promise|undefined}
              */
@@ -771,15 +771,15 @@ define(
              * Run the issuer challenge, then finalize. Holds the challenge handle so a mid-challenge
              * remount can cancel the modal (resetPayerAuthState).
              *
-             * @param {Object} authResult - carries acsUrl|acs_url and pareq
+             * @param {Object} authResult - carries stepUpUrl|step_up_url and accessToken|access_token
              * @param {Number} generation
              * @return {Promise}
              */
             runChallengeFlow: function (authResult, generation) {
                 var self = this;
-                var acsUrl = payerAuthClient.getResultField(authResult, 'acsUrl', 'acs_url');
-                var pareq = authResult ? authResult.pareq : '';
-                var challenge = payerAuthClient.runChallenge(acsUrl, pareq);
+                var stepUpUrl = payerAuthClient.getResultField(authResult, 'stepUpUrl', 'step_up_url');
+                var accessToken = payerAuthClient.getResultField(authResult, 'accessToken', 'access_token');
+                var challenge = payerAuthClient.runChallenge(stepUpUrl, accessToken);
 
                 this._activeChallenge = challenge;
 

@@ -73,7 +73,9 @@ class AuthenticationResult
     }
 
     /**
-     * Get the issuer ACS URL the challenge iframe must form-POST to (CHALLENGE only).
+     * Get the issuer ACS URL (CHALLENGE only). Informational: the challenge is run through the
+     * Cardinal step-up frame (stepUpUrl), never by POSTing to the ACS directly — the AReq registered
+     * Cardinal's own TermURL for the CRes, so a direct ACS POST can never complete.
      *
      * @return string|null
      */
@@ -83,13 +85,36 @@ class AuthenticationResult
     }
 
     /**
-     * Get the base64 CReq payload for the challenge form POST (CHALLENGE only).
+     * Get the base64 CReq payload (CHALLENGE only). Informational; see acsUrl().
      *
      * @return string|null
      */
     public function pareq(): ?string
     {
         return $this->stringValue('pareq');
+    }
+
+    /**
+     * Get the Cardinal step-up frame URL the challenge iframe must form-POST to (CHALLENGE only).
+     *
+     * @return string|null
+     */
+    public function stepUpUrl(): ?string
+    {
+        return $this->stringValue('stepUpUrl');
+    }
+
+    /**
+     * Get the challenge-scoped step-up JWT for the step-up form POST (CHALLENGE only).
+     *
+     * Distinct from the setup/DDC access token. Unlike the CAVV/XID in the `ca` block, this token
+     * exists to be handed to the browser: it is what Cardinal's step-up frame authenticates by.
+     *
+     * @return string|null
+     */
+    public function accessToken(): ?string
+    {
+        return $this->stringValue('accessToken');
     }
 
     /**

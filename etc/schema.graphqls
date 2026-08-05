@@ -45,8 +45,10 @@ type TokenBaseCyberSourcePayerAuthSetupResult @doc(description: "The result of s
 
 type TokenBaseCyberSourcePayerAuthResult @doc(description: "The outcome of a CyberSource Payer Authentication attempt. Authentication data itself stays server-side.") {
     status: String! @doc(description: "Outcome: success, failed, challenge, or skipped.")
-    acsUrl: String @doc(description: "Issuer challenge URL to post the payment request to. Only set when status is challenge.")
-    pareq: String @doc(description: "Payer authentication request to post to the challenge URL. Only set when status is challenge.")
+    acsUrl: String @doc(description: "Issuer ACS URL. Informational; run the challenge via stepUpUrl. Only set when status is challenge.")
+    pareq: String @doc(description: "Challenge request payload. Informational; run the challenge via stepUpUrl. Only set when status is challenge.")
+    stepUpUrl: String @doc(description: "Step-up URL to post the access token to, in an iframe, to run the issuer challenge. Only set when status is challenge.")
+    accessToken: String @doc(description: "JWT to post to the step-up URL. Only set when status is challenge.")
 }
 
 input TokenBaseCyberSourceUnifiedCheckoutInput {

@@ -104,7 +104,7 @@ class AuthenticateTest extends TestCase
         );
 
         $this->assertSame(
-            ['status' => 'success', 'acsUrl' => null, 'pareq' => null],
+            ['status' => 'success', 'acsUrl' => null, 'pareq' => null, 'stepUpUrl' => null, 'accessToken' => null],
             $result
         );
         $this->assertSame('en-US', $captured?->getLanguage());
@@ -128,6 +128,8 @@ class AuthenticateTest extends TestCase
                 (new Result())->setStatus(PayerAuthResultInterface::STATUS_CHALLENGE)
                     ->setAcsUrl('https://acs.example.com/challenge')
                     ->setPareq('eyJ.pareq')
+                    ->setStepUpUrl('https://centinel.example.com/V2/Cruise/StepUp')
+                    ->setAccessToken('eyJ.stepup.jwt')
             );
 
         $result = $this->resolveWith(
@@ -145,6 +147,8 @@ class AuthenticateTest extends TestCase
                 'status' => 'challenge',
                 'acsUrl' => 'https://acs.example.com/challenge',
                 'pareq' => 'eyJ.pareq',
+                'stepUpUrl' => 'https://centinel.example.com/V2/Cruise/StepUp',
+                'accessToken' => 'eyJ.stepup.jwt',
             ],
             $result
         );

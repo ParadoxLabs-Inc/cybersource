@@ -44,7 +44,7 @@ interface PayerAuthResultInterface
     public const STATUS_FAILED = 'failed';
 
     /**
-     * Step-up required: render the challenge with the ACS URL and PAReq, then call finalize().
+     * Step-up required: POST the access token to the step-up URL in a frame, then call finalize().
      */
     public const STATUS_CHALLENGE = 'challenge';
 
@@ -69,7 +69,8 @@ interface PayerAuthResultInterface
     public function setStatus(string $status): PayerAuthResultInterface;
 
     /**
-     * Get the issuer ACS URL the challenge iframe must form-POST to (challenge status only).
+     * Get the issuer ACS URL (challenge status only). Informational: the challenge runs through the
+     * step-up frame (getStepUpUrl()), never a direct ACS POST.
      *
      * @return string|null
      */
@@ -84,7 +85,7 @@ interface PayerAuthResultInterface
     public function setAcsUrl(?string $acsUrl): PayerAuthResultInterface;
 
     /**
-     * Get the base64 challenge request payload for the ACS form POST (challenge status only).
+     * Get the base64 challenge request payload (challenge status only). Informational; see getAcsUrl().
      *
      * @return string|null
      */
@@ -97,4 +98,38 @@ interface PayerAuthResultInterface
      * @return \ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface
      */
     public function setPareq(?string $pareq): PayerAuthResultInterface;
+
+    /**
+     * Get the Cardinal step-up URL the challenge iframe must form-POST the access token to
+     * (challenge status only).
+     *
+     * @return string|null
+     */
+    public function getStepUpUrl(): ?string;
+
+    /**
+     * Set the step-up URL.
+     *
+     * @param string|null $stepUpUrl
+     * @return \ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface
+     */
+    public function setStepUpUrl(?string $stepUpUrl): PayerAuthResultInterface;
+
+    /**
+     * Get the challenge-scoped step-up JWT to POST to the step-up URL (challenge status only).
+     *
+     * Not authorization-bearing: this token exists to be handed to the browser, which presents it
+     * to Cardinal's step-up frame to run the issuer challenge.
+     *
+     * @return string|null
+     */
+    public function getAccessToken(): ?string;
+
+    /**
+     * Set the step-up access token.
+     *
+     * @param string|null $accessToken
+     * @return \ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface
+     */
+    public function setAccessToken(?string $accessToken): PayerAuthResultInterface;
 }

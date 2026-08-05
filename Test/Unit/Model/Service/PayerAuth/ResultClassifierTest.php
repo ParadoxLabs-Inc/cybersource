@@ -173,13 +173,18 @@ class ResultClassifierTest extends TestCase
         $this->assertSame('internet', $ca['ecommerceIndicator']);
     }
 
-    public function testChallengeExposesAcsUrlAndPareq(): void
+    public function testChallengeExposesStepUpParametersAndAcsUrlAndPareq(): void
     {
         $result = $this->classifier->classify($this->loadFixture('case-2-10a-challenge'));
         $ca     = $result->getConsumerAuthenticationInformation();
 
         $this->assertSame(Verdict::CHALLENGE, $result->getVerdict());
         $this->assertFalse($result->getVerdict()->hasLiabilityShift());
+        $this->assertSame(
+            'https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp',
+            $result->stepUpUrl()
+        );
+        $this->assertStringStartsWith('eyJhbGciOiJIUzI1NiIs', (string)$result->accessToken());
         $this->assertSame(
             'https://1merchantacsstag.cardinalcommerce.com/MerchantACSWeb/creq.jsp',
             $result->acsUrl()
@@ -298,6 +303,8 @@ class ResultClassifierTest extends TestCase
         $this->assertNull($result->authenticationTransactionId());
         $this->assertNull($result->acsUrl());
         $this->assertNull($result->pareq());
+        $this->assertNull($result->stepUpUrl());
+        $this->assertNull($result->accessToken());
     }
 
     public function testParesStatusFailureWithoutFailedStatusStillBlocks(): void
