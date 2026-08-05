@@ -24,7 +24,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterface;
 
 /**
- * Client-collected browser profile for the 3-D Secure device fingerprint.
+ * Client-collected browser profile for the 3D Secure device fingerprint.
  *
  * @see \ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterface
  */

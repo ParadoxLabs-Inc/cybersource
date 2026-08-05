@@ -26,7 +26,7 @@ use ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthSetupResultInterface;
 
 /**
- * Payer Authentication (3-D Secure) for the signed-in customer's active cart.
+ * Payer Authentication (3D Secure) for the signed-in customer's active cart.
  *
  * Three steps, in order, all against the SAME cart and the same instrument:
  *
