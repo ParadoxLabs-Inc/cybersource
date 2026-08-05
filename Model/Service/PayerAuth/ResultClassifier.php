@@ -27,8 +27,8 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 /**
  * Classifies a decoded /risk/v1/authentications or /risk/v1/authentication-results reply.
  *
- * The rules below are pinned by the live-sandbox outcome matrix (PAYER-AUTH-PLAN.md 2.1-2.9 +
- * 2.10a, fixtures under Test/Unit/.../PayerAuth/_files). The single most important one:
+ * The rules below are pinned by the live-sandbox outcome matrix (official Payer Auth test cases
+ * 2.1-2.9 + 2.10a; fixtures under Test/Unit/.../PayerAuth/_files). The single most important one:
  *
  *   The top-level `status` is NOT an authentication verdict. Unavailable (2.4), lookup-n/a (2.6),
  *   enrollment error (2.7), timeout (2.8) and bypass (2.9) ALL reply AUTHENTICATION_SUCCESSFUL

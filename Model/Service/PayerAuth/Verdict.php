@@ -25,7 +25,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\PayerAuth;
  * Payer Authentication outcome, as classified from a /risk/v1/authentications(-results) reply.
  *
  * The top-level reply `status` is NOT a verdict: unavailable/error/timeout/bypass shapes all come
- * back as AUTHENTICATION_SUCCESSFUL (see PAYER-AUTH-PLAN.md, outcome matrix 2.1-2.9). Only
+ * back as AUTHENTICATION_SUCCESSFUL (official Payer Auth test cases 2.1-2.9). Only
  * ResultClassifier may produce these values.
  *
  * - AUTHENTICATED / ATTEMPTED: liability shift; attach the pass-through block to the payment.
