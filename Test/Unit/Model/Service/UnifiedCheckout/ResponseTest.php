@@ -55,6 +55,8 @@ class ResponseTest extends TestCase
 
         $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
         $this->configMock->method('isPayerAuthEnabled')->willReturn(true);
+        // uc_decision_manager defaults to 1 (config.xml); the config-off cases build their own mock.
+        $this->configMock->method('isDecisionManagerEnabled')->willReturn(true);
 
         $this->bindingValidatorMock = $this->createMock(BindingValidator::class);
         $this->persistorMock        = $this->createMock(Persistor::class);
@@ -790,6 +792,67 @@ class ResponseTest extends TestCase
         $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
 
         $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    // --- PA-4 R1: the uc_decision_manager toggle actually governs first-auth DM emission ---
+
+    public function testNewCardWithDecisionManagerConfigOffDisablesDecisionManager(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(true);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildRequest($this->buildPayment(), 24.0);
+
+        $this->assertFalse($request->toArray()['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testStoredCardCitWithDecisionManagerConfigOffDisablesDecisionManager(): void
+    {
+        $config = $this->createMock(Config::class);
+        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
+        $config->method('isPayerAuthEnabled')->willReturn(true);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildStoredCardRequest(
+            $this->buildStoredPayment(false),
+            $this->buildCard(),
+            24.0
+        );
+
+        $this->assertFalse($request->toArray()['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testNewCardWithDecisionManagerConfigOnEmitsNothing(): void
+    {
+        // Config-on is NOT sent as true: the field stays unset so the CyberSource account profile governs.
+        $this->primeRest(['id' => 'TXN-DM-ON', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token'), 24.0);
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $this->sentBody['processingInformation']);
+    }
+
+    public function testMitSuppressionWinsRegardlessOfDecisionManagerToggle(): void
+    {
+        // The MIT/follow-on exemption is unconditional: DM stays off even with the toggle on.
+        $this->primeRest(['id' => 'TXN-DM-MIT-ON', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment('the.jwt.token', 0.0, true), 24.0);
+
+        $this->assertFalse($this->sentBody['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testZeroDollarAddCardNeverEmitsDecisionManagerFlag(): void
+    {
+        // The $0 tokenization auth is not a checkout screening decision; the flag is never sent there.
+        $config = $this->createMock(Config::class);
+        $config->method('isDecisionManagerEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildZeroDollarRequest($this->buildPayment(), 'USD');
+
+        $this->assertArrayNotHasKey('enableDecisionManager', $request->toArray()['processingInformation']);
     }
 
     // --- PR #1 finding 4: Decision Manager device-fingerprint parity (legacy SOAP deviceFingerprintID) ---

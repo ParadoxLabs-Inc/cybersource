@@ -402,7 +402,7 @@ class Response
         // or any follow-on charge with an amount already paid must NOT re-run Decision Manager. UC analog
         // is processingInformation.enableDecisionManager=false. Done here (not just in the MIT branch) so a
         // CIT follow-on with amountPaid>0 is suppressed too, exactly as the SOAP condition did.
-        if ($this->shouldSuppressDecisionManager($payment)) {
+        if ($this->shouldDisableDecisionManager($payment, (int)$order->getStoreId())) {
             $request->setEnableDecisionManager(false);
         }
 
@@ -469,6 +469,29 @@ class Response
 
         return $amountPaid > 0
             || (bool)$payment->getAdditionalInformation('is_subscription_generated');
+    }
+
+    /**
+     * Whether processingInformation.enableDecisionManager=false must be sent for this charge.
+     *
+     * Two independent reasons, either of which forces the flag off:
+     *  - the transaction itself is exempt (MIT / follow-on) — shouldSuppressDecisionManager(), legacy parity;
+     *  - the merchant turned the `uc_decision_manager` toggle off for this store.
+     *
+     * When neither applies the flag is left unset (empty-filtered out of the request) rather than sent as
+     * true, so the CyberSource account profile keeps governing screening exactly as it does today.
+     *
+     * The $0 add-card path deliberately does NOT consult this: it is a tokenization auth with no cart to
+     * screen, and the legacy SOAP paySubscriptionCreate never ran Decision Manager either.
+     *
+     * @param InfoInterface $payment
+     * @param int|null $storeId
+     * @return bool
+     */
+    protected function shouldDisableDecisionManager(InfoInterface $payment, ?int $storeId): bool
+    {
+        return $this->shouldSuppressDecisionManager($payment)
+            || $this->config->isDecisionManagerEnabled($storeId) === false;
     }
 
     /**
@@ -919,7 +942,7 @@ class Response
 
         // Legacy SOAP parity: suppress Decision Manager on a follow-on / subscription-generated charge so
         // DM is not re-run on a transaction it already screened (or an MIT rebill the cardholder isn't on).
-        if ($this->shouldSuppressDecisionManager($payment)) {
+        if ($this->shouldDisableDecisionManager($payment, (int)$order->getStoreId())) {
             $request->setEnableDecisionManager(false);
         }
 
