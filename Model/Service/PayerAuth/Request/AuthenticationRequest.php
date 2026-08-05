@@ -27,23 +27,23 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FilterEmptyTra
 /**
  * Typed value object for POST /risk/v1/authentications (the enrollment check / authentication).
  *
- * Two hard requirements are enforced here rather than discovered in production:
+ * Two requirements are enforced here:
  *
- * 1. FULL browser deviceInformation. Verified live 2026-08-04 (gate G2, finding 1): with only
- *    Accept/User-Agent, an enrolled card silently degrades to veresEnrolled U / vbv_failure, i.e.
- *    a silent 3DS bypass. Missing/empty browser data therefore fails loud.
+ * 1. FULL browser deviceInformation. Verified live 2026-08-04: with only Accept/User-Agent, an
+ *    enrolled card silently degrades to veresEnrolled U / vbv_failure — a silent 3DS bypass — so
+ *    missing browser data fails loud instead.
  * 2. Exactly one card addressing shape — raw card, TMS payment-instrument id, or (new card, PAN
  *    never server-side) the Unified Checkout transient token.
  *
- * referenceId (from authentication-setups) is OPTIONAL: the sandbox runs authentications with no
- * referenceId at all, so the client's DDC timeout can proceed without it (gate G1 bonus finding).
+ * referenceId (from authentication-setups) is OPTIONAL: verified live that authentications runs
+ * without it, so the client's DDC timeout can proceed.
  */
 class AuthenticationRequest
 {
     use FilterEmptyTrait;
 
     /**
-     * Browser fields the request must always carry (gate G2, finding 1).
+     * Browser fields the request must always carry; thin data is a silent 3DS bypass.
      */
     public const REQUIRED_DEVICE_FIELDS = [
         'httpAcceptBrowserValue',
@@ -330,9 +330,8 @@ class AuthenticationRequest
      * Set the Unified Checkout transient token (tokenInformation.transientToken).
      *
      * The new-card path has no other way to address the card: the PAN never reaches the server, and
-     * a card that has not been charged yet has no TMS payment-instrument id. The setups call takes
-     * this exact shape (gate G1, 201-verified), and authentications belongs to the same API family;
-     * it is nonetheless the one shape in this DTO not yet proven live on THIS endpoint.
+     * an uncharged card has no TMS payment-instrument id. The setups call takes this exact shape
+     * (201-verified live); UNVERIFIED on the authentications endpoint itself.
      *
      * @param string|null $transientToken
      * @return $this
@@ -450,7 +449,7 @@ class AuthenticationRequest
     }
 
     /**
-     * Assert the full browser device profile is present (gate G2, finding 1: thin data = silent bypass).
+     * Assert the full browser device profile is present (thin data = silent bypass).
      *
      * @return void
      * @throws InputException

@@ -90,10 +90,9 @@ class ResultClassifier
 
         $paresStatus = strtoupper($this->stringValue($ca, 'paresStatus'));
 
-        // Definitive authentication failure: hard stop, no order attempt. Observed as top-level
-        // AUTHENTICATION_FAILED (2.2 / 2.5); paresStatus N/R is treated as failure on its own too,
-        // per the Shared design contract (PA1-IMPLEMENTATION.md "FAILED ... paresStatus N/R"), so a
-        // reply that carries the failure only in the `ca` block cannot degrade to UNAVAILABLE.
+        // Definitive authentication failure: hard stop, no order attempt. paresStatus N/R is a
+        // failure on its own, so a reply carrying the failure only in the `ca` block (not the
+        // top-level AUTHENTICATION_FAILED) cannot degrade to UNAVAILABLE.
         if ($status === 'AUTHENTICATION_FAILED' || $paresStatus === 'N' || $paresStatus === 'R') {
             return Verdict::FAILED;
         }

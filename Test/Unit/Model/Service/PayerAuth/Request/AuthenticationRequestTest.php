@@ -148,7 +148,7 @@ class AuthenticationRequestTest extends TestCase
 
     /**
      * A newly entered card has no PAN server-side and no payment-instrument id yet, so the
-     * transient token IS the card reference. Same shape the setups call takes (gate G1).
+     * transient token IS the card reference. Same shape the setups call takes.
      *
      * @return void
      */
@@ -247,8 +247,8 @@ class AuthenticationRequestTest extends TestCase
     }
 
     /**
-     * Thin deviceInformation silently degrades an enrolled card to veresEnrolled U (gate G2
-     * finding 1) — a silent 3DS bypass. Every required field must therefore fail loud.
+     * Thin deviceInformation silently degrades an enrolled card to veresEnrolled U — a silent 3DS
+     * bypass. Every required field must therefore fail loud.
      *
      * @param string $field
      * @return void

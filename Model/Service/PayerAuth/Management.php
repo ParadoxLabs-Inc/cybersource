@@ -76,7 +76,7 @@ use Psr\Log\LoggerInterface;
 class Management implements PayerAuthManagementInterface
 {
     /**
-     * Frontend route the ACS challenge posts its result back to (PA-2 owns the controller).
+     * Frontend route the ACS challenge posts its result back to.
      */
     public const RETURN_ROUTE = 'paradoxlabs-cybersource/payerauth/return';
 
@@ -185,16 +185,11 @@ class Management implements PayerAuthManagementInterface
     /**
      * Authenticate with a return URL the caller has already validated.
      *
-     * The GraphQL surface (T6) serves headless storefronts whose origin is NOT the store base URL,
-     * so the same-host rule authenticate() enforces cannot apply there. What that surface actually
-     * enforces is SHAPE, not identity: the URL must be absolute, https, carry a host, and carry no
-     * userinfo component. It does NOT check the host against an allowlist — any https host is
-     * accepted. This method is deliberately absent from the service contract so no REST/webapi
-     * caller can reach it, but a GraphQL caller can still aim the challenge return at a host of its
-     * choosing.
-     *
-     * DEFERRED to PA-2 (client iteration): a merchant-configurable origin allowlist for the headless
-     * return URL. Not implemented here.
+     * The GraphQL surface serves headless storefronts whose origin is NOT the store base URL, so
+     * the same-host rule authenticate() enforces cannot apply there. What that surface enforces is
+     * SHAPE, not identity: absolute, https, a host, no userinfo component — any https host is
+     * accepted, so a GraphQL caller can still aim the challenge return where it likes. This method
+     * is deliberately absent from the service contract so no REST/webapi caller can reach it.
      *
      * @param PayerAuthBrowserInfoInterface $browserInfo
      * @param string $returnUrl Absolute URL, already validated by the caller.
@@ -775,12 +770,10 @@ class Management implements PayerAuthManagementInterface
     /**
      * Drop any persisted record for a cart Payer Authentication does not apply to.
      *
-     * Every skip path is a merchant/config decision that THIS charge needs no 3DS: Payer Auth
-     * disabled for the store, an excluded card type, or a vault card with no TMS instrument. A
-     * record left behind from an earlier attempt (a different card, or a state before the merchant
-     * turned Payer Auth off) would otherwise be picked up by the BindingValidator at place time and
-     * hard-block a cart that is not supposed to be authenticated at all. The validator no longer
-     * self-heals by discarding, so the clear has to happen here.
+     * Every skip path is a config decision that THIS charge needs no 3DS. A record left from an
+     * earlier attempt would otherwise be picked up by the BindingValidator at place time and
+     * hard-block a cart that is not supposed to be authenticated at all; the validator never
+     * discards, so the clear has to happen here.
      *
      * @param Quote $quote
      * @return void
@@ -836,13 +829,10 @@ class Management implements PayerAuthManagementInterface
     /**
      * Get the quote's base grand total as a fixed 2-decimal string.
      *
-     * This is the amount PINNED into the record as "what was authenticated", and the direction of
-     * the BindingValidator's amount rule is chosen around it: the charge must be <= this value. The
-     * grand total is the CEILING the cardholder saw and approved, while the amount that reaches the
-     * gateway can legitimately be lower — store credit, gift cards and partial-payment modules all
-     * reduce it after the fact. Authenticating the ceiling and accepting anything at or under it
-     * keeps those flows working while still refusing the attack, which runs the other way: a $1
-     * authentication reused for a $500 charge.
+     * This is the amount PINNED into the record as "what was authenticated". It is the CEILING the
+     * cardholder saw and approved; the charge that reaches the gateway can legitimately be lower
+     * (store credit, gift cards, partial payments), which is why the BindingValidator's amount rule
+     * runs charge <= authenticated.
      *
      * @param Quote $quote
      * @return string
