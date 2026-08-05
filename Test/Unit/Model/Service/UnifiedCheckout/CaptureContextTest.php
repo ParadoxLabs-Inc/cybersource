@@ -81,9 +81,8 @@ class CaptureContextTest extends TestCase
         $this->assertFalse($result['captureMandate']['requestShipping']);
         // requestSaveCard is never sent: the module's payment[save] checkbox is the sole consent point.
         $this->assertArrayNotHasKey('requestSaveCard', $result['captureMandate']);
-        $this->assertSame('AUTH', $result['completeMandate']['type']);
-        $this->assertFalse($result['completeMandate']['decisionManager']);
-        $this->assertFalse($result['completeMandate']['consumerAuthentication']);
+        // completeMandate is never sent: UC's client-side complete() is never called (C5, 2026-08-04).
+        $this->assertArrayNotHasKey('completeMandate', $result);
     }
 
     /**
@@ -168,62 +167,6 @@ class CaptureContextTest extends TestCase
         $this->assertSame('CARD_PAYMENT', $result['buttonType']);
         $this->assertFalse($result['captureMandate']['showConfirmationStep']);
         $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
-    }
-
-    public function testBuildRequestMapsPaymentActionToCompleteMandateType(): void
-    {
-        $config = $this->createMock(Config::class);
-        $config->method('getUcClientVersion')->willReturn('0.34');
-        $config->method('getUcTargetOrigins')->willReturn([]);
-        $config->method('getUcAllowedCardNetworks')->willReturn([]);
-        $config->method('getUcAllowedPaymentTypes')->willReturn(['PANENTRY']);
-        $config->method('getUcBillingType')->willReturn('FULL');
-        $config->method('getUcLocale')->willReturn('en_US');
-        $config->method('getUcCountry')->willReturn('US');
-        $config->method('isPayerAuthEnabled')->willReturn(false);
-        $config->method('isDecisionManagerEnabled')->willReturn(false);
-        // payment_action=authorize_capture -> CAPTURE
-        $config->method('getUcCompleteMandateType')->willReturn('CAPTURE');
-
-        $handler = new TestableCaptureContext(
-            $config,
-            $this->restMock,
-            $this->sanitizer,
-            $this->addressHelperMock,
-            $this->requestFactoryMock,
-        );
-
-        $result = $handler->buildRequest()->toArray();
-
-        $this->assertSame('CAPTURE', $result['completeMandate']['type']);
-    }
-
-    public function testBuildRequestAppliesEnabled3dsAndDecisionManagerFlags(): void
-    {
-        $config = $this->createMock(Config::class);
-        $config->method('getUcClientVersion')->willReturn('0.34');
-        $config->method('getUcTargetOrigins')->willReturn([]);
-        $config->method('getUcAllowedCardNetworks')->willReturn([]);
-        $config->method('getUcAllowedPaymentTypes')->willReturn(['PANENTRY']);
-        $config->method('getUcBillingType')->willReturn('FULL');
-        $config->method('getUcLocale')->willReturn('en_US');
-        $config->method('getUcCountry')->willReturn('US');
-        $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('isPayerAuthEnabled')->willReturn(true);
-        $config->method('isDecisionManagerEnabled')->willReturn(true);
-
-        $handler = new TestableCaptureContext(
-            $config,
-            $this->restMock,
-            $this->sanitizer,
-            $this->addressHelperMock,
-            $this->requestFactoryMock,
-        );
-
-        $result = $handler->buildRequest()->toArray();
-
-        $this->assertTrue($result['completeMandate']['consumerAuthentication']);
-        $this->assertTrue($result['completeMandate']['decisionManager']);
     }
 
     public function testBuildRequestSourcesAmountAndCurrency(): void
