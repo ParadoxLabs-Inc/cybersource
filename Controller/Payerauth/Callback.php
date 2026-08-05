@@ -21,7 +21,6 @@
 
 namespace ParadoxLabs\CyberSource\Controller\Payerauth;
 
-use Magento\Csp\Helper\CspNonceProvider;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
@@ -31,6 +30,7 @@ use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 
 /**
@@ -95,9 +95,7 @@ JS;
 </head>
 <body style="margin:0;padding:16px;font:14px/1.4 Arial,Helvetica,sans-serif">
 <p>{{message}}</p>
-<script{{nonce}}>
 {{script}}
-</script>
 </body>
 </html>
 HTML;
@@ -105,18 +103,14 @@ HTML;
     /**
      * Callback constructor.
      *
-     * The nonce provider is optional because it only exists on Magento 2.4.7+, and this module
-     * supports 2.4.6. Absent it, the inline script relies on the 'unsafe-inline' script-src that
-     * every pre-nonce CSP configuration grants.
-     *
      * @param ResultFactory $resultFactory
      * @param Escaper $escaper
-     * @param CspNonceProvider|null $cspNonceProvider
+     * @param SecureHtmlRenderer $secureRenderer
      */
     public function __construct(
         private readonly ResultFactory $resultFactory,
         private readonly Escaper $escaper,
-        private readonly ?CspNonceProvider $cspNonceProvider = null
+        private readonly SecureHtmlRenderer $secureRenderer
     ) {
     }
 
@@ -136,7 +130,11 @@ HTML;
     }
 
     /**
-     * Bind the protocol tag, the CSP nonce, and the one translatable string into the document.
+     * Bind the protocol tag and the one translatable string into the document.
+     *
+     * The script tag goes through SecureHtmlRenderer rather than being written out here, so the CSP
+     * module can secure it the same way it secures a template's inline script: a nonce on 2.4.7+,
+     * a sha256 hash on 2.4.6, and nothing at all while the policy still permits 'unsafe-inline'.
      *
      * @return string
      */
@@ -147,28 +145,10 @@ HTML;
         return strtr(
             self::BODY,
             [
-                '{{nonce}}' => $this->getNonceAttribute(),
-                '{{script}}' => $script,
+                '{{script}}' => $this->secureRenderer->renderTag('script', [], $script, false),
                 '{{message}}' => $this->escaper->escapeHtml(__('You may close this window.')),
             ]
         );
-    }
-
-    /**
-     * Build the script tag's nonce attribute, empty when the platform has no nonce support.
-     *
-     * Calling generateNonce() is what adds the nonce to this response's script-src, so it must not
-     * be called speculatively -- only when the attribute is actually going to be emitted.
-     *
-     * @return string
-     */
-    private function getNonceAttribute(): string
-    {
-        if ($this->cspNonceProvider === null) {
-            return '';
-        }
-
-        return ' nonce="' . $this->escaper->escapeHtmlAttr($this->cspNonceProvider->generateNonce()) . '"';
     }
 
     /**

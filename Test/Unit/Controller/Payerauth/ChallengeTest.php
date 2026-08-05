@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Controller\Payerauth;
 
 use Magento\Csp\Api\Data\PolicyInterface;
-use Magento\Csp\Helper\CspNonceProvider;
 use Magento\Csp\Model\Policy\FetchPolicy;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Challenge;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\MessageProtocol;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -25,7 +24,7 @@ class ChallengeTest extends TestCase
     private Challenge $controller;
     private Raw|MockObject $resultMock;
     private ResultFactory|MockObject $resultFactoryMock;
-    private Escaper|MockObject $escaperMock;
+    private SecureHtmlRenderer|MockObject $secureRendererMock;
 
     /**
      * @var string
@@ -48,27 +47,14 @@ class ChallengeTest extends TestCase
             ->with(ResultFactory::TYPE_RAW)
             ->willReturn($this->resultMock);
 
-        $this->escaperMock = $this->createMock(Escaper::class);
-        $this->escaperMock->method('escapeHtml')
-            ->willReturnCallback(static fn ($value): string => (string)$value);
-        $this->escaperMock->method('escapeHtmlAttr')
-            ->willReturnCallback(static fn ($value): string => (string)$value);
+        $this->secureRendererMock = $this->createMock(SecureHtmlRenderer::class);
+        $this->secureRendererMock->method('renderTag')
+            ->willReturnCallback(
+                static fn (string $tag, array $attributes, ?string $content, bool $textContent): string
+                    => '<' . $tag . '>' . $content . '</' . $tag . '>'
+            );
 
-        $this->controller = new Challenge($this->resultFactoryMock, $this->escaperMock);
-    }
-
-    /**
-     * Build a controller with nonce support present, as on Magento 2.4.7+.
-     *
-     * @param string $nonce
-     * @return Challenge
-     */
-    private function controllerWithNonce(string $nonce): Challenge
-    {
-        $nonceProvider = $this->createMock(CspNonceProvider::class);
-        $nonceProvider->method('generateNonce')->willReturn($nonce);
-
-        return new Challenge($this->resultFactoryMock, $this->escaperMock, $nonceProvider);
+        $this->controller = new Challenge($this->resultFactoryMock, $this->secureRendererMock);
     }
 
     public function testIsGetOnlyAndNeedsNoCsrfExemption(): void
@@ -86,19 +72,13 @@ class ChallengeTest extends TestCase
         $this->assertSame($this->resultMock, $this->controller->execute());
     }
 
-    public function testScriptCarriesTheCspNonceWhenThePlatformSupportsIt(): void
+    public function testScriptTagIsRenderedThroughSecureHtmlRenderer(): void
     {
-        $this->controllerWithNonce('nonce-value-123')->execute();
+        $this->secureRendererMock->expects($this->once())
+            ->method('renderTag')
+            ->with('script', [], $this->stringContains('postMessage'), false);
 
-        $this->assertStringContainsString('<script nonce="nonce-value-123">', $this->body);
-    }
-
-    public function testScriptOmitsTheNonceAttributeOnPlatformsWithoutNonceSupport(): void
-    {
         $this->controller->execute();
-
-        $this->assertStringContainsString('<script>', $this->body);
-        $this->assertStringNotContainsString('nonce', $this->body);
     }
 
     public function testBodyUsesTheSharedProtocolTag(): void
