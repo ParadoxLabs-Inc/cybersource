@@ -29,6 +29,9 @@ below before upgrading a live store.**
   and follow-on charges remain exempt from screening, unchanged.
 - Changed the default `Enable for Card Types` list to AE, VI, MC, DI, JCB, DN. Maestro, China
   UnionPay and Elo are not included — EEA merchants who accept Maestro should add it.
+- `Enable fraud check when storing cards` (`validate_card_storage`) carries over from 3.x: by
+  default the $0 card-storage authorization is not fraud-screened (Decision Manager is asked to
+  skip it), matching the 3.x Secure Acceptance behavior. Enable it to screen card adds too.
 - Removed the SOAP gateway, Secure Acceptance, and all CardinalCommerce settings. Their stored
   configuration (including the SOAP, Secure Acceptance and Cardinal secret keys) is deleted on
   upgrade by a data patch. `Enable Payer Authentication` and `Enable for Card Types` are preserved.

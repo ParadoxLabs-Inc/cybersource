@@ -481,8 +481,8 @@ class Response
      * When neither applies the flag is left unset (empty-filtered out of the request) rather than sent as
      * true, so the CyberSource account profile keeps governing screening exactly as it does today.
      *
-     * The $0 add-card path deliberately does NOT consult this: it is a tokenization auth with no cart to
-     * screen, and the legacy SOAP paySubscriptionCreate never ran Decision Manager either.
+     * The $0 add-card path does NOT consult this: card-storage screening has its own dedicated setting
+     * (`validate_card_storage`, 3.x parity) — see buildZeroDollarRequest().
      *
      * @param InfoInterface $payment
      * @param int|null $storeId
@@ -510,9 +510,10 @@ class Response
      *    area-origin signal — frontend + REST webapi + GraphQL are "customer-facing", adminhtml and
      *    crontab are not — so no new dependency and no new definition of "admin" is introduced here.
      *
-     * An unresolved area code falls through to consulting: that is only consequential when a record
-     * EXISTS, and records are only ever written by the customer-initiated flows above, so it can
-     * neither block an admin order nor bypass a FAILED verdict.
+     * An unresolved area code falls through to consulting: records are only ever written by the
+     * customer-initiated flows above, so it can neither block an admin order (adminhtml resolves
+     * normally) nor bypass a FAILED verdict. With payer_auth_required on, the fall-through also
+     * refuses a no-record placement from an unresolvable origin — fail-closed by design.
      *
      * @param InfoInterface $payment
      * @return bool
@@ -864,6 +865,14 @@ class Response
             ->setSolutionId($this->config->getSolutionId())
             ->setApplicationName($this->config->getClientName())
             ->setApplicationVersion($this->config->getClientVersion());
+
+        // 3.x parity (validate_card_storage): the card-storage auth is NOT fraud-screened unless the
+        // merchant opted in — Secure Acceptance sent skip_decision_manager=true by default, because
+        // screening every add-card raises transaction fees. Opting in leaves the flag unset so the
+        // account profile governs, same as the checkout paths.
+        if ($this->config->isCardStorageValidationEnabled() === false) {
+            $request->setEnableDecisionManager(false);
+        }
 
         // A $0 add-card auth REQUIRES billTo (CyberSource rejects it with MISSING_FIELD
         // billTo.administrativeArea otherwise — verified live 2026-07-24). Prefer the card's own

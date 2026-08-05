@@ -844,11 +844,26 @@ class ResponseTest extends TestCase
         $this->assertFalse($this->sentBody['processingInformation']['enableDecisionManager']);
     }
 
-    public function testZeroDollarAddCardNeverEmitsDecisionManagerFlag(): void
+    public function testZeroDollarAddCardSkipsDecisionManagerByDefault(): void
     {
-        // The $0 tokenization auth is not a checkout screening decision; the flag is never sent there.
+        // 3.x parity (validate_card_storage=0, the default): the card-storage auth is not fraud-screened,
+        // regardless of the checkout screening toggle. The checkout toggle must not leak into this path.
+        $config = $this->createMock(Config::class);
+        $config->method('isDecisionManagerEnabled')->willReturn(true);
+        $config->method('isCardStorageValidationEnabled')->willReturn(false);
+
+        $request = $this->buildService($config)->buildZeroDollarRequest($this->buildPayment(), 'USD');
+
+        $this->assertFalse($request->toArray()['processingInformation']['enableDecisionManager']);
+    }
+
+    public function testZeroDollarAddCardLeavesDecisionManagerToTheAccountWhenValidationIsOn(): void
+    {
+        // validate_card_storage=1: no flag is sent, so the account profile governs — same convention as
+        // the checkout paths when screening is enabled.
         $config = $this->createMock(Config::class);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
+        $config->method('isCardStorageValidationEnabled')->willReturn(true);
 
         $request = $this->buildService($config)->buildZeroDollarRequest($this->buildPayment(), 'USD');
 

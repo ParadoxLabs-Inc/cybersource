@@ -479,6 +479,22 @@ class Config
     }
 
     /**
+     * Whether Decision Manager should also screen the $0 card-storage authorization.
+     *
+     * 3.x parity (`validate_card_storage`): Secure Acceptance sent skip_decision_manager=true on card
+     * storage unless the merchant opted in, because screening every add-card raises transaction fees.
+     * The Unified Checkout $0 TOKEN_CREATE auth is governed by the same setting — see
+     * Response::buildZeroDollarRequest().
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isCardStorageValidationEnabled($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('validate_card_storage', $storeId);
+    }
+
+    /**
      * Whether to place the order automatically after Unified Checkout new-card entry.
      *
      * @param int|null $storeId

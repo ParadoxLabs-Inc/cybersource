@@ -25,6 +25,7 @@
                 <payer_auth_required>0</payer_auth_required>
                 <payer_auth_return_origins/>
                 <uc_decision_manager>1</uc_decision_manager>
+                <validate_card_storage>0</validate_card_storage>
                 <uc_auto_place_order>1</uc_auto_place_order>
                 <uc_review_step>0</uc_review_step>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>

@@ -105,6 +105,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Fraud screening runs on your CyberSource merchant profile. Disable to skip screening on initial checkout authorizations. Merchant-initiated (subscription) transactions and follow-on charges are always exempt.</comment>
                 </field>
+                <field id="validate_card_storage" translate="label comment" type="select" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable fraud check when storing cards</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, Decision Manager fraud rules and scoring will be applied when customers add a new card, not just when checkout is submitted. Enabling may increase transaction fees.</comment>
+                </field>
                 <field id="uc_allowed_payment_types" translate="label comment" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allowed Payment Types</label>
                     <options>

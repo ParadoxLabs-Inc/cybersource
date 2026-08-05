@@ -321,6 +321,19 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsCardStorageValidationEnabled(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/validate_card_storage', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isCardStorageValidationEnabled());
+    }
+
+    /**
      * @dataProvider payerAuthEnabledForTypeDataProvider
      */
     #[DataProvider('payerAuthEnabledForTypeDataProvider')]
