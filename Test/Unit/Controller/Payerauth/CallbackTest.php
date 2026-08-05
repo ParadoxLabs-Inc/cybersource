@@ -11,6 +11,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Callback;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -98,6 +99,7 @@ class CallbackTest extends TestCase
     /**
      * @dataProvider forbiddenMarkerProvider
      */
+    #[DataProvider('forbiddenMarkerProvider')]
     public function testBodyLeaksNoSessionOrCustomerData(string $marker): void
     {
         $this->controller->execute();

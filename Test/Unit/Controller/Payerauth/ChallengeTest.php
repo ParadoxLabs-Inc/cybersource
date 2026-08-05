@@ -11,6 +11,7 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\Controller\Result\Raw;
 use Magento\Framework\Controller\ResultFactory;
 use ParadoxLabs\CyberSource\Controller\Payerauth\Challenge;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -104,6 +105,7 @@ class ChallengeTest extends TestCase
     /**
      * @dataProvider forbiddenMarkerProvider
      */
+    #[DataProvider('forbiddenMarkerProvider')]
     public function testBodyLeaksNoSessionOrCustomerData(string $marker): void
     {
         $this->controller->execute();

@@ -10,6 +10,7 @@ use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -81,6 +82,7 @@ class BindingValidatorTest extends TestCase
     /**
      * @dataProvider usableVerdictProvider
      */
+    #[DataProvider('usableVerdictProvider')]
     public function testUsableRecordReturnsVerdictAndCaWithoutClearing(Verdict $verdict): void
     {
         $ca = $this->loadFixture('case-2-1-success')['consumerAuthenticationInformation'];
@@ -162,6 +164,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testOutstandingObligationOnAReSeededRecordStillBlocks(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -189,6 +192,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testUnavailableResultDoesNotDischargeAnObligation(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -221,6 +225,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testAnObligatedRecordWithADriftedShiftIsStillBlocked(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -239,6 +244,7 @@ class BindingValidatorTest extends TestCase
     /**
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testAnObligatedRecordCarryingACoveringShiftResolves(string $obligation): void
     {
         $this->persistor->method('load')->willReturn(
@@ -292,6 +298,7 @@ class BindingValidatorTest extends TestCase
      * @param array<string, mixed> $overrides
      * @dataProvider driftProvider
      */
+    #[DataProvider('driftProvider')]
     public function testDriftOnAShiftedRecordDemandsReverificationAndKeepsTheRecord(
         array $overrides,
         string $amount,
@@ -321,6 +328,7 @@ class BindingValidatorTest extends TestCase
      * @param array<string, mixed> $overrides
      * @dataProvider driftProvider
      */
+    #[DataProvider('driftProvider')]
     public function testDriftOnAnUnavailableRecordResolvesToNullSilently(
         array $overrides,
         string $amount,
@@ -359,6 +367,7 @@ class BindingValidatorTest extends TestCase
      *
      * @dataProvider amountDirectionProvider
      */
+    #[DataProvider('amountDirectionProvider')]
     public function testChargeMayNotExceedTheAuthenticatedAmount(string $charge, bool $allowed): void
     {
         $this->persistor->method('load')->willReturn($this->record(['amount' => '30.00']));

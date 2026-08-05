@@ -9,6 +9,7 @@ use ParadoxLabs\CyberSource\Model\Service\PayerAuth\AuthenticationResult;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\AuthenticationResultFactory;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\ResultClassifier;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -78,6 +79,7 @@ class ResultClassifierTest extends TestCase
      * @return void
      * @dataProvider fixtureVerdictProvider
      */
+    #[DataProvider('fixtureVerdictProvider')]
     public function testEveryPinnedShapeClassifies(string $fixture, Verdict $expected): void
     {
         $result = $this->classifier->classify($this->loadFixture($fixture));
@@ -281,6 +283,7 @@ class ResultClassifierTest extends TestCase
      * @return void
      * @dataProvider noCavvProvider
      */
+    #[DataProvider('noCavvProvider')]
     public function testLiabilityShiftRequiresACavv(array $reply): void
     {
         $this->assertSame(Verdict::UNAVAILABLE, $this->classifier->classify($reply)->getVerdict());

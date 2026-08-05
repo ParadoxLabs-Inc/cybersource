@@ -369,6 +369,7 @@ class ConfigTest extends TestCase
      * @param string|null $value
      * @param string[] $expected
      */
+    #[DataProvider('payerAuthReturnOriginsDataProvider')]
     public function testGetPayerAuthReturnOrigins(?string $value, array $expected): void
     {
         $this->scopeConfigMock->method('getValue')

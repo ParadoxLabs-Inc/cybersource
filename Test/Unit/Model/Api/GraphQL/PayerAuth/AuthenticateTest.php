@@ -32,6 +32,7 @@ use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data\Result;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -167,6 +168,7 @@ class AuthenticateTest extends TestCase
      * @dataProvider invalidReturnUrlProvider
      * @param string $returnUrl
      */
+    #[DataProvider('invalidReturnUrlProvider')]
     public function testResolveRejectsUnsafeReturnUrls(string $returnUrl): void
     {
         $this->managementMock->expects($this->never())->method('authenticateWithValidatedReturnUrl');

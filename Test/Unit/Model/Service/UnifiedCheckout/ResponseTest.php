@@ -27,6 +27,7 @@ use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\Gateway\Response as GatewayResponse;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -1733,6 +1734,7 @@ class ResponseTest extends TestCase
     /**
      * @dataProvider bindingValidatorStateProvider
      */
+    #[DataProvider('bindingValidatorStateProvider')]
     public function testRequireModeOnBlocksOnlyTheNoResultStates(string $outcome): void
     {
         $this->asCustomerInitiated();
@@ -1761,6 +1763,7 @@ class ResponseTest extends TestCase
     /**
      * @dataProvider bindingValidatorStateProvider
      */
+    #[DataProvider('bindingValidatorStateProvider')]
     public function testRequireModeOffNeverAddsABlock(string $outcome): void
     {
         $this->asCustomerInitiated();
