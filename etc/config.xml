@@ -22,7 +22,10 @@
                 <uc_locale/>
                 <cardinal_active>0</cardinal_active>
                 <cardinal_card_types>AE,VI,MC,DI,JCB,DN</cardinal_card_types>
-                <uc_decision_manager>0</uc_decision_manager>
+                <payer_auth_required>0</payer_auth_required>
+                <payer_auth_return_origins/>
+                <uc_decision_manager>1</uc_decision_manager>
+                <validate_card_storage>0</validate_card_storage>
                 <uc_auto_place_order>1</uc_auto_place_order>
                 <uc_review_step>0</uc_review_step>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
@@ -45,7 +48,7 @@
                 <group>tokenbase</group>
                 <!-- API info -->
                 <client_name>ParadoxLabs CyberSource</client_name>
-                <client_version>3.0.0</client_version>
+                <client_version>4.0.0</client_version>
                 <!-- Feature flags -->
                 <can_order>1</can_order>
                 <can_authorize>1</can_authorize>

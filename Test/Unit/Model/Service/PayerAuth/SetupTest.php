@@ -33,7 +33,7 @@ class SetupTest extends TestCase
                 '/risk/v1/authentication-setups',
                 [
                     'clientReferenceInformation' => ['code' => 'quote-1234'],
-                    'tokenInformation' => ['transientToken' => 'the.transient.token'],
+                    'tokenInformation' => ['transientTokenJwt' => 'the.transient.token'],
                 ]
             )
             ->willReturn($reply);

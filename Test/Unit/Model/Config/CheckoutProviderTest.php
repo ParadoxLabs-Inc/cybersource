@@ -14,6 +14,7 @@ use ParadoxLabs\CyberSource\Model\Config\CheckoutProvider;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Method;
 use ParadoxLabs\TokenBase\Model\Card;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -374,7 +375,7 @@ class CheckoutProviderTest extends TestCase
      *
      * @dataProvider autoPlaceOrderDataProvider
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('autoPlaceOrderDataProvider')]
+    #[DataProvider('autoPlaceOrderDataProvider')]
     public function testGetConfigExposesAutoPlaceOrder(bool $enabled): void
     {
         $this->configMock->method('isUcAutoPlaceOrderEnabled')->willReturn($enabled);
@@ -414,7 +415,7 @@ class CheckoutProviderTest extends TestCase
     /**
      * @dataProvider booleanConfigDataProvider
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('booleanConfigDataProvider')]
+    #[DataProvider('booleanConfigDataProvider')]
     public function testBooleanConfigAccessors(string $method, string $configKey, $configValue, bool $expected): void
     {
         $this->methodConfig[$configKey] = $configValue;
@@ -448,7 +449,7 @@ class CheckoutProviderTest extends TestCase
      * @param bool $expected
      * @return void
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('defaultSaveCardProvider')]
+    #[DataProvider('defaultSaveCardProvider')]
     public function testDefaultSaveCard(?string $allowUnsaved, ?string $optOut, bool $expected): void
     {
         $this->methodConfig['allow_unsaved']    = $allowUnsaved;

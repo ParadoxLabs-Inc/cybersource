@@ -22,6 +22,9 @@
 namespace ParadoxLabs\CyberSource\Model\Api\GraphQL\PayerAuth;
 
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\UrlInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterface;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterfaceFactory;
 use ParadoxLabs\CyberSource\Model\Config\Config;
@@ -52,6 +55,14 @@ class Authenticate extends AbstractResolver
     ];
 
     /**
+     * Default ports elided when reducing a URL to its origin.
+     */
+    private const DEFAULT_PORTS = [
+        'https' => 443,
+        'http' => 80,
+    ];
+
+    /**
      * Authenticate constructor.
      *
      * @param GraphQL $graphQL
@@ -59,13 +70,15 @@ class Authenticate extends AbstractResolver
      * @param Config $config
      * @param Data $helper
      * @param PayerAuthBrowserInfoInterfaceFactory $browserInfoFactory
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         GraphQL $graphQL,
         ManagementFactory $managementFactory,
         Config $config,
         Data $helper,
-        private readonly PayerAuthBrowserInfoInterfaceFactory $browserInfoFactory
+        private readonly PayerAuthBrowserInfoInterfaceFactory $browserInfoFactory,
+        private readonly StoreManagerInterface $storeManager
     ) {
         parent::__construct($graphQL, $managementFactory, $config, $helper);
     }
@@ -75,10 +88,11 @@ class Authenticate extends AbstractResolver
      *
      * @param Management $management
      * @param array<string, mixed> $input
+     * @param CartInterface $quote
      * @return array<string, mixed>
      * @throws GraphQlInputException
      */
-    protected function execute(Management $management, array $input): array
+    protected function execute(Management $management, array $input, CartInterface $quote): array
     {
         $browserInfo = $this->buildBrowserInfo($input['browserInfo'] ?? null);
         $returnUrl   = $this->stringOrNull($input['returnUrl'] ?? null);
@@ -90,7 +104,10 @@ class Authenticate extends AbstractResolver
         }
 
         return $this->resultPayload(
-            $management->authenticateWithValidatedReturnUrl($browserInfo, $this->validateReturnUrl($returnUrl))
+            $management->authenticateWithValidatedReturnUrl(
+                $browserInfo,
+                $this->validateReturnUrl($returnUrl, (int)$quote->getStoreId())
+            )
         );
     }
 
@@ -128,18 +145,21 @@ class Authenticate extends AbstractResolver
     }
 
     /**
-     * Validate a client-supplied return URL.
+     * Validate a client-supplied return URL against shape rules and the origin allowlist.
      *
-     * A headless storefront runs on its own origin, so a foreign host is legitimate here (unlike
-     * the session-backed surfaces, which require the store's own host). The URL must still be an
-     * absolute https URL that parses cleanly to a plain host, with no userinfo component — the
-     * classic "https://store.example.com@evil.example/" spoof.
+     * Shape: absolute https URL parsing cleanly to a plain host, with no userinfo component — the
+     * classic "https://store.example.com@evil.example/" spoof. Origin: the store's own secure
+     * base-URL origin is always accepted; anything else must be listed in the merchant's
+     * `payer_auth_return_origins` config. An empty list therefore means same-store-origin only —
+     * fail closed, since an unlisted foreign origin is an open redirect target for the ACS POST.
      *
      * @param string $returnUrl
+     * @param int $storeId
      * @return string
      * @throws GraphQlInputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    private function validateReturnUrl(string $returnUrl): string
+    private function validateReturnUrl(string $returnUrl, int $storeId): string
     {
         // phpcs:disable Magento2.Functions.DiscouragedFunction -- validating a URL, not fetching it.
         $parts = parse_url($returnUrl);
@@ -158,6 +178,65 @@ class Authenticate extends AbstractResolver
             );
         }
 
+        $origin = $this->normalizeOrigin($returnUrl);
+
+        if ($origin === null || !in_array($origin, $this->permittedOrigins($storeId), true)) {
+            throw new GraphQlInputException(
+                __(
+                    'The return URL origin is not permitted. Add it to the CyberSource payment'
+                    . ' method\'s "Headless Return URL Origins" setting.'
+                )
+            );
+        }
+
         return $returnUrl;
+    }
+
+    /**
+     * Get every origin permitted as a return target for this store.
+     *
+     * @param int $storeId
+     * @return string[]
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    private function permittedOrigins(int $storeId): array
+    {
+        $baseUrl = (string)$this->storeManager->getStore($storeId)
+            ->getBaseUrl(UrlInterface::URL_TYPE_LINK, true);
+
+        $origins = [$this->normalizeOrigin($baseUrl)];
+
+        foreach ($this->config->getPayerAuthReturnOrigins($storeId) as $configured) {
+            $origins[] = $this->normalizeOrigin($configured);
+        }
+
+        return array_values(array_unique(array_filter($origins)));
+    }
+
+    /**
+     * Reduce a URL to its origin (scheme://host[:port]), with the scheme's default port elided.
+     *
+     * @param string $url
+     * @return string|null
+     */
+    private function normalizeOrigin(string $url): ?string
+    {
+        // phpcs:disable Magento2.Functions.DiscouragedFunction -- parsing a URL, not fetching it.
+        $parts = parse_url($url);
+        // phpcs:enable Magento2.Functions.DiscouragedFunction
+
+        if (!is_array($parts) || empty($parts['scheme']) || empty($parts['host'])) {
+            return null;
+        }
+
+        $scheme = strtolower((string)$parts['scheme']);
+        $origin = $scheme . '://' . strtolower((string)$parts['host']);
+        $port   = isset($parts['port']) ? (int)$parts['port'] : null;
+
+        if ($port !== null && $port !== (self::DEFAULT_PORTS[$scheme] ?? null)) {
+            $origin .= ':' . $port;
+        }
+
+        return $origin;
     }
 }

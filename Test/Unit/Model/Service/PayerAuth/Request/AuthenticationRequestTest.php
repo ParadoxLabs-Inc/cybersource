@@ -6,6 +6,7 @@ namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\PayerAuth\Request;
 
 use Magento\Framework\Exception\InputException;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Request\AuthenticationRequest;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,7 +46,7 @@ class AuthenticationRequestTest extends TestCase
 
         return $request->setClientReferenceCode('quote-1234')
             ->setReferenceId('2611dbe9-b63b-4ac4-a172-a4278a32aecb')
-            ->setReturnUrl('https://store.example.com/paradoxlabs_cybersource/payerauth/return')
+            ->setReturnUrl('https://store.example.com/pdl_cybs/payerauth/callback')
             ->setTotalAmount('24.00')
             ->setCurrency('USD')
             ->setBillTo([
@@ -73,7 +74,7 @@ class AuthenticationRequestTest extends TestCase
             $result['consumerAuthenticationInformation']['referenceId']
         );
         $this->assertSame(
-            'https://store.example.com/paradoxlabs_cybersource/payerauth/return',
+            'https://store.example.com/pdl_cybs/payerauth/callback',
             $result['consumerAuthenticationInformation']['returnUrl']
         );
         $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
@@ -161,7 +162,7 @@ class AuthenticationRequestTest extends TestCase
         $result = $request->toArray();
 
         $this->assertSame('the.transient.token', $request->getTransientToken());
-        $this->assertSame(['transientToken' => 'the.transient.token'], $result['tokenInformation']);
+        $this->assertSame(['transientTokenJwt' => 'the.transient.token'], $result['tokenInformation']);
         $this->assertArrayNotHasKey('paymentInformation', $result);
         $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
     }
@@ -254,6 +255,7 @@ class AuthenticationRequestTest extends TestCase
      * @return void
      * @dataProvider requiredDeviceFieldProvider
      */
+    #[DataProvider('requiredDeviceFieldProvider')]
     public function testEachMissingBrowserFieldThrows(string $field): void
     {
         $device = $this->deviceInformation();
@@ -272,6 +274,7 @@ class AuthenticationRequestTest extends TestCase
      * @return void
      * @dataProvider requiredDeviceFieldProvider
      */
+    #[DataProvider('requiredDeviceFieldProvider')]
     public function testEachEmptyBrowserFieldThrows(string $field): void
     {
         $device          = $this->deviceInformation();

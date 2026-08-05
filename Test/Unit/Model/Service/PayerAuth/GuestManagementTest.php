@@ -130,11 +130,15 @@ class GuestManagementTest extends TestCase
      */
     private function guestQuote(?int $customerId = null)
     {
+        // getCustomerId() is magic on Quote; it routes through DataObject::__call() into the
+        // stubbed getData(). (MockBuilder::addMethods() was removed in PHPUnit 12.)
         $quote = $this->getMockBuilder(Quote::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getCustomerId'])
+            ->onlyMethods(['getData'])
             ->getMock();
-        $quote->method('getCustomerId')->willReturn($customerId);
+        $quote->method('getData')->willReturnMap([
+            ['customer_id', null, $customerId],
+        ]);
 
         return $quote;
     }

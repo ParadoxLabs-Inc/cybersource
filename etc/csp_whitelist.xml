@@ -78,5 +78,18 @@
                 <value id="onlinemetrix" type="host">*.online-metrix.net</value>
             </values>
         </policy>
+        <policy id="form-action">
+            <values>
+                <!-- Payer Authentication device data collection: the client form-POSTs the DDC
+                     JWT from the CHECKOUT page into a hidden iframe targeting
+                     centinelapi[stag].cardinalcommerce.com. form-action governs the submitting
+                     document, so without this grant an enforced checkout policy (default
+                     form-action 'self') silently blocks the POST — DDC then always times out
+                     (best-effort masks it) and the ACS gets no device profile. The step-up CReq
+                     POST is separate: it runs inside the challenge wrapper, whose per-route
+                     policy Controller/Payerauth/Challenge::modifyCsp() already relaxes. -->
+                <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>

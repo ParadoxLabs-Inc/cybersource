@@ -70,6 +70,14 @@ class BindingValidator
     public const MAX_AGE_SECONDS = 900;
 
     /**
+     * The substring of the re-verify refusal that the client's isReverifyFailure() auto-retry keys
+     * on (the webapi fault carries no machine-readable code). Drift silently ends that retry, so
+     * BindingValidatorTest pins this marker and the exact sentence; the sentence stays an inline
+     * literal in reverify() for the i18n phrase collector.
+     */
+    public const REVERIFY_MARKER = 'verify your payment again';
+
+    /**
      * BindingValidator constructor.
      *
      * @param Persistor $persistor
@@ -235,6 +243,9 @@ class BindingValidator
 
     /**
      * Build the "verify again" refusal shown for every recoverable block.
+     *
+     * The wording must keep containing self::REVERIFY_MARKER or the checkout client's one-shot
+     * re-verify stops firing.
      *
      * @return CommandException
      */

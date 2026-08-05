@@ -16,6 +16,7 @@ use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\AuthenticationResult;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -199,6 +200,7 @@ class PersistorTest extends TestCase
     /**
      * @dataProvider obligationMatrixProvider
      */
+    #[DataProvider('obligationMatrixProvider')]
     public function testSaveResultMapsTheVerdictToAnObligation(
         Verdict $verdict,
         ?string $priorObligation,
@@ -236,6 +238,7 @@ class PersistorTest extends TestCase
      *
      * @dataProvider obligationProvider
      */
+    #[DataProvider('obligationProvider')]
     public function testSaveReferenceIdPreservesTheObligation(?string $obligation): void
     {
         $payment = $this->quotePayment();

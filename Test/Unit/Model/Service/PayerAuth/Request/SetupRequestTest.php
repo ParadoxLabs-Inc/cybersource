@@ -24,7 +24,7 @@ class SetupRequestTest extends TestCase
         $this->assertSame('quote-1234', $result['clientReferenceInformation']['code']);
         $this->assertSame(
             'eyJraWQiOiIwOCIsImFsZyI6IlJTMjU2In0.transient.token',
-            $result['tokenInformation']['transientToken']
+            $result['tokenInformation']['transientTokenJwt']
         );
         $this->assertArrayNotHasKey('paymentInformation', $result);
     }

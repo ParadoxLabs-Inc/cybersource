@@ -145,6 +145,10 @@ class CheckoutProvider extends CcGenericConfigProvider
                     // Auto-submit the order when a new-card tokenization resolves and the checkout
                     // validators (agreements et al.) pass; see the renderer's maybeAutoPlaceOrder().
                     'autoPlaceOrder' => $this->config->isUcAutoPlaceOrderEnabled(),
+                    // Payer Authentication (3DS) gate: when off, the renderer skips the pre-place
+                    // setup() call entirely, so a non-3DS store never pays that round-trip. The
+                    // server enforces enablement regardless; this only saves the wasted request.
+                    'payerAuthActive' => $this->config->isPayerAuthEnabled(),
                 ],
             ],
         ]);

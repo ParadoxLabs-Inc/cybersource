@@ -85,10 +85,30 @@
                         <field id="cardinal_active">1</field>
                     </depends>
                 </field>
-                <field id="uc_decision_manager" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable Decision Manager</label>
+                <field id="payer_auth_required" translate="label comment" type="select" sortOrder="196" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Require Payer Authentication</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, Decision Manager fraud screening will be requested on Unified Checkout transactions. Requires Decision Manager on your CyberSource merchant account.</comment>
+                    <comment>Refuse orders placed without Payer Authentication — closes the API path for REST/GraphQL integrations that skip it. Subscription rebills and admin orders are exempt.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
+                <field id="payer_auth_return_origins" translate="label comment" type="textarea" sortOrder="197" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Headless Return URL Origins</label>
+                    <comment>One origin per line (scheme://host[:port]) permitted as payer-auth challenge return targets for headless/GraphQL storefronts. The store's own base-URL host is always permitted. Leave empty unless running a separate-origin storefront.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
+                <field id="uc_decision_manager" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Decision Manager on checkout payments</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Disable to skip Decision Manager screening on initial checkout authorizations. Subscription and follow-on charges are always exempt.</comment>
+                </field>
+                <field id="validate_card_storage" translate="label comment" type="select" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable fraud check when storing cards</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, Decision Manager fraud rules and scoring will be applied when customers add a new card, not just when checkout is submitted. Enabling may increase transaction fees.</comment>
                 </field>
                 <field id="uc_allowed_payment_types" translate="label comment" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allowed Payment Types</label>

@@ -105,7 +105,7 @@ abstract class AbstractResolver implements ResolverInterface
             /** @var Management $management */
             $management = $this->managementFactory->create();
 
-            return $this->execute($management->setQuote($quote), $input);
+            return $this->execute($management->setQuote($quote), $input, $quote);
         } catch (Throwable $exception) {
             throw $this->wrap($exception);
         }
@@ -114,11 +114,15 @@ abstract class AbstractResolver implements ResolverInterface
     /**
      * Run this mutation against a Management instance already bound to the authorized cart.
      *
+     * The cart is passed alongside so a mutation can read its store scope without reaching for the
+     * request store, which is not necessarily the cart's store on a headless request.
+     *
      * @param Management $management
      * @param array<string, mixed> $input
+     * @param CartInterface $quote
      * @return array<string, mixed>
      */
-    abstract protected function execute(Management $management, array $input): array;
+    abstract protected function execute(Management $management, array $input, CartInterface $quote): array;
 
     /**
      * Read and validate the mutation input argument.

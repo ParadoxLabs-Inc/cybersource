@@ -549,6 +549,127 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
     }
 
     /**
+     * Require mode closes the API bypass: an integrator that never runs the ceremony cannot place.
+     *
+     * This is the case the storefront can never reach -- Luma, Hyva and the GraphQL client all
+     * authenticate before placing -- and exactly the one a REST caller reaches by simply not calling
+     * the payer-auth endpoints. The assertion that matters is the second one: nothing reached
+     * /pts/v2/payments, so the refusal is a refusal and not a charge with a warning.
+     *
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payer_auth_required 1
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_checkout_quote.php
+     * @return void
+     */
+    public function testRequiredPayerAuthRefusesAPlacementThatSkippedTheCeremony(): void
+    {
+        $stub = $this->registerRestStub($this->payerAuthResponder('case-2-1-success.json'));
+
+        // No setup(), no authenticate() -- the skip-the-calls path.
+        $this->simulateNewRequest();
+
+        try {
+            $this->placeCart();
+            self::fail('Require mode must refuse a placement with no payer authentication.');
+        } catch (CommandException $exception) {
+            self::assertStringContainsString('Payer Authentication (3DS) is required', $exception->getMessage());
+        }
+
+        self::assertSame(
+            [],
+            $stub->getCallsMatching(self::PAYMENTS_PATH),
+            'A refused placement must not reach the gateway at all.'
+        );
+    }
+
+    /**
+     * The same cart, with require mode off, places unauthenticated exactly as it does today.
+     *
+     * The pair with the test above is the whole point: the ONLY difference is the config flag, so a
+     * regression that made the enforcement unconditional would fail here.
+     *
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payer_auth_required 0
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_checkout_quote.php
+     * @return void
+     */
+    public function testUnrequiredPayerAuthStillPlacesWhenTheCeremonyWasSkipped(): void
+    {
+        $stub = $this->registerRestStub($this->payerAuthResponder('case-2-1-success.json'));
+
+        $this->simulateNewRequest();
+
+        $order = $this->placeCart();
+
+        self::assertSame(Order::STATE_PROCESSING, $order->getState());
+
+        $payments = $stub->getCallsMatching(self::PAYMENTS_PATH);
+        self::assertCount(1, $payments);
+        self::assertArrayNotHasKey('consumerAuthenticationInformation', $payments[0]['params']);
+    }
+
+    /**
+     * Require mode must never reach an unattended rebill: there is no cardholder to authenticate.
+     *
+     * A merchant turning this on to harden their checkout must not thereby break every subscription
+     * renewal on the store.
+     *
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payer_auth_required 1
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_stored_card_quote.php
+     * @return void
+     */
+    public function testRequiredPayerAuthExemptsSubscriptionRebills(): void
+    {
+        $stub = $this->registerRestStub($this->payerAuthResponder('case-2-1-success.json'));
+
+        $this->flagPayment(self::STORED_QUOTE_ID, 'is_subscription_generated', 1);
+
+        $this->simulateNewRequest();
+
+        $order = $this->placeCart(self::STORED_QUOTE_ID);
+
+        self::assertSame(Order::STATE_PROCESSING, $order->getState(), 'The rebill must place.');
+
+        $payments = $stub->getCallsMatching(self::PAYMENTS_PATH);
+        self::assertCount(1, $payments);
+        self::assertArrayNotHasKey('consumerAuthenticationInformation', $payments[0]['params']);
+    }
+
+    /**
+     * Admin/MOTO order creation is exempt: the coverage matrix puts 3DS out of scope there, and the
+     * area check that implements it must not be defeated by require mode.
+     *
+     * @magentoAppArea adminhtml
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/payer_auth_required 1
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_checkout_quote.php
+     * @return void
+     */
+    public function testRequiredPayerAuthExemptsAdminOrders(): void
+    {
+        $stub = $this->registerRestStub($this->payerAuthResponder('case-2-1-success.json'));
+
+        $this->simulateNewRequest();
+
+        $order = $this->placeCart();
+
+        self::assertSame(Order::STATE_PROCESSING, $order->getState(), 'An admin order must place.');
+
+        $payments = $stub->getCallsMatching(self::PAYMENTS_PATH);
+        self::assertCount(1, $payments);
+        self::assertArrayNotHasKey('consumerAuthenticationInformation', $payments[0]['params']);
+    }
+
+    /**
      * Run setup() and authenticate() as two separate requests against the fixture cart.
      *
      * @return PayerAuthResultInterface
