@@ -132,7 +132,7 @@ abstract class CaptureContext
         // its Decision Manager, and its 3DS flags drive) is never invoked — the drop-in only mints a
         // transient token and the server runs the auth/capture and payer auth itself. Sending the
         // mandate only added the never-called complete() endpoint URLs to the context JWT; it changed
-        // no rendered drop-in field (C5 probe, 2026-08-04). See PAYER-AUTH-PLAN.md.
+        // no rendered drop-in field (verified by live capture-context diff, 2026-08-04).
 
         // Pane behavior. A no-amount context is add-card (customer payment-info / admin card
         // management — every subclass returns null there) or a $0 checkout normalized above:

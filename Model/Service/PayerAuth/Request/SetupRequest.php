@@ -29,7 +29,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FilterEmptyTra
  *
  * The card is addressed EITHER by the Unified Checkout transient token (new card) OR by the TMS
  * payment-instrument id (stored card). Both shapes were verified 201 COMPLETED against the live
- * sandbox (PAYER-AUTH-PLAN.md gate G1); the raw paymentInstrument shape is used for vault cards
+ * sandbox; the raw paymentInstrument shape is used for vault cards
  * because it matches how the payment call addresses them.
  */
 class SetupRequest

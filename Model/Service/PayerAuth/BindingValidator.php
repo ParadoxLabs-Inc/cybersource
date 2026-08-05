@@ -38,7 +38,7 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *  - Payer Auth off / skipped     => Management clears the record outright
  *  - approved place               => Response clears the consumed record (the one-shot)
  *
- * Rules, in order (PA1-IMPLEMENTATION.md, "Shared design contracts"):
+ * Rules, in order:
  *  1. no record            => null. NOT an error: Payer Auth may be off, or a REST integrator may
  *                             simply not have run it.
  *  2. FAILED               => CommandException. The record STAYS, so retrying cannot bypass it.
