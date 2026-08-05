@@ -10,8 +10,8 @@ use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CaptureContext;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
+use ParadoxLabs\CyberSource\Helper\Data;
 use ParadoxLabs\TokenBase\Helper\Address;
-use Psr\Log\LoggerInterface;
 
 /**
  * Concrete test subclass exposing the abstract sourcing hooks.
@@ -24,7 +24,7 @@ class TestableCaptureContext extends CaptureContext
         Sanitizer $sanitizer,
         Address $addressHelper,
         CaptureContextRequestFactory $requestFactory,
-        ?LoggerInterface $logger = null
+        ?Data $helper = null
     ) {
         parent::__construct(
             config: $config,
@@ -32,7 +32,17 @@ class TestableCaptureContext extends CaptureContext
             sanitizer: $sanitizer,
             addressHelper: $addressHelper,
             requestFactory: $requestFactory,
-            logger: $logger ?? new \Psr\Log\NullLogger()
+            helper: $helper ?? new class extends Data {
+                // Dep-free no-op stand-in for tests that never assert on logging.
+                public function __construct()
+                {
+                }
+
+                public function log($code, $message, $debug = false)
+                {
+                    return $this;
+                }
+            }
         );
     }
 

@@ -219,8 +219,8 @@ class AuthenticateTest extends TestCase
             ->willThrowException(new \RuntimeException('cURL error 7: failed to connect to api.cybersource.com'));
 
         $this->loggerMock->expects($this->once())
-            ->method('error')
-            ->with($this->stringContains('CyberSource Payer Authentication GraphQL error'));
+            ->method('log')
+            ->with($this->anything(), $this->stringContains('Payer Authentication GraphQL error'));
 
         $this->expectException(GraphQlInputException::class);
         $this->expectExceptionMessage('Payer authentication is temporarily unavailable. Please try again.');
