@@ -7,7 +7,7 @@ Run `bin/magento setup:di:compile` after deployment.**
 
 - Added CyberSource Unified Checkout as the card form, replacing Secure Acceptance; all payment
   processing now runs on the REST API.
-- Added native CyberSource Payer Authentication (3-D Secure 2), replacing CardinalCommerce Songbird
+- Added native CyberSource Payer Authentication (3D Secure 2), replacing CardinalCommerce Songbird
   — no Cardinal credentials needed, but CyberSource must enable Payer Auth on your merchant account.
 - Added `Require Payer Authentication` (default off) to refuse orders placed without Payer
   Authentication — closes the REST/GraphQL bypass; subscription rebills and admin orders are exempt.
