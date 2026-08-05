@@ -22,7 +22,7 @@
 namespace ParadoxLabs\CyberSource\Api\Data;
 
 /**
- * Browser profile the client collects for the 3-D Secure device fingerprint.
+ * Browser profile the client collects for the 3D Secure device fingerprint.
  *
  * CLIENT-COLLECTED FIELDS ONLY. User-Agent, Accept and IP address are deliberately absent: the
  * server derives them from the actual HTTP request, because a client that could set them could

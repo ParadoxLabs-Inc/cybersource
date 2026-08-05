@@ -26,7 +26,7 @@ use ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface;
 use ParadoxLabs\CyberSource\Api\Data\PayerAuthSetupResultInterface;
 
 /**
- * Payer Authentication (3-D Secure) for a guest cart, addressed by its masked id.
+ * Payer Authentication (3D Secure) for a guest cart, addressed by its masked id.
  *
  * Same three-step contract as PayerAuthManagementInterface; possession of the masked cart id IS the
  * authorization, exactly as it is for every other guest-cart endpoint. Guest carts have no stored
