@@ -121,15 +121,42 @@ class ChallengeTest extends TestCase
         );
     }
 
-    public function testBodyPostsTheJwtToAValidatedHttpsStepUpUrl(): void
+    public function testBodyPostsToAValidatedHttpsUrlInBothTransports(): void
     {
         $this->controller->execute();
 
-        $this->assertStringContainsString("parsed.protocol !== 'https:'", $this->body);
+        // Both transports funnel through one https-validated single-field POST helper.
+        $this->assertStringContainsString("return parsed.protocol === 'https:';", $this->body);
         $this->assertStringContainsString("form.setAttribute('method', 'POST');", $this->body);
-        $this->assertStringContainsString("form.setAttribute('action', stepUpUrl);", $this->body);
+        $this->assertStringContainsString("form.setAttribute('action', action);", $this->body);
         $this->assertStringContainsString("form.setAttribute('target', 'pl-pa-acs');", $this->body);
-        $this->assertStringContainsString("input.setAttribute('name', 'JWT');", $this->body);
+
+        // Step-up preferred when its pair is complete; raw EMV creq POST otherwise.
+        $this->assertStringContainsString("submitToFrame(stepUpUrl, 'JWT', jwt);", $this->body);
+        $this->assertStringContainsString("submitToFrame(acsUrl, 'creq', pareq);", $this->body);
+        $this->assertStringContainsString(
+            "isHttpsUrl(stepUpUrl) && typeof jwt === 'string' && jwt !== ''",
+            $this->body
+        );
+        $this->assertStringContainsString(
+            "isHttpsUrl(acsUrl) && typeof pareq === 'string' && pareq !== ''",
+            $this->body
+        );
+    }
+
+    public function testBodyTreatsTheCardinalTerminalMessageAsCompletion(): void
+    {
+        $this->controller->execute();
+
+        // The raw-EMV transport ends on Cardinal's TermURL page, which postMessages a JSON string
+        // instead of redirecting to our return URL; that string is the completion signal.
+        $this->assertStringContainsString("isTerminalChildMessage(data)", $this->body);
+        $this->assertStringContainsString("if (typeof data !== 'string' || data === '') {", $this->body);
+        $this->assertStringContainsString("parsed = JSON.parse(data);", $this->body);
+        $this->assertStringContainsString(
+            "return parsed !== null && typeof parsed === 'object';",
+            $this->body
+        );
     }
 
     /**

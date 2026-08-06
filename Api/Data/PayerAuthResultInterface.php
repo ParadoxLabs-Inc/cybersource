@@ -69,8 +69,11 @@ interface PayerAuthResultInterface
     public function setStatus(string $status): PayerAuthResultInterface;
 
     /**
-     * Get the issuer ACS URL (challenge status only). Informational: the challenge runs through the
-     * step-up frame (getStepUpUrl()), never a direct ACS POST.
+     * Get the issuer ACS URL (challenge status only).
+     *
+     * The raw-EMV challenge transport: form-POST creq=<pareq> here. Accounts without the
+     * Cardinal-hosted step-up return ONLY this pair; when getStepUpUrl()/getAccessToken() are also
+     * present, the step-up frame is preferred.
      *
      * @return string|null
      */
@@ -85,7 +88,8 @@ interface PayerAuthResultInterface
     public function setAcsUrl(?string $acsUrl): PayerAuthResultInterface;
 
     /**
-     * Get the base64 challenge request payload (challenge status only). Informational; see getAcsUrl().
+     * Get the base64 challenge request payload (challenge status only); POSTed as creq to
+     * getAcsUrl() in the raw-EMV transport.
      *
      * @return string|null
      */

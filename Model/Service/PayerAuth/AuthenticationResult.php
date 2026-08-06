@@ -73,9 +73,15 @@ class AuthenticationResult
     }
 
     /**
-     * Get the issuer ACS URL (CHALLENGE only). Informational: the challenge is run through the
-     * Cardinal step-up frame (stepUpUrl), never by POSTing to the ACS directly — the AReq registered
-     * Cardinal's own TermURL for the CRes, so a direct ACS POST can never complete.
+     * Get the issuer ACS URL (CHALLENGE only).
+     *
+     * The raw-EMV challenge transport: the browser form-POSTs creq=<pareq> here. Direct-API-shaped
+     * accounts (this MID included; probed 2026-08-06) return ONLY this pair — no stepUpUrl or
+     * accessToken. The AReq registered Cardinal's TermURL for the CRes, and that endpoint answers
+     * the frame with a cosmetic 400 rather than redirecting to our return URL, but the ACS has
+     * already reported the outcome to Cardinal out of band, so authentication-results is final —
+     * completion is detected from that page's terminal postMessage (see Controller/Payerauth/
+     * Challenge).
      *
      * @return string|null
      */
@@ -85,7 +91,8 @@ class AuthenticationResult
     }
 
     /**
-     * Get the base64 CReq payload (CHALLENGE only). Informational; see acsUrl().
+     * Get the base64 CReq payload (CHALLENGE only); POSTed as creq to acsUrl() in the raw-EMV
+     * transport.
      *
      * @return string|null
      */
@@ -95,7 +102,10 @@ class AuthenticationResult
     }
 
     /**
-     * Get the Cardinal step-up frame URL the challenge iframe must form-POST to (CHALLENGE only).
+     * Get the Cardinal step-up frame URL (CHALLENGE only; hosted-step-up accounts only).
+     *
+     * Preferred over the raw acsUrl/pareq transport when present. Not returned by
+     * Direct-API-shaped accounts — absence is a normal reply shape, not an error.
      *
      * @return string|null
      */

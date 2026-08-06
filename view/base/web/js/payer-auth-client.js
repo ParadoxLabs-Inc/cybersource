@@ -225,7 +225,7 @@ define([
          * @param {Object} browserInfo - as returned by collectBrowserInfo()
          * @param {String} [returnUrl] - absolute HTTPS URL; omitted entirely when not given, so the
          *                               server's own challenge-return route applies
-         * @return {Promise<Object>} {status, stepUpUrl|step_up_url, accessToken|access_token}
+         * @return {Promise<Object>} {status, stepUpUrl|step_up_url, accessToken|access_token, acsUrl|acs_url, pareq}
          */
         authenticate: function (browserInfo, returnUrl) {
             var payload = {browserInfo: browserInfo};
@@ -243,7 +243,7 @@ define([
          * Takes nothing: the attempt is identified server-side by the quote. The outcome is read
          * from CyberSource, never from anything the challenge posted back.
          *
-         * @return {Promise<Object>} {status, stepUpUrl|step_up_url, accessToken|access_token}
+         * @return {Promise<Object>} {status, stepUpUrl|step_up_url, accessToken|access_token, acsUrl|acs_url, pareq}
          */
         finalize: function () {
             return post('finalize', {});
@@ -369,10 +369,12 @@ define([
          * times out.
          *
          * The modal frames OUR OWN same-origin wrapper page (pdl_cybs/payerauth/challenge), never
-         * Cardinal or the ACS directly: the wrapper receives stepUpUrl and the step-up JWT by
-         * postMessage — keeping both out of any URL, history entry, or access log — POSTs the JWT
-         * into Cardinal's step-up frame as its own child, and relays the return event back up.
-         * Cardinal's frame runs the CReq/CRes exchange with the issuer; nothing here does.
+         * Cardinal or the ACS directly: the wrapper receives the challenge handles by postMessage
+         * — keeping them out of any URL, history entry, or access log — starts the challenge in its
+         * own child frame, and relays the completion event back up. The result may carry either or
+         * both transports; the wrapper prefers the Cardinal-hosted step-up (stepUpUrl + JWT) and
+         * falls back to the raw EMV shape (creq=<pareq> to the issuer ACS) that Direct-API-shaped
+         * accounts return. Which pair is present is the server's contract, not a choice made here.
          *
          * Both messages from the wrapper are checked for same-origin AND for coming from the frame
          * we created. A hostile same-origin frame could at most forge 'return' early, which costs a
@@ -385,14 +387,20 @@ define([
          * longer wants (e.g. the drop-in remounts mid-challenge). cancel() settles the promise as
          * 'cancelled' and reaps the modal; it is a no-op once the challenge has settled.
          *
-         * @param {String} stepUpUrl - Cardinal step-up URL from the authenticate/finalize result
-         * @param {String} accessToken - the challenge-scoped step-up JWT for that attempt
+         * @param {Object} handles - challenge handles from the authenticate/finalize result:
+         *        {stepUpUrl, accessToken, acsUrl, pareq}; either complete pair is sufficient
          * @return {{promise: Promise<Object>, cancel: Function}} promise resolves
          *         {status: 'return'|'cancelled'|'timeout'|'error'}
          */
-        runChallenge: function (stepUpUrl, accessToken) {
-            if (typeof stepUpUrl !== 'string' || stepUpUrl === ''
-                || typeof accessToken !== 'string' || accessToken === '') {
+        runChallenge: function (handles) {
+            var stepUpUrl = handles && typeof handles.stepUpUrl === 'string' ? handles.stepUpUrl : '';
+            var accessToken = handles && typeof handles.accessToken === 'string' ? handles.accessToken : '';
+            var acsUrl = handles && typeof handles.acsUrl === 'string' ? handles.acsUrl : '';
+            var pareq = handles && typeof handles.pareq === 'string' ? handles.pareq : '';
+            var stepUpUsable = stepUpUrl !== '' && accessToken !== '';
+            var rawUsable = acsUrl !== '' && pareq !== '';
+
+            if (!stepUpUsable && !rawUsable) {
                 return {promise: Promise.resolve({status: 'error'}), cancel: function () {}};
             }
 
@@ -467,7 +475,14 @@ define([
                     if (data.event === 'ready' && !started) {
                         started = true;
                         frame.contentWindow.postMessage(
-                            {source: TAG, event: 'challenge', stepUpUrl: stepUpUrl, jwt: accessToken},
+                            {
+                                source: TAG,
+                                event: 'challenge',
+                                stepUpUrl: stepUpUrl,
+                                jwt: accessToken,
+                                acsUrl: acsUrl,
+                                pareq: pareq
+                            },
                             origin
                         );
                     } else if (data.event === 'return') {

@@ -747,7 +747,8 @@ define(
              * Route an authenticate/finalize outcome: success/skipped => place; failed => decline;
              * challenge => run the issuer step-up.
              *
-             * @param {Object} result - {status, stepUpUrl|step_up_url, accessToken|access_token}
+             * @param {Object} result - {status, stepUpUrl|step_up_url, accessToken|access_token,
+             *                           acsUrl|acs_url, pareq}
              * @param {Number} generation
              * @return {Promise|undefined}
              */
@@ -771,15 +772,19 @@ define(
              * Run the issuer challenge, then finalize. Holds the challenge handle so a mid-challenge
              * remount can cancel the modal (resetPayerAuthState).
              *
-             * @param {Object} authResult - carries stepUpUrl|step_up_url and accessToken|access_token
+             * @param {Object} authResult - carries the challenge handles: stepUpUrl|step_up_url +
+             *                              accessToken|access_token and/or acsUrl|acs_url + pareq
              * @param {Number} generation
              * @return {Promise}
              */
             runChallengeFlow: function (authResult, generation) {
                 var self = this;
-                var stepUpUrl = payerAuthClient.getResultField(authResult, 'stepUpUrl', 'step_up_url');
-                var accessToken = payerAuthClient.getResultField(authResult, 'accessToken', 'access_token');
-                var challenge = payerAuthClient.runChallenge(stepUpUrl, accessToken);
+                var challenge = payerAuthClient.runChallenge({
+                    stepUpUrl: payerAuthClient.getResultField(authResult, 'stepUpUrl', 'step_up_url'),
+                    accessToken: payerAuthClient.getResultField(authResult, 'accessToken', 'access_token'),
+                    acsUrl: payerAuthClient.getResultField(authResult, 'acsUrl', 'acs_url'),
+                    pareq: authResult ? authResult.pareq : ''
+                });
 
                 this._activeChallenge = challenge;
 
