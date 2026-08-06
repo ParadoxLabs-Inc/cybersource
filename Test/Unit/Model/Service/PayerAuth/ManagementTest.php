@@ -27,6 +27,7 @@ use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
@@ -367,6 +368,47 @@ class ManagementTest extends TestCase
         $this->assertFalse($this->management->setup(null, 'hash-abc')->getSkipped());
         $this->assertSame('PI-1234567890', $request->getPaymentInstrumentId());
         $this->assertNull($request->getTransientToken());
+    }
+
+    public function testSetupDeclineDegradesToNoDdcForATransientToken(): void
+    {
+        $this->tokenReader->method('readJti')->willReturn('jti-abc');
+        $this->tokenReader->method('read')->willReturn(['cc_type' => 'VI']);
+
+        // authentication-setups rejects UC (gda) transient tokens outright; the attempt must
+        // continue DDC-less rather than failing the sale.
+        $this->setupService->method('execute')->willThrowException(
+            new RuntimeException(__('The transaction was declined.'), null, 400)
+        );
+
+        $this->persistor->expects($this->once())
+            ->method('saveReferenceId')
+            ->with($this->payment, '', 'jti-abc', self::TOKEN);
+
+        $result = $this->management->setup(self::TOKEN);
+
+        $this->assertFalse($result->getSkipped());
+        $this->assertNull($result->getAccessToken());
+        $this->assertNull($result->getDeviceDataCollectionUrl());
+    }
+
+    public function testSetupDeclineDegradesToNoDdcForAStoredCard(): void
+    {
+        $this->storedCard = $this->card();
+
+        $this->setupService->method('execute')->willThrowException(
+            new RuntimeException(__('The transaction was declined.'), null, 400)
+        );
+
+        $this->persistor->expects($this->once())
+            ->method('saveReferenceId')
+            ->with($this->payment, '', 'card:7', null);
+
+        $result = $this->management->setup(null, 'hash-abc');
+
+        $this->assertFalse($result->getSkipped());
+        $this->assertNull($result->getAccessToken());
+        $this->assertNull($result->getDeviceDataCollectionUrl());
     }
 
     public function testSetupSkipsForALegacyCardWithNoPaymentInstrument(): void

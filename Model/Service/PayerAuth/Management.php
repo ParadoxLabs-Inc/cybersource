@@ -26,6 +26,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\HTTP\PhpEnvironment\Request as HttpRequest;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\UrlInterface;
@@ -233,6 +234,9 @@ class Management implements PayerAuthManagementInterface
     /**
      * Start an attempt: resolve the instrument, run authentication-setups, seed the record.
      *
+     * A setup DECLINE is not a sale failure: the record is seeded without a reference id and the
+     * attempt continues DDC-less (see the catch below for the probed reason).
+     *
      * @param string|null $transientToken
      * @param string|null $cardHash
      * @return PayerAuthSetupResultInterface
@@ -292,8 +296,31 @@ class Management implements PayerAuthManagementInterface
             return $this->skippedSetup($quote);
         }
 
-        $reply = $this->setupService->execute($request, $storeId);
-        $auth  = $this->replyAuthenticationInformation($reply);
+        try {
+            $reply = $this->setupService->execute($request, $storeId);
+        } catch (RuntimeException $exception) {
+            // A declined authentication-setups degrades to no-DDC instead of failing the sale.
+            // CyberSource rejects the call outright for Unified Checkout (gda) transient tokens
+            // (probed 2026-08-06: every tokenInformation spelling 400s INVALID_REQUEST), while
+            // the enrollment check accepts the same token directly and runs fine with no
+            // referenceId. DDC is best-effort by contract, so the record is seeded with an empty
+            // reference id and the client gets no collector handles (runDdc resolves 'skipped').
+            // The call itself is kept so DDC resumes unaided if CyberSource starts accepting them.
+            $this->helper->log(
+                Config::CODE,
+                sprintf(
+                    'Payer Authentication setup declined (HTTP %d);'
+                        . ' continuing without device data collection.',
+                    (int)$exception->getCode()
+                )
+            );
+
+            $this->persistor->saveReferenceId($quote->getPayment(), '', $binding, $storedToken);
+
+            return $this->setupResultFactory->create()->setSkipped(false);
+        }
+
+        $auth = $this->replyAuthenticationInformation($reply);
 
         // The reference id is the DDC correlation handle and is optional (authentications runs
         // without it); the record is seeded either way, because the BINDING is what setup exists
