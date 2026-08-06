@@ -41,6 +41,18 @@ class Results
     public const RESULTS_PATH = '/risk/v1/authentication-results';
 
     /**
+     * How many times to re-read an outcome that has not landed yet, and how long to wait between.
+     *
+     * The ACS reports the challenge outcome to CyberSource out of band (RReq), so the results call
+     * can arrive first and read a reply that carries no paresStatus at all. Measured 2026-08-06
+     * over 8 sandbox challenges: the outcome landed 173-1043 ms after the browser leg ended. Five
+     * attempts 250 ms apart cover ~1.25 s of that window on top of the client round-trip that has
+     * already elapsed, without holding the request open long enough to matter to a shopper.
+     */
+    private const OUTCOME_MAX_ATTEMPTS = 5;
+    private const OUTCOME_RETRY_DELAY_US = 250000;
+
+    /**
      * Results constructor.
      *
      * @param Config $config
@@ -68,8 +80,35 @@ class Results
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $reply = $this->rest->post(self::RESULTS_PATH, $request->toArray());
+        $body = $request->toArray();
+        $reply = $this->rest->post(self::RESULTS_PATH, $body);
+
+        for ($attempt = 1; $attempt < self::OUTCOME_MAX_ATTEMPTS && !$this->hasOutcome($reply); $attempt++) {
+            usleep(self::OUTCOME_RETRY_DELAY_US);
+
+            $reply = $this->rest->post(self::RESULTS_PATH, $body);
+        }
 
         return $this->classifier->classify($reply);
+    }
+
+    /**
+     * Whether the reply carries a settled authentication outcome.
+     *
+     * A challenge that has not been reported to CyberSource yet answers AUTHENTICATION_SUCCESSFUL
+     * with NO paresStatus and no CAVV — the same shape a genuinely unavailable authentication
+     * produces, which ResultClassifier can only read as Verdict::UNAVAILABLE. Since this service
+     * only ever finalizes a transaction that already reached PENDING_AUTHENTICATION, a missing
+     * paresStatus here means "not landed yet", not "no answer": the DS has spoken by definition.
+     * Any paresStatus at all — including U — is terminal and must NOT be retried.
+     *
+     * @param array<string, mixed> $reply
+     * @return bool
+     */
+    private function hasOutcome(array $reply): bool
+    {
+        $paresStatus = $reply['consumerAuthenticationInformation']['paresStatus'] ?? null;
+
+        return is_scalar($paresStatus) && (string)$paresStatus !== '';
     }
 }
