@@ -44,6 +44,7 @@ class AuthenticateTest extends TestCase
             ])
             ->setDeviceInformation([
                 'httpAcceptBrowserValue' => 'text/html,*/*;q=0.8',
+                'httpAcceptContent' => 'text/html,*/*;q=0.8',
                 'userAgentBrowserValue' => 'Mozilla/5.0 Chrome/127.0.0.0',
                 'ipAddress' => '198.51.100.24',
                 'httpBrowserLanguage' => 'en-US',

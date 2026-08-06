@@ -499,6 +499,11 @@ class Management implements PayerAuthManagementInterface
     {
         return [
             'httpAcceptBrowserValue' => $this->requestHeader('Accept'),
+            // Same Accept header under the name the DS actually consumes (EMV browserAcceptHeader).
+            // Without it the AReq fails DS validation (error 201) and every enrollment comes back
+            // veresEnrolled U — no challenge ever raised (probed 2026-08-06; DDC had been masking
+            // this by supplying the device data out of band).
+            'httpAcceptContent' => $this->requestHeader('Accept'),
             'userAgentBrowserValue' => $this->requestHeader('User-Agent'),
             'ipAddress' => $this->stringOrNull($this->remoteAddress->getRemoteAddress()),
             'httpBrowserLanguage' => $this->sanitizer->alphanumericPunc($browserInfo->getLanguage(), 20),

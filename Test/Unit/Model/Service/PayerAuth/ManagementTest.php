@@ -518,6 +518,7 @@ class ManagementTest extends TestCase
         $device = $emitted['deviceInformation'];
         $this->assertSame('Mozilla/5.0 (RealBrowser)', $device['userAgentBrowserValue']);
         $this->assertSame('text/html,application/xhtml+xml', $device['httpAcceptBrowserValue']);
+        $this->assertSame('text/html,application/xhtml+xml', $device['httpAcceptContent']);
         $this->assertSame('203.0.113.9', $device['ipAddress']);
         $this->assertSame('en-US', $device['httpBrowserLanguage']);
         $this->assertSame('false', $device['httpBrowserJavaEnabled']);

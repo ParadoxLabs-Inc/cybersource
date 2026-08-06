@@ -23,6 +23,7 @@ class AuthenticationRequestTest extends TestCase
     {
         return [
             'httpAcceptBrowserValue' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'httpAcceptContent' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'userAgentBrowserValue' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/127.0.0.0',
             'ipAddress' => '198.51.100.24',
             'httpBrowserLanguage' => 'en-US',

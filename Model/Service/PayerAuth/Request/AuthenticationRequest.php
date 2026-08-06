@@ -47,6 +47,7 @@ class AuthenticationRequest
      */
     public const REQUIRED_DEVICE_FIELDS = [
         'httpAcceptBrowserValue',
+        'httpAcceptContent',
         'userAgentBrowserValue',
         'ipAddress',
         'httpBrowserLanguage',
