@@ -88,7 +88,7 @@
                 <field id="payer_auth_required" translate="label comment" type="select" sortOrder="196" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Require Payer Authentication</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Refuse orders placed without Payer Authentication — closes the API path for REST/GraphQL integrations that skip it. Subscription rebills and admin orders are exempt.</comment>
+                    <comment>Refuse orders placed without attempting Payer Authentication — closes the API path for REST/GraphQL integrations that skip it. This requires the authentication to be ATTEMPTED, not to succeed: cards the issuer cannot authenticate (not enrolled, issuer timeout, directory-server error) still place, without a liability shift, as they did before. Subscription rebills and admin orders are exempt.</comment>
                     <depends>
                         <field id="cardinal_active">1</field>
                     </depends>

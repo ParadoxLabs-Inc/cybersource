@@ -78,9 +78,13 @@ class ResultsTest extends TestCase
         $request = new ResultsRequest();
         $request->setAuthenticationTransactionId('6544863011992807913018');
 
-        $service = new Results($this->createMock(Config::class), $rest, $classifier);
+        $service = new TestableResults($this->createMock(Config::class), $rest, $classifier);
 
         $this->assertSame($result, $service->execute($request));
+
+        // Escalating backoff: the common case costs one short wait, the tail gets progressively
+        // longer ones. Measured tail is 4.67s, so the schedule must stay generous.
+        $this->assertSame([250000, 500000], $service->pauses);
     }
 
     /**
@@ -104,9 +108,10 @@ class ResultsTest extends TestCase
         $request = new ResultsRequest();
         $request->setAuthenticationTransactionId('6544863011992807913018');
 
-        $service = new Results($this->createMock(Config::class), $rest, $classifier);
+        $service = new TestableResults($this->createMock(Config::class), $rest, $classifier);
 
         $this->assertSame($result, $service->execute($request));
+        $this->assertSame([], $service->pauses, 'A settled outcome must not cost the shopper any wait.');
     }
 
     /**
@@ -119,7 +124,7 @@ class ResultsTest extends TestCase
         $result  = new AuthenticationResult(Verdict::UNAVAILABLE, []);
 
         $rest = $this->createMock(Rest::class);
-        $rest->expects($this->exactly(5))->method('post')->willReturn($pending);
+        $rest->expects($this->exactly(7))->method('post')->willReturn($pending);
 
         $classifier = $this->createMock(ResultClassifier::class);
         $classifier->expects($this->once())->method('classify')->with($pending)->willReturn($result);
@@ -127,9 +132,17 @@ class ResultsTest extends TestCase
         $request = new ResultsRequest();
         $request->setAuthenticationTransactionId('6544863011992807913018');
 
-        $service = new Results($this->createMock(Config::class), $rest, $classifier);
+        $service = new TestableResults($this->createMock(Config::class), $rest, $classifier);
 
         $this->assertSame($result, $service->execute($request));
+
+        // The whole schedule, and no more: an outcome that never lands must not stall checkout.
+        $this->assertSame([250000, 500000, 1000000, 1500000, 2000000, 2500000], $service->pauses);
+        $this->assertLessThanOrEqual(
+            8000000,
+            array_sum($service->pauses),
+            'The retry budget must stay within a few seconds; it runs inside a checkout request.'
+        );
     }
 
     public function testEndpointConstantIsTheResultsPath(): void

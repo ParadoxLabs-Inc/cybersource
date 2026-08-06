@@ -9,8 +9,11 @@ Run `bin/magento setup:di:compile` after deployment.**
   processing now runs on the REST API.
 - Added native CyberSource Payer Authentication (3D Secure 2), replacing CardinalCommerce Songbird
   — no Cardinal credentials needed, but CyberSource must enable Payer Auth on your merchant account.
-- Added `Require Payer Authentication` (default off) to refuse orders placed without Payer
-  Authentication — closes the REST/GraphQL bypass; subscription rebills and admin orders are exempt.
+- Added `Require Payer Authentication` (default off) to refuse orders placed without *attempting*
+  Payer Authentication — closes the REST/GraphQL bypass; subscription rebills and admin orders are
+  exempt. It requires the authentication to be attempted, not to succeed: a card the issuer cannot
+  authenticate (not enrolled, issuer timeout, directory-server error) still places without a
+  liability shift, as it did in 3.x.
 - Added `Headless Return URL Origins`; separate-origin headless storefronts must configure it or
   their payer-auth challenge return is rejected.
 - Changed `Enable Payer Authentication` to take effect without Cardinal credentials — stores that

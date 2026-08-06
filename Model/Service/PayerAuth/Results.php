@@ -41,16 +41,22 @@ class Results
     public const RESULTS_PATH = '/risk/v1/authentication-results';
 
     /**
-     * How many times to re-read an outcome that has not landed yet, and how long to wait between.
+     * How long to wait before each re-read of an outcome that has not landed yet, in microseconds.
      *
      * The ACS reports the challenge outcome to CyberSource out of band (RReq), so the results call
-     * can arrive first and read a reply that carries no paresStatus at all. Measured 2026-08-06
-     * over 8 sandbox challenges: the outcome landed 173-1043 ms after the browser leg ended. Five
-     * attempts 250 ms apart cover ~1.25 s of that window on top of the client round-trip that has
-     * already elapsed, without holding the request open long enough to matter to a shopper.
+     * can arrive first and read a reply that carries no paresStatus at all. Measured over 22 sandbox
+     * challenges on 2026-08-06: the outcome landed anywhere from 173 ms to 4670 ms after the browser
+     * leg ended — mostly under 300 ms, with a long tail (5 of 22 over 1.5 s). An early 8-sample read
+     * topped out at 1043 ms and is what a too-tight first fix was sized against; do not re-tighten
+     * this on a small sample.
+     *
+     * Escalating rather than fixed: the common case still resolves in one extra call a quarter of a
+     * second later, while the tail gets ~7.75 s of cover for seven calls total instead of thirty.
+     * The wait only happens on a challenge the shopper has just finished, where some delay reads as
+     * processing — and losing the race costs them the liability shift, or the order under
+     * require-3DS, which is far worse than waiting.
      */
-    private const OUTCOME_MAX_ATTEMPTS = 5;
-    private const OUTCOME_RETRY_DELAY_US = 250000;
+    private const OUTCOME_RETRY_DELAYS_US = [250000, 500000, 1000000, 1500000, 2000000, 2500000];
 
     /**
      * Results constructor.
@@ -83,13 +89,28 @@ class Results
         $body = $request->toArray();
         $reply = $this->rest->post(self::RESULTS_PATH, $body);
 
-        for ($attempt = 1; $attempt < self::OUTCOME_MAX_ATTEMPTS && !$this->hasOutcome($reply); $attempt++) {
-            usleep(self::OUTCOME_RETRY_DELAY_US);
+        foreach (self::OUTCOME_RETRY_DELAYS_US as $delay) {
+            if ($this->hasOutcome($reply)) {
+                break;
+            }
+
+            $this->pause($delay);
 
             $reply = $this->rest->post(self::RESULTS_PATH, $body);
         }
 
         return $this->classifier->classify($reply);
+    }
+
+    /**
+     * Wait between re-reads. Seam so tests can exercise the retry schedule without sleeping.
+     *
+     * @param int $microseconds
+     * @return void
+     */
+    protected function pause(int $microseconds): void
+    {
+        usleep($microseconds);
     }
 
     /**
