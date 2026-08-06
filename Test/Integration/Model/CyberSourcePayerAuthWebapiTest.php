@@ -318,6 +318,117 @@ class CyberSourcePayerAuthWebapiTest extends TestCase
     }
 
     /**
+     * A declined authentication-setups must cost the sale nothing but device data collection.
+     *
+     * CyberSource rejects Unified Checkout transient tokens at authentication-setups outright, so
+     * before this degrade every new-card 3DS checkout died with a generic decline before the
+     * enrollment check ever ran. The enrollment check accepts the same token directly and needs no
+     * referenceId, so the attempt continues: record seeded, no collector handles issued, and the
+     * client's runDdc() resolves 'skipped' on the empty handles rather than hanging.
+     *
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_guest_quote.php
+     * @return void
+     */
+    public function testDeclinedSetupDegradesToADeviceDataFreeAttempt(): void
+    {
+        $stub = $this->registerRestStub(
+            function (string $method, string $path, array $params): array {
+                return match ($path) {
+                    Setup::SETUP_PATH => throw CyberSourceRestStub::httpError(
+                        'Declined - One or more fields in the request contains invalid data',
+                        400
+                    ),
+                    Authenticate::AUTHENTICATIONS_PATH => $this->replyFixture('case-2-1-success.json'),
+                    default => throw CyberSourceRestStub::httpError('Unexpected path ' . $path, 404),
+                };
+            }
+        );
+        $maskedId = $this->getMaskedQuoteId();
+
+        $setupResult = $this->guestManagement()->setup($maskedId, $this->transientToken());
+
+        self::assertFalse(
+            $setupResult->getSkipped(),
+            'A declined setup must not report the ceremony skipped: authenticate() still has to run,'
+            . ' and under require-3DS a skipped ceremony refuses the placement.'
+        );
+        self::assertNull($setupResult->getAccessToken(), 'There is no DDC session to hand the client.');
+        self::assertNull($setupResult->getDeviceDataCollectionUrl());
+
+        $seeded = $this->loadRecord();
+        self::assertNotNull($seeded, 'The attempt must still be seeded -- authenticate() needs the binding.');
+        self::assertSame(self::TRANSIENT_TOKEN_JTI, $seeded['binding'] ?? null);
+        self::assertSame('', $seeded['reference_id'] ?? null, 'A declined setup yields no reference id.');
+
+        // ---- second request ----
+        $this->simulateNewRequest();
+
+        $authResult = $this->guestManagement()->authenticate($maskedId, $this->browserInfo());
+
+        self::assertSame(
+            PayerAuthResultInterface::STATUS_SUCCESS,
+            $authResult->getStatus(),
+            'The enrollment check must run despite the declined setup -- that is the whole point.'
+        );
+
+        $authenticationCalls = $stub->getCallsMatching(Authenticate::AUTHENTICATIONS_PATH);
+        self::assertCount(1, $authenticationCalls);
+        self::assertArrayNotHasKey(
+            'referenceId',
+            $authenticationCalls[0]['params']['consumerAuthenticationInformation'] ?? [],
+            'An empty reference id must be omitted, not sent as an empty string.'
+        );
+    }
+
+    /**
+     * The AReq's browserAcceptHeader rides deviceInformation.httpAcceptContent, and the directory
+     * server rejects the message without it -- every enrollment then answers veresEnrolled U, which
+     * is a silent 3DS bypass shaped like success rather than a visible error.
+     *
+     * DDC used to supply the device data out of band, which is why this only ever surfaced on the
+     * token path (the one that cannot run DDC). Asserted on the request the service actually built,
+     * from the live HTTP request's Accept header.
+     *
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_active 1
+     * @magentoConfigFixture default_store payment/paradoxlabs_cybersource/cardinal_card_types AE,VI,MC,DI,JCB,DN
+     * @magentoDataFixture ParadoxLabs_CyberSource::Test/Integration/_files/cybersource_payer_auth_guest_quote.php
+     * @return void
+     */
+    public function testAuthenticationSendsTheAcceptHeaderTheDirectoryServerReads(): void
+    {
+        $stub = $this->registerRestStub($this->payerAuthResponder('case-2-1-success.json'));
+        $maskedId = $this->getMaskedQuoteId();
+
+        $this->guestManagement()->setup($maskedId, $this->transientToken());
+        $this->simulateNewRequest();
+        $this->guestManagement()->authenticate($maskedId, $this->browserInfo());
+
+        $device = $stub->getCallsMatching(Authenticate::AUTHENTICATIONS_PATH)[0]['params']['deviceInformation']
+            ?? [];
+
+        // Magento's header container re-emits the list with a space after each comma, so compare
+        // on the media types rather than on the exact spelling that was set.
+        $normalize = static fn (?string $value): string => str_replace(' ', '', (string)$value);
+
+        self::assertSame(
+            $normalize(self::ACCEPT_HEADER),
+            $normalize($device['httpAcceptContent'] ?? null),
+            'Without httpAcceptContent the directory server rejects the AReq (error 201) and every'
+            . ' enrollment degrades to veresEnrolled U -- no challenge, no liability shift, no error.'
+        );
+        self::assertSame(
+            $normalize(self::ACCEPT_HEADER),
+            $normalize($device['httpAcceptBrowserValue'] ?? null),
+            'Both accept fields carry the same header; the DS reads httpAcceptContent, CyberSource'
+            . ' documents httpAcceptBrowserValue.'
+        );
+    }
+
+    /**
      * Responder mapping the three /risk/v1 endpoints onto the pinned unit fixtures.
      *
      * @param string $authenticationFixture Fixture file for authentications and authentication-results.

@@ -191,12 +191,25 @@ class VoidPaymentTest extends AbstractBackendController
             'The controller must have attempted the reversal exactly once.'
         );
 
-        // The admin must be told the void failed. Matched loosely: TokenBase owns the wrapper wording,
-        // but the processor's own reason has to reach the admin.
+        // The admin must be told the void failed, and must not be told it succeeded.
+        //
+        // DEFECT, asserted as-is rather than as-wanted: the gateway's own reason ("Reversal not
+        // permitted for this transaction.") does NOT reach the admin. Rest::throwOnHttpError()
+        // raises RuntimeException carrying the generic SHOPPER-facing decline phrase and demotes
+        // the gateway message to the previous exception, which nothing unwraps. So an admin whose
+        // void was rejected is told to "verify your payment details and try again" -- advice that
+        // makes no sense in the admin, about a reason they are never shown.
+        //
+        // This assertion used to check for the gateway reason and passed, because the stub threw a
+        // plain \Exception whose getMessage() WAS that reason. Correcting the stub to reproduce the
+        // real exception structure exposed it. Fixing the surfacing is a separate call: the wrapper
+        // wording is TokenBase's (issue #5), and deciding what an admin should see versus a shopper
+        // is a product decision, not a test fix.
         $this->assertSessionMessages(
             $this->callback(
                 static fn (array $messages): bool => count($messages) === 1
-                    && str_contains((string)$messages[0], 'Reversal not permitted for this transaction.')
+                    && str_contains((string)$messages[0], 'Unable to void payment:')
+                    && str_contains((string)$messages[0], 'authorization may still be open')
             ),
             MessageInterface::TYPE_ERROR
         );
