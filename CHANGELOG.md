@@ -21,7 +21,8 @@ Run `bin/magento setup:di:compile` after deployment.**
 - Changed `Enable Decision Manager` to control fraud screening on checkout authorizations
   (previously no effect); subscription and follow-on charges remain exempt.
 - Changed the default `Enable for Card Types` list to AE, VI, MC, DI, JCB, DN — EEA merchants
-  accepting Maestro should add it.
+  accepting Maestro should add it. Note an empty selection disables Payer Authentication for
+  every card even when `Enable Payer Authentication` is on — every charge is out of scope.
 - Changed `Enable fraud check when storing cards` to govern the $0 card-storage authorization,
   keeping the 3.x default of not screening card adds.
 - Removed all SOAP, Secure Acceptance, and CardinalCommerce settings; stored values (including
