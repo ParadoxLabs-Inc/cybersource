@@ -2,6 +2,55 @@ type Query {
     cyberSourceUnifiedCheckoutCaptureContext(input: TokenBaseCyberSourceUnifiedCheckoutInput!): TokenBaseCyberSourceUnifiedCheckoutCaptureContext @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\UnifiedCheckout\\CaptureContext") @doc(description: "Get a CyberSource Unified Checkout capture-context JWT for collecting payment data.")
 }
 
+type Mutation {
+    cyberSourcePayerAuthSetup(input: TokenBaseCyberSourcePayerAuthSetupInput!): TokenBaseCyberSourcePayerAuthSetupResult @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\PayerAuth\\Setup") @doc(description: "Start CyberSource Payer Authentication (3-D Secure) for a cart and get the device data collection parameters.")
+    cyberSourcePayerAuthAuthenticate(input: TokenBaseCyberSourcePayerAuthAuthenticateInput!): TokenBaseCyberSourcePayerAuthResult @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\PayerAuth\\Authenticate") @doc(description: "Run CyberSource Payer Authentication (3-D Secure) for a cart, after device data collection.")
+    cyberSourcePayerAuthFinalize(input: TokenBaseCyberSourcePayerAuthFinalizeInput!): TokenBaseCyberSourcePayerAuthResult @resolver(class: "ParadoxLabs\\CyberSource\\Model\\Api\\GraphQL\\PayerAuth\\Finalize") @doc(description: "Get the final CyberSource Payer Authentication (3-D Secure) outcome for a cart, after a challenge.")
+}
+
+input TokenBaseCyberSourcePayerAuthSetupInput @doc(description: "Input for starting CyberSource Payer Authentication on a cart.") {
+    cartId: String @doc(description: "The masked ID of the cart to authenticate. Required.")
+    guestEmail: String @doc(description: "Email address of the guest placing the order, when the cart has none.")
+    transientToken: String @doc(description: "CyberSource Unified Checkout transient-token JWT for a newly entered card. Provide exactly one of transientToken or cardHash.")
+    cardHash: String @doc(description: "Public hash of the stored card to authenticate. Provide exactly one of transientToken or cardHash.")
+}
+
+input TokenBaseCyberSourcePayerAuthAuthenticateInput @doc(description: "Input for running CyberSource Payer Authentication on a cart.") {
+    cartId: String @doc(description: "The masked ID of the cart to authenticate. Required.")
+    guestEmail: String @doc(description: "Email address of the guest placing the order, when the cart has none.")
+    returnUrl: String @doc(description: "Absolute https URL the challenge returns to. May be a storefront origin other than the store's. Defaults to a store-hosted URL when omitted.")
+    browserInfo: TokenBaseCyberSourcePayerAuthBrowserInfoInput @doc(description: "Browser data collected on the client. Required by the card networks.")
+}
+
+input TokenBaseCyberSourcePayerAuthBrowserInfoInput @doc(description: "Client-collected browser data for CyberSource Payer Authentication.") {
+    language: String! @doc(description: "Browser language, as navigator.language.")
+    javaEnabled: Boolean! @doc(description: "Whether Java is enabled, as navigator.javaEnabled().")
+    javaScriptEnabled: Boolean! @doc(description: "Whether JavaScript is enabled. True for browser clients.")
+    colorDepth: Int! @doc(description: "Screen color depth in bits, as screen.colorDepth.")
+    screenHeight: Int! @doc(description: "Screen height in pixels, as screen.height.")
+    screenWidth: Int! @doc(description: "Screen width in pixels, as screen.width.")
+    timeDifference: Int! @doc(description: "Local time zone offset in minutes, as Date.getTimezoneOffset().")
+}
+
+input TokenBaseCyberSourcePayerAuthFinalizeInput @doc(description: "Input for retrieving the final CyberSource Payer Authentication outcome for a cart.") {
+    cartId: String @doc(description: "The masked ID of the cart that was authenticated. Required.")
+    guestEmail: String @doc(description: "Email address of the guest placing the order, when the cart has none.")
+}
+
+type TokenBaseCyberSourcePayerAuthSetupResult @doc(description: "The result of starting CyberSource Payer Authentication.") {
+    skipped: Boolean! @doc(description: "True when Payer Authentication does not apply; the order can be placed without it.")
+    accessToken: String @doc(description: "JWT to post to the device data collection URL.")
+    deviceDataCollectionUrl: String @doc(description: "URL to post the access token to, in a hidden iframe, for device data collection.")
+}
+
+type TokenBaseCyberSourcePayerAuthResult @doc(description: "The outcome of a CyberSource Payer Authentication attempt. Authentication data itself stays server-side.") {
+    status: String! @doc(description: "Outcome: success, failed, challenge, or skipped.")
+    acsUrl: String @doc(description: "Issuer ACS URL. Informational; run the challenge via stepUpUrl. Only set when status is challenge.")
+    pareq: String @doc(description: "Challenge request payload. Informational; run the challenge via stepUpUrl. Only set when status is challenge.")
+    stepUpUrl: String @doc(description: "Step-up URL to post the access token to, in an iframe, to run the issuer challenge. Only set when status is challenge.")
+    accessToken: String @doc(description: "JWT to post to the step-up URL. Only set when status is challenge.")
+}
+
 input TokenBaseCyberSourceUnifiedCheckoutInput {
     cartId: String
     guestEmail: String

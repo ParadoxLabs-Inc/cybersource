@@ -1,0 +1,9 @@
+{
+    "status": "COMPLETED",
+    "consumerAuthenticationInformation": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1YjRjM2QyZS0xZjBhLTQ5YjgtOGM3ZC02ZTVmNGEzYiIsImlhdCI6MTc1NDI3MjAwMCwiaXNzIjoiNWM3M2Y5M2ItNGE1Yi00YzZkLThlOWYtMGExYjJjM2Q0ZTVmIiwiT3JnVW5pdElkIjoiNjJhMWIyYzNkNGU1ZjZhN2I4YzlkMGUxIiwiUmVmZXJlbmNlSWQiOiIyNjExZGJlOS1iNjNiLTRhYzQtYTE3Mi1hNDI3OGEzMmFlY2IifQ.Zm9vYmFyc2lnbmF0dXJlZXhhbXBsZXZhbHVlMTIzNDU2Nzg5",
+        "deviceDataCollectionUrl": "https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect",
+        "referenceId": "2611dbe9-b63b-4ac4-a172-a4278a32aecb",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAB5"
+    }
+}

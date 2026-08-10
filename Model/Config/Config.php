@@ -395,14 +395,75 @@ class Config
     }
 
     /**
-     * Whether 3DS (consumerAuthentication) is enabled for Unified Checkout.
+     * Get whether Payer Authentication (3D Secure) is enabled.
+     *
+     * Unlike 3.x, this is the flag alone: Payer Auth runs on the CyberSource merchant account via
+     * the normal REST keys, so there are no Cardinal portal credentials left to validate.
      *
      * @param int|null $storeId
      * @return bool
      */
-    public function is3dsEnabled($storeId = null)
+    public function isPayerAuthEnabled($storeId = null): bool
     {
-        return (bool)$this->getConfigValue('uc_3ds', $storeId);
+        return (bool)$this->getConfigValue('cardinal_active', $storeId);
+    }
+
+    /**
+     * Get whether Payer Authentication must have run before an order may be placed.
+     *
+     * The storefront clients always authenticate when Payer Auth is on, so this only governs
+     * REST/GraphQL callers that skip the payer-auth calls.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthRequired($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('payer_auth_required', $storeId);
+    }
+
+    /**
+     * Get whether Payer Authentication is enabled for a specific card type.
+     *
+     * @param string $ccType
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthEnabledForType(string $ccType, $storeId = null): bool
+    {
+        if ($this->isPayerAuthEnabled($storeId) === false) {
+            return false;
+        }
+
+        $enabledTypes = explode(',', (string)$this->getConfigValue('cardinal_card_types', $storeId));
+
+        return in_array($ccType, $enabledTypes, true);
+    }
+
+    /**
+     * Get the additional origins permitted as payer-auth challenge return targets.
+     *
+     * Headless/GraphQL storefronts run on their own origin, so their return URL is not on the
+     * store's host. This is the merchant's allowlist for those: one origin per line, normalized
+     * only to trimmed lowercase strings here — shape validation belongs to the consumer.
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getPayerAuthReturnOrigins($storeId = null): array
+    {
+        $value = (string)$this->getConfigValue('payer_auth_return_origins', $storeId);
+
+        if (trim($value) === '') {
+            return [];
+        }
+
+        $origins = array_map(
+            static fn($origin): string => strtolower(trim((string)$origin)),
+            preg_split('/[\r\n]+/', $value) ?: []
+        );
+
+        return array_values(array_filter($origins, static fn(string $origin): bool => $origin !== ''));
     }
 
     /**
@@ -414,6 +475,20 @@ class Config
     public function isDecisionManagerEnabled($storeId = null)
     {
         return (bool)$this->getConfigValue('uc_decision_manager', $storeId);
+    }
+
+    /**
+     * Whether Decision Manager should also screen the $0 card-storage authorization.
+     *
+     * 3.x parity: card storage is not screened unless the merchant opts in, because screening every
+     * add-card raises transaction fees. See Response::buildZeroDollarRequest().
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isCardStorageValidationEnabled($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('validate_card_storage', $storeId);
     }
 
     /**

@@ -219,9 +219,9 @@ class Sanitizer
      * name, address) in a JSON request/response body for secure logging.
      *
      * The card number ("number") retains only its last four digits; the security code
-     * ("securityCode") is fully masked. The UC transient-token JWT ("transientTokenJwt") is a
-     * single-use credential and is fully masked, since Rest::post() logs maskJson($jsonBody) on the
-     * error path. The keys listed in self::MASKABLE_STRING_KEYS (billTo email, phone number, name,
+     * ("securityCode") is fully masked, as are the single-use credentials on the UC and payer-auth
+     * traffic, since Rest logs masked request and response bodies on the error path.
+     * The keys listed in self::MASKABLE_STRING_KEYS (billTo email, phone number, name,
      * and street address fields, etc.) are also fully masked, since Rest::throwOnHttpError() logs
      * maskJson() on both the request and response body. Both quoted-string and unquoted numeric JSON
      * values are redacted. Operates on the raw JSON string so the exact bytes that were transmitted
@@ -257,10 +257,13 @@ class Sanitizer
             $json
         );
 
-        // Fully mask the UC transient-token JWT (a single-use credential). It is always a quoted
-        // string; output is a quoted "***" to keep valid JSON.
+        // Fully mask single-use credentials. The transient token carries BOTH key spellings on the
+        // wire: "transientTokenJwt" on /pts/v2/payments, "transientToken" on the payer-auth setups
+        // call. The rest are payer-auth secrets on /risk/v1 replies: cavv/xid (cryptogram),
+        // ucafAuthenticationData (Mastercard AAV), accessToken (DDC + step-up JWTs), pareq (CReq).
+        // All are always quoted strings; output is a quoted "***" to keep valid JSON.
         $json = preg_replace(
-            '/("transientTokenJwt"\s*:\s*)"[^"]*"/',
+            '/("(?:transientToken(?:Jwt)?|cavv|xid|ucafAuthenticationData|accessToken|pareq)"\s*:\s*)"[^"]*"/',
             '$1"***"',
             $json
         );

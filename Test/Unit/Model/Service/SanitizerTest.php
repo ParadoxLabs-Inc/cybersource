@@ -376,6 +376,42 @@ class SanitizerTest extends TestCase
     }
 
     /**
+     * @dataProvider maskJsonCredentialKeyProvider
+     */
+    #[DataProvider('maskJsonCredentialKeyProvider')]
+    public function testMaskJsonMasksPayerAuthCredentials(string $key, string $value): void
+    {
+        // Payer-auth secrets ride /risk/v1 request AND response bodies, both of which Rest logs
+        // masked on the error path; none may appear in cleartext.
+        $json   = '{"consumerAuthenticationInformation":{"' . $key . '":"' . $value . '"}}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString($value, $masked);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('***', $decoded['consumerAuthenticationInformation'][$key]);
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function maskJsonCredentialKeyProvider(): array
+    {
+        return [
+            'transientToken (payer-auth setups spelling)' => [
+                'transientToken',
+                'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzZWNyZXQifQ.c2lnbmF0dXJlVmFsdWU',
+            ],
+            'cavv' => ['cavv', 'AJkBBkhgQQAAAE4gSEJydQAAAAA='],
+            'xid' => ['xid', 'AJkBBkhgQQAAAE4gSEJydQAAAAA='],
+            'ucafAuthenticationData' => ['ucafAuthenticationData', 'jJJLBgZhSLNdcv6mVB1eYmJhAAA='],
+            'accessToken' => ['accessToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhYmMifQ.c2ln'],
+            'pareq' => ['pareq', 'eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMi4wIn0'],
+        ];
+    }
+
+    /**
      * @dataProvider maskJsonPersonalDataKeyProvider
      */
     #[DataProvider('maskJsonPersonalDataKeyProvider')]

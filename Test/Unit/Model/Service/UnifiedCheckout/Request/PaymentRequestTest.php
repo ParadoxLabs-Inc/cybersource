@@ -194,4 +194,92 @@ class PaymentRequestTest extends TestCase
         $this->assertArrayNotHasKey('applicationName', $result['clientReferenceInformation']);
         $this->assertArrayNotHasKey('applicationVersion', $result['clientReferenceInformation']);
     }
+
+    // --- Payer Authentication pass-through ---
+
+    /**
+     * A fully-populated request using ONLY the pre-Payer-Auth setters.
+     */
+    private function buildPrePayerAuthRequest(): PaymentRequest
+    {
+        $request = new PaymentRequest();
+
+        return $request->setTransientTokenJwt('the.transient.jwt')
+            ->setClientReferenceCode('100000123')
+            ->setActionList(['TOKEN_CREATE'])
+            ->setActionTokenTypes(['paymentInstrument', 'instrumentIdentifier'])
+            ->setCapture(false)
+            ->setEnableDecisionManager(false)
+            ->setTotalAmount('24.00')
+            ->setCurrency('USD')
+            ->setBillTo(['firstName' => 'Jane', 'lastName' => 'Doe', 'country' => 'US'])
+            ->setSolutionId('DEQXVEEG')
+            ->setApplicationName('ParadoxLabs_CyberSource')
+            ->setApplicationVersion('4.0.0')
+            ->setFingerprintSessionId('merchant12345');
+    }
+
+    /**
+     * THE money-path regression test: with no payer-auth result attached, the emitted body must be
+     * byte-identical to what this DTO emitted before Payer Authentication existed. The expected JSON
+     * below is transcribed from the pre-change toArray() (field order included) and is deliberately
+     * NOT generated from the class under test.
+     */
+    public function testUnsetPayerAuthEmitsByteIdenticalBody(): void
+    {
+        $expected = '{"clientReferenceInformation":{"code":"100000123",'
+            . '"applicationName":"ParadoxLabs_CyberSource","applicationVersion":"4.0.0",'
+            . '"partner":{"solutionId":"DEQXVEEG"}},'
+            . '"processingInformation":{"actionList":["TOKEN_CREATE"],'
+            . '"actionTokenTypes":["paymentInstrument","instrumentIdentifier"],'
+            . '"capture":false,"enableDecisionManager":false},'
+            . '"orderInformation":{"amountDetails":{"totalAmount":"24.00","currency":"USD"},'
+            . '"billTo":{"firstName":"Jane","lastName":"Doe","country":"US"}},'
+            . '"tokenInformation":{"transientTokenJwt":"the.transient.jwt"},'
+            . '"deviceInformation":{"fingerprintSessionId":"merchant12345"}}';
+
+        $this->assertSame($expected, json_encode($this->buildPrePayerAuthRequest()->toArray()));
+    }
+
+    public function testEmptyPayerAuthAttachmentsStillEmitNothing(): void
+    {
+        // Explicitly setting the empty/null values must be indistinguishable from never setting them.
+        $request = $this->buildPrePayerAuthRequest()
+            ->setConsumerAuthenticationInformation([])
+            ->setCommerceIndicator(null);
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $result);
+        $this->assertArrayNotHasKey('commerceIndicator', $result['processingInformation']);
+    }
+
+    public function testConsumerAuthenticationInformationIsEmittedVerbatimAtTopLevel(): void
+    {
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')
+            ->setConsumerAuthenticationInformation([
+                'cavv' => 'AAABCZIhcQAAAABZlyFxAAAAAAA=',
+                'eciRaw' => '05',
+                'paresStatus' => 'Y',
+                'paSpecificationVersion' => '2.2.0',
+                'directoryServerTransactionId' => 'ds-txn-1',
+                'emptyValue' => '',
+            ])
+            ->setCommerceIndicator('vbv');
+
+        $result = $request->toArray();
+
+        $this->assertSame(
+            [
+                'cavv' => 'AAABCZIhcQAAAABZlyFxAAAAAAA=',
+                'eciRaw' => '05',
+                'paresStatus' => 'Y',
+                'paSpecificationVersion' => '2.2.0',
+                'directoryServerTransactionId' => 'ds-txn-1',
+            ],
+            $result['consumerAuthenticationInformation']
+        );
+        $this->assertSame('vbv', $result['processingInformation']['commerceIndicator']);
+    }
 }

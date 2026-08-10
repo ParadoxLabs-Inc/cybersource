@@ -94,12 +94,48 @@ class TransientTokenReader
     }
 
     /**
+     * Read the token's own identifier (the JWT `jti` claim), or null when absent/malformed.
+     *
+     * The jti identifies ONE card-entry attempt and changes with every re-entry of the drop-in, so
+     * binding the Payer Authentication record to it stops a record being replayed against a
+     * different card. No signature is verified (as in read()): a forged jti binds an attempt to
+     * itself and nothing else, and the token still has to satisfy CyberSource on the money path.
+     *
+     * @param string $transientTokenJwt
+     * @return string|null
+     */
+    public function readJti(string $transientTokenJwt): ?string
+    {
+        try {
+            $jti = $this->getPayload($transientTokenJwt)['jti'] ?? null;
+
+            return is_scalar($jti) && (string)$jti !== '' ? (string)$jti : null;
+        } catch (Throwable $error) {
+
+            return null;
+        }
+    }
+
+    /**
      * Base64url-decode the JWT payload segment and return content.paymentInformation.card, or [].
      *
      * @param string $transientTokenJwt
      * @return array<string, mixed>
      */
     protected function getCardClaims(string $transientTokenJwt): array
+    {
+        $card = $this->getPayload($transientTokenJwt)['content']['paymentInformation']['card'] ?? null;
+
+        return is_array($card) ? $card : [];
+    }
+
+    /**
+     * Base64url-decode the JWT payload segment and return its claims, or [].
+     *
+     * @param string $transientTokenJwt
+     * @return array<string, mixed>
+     */
+    protected function getPayload(string $transientTokenJwt): array
     {
         $segments = explode('.', $transientTokenJwt);
         if (count($segments) < 2 || $segments[1] === '') {
@@ -113,13 +149,8 @@ class TransientTokenReader
         }
 
         $payload = json_decode($json, true);
-        if (!is_array($payload)) {
-            return [];
-        }
 
-        $card = $payload['content']['paymentInformation']['card'] ?? null;
-
-        return is_array($card) ? $card : [];
+        return is_array($payload) ? $payload : [];
     }
 
     /**

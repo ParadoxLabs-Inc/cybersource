@@ -21,7 +21,7 @@ use ParadoxLabs\TokenBase\Helper\Address;
 use ParadoxLabs\TokenBase\Model\Api\GraphQL as GraphQLHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\GraphQL
@@ -374,7 +374,7 @@ class GraphQLTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
 
         return new GraphQL(
@@ -383,7 +383,7 @@ class GraphQLTest extends TestCase
             new Sanitizer(),
             $this->addressHelperMock,
             $this->requestFactoryMock,
-            $this->createMock(LoggerInterface::class),
+            $this->createMock(CyberSourceHelper::class),
             $this->graphQLHelperMock,
         );
     }

@@ -51,9 +51,6 @@ class CaptureContextRequestTest extends TestCase
             ->setShowConfirmationStep(true)
             ->setButtonType('CHECKOUT_AND_CONTINUE')
             ->setIncludeCardPrefix(true)
-            ->setCompleteMandateType('AUTH')
-            ->setDecisionManager(true)
-            ->setConsumerAuthentication(true)
             ->setTotalAmount('24.00')
             ->setCurrency('USD')
             ->setBillTo([
@@ -85,9 +82,8 @@ class CaptureContextRequestTest extends TestCase
         $this->assertArrayNotHasKey('buttonType', $result['captureMandate']);
         $this->assertTrue($result['transientTokenResponseOptions']['includeCardPrefix']);
 
-        $this->assertSame('AUTH', $result['completeMandate']['type']);
-        $this->assertTrue($result['completeMandate']['decisionManager']);
-        $this->assertTrue($result['completeMandate']['consumerAuthentication']);
+        // completeMandate is never emitted: UC's client-side complete() is never called (C5, 2026-08-04).
+        $this->assertArrayNotHasKey('completeMandate', $result);
 
         $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
         $this->assertSame('USD', $result['orderInformation']['amountDetails']['currency']);
@@ -101,7 +97,6 @@ class CaptureContextRequestTest extends TestCase
     {
         $this->request
             ->setBillingType('FULL')
-            ->setCompleteMandateType('AUTH')
             ->setTotalAmount(null)
             ->setCurrency(null)
             ->setBillTo([]);
@@ -115,14 +110,11 @@ class CaptureContextRequestTest extends TestCase
         $this->assertArrayNotHasKey('targetOrigins', $result);
         // Present scalars retained.
         $this->assertSame('FULL', $result['captureMandate']['billingType']);
-        $this->assertSame('AUTH', $result['completeMandate']['type']);
     }
 
     public function testToArrayPreservesBooleanFalseFlags(): void
     {
         $this->request
-            ->setDecisionManager(false)
-            ->setConsumerAuthentication(false)
             ->setRequestEmail(false)
             ->setRequestPhone(false)
             ->setRequestShipping(false)
@@ -132,8 +124,6 @@ class CaptureContextRequestTest extends TestCase
 
         $result = $this->request->toArray();
 
-        $this->assertFalse($result['completeMandate']['decisionManager']);
-        $this->assertFalse($result['completeMandate']['consumerAuthentication']);
         $this->assertFalse($result['captureMandate']['requestEmail']);
         $this->assertFalse($result['captureMandate']['requestPhone']);
         $this->assertFalse($result['captureMandate']['requestShipping']);

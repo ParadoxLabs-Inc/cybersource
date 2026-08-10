@@ -285,6 +285,122 @@ class ConfigTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthEnabled(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthEnabled());
+    }
+
+    public static function payerAuthEnabledDataProvider(): array
+    {
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            'unset' => [null, false],
+        ];
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthRequired(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_required', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthRequired());
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsCardStorageValidationEnabled(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/validate_card_storage', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isCardStorageValidationEnabled());
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledForTypeDataProvider
+     */
+    #[DataProvider('payerAuthEnabledForTypeDataProvider')]
+    public function testIsPayerAuthEnabledForType(
+        string $flag,
+        ?string $cardTypes,
+        string $ccType,
+        bool $expected
+    ): void {
+        $this->scopeConfigMock->method('getValue')
+            ->willReturnMap([
+                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, $flag],
+                ['payment/paradoxlabs_cybersource/cardinal_card_types', ScopeInterface::SCOPE_STORE, null, $cardTypes],
+            ]);
+
+        $this->assertSame($expected, $this->config->isPayerAuthEnabledForType($ccType));
+    }
+
+    public static function payerAuthEnabledForTypeDataProvider(): array
+    {
+        return [
+            'type in list' => ['1', 'AE,VI,MC', 'VI', true],
+            'first type in list' => ['1', 'AE,VI,MC', 'AE', true],
+            'type not in list' => ['1', 'AE,VI,MC', 'DI', false],
+            'feature off' => ['0', 'AE,VI,MC', 'VI', false],
+            'empty config value' => ['1', '', 'VI', false],
+            'unset config value' => ['1', null, 'VI', false],
+        ];
+    }
+
+    /**
+     * @dataProvider payerAuthReturnOriginsDataProvider
+     * @param string|null $value
+     * @param string[] $expected
+     */
+    #[DataProvider('payerAuthReturnOriginsDataProvider')]
+    public function testGetPayerAuthReturnOrigins(?string $value, array $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_return_origins', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($value);
+
+        $this->assertSame($expected, $this->config->getPayerAuthReturnOrigins());
+    }
+
+    /**
+     * @return array<string, array{0: string|null, 1: string[]}>
+     */
+    public static function payerAuthReturnOriginsDataProvider(): array
+    {
+        return [
+            'unset' => [null, []],
+            'empty' => ['', []],
+            'whitespace only' => ["  \n \n", []],
+            'single' => ['https://pwa.example.net', ['https://pwa.example.net']],
+            'multi-line with blanks and whitespace' => [
+                "https://pwa.example.net\n\n  https://app.example.net:8443  \n",
+                ['https://pwa.example.net', 'https://app.example.net:8443'],
+            ],
+            'windows line endings' => [
+                "https://a.example.net\r\nhttps://b.example.net",
+                ['https://a.example.net', 'https://b.example.net'],
+            ],
+            'lowercased' => ['HTTPS://PWA.Example.NET', ['https://pwa.example.net']],
+        ];
+    }
+
     private function setupSandboxMode(bool $isSandbox): void
     {
         $this->scopeConfigMock->method('getValue')

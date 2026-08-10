@@ -22,7 +22,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContext
 use ParadoxLabs\TokenBase\Helper\Address;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data as CyberSourceHelper;
 
 /**
  * @covers \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Frontend
@@ -61,7 +61,7 @@ class FrontendTest extends TestCase
         $this->configMock->method('getUcLocale')->willReturn('en_US');
         $this->configMock->method('getUcCountry')->willReturn('US');
         $this->configMock->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $this->configMock->method('is3dsEnabled')->willReturn(false);
+        $this->configMock->method('isPayerAuthEnabled')->willReturn(false);
         $this->configMock->method('isDecisionManagerEnabled')->willReturn(false);
 
         $store = $this->createMock(Store::class);
@@ -76,7 +76,7 @@ class FrontendTest extends TestCase
             new Sanitizer(),
             $this->addressHelperMock,
             $requestFactory,
-            $this->createMock(LoggerInterface::class),
+            $this->createMock(CyberSourceHelper::class),
             $this->checkoutSessionMock,
             $this->customerSessionMock,
             $this->storeManagerMock,
@@ -217,7 +217,7 @@ class FrontendTest extends TestCase
         $config->method('getUcLocale')->willReturn('en_US');
         $config->method('getUcCountry')->willReturn('US');
         $config->method('getUcCompleteMandateType')->willReturn('AUTH');
-        $config->method('is3dsEnabled')->willReturn(false);
+        $config->method('isPayerAuthEnabled')->willReturn(false);
         $config->method('isDecisionManagerEnabled')->willReturn(false);
 
         $requestFactory = $this->createMock(CaptureContextRequestFactory::class);
@@ -230,7 +230,7 @@ class FrontendTest extends TestCase
             new Sanitizer(),
             $this->addressHelperMock,
             $requestFactory,
-            $this->createMock(LoggerInterface::class),
+            $this->createMock(CyberSourceHelper::class),
             $this->checkoutSessionMock,
             $this->customerSessionMock,
             $this->storeManagerMock,

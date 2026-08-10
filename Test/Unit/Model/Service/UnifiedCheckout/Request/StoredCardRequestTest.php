@@ -259,4 +259,89 @@ class StoredCardRequestTest extends TestCase
         $this->assertArrayNotHasKey('applicationName', $result['clientReferenceInformation']);
         $this->assertArrayNotHasKey('applicationVersion', $result['clientReferenceInformation']);
     }
+
+    // --- Payer Authentication pass-through ---
+
+    /**
+     * A fully-populated stored-card request using ONLY the pre-Payer-Auth setters.
+     */
+    private function buildPrePayerAuthRequest(): StoredCardRequest
+    {
+        $request = new StoredCardRequest();
+
+        return $request->setClientReferenceCode('100000123')
+            ->setCapture(false)
+            ->setEnableDecisionManager(false)
+            ->setCommerceIndicator('recurring')
+            ->setInitiatorType('merchant')
+            ->setStoredCredentialUsed(true)
+            ->setPreviousTransactionId('PRIORTXN1')
+            ->setPaymentInstrumentId('PI1')
+            ->setSecurityCode('123')
+            ->setTotalAmount('24.00')
+            ->setCurrency('USD')
+            ->setBillTo(['firstName' => 'Jane', 'lastName' => 'Doe', 'country' => 'US'])
+            ->setSolutionId('DEQXVEEG')
+            ->setApplicationName('ParadoxLabs_CyberSource')
+            ->setApplicationVersion('4.0.0')
+            ->setFingerprintSessionId('merchant12345');
+    }
+
+    /**
+     * THE money-path regression test: with no payer-auth result attached, the emitted body must be
+     * byte-identical to what this DTO emitted before Payer Authentication existed. The expected JSON
+     * below is transcribed from the pre-change toArray() (field order included) and is deliberately
+     * NOT generated from the class under test.
+     */
+    public function testUnsetPayerAuthEmitsByteIdenticalBody(): void
+    {
+        $expected = '{"clientReferenceInformation":{"code":"100000123",'
+            . '"applicationName":"ParadoxLabs_CyberSource","applicationVersion":"4.0.0",'
+            . '"partner":{"solutionId":"DEQXVEEG"}},'
+            . '"processingInformation":{"capture":false,"commerceIndicator":"recurring",'
+            . '"enableDecisionManager":false,'
+            . '"authorizationOptions":{"initiator":{"type":"merchant","storedCredentialUsed":true,'
+            . '"merchantInitiatedTransaction":{"previousTransactionId":"PRIORTXN1"}}}},'
+            . '"paymentInformation":{"paymentInstrument":{"id":"PI1"},"card":{"securityCode":"123"}},'
+            . '"orderInformation":{"amountDetails":{"totalAmount":"24.00","currency":"USD"},'
+            . '"billTo":{"firstName":"Jane","lastName":"Doe","country":"US"}},'
+            . '"deviceInformation":{"fingerprintSessionId":"merchant12345"}}';
+
+        $this->assertSame($expected, json_encode($this->buildPrePayerAuthRequest()->toArray()));
+    }
+
+    public function testEmptyPayerAuthAttachmentStillEmitsNothing(): void
+    {
+        $request = $this->buildPrePayerAuthRequest()->setConsumerAuthenticationInformation([]);
+
+        $this->assertArrayNotHasKey('consumerAuthenticationInformation', $request->toArray());
+    }
+
+    public function testConsumerAuthenticationInformationIsEmittedVerbatimAtTopLevel(): void
+    {
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI1')
+            ->setInitiatorType('customer')
+            ->setConsumerAuthenticationInformation([
+                'ucafAuthenticationData' => 'AAABCZIhcQAAAABZlyFxAAAAAAA=',
+                'ucafCollectionIndicator' => '2',
+                'eciRaw' => '02',
+                'paresStatus' => 'Y',
+                'emptyValue' => '',
+            ])
+            ->setCommerceIndicator('spa');
+
+        $result = $request->toArray();
+
+        $this->assertSame(
+            [
+                'ucafAuthenticationData' => 'AAABCZIhcQAAAABZlyFxAAAAAAA=',
+                'ucafCollectionIndicator' => '2',
+                'eciRaw' => '02',
+                'paresStatus' => 'Y',
+            ],
+            $result['consumerAuthenticationInformation']
+        );
+        $this->assertSame('spa', $result['processingInformation']['commerceIndicator']);
+    }
 }

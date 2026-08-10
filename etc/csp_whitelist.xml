@@ -53,6 +53,11 @@
                 <value id="cybersource_apitest" type="host">apitest.cybersource.com</value>
                 <value id="cybersource_flex" type="host">flex.cybersource.com</value>
                 <value id="cybersource_testflex" type="host">testflex.cybersource.com</value>
+                <!-- Payer Authentication: device data collection (centinelapi[stag].cardinalcommerce.com)
+                     and the sandbox step-up challenge frame both load from Cardinal hosts. Production
+                     ACS challenge URLs are issuer-controlled and cannot be host-pinned; that frame's
+                     policy is handled separately. -->
+                <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
                 <!-- Decision Manager device fingerprinting frames h.online-metrix.net (live-observed) -->
                 <value id="onlinemetrix" type="host">*.online-metrix.net</value>
             </values>
@@ -71,6 +76,19 @@
             <values>
                 <!-- Decision Manager device fingerprinting -->
                 <value id="onlinemetrix" type="host">*.online-metrix.net</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <!-- Payer Authentication device data collection: the client form-POSTs the DDC
+                     JWT from the CHECKOUT page into a hidden iframe targeting
+                     centinelapi[stag].cardinalcommerce.com. form-action governs the submitting
+                     document, so without this grant an enforced checkout policy (default
+                     form-action 'self') silently blocks the POST — DDC then always times out
+                     (best-effort masks it) and the ACS gets no device profile. The step-up CReq
+                     POST is separate: it runs inside the challenge wrapper, whose per-route
+                     policy Controller/Payerauth/Challenge::modifyCsp() already relaxes. -->
+                <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
             </values>
         </policy>
     </policies>

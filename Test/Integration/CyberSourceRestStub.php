@@ -15,6 +15,7 @@ namespace ParadoxLabs\CyberSource\Test\Integration;
 
 use Exception;
 use LogicException;
+use Magento\Framework\Exception\RuntimeException;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 
 /**
@@ -30,8 +31,8 @@ use ParadoxLabs\CyberSource\Model\Service\Rest;
  *  - postRaw() → string (a bare JWT, e.g. the Unified Checkout capture context)
  *  - get()/delete() → string (raw body; DELETE is a 204 with an empty body)
  *
- * To simulate a gateway/HTTP failure, throw from the responder exactly as the real client does on a non-2xx
- * response — `new Exception($message, $httpStatus)` — or use {@see httpError()}.
+ * To simulate a gateway/HTTP failure, throw {@see httpError()} from the responder: it reproduces the real
+ * client's exception TYPE and structure, which callers branch on.
  */
 class CyberSourceRestStub extends Rest
 {
@@ -96,13 +97,24 @@ class CyberSourceRestStub extends Rest
     /**
      * Build the exception the real client raises for a non-2xx response, for use from a responder.
      *
-     * @param string $message
+     * Shape matters, not just the fact of throwing: {@see Rest::throwOnHttpError()} raises Magento's
+     * RuntimeException carrying the GENERIC shopper-facing phrase, with the gateway's own message
+     * demoted to the previous exception and the HTTP status as the code. Callers branch on that
+     * type — Management::runSetup catches RuntimeException specifically to degrade a declined
+     * device-data setup — so a plain \Exception here would exercise a catch path production never
+     * takes, and quietly pass a test for code that cannot work.
+     *
+     * @param string $message Gateway's own message, i.e. what the real client puts on the previous.
      * @param int $status
-     * @return Exception
+     * @return RuntimeException
      */
-    public static function httpError(string $message, int $status = 400): Exception
+    public static function httpError(string $message, int $status = 400): RuntimeException
     {
-        return new Exception($message, $status);
+        return new RuntimeException(
+            __('The transaction was declined. Please verify your payment details and try again.'),
+            new Exception($message, $status),
+            $status
+        );
     }
 
     /**

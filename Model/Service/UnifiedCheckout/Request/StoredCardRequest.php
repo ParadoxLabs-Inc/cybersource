@@ -151,6 +151,17 @@ class StoredCardRequest
     private ?string $fingerprintSessionId = null;
 
     /**
+     * Payer Authentication pass-through block (top-level consumerAuthenticationInformation).
+     *
+     * Already mapped per network by PayerAuth\PassThroughMapper; emitted verbatim (after empty
+     * filtering) so the field contract lives in exactly one place. Only ever set on a CIT charge —
+     * an MIT rebill has no cardholder to authenticate. Empty (default) = the key is omitted entirely.
+     *
+     * @var array<string, string>
+     */
+    private array $consumerAuthenticationInformation = [];
+
+    /**
      * Get the merchant client-reference code (order increment id / origin).
      *
      * @return string|null
@@ -519,6 +530,29 @@ class StoredCardRequest
     }
 
     /**
+     * Get the Payer Authentication pass-through block.
+     *
+     * @return array<string, string>
+     */
+    public function getConsumerAuthenticationInformation(): array
+    {
+        return $this->consumerAuthenticationInformation;
+    }
+
+    /**
+     * Set the Payer Authentication pass-through block (already network-mapped).
+     *
+     * @param array<string, string> $consumerAuthenticationInformation
+     * @return $this
+     */
+    public function setConsumerAuthenticationInformation(array $consumerAuthenticationInformation): self
+    {
+        $this->consumerAuthenticationInformation = $consumerAuthenticationInformation;
+
+        return $this;
+    }
+
+    /**
      * Build the JSON-ready stored-card request tree, omitting null/empty leaves but preserving boolean false.
      *
      * @return array<string, mixed>
@@ -563,6 +597,14 @@ class StoredCardRequest
         ]);
         if (!empty($deviceInformation)) {
             $request['deviceInformation'] = $deviceInformation;
+        }
+
+        // Payer Authentication pass-through (3DS liability shift) on a stored-card CIT. Emitted ONLY
+        // when a validated authentication result was attached; an unauthenticated (or MIT) placement
+        // is byte-identical to the pre-Payer-Auth request.
+        $consumerAuthenticationInformation = $this->filterEmpty($this->consumerAuthenticationInformation);
+        if (!empty($consumerAuthenticationInformation)) {
+            $request['consumerAuthenticationInformation'] = $consumerAuthenticationInformation;
         }
 
         return $request;

@@ -102,21 +102,6 @@ class CaptureContextRequest
     /**
      * @var string|null
      */
-    private ?string $completeMandateType = null;
-
-    /**
-     * @var bool|null
-     */
-    private ?bool $decisionManager = null;
-
-    /**
-     * @var bool|null
-     */
-    private ?bool $consumerAuthentication = null;
-
-    /**
-     * @var string|null
-     */
     private ?string $totalAmount = null;
 
     /**
@@ -431,75 +416,6 @@ class CaptureContextRequest
     }
 
     /**
-     * Get the completeMandate type (AUTH|CAPTURE|PREFER_AUTH).
-     *
-     * @return string|null
-     */
-    public function getCompleteMandateType(): ?string
-    {
-        return $this->completeMandateType;
-    }
-
-    /**
-     * Set the completeMandate type.
-     *
-     * @param string|null $completeMandateType
-     * @return $this
-     */
-    public function setCompleteMandateType(?string $completeMandateType): self
-    {
-        $this->completeMandateType = $completeMandateType;
-
-        return $this;
-    }
-
-    /**
-     * Get the decisionManager toggle.
-     *
-     * @return bool|null
-     */
-    public function getDecisionManager(): ?bool
-    {
-        return $this->decisionManager;
-    }
-
-    /**
-     * Set the decisionManager toggle.
-     *
-     * @param bool|null $decisionManager
-     * @return $this
-     */
-    public function setDecisionManager(?bool $decisionManager): self
-    {
-        $this->decisionManager = $decisionManager;
-
-        return $this;
-    }
-
-    /**
-     * Get the consumerAuthentication (3DS) toggle.
-     *
-     * @return bool|null
-     */
-    public function getConsumerAuthentication(): ?bool
-    {
-        return $this->consumerAuthentication;
-    }
-
-    /**
-     * Set the consumerAuthentication (3DS) toggle.
-     *
-     * @param bool|null $consumerAuthentication
-     * @return $this
-     */
-    public function setConsumerAuthentication(?bool $consumerAuthentication): self
-    {
-        $this->consumerAuthentication = $consumerAuthentication;
-
-        return $this;
-    }
-
-    /**
      * Get the order total amount (decimal string).
      *
      * @return string|null
@@ -603,15 +519,6 @@ class CaptureContextRequest
         ]);
         if (!empty($tokenResponseOptions)) {
             $request['transientTokenResponseOptions'] = $tokenResponseOptions;
-        }
-
-        $completeMandate = $this->filterEmpty([
-            'type' => $this->completeMandateType,
-            'decisionManager' => $this->decisionManager,
-            'consumerAuthentication' => $this->consumerAuthentication,
-        ]);
-        if (!empty($completeMandate)) {
-            $request['completeMandate'] = $completeMandate;
         }
 
         $orderInformation = [];

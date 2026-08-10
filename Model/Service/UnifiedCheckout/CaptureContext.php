@@ -28,7 +28,7 @@ use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\CaptureContextRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Address;
-use Psr\Log\LoggerInterface;
+use ParadoxLabs\CyberSource\Helper\Data;
 use Throwable;
 
 /**
@@ -55,7 +55,7 @@ abstract class CaptureContext
      * @param Sanitizer $sanitizer
      * @param Address $addressHelper
      * @param CaptureContextRequestFactory $requestFactory
-     * @param LoggerInterface $logger
+     * @param Data $helper
      */
     public function __construct(
         protected readonly Config $config,
@@ -63,7 +63,7 @@ abstract class CaptureContext
         protected readonly Sanitizer $sanitizer,
         protected readonly Address $addressHelper,
         protected readonly CaptureContextRequestFactory $requestFactory,
-        protected readonly LoggerInterface $logger
+        protected readonly Data $helper
     ) {
     }
 
@@ -128,15 +128,11 @@ abstract class CaptureContext
             $amount = null;
         }
 
-        // completeMandate (UC running DM -> payer auth -> auth/capture itself) only makes sense with a
-        // payable amount: UC rejects a mandated CAPTURE of 0.00 as "Invalid total amount". The no-amount
-        // add-card contexts are tokenization-only — the drop-in just returns a transient token and the
-        // server runs its own $0 exchange auth — so the mandate (and its DM/3DS flags) is omitted there.
-        if ($amount !== null) {
-            $request->setCompleteMandateType($this->config->getUcCompleteMandateType($storeId))
-                ->setDecisionManager($this->config->isDecisionManagerEnabled($storeId))
-                ->setConsumerAuthentication($this->config->is3dsEnabled($storeId));
-        }
+        // completeMandate is deliberately NOT sent: UC's client-side complete() (which the mandate,
+        // its Decision Manager, and its 3DS flags drive) is never invoked — the drop-in only mints a
+        // transient token and the server runs the auth/capture and payer auth itself. Sending the
+        // mandate only added the never-called complete() endpoint URLs to the context JWT; it changed
+        // no rendered drop-in field (verified by live capture-context diff, 2026-08-04).
 
         // Pane behavior. A no-amount context is add-card (customer payment-info / admin card
         // management — every subclass returns null there) or a $0 checkout normalized above:
@@ -172,8 +168,8 @@ abstract class CaptureContext
         // All of those 400s surfaced as a generic "transaction was declined" on the card-management
         // forms. So the no-amount contexts (add-card, and $0 checkouts normalized above) send the
         // 0.01 minimum — nothing is ever charged
-        // at that amount: these contexts carry no completeMandate (above), the drop-in only mints a
-        // transient token, and the server-side exchange runs its own $0 auth.
+        // at that amount: the drop-in only mints a transient token, and the server-side exchange runs
+        // its own $0 auth.
         // UC expects a fixed 2-decimal string (e.g. "24.00"); Sanitizer::amount() returns a float.
         $request->setTotalAmount(
             $amount !== null
@@ -329,7 +325,8 @@ abstract class CaptureContext
             $normalized = $this->normalizeOrigin($raw);
 
             if ($normalized === null) {
-                $this->logger->info(
+                $this->helper->log(
+                    Config::CODE,
                     'CyberSource UC: dropping invalid targetOrigins entry (must include scheme): ' . $raw
                 );
 
