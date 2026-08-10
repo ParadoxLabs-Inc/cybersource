@@ -44,6 +44,60 @@ class SetupRequestTest extends TestCase
         $this->assertArrayNotHasKey('tokenInformation', $result);
     }
 
+    public function testBillToIsEmittedUnderOrderInformation(): void
+    {
+        $request = new SetupRequest();
+        $request->setClientReferenceCode('quote-1234')
+            ->setTransientToken('token')
+            ->setBillTo(
+                [
+                    'firstName' => 'Jane',
+                    'lastName' => 'Doe',
+                    'address1' => '123 Main St',
+                    'locality' => 'Columbus',
+                    'administrativeArea' => 'OH',
+                    'postalCode' => '43004',
+                    'country' => 'US',
+                    'email' => 'jane@example.com',
+                ]
+            );
+
+        $result = $request->toArray();
+
+        $this->assertSame('OH', $result['orderInformation']['billTo']['administrativeArea']);
+        $this->assertSame('US', $result['orderInformation']['billTo']['country']);
+        $this->assertSame('Jane', $result['orderInformation']['billTo']['firstName']);
+        // The endpoint asked for billTo only; do not volunteer amounts it never requested.
+        $this->assertArrayNotHasKey('amountDetails', $result['orderInformation']);
+    }
+
+    public function testBillToDropsEmptyLeaves(): void
+    {
+        $request = new SetupRequest();
+        $request->setTransientToken('token')
+            ->setBillTo(
+                [
+                    'firstName' => 'Jane',
+                    'lastName' => null,
+                    'address2' => '',
+                ]
+            );
+
+        $this->assertSame(['firstName' => 'Jane'], $request->toArray()['orderInformation']['billTo']);
+    }
+
+    public function testOrderInformationIsOmittedWhenBillToIsEmpty(): void
+    {
+        $request = new SetupRequest();
+        $request->setTransientToken('token');
+
+        $this->assertArrayNotHasKey('orderInformation', $request->toArray());
+
+        $request->setBillTo(['firstName' => null]);
+
+        $this->assertArrayNotHasKey('orderInformation', $request->toArray());
+    }
+
     public function testClientReferenceInformationIsOmittedWhenEmpty(): void
     {
         $request = new SetupRequest();
@@ -94,5 +148,10 @@ class SetupRequestTest extends TestCase
         $this->assertSame('quote-1234', $request->getClientReferenceCode());
         $this->assertSame('token', $request->getTransientToken());
         $this->assertSame('pi', $request->getPaymentInstrumentId());
+        $this->assertSame([], $request->getBillTo());
+
+        $request->setBillTo(['country' => 'US']);
+
+        $this->assertSame(['country' => 'US'], $request->getBillTo());
     }
 }

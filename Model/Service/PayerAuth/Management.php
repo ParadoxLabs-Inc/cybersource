@@ -235,7 +235,7 @@ class Management implements PayerAuthManagementInterface
      * Start an attempt: resolve the instrument, run authentication-setups, seed the record.
      *
      * A setup DECLINE is not a sale failure: the record is seeded without a reference id and the
-     * attempt continues DDC-less (see the catch below for the probed reason).
+     * attempt continues DDC-less (see the catch below, which logs why the gateway refused).
      *
      * @param string|null $transientToken
      * @param string|null $cardHash
@@ -263,7 +263,8 @@ class Management implements PayerAuthManagementInterface
 
         /** @var SetupRequest $request */
         $request = $this->setupRequestFactory->create();
-        $request->setClientReferenceCode($this->clientReferenceCode($quote));
+        $request->setClientReferenceCode($this->clientReferenceCode($quote))
+            ->setBillTo($this->buildBillTo($quote));
 
         $storedToken = null;
 
@@ -299,19 +300,24 @@ class Management implements PayerAuthManagementInterface
         try {
             $reply = $this->setupService->execute($request, $storeId);
         } catch (RuntimeException $exception) {
-            // A declined authentication-setups degrades to no-DDC instead of failing the sale.
-            // CyberSource rejects the call outright for Unified Checkout (gda) transient tokens
-            // (probed 2026-08-06: every tokenInformation spelling 400s INVALID_REQUEST), while
-            // the enrollment check accepts the same token directly and runs fine with no
-            // referenceId. DDC is best-effort by contract, so the record is seeded with an empty
-            // reference id and the client gets no collector handles (runDdc resolves 'skipped').
-            // The call itself is kept so DDC resumes unaided if CyberSource starts accepting them.
+            // A declined authentication-setups degrades to no-DDC instead of failing the sale: DDC
+            // is best-effort by contract, so the record is seeded with an empty reference id and
+            // the client gets no collector handles (runDdc resolves 'skipped').
+            //
+            // The earlier note here claimed CyberSource rejects Unified Checkout (gda) transient
+            // tokens outright, so this branch was the normal path. That was wrong: the 2026-08-10
+            // evidence shows the 400 was MISSING_FIELD orderInformation.billTo.administrativeArea
+            // — the token shape was never the problem, the request was simply incomplete (#11).
+            // With billTo sent, this branch is a genuine failure again, so the gateway's reason and
+            // offending field are logged: a permanent request-shape defect must not read like the
+            // acceptable degrade.
             $this->helper->log(
                 Config::CODE,
                 sprintf(
-                    'Payer Authentication setup declined (HTTP %d);'
+                    'Payer Authentication setup declined (HTTP %d, gateway detail: %s);'
                         . ' continuing without device data collection.',
-                    (int)$exception->getCode()
+                    (int)$exception->getCode(),
+                    $this->declineDetail($exception)
                 )
             );
 
@@ -336,6 +342,28 @@ class Management implements PayerAuthManagementInterface
             ->setSkipped(false)
             ->setAccessToken($this->stringOrNull($auth['accessToken'] ?? null))
             ->setDeviceDataCollectionUrl($this->stringOrNull($auth['deviceDataCollectionUrl'] ?? null));
+    }
+
+    /**
+     * Describe why the gateway refused the setup call, for the degrade log line.
+     *
+     * Rest::throwOnHttpError() puts the gateway's own message — plus reason/offending field, when
+     * the error body named them — on the exception CAUSE; the outer message is the generic
+     * customer-safe phrase and says nothing useful. Nothing here carries card data: the reply to a
+     * refused setup is a reason code and a field path.
+     *
+     * @param RuntimeException $exception
+     * @return string
+     */
+    private function declineDetail(RuntimeException $exception): string
+    {
+        $detail = $exception->getPrevious()?->getMessage();
+
+        if (!is_string($detail) || trim($detail) === '') {
+            return 'none';
+        }
+
+        return mb_substr(trim($detail), 0, 255);
     }
 
     /**

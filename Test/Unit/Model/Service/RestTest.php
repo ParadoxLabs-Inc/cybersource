@@ -314,6 +314,51 @@ class RestTest extends TestCase
     }
 
     /**
+     * A structured CyberSource error names a `reason` and the offending `details[].field`. Both must
+     * ride on the cause alongside the message: without them a caller that degrades on a decline (the
+     * Payer Auth setup call) cannot tell an outage from a permanently malformed request (#11).
+     *
+     * @return void
+     */
+    public function testErrorCauseCarriesTheGatewayReasonAndOffendingFields(): void
+    {
+        $this->clientMock->method('getStatus')->willReturn(400);
+        $this->clientMock->method('getBody')->willReturn(
+            json_encode(
+                [
+                    'submitTimeUtc' => '2026-08-10T15:35:02Z',
+                    'reason' => 'MISSING_FIELD',
+                    'message' => 'Declined - The request is missing one or more fields',
+                    'details' => [
+                        ['field' => 'orderInformation.billTo.administrativeArea', 'reason' => 'MISSING_FIELD'],
+                        ['field' => 'orderInformation.billTo.country', 'reason' => 'MISSING_FIELD'],
+                    ],
+                ]
+            )
+        );
+
+        try {
+            $this->rest->post('/risk/v1/authentication-setups', ['x' => 'y']);
+            $this->fail('Expected a RuntimeException to be thrown');
+        } catch (\Magento\Framework\Exception\RuntimeException $e) {
+            $cause = $e->getPrevious();
+
+            $this->assertNotNull($cause);
+            $this->assertStringContainsString(
+                'Declined - The request is missing one or more fields',
+                $cause->getMessage()
+            );
+            $this->assertStringContainsString('reason=MISSING_FIELD', $cause->getMessage());
+            $this->assertStringContainsString(
+                'field=orderInformation.billTo.administrativeArea',
+                $cause->getMessage()
+            );
+            $this->assertStringContainsString('orderInformation.billTo.country', $cause->getMessage());
+            $this->assertSame(400, $cause->getCode());
+        }
+    }
+
+    /**
      * Regression: a non-JSON / empty error body (empty 404 body on a TMS DELETE, proxy HTML on a 502)
      * must still throw an Exception with a NON-EMPTY string message and an int code. Under strict_types
      * the prior code resolved $message to the int status and `new Exception($int, ...)` raised a

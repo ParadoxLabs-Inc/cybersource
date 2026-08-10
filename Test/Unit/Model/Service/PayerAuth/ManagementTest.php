@@ -138,6 +138,18 @@ class ManagementTest extends TestCase
     private $payment;
 
     /**
+     * @var CyberSourceHelper|MockObject
+     */
+    private $helper;
+
+    /**
+     * Every message passed to the helper's log(), in call order.
+     *
+     * @var string[]
+     */
+    private array $logged = [];
+
+    /**
      * @var Management
      */
     private $management;
@@ -177,6 +189,13 @@ class ManagementTest extends TestCase
         $this->checkoutSession     = $this->createMock(CheckoutSession::class);
         $this->httpRequest         = $this->createMock(HttpRequest::class);
         $this->remoteAddress       = $this->createMock(RemoteAddress::class);
+        $this->helper              = $this->createMock(CyberSourceHelper::class);
+
+        $this->logged = [];
+        $this->helper->method('log')
+            ->willReturnCallback(function ($code, $message = '', $debug = false): void {
+                $this->logged[] = (string)$message;
+            });
 
         $this->cardRepository->method('getByHash')->willReturnCallback(fn(): CardInterface => $this->resolveCard());
         $this->cardRepository->method('getById')->willReturnCallback(fn(): CardInterface => $this->resolveCard());
@@ -238,7 +257,7 @@ class ManagementTest extends TestCase
             new Sanitizer(),
             $setupResultFactory,
             $resultFactory,
-            $this->createMock(CyberSourceHelper::class)
+            $this->helper
         );
     }
 
@@ -370,13 +389,116 @@ class ManagementTest extends TestCase
         $this->assertNull($request->getTransientToken());
     }
 
+    /**
+     * The setup call is REQUIRED to carry orderInformation.billTo: without it CyberSource answers
+     * 400 MISSING_FIELD orderInformation.billTo.administrativeArea and DDC never runs (issue #11).
+     *
+     * @return void
+     */
+    public function testSetupSendsTheQuoteBillTo(): void
+    {
+        $this->tokenReader->method('readJti')->willReturn('jti-abc');
+        $this->tokenReader->method('read')->willReturn(['cc_type' => 'VI']);
+
+        $request = null;
+        $this->setupService->method('execute')->willReturnCallback(
+            static function (SetupRequest $setupRequest) use (&$request): array {
+                $request = $setupRequest;
+
+                return ['consumerAuthenticationInformation' => ['referenceId' => 'ref-123']];
+            }
+        );
+
+        $this->management->setup(self::TOKEN);
+
+        $emitted = $request->toArray();
+
+        $this->assertSame('Jane', $emitted['orderInformation']['billTo']['firstName']);
+        $this->assertSame('OH', $emitted['orderInformation']['billTo']['administrativeArea']);
+        $this->assertSame('US', $emitted['orderInformation']['billTo']['country']);
+        $this->assertSame('43004', $emitted['orderInformation']['billTo']['postalCode']);
+    }
+
+    public function testSetupSendsTheQuoteBillToForAStoredCard(): void
+    {
+        $this->storedCard = $this->card();
+
+        $request = null;
+        $this->setupService->method('execute')->willReturnCallback(
+            static function (SetupRequest $setupRequest) use (&$request): array {
+                $request = $setupRequest;
+
+                return ['consumerAuthenticationInformation' => ['referenceId' => 'ref-123']];
+            }
+        );
+
+        $this->management->setup(null, 'hash-abc');
+
+        $this->assertSame('OH', $request->toArray()['orderInformation']['billTo']['administrativeArea']);
+    }
+
+    /**
+     * The degrade line must name the gateway's own reason and offending field, so a permanent
+     * request-shape defect cannot read like the acceptable best-effort degrade (issue #11).
+     *
+     * @return void
+     */
+    public function testSetupDeclineLogsTheGatewayReasonAndField(): void
+    {
+        $this->tokenReader->method('readJti')->willReturn('jti-abc');
+        $this->tokenReader->method('read')->willReturn(['cc_type' => 'VI']);
+
+        $this->setupService->method('execute')->willThrowException(
+            new RuntimeException(
+                __('The transaction was declined.'),
+                new \Exception(
+                    'Declined - The request is missing one or more fields'
+                    . ' (reason=MISSING_FIELD, field=orderInformation.billTo.administrativeArea)',
+                    400
+                ),
+                400
+            )
+        );
+
+        $this->management->setup(self::TOKEN);
+
+        $declines = array_values(
+            array_filter($this->logged, static fn(string $line): bool => str_contains($line, 'setup declined'))
+        );
+
+        $this->assertCount(1, $declines);
+        $this->assertStringContainsString('HTTP 400', $declines[0]);
+        $this->assertStringContainsString('reason=MISSING_FIELD', $declines[0]);
+        $this->assertStringContainsString('orderInformation.billTo.administrativeArea', $declines[0]);
+    }
+
+    public function testSetupDeclineLogsWithoutDetailWhenTheGatewaySaidNothing(): void
+    {
+        $this->tokenReader->method('readJti')->willReturn('jti-abc');
+        $this->tokenReader->method('read')->willReturn(['cc_type' => 'VI']);
+
+        $this->setupService->method('execute')->willThrowException(
+            new RuntimeException(__('The transaction was declined.'), null, 502)
+        );
+
+        $this->management->setup(self::TOKEN);
+
+        $declines = array_values(
+            array_filter($this->logged, static fn(string $line): bool => str_contains($line, 'setup declined'))
+        );
+
+        $this->assertCount(1, $declines);
+        $this->assertStringContainsString('HTTP 502', $declines[0]);
+        $this->assertStringContainsString('none', $declines[0]);
+    }
+
     public function testSetupDeclineDegradesToNoDdcForATransientToken(): void
     {
         $this->tokenReader->method('readJti')->willReturn('jti-abc');
         $this->tokenReader->method('read')->willReturn(['cc_type' => 'VI']);
 
-        // authentication-setups rejects UC (gda) transient tokens outright; the attempt must
-        // continue DDC-less rather than failing the sale.
+        // A transient setup failure (outage, gateway hiccup) must degrade to no-DDC rather than
+        // failing the sale.
         $this->setupService->method('execute')->willThrowException(
             new RuntimeException(__('The transaction was declined.'), null, 400)
         );

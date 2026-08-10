@@ -277,6 +277,12 @@ class Rest
                 : 'HTTP ' . $status;
         }
 
+        $diagnostics = $this->errorDiagnostics(is_array($responseJson) ? $responseJson : []);
+
+        if ($diagnostics !== '') {
+            $message .= ' (' . $diagnostics . ')';
+        }
+
         $this->helper->log(
             $this->config::CODE,
             $requestUri . "\n"
@@ -290,6 +296,42 @@ class Rest
             new Exception($message, $status),
             $status
         );
+    }
+
+    /**
+     * Summarize a structured error body's reason and offending field paths.
+     *
+     * CyberSource answers a malformed request with a reason code plus details[]{field, reason}. The
+     * gateway `message` alone ("Declined - The request is missing one or more fields") does not say
+     * WHICH field, which is the difference between a transient decline and a permanently broken
+     * request shape — see the Payer Auth setup degrade path, which logs this. Only reason codes and
+     * dotted field PATHS are taken; no value from the body is ever included.
+     *
+     * @param array<string, mixed> $responseJson
+     * @return string Empty when the body named nothing.
+     */
+    private function errorDiagnostics(array $responseJson): string
+    {
+        $parts  = [];
+        $reason = $responseJson['reason'] ?? null;
+
+        if (is_string($reason) && $reason !== '') {
+            $parts[] = 'reason=' . mb_substr($reason, 0, 64);
+        }
+
+        $details = $responseJson['details'] ?? null;
+
+        if (is_array($details)) {
+            foreach ($details as $detail) {
+                $field = is_array($detail) ? ($detail['field'] ?? null) : null;
+
+                if (is_string($field) && $field !== '') {
+                    $parts[] = 'field=' . mb_substr($field, 0, 128);
+                }
+            }
+        }
+
+        return implode(', ', array_slice($parts, 0, 11));
     }
 
     /**

@@ -31,6 +31,11 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FilterEmptyTra
  * payment-instrument id (stored card). Both shapes were verified 201 COMPLETED against the live
  * sandbox; the raw paymentInstrument shape is used for vault cards
  * because it matches how the payment call addresses them.
+ *
+ * orderInformation.billTo is REQUIRED by the endpoint: without it the call answers
+ * 400 MISSING_FIELD orderInformation.billTo.administrativeArea and no referenceId is ever issued,
+ * so device data collection silently never runs. No amountDetails — the setup call does not price
+ * anything, and the API asked for billTo only.
  */
 class SetupRequest
 {
@@ -54,6 +59,13 @@ class SetupRequest
      * @var string|null
      */
     private ?string $paymentInstrumentId = null;
+
+    /**
+     * Billing address fields, keyed by API field name, already sanitized by the caller.
+     *
+     * @var array<string, string|null>
+     */
+    private array $billTo = [];
 
     /**
      * Get the merchant client-reference code (quote id / order increment id).
@@ -125,6 +137,32 @@ class SetupRequest
     }
 
     /**
+     * Get the billTo address fields.
+     *
+     * @return array<string, string|null>
+     */
+    public function getBillTo(): array
+    {
+        return $this->billTo;
+    }
+
+    /**
+     * Set the billTo address fields, keyed by API field name (sanitized by the caller).
+     *
+     * Same caller-sanitized shape the authentications call takes, so both requests describe the
+     * cardholder identically.
+     *
+     * @param array<string, string|null> $billTo
+     * @return $this
+     */
+    public function setBillTo(array $billTo): self
+    {
+        $this->billTo = $billTo;
+
+        return $this;
+    }
+
+    /**
      * Build the JSON-ready request tree, omitting null/empty leaves.
      *
      * @return array<string, mixed>
@@ -149,6 +187,11 @@ class SetupRequest
         $clientReferenceInformation = $this->filterEmpty(['code' => $this->clientReferenceCode]);
         if (!empty($clientReferenceInformation)) {
             $request['clientReferenceInformation'] = $clientReferenceInformation;
+        }
+
+        $billTo = $this->filterEmpty($this->billTo);
+        if (!empty($billTo)) {
+            $request['orderInformation'] = ['billTo' => $billTo];
         }
 
         if ($hasToken) {
