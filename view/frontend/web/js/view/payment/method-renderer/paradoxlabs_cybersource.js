@@ -569,6 +569,11 @@ define(
              * re-auth on any failure would be wrong: a genuine decline consumes the single-use
              * transient token, so only this refusal — which precedes the gateway — is retried.
              *
+             * Obligation refusals (a card already blocked by a failed or abandoned authentication)
+             * deliberately carry different wording and do NOT match here: no ceremony can clear
+             * them, so retrying would only buy a second doomed round-trip before the same dead end.
+             * They fall through to the terminal path above, which resets the form for another card.
+             *
              * @param {Object} response - the failed place jqXHR-like response
              * @return {Boolean}
              */

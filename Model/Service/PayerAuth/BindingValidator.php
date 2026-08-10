@@ -45,6 +45,8 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *  3. obligation set       => CommandException unless the record now carries a USABLE liability shift
  *                             covering this charge. An abandoned challenge, or a failure followed by a
  *                             fresh setup(), keeps blocking until an authentication actually succeeds.
+ *                             TERMINAL wording (no REVERIFY_MARKER): the obligation belongs to this
+ *                             instrument and no amount of re-verifying clears it.
  *  4. no verdict, no obligation
  *                          => null. A setup-only record has nothing to consume; it will be replaced by
  *                             the next authenticate() or cleared by the post-place one-shot.
@@ -74,6 +76,10 @@ class BindingValidator
      * on (the webapi fault carries no machine-readable code). Drift silently ends that retry, so
      * BindingValidatorTest pins this marker and the exact sentence; the sentence stays an inline
      * literal in reverify() for the i18n phrase collector.
+     *
+     * The marker is a PROMISE that re-verifying helps, so it belongs only to the recoverable class
+     * (expired/amount/currency/binding drift on a shifted record, abandoned challenge). Refusals
+     * that no ceremony can lift use blocked() instead and must never carry it.
      */
     public const REVERIFY_MARKER = 'verify your payment again';
 
@@ -116,9 +122,7 @@ class BindingValidator
         if ($verdict === Verdict::FAILED) {
             $this->refuse('authentication_failed', $verdict);
 
-            throw new CommandException(
-                __('Your payment could not be verified. Please re-enter your payment information and try again.')
-            );
+            throw $this->blocked();
         }
 
         if ($verdict === Verdict::CHALLENGE) {
@@ -133,11 +137,16 @@ class BindingValidator
 
         // A pending obligation (a prior failure or an abandoned challenge) is only discharged by an
         // authentication that actually succeeded AND covers this charge. Anything less keeps blocking.
+        //
+        // This refusal is TERMINAL for the instrument, so it deliberately does NOT carry
+        // REVERIFY_MARKER: the client's one-shot re-verify cannot clear an obligation, and inviting
+        // it only buys a second doomed ceremony before the same dead end. Unmarked, the client falls
+        // through to its terminal path and resets the form for another card.
         if ($this->obligation($record) !== null
             && ($verdict === null || $verdict->hasLiabilityShift() === false || $mismatch !== null)) {
             $this->refuse('obligation_' . $this->obligation($record), $verdict);
 
-            throw $this->reverify();
+            throw $this->blocked();
         }
 
         if ($verdict === null) {
@@ -253,6 +262,22 @@ class BindingValidator
     {
         return new CommandException(
             __('Your payment verification is no longer valid. Please verify your payment again.')
+        );
+    }
+
+    /**
+     * Build the TERMINAL refusal shown for a block re-verifying cannot lift.
+     *
+     * The absence of self::REVERIFY_MARKER is the point: this wording tells the checkout client the
+     * instrument is done, so it stops retrying and resets the form for another card. Keep it free of
+     * the marker, and keep the sentence an inline literal for the i18n phrase collector.
+     *
+     * @return CommandException
+     */
+    private function blocked(): CommandException
+    {
+        return new CommandException(
+            __('Your payment could not be verified. Please re-enter your payment information and try again.')
         );
     }
 

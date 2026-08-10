@@ -29,6 +29,13 @@ Run `bin/magento setup:di:compile` after deployment.**
   secret keys) are deleted on upgrade, preserving `Enable Payer Authentication` and card types.
 - Guest payer-auth and capture-context routes are unthrottled by design; rate-limit at your
   WAF/CDN/proxy.
+- A Payer Authentication block is scoped to the CARD, not the cart: a card that fails or abandons
+  3DS stays blocked until it authenticates, but switching to another card clears the block on the
+  same cart. Note that re-entering the same card number counts as a different card here, because it
+  authenticates from scratch; stored cards stay blocked until they pass.
+- A blocked card now reports "Your payment could not be verified. Please re-enter your payment
+  information and try again." and resets the payment form, instead of silently re-running the
+  verification it can never pass.
 
 ## 3.0.0 - Jun 17, 2026: PHP 8.1–8.5 compatibility
 

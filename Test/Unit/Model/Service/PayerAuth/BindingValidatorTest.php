@@ -181,8 +181,10 @@ class BindingValidatorTest extends TestCase
             ]
         );
 
+        // An obligation is terminal for THIS instrument: re-verifying cannot clear it, so the
+        // refusal must not invite the client's one-shot re-verify retry (#13).
         $this->expectException(CommandException::class);
-        $this->expectExceptionMessage('Your payment verification is no longer valid.');
+        $this->expectExceptionMessage('Your payment could not be verified.');
 
         $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
     }
@@ -259,7 +261,7 @@ class BindingValidatorTest extends TestCase
         );
 
         $this->expectException(CommandException::class);
-        $this->expectExceptionMessage('Your payment verification is no longer valid.');
+        $this->expectExceptionMessage('Your payment could not be verified.');
 
         $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
     }
@@ -524,6 +526,76 @@ class BindingValidatorTest extends TestCase
                 $exception->getMessage()
             );
             self::assertStringContainsString(BindingValidator::REVERIFY_MARKER, $exception->getMessage());
+        }
+    }
+
+    /**
+     * The marker is a promise that re-verifying HELPS. Drift on a shifted record is such a case.
+     *
+     * @return void
+     */
+    public function testDriftRefusalOnAShiftedRecordKeepsTheReverifyMarker(): void
+    {
+        $this->persistor->method('load')->willReturn($this->record(['amount' => '1.00']));
+
+        try {
+            $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+            self::fail('A drifted amount on a shifted record must be refused.');
+        } catch (CommandException $exception) {
+            self::assertStringContainsString(BindingValidator::REVERIFY_MARKER, $exception->getMessage());
+        }
+    }
+
+    /**
+     * The other half of the contract: obligation-class refusals must NOT carry the marker (#13).
+     *
+     * The client's one-shot re-verify cannot clear an obligation — the instrument that earned it is
+     * blocked until an authentication succeeds — so a marked message buys the shopper a second
+     * doomed ceremony (a second DS call, a second CRITICAL) before the same dead end. Dropping the
+     * marker makes isReverifyFailure() fall through to the terminal path, which resets the form so
+     * the shopper can use another card. Change either side and this test fails; fix both together.
+     *
+     * @dataProvider obligationProvider
+     * @param string $obligation
+     * @return void
+     */
+    #[DataProvider('obligationProvider')]
+    public function testObligationRefusalIsTerminalAndCarriesNoReverifyMarker(string $obligation): void
+    {
+        $this->persistor->method('load')->willReturn(
+            $this->record([
+                'verdict' => Verdict::UNAVAILABLE->value,
+                'obligation' => $obligation,
+                'obligation_binding' => 'jti-abc',
+            ])
+        );
+
+        try {
+            $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+            self::fail('An outstanding obligation must be refused.');
+        } catch (CommandException $exception) {
+            self::assertSame(
+                'Your payment could not be verified. Please re-enter your payment information and try again.',
+                $exception->getMessage()
+            );
+            self::assertStringNotContainsString(BindingValidator::REVERIFY_MARKER, $exception->getMessage());
+        }
+    }
+
+    /**
+     * A FAILED verdict has always been terminal; it must stay unmarked too.
+     *
+     * @return void
+     */
+    public function testFailedRefusalCarriesNoReverifyMarker(): void
+    {
+        $this->persistor->method('load')->willReturn($this->record(['verdict' => 'failed']));
+
+        try {
+            $this->validator->resolve($this->payment, '24.00', 'USD', 'jti-abc');
+            self::fail('A failed authentication must be refused.');
+        } catch (CommandException $exception) {
+            self::assertStringNotContainsString(BindingValidator::REVERIFY_MARKER, $exception->getMessage());
         }
     }
 
