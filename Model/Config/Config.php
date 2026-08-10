@@ -551,6 +551,6 @@ class Config
             return [];
         }
 
-        return array_values(array_filter(array_map('trim', explode(',', $value))));
+        return array_values(array_filter(array_map('trim', preg_split('/[\r\n,]+/', (string)$value) ?: [])));
     }
 }

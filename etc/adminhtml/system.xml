@@ -36,7 +36,7 @@
                 <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
-                <field id="heading_rest" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="heading_rest" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>REST API Setup</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
                     <attribute type="shared">1</attribute>
@@ -45,72 +45,34 @@
                         updates (via Account Updater and Decision Manager). These keys are required.
                     ]]></comment>
                 </field>
-                <field id="apitest_rest" translate="label" type="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="apitest_rest" translate="label" type="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Test Results</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\ApiTest\Rest</frontend_model>
                 </field>
-                <field id="organization_id" translate="label" type="text" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="organization_id" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Organization ID</label>
                 </field>
-                <field id="merchant_id" translate="label" type="text" sortOrder="154" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="merchant_id" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Merchant ID</label>
                 </field>
-                <field id="rest_secret_key_id" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="rest_secret_key_id" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>REST API Secret Key ID</label>
                 </field>
-                <field id="rest_secret_key" translate="label" type="obscure" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="rest_secret_key" translate="label" type="obscure" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>REST API Secret Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="heading_unified_checkout" translate="label" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Unified Checkout Setup</label>
+                <field id="heading_unified_checkout" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment Form</label>
                     <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
                     <attribute type="shared">1</attribute>
                     <comment><![CDATA[
                         All credit card forms use the CyberSource Unified Checkout drop-in (UC.js), authenticated
-                        with the REST API keys above. Digital wallets and Payer Authentication require enablement
-                        on your CyberSource merchant account before turning them on here.
+                        with the REST API keys above. Digital wallets must be enabled on your CyberSource merchant
+                        account before turning them on here.
                     ]]></comment>
                 </field>
-                <field id="cardinal_active" translate="label comment" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable Payer Authentication</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, 3D Secure authentication will run before order placement. Runs on your CyberSource merchant account (requires Payer Authentication enablement by CyberSource support); no Cardinal portal credentials required. Note: Enabling this feature will remove the payment method from multishipping checkout.</comment>
-                </field>
-                <field id="cardinal_card_types" translate="label comment" type="multiselect" sortOrder="195" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable for Card Types</label>
-                    <source_model>Magento\Payment\Model\Config\Source\Cctype</source_model>
-                    <comment>Note: Not all card types and processors support Payer Authentication.</comment>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
-                </field>
-                <field id="payer_auth_required" translate="label comment" type="select" sortOrder="196" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Require Payer Authentication</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Refuse orders placed without attempting Payer Authentication — closes the API path for REST/GraphQL integrations that skip it. This requires the authentication to be ATTEMPTED, not to succeed: cards the issuer cannot authenticate (not enrolled, issuer timeout, directory-server error) still place, without a liability shift, as they did before. Subscription rebills and admin orders are exempt.</comment>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
-                </field>
-                <field id="payer_auth_return_origins" translate="label comment" type="textarea" sortOrder="197" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Headless Return URL Origins</label>
-                    <comment>One origin per line (scheme://host[:port]) permitted as payer-auth challenge return targets for headless/GraphQL storefronts. The store's own base-URL host is always permitted. Leave empty unless running a separate-origin storefront.</comment>
-                    <depends>
-                        <field id="cardinal_active">1</field>
-                    </depends>
-                </field>
-                <field id="uc_decision_manager" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable Decision Manager on checkout payments</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Disable to skip Decision Manager screening on initial checkout authorizations. Subscription and follow-on charges are always exempt.</comment>
-                </field>
-                <field id="validate_card_storage" translate="label comment" type="select" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable fraud check when storing cards</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, Decision Manager fraud rules and scoring will be applied when customers add a new card, not just when checkout is submitted. Enabling may increase transaction fees.</comment>
-                </field>
-                <field id="uc_allowed_payment_types" translate="label comment" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="uc_allowed_payment_types" translate="label comment" type="multiselect" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allowed Payment Types</label>
                     <options>
                         <option label="Card Entry">PANENTRY</option>
@@ -122,7 +84,7 @@
                     <validate>required-entry</validate>
                     <comment>Payment methods offered within the Unified Checkout form. Digital wallets must be enabled on your CyberSource merchant account first.</comment>
                 </field>
-                <field id="uc_allowed_card_networks" translate="label comment" type="multiselect" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="uc_allowed_card_networks" translate="label comment" type="multiselect" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allowed Card Networks</label>
                     <options>
                         <option label="Visa">VISA</option>
@@ -138,31 +100,72 @@
                     <validate>required-entry</validate>
                     <comment>Card networks accepted by the Unified Checkout form. Only select networks your merchant account supports.</comment>
                 </field>
-                <field id="uc_billing_type" translate="label comment" type="select" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Collect Billing Address</label>
-                    <options>
-                        <option label="Full Address">FULL</option>
-                        <option label="Partial (Postal Code Only)">PARTIAL</option>
-                        <option label="None">NONE</option>
-                    </options>
-                    <comment>How much billing address information the Unified Checkout form collects from the customer. Checkout already collects a billing address, which is sent with the transaction; None is recommended.</comment>
+                <field id="show_branding" translate="label comment" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show CyberSource Logo</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show a CyberSource logo on the payment form.</comment>
                 </field>
-                <field id="uc_country" translate="label comment" type="select" sortOrder="232" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Merchant Country</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    <comment>Country passed to Unified Checkout. Leave empty to use the store's default country.</comment>
+                <field id="uc_review_step" translate="label comment" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Payment Review</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, CyberSource shows its own review screen after card entry, before handing back to checkout. Off by default. Turn it on if you want the final click labeled 'Pay' or 'Confirm and Continue', rather than 'Continue'.</comment>
                 </field>
-                <field id="uc_locale" translate="label comment" type="text" sortOrder="234" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Form Locale</label>
-                    <comment>Locale code for the Unified Checkout form, e.g. en_US. Leave empty to use the store locale.</comment>
+                <field id="heading_payer_auth" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payer Authentication (3D Secure)</label>
+                    <frontend_model>ParadoxLabs\CyberSource\Block\Adminhtml\Config\DescriptiveHeader</frontend_model>
+                    <attribute type="shared">1</attribute>
+                    <comment><![CDATA[
+                        Payer Authentication requires enablement on your CyberSource merchant account before
+                        turning it on here.
+                    ]]></comment>
                 </field>
-                <field id="uc_target_origins" translate="label comment" type="text" sortOrder="236" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Additional Target Origins</label>
-                    <comment>The current store/admin origin is included automatically. Use this to add extra exact HTTPS origins (e.g. https://www.example.com) allowed to load the Unified Checkout form, such as headless storefront domains. Comma-separated.</comment>
+                <field id="cardinal_active" translate="label comment" type="select" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Payer Authentication</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, 3D Secure authentication will run before order placement. Note: Enabling this feature will remove the payment method from multishipping checkout.</comment>
                 </field>
-                <field id="uc_client_version" translate="label comment" type="text" sortOrder="238" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>UC.js Client Version</label>
-                    <comment>Pinned Unified Checkout client library version. Do not change unless directed by ParadoxLabs support.</comment>
+                <field id="cardinal_card_types" translate="label comment" type="multiselect" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable for Card Types</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Cctype</source_model>
+                    <comment>Note: Not all card types and processors support Payer Authentication.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
+                <field id="payer_auth_required" translate="label comment" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Require Payer Authentication</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, orders cannot be placed unless Payer Authentication was attempted. Cards the issuer cannot authenticate (not enrolled, issuer timeout) still place as they did before. Subscription rebills and admin orders are exempt.</comment>
+                    <depends>
+                        <field id="cardinal_active">1</field>
+                    </depends>
+                </field>
+                <field id="heading_fraud" translate="label" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Fraud Screening</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+                <field id="uc_decision_manager" translate="label comment" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Decision Manager on Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, Decision Manager screens initial checkout authorizations. Subscription and follow-on charges are always exempt.</comment>
+                </field>
+                <field id="validate_card_storage" translate="label comment" type="select" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Fraud Check When Storing Cards</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, Decision Manager fraud rules and scoring will be applied when customers add a new card, not just when checkout is submitted. Enabling may increase transaction fees.</comment>
+                </field>
+                <field id="fingerprint" translate="label" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Device Fingerprinting</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Used by Decision Manager and Fraud Management Essentials to identify users for better fraud prevention.</comment>
+                </field>
+                <field id="fingerprint_domain" translate="label" type="text" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enhanced Profiling Domain</label>
+                    <comment>If you've set up an 'Enhanced Profiling' custom domain with CyberSource, enter it here. Do not change this setting until the DNS and SSL are fully tested. See Decision Manager documentation for instructions.</comment>
+                    <depends>
+                        <field id="fingerprint">1</field>
+                    </depends>
                 </field>
                 <field id="heading_checkout" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Settings</label>
@@ -175,31 +178,34 @@
                     <attribute type="shared">1</attribute>
                     <comment>'Authorize and Capture' to charge on checkout. Note 'Save Info' does not support Payer Authentication.</comment>
                 </field>
-                <field id="uc_auto_place_order" translate="label comment" type="select" sortOrder="255" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Place Order Automatically After Card Entry</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, completing card entry (or a wallet confirmation) in the payment form places the order immediately, with no separate Place Order click. Terms and conditions and other checkout validations still apply; if any fail, the order is not placed and the customer uses the normal Place Order button.</comment>
-                </field>
-                <field id="uc_review_step" translate="label comment" type="select" sortOrder="256" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Payment Review</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, CyberSource shows its own review screen after card entry, before handing back to checkout. Off by default. Turn it on if you want the final click labeled 'Pay' or 'Confirm and Continue', rather than 'Continue'.</comment>
-                </field>
                 <field id="order_status" translate="label comment" type="select" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>New Order Status</label>
                     <source_model>ParadoxLabs\TokenBase\Model\Source\OrderStatus</source_model>
                     <comment>Normally 'Pending' if 'Authorize Only' above; 'Processing' if not.</comment>
                 </field>
-                <field id="show_branding" translate="label comment" type="select" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show CyberSource logo</label>
+                <field id="uc_auto_place_order" translate="label comment" type="select" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Place Order Automatically After Card Entry</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Show a CyberSource logo on the payment form.</comment>
+                    <comment>If yes, completing card entry (or a wallet confirmation) in the payment form places the order immediately, with no separate Place Order click. Terms and conditions and other checkout validations still apply; if any fail, the order is not placed and the customer uses the normal Place Order button.</comment>
                 </field>
-                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="280" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="280" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Allow Checkout Without Saving Card</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, customers can choose whether to save their credit card during checkout.</comment>
+                </field>
+                <field id="savecard_opt_out" translate="label comment" type="select" sortOrder="290" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Auto-Select 'Save for Next Time'</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, will be selected by default during checkout.</comment>
+                    <depends>
+                        <field id="allow_unsaved">1</field>
+                    </depends>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allow for Countries</label>
                     <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="290" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Allow for Specific Countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
@@ -207,36 +213,23 @@
                         <field id="allowspecific">1</field>
                     </depends>
                 </field>
-                <field id="min_order_total" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="min_order_total" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Minimum Order Total</label>
                 </field>
-                <field id="max_order_total" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="max_order_total" translate="label" type="text" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Maximum Order Total</label>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="sort_order" translate="label" type="text" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Sort Order</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>
-                <field id="heading_advanced" translate="label" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="heading_advanced" translate="label" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Advanced Settings</label>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
                     <attribute type="shared">1</attribute>
                 </field>
-                <field id="allow_unsaved" translate="label comment" type="select" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Allow cards to not be stored</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, customers can choose whether to save their credit card during checkout.</comment>
-                </field>
-                <field id="savecard_opt_out" translate="label comment" type="select" sortOrder="350" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Auto-select 'save for next time'</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If yes, will be selected by default during checkout.</comment>
-                    <depends>
-                        <field id="allow_unsaved">1</field>
-                    </depends>
-                </field>
                 <field id="require_ccv" translate="label comment" type="select" sortOrder="360" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Require CVN for stored cards</label>
+                    <label>Require Security Code (CVN) for Stored Cards</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, customers must re-enter the security code to pay with a stored card. New card entry is unaffected: the Unified Checkout form always collects the security code itself. This will not affect recurring transactions.</comment>
                 </field>
@@ -245,16 +238,24 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If yes, when you create a partial invoice, we will reauthorize any outstanding balance on the order. This helps guarantee funds, but can cause multiple holds on the card until transactions settle.</comment>
                 </field>
-                <field id="fingerprint" translate="label" type="select" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable Device Fingerprinting</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Used by Decision Manager and Fraud Management Essentials to identify users for better fraud prevention.</comment>
+                <field id="uc_country" translate="label comment" type="select" sortOrder="380" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Merchant Country</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <comment>Country passed to Unified Checkout. Leave empty to use the store's default country.</comment>
                 </field>
-                <field id="fingerprint_domain" translate="label" type="text" sortOrder="390" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Enhanced Profiling Domain</label>
-                    <comment>If you've set up an 'Enhanced Profiling' custom domain with CyberSource, enter it here. Do not change this setting until the DNS and SSL are fully tested. See Decision Manager documentation for instructions.</comment>
+                <field id="uc_locale" translate="label comment" type="text" sortOrder="390" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Form Locale</label>
+                    <comment>Locale code for the Unified Checkout form, e.g. en_US. Leave empty to use the store locale.</comment>
+                </field>
+                <field id="uc_target_origins" translate="label comment" type="textarea" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Additional Target Origins</label>
+                    <comment>One origin per line (e.g. https://www.example.com). Extra exact HTTPS origins allowed to load the Unified Checkout form, such as headless storefront domains. The current store/admin origin is included automatically; leave empty unless running a separate-origin storefront.</comment>
+                </field>
+                <field id="payer_auth_return_origins" translate="label comment" type="textarea" sortOrder="410" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payer Auth Return URL Origins</label>
+                    <comment>One origin per line (scheme://host[:port]) permitted as payer-auth challenge return targets for headless/GraphQL storefronts. The store's own base-URL host is always permitted. Leave empty unless running a separate-origin storefront.</comment>
                     <depends>
-                        <field id="fingerprint">1</field>
+                        <field id="cardinal_active">1</field>
                     </depends>
                 </field>
             </group>
