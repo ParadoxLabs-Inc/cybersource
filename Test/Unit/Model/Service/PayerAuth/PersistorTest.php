@@ -254,6 +254,203 @@ class PersistorTest extends TestCase
         $this->assertSame('ref-999', $record['reference_id']);
     }
 
+    /**
+     * An obligation belongs to the INSTRUMENT that earned it, not to the cart (#12).
+     *
+     * @dataProvider obligationProvider
+     * @param string|null $obligation
+     * @return void
+     */
+    #[DataProvider('obligationProvider')]
+    public function testSaveResultRecordsTheBindingTheObligationBelongsTo(?string $obligation): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, $obligation);
+
+        $record = $this->persistor->load($payment);
+
+        if ($obligation === null) {
+            $this->assertNull($record);
+
+            return;
+        }
+
+        $this->assertSame($obligation, $record['obligation']);
+        $this->assertSame('jti-abcdef123456', $record['obligation_binding']);
+    }
+
+    public function testDischargedObligationCarriesNoBinding(): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, Persistor::OBLIGATION_FAILED);
+        $this->persistor->saveResult(
+            $payment,
+            new AuthenticationResult(Verdict::AUTHENTICATED, ['paresStatus' => 'Y']),
+            '24.00',
+            'USD',
+            'jti-abcdef123456'
+        );
+
+        $record = $this->persistor->load($payment);
+
+        $this->assertNull($record['obligation']);
+        $this->assertNull($record['obligation_binding']);
+    }
+
+    /**
+     * Seeding setup for a DIFFERENT instrument discharges the obligation: one card's 3DS failure
+     * must not poison the cart for every other card (#12).
+     *
+     * @dataProvider obligationProvider
+     * @param string|null $obligation
+     * @return void
+     */
+    #[DataProvider('obligationProvider')]
+    public function testSaveReferenceIdUnderADifferentBindingDischargesTheObligation(?string $obligation): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, $obligation);
+
+        $this->persistor->saveReferenceId($payment, 'ref-999', 'card:9');
+
+        $record = $this->persistor->load($payment);
+
+        $this->assertNull($record['obligation']);
+        $this->assertNull($record['obligation_binding']);
+        $this->assertSame('card:9', $record['binding']);
+    }
+
+    /**
+     * @dataProvider obligationProvider
+     * @param string|null $obligation
+     * @return void
+     */
+    #[DataProvider('obligationProvider')]
+    public function testSaveReferenceIdUnderTheSameBindingKeepsTheObligation(?string $obligation): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, $obligation);
+
+        $this->persistor->saveReferenceId($payment, 'ref-999', 'jti-abcdef123456');
+
+        $record = $this->persistor->load($payment);
+
+        $this->assertSame($obligation, $record['obligation']);
+        $this->assertSame($obligation === null ? null : 'jti-abcdef123456', $record['obligation_binding']);
+    }
+
+    /**
+     * An UNAVAILABLE result on ANOTHER instrument inherits nothing: there is nothing owed for it.
+     *
+     * @return void
+     */
+    public function testUnavailableUnderADifferentBindingDoesNotInheritTheObligation(): void
+    {
+        $payment = $this->quotePayment();
+
+        $this->seedObligation($payment, Persistor::OBLIGATION_FAILED);
+
+        $this->persistor->saveResult(
+            $payment,
+            new AuthenticationResult(Verdict::UNAVAILABLE, ['paresStatus' => 'U']),
+            '24.00',
+            'USD',
+            'card:9'
+        );
+
+        $record = $this->persistor->load($payment);
+
+        $this->assertNull($record['obligation']);
+        $this->assertNull($record['obligation_binding']);
+    }
+
+    /**
+     * A record written before #12 has an obligation but no obligation_binding. Its `binding` is the
+     * instrument the obligation came from, so it reads as that — the block survives an upgrade for
+     * the same card, and lifts for a different one.
+     *
+     * @return void
+     */
+    public function testLegacyRecordWithoutAnObligationBindingFallsBackToTheRecordBinding(): void
+    {
+        $payment = $this->quotePayment();
+        $payment->setAdditionalInformation(
+            Persistor::PERSIST_KEY,
+            json_encode(
+                [
+                    'reference_id' => 'ref-1',
+                    'verdict' => 'failed',
+                    'obligation' => Persistor::OBLIGATION_FAILED,
+                    'ca' => [],
+                    'amount' => '24.00',
+                    'currency' => 'USD',
+                    'binding' => 'card:9',
+                    'created_at' => time(),
+                ]
+            )
+        );
+
+        $this->persistor->saveReferenceId($payment, 'ref-2', 'card:9');
+
+        $this->assertSame(Persistor::OBLIGATION_FAILED, $this->persistor->load($payment)['obligation']);
+
+        $this->persistor->saveReferenceId($payment, 'ref-3', 'card:11');
+
+        $this->assertNull($this->persistor->load($payment)['obligation']);
+    }
+
+    public function testDischargeIsLoggedWithMaskedBindingsOnly(): void
+    {
+        $payment = $this->quotePayment();
+        $messages = [];
+
+        $this->helper->method('log')->willReturnCallback(
+            function ($code, $message) use (&$messages) {
+                $messages[] = (string)$message;
+
+                return $this->helper;
+            }
+        );
+
+        $this->seedObligation($payment, Persistor::OBLIGATION_FAILED);
+        $this->persistor->saveReferenceId($payment, 'ref-999', 'card:9');
+
+        $discharges = array_values(
+            array_filter($messages, static fn(string $line): bool => str_contains($line, 'obligation discharged'))
+        );
+
+        $this->assertCount(1, $discharges);
+        $this->assertStringContainsString('binding changed', $discharges[0]);
+        $this->assertStringContainsString('jti-***3456', $discharges[0]);
+        $this->assertStringContainsString('card:9', $discharges[0]);
+        $this->assertStringNotContainsString('jti-abcdef123456', $discharges[0]);
+    }
+
+    public function testNoDischargeIsLoggedWhenNothingWasOwed(): void
+    {
+        $payment = $this->quotePayment();
+        $messages = [];
+
+        $this->helper->method('log')->willReturnCallback(
+            function ($code, $message) use (&$messages) {
+                $messages[] = (string)$message;
+
+                return $this->helper;
+            }
+        );
+
+        $this->persistor->saveReferenceId($payment, 'ref-1', 'jti-abcdef123456');
+        $this->persistor->saveReferenceId($payment, 'ref-2', 'card:9');
+
+        foreach ($messages as $message) {
+            $this->assertStringNotContainsString('obligation discharged', $message);
+        }
+    }
+
     public function testObligationRoundTripsThroughSerialization(): void
     {
         $payment = $this->quotePayment();

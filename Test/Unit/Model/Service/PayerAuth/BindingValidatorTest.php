@@ -188,6 +188,65 @@ class BindingValidatorTest extends TestCase
     }
 
     /**
+     * Issue #12 regression: a failure on card A must not block card C on the same cart.
+     *
+     * This is the record Persistor::saveReferenceId() now writes when setup runs for a DIFFERENT
+     * instrument — the obligation was discharged with the binding change, so nothing is owed and the
+     * new card places on its own merits.
+     *
+     * @return void
+     */
+    public function testSeedForADifferentInstrumentAfterAFailureDoesNotBlock(): void
+    {
+        $this->persistor->method('load')->willReturn(
+            [
+                'reference_id' => 'ref-2',
+                'auth_transaction_id' => null,
+                'verdict' => null,
+                'obligation' => null,
+                'obligation_binding' => null,
+                'ca' => [],
+                'amount' => null,
+                'currency' => null,
+                'binding' => 'card:9',
+                'created_at' => time(),
+            ]
+        );
+
+        $this->assertNull($this->validator->resolve($this->payment, '24.00', 'USD', 'card:9'));
+    }
+
+    /**
+     * ...while the SAME instrument stays blocked: the anti-bypass property is what #12 preserves.
+     *
+     * @dataProvider obligationProvider
+     * @param string $obligation
+     * @return void
+     */
+    #[DataProvider('obligationProvider')]
+    public function testSeedForTheSameInstrumentAfterAFailureStillBlocks(string $obligation): void
+    {
+        $this->persistor->method('load')->willReturn(
+            [
+                'reference_id' => 'ref-2',
+                'auth_transaction_id' => null,
+                'verdict' => null,
+                'obligation' => $obligation,
+                'obligation_binding' => 'card:9',
+                'ca' => [],
+                'amount' => null,
+                'currency' => null,
+                'binding' => 'card:9',
+                'created_at' => time(),
+            ]
+        );
+
+        $this->expectException(CommandException::class);
+
+        $this->validator->resolve($this->payment, '24.00', 'USD', 'card:9');
+    }
+
+    /**
      * An UNAVAILABLE result does not discharge an obligation, so the block stands.
      *
      * @dataProvider obligationProvider

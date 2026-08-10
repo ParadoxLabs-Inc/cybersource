@@ -40,9 +40,12 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  *   auth_transaction_id ?string  consumerAuthenticationInformation.authenticationTransactionId
  *   verdict             ?string  Verdict::value; null while only setup has run
  *   obligation          ?string  'failed'|'challenge'|null — an OUTSTANDING refusal that survives a
- *                                re-seed. Set when an authentication fails or challenges; discharged
- *                                only by a successful (AUTHENTICATED/ATTEMPTED) result. This is what
- *                                stops "fail, run setup again, place unauthenticated".
+ *                                re-seed OF THE SAME INSTRUMENT. Set when an authentication fails or
+ *                                challenges; discharged by a successful (AUTHENTICATED/ATTEMPTED)
+ *                                result, or by moving to a different instrument. This is what stops
+ *                                "fail, run setup again, place unauthenticated".
+ *   obligation_binding  ?string  the binding the obligation belongs to — always the binding of the
+ *                                instrument that earned it. Null whenever `obligation` is null.
  *   ca                  array    full normalized consumerAuthenticationInformation (CAVV lives here)
  *   amount              ?string  authenticated base amount, 2dp string
  *   currency            ?string  authenticated base currency
@@ -54,8 +57,15 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
  * The record is authorization-bearing (it carries the liability shift), so it is bound to ONE quote
  * payment and never mirrored anywhere wider — a copy readable from another quote is the cross-quote
  * replay the BindingValidator rules exist to stop. Any binding change, or a fresh saveReferenceId(),
- * REPLACES the whole record, with ONE exception: `obligation` carries across, so a refusal cannot be
- * laundered by running setup again.
+ * REPLACES the whole record, with ONE exception: `obligation` carries across WHEN THE BINDING IS
+ * UNCHANGED, so a refusal cannot be laundered by running setup again on the same instrument.
+ *
+ * The obligation is INSTRUMENT-scoped, not cart-scoped: a card that failed 3DS stays blocked, while
+ * switching to a different card discharges it (the new instrument owes nothing and will run its own
+ * full authentication). Cart-scoped blocking made one declined card poison the whole cart. Note that
+ * a Unified Checkout binding is the transient-token `jti`, so re-entering the SAME PAN mints a new
+ * jti and discharges too; the anti-bypass property still holds because that re-entry authenticates
+ * from scratch. Stored cards (`card:<id>`) are the durable case.
  *
  * This class is the ONLY place the record's state changes. The BindingValidator is a read-only gate;
  * clearing is done by Management (Payer Auth off / skipped) and by the post-place one-shot.
@@ -119,7 +129,9 @@ class Persistor
      *
      * Writes a NEW record: a new setup is a new attempt, so no prior verdict survives it. The
      * `obligation` is the deliberate exception — without preserving it, "authenticate, fail, call
-     * setup again, place" would place unauthenticated.
+     * setup again, place" would place unauthenticated. It is preserved only while the instrument is
+     * the SAME one that earned it; seeding a different instrument discharges it, and the discharge
+     * is logged so an audit trail shows why the block lifted.
      *
      * @param InfoInterface $payment
      * @param string $referenceId
@@ -135,13 +147,18 @@ class Persistor
         string $binding,
         ?string $transientToken = null
     ): void {
+        $existing = $this->load($payment);
+        [$obligation, $obligationBinding] = $this->carryObligation($existing, $binding);
+        $priorObligation = $this->readObligation($existing);
+
         $this->saveRecord(
             $payment,
             [
                 'reference_id' => $referenceId,
                 'auth_transaction_id' => null,
                 'verdict' => null,
-                'obligation' => $this->readObligation($this->load($payment)),
+                'obligation' => $obligation,
+                'obligation_binding' => $obligationBinding,
                 'ca' => [],
                 'amount' => null,
                 'currency' => null,
@@ -150,6 +167,15 @@ class Persistor
                 'created_at' => $this->now(),
             ]
         );
+
+        if ($priorObligation !== null && $obligation === null) {
+            $this->helper->log(
+                Config::CODE,
+                'Payer Authentication: obligation discharged, binding changed, from='
+                . $this->maskBinding($this->obligationBinding($existing))
+                . ', to=' . $this->maskBinding($binding)
+            );
+        }
 
         $this->helper->log(
             Config::CODE,
@@ -167,8 +193,10 @@ class Persistor
      *  - FAILED / CHALLENGE        => record it. It survives a re-seed, so the BindingValidator keeps
      *                                 refusing until an authentication succeeds.
      *  - AUTHENTICATED / ATTEMPTED => discharge it.
-     *  - UNAVAILABLE               => PRESERVE whatever was there: an outage/bypass result is not an
-     *                                 authentication and must never launder a prior refusal.
+     *  - UNAVAILABLE               => PRESERVE whatever was there FOR THIS INSTRUMENT: an outage/bypass
+     *                                 result is not an authentication and must never launder a prior
+     *                                 refusal. An obligation owed by a different instrument is not
+     *                                 inherited.
      *
      * @param InfoInterface $payment
      * @param AuthenticationResult $result
@@ -198,6 +226,7 @@ class Persistor
         }
 
         $verdict = $result->getVerdict();
+        [$obligation, $obligationBinding] = $this->obligationFor($verdict, $existing, $binding);
 
         $this->saveRecord(
             $payment,
@@ -205,7 +234,8 @@ class Persistor
                 'reference_id' => $referenceId,
                 'auth_transaction_id' => $result->authenticationTransactionId(),
                 'verdict' => $verdict->value,
-                'obligation' => $this->obligationFor($verdict, $this->readObligation($existing)),
+                'obligation' => $obligation,
+                'obligation_binding' => $obligationBinding,
                 'ca' => $result->getConsumerAuthenticationInformation(),
                 'amount' => $amount,
                 'currency' => $currency,
@@ -223,20 +253,55 @@ class Persistor
     }
 
     /**
-     * Resolve the obligation a result with this verdict leaves behind.
+     * Resolve the obligation — and the binding it belongs to — a result with this verdict leaves.
      *
      * @param Verdict $verdict
-     * @param string|null $existing Obligation currently on the record, if any.
-     * @return string|null
+     * @param array<string, mixed>|null $existing Record currently on the payment, if any.
+     * @param string $binding Binding of the instrument this result is for.
+     * @return array{0: string|null, 1: string|null}
      */
-    private function obligationFor(Verdict $verdict, ?string $existing): ?string
+    private function obligationFor(Verdict $verdict, ?array $existing, string $binding): array
     {
         return match ($verdict) {
-            Verdict::FAILED => self::OBLIGATION_FAILED,
-            Verdict::CHALLENGE => self::OBLIGATION_CHALLENGE,
-            Verdict::AUTHENTICATED, Verdict::ATTEMPTED => null,
-            Verdict::UNAVAILABLE => $existing,
+            Verdict::FAILED => [self::OBLIGATION_FAILED, $binding],
+            Verdict::CHALLENGE => [self::OBLIGATION_CHALLENGE, $binding],
+            Verdict::AUTHENTICATED, Verdict::ATTEMPTED => [null, null],
+            Verdict::UNAVAILABLE => $this->carryObligation($existing, $binding),
         };
+    }
+
+    /**
+     * Carry a record's obligation forward only when it is owed by the instrument now in hand.
+     *
+     * @param array<string, mixed>|null $existing
+     * @param string $binding
+     * @return array{0: string|null, 1: string|null}
+     */
+    private function carryObligation(?array $existing, string $binding): array
+    {
+        $obligation = $this->readObligation($existing);
+
+        if ($obligation === null || $this->obligationBinding($existing) !== $binding) {
+            return [null, null];
+        }
+
+        return [$obligation, $binding];
+    }
+
+    /**
+     * Read the binding an obligation belongs to.
+     *
+     * Records written before the obligation was instrument-scoped carry no `obligation_binding`; the
+     * record's own `binding` is the instrument that earned the obligation there, so it stands in.
+     *
+     * @param array<string, mixed>|null $record
+     * @return string|null
+     */
+    private function obligationBinding(?array $record): ?string
+    {
+        $binding = $record['obligation_binding'] ?? $record['binding'] ?? null;
+
+        return is_string($binding) && $binding !== '' ? $binding : null;
     }
 
     /**
