@@ -436,8 +436,8 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
         // Re-submitting Place Order hits the same wall: the persisted record refuses repeatedly.
         $this->assertRetryIsStillRefused('could not be verified');
 
-        // And running setup() again does not launder it: the obligation survives the re-seed, so the
-        // "fail, re-run setup, place" route is closed too.
+        // And running setup() again for the SAME instrument does not launder it: the obligation
+        // survives the re-seed, so the "fail, re-run setup, place" route is closed too.
         $this->simulateNewRequest();
         $this->management()->setup($this->transientToken());
 
@@ -449,8 +449,16 @@ class CyberSourcePayerAuthCheckoutTest extends TestCase
             $reseeded['obligation'] ?? null,
             '...but NOT the obligation: that is what stops the re-setup bypass.'
         );
+        self::assertSame(
+            $reseeded['binding'] ?? null,
+            $reseeded['obligation_binding'] ?? null,
+            'The obligation must name the instrument it is owed by, or it cannot be discharged'
+            . ' by switching cards (#12).'
+        );
 
-        $this->assertRetryIsStillRefused('verify your payment again');
+        // The obligation refusal is TERMINAL wording, not the re-verify invitation: no ceremony
+        // clears it, so the client must not retry (#13).
+        $this->assertRetryIsStillRefused('could not be verified');
 
         self::assertSame(
             [],
