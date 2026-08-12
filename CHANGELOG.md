@@ -1,6 +1,6 @@
 # ParadoxLabs_CyberSource Changelog
 
-## 4.0.0 - Aug 5, 2026: Unified Checkout + native Payer Authentication
+## 4.0.0 - Aug 12, 2026: Unified Checkout + native Payer Authentication
 
 **WARNING: Secure Acceptance, CardinalCommerce Songbird, and the SOAP gateway have been removed.
 Run `bin/magento setup:di:compile` after deployment.**
