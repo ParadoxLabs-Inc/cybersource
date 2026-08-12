@@ -24,12 +24,15 @@ use Magento\Directory\Helper\Data;
 $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
     <?= /* @noEscape */
     $block->getBlockHtml('formkey') ?>
-    <input type="hidden" name="card_id" value="<?= $block->getCard()->getId() ? $escaper->escapeHtmlAttr(
+    <?php // The frontend Save controller identifies the edited card by the "id" param (hash) — NOT
+          // "card_id", which it ignores; posting card_id here made every edit save a NEW card. ?>
+    <input type="hidden" name="id" value="<?= $block->getCard()->getId() ? $escaper->escapeHtmlAttr(
         $block->getCard()->getHash()
     ) : '' ?>"/>
     <input type="hidden" name="method" value="<?= /* @noEscape */
     $code ?>"/>
     <input type="hidden" name="source" value="paymentinfo"/>
+    <input type="hidden" name="payment[transient_token]" value=""/>
     <fieldset class="fieldset address">
         <legend class="legend"><span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span></legend>
         <br>
@@ -186,9 +189,10 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
     $code ?>">
         <div class="field required">
             <div class="control">
-                <iframe src="about:blank" id="<?= /* @noEscape */
-                $code ?>_iframe" name="<?= /* @noEscape */
-                $code ?>_iframe"></iframe>
+                <div class="unified-checkout-selection" id="<?= /* @noEscape */
+                $code ?>_uc_selection"></div>
+                <div class="unified-checkout-screen" id="<?= /* @noEscape */
+                $code ?>_uc_screen"></div>
             </div>
         </div>
     </fieldset>
@@ -198,10 +202,9 @@ $code ?>" data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')
         "#form-validate": {
             "validation": {},
             "cybersourcePaymentInfoForm": {
-                "target": "<?= /* @noEscape */
-    $code ?>_iframe",
-                "paramUrl": "<?= $escaper->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
-                "successUrl": "<?= $escaper->escapeJs($block->getUrl('*/*', ['method' => $code])) ?>"
+                "captureContextUrl": "<?= $escaper->escapeJs(
+        $block->getUrl('pdl_cybs/unifiedCheckout/captureContext')
+    ) ?>"
             }
         },
         "#country": {

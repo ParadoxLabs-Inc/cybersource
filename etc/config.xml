@@ -10,30 +10,24 @@
                 <title>Credit Card (CyberSource)</title>
                 <organization_id/>
                 <merchant_id/>
-                <soap_auth_type>transaction_key</soap_auth_type>
-                <soap_transaction_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <soap_cert backend_model="ParadoxLabs\CyberSource\Model\Config\P12Certificate"/>
-                <soap_cert_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <secureaccept_profile_id/>
-                <secureaccept_access_key/>
-                <secureaccept_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <rest_secret_key_id/>
                 <rest_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <cardinal_active>1</cardinal_active>
-                <cardinal_org_unit_id/>
-                <cardinal_secret_key_id/>
-                <cardinal_secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <cardinal_card_types>AE,MC,VI</cardinal_card_types>
-                <!--
-                    NOTE: These values must be updated periodically; they rotate quarterly and expire at 18 months.
-                    @todo Update URLs and SRIs regularly
-                    @see https://developer.cardinaltrusted.com/docs/songbird-js-changes
-                    @updated 2.1.0 - October 22, 2025
-                -->
-                <cardinal_songbird_url_test>https://cas.static.client.cardinaltrusted.com/songbird/v2.1.0/songbird.js</cardinal_songbird_url_test>
-                <cardinal_songbird_sri_test>sha384-SyB1z+tPBr7Pv5x7KYYEqP50NDAIID56G6/WjGzhEkqTEqZsQn9ywSmZyPcU5ym2</cardinal_songbird_sri_test>
-                <cardinal_songbird_url_live>https://static.client.cardinaltrusted.com/songbird/v2.1.0/songbird.js</cardinal_songbird_url_live>
-                <cardinal_songbird_sri_live>sha384-ChU6jn6KFsEv8NcjP1ifj3s6LclP7AFS6fTHY2pcBL5yax0FT5viH/cNbOJDnY5E</cardinal_songbird_sri_live>
+                <!-- Unified Checkout -->
+                <uc_client_version>0.34</uc_client_version>
+                <uc_target_origins/>
+                <uc_allowed_card_networks>VISA,MASTERCARD,AMEX,DISCOVER</uc_allowed_card_networks>
+                <uc_allowed_payment_types>PANENTRY</uc_allowed_payment_types>
+                <uc_billing_type>NONE</uc_billing_type>
+                <uc_country/>
+                <uc_locale/>
+                <cardinal_active>0</cardinal_active>
+                <cardinal_card_types>AE,VI,MC,DI,JCB,DN</cardinal_card_types>
+                <payer_auth_required>0</payer_auth_required>
+                <payer_auth_return_origins/>
+                <uc_decision_manager>1</uc_decision_manager>
+                <validate_card_storage>0</validate_card_storage>
+                <uc_auto_place_order>1</uc_auto_place_order>
+                <uc_review_step>0</uc_review_step>
                 <model>ParadoxLabs\CyberSource\Gateway\VirtualFacade</model>
                 <card_model>ParadoxLabs\CyberSource\Model\Card</card_model>
                 <method_model>ParadoxLabs\CyberSource\Model\Method</method_model>
@@ -51,11 +45,10 @@
                 <savecard_opt_out>1</savecard_opt_out>
                 <fingerprint>1</fingerprint>
                 <fingerprint_domain>h.online-metrix.net</fingerprint_domain>
-                <validate_card_storage>0</validate_card_storage>
                 <group>tokenbase</group>
                 <!-- API info -->
                 <client_name>ParadoxLabs CyberSource</client_name>
-                <client_version>2.0.2</client_version>
+                <client_version>4.0.0</client_version>
                 <!-- Feature flags -->
                 <can_order>1</can_order>
                 <can_authorize>1</can_authorize>
@@ -72,7 +65,7 @@
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_review_payment>0</can_review_payment>
-                <is_gateway>0</is_gateway>
+                <is_gateway>1</is_gateway>
                 <is_offline>0</is_offline>
                 <can_initialize>0</can_initialize>
                 <can_store_bin>1</can_store_bin>

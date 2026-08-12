@@ -1,0 +1,24 @@
+{
+    "status": "AUTHENTICATION_FAILED",
+    "errorInformation": {
+        "reason": "CONSUMER_AUTHENTICATION_FAILED",
+        "message": "Encountered a Payer Authentication problem. Payer could not be authenticated."
+    },
+    "consumerAuthenticationInformation": {
+        "acsOperatorID": "MerchantACS",
+        "acsReferenceNumber": "CardinalACS",
+        "acsTransactionId": "5e4d3c2b-9a8f-4e7d-8c6b-4a3f2e1d0c9b",
+        "authenticationTransactionId": "6544862566447352408013",
+        "directoryServerTransactionId": "4d5e6f7a-8b9c-4d1e-8f2a-3b4c5d6e7f8a",
+        "eciRaw": "07",
+        "paresStatus": "R",
+        "signedParesStatusReason": "01",
+        "specificationVersion": "2.2.0",
+        "strongAuthentication": {
+            "OutageExemptionIndicator": "0"
+        },
+        "threeDSServerTransactionId": "e4f3a2b1-0c9d-4e8f-9a7b-6c5d4e3f2a1b",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAA4",
+        "veresEnrolled": "Y"
+    }
+}

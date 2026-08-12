@@ -1,5 +1,24 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Payer Authentication service contract -->
+    <preference for="ParadoxLabs\CyberSource\Api\PayerAuthManagementInterface"
+                type="ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management"/>
+    <preference for="ParadoxLabs\CyberSource\Api\GuestPayerAuthManagementInterface"
+                type="ParadoxLabs\CyberSource\Model\Service\PayerAuth\GuestManagement"/>
+    <preference for="ParadoxLabs\CyberSource\Api\Data\PayerAuthSetupResultInterface"
+                type="ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data\SetupResult"/>
+    <preference for="ParadoxLabs\CyberSource\Api\Data\PayerAuthResultInterface"
+                type="ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data\Result"/>
+    <preference for="ParadoxLabs\CyberSource\Api\Data\PayerAuthBrowserInfoInterface"
+                type="ParadoxLabs\CyberSource\Model\Service\PayerAuth\Data\BrowserInfo"/>
+
+    <!-- Not shared: a Management instance may be bound to a caller-supplied quote (guest/GraphQL). -->
+    <type name="ParadoxLabs\CyberSource\Model\Service\PayerAuth\Management" shared="false">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+
     <!-- Payment Method Facade -->
     <virtualType name="ParadoxLabs\CyberSource\Gateway\VirtualFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -36,19 +55,13 @@
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>
             <argument name="sensitive" xsi:type="array">
-                <item name="payment/paradoxlabs_cybersource/soap_transaction_key" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/secureaccept_secret_key" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/rest_secret_key" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/cardinal_secret_key" xsi:type="string">1</item>
             </argument>
             <argument name="environment" xsi:type="array">
                 <item name="payment/paradoxlabs_cybersource/test" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/merchant_id" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/secureaccept_profile_id" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/secureaccept_access_key" xsi:type="string">1</item>
                 <item name="payment/paradoxlabs_cybersource/rest_secret_key_id" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/cardinal_org_unit_id" xsi:type="string">1</item>
-                <item name="payment/paradoxlabs_cybersource/cardinal_secret_key_id" xsi:type="string">1</item>
+                <item name="payment/paradoxlabs_cybersource/uc_target_origins" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>
@@ -67,7 +80,19 @@
             <argument name="gateway" xsi:type="object">ParadoxLabs\CyberSource\Model\Gateway</argument>
             <argument name="cardFactory" xsi:type="object">ParadoxLabs\CyberSource\Model\CardFactoryVirtualType</argument>
             <argument name="config" xsi:type="object">ParadoxLabs\CyberSource\Gateway\VirtualConfig</argument>
+            <!-- Lazy: the UC Response service drags in the REST client, but is only used on a $0 order. -->
+            <argument name="ucResponse" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response\Proxy</argument>
             <argument name="methodCode" xsi:type="string">paradoxlabs_cybersource</argument>
+        </arguments>
+    </type>
+
+    <!-- Lazy: Gateway\Context takes this service concretely, so it is built for every payment method
+         instantiation, while its Payer Authentication collaborators are only touched on a charge. -->
+    <type name="ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response">
+        <arguments>
+            <argument name="bindingValidator" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator\Proxy</argument>
+            <argument name="passThroughMapper" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\PayerAuth\PassThroughMapper\Proxy</argument>
+            <argument name="payerAuthPersistor" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor\Proxy</argument>
         </arguments>
     </type>
 
@@ -196,6 +221,9 @@
     <type name="ParadoxLabs\CyberSource\Model\Card">
         <arguments>
             <argument name="cardContext" xsi:type="object">ParadoxLabs\CyberSource\Model\Card\VirtualContext</argument>
+            <!-- Lazy: the UC Response service drags in the REST client, but a Card is loaded for every
+                 vault card; only the paymentinfo add-card path actually exchanges a token. -->
+            <argument name="ucResponse" xsi:type="object">ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response\Proxy</argument>
         </arguments>
     </type>
 
@@ -208,11 +236,6 @@
         <arguments>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="ParadoxLabs\CyberSource\Controller\Adminhtml\SecureAccept\Complete">
-        <arguments>
-            <argument name="formKey" xsi:type="object">Magento\Framework\Data\Form\FormKey\Proxy</argument>
         </arguments>
     </type>
     <type name="ParadoxLabs\CyberSource\Helper\Data">
@@ -228,11 +251,6 @@
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
     <type name="ParadoxLabs\CyberSource\Model\Method">

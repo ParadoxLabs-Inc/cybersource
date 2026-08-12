@@ -31,6 +31,21 @@ class Sanitizer
     const ISO_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
+     * JSON keys whose string values must be fully masked when logging request/response bodies.
+     * This covers personal data (billTo email, phone, name, address) that must not appear in logs.
+     */
+    const MASKABLE_STRING_KEYS = [
+        'email',
+        'phoneNumber',
+        'firstName',
+        'lastName',
+        'address1',
+        'address2',
+        'locality',
+        'postalCode',
+    ];
+
+    /**
      * Truncate input at length
      *
      * @param string $input
@@ -197,6 +212,74 @@ class Sanitizer
         }
 
         return $this->length($input, $maxLength);
+    }
+
+    /**
+     * Mask PAN, CVV, the Unified Checkout transient-token JWT, and personal data (email, phone,
+     * name, address) in a JSON request/response body for secure logging.
+     *
+     * The card number ("number") retains only its last four digits; the security code
+     * ("securityCode") is fully masked, as are the single-use credentials on the UC and payer-auth
+     * traffic, since Rest logs masked request and response bodies on the error path.
+     * The keys listed in self::MASKABLE_STRING_KEYS (billTo email, phone number, name,
+     * and street address fields, etc.) are also fully masked, since Rest::throwOnHttpError() logs
+     * maskJson() on both the request and response body. Both quoted-string and unquoted numeric JSON
+     * values are redacted. Operates on the raw JSON string so the exact bytes that were transmitted
+     * can be safely logged.
+     *
+     * @param string $json
+     * @return string
+     */
+    public function maskJson(string $json): string
+    {
+        $json = (string)$json;
+
+        // Mask card number, retaining last four digits. Matches both quoted ("number":"4111...")
+        // and numeric ("number":4111...) values; numeric values are emitted as a quoted string so the
+        // masked output ("************1111") remains valid JSON.
+        $json = preg_replace_callback(
+            '/("number"\s*:\s*)(?:"(\d+)"|(\d+))/',
+            static function (array $match): string {
+                $number = !empty($match[2]) ? $match[2] : ($match[3] ?? '');
+                $last4  = substr($number, -4);
+                $masked = str_repeat('*', max(0, strlen($number) - 4)) . $last4;
+
+                return $match[1] . '"' . $masked . '"';
+            },
+            $json
+        );
+
+        // Fully mask the security code. Matches both quoted ("securityCode":"737") and numeric
+        // ("securityCode":737) values; output is always a quoted "***" to keep valid JSON.
+        $json = preg_replace(
+            '/("securityCode"\s*:\s*)(?:"[^"]*"|\d+)/',
+            '$1"***"',
+            $json
+        );
+
+        // Fully mask single-use credentials. The transient token carries BOTH key spellings on the
+        // wire: "transientTokenJwt" on /pts/v2/payments, "transientToken" on the payer-auth setups
+        // call. The rest are payer-auth secrets on /risk/v1 replies: cavv/xid (cryptogram),
+        // ucafAuthenticationData (Mastercard AAV), accessToken (DDC + step-up JWTs), pareq (CReq).
+        // All are always quoted strings; output is a quoted "***" to keep valid JSON.
+        $json = preg_replace(
+            '/("(?:transientToken(?:Jwt)?|cavv|xid|ucafAuthenticationData|accessToken|pareq)"\s*:\s*)"[^"]*"/',
+            '$1"***"',
+            $json
+        );
+
+        // Fully mask personal data (billTo email, phone number, name, and address fields, etc. --
+        // see self::MASKABLE_STRING_KEYS). These are always quoted strings; values may contain
+        // escaped characters (e.g. \"), so the value pattern tolerates any escaped character or any
+        // character that isn't a bare quote or backslash. Output is a quoted "***" to keep valid JSON.
+        $maskableKeys = implode('|', array_map('preg_quote', static::MASKABLE_STRING_KEYS));
+        $json         = preg_replace(
+            '/("(?:' . $maskableKeys . ')"\s*:\s*)"(?:[^"\\\\]|\\\\.)*"/',
+            '$1"***"',
+            $json
+        );
+
+        return $json;
     }
 
     /**

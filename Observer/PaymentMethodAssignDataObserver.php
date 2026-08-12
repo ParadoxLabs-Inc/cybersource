@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * Copyright © 2020-present ParadoxLabs, Inc.
+ * Copyright © 2015-present ParadoxLabs, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,13 @@ use Override;
 class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\PaymentMethodAssignDataObserver
 {
     /**
-     * Store the Response JWT on the payment object from checkout input payment data.
+     * Assign data to the payment instance for our methods.
+     *
+     * Copies the Unified Checkout transient-token JWT (new-card path) from the client additional_data
+     * contract into payment additional_information, where the UC auth/sale seam consumes it.
+     *
+     * @see \ParadoxLabs\CyberSource\Model\Gateway::hasTransientToken()
+     * @see \ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response
      *
      * @param InfoInterface $payment
      * @param DataObject $data
@@ -39,25 +45,76 @@ class PaymentMethodAssignDataObserver extends \ParadoxLabs\TokenBase\Observer\Pa
      * @return void
      */
     #[Override]
-    protected function assignStandardData(
+    protected function assignTokenbaseData(
         InfoInterface $payment,
         DataObject $data,
-        MethodInterface $method
+        MethodInterface $method,
     ) {
-        parent::assignStandardData($payment, $data, $method);
+        $this->processUnifiedCheckoutToken($payment, $data);
 
-        $payment->setAdditionalInformation('payerauth_session_id', $data->getData('payerauth_session_id'));
-        $payment->setAdditionalInformation('response_jwt', $data->getData('response_jwt'));
+        parent::assignTokenbaseData($payment, $data, $method);
+    }
 
-        if (!empty($data->getData('response_jwt'))
-            && empty($data->getData('card_id'))) {
-            $payment->setData('tokenbase_id', null);
+    /**
+     * Store the Unified Checkout transient token if given (new-card checkout/payment-info submit).
+     *
+     * Note: parent::execute() has already merged additional_data keys into the top level of $data,
+     * so this covers the KO renderer, GraphQL (tokenbase_data), and legacy form-field paths alike.
+     *
+     * The client contract is "exactly one of {transient_token, card_id} populated per submit". When no
+     * token is given (stored-card selection, or any re-assign without one), we must clear any token left
+     * over from a prior assign on the same quote payment — Gateway::authorize() checks hasTransientToken()
+     * before the stored-card branch, so a stale token from a failed new-card attempt would otherwise
+     * authorize against the previously entered (wrong) card.
+     *
+     * @param InfoInterface $payment
+     * @param DataObject $data
+     * @return void
+     */
+    public function processUnifiedCheckoutToken(
+        InfoInterface $payment,
+        DataObject $data,
+    ): void {
+        $token = $data->getData('transient_token');
 
-            $paymentAttributes = $payment->getExtensionAttributes();
-            if ($paymentAttributes instanceof PaymentExtensionInterface
-                || $paymentAttributes instanceof OrderPaymentExtensionInterface) {
-                $paymentAttributes->setTokenbaseId(null);
+        if (is_string($token) && $token !== '') {
+            $payment->setAdditionalInformation('transient_token', $token);
+
+            /**
+             * Paymentinfo edit-card is the one legitimate token+card_id combination: the Save
+             * controllers post the edited card's hash alongside the fresh UC token that REPLACES it.
+             * The card identity belongs to those controllers (loaded and ownership-checked there) —
+             * mapping card_id onto the payment here would make the StoredCard validator treat the
+             * submit as a stored-card CHARGE and demand a CVV (require_ccv) that the UC drop-in
+             * already collected inside its iframe. Strip it so the token alone represents the entry.
+             */
+            if ($payment->getData('tokenbase_source') === 'paymentinfo') {
+                $data->unsetData('card_id');
             }
+
+            /**
+             * The mirror of the stale-token case below: a customer's persistent quote can carry a
+             * tokenbase_id from a prior assign (stored-card selection, or an earlier failed attempt).
+             * With no card_id in this submit, the parent's tokenbase_id fallback would reload that
+             * stale card onto the payment, and the StoredCard validator would then treat this
+             * new-card submit as a stored-card payment — with require_ccv on, that demands a CVV
+             * the client correctly never collected, hard-failing every place-order on the quote.
+             * A token submit IS a new card; clear the stale stored-card state so it stays one.
+             * (card_id + token together is a broken client per the contract; leave that to parent.)
+             */
+            if ((string)$data->getData('card_id') === '' && $payment->getData('tokenbase_id') !== null) {
+                $payment->setData('tokenbase_id', null);
+                $payment->unsetData('tokenbase_card');
+
+                $paymentAttributes = $payment->getExtensionAttributes();
+                if ($paymentAttributes instanceof PaymentExtensionInterface
+                    || $paymentAttributes instanceof OrderPaymentExtensionInterface) {
+                    $paymentAttributes->setTokenbaseId(null);
+                }
+            }
+        } else {
+            // Empty/null token (e.g. stored card selected): drop any stale token from a prior assign.
+            $payment->unsAdditionalInformation('transient_token');
         }
     }
 }

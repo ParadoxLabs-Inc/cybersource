@@ -1,0 +1,155 @@
+<div class="payment-method payment_form_paradoxlabs_cybersource" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()},
+                          value: getCode(),
+                          checked: isChecked,
+                          click: selectPaymentMethod,
+                          visible: isRadioButtonVisible()">
+        <label class="label" data-bind="attr: {'for': getCode()}"><span data-bind="text: getTitle()"></span></label>
+    </div>
+
+    <form class="payment-method-content" data-bind="mageInit: {'validation': {}}">
+        <input type="hidden" name="payment[cc_type]" value="" data-bind="attr: {id: getCode() + '-cc-type'}, value: creditCardType, afterRender: handleSelectedCardType()">
+
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <fieldset data-bind="attr: {class: 'fieldset payment items ccard ' + getCode(), id: getCode() + '-form-cc'}">
+            <!-- ko if: (isShowLegend())-->
+            <legend class="legend"><span><!-- ko text: $t('Credit Card Information')--><!-- /ko --></span></legend>
+            <br>
+            <!-- /ko -->
+            <!-- ko if: (getLogoImage())-->
+            <div class="sorter">
+                <img data-bind="attr: {'src': getLogoImage(), 'alt': $t('Processed by CyberSource, a Visa Solution')}">
+            </div>
+            <!--/ko-->
+            <!-- ko if: (storedCards().length > 0) -->
+            <div>
+                <label data-bind="attr: {for: getCode() + '-card-id'}" class="label">
+                    <span><!-- ko text: $t('Payment Information')--><!-- /ko --></span>
+                </label>
+                <div class="control">
+                    <select name="payment[card_id]" class="select"
+                            data-bind="attr: {id: getCode() + '-card-id', 'data-container': getCode() + '-card-id'},
+                                    enable: true,
+                                    options: storedCards,
+                                    optionsValue: 'id',
+                                    optionsText: 'label',
+                                    optionsCaption: $t('Add new card'),
+                                    value: selectedCard,
+                                    valueAllowUnset: true">
+                    </select>
+                </div>
+            </div>
+            <div>&nbsp;</div>
+            <!-- /ko -->
+
+            <!-- Unified Checkout drop-in (embedded layout). Shown when adding a new card.
+                 afterRender kicks off the initial mount attempt once the containers exist; the
+                 renderer's quote subscriptions only fire on subsequent changes. -->
+            <div class="field card required" data-bind="visible: showDropin()">
+                <div class="unified-checkout-selection"
+                     data-bind="attr: {id: getCode() + '_uc_selection'}"></div>
+                <div class="unified-checkout-screen"
+                     data-bind="attr: {id: getCode() + '_uc_screen'}, afterRender: maybeMountDropin"></div>
+            </div>
+
+            <!-- ko if: (selectedCard()) -->
+            <div class="field cvv required" data-bind="attr: {id: getCode() + '-cc-type-cvv-div'}, visible: (isCcvShown)">
+                <label data-bind="attr: {for: getCode() + '-cc-cid'}" class="label">
+                    <span><!-- ko text: $t('Card Verification Number')--><!-- /ko --></span>
+                </label>
+                <div class="control _with-tooltip">
+                    <input type="text"
+                           class="input-text cvv"
+                           name="payment[cc_cid]"
+                           value=""
+                           autocomplete="cc-csc"
+                           maxlength="4"
+                           data-bind="attr: {id: getCode() + '-cc-cid',
+                           title: $t('Card Verification Number'),
+                           'data-container': getCode() + '-cc-cvv',
+                           'data-validate': JSON.stringify({'required-number':true, 'validate-cc-cvn':'#' + getCode() + '-cc-type'})},
+                           enable: true,
+                           textInput: creditCardVerificationNumber">
+                    <div class="field-tooltip toggle">
+                            <span class="field-tooltip-action action-cvv"
+                                  tabindex="0"
+                                  data-toggle="dropdown"
+                                  data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                                <span><!-- ko text: $t('What is this?')--><!-- /ko --></span>
+                            </span>
+                        <div class="field-tooltip-content"
+                             data-target="dropdown"
+                             data-bind="html: getCvvImageHtml()"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: (showSaveOption())-->
+            <div class="field">
+                <label class="label">
+                    <span></span>
+                </label>
+                <div class="control">
+                    <!-- ko if: (forceSaveCard)-->
+                    <input type="hidden"
+                           name="payment[save]"
+                           value="1"
+                           checked="checked"
+                           class="checkbox"
+                           data-bind="attr: {id: getCode() + '-save'}, checked: save">
+                    <label class="label" data-bind="attr: {for: getCode() + '-save'}">
+                        <span><!-- ko text: $t('For your convenience, this data will be stored securely by our payment processor.')--><!-- /ko --></span>
+                    </label>
+                    <!-- /ko -->
+                    <!-- ko if: (!forceSaveCard)-->
+                    <input type="checkbox"
+                           name="payment[save]"
+                           value="1"
+                           checked="checked"
+                           class="checkbox"
+                           data-bind="attr: {id: getCode() + '-save'}, checked: save">
+                    <label class="label" data-bind="attr: {for: getCode() + '-save'}">
+                        <span><!-- ko text: $t('Save for next time')--><!-- /ko --></span>
+                    </label>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <!-- /ko -->
+        </fieldset>
+
+        <!-- Agreements + Place Order render whenever the method is selected (not gated on
+             tokenization), so required agreements can be checked BEFORE card entry and the
+             auto-place path can submit straight from the drop-in without a confirmation
+             staircase. The button's enable binding still tracks isPlaceOrderActionAllowed. -->
+        <div class="payment-method-content">
+            <div class="checkout-agreements-block">
+                <!-- ko foreach: $parent.getRegion('before-place-order') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button class="action primary checkout"
+                            type="submit"
+                            data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('Place Order'), id: getCode() + '-submit'},
+                        enable: (getCode() == isChecked() && isPlaceOrderActionAllowed())
+                        "
+                            disabled>
+                        <span data-bind="text: $t('Place Order')"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

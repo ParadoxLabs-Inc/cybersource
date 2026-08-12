@@ -33,14 +33,8 @@ class Config
     /**
      * Gateway URLs
      */
-    const CARDINAL_LIVE = 'https://songbird.cardinalcommerce.com/edge/v1/songbird.js'; // @deprecated
-    const CARDINAL_TEST = 'https://songbirdstag.cardinalcommerce.com/edge/v1/songbird.js'; // @deprecated
     const REST_LIVE = 'https://api.cybersource.com';
     const REST_TEST = 'https://apitest.cybersource.com';
-    const SECUREACCEPT_LIVE = 'https://secureacceptance.cybersource.com';
-    const SECUREACCEPT_TEST = 'https://testsecureacceptance.cybersource.com';
-    const SOAP_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl';
-    const SOAP_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl';
 
     /**
      * @var int|null
@@ -142,81 +136,6 @@ class Config
     }
 
     /**
-     * Get the SOAP authentication type.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSoapAuthType($storeId = null)
-    {
-        return $this->getConfigValue('soap_auth_type', $storeId) ?: 'transaction_key';
-    }
-
-    /**
-     * Get the SOAP transaction key.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSoapTransactionKey($storeId = null)
-    {
-        $value = $this->getConfigValue('soap_transaction_key', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Transaction Key. Please check configuration.')
-            );
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get the SOAP P12 cert file location.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSoapCertificate($storeId = null)
-    {
-        $value = json_decode(
-            (string)$this->getConfigValue('soap_cert', $storeId),
-            true
-        );
-
-        if (empty($value) || !is_array($value)) {
-            throw new StateException(
-                __('Missing Simple Order certificate. Please check configuration.')
-            );
-        }
-
-        return base64_decode((string)($value['contents'] ?? ''));
-    }
-
-    /**
-     * Get the SOAP P12 cert password.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSoapCertPassword($storeId = null)
-    {
-        $value = $this->getConfigValue('soap_cert_password', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing Simple Order certificate password. Please check configuration.')
-            );
-        }
-
-        return $value;
-    }
-
-    /**
      * Get the REST secret key ID.
      *
      * @param int|null $storeId
@@ -273,98 +192,9 @@ class Config
     }
 
     /**
-     * Get the Secure Acceptance checkout profile ID.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSecureAcceptProfileId($storeId = null)
-    {
-        $value = $this->getConfigValue('secureaccept_profile_id', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Secure Acceptance Profile ID. Please check configuration.')
-            );
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get the Secure Acceptance checkout access key.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSecureAcceptAccessKey($storeId = null)
-    {
-        $value = $this->getConfigValue('secureaccept_access_key', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Secure Acceptance Access Key. Please check configuration.')
-            );
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get the Secure Acceptance checkout secret key.
-     *
-     * @param int|null $storeId
-     * @return mixed
-     * @throws StateException
-     */
-    public function getSecureAcceptSecretKey($storeId = null)
-    {
-        $value = $this->getConfigValue('secureaccept_secret_key', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Secure Acceptance Secret Key. Please check configuration.')
-            );
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get the Secure Acceptance checkout iframe URL.
-     *
-     * @param string $path
-     * @param int|null $storeId
-     * @return string
-     */
-    public function getSecureAcceptEndpoint($path, $storeId = null)
-    {
-        if ($this->isSandboxMode($storeId)) {
-            return static::SECUREACCEPT_TEST . $path;
-        }
-
-        return static::SECUREACCEPT_LIVE . $path;
-    }
-
-    /**
-     * Get the SOAP WSDL URL.
-     *
-     * @param int|null $storeId
-     * @return string
-     */
-    public function getSoapWsdl($storeId = null)
-    {
-        if ($this->isSandboxMode($storeId)) {
-            return static::SOAP_TEST;
-        }
-
-        return static::SOAP_LIVE;
-    }
-
-    /**
      * Get the extension solution ID.
+     *
+     * Wired into clientReferenceInformation.partner.solutionId on all REST request DTOs (Iter 7 T4).
      *
      * @return string
      */
@@ -467,36 +297,129 @@ class Config
     }
 
     /**
-     * Get whether decision manager/fraud mgmt essentials is enabled for card storage.
+     * Get the Unified Checkout UC.js client version selector.
      *
      * @param int|null $storeId
-     * @return bool
+     * @return string
      */
-    public function isCardStorageValidationEnabled($storeId = null)
+    public function getUcClientVersion($storeId = null)
     {
-        return (bool)$this->getConfigValue('validate_card_storage', $storeId);
+        return $this->getConfigValue('uc_client_version', $storeId) ?: '0.34';
     }
 
     /**
-     * Get whether Payer Authentication (Cardinal Cruise API) is enabled.
+     * Get the Unified Checkout allowed target origins (exact HTTPS origins).
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getUcTargetOrigins($storeId = null)
+    {
+        return $this->explodeConfigList('uc_target_origins', $storeId);
+    }
+
+    /**
+     * Get the Unified Checkout allowed card networks.
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getUcAllowedCardNetworks($storeId = null)
+    {
+        return $this->explodeConfigList('uc_allowed_card_networks', $storeId);
+    }
+
+    /**
+     * Get the Unified Checkout allowed payment types (e.g. PANENTRY, APPLEPAY).
+     *
+     * @param int|null $storeId
+     * @return string[]
+     */
+    public function getUcAllowedPaymentTypes($storeId = null)
+    {
+        return $this->explodeConfigList('uc_allowed_payment_types', $storeId);
+    }
+
+    /**
+     * Get the Unified Checkout captureMandate billingType (FULL|PARTIAL|NONE).
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcBillingType($storeId = null)
+    {
+        // Fallback agrees with the config.xml default: checkout already collects billing.
+        return strtoupper($this->getConfigValue('uc_billing_type', $storeId) ?: 'NONE');
+    }
+
+    /**
+     * Get the Unified Checkout ISO-2 country, falling back to store general country.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcCountry($storeId = null)
+    {
+        $value = $this->getConfigValue('uc_country', $storeId);
+
+        if (empty($value)) {
+            $value = trim((string)$this->scopeConfig->getValue(
+                'general/country/default',
+                ScopeInterface::SCOPE_STORE,
+                $storeId ?? $this->storeId
+            ));
+        }
+
+        return strtoupper($value ?: 'US');
+    }
+
+    /**
+     * Get the Unified Checkout locale, falling back to the store general locale.
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getUcLocale($storeId = null)
+    {
+        $value = $this->getConfigValue('uc_locale', $storeId);
+
+        if (empty($value)) {
+            $value = trim((string)$this->scopeConfig->getValue(
+                'general/locale/code',
+                ScopeInterface::SCOPE_STORE,
+                $storeId ?? $this->storeId
+            ));
+        }
+
+        return $value ?: 'en_US';
+    }
+
+    /**
+     * Get whether Payer Authentication (3D Secure) is enabled.
+     *
+     * Unlike 3.x, this is the flag alone: Payer Auth runs on the CyberSource merchant account via
+     * the normal REST keys, so there are no Cardinal portal credentials left to validate.
      *
      * @param int|null $storeId
      * @return bool
      */
-    public function isPayerAuthEnabled($storeId = null)
+    public function isPayerAuthEnabled($storeId = null): bool
     {
-        try {
-            if ((bool)$this->getConfigValue('cardinal_active', $storeId) === false
-                || empty($this->getCardinalOrgUnitId($storeId))
-                || empty($this->getCardinalSecretKeyId($storeId))
-                || empty($this->getCardinalSecretKey($storeId))) {
-                return false;
-            }
+        return (bool)$this->getConfigValue('cardinal_active', $storeId);
+    }
 
-            return true;
-        } catch (StateException) {
-            return false;
-        }
+    /**
+     * Get whether Payer Authentication must have run before an order may be placed.
+     *
+     * The storefront clients always authenticate when Payer Auth is on, so this only governs
+     * REST/GraphQL callers that skip the payer-auth calls.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isPayerAuthRequired($storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('payer_auth_required', $storeId);
     }
 
     /**
@@ -506,112 +429,128 @@ class Config
      * @param int|null $storeId
      * @return bool
      */
-    public function isPayerAuthEnabledForType(string $ccType, $storeId = null)
+    public function isPayerAuthEnabledForType(string $ccType, $storeId = null): bool
     {
-        try {
-            $enabledTypes = explode(',', (string)$this->getConfigValue('cardinal_card_types', $storeId));
-
-            if ($this->isPayerAuthEnabled($storeId) === false
-                || in_array($ccType, $enabledTypes, true) === false) {
-                return false;
-            }
-
-            return true;
-        } catch (StateException) {
+        if ($this->isPayerAuthEnabled($storeId) === false) {
             return false;
         }
+
+        $enabledTypes = explode(',', (string)$this->getConfigValue('cardinal_card_types', $storeId));
+
+        return in_array($ccType, $enabledTypes, true);
     }
 
     /**
-     * Get the Cardinal Cruise organization unit ID.
+     * Get the additional origins permitted as payer-auth challenge return targets.
+     *
+     * Headless/GraphQL storefronts run on their own origin, so their return URL is not on the
+     * store's host. This is the merchant's allowlist for those: one origin per line, normalized
+     * only to trimmed lowercase strings here — shape validation belongs to the consumer.
      *
      * @param int|null $storeId
-     * @return string
-     * @throws StateException
+     * @return string[]
      */
-    public function getCardinalOrgUnitId($storeId = null)
+    public function getPayerAuthReturnOrigins($storeId = null): array
     {
-        $value = $this->getConfigValue('cardinal_org_unit_id', $storeId);
+        $value = (string)$this->getConfigValue('payer_auth_return_origins', $storeId);
 
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Cardinal Cruise Org Unit ID. Please check configuration.')
-            );
+        if (trim($value) === '') {
+            return [];
         }
 
-        return $value;
+        $origins = array_map(
+            static fn($origin): string => strtolower(trim((string)$origin)),
+            preg_split('/[\r\n]+/', $value) ?: []
+        );
+
+        return array_values(array_filter($origins, static fn(string $origin): bool => $origin !== ''));
     }
 
     /**
-     * Get the Cardinal Cruise secret key ID.
+     * Whether Decision Manager is enabled for Unified Checkout.
      *
      * @param int|null $storeId
-     * @return string
-     * @throws StateException
+     * @return bool
      */
-    public function getCardinalSecretKeyId($storeId = null)
+    public function isDecisionManagerEnabled($storeId = null)
     {
-        $value = $this->getConfigValue('cardinal_secret_key_id', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Cardinal Cruise API ID. Please check configuration.')
-            );
-        }
-
-        return $value;
+        return (bool)$this->getConfigValue('uc_decision_manager', $storeId);
     }
 
     /**
-     * Get the Cardinal Cruise secret key.
+     * Whether Decision Manager should also screen the $0 card-storage authorization.
+     *
+     * 3.x parity: card storage is not screened unless the merchant opts in, because screening every
+     * add-card raises transaction fees. See Response::buildZeroDollarRequest().
      *
      * @param int|null $storeId
-     * @return string
-     * @throws StateException
+     * @return bool
      */
-    public function getCardinalSecretKey($storeId = null)
+    public function isCardStorageValidationEnabled($storeId = null): bool
     {
-        $value = $this->getConfigValue('cardinal_secret_key', $storeId);
-
-        if (empty($value)) {
-            throw new StateException(
-                __('Missing CyberSource Cardinal Cruise API Key. Please check configuration.')
-            );
-        }
-
-        return $value;
+        return (bool)$this->getConfigValue('validate_card_storage', $storeId);
     }
 
     /**
-     * Get the Cardinal Cruise Songbird JS library URL for the configured environment.
+     * Whether to place the order automatically after Unified Checkout new-card entry.
      *
      * @param int|null $storeId
-     * @return string
-     * @see ParadoxLabs_CyberSource::etc/config.xml:27
+     * @return bool
      */
-    public function getCardinalSongbirdUrl($storeId = null)
+    public function isUcAutoPlaceOrderEnabled($storeId = null)
     {
-        if ($this->isSandboxMode($storeId)) {
-            return $this->getConfigValue('cardinal_songbird_url_test', $storeId);
-        }
-
-        return $this->getConfigValue('cardinal_songbird_url_live', $storeId);
+        return (bool)$this->getConfigValue('uc_auto_place_order', $storeId);
     }
 
     /**
-     * Get the Cardinal Cruise Songbird JS library SRI hash for the configured environment.
+     * Whether to keep Unified Checkout's own review screen after card entry, at customer checkout.
+     *
+     * Off by default: it repeats details the customer just typed, and Magento's own review step
+     * follows it either way. It is the only place UC applies the buttonType label, though, so a
+     * merchant who wants the last click before an auto-placed order to read something other than
+     * the card form's fixed "Continue" turns this on.
+     *
+     * Typed, unlike its older neighbours: buildRequest() feeds this straight into the request tree,
+     * where a null would be filtered out of the payload instead of sent as an explicit false.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isUcReviewStepEnabled(?int $storeId = null): bool
+    {
+        return (bool)$this->getConfigValue('uc_review_step', $storeId);
+    }
+
+    /**
+     * Map the Magento payment_action to the UC completeMandate type.
+     *
+     * authorize -> AUTH, authorize_capture -> CAPTURE; anything else defaults to AUTH.
      *
      * @param int|null $storeId
      * @return string
-     * @see https://developer.cardinaltrusted.com/docs/songbird-js-changes
-     * @see ParadoxLabs_CyberSource::etc/config.xml:28
      */
-    public function getCardinalSongbirdSRIHash($storeId = null)
+    public function getUcCompleteMandateType($storeId = null)
     {
-        if ($this->isSandboxMode($storeId)) {
-            return $this->getConfigValue('cardinal_songbird_sri_test', $storeId);
+        return $this->getConfigValue('payment_action', $storeId) === 'authorize_capture'
+            ? 'CAPTURE'
+            : 'AUTH';
+    }
+
+    /**
+     * Read a comma-delimited config value into a trimmed, non-empty string list.
+     *
+     * @param string $key
+     * @param int|null $storeId
+     * @return string[]
+     */
+    protected function explodeConfigList($key, $storeId = null)
+    {
+        $value = $this->getConfigValue($key, $storeId);
+
+        if ($value === '') {
+            return [];
         }
 
-        return $this->getConfigValue('cardinal_songbird_sri_live', $storeId);
+        return array_values(array_filter(array_map('trim', preg_split('/[\r\n,]+/', (string)$value) ?: [])));
     }
 }

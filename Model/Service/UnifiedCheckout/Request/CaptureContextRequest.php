@@ -1,0 +1,545 @@
+<?php declare(strict_types=1);
+/**
+ * Copyright © 2020-present ParadoxLabs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Need help? Try our knowledgebase and support system:
+ *
+ * @link https://support.paradoxlabs.com
+ */
+
+namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
+
+/**
+ * Typed value object for the Unified Checkout capture-context request body.
+ *
+ * Hand-written "type safety without the SDK" (DECISION D14). Mirrors the fields we actually send
+ * under GenerateUnifiedCheckoutCaptureContextRequest; toArray() emits a clean JSON-ready tree with
+ * null/empty leaves omitted so the request body is minimal.
+ *
+ * @see UC-API-REFERENCE.md §1
+ */
+class CaptureContextRequest
+{
+    use FilterEmptyTrait;
+
+    /**
+     * @var string|null
+     */
+    private ?string $clientVersion = null;
+
+    /**
+     * @var string[]
+     */
+    private array $targetOrigins = [];
+
+    /**
+     * @var string[]
+     */
+    private array $allowedCardNetworks = [];
+
+    /**
+     * @var string[]
+     */
+    private array $allowedPaymentTypes = [];
+
+    /**
+     * @var string|null
+     */
+    private ?string $country = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $locale = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $billingType = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $requestEmail = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $requestPhone = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $requestShipping = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $showConfirmationStep = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $buttonType = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $includeCardPrefix = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $totalAmount = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $currency = null;
+
+    /**
+     * Billing address fields, keyed by API field name (firstName, lastName, address1, …).
+     *
+     * @var array<string, string|null>
+     */
+    private array $billTo = [];
+
+    /**
+     * Get the UC.js client version selector.
+     *
+     * @return string|null
+     */
+    public function getClientVersion(): ?string
+    {
+        return $this->clientVersion;
+    }
+
+    /**
+     * Set the UC.js client version selector.
+     *
+     * @param string|null $clientVersion
+     * @return $this
+     */
+    public function setClientVersion(?string $clientVersion): self
+    {
+        $this->clientVersion = $clientVersion;
+
+        return $this;
+    }
+
+    /**
+     * Get the allowed target origins (exact HTTPS origins).
+     *
+     * @return string[]
+     */
+    public function getTargetOrigins(): array
+    {
+        return $this->targetOrigins;
+    }
+
+    /**
+     * Set the allowed target origins.
+     *
+     * @param string[] $targetOrigins
+     * @return $this
+     */
+    public function setTargetOrigins(array $targetOrigins): self
+    {
+        $this->targetOrigins = array_values(array_filter($targetOrigins));
+
+        return $this;
+    }
+
+    /**
+     * Get the allowed card networks.
+     *
+     * @return string[]
+     */
+    public function getAllowedCardNetworks(): array
+    {
+        return $this->allowedCardNetworks;
+    }
+
+    /**
+     * Set the allowed card networks.
+     *
+     * @param string[] $allowedCardNetworks
+     * @return $this
+     */
+    public function setAllowedCardNetworks(array $allowedCardNetworks): self
+    {
+        $this->allowedCardNetworks = array_values(array_filter($allowedCardNetworks));
+
+        return $this;
+    }
+
+    /**
+     * Get the allowed payment types.
+     *
+     * @return string[]
+     */
+    public function getAllowedPaymentTypes(): array
+    {
+        return $this->allowedPaymentTypes;
+    }
+
+    /**
+     * Set the allowed payment types.
+     *
+     * @param string[] $allowedPaymentTypes
+     * @return $this
+     */
+    public function setAllowedPaymentTypes(array $allowedPaymentTypes): self
+    {
+        $this->allowedPaymentTypes = array_values(array_filter($allowedPaymentTypes));
+
+        return $this;
+    }
+
+    /**
+     * Get the ISO-2 country code.
+     *
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set the ISO-2 country code.
+     *
+     * @param string|null $country
+     * @return $this
+     */
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get the locale (e.g. en_US).
+     *
+     * @return string|null
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Set the locale.
+     *
+     * @param string|null $locale
+     * @return $this
+     */
+    public function setLocale(?string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Get the captureMandate billingType (FULL|PARTIAL|NONE).
+     *
+     * @return string|null
+     */
+    public function getBillingType(): ?string
+    {
+        return $this->billingType;
+    }
+
+    /**
+     * Set the captureMandate billingType.
+     *
+     * @param string|null $billingType
+     * @return $this
+     */
+    public function setBillingType(?string $billingType): self
+    {
+        $this->billingType = $billingType;
+
+        return $this;
+    }
+
+    /**
+     * Get whether UC collects the customer email.
+     *
+     * @return bool|null
+     */
+    public function getRequestEmail(): ?bool
+    {
+        return $this->requestEmail;
+    }
+
+    /**
+     * Set whether UC collects the customer email.
+     *
+     * @param bool|null $requestEmail
+     * @return $this
+     */
+    public function setRequestEmail(?bool $requestEmail): self
+    {
+        $this->requestEmail = $requestEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get whether UC collects the customer phone number.
+     *
+     * @return bool|null
+     */
+    public function getRequestPhone(): ?bool
+    {
+        return $this->requestPhone;
+    }
+
+    /**
+     * Set whether UC collects the customer phone number.
+     *
+     * @param bool|null $requestPhone
+     * @return $this
+     */
+    public function setRequestPhone(?bool $requestPhone): self
+    {
+        $this->requestPhone = $requestPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get whether UC collects a shipping address.
+     *
+     * @return bool|null
+     */
+    public function getRequestShipping(): ?bool
+    {
+        return $this->requestShipping;
+    }
+
+    /**
+     * Set whether UC collects a shipping address.
+     *
+     * @param bool|null $requestShipping
+     * @return $this
+     */
+    public function setRequestShipping(?bool $requestShipping): self
+    {
+        $this->requestShipping = $requestShipping;
+
+        return $this;
+    }
+
+    /**
+     * Get whether UC shows its own review/confirmation step after card entry.
+     *
+     * @return bool|null
+     */
+    public function getShowConfirmationStep(): ?bool
+    {
+        return $this->showConfirmationStep;
+    }
+
+    /**
+     * Set whether UC shows its own review/confirmation step after card entry.
+     *
+     * @param bool|null $showConfirmationStep
+     * @return $this
+     */
+    public function setShowConfirmationStep(?bool $showConfirmationStep): self
+    {
+        $this->showConfirmationStep = $showConfirmationStep;
+
+        return $this;
+    }
+
+    /**
+     * Get the drop-in button type (server enum, e.g. PAY|CHECKOUT_AND_CONTINUE|SAVE_CARD).
+     *
+     * @return string|null
+     */
+    public function getButtonType(): ?string
+    {
+        return $this->buttonType;
+    }
+
+    /**
+     * Set the drop-in button type.
+     *
+     * @param string|null $buttonType
+     * @return $this
+     */
+    public function setButtonType(?string $buttonType): self
+    {
+        $this->buttonType = $buttonType;
+
+        return $this;
+    }
+
+    /**
+     * Get whether the transient token includes the 8-digit card prefix (BIN).
+     *
+     * @return bool|null
+     */
+    public function getIncludeCardPrefix(): ?bool
+    {
+        return $this->includeCardPrefix;
+    }
+
+    /**
+     * Set whether the transient token includes the 8-digit card prefix (BIN).
+     *
+     * @param bool|null $includeCardPrefix
+     * @return $this
+     */
+    public function setIncludeCardPrefix(?bool $includeCardPrefix): self
+    {
+        $this->includeCardPrefix = $includeCardPrefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the order total amount (decimal string).
+     *
+     * @return string|null
+     */
+    public function getTotalAmount(): ?string
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * Set the order total amount.
+     *
+     * @param string|null $totalAmount
+     * @return $this
+     */
+    public function setTotalAmount(?string $totalAmount): self
+    {
+        $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get the order currency (ISO-4217).
+     *
+     * @return string|null
+     */
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * Set the order currency.
+     *
+     * @param string|null $currency
+     * @return $this
+     */
+    public function setCurrency(?string $currency): self
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * Get the billTo address fields.
+     *
+     * @return array<string, string|null>
+     */
+    public function getBillTo(): array
+    {
+        return $this->billTo;
+    }
+
+    /**
+     * Set the billTo address fields, keyed by API field name.
+     *
+     * @param array<string, string|null> $billTo
+     * @return $this
+     */
+    public function setBillTo(array $billTo): self
+    {
+        $this->billTo = $billTo;
+
+        return $this;
+    }
+
+    /**
+     * Build the JSON-ready request tree, omitting null/empty leaves.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        $request = $this->filterEmpty([
+            'clientVersion' => $this->clientVersion,
+            'targetOrigins' => $this->targetOrigins,
+            'allowedCardNetworks' => $this->allowedCardNetworks,
+            'allowedPaymentTypes' => $this->allowedPaymentTypes,
+            'country' => $this->country,
+            'locale' => $this->locale,
+            'buttonType' => $this->buttonType,
+        ]);
+
+        $captureMandate = $this->filterEmpty([
+            'billingType' => $this->billingType,
+            // requestSaveCard deliberately omitted: module payment[save] checkbox is the consent point.
+            'requestEmail' => $this->requestEmail,
+            'requestPhone' => $this->requestPhone,
+            'requestShipping' => $this->requestShipping,
+            // false is meaningful here (suppress UC's review step) and survives filterEmpty.
+            'showConfirmationStep' => $this->showConfirmationStep,
+        ]);
+        if (!empty($captureMandate)) {
+            $request['captureMandate'] = $captureMandate;
+        }
+
+        $tokenResponseOptions = $this->filterEmpty([
+            'includeCardPrefix' => $this->includeCardPrefix,
+        ]);
+        if (!empty($tokenResponseOptions)) {
+            $request['transientTokenResponseOptions'] = $tokenResponseOptions;
+        }
+
+        $orderInformation = [];
+
+        $amountDetails = $this->filterEmpty([
+            'totalAmount' => $this->totalAmount,
+            'currency' => $this->currency,
+        ]);
+        if (!empty($amountDetails)) {
+            $orderInformation['amountDetails'] = $amountDetails;
+        }
+
+        $billTo = $this->filterEmpty($this->billTo);
+        if (!empty($billTo)) {
+            $orderInformation['billTo'] = $billTo;
+        }
+
+        if (!empty($orderInformation)) {
+            $request['orderInformation'] = $orderInformation;
+        }
+
+        return $request;
+    }
+}

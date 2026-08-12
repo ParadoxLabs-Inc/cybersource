@@ -21,6 +21,7 @@
 
 namespace ParadoxLabs\CyberSource\Plugin\Magento\Multishipping\Block\Checkout;
 
+use Magento\Multishipping\Block\Checkout\Billing as MultishippingBilling;
 use Magento\Payment\Model\MethodInterface;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 
@@ -36,26 +37,20 @@ class Billing
     }
 
     /**
-     * @param \Magento\Multishipping\Block\Checkout\Billing $subject
-     * @param $methods
-     * @return mixed
+     * Remove the payment method from multishipping checkout when Payer Authentication is enabled.
+     *
+     * @param MultishippingBilling $subject
+     * @param array $methods
+     * @return array
      */
     public function afterGetMethods(
-        \Magento\Multishipping\Block\Checkout\Billing $subject,
-        $methods
-    ) {
+        MultishippingBilling $subject,
+        array $methods
+    ): array {
         /** @var MethodInterface $method */
         foreach ($methods as $key => $method) {
-            /**
-             * Do not allow CyberSource to be used with Multishipping checkout if Payer Auth is enabled.
-             *
-             * It's theoretically possible but would be substantial additional effort to do so, given the complete lack
-             * of implementation overlap between standard and multishipping checkout. The bigger issue is the actual API
-             * support for it, which is unclear at best. Running it for the first transaction and reusing that for the
-             * remainder via PriorAuth* fields in enrollment would likely be the most plausible option--but even then
-             * the way Magento attempts multishipping orders would not be conducive to our process.
-             * cf. \ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams::populateEnrollmentService()
-             */
+            // Multishipping places one order per address, and the payer-auth ceremony binds to a
+            // single quote/amount, so the method is withdrawn rather than authenticated per order.
             if ($method->getCode() === Config::CODE
                 && $this->config->isPayerAuthEnabled()) {
                 unset($methods[ $key ]);

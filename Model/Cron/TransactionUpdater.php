@@ -26,8 +26,10 @@ use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderInterfaceFactory;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Magento\Store\Api\StoreRepositoryInterface;
 use Magento\Store\Model\App\Emulation;
 use ParadoxLabs\CyberSource\Helper\Data;
@@ -48,6 +50,8 @@ class TransactionUpdater
      * @param Data $helper
      * @param StoreRepositoryInterface $storeRepository
      * @param Emulation $emulator
+     * @param TransactionRepositoryInterface $transactionRepository
+     * @param OrderCollectionFactory $orderCollectionFactory
      */
     public function __construct(
         protected readonly Rest $restClient,
@@ -56,7 +60,9 @@ class TransactionUpdater
         protected readonly OrderInterfaceFactory $orderFactory,
         protected readonly Data $helper,
         protected readonly StoreRepositoryInterface $storeRepository,
-        protected readonly Emulation $emulator
+        protected readonly Emulation $emulator,
+        protected readonly TransactionRepositoryInterface $transactionRepository,
+        protected readonly OrderCollectionFactory $orderCollectionFactory
     ) {
     }
 
@@ -67,6 +73,11 @@ class TransactionUpdater
      */
     public function execute()
     {
+        // Nothing in review means nothing to resolve (see processChange()). Skip that.
+        if ($this->hasOrdersAwaitingReview() === false) {
+            return;
+        }
+
         $processedAccounts = [];
 
         $stores = $this->storeRepository->getList();
@@ -93,6 +104,30 @@ class TransactionUpdater
                 }
             }
         }
+    }
+
+    /**
+     * Whether any CyberSource order is awaiting a review outcome.
+     *
+     * Checks all stores, because processChange() resolves by increment id with no store scoping.
+     *
+     * @return bool
+     */
+    protected function hasOrdersAwaitingReview(): bool
+    {
+        $orders = $this->orderCollectionFactory->create();
+        $orders->addFieldToFilter('main_table.state', Order::STATE_PAYMENT_REVIEW);
+        $orders->getSelect()
+            ->join(
+                ['payment' => $orders->getTable('sales_order_payment')],
+                'payment.parent_id = main_table.entity_id',
+                []
+            )
+            ->where('payment.method = ?', Config::CODE);
+        $orders->setPageSize(1)
+            ->setCurPage(1);
+
+        return $orders->getFirstItem()->getId() !== null;
     }
 
     /**
@@ -136,11 +171,11 @@ class TransactionUpdater
      */
     protected function processChange($change)
     {
-        if ($change['originalDecision'] === 'REVIEW'
-            && in_array($change['newDecision'], ['ACCEPT', 'REJECT'], true) === true) {
+        if (($change['originalDecision'] ?? null) === 'REVIEW'
+            && in_array($change['newDecision'] ?? null, ['ACCEPT', 'REJECT'], true) === true) {
             /** @var Order $order */
             $order = $this->orderFactory->create();
-            $order->loadByIncrementId($change['merchantReferenceNumber']);
+            $order->loadByIncrementId($change['merchantReferenceNumber'] ?? '');
 
             if ($order->getId() && $order->getState() === Order::STATE_PAYMENT_REVIEW) {
                 $this->updateOrderStatus($order, $change);
@@ -175,6 +210,12 @@ class TransactionUpdater
             $transaction = $payment->getAuthorizationTransaction();
             if ($transaction instanceof Transaction) {
                 $transaction->setAdditionalInformation('is_transaction_fraud', false);
+
+                // Persist explicitly: this transaction was loaded via the payment's transaction manager,
+                // not built through Transaction\Builder, so it is NOT an order related-object and the
+                // orderRepository->save() below does not cascade to it. Without this save the cleared
+                // fraud flag is silently dropped and the approved order stays marked fraudulent.
+                $this->transactionRepository->save($transaction);
             }
 
             $payment->setIsTransactionApproved(true);

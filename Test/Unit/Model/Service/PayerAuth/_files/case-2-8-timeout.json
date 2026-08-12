@@ -1,0 +1,16 @@
+{
+    "status": "AUTHENTICATION_SUCCESSFUL",
+    "consumerAuthenticationInformation": {
+        "authenticationTransactionId": "6544862899770685711016",
+        "directoryServerErrorCode": "402",
+        "directoryServerErrorDescription": "Transaction Timed Out",
+        "ecommerceIndicator": "vbv_failure",
+        "specificationVersion": "2.2.0",
+        "strongAuthentication": {
+            "OutageExemptionIndicator": "1"
+        },
+        "threeDSServerTransactionId": "b7c6d5e4-3f2a-4b1c-8d9e-0f1a2b3c4d5e",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAB1",
+        "veresEnrolled": "U"
+    }
+}

@@ -21,50 +21,43 @@
 
 namespace ParadoxLabs\CyberSource\Model;
 
-use Exception;
-use Override;
-use ParadoxLabs\CyberSource\Gateway\Api\ObjectBuilder;
-use ParadoxLabs\CyberSource\Model\Source\ResponseCode;
-use ParadoxLabs\CyberSource\Model\Service\Rest;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\Persistor;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenEncoder;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\EnrollmentParams;
-use ParadoxLabs\TokenBase\Model\Gateway\Response;
-use ParadoxLabs\CyberSource\Gateway\Api\PurchaseTotals;
-use Magento\Framework\Phrase;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\RuntimeException;
-use Magento\Framework\Exception\StateException;
 use Magento\Framework\HTTP\ClientInterfaceFactory;
 use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Model\InfoInterface;
-use Magento\Sales\Api\Data\CreditmemoInterface;
 use Magento\Sales\Model\Order;
-use ParadoxLabs\CyberSource\Gateway\Api\ReplyMessage;
-use ParadoxLabs\CyberSource\Gateway\Api\RequestMessage;
-use ParadoxLabs\CyberSource\Gateway\Api\TransactionProcessor;
+use Override;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Gateway\Context;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\PriorTransactionIdTrait;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Response as UnifiedCheckoutResponse;
+use ParadoxLabs\TokenBase\Api\Data\CardInterface;
 use ParadoxLabs\TokenBase\Helper\Data;
 use ParadoxLabs\TokenBase\Model\AbstractGateway;
+use ParadoxLabs\TokenBase\Model\Gateway\Response;
 use ParadoxLabs\TokenBase\Model\Gateway\ResponseFactory;
 use ParadoxLabs\TokenBase\Model\Gateway\Xml;
-use SoapFault;
 use Throwable;
 
 /**
- * CyberSource API Gateway - custom built for perfection.
+ * CyberSource REST/Unified Checkout gateway: routes TokenBase gateway operations to the REST services.
  */
 class Gateway extends AbstractGateway
 {
+    use PriorTransactionIdTrait;
+
     /**
      * @var string
      */
     protected $code = Config::CODE;
 
     /**
+     * Retained for the parent's setParameter() plumbing (setTransactionId/setAuthCode).
+     *
      * @var array
      */
     protected $fields = [
@@ -78,42 +71,23 @@ class Gateway extends AbstractGateway
     protected $config;
 
     /**
-     * @var TransactionProcessor
-     */
-    protected $soapClient;
-
-    /**
-     * @var ObjectBuilder
-     */
-    protected $objectBuilder;
-
-    /**
-     * @var ResponseCode
-     */
-    protected $responseCodeSource;
-
-    /**
      * @var Rest
      */
     protected $restClient;
 
     /**
-     * @var Persistor
+     * @var UnifiedCheckoutResponse
      */
-    protected $payerAuthPersistor;
+    protected $unifiedCheckoutResponse;
 
     /**
-     * @var JsonWebTokenEncoder
+     * @var FollowOn
      */
-    protected $payerAuthJWTEncoder;
+    protected $unifiedCheckoutFollowOn;
 
     /**
-     * @var EnrollmentParams
-     */
-    protected $payerAuthEnrollParams;
-
-    /**
-     * Constructor, yeah!
+     * Note: Xml $xml and ClientInterfaceFactory $communicatorFactory are retained solely to satisfy the
+     * TokenBase AbstractGateway parent constructor signature; this gateway does not use them directly.
      *
      * @param Data $helper
      * @param Xml $xml
@@ -132,17 +106,17 @@ class Gateway extends AbstractGateway
     ) {
         parent::__construct($helper, $xml, $responseFactory, $communicatorFactory, $data);
 
-        $this->config                = $context->getConfig();
-        $this->objectBuilder         = $context->getObjectBuilder();
-        $this->responseCodeSource    = $context->getResponseCodeSource();
-        $this->restClient            = $context->getRestClient();
-        $this->payerAuthPersistor    = $context->getPayerAuthPersistor();
-        $this->payerAuthJWTEncoder   = $context->getPayerAuthJWTEncoder();
-        $this->payerAuthEnrollParams = $context->getPayerAuthEnrollParams();
+        $this->config                  = $context->getConfig();
+        $this->restClient              = $context->getRestClient();
+        $this->unifiedCheckoutResponse = $context->getUnifiedCheckoutResponse();
+        $this->unifiedCheckoutFollowOn = $context->getUnifiedCheckoutFollowOn();
     }
 
     /**
      * Initialize the gateway. Input is taken as an array for greater flexibility.
+     *
+     * All transactions run over the CyberSource REST API; the REST services resolve credentials per
+     * store scope, so initialization only pins the config scope for this gateway instance.
      *
      * @param array $parameters
      * @return $this
@@ -150,212 +124,112 @@ class Gateway extends AbstractGateway
     #[Override]
     public function init(array $parameters)
     {
-        try {
-            $this->config->setStoreId($parameters['store_id'] ?? null);
+        $this->config->setStoreId($parameters['store_id'] ?? null);
 
-            $this->soapClient = $this->objectBuilder->getProcessor(
-                $this->config,
-                (array)($this->getSoapOptions() ?: [])
-            );
-
-            $this->initialized = true;
-        } catch (SoapFault $exception) {
-            $this->helper->log($this->code, trim((string)$exception->getMessage()));
-            throw new RuntimeException(
-                __('Server Error: Could not connect to CyberSource payment gateway.')
-            );
-        }
+        $this->initialized = true;
 
         return $this;
     }
 
     /**
-     * Create a SOAP request object with standard parameters filled in.
+     * Run an auth transaction for $amount with the given payment info, over the CyberSource REST API.
      *
-     * @return RequestMessage
-     */
-    public function createRequest()
-    {
-        $request = $this->objectBuilder->getRequest($this->config->getMerchantId());
-        $request->setPartnerSolutionID(Config::SOLUTION_ID);
-        $request->setClientLibrary($this->config->getClientName());
-        $request->setClientLibraryVersion($this->config->getClientVersion());
-        $request->setClientEnvironment('Magento 2');
-
-        // Fields 1 and 2 have special meaning for certain processors, so skip them.
-        // We pass the origin (store name and URL) for identifying where transactions came from.
-        $merchantDefinedData = $this->objectBuilder->getMerchantDefinedData([
-            3 => $this->getTransactionOrigin(),
-        ]);
-        $request->setMerchantDefinedData($merchantDefinedData);
-
-        return $request;
-    }
-
-    /**
-     * Run the given request via SOAP API.
+     * New-card path: the payment carries a Unified Checkout transient token (additional_data.transient_token)
+     * captured client-side; we delegate to the A1 UnifiedCheckout\Response service, which POSTs
+     * /pts/v2/payments and returns the gateway Response the rest of the module consumes
+     * (Method::afterAuthorize() then maps any minted TMS ids onto the card).
      *
-     * @param RequestMessage $requestMessage
-     * @param bool $log
-     * @return ReplyMessage
-     * @throws RuntimeException
-     * @throws StateException
-     */
-    public function run(RequestMessage $requestMessage, $log = true)
-    {
-        if ($this->soapClient instanceof TransactionProcessor === false) {
-            throw new StateException(__('CyberSource gateway has not been initialized'));
-        }
-
-        try {
-            $reply = $this->soapClient->runTransaction($requestMessage);
-        } catch (Throwable $exception) {
-            if ($log === true) {
-                $this->helper->log(
-                    $this->code,
-                    sprintf('CyberSource Gateway error: %s', trim((string)$exception->getMessage()))
-                );
-            }
-
-            throw new RuntimeException(
-                __('CyberSource Gateway error: %1', trim((string)$exception->getMessage())),
-                $exception instanceof Exception ? $exception : null
-            );
-        } finally {
-            $response = $this->sanitizeLog($this->soapClient->__getLastResponse());
-
-            if ($this->config->isSandboxMode()) {
-                $request = $this->sanitizeLog($this->soapClient->__getLastRequest());
-
-                $this->helper->log(
-                    $this->code,
-                    'REQUEST: ' . $request . "\nRESPONSE: " . $response,
-                    true
-                );
-            }
-
-            if ($log === true) {
-                $this->helper->log($this->code, 'RESPONSE: ' . $response);
-            }
-
-            // Parse response into array for easier handling
-            $this->lastResponse = $this->xmlToArray($this->soapClient->__getLastResponse());
-            $this->helper->log(
-                $this->code,
-                'RESPONSE: ' . json_encode($this->lastResponse),
-                true
-            );
-        }
-
-        return $reply;
-    }
-
-    /**
-     * Convert XML string to array. See \ParadoxLabs\TokenBase\Model\Gateway\Xml
+     * Stored-card (vault / MIT) path: there is no transient token; the card already holds its TMS ids. We
+     * delegate to buildStoredCardAuth(), which builds the stored-credential request from the vaulted card.
      *
-     * @param string $xml
-     * @return array
-     * @throws \Exception
-     */
-    #[Override]
-    protected function xmlToArray($xml)
-    {
-        if (empty($xml)) {
-            return [];
-        }
-
-        // Strip namespaces out of element keys
-        $xml = preg_replace('/(<\/|<)[a-zA-Z]+:([a-zA-Z0-9]+[ =>\/])/', '$1$2', (string)$xml);
-
-        $array = parent::xmlToArray($xml);
-
-        return $array['Body']['replyMessage'] ?? $array;
-    }
-
-    /**
-     * Mask certain values in the XML for secure logging purposes.
-     *
-     * @param string $string
-     * @return string
-     */
-    #[Override]
-    protected function sanitizeLog($string)
-    {
-        $string = (string)$string;
-
-        $maskAll  = ['cvNumber'];
-        $maskFour = ['Password', 'accountNumber'];
-
-        foreach ($maskAll as $val) {
-            $string = preg_replace('#' . $val . '>(.+?)</(.+?):' . $val . '#', $val . '>XXX</$2:' . $val, (string) $string);
-        }
-
-        foreach ($maskFour as $val) {
-            $start = strpos((string) $string, $val . '>');
-
-            if ($start === false) {
-                continue;
-            }
-
-            $end    = strpos((string) $string, '</', $start);
-            $tagLen = strlen($val) + 1;
-
-            if ($end !== false && $end > ($start + $tagLen + 4)) {
-                $string = substr_replace($string, 'XXXX', $start + $tagLen, $end - 4 - ($start + $tagLen));
-            }
-        }
-
-        return str_replace("\n", '', $string);
-    }
-
-    /**
-     * Run an auth transaction for $amount with the given payment info
+     * Either way this posts capture=false: an authorize() operation IS an authorization by definition —
+     * Magento already routed here off payment_action, so the flag must come from the operation, not be
+     * re-derived from config (sales route through capture() -> captureBundled(), which posts true).
      *
      * @param InfoInterface $payment
      * @param float $amount
      * @return Response
+     * @throws CommandException
+     * @throws RuntimeException
+     * @throws Throwable
      */
     public function authorize(InfoInterface $payment, $amount)
     {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        /** @var Order $order */
-        $order = $payment->getOrder();
-
-        $purchaseTotals = $this->getOrderPurchaseTotals($payment, $order, $amount);
-
-        $request = $this->createRequest();
-        $request->setMerchantReferenceCode($order->getIncrementId());
-        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId(), null, true));
-        $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
-        $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
-        $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
-        $request->setPurchaseTotals($purchaseTotals);
-        $request->setCcAuthService(
-            $this->objectBuilder->getAuthService(
-                $this->helper->getIsFrontend() ? 'internet' : 'moto'
-            )
-        );
-
-        if ((bool)$order->getIsVirtual() === false) {
-            $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
+        if ($this->hasTransientToken($payment)) {
+            // New-card Unified Checkout auth/sale (A1).
+            return $this->unifiedCheckoutResponse->place($payment, (float)$amount, false);
         }
 
-        if (!empty($payment->getData('cc_cid'))) {
-            $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
-        } else {
-            $request->setBusinessRules($this->objectBuilder->getBusinessRules(true));
+        // Stored-card / MIT auth from the vaulted TMS ids.
+        return $this->buildStoredCardAuth($payment, (float)$amount, false);
+    }
+
+    /**
+     * Build and run a stored-card (vault / MIT) authorization from the card's stored TMS ids.
+     *
+     * Delegates to the UnifiedCheckout\Response stored-credential request builder, which assembles the
+     * /pts/v2/payments body from the card's stored ids — paymentInformation.paymentInstrument.id
+     * (card paymentId, the MIT key) and
+     * paymentInformation.instrumentIdentifier.id (card additional[instrument_identifier]) — plus the
+     * merchant-initiated / stored-credential initiator block (processingInformation.authorizationOptions
+     * .initiator + commerceIndicator).
+     *
+     * Guards first: a stored-card auth needs a real vaulted card. If there is no card, or the card was
+     * never tokenized (uc_token_missing flag set, or no paymentId), we fail loudly and log rather than
+     * silently attempt an unrunnable auth — the card must be re-entered.
+     *
+     * $capture carries the calling operation's intent through to the request: false from authorize()
+     * (auth-only), true from captureBundled() (the bundled sale must actually settle the funds).
+     *
+     * @param InfoInterface $payment
+     * @param float $amount
+     * @param bool $capture Operation intent: true=bundled sale, false=authorization-only.
+     * @return Response
+     * @throws RuntimeException When there is no usable vaulted card to run the stored-credential auth.
+     * @throws Throwable
+     */
+    protected function buildStoredCardAuth(InfoInterface $payment, float $amount, bool $capture)
+    {
+        $card = $this->getCard();
+
+        if (!$card instanceof CardInterface) {
+            throw new RuntimeException(
+                __(
+                    'Stored-card payments require a saved card. Please re-enter your card details.'
+                )
+            );
         }
 
-        // If this is a follow-on transaction (some amount already captured), do not run decision manager again.
-        if ($payment->getAmountPaid() > 0 || $payment->getAdditionalInformation('is_subscription_generated')) {
-            $request->setDecisionManager($this->objectBuilder->enableDecisionManager(false));
+        if ($card->getAdditional(CardBuilder::CARD_FLAG_TOKEN_MISSING) === '1'
+            || (string)$card->getPaymentId() === ''
+        ) {
+            $this->helper->log(
+                $this->code,
+                'Stored-card authorization requested but the card has no Unified Checkout token'
+                . ' (uc_token_missing / no paymentId). The card must be re-entered.'
+            );
+
+            throw new RuntimeException(
+                __(
+                    'This saved card is no longer usable. Please re-enter your card details.'
+                )
+            );
         }
 
-        $this->requestPayerAuthentication($payment, $request);
+        return $this->unifiedCheckoutResponse->placeStored($payment, $card, (float)$amount, $capture);
+    }
 
-        $reply = $this->run($request);
+    /**
+     * Whether the payment carries a Unified Checkout transient token (new-card path).
+     *
+     * @param InfoInterface $payment
+     * @return bool
+     */
+    protected function hasTransientToken(InfoInterface $payment)
+    {
+        $token = $payment->getAdditionalInformation('transient_token');
 
-        return $this->interpretTransaction($reply, $payment);
+        return $token !== null && $token !== '';
     }
 
     /**
@@ -368,39 +242,21 @@ class Gateway extends AbstractGateway
      */
     public function capture(InfoInterface $payment, $amount, $transactionId = null)
     {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        /** @var Order $order */
-        $order = $payment->getOrder();
-
-        $purchaseTotals = $this->getOrderPurchaseTotals($payment, $order, $amount);
-
-        $request = $this->createRequest();
-        $request->setMerchantReferenceCode($order->getIncrementId());
-        $request->setDeviceFingerprintID($this->config->getFingerprintSessionId($order->getQuoteId(), null, true));
-        $request->setItem($this->objectBuilder->getOrderItems($this->lineItems));
-        $request->setPurchaseTotals($purchaseTotals);
-
         $transactionId ??= $this->getTransactionId();
 
-        // If we don't have a transaction ID to capture, run a 'bundled' auth+capture; otherwise, prior-auth capture.
+        // Bundled vs linked: with no prior auth we run a bundled auth+capture (a UC sale); with a prior
+        // auth we settle that auth via a linked REST capture on its stored transaction id. This preserves
+        // the SOAP-era bundled/linked decision (empty txn id or !haveAuthorized => bundled).
         if (empty($transactionId) || !$this->getHaveAuthorized()) {
-            $this->captureInitBundledRequest($payment, $request);
-            $this->requestPayerAuthentication($payment, $request);
-        } else {
-            $this->captureInitLinkedRequest($transactionId, $request);
+            return $this->captureBundled($payment, (float)$amount);
         }
-
-        // If this is a follow-on transaction (some amount already captured), do not run decision manager again.
-        if ($payment->getAmountPaid() > 0 || $payment->getAdditionalInformation('is_subscription_generated')) {
-            $request->setDecisionManager($this->objectBuilder->enableDecisionManager(false));
-        }
-
-        $reply = $this->run($request);
 
         try {
-            return $this->interpretTransaction($reply, $payment);
+            return $this->unifiedCheckoutFollowOn->capture($payment, (float)$amount, (string)$transactionId);
         } catch (Throwable $exception) {
-            // Handle 'transaction not found' error (expired authorization).
+            // Handle 'transaction not found' (expired/unusable authorization). The REST follow-on service
+            // re-throws the SOAP-equivalent code (242) for that condition, so the SOAP-era recapture logic
+            // (which keyed on 102/242) fires unchanged: drop the stored id and run a bundled auth+capture.
             if ($this->getHaveAuthorized() && in_array($exception->getCode(), [102, 242], true) === true) {
                 $this->helper->log($this->code, 'Transaction not found. Attempting to recapture.');
 
@@ -417,59 +273,29 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Set bundled-auth-capture parameters for a capture request.
+     * Run a bundled auth+capture (a Unified Checkout sale) for the given payment and amount.
+     *
+     * New-card: delegate to the A1 auth/sale service. Stored-card MIT bundling routes through
+     * buildStoredCardAuth(), which builds the stored-credential request from the vaulted card. Both
+     * paths post capture=true explicitly: a bundled capture IS a sale, whatever payment_action says —
+     * Magento records the invoice as PAID off this call, so the request must actually settle the funds
+     * (subscription/MIT rebills, the 242 recapture fallback, and invoicing a closed auth all land here
+     * on authorize-configured stores).
      *
      * @param InfoInterface $payment
-     * @param RequestMessage $request
-     * @return void
+     * @param float $amount
+     * @return Response
+     * @throws CommandException
+     * @throws RuntimeException
+     * @throws Throwable
      */
-    protected function captureInitBundledRequest(
-        InfoInterface $payment,
-        RequestMessage $request
-    ) {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        /** @var Order $order */
-        $order = $payment->getOrder();
-
-        // NB: Documentation says bundled capture varies by processor. Hoping this generic case works for all.
-
-        $ccAuthService = $this->objectBuilder->getAuthService(
-            $this->helper->getIsFrontend() ? 'internet' : 'moto'
-        );
-        $ccAuthService->setAuthType('AUTOCAPTURE');
-
-        $request->setCcAuthService($ccAuthService);
-        $request->setCcCaptureService($this->objectBuilder->getCaptureService());
-        $request->setBillTo($this->objectBuilder->getOrderBillTo($order));
-        $request->setRecurringSubscriptionInfo($this->objectBuilder->getTokenInfo($this->getCard()));
-
-        if ((bool)$order->getIsVirtual() === false) {
-            $request->setShipTo($this->objectBuilder->getOrderShipTo($order));
+    protected function captureBundled(InfoInterface $payment, float $amount)
+    {
+        if ($this->hasTransientToken($payment)) {
+            return $this->unifiedCheckoutResponse->place($payment, $amount, true);
         }
 
-        if (!empty($payment->getData('cc_cid'))) {
-            $request->setCard($this->objectBuilder->getCardForCvn($payment->getData('cc_cid')));
-        } else {
-            $request->setBusinessRules($this->objectBuilder->getBusinessRules(true));
-        }
-    }
-
-    /**
-     * Set linked-capture (prior-auth capture) parameters for a capture request.
-     *
-     * @param string $transactionId
-     * @param RequestMessage $request
-     * @return void
-     */
-    protected function captureInitLinkedRequest(
-        $transactionId,
-        RequestMessage $request
-    ) {
-        $ccCaptureService = $this->objectBuilder->getCaptureService();
-        $ccCaptureService->setAuthRequestID($transactionId);
-        $ccCaptureService->setAuthRequestToken($this->getParameter('auth_code') ?: null);
-
-        $request->setCcCaptureService($ccCaptureService);
+        return $this->buildStoredCardAuth($payment, $amount, true);
     }
 
     /**
@@ -482,39 +308,37 @@ class Gateway extends AbstractGateway
      */
     public function refund(InfoInterface $payment, $amount, $transactionId = null)
     {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        /** @var Order $order */
-        $order = $payment->getOrder();
+        $transactionId ??= $this->getTransactionId();
 
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
-        if ($payment->getCreditmemo() instanceof CreditmemoInterface) {
-            if ($payment->getCreditmemo()->getTaxAmount()) {
-                $purchaseTotals->setTaxAmount($payment->getCreditmemo()->getTaxAmount());
-            }
-            if ($payment->getCreditmemo()->getShippingAmount()) {
-                $purchaseTotals->setShippingAmount($payment->getCreditmemo()->getShippingAmount());
-            }
+        // The (possibly partial) refund amount is passed straight through to the REST follow-on body's
+        // orderInformation.amountDetails.totalAmount, preserving partial-refund handling.
+
+        // No stored id (the unlinked-credit fallback below already cleared it): unlinked credit. REST
+        // unlinked refunds still post against the original payment id; we use the txn id we just cleared,
+        // recovered from the payment's last/parent transaction. A true tokenized standalone credit (no
+        // prior payment at all) is a stored-card/MIT operation owned by A4.
+        if (empty($transactionId)) {
+            return $this->unifiedCheckoutFollowOn->refundUnlinked(
+                $payment,
+                (float)$amount,
+                $this->getRefundFallbackTransactionId($payment)
+            );
         }
 
-        $ccCreditService = $this->objectBuilder->getCreditService(
-            'internet',
-            $transactionId ?? $this->getTransactionId()
-        );
-
-        $request = $this->createRequest();
-        $request->setMerchantReferenceCode($order->getIncrementId());
-        $request->setPurchaseTotals($purchaseTotals);
-        $request->setCcCreditService($ccCreditService);
-
-        $reply = $this->run($request);
-
         try {
-            return $this->interpretTransaction($reply, $payment);
+            return $this->unifiedCheckoutFollowOn->refund($payment, (float)$amount, (string)$transactionId);
         } catch (Throwable $exception) {
-            // Handle 'not valid for follow-on transaction' error (past allowed period).
+            // Handle 'not valid for follow-on transaction' (past allowed period). The REST follow-on
+            // service re-throws the SOAP-equivalent code (241) for that condition, so the SOAP-era
+            // unlinked-credit fallback fires unchanged: drop the stored id and retry as an unlinked credit.
             if ($exception->getCode() === 241) {
                 $this->helper->log($this->code, 'Transaction not refundable. Attempting unlinked credit.');
 
+                // Drop the (capture) id and retry as an unlinked credit. We deliberately do NOT stash the
+                // capture id: an unlinked credit must post against the original PAYMENT id, which
+                // getRefundFallbackTransactionId() resolves from the parent/last transaction id (with the
+                // -capture suffix stripped). Stashing the capture id here would post the credit against the
+                // capture, the wrong target.
                 $this->setTransactionId(null)
                      ->setCard($this->getData('card'));
 
@@ -524,6 +348,22 @@ class Gateway extends AbstractGateway
             // Pass any other errors through.
             throw $exception;
         }
+    }
+
+    /**
+     * Resolve the original PAYMENT id to target for an unlinked-credit refund fallback.
+     *
+     * An unlinked credit must hit the original payment id, NOT the capture id the linked refund failed
+     * against. We resolve it from the payment's parent/last transaction id, stripped of any
+     * -capture/-refund suffix (REST and SOAP share the same transaction-id space, D4) — the shared
+     * PriorTransactionIdTrait resolution, also used for the MIT previousTransactionId reference.
+     *
+     * @param InfoInterface $payment
+     * @return string
+     */
+    protected function getRefundFallbackTransactionId(InfoInterface $payment): string
+    {
+        return $this->getPriorTransactionId($payment);
     }
 
     /**
@@ -539,38 +379,21 @@ class Gateway extends AbstractGateway
         /** @var Order $order */
         $order = $payment->getOrder();
 
-        $request = $this->createRequest();
-        $request->setMerchantReferenceCode($order->getIncrementId());
+        $transactionId = (string)($transactionId ?: $this->getTransactionId());
 
+        // Restore the SOAP auth-reversal vs capture-void distinction. An uncaptured auth (amount still
+        // due) is reversed via POST /pts/v2/payments/{authId}/reversals. Once captured/settled the auth
+        // reversal is rejected by the processor, so the CAPTURE itself must be voided via
+        // POST /pts/v2/captures/{captureId}/voids (the stored parent/current txn id is the capture's REST
+        // id once settled). Keying on totalDue mirrors the SOAP-era branch exactly.
         if ($order->getTotalDue() > 0) {
-            $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
-                $order->getBaseCurrencyCode(),
-                $order->getTotalDue() ?: $order->getTotalPaid()
-            );
+            // Reverse the amount still due, falling back to the amount paid.
+            $amount = (float)($order->getTotalDue() ?: $order->getTotalPaid());
 
-            $ccAuthReversalService = $this->objectBuilder->getAuthReversalService(
-                $transactionId ?: $this->getTransactionId()
-            );
-
-            $request->setPurchaseTotals($purchaseTotals);
-            $request->setCcAuthReversalService($ccAuthReversalService);
-        } else {
-            $purchaseTotals = $this->objectBuilder->getPurchaseTotals(
-                $order->getBaseCurrencyCode(),
-                $order->getTotalPaid()
-            );
-
-            $voidService = $this->objectBuilder->getVoidService(
-                $transactionId ?: $this->getTransactionId()
-            );
-
-            $request->setPurchaseTotals($purchaseTotals);
-            $request->setVoidService($voidService);
+            return $this->unifiedCheckoutFollowOn->void($payment, $amount, $transactionId);
         }
 
-        $reply = $this->run($request);
-
-        return $this->interpretTransaction($reply, $payment);
+        return $this->unifiedCheckoutFollowOn->voidCapture($payment, $transactionId);
     }
 
     /**
@@ -608,13 +431,13 @@ class Gateway extends AbstractGateway
             $reply = json_decode((string)$reply, true);
             if ($reply !== false && !empty($reply['conversionDetails'])) {
                 foreach ($reply['conversionDetails'] as $change) {
-                    if ($change['requestId'] === $transactionId) {
+                    if (($change['requestId'] ?? null) === $transactionId) {
                         $response->addData($change);
 
-                        if ($change['newDecision'] === 'ACCEPT') {
+                        if (($change['newDecision'] ?? null) === 'ACCEPT') {
                             $response->setData('is_approved', true);
                         }
-                        if ($change['newDecision'] === 'REJECT') {
+                        if (($change['newDecision'] ?? null) === 'REJECT') {
                             $response->setData('is_denied', true);
                         }
 
@@ -639,220 +462,31 @@ class Gateway extends AbstractGateway
      */
     public function deleteCard()
     {
-        $info = $this->objectBuilder->getTokenInfo($this->getCard());
+        /** @var \ParadoxLabs\CyberSource\Model\Card $card */
+        $card = $this->getCard();
 
-        $request = $this->createRequest();
-        $request->setRecurringSubscriptionInfo($info);
-        $request->setPaySubscriptionDeleteService($this->objectBuilder->getPaySubscriptionDeleteService());
+        // paymentId == TMS paymentInstrument id (the MIT key). Cards are standalone TMS payment
+        // instruments — no customer token is stored (see Response::ACTION_TOKEN_TYPES).
+        $paymentInstrumentId = (string)$card->getPaymentId();
 
-        $reply = $this->run($request);
+        // Untokenized card (uc_token_missing — a designed state on this branch): with no paymentId there is
+        // no TMS token to remove, and an empty-id DELETE would 404 and block the local card delete. Skip the
+        // remote delete and approve so the card is removed locally.
+        if ($paymentInstrumentId === '') {
+            $this->helper->log(
+                $this->code,
+                'Card delete requested for an untokenized card (no Unified Checkout paymentId);'
+                . ' skipping TMS delete and removing locally.'
+            );
 
-        return $this->interpretTransaction($reply);
-    }
+            /** @var Response $response */
+            $response = $this->responseFactory->create(['data' => ['is_approved' => true]]);
 
-    /**
-     * Test the SOAP API connection. Runs a request with no indicators and no response logging.
-     *
-     * @return Response
-     */
-    public function testConnection()
-    {
-        $request = $this->createRequest();
-        $reply   = $this->run($request, false);
-
-        return $this->interpretTransaction($reply);
-    }
-
-    /**
-     * Translate SOAP reply into a Magento-compatible transaction data object. Throw exception on any error cases.
-     *
-     * @param ReplyMessage $api
-     * @param InfoInterface|null $payment
-     * @return Response
-     * @throws CommandException
-     * @throws RuntimeException
-     */
-    protected function interpretTransaction(
-        ReplyMessage $api,
-        ?InfoInterface $payment = null
-    ) {
-        // NB: Temporal coupling, we assume interpretTransaction will always be run immediately after the transaction
-        // it's intended to interpret. Otherwise, lastResponse will be the wrong data.
-        $data                         = $this->lastResponse;
-        $data['transaction_id']       = $api->getRequestID();
-        $data['response_code']        = $api->getReasonCode();
-        $data['response_reason_code'] = $api->getReasonCode();
-        $data['response_reason_text'] = $this->responseCodeSource->getMessage($api->getReasonCode());
-        $data['auth_code']            = $api->getRequestToken(); // Not auth code, but it functions the same way.
-        /** @var Response $response */
-        $response = $this->responseFactory->create(['data' => $data]);
-        $response->setIsError($api->getDecision() === 'ERROR' || $api->getDecision() === 'REJECT');
-
-        // Set fraud flag if marked for review or soft declines (AVS and CVV, respectively).
-        if ($api->getDecision() === 'REVIEW' || in_array($api->getReasonCode(), [200, 230], true)) {
-            $response->setIsFraud(true);
+            return $response;
         }
 
-        if ($payment !== null && in_array($api->getReasonCode(), [475, 478], true)) {
-            $this->payerAuthPersistor->savePayerAuthEnrollReply($payment, $api);
-        }
-
-        // Soft declines come in as REJECT, but keep their auth -- just accept with the fraud flag.
-        if (in_array($api->getDecision(), ['ERROR', 'REJECT'], true)
-            && !in_array($api->getReasonCode(), [200, 230], true)) {
-            $message = __('Transaction Failed: %1', __($response->getResponseReasonText()));
-
-            // Don't log API test errors
-            if ($payment !== null || $api->getReasonCode() !== 101) {
-                $request = $this->sanitizeLog($this->soapClient->__getLastRequest());
-                $this->helper->log($this->code, 'REQUEST: ' . $request);
-                $this->helper->log($this->code, $message . ' (' . $api->getReasonCode() . ')');
-            }
-
-            if ($api->getDecision() === 'REJECT') {
-                throw new CommandException($message, null, $api->getReasonCode());
-            }
-            throw new RuntimeException($message, null, $api->getReasonCode());
-        }
-
-        return $response;
-    }
-
-    /**
-     * Turn multi-dimensional array into 1D, concatenating keys
-     *
-     * @param string|null $prefix
-     * @return array
-     * @deprecated since 1.3.1
-     */
-    protected function flattenArray(mixed $array, $prefix = null)
-    {
-        /**
-         * Logic moved into TokenBase
-         *
-         * @see \ParadoxLabs\TokenBase\Model\Gateway\Response::getData()
-         */
-
-        return $array;
-    }
-
-    /**
-     * Get a PurchaseTotals amounts object for authorization or capture.
-     *
-     * @param InfoInterface $payment
-     * @param Order $order
-     * @param float $amount
-     * @return PurchaseTotals
-     */
-    protected function getOrderPurchaseTotals(
-        InfoInterface $payment,
-        Order $order,
-        $amount
-    ) {
-        $purchaseTotals = $this->objectBuilder->getPurchaseTotals($order->getBaseCurrencyCode(), $amount);
-        if ($this->getHaveAuthorized() !== true) {
-            $purchaseTotals->setTaxAmount($order->getTaxAmount());
-            $purchaseTotals->setShippingAmount($payment->getShippingAmount());
-        }
-
-        return $purchaseTotals;
-    }
-
-    /**
-     * Get the transaction origin string (store name and URL) for identification purposes.
-     *
-     * @return Phrase
-     * @throws NoSuchEntityException
-     */
-    protected function getTransactionOrigin()
-    {
-        $store = $this->helper->getCurrentStore();
-
-        return __('%1 (%2)', $store->getName(), $store->getBaseUrl());
-    }
-
-    /**
-     * Add Payer Auth enrollment check or verification to the auth/capture, when relevant.
-     *
-     * @param InfoInterface $payment
-     * @param RequestMessage $request
-     * @return void
-     */
-    protected function requestPayerAuthentication(
-        InfoInterface $payment,
-        RequestMessage $request
-    ) {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        /** @var Order $order */
-        $order = $payment->getOrder();
-
-        // If Payer Authentication isn't enabled, or we've already processed payment, don't ... run payer auth.
-        // NB/Future: May need to enroll with prior-auth info in the prior payment case.
-        if ($this->config->isPayerAuthEnabledForType((string)$payment->getCcType()) === false
-            || $this->helper->getIsFrontend() === false
-            || $order->getTotalPaid() > 0) {
-            return;
-        }
-
-        // Validate instead of enroll if we have verification params
-        if (!empty($payment->getAdditionalInformation('response_jwt'))) {
-            $this->requestPayerAuthenticationValidate($payment, $request);
-        } else {
-            $this->requestPayerAuthenticationEnroll($payment, $request);
-        }
-    }
-
-    /**
-     * Add Payer Auth validation service to the auth/capture.
-     *
-     * @param InfoInterface $payment
-     * @param RequestMessage $request
-     * @return void
-     * @throws InputException
-     */
-    protected function requestPayerAuthenticationValidate(
-        InfoInterface $payment,
-        RequestMessage $request
-    ) {
-        // Note: We unpack the JWT to confirm its signature and validity before passing it on.
-        $decodedJWT = $this->payerAuthJWTEncoder->unpack(
-            $payment->getAdditionalInformation('response_jwt')
-        );
-
-        $validateService = $this->objectBuilder->getPayerAuthValidateService(
-            $decodedJWT['Payload']['Payment']['ProcessorTransactionId'] ?? null,
-            $payment->getAdditionalInformation('response_jwt')
-        );
-
-        $request->setPayerAuthValidateService($validateService);
-    }
-
-    /**
-     * Add Payer Auth enrollment service to the auth/capture.
-     *
-     * This involves a substantial amount of context data on the user/card/order, which we hand off to a service class.
-     *
-     * @param InfoInterface $payment
-     * @param RequestMessage $request
-     * @return void
-     */
-    protected function requestPayerAuthenticationEnroll(
-        InfoInterface $payment,
-        RequestMessage $request
-    ) {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        /** @var Order $order */
-        $order = $payment->getOrder();
-
-        $referenceId = $payment->getAdditionalInformation('payerauth_session_id');
-
-        $enrollService = $this->objectBuilder->getPayerAuthEnrollService($referenceId);
-        $this->payerAuthEnrollParams->populateEnrollmentService(
-            $enrollService,
-            $order,
-            $this->getCard()
-        );
-
-        $request->setPayerAuthEnrollService($enrollService);
+        // Cards are not store-scoped; merchant credentials resolve at the gateway's initialized scope
+        // (assumed scope), mirroring the SOAP-era card delete which carried no per-card store id.
+        return $this->unifiedCheckoutFollowOn->deleteCard($paymentInstrumentId);
     }
 }

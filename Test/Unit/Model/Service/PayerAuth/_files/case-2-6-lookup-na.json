@@ -1,0 +1,16 @@
+{
+    "status": "AUTHENTICATION_SUCCESSFUL",
+    "consumerAuthenticationInformation": {
+        "authenticationTransactionId": "6544862677558463509014",
+        "directoryServerErrorCode": "101",
+        "directoryServerErrorDescription": "Invalid Formatted Message Invalid Formatted Message",
+        "ecommerceIndicator": "vbv_failure",
+        "specificationVersion": "2.2.0",
+        "strongAuthentication": {
+            "OutageExemptionIndicator": "0"
+        },
+        "threeDSServerTransactionId": "f5a4b3c2-1d0e-4f9a-8b7c-6d5e4f3a2b1c",
+        "token": "AxizbwSTdSyq0VJ1M4iyAJkBBkhgQQAAAE4gSEJydQAAAAA5",
+        "veresEnrolled": "U"
+    }
+}

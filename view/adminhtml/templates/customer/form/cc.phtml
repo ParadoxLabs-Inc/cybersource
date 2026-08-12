@@ -30,10 +30,8 @@ $code ?>-cc-type",
         "ccTypeContainer": ".credit-card-types"
     },
     "cybersourcePaymentInfoForm": {
-        "target": "<?= /* @noEscape */
-$code ?>_iframe",
-        "paramUrl": "<?= $escaper->escapeJs(
-    $block->getUrl('pdl_cybs/secureAccept/getParams', ['id' => $this->getRequest()->getParam('id')])
+        "captureContextUrl": "<?= $escaper->escapeJs(
+    $block->getUrl('pdl_cybs/unifiedCheckout/captureContext', ['id' => $this->getRequest()->getParam('id')])
 ) ?>",
         "fieldPrefix": "#<?= /* @noEscape */
 $code ?>-"
@@ -47,6 +45,7 @@ $code ?>-"
     <input type="hidden" name="method" value="<?= /* @noEscape */
     $code ?>"/>
     <input type="hidden" name="source" value="paymentinfo"/>
+    <input type="hidden" name="payment[transient_token]" value=""/>
     <fieldset class="admin__fieldset address">
         <div class="admin__fieldset-wrapper-title">
             <strong class="title">
@@ -268,9 +267,10 @@ $code ?>-"
     $code ?>">
         <div class="admin__field type _required">
             <div class="admin__field-control">
-                <iframe src="about:blank" id="<?= /* @noEscape */
-                $code ?>_iframe" name="<?= /* @noEscape */
-                $code ?>_iframe"></iframe>
+                <div class="unified-checkout-selection" id="<?= /* @noEscape */
+                $code ?>_uc_selection"></div>
+                <div class="unified-checkout-screen" id="<?= /* @noEscape */
+                $code ?>_uc_screen"></div>
             </div>
         </div>
     </fieldset>

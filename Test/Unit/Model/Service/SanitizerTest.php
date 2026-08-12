@@ -329,6 +329,212 @@ class SanitizerTest extends TestCase
         ];
     }
 
+    public function testMaskJsonMasksQuotedPanAndCvv(): void
+    {
+        $json   = '{"number":"4111111111111111","securityCode":"737"}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString('4111111111111111', $masked);
+        $this->assertStringNotContainsString('737', $masked);
+        $this->assertStringContainsString('"number":"************1111"', $masked);
+        $this->assertStringContainsString('"securityCode":"***"', $masked);
+        $this->assertIsArray(json_decode($masked, true));
+    }
+
+    public function testMaskJsonMasksNumericPanAndCvv(): void
+    {
+        // Numeric (unquoted) JSON values must also be redacted.
+        $json   = '{"number":4111111111111111,"securityCode":737}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString('4111111111111111', $masked);
+        $this->assertStringNotContainsString('737', $masked);
+        $this->assertStringContainsString('"number":"************1111"', $masked);
+        $this->assertStringContainsString('"securityCode":"***"', $masked);
+
+        // Output must remain valid JSON.
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('************1111', $decoded['number']);
+        $this->assertSame('***', $decoded['securityCode']);
+    }
+
+    public function testMaskJsonMasksTransientTokenJwt(): void
+    {
+        // The UC transient-token JWT is a single-use credential; Rest::post() logs maskJson($body) on
+        // the error path, so it must never appear in cleartext.
+        $jwt    = 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzZWNyZXQifQ.c2lnbmF0dXJlVmFsdWU';
+        $json   = '{"tokenInformation":{"transientTokenJwt":"' . $jwt . '"}}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString($jwt, $masked);
+        $this->assertStringContainsString('"transientTokenJwt":"***"', $masked);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('***', $decoded['tokenInformation']['transientTokenJwt']);
+    }
+
+    /**
+     * @dataProvider maskJsonCredentialKeyProvider
+     */
+    #[DataProvider('maskJsonCredentialKeyProvider')]
+    public function testMaskJsonMasksPayerAuthCredentials(string $key, string $value): void
+    {
+        // Payer-auth secrets ride /risk/v1 request AND response bodies, both of which Rest logs
+        // masked on the error path; none may appear in cleartext.
+        $json   = '{"consumerAuthenticationInformation":{"' . $key . '":"' . $value . '"}}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString($value, $masked);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('***', $decoded['consumerAuthenticationInformation'][$key]);
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function maskJsonCredentialKeyProvider(): array
+    {
+        return [
+            'transientToken (payer-auth setups spelling)' => [
+                'transientToken',
+                'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzZWNyZXQifQ.c2lnbmF0dXJlVmFsdWU',
+            ],
+            'cavv' => ['cavv', 'AJkBBkhgQQAAAE4gSEJydQAAAAA='],
+            'xid' => ['xid', 'AJkBBkhgQQAAAE4gSEJydQAAAAA='],
+            'ucafAuthenticationData' => ['ucafAuthenticationData', 'jJJLBgZhSLNdcv6mVB1eYmJhAAA='],
+            'accessToken' => ['accessToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhYmMifQ.c2ln'],
+            'pareq' => ['pareq', 'eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMi4wIn0'],
+        ];
+    }
+
+    /**
+     * @dataProvider maskJsonPersonalDataKeyProvider
+     */
+    #[DataProvider('maskJsonPersonalDataKeyProvider')]
+    public function testMaskJsonMasksPersonalDataKey(string $key, string $value): void
+    {
+        $json   = '{"' . $key . '":"' . $value . '"}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString($value, $masked);
+        $this->assertStringContainsString('"' . $key . '":"***"', $masked);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('***', $decoded[$key]);
+    }
+
+    public static function maskJsonPersonalDataKeyProvider(): array
+    {
+        return [
+            'email' => ['email', 'jane.doe@example.com'],
+            'phoneNumber' => ['phoneNumber', '5551234567'],
+            'firstName' => ['firstName', 'Jane'],
+            'lastName' => ['lastName', 'Doe'],
+            'address1' => ['address1', '123 Main St'],
+            'address2' => ['address2', 'Apt 4B'],
+            'locality' => ['locality', 'Springfield'],
+            'postalCode' => ['postalCode', '62704'],
+        ];
+    }
+
+    public function testMaskJsonMasksBillToTreeInRealisticPaymentsRequest(): void
+    {
+        // Realistic /pts/v2/payments request body shape, per finding: orderInformation.billTo
+        // contains unmasked PII that must be redacted on the REST error-logging path.
+        $json = json_encode([
+            'clientReferenceInformation' => [
+                'code' => 'order-1001',
+            ],
+            'paymentInformation' => [
+                'card' => [
+                    'number' => '4111111111111111',
+                    'securityCode' => '737',
+                ],
+            ],
+            'orderInformation' => [
+                'amountDetails' => [
+                    'totalAmount' => '100.00',
+                    'currency' => 'USD',
+                ],
+                'billTo' => [
+                    'firstName' => 'Jane',
+                    'lastName' => 'Doe',
+                    'address1' => '123 Main St',
+                    'address2' => 'Apt 4B',
+                    'locality' => 'Springfield',
+                    'administrativeArea' => 'IL',
+                    'postalCode' => '62704',
+                    'country' => 'US',
+                    'email' => 'jane.doe@example.com',
+                    'phoneNumber' => '5551234567',
+                ],
+            ],
+        ]);
+
+        $masked  = $this->sanitizer->maskJson($json);
+        $decoded = json_decode($masked, true);
+
+        $this->assertIsArray($decoded);
+
+        $billTo = $decoded['orderInformation']['billTo'];
+
+        $this->assertSame('***', $billTo['firstName']);
+        $this->assertSame('***', $billTo['lastName']);
+        $this->assertSame('***', $billTo['address1']);
+        $this->assertSame('***', $billTo['address2']);
+        $this->assertSame('***', $billTo['locality']);
+        $this->assertSame('***', $billTo['postalCode']);
+        $this->assertSame('***', $billTo['email']);
+        $this->assertSame('***', $billTo['phoneNumber']);
+
+        // Low-sensitivity fields needed for debugging must remain untouched.
+        $this->assertSame('IL', $billTo['administrativeArea']);
+        $this->assertSame('US', $billTo['country']);
+
+        // Non-PII order data must remain untouched.
+        $this->assertSame('100.00', $decoded['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('USD', $decoded['orderInformation']['amountDetails']['currency']);
+        $this->assertSame('order-1001', $decoded['clientReferenceInformation']['code']);
+
+        // Card data must still be masked as before.
+        $this->assertSame('************1111', $decoded['paymentInformation']['card']['number']);
+        $this->assertSame('***', $decoded['paymentInformation']['card']['securityCode']);
+    }
+
+    public function testMaskJsonHandlesEscapedQuotesInPersonalDataValue(): void
+    {
+        // Values may legitimately contain escaped quotes (e.g. a nickname in quotes); the mask
+        // pattern must tolerate escaped characters within the string rather than stopping early.
+        $json   = '{"firstName":"Jane \\"JD\\" Doe","lastName":"O\\u0027Brien"}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $this->assertStringNotContainsString('JD', $masked);
+        $this->assertStringNotContainsString('Brien', $masked);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('***', $decoded['firstName']);
+        $this->assertSame('***', $decoded['lastName']);
+    }
+
+    public function testMaskJsonLeavesNonPiiKeysUntouched(): void
+    {
+        $json   = '{"country":"US","administrativeArea":"CA","currency":"USD","totalAmount":"49.99"}';
+        $masked = $this->sanitizer->maskJson($json);
+
+        $decoded = json_decode($masked, true);
+        $this->assertIsArray($decoded);
+        $this->assertSame('US', $decoded['country']);
+        $this->assertSame('CA', $decoded['administrativeArea']);
+        $this->assertSame('USD', $decoded['currency']);
+        $this->assertSame('49.99', $decoded['totalAmount']);
+    }
+
     public function testUrlValid(): void
     {
         $this->assertSame(

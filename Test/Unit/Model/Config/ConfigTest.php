@@ -78,58 +78,6 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @dataProvider secureAcceptEndpointDataProvider
-     */
-    #[DataProvider('secureAcceptEndpointDataProvider')]
-    public function testGetSecureAcceptEndpoint(bool $isSandbox, string $path, string $expected): void
-    {
-        $this->setupSandboxMode($isSandbox);
-
-        $this->assertSame($expected, $this->config->getSecureAcceptEndpoint($path));
-    }
-
-    public static function secureAcceptEndpointDataProvider(): array
-    {
-        return [
-            'sandbox with path' => [
-                true,
-                '/embedded/token/create',
-                'https://testsecureacceptance.cybersource.com/embedded/token/create',
-            ],
-            'live with path' => [
-                false,
-                '/embedded/token/create',
-                'https://secureacceptance.cybersource.com/embedded/token/create',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider soapWsdlDataProvider
-     */
-    #[DataProvider('soapWsdlDataProvider')]
-    public function testGetSoapWsdl(bool $isSandbox, string $expected): void
-    {
-        $this->setupSandboxMode($isSandbox);
-
-        $this->assertSame($expected, $this->config->getSoapWsdl());
-    }
-
-    public static function soapWsdlDataProvider(): array
-    {
-        return [
-            'sandbox' => [
-                true,
-                'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl',
-            ],
-            'live' => [
-                false,
-                'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.224.wsdl',
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider fingerprintOrgIdDataProvider
      */
     #[DataProvider('fingerprintOrgIdDataProvider')]
@@ -250,104 +198,207 @@ class ConfigTest extends TestCase
         $this->assertStringStartsWith('https://custom.domain.com/fp/tags.js?', $result);
     }
 
-    public function testIsPayerAuthEnabledReturnsTrueWhenAllKeysPresent(): void
+    /**
+     * @dataProvider ucAutoPlaceOrderDataProvider
+     */
+    #[DataProvider('ucAutoPlaceOrderDataProvider')]
+    public function testIsUcAutoPlaceOrderEnabled(?string $configValue, bool $expected): void
     {
         $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '1'],
-                ['payment/paradoxlabs_cybersource/cardinal_org_unit_id', ScopeInterface::SCOPE_STORE, null, 'org123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key_id', ScopeInterface::SCOPE_STORE, null, 'keyid123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key', ScopeInterface::SCOPE_STORE, null, 'secret123'],
-            ]);
+            ->with('payment/paradoxlabs_cybersource/uc_auto_place_order', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($configValue);
 
-        $this->assertTrue($this->config->isPayerAuthEnabled());
+        $this->assertSame($expected, $this->config->isUcAutoPlaceOrderEnabled());
     }
 
-    public function testIsPayerAuthEnabledReturnsFalseWhenDisabled(): void
+    public static function ucAutoPlaceOrderDataProvider(): array
     {
-        $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '0'],
-            ]);
-
-        $this->assertFalse($this->config->isPayerAuthEnabled());
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            'unset' => [null, false],
+        ];
     }
 
-    public function testIsPayerAuthEnabledReturnsFalseWhenOrgUnitIdMissing(): void
+    /**
+     * @dataProvider ucReviewStepDataProvider
+     */
+    #[DataProvider('ucReviewStepDataProvider')]
+    public function testIsUcReviewStepEnabled(?string $configValue, bool $expected): void
     {
         $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '1'],
-                ['payment/paradoxlabs_cybersource/cardinal_org_unit_id', ScopeInterface::SCOPE_STORE, null, ''],
-            ]);
+            ->with('payment/paradoxlabs_cybersource/uc_review_step', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($configValue);
 
-        $this->assertFalse($this->config->isPayerAuthEnabled());
+        $this->assertSame($expected, $this->config->isUcReviewStepEnabled());
     }
 
-    public function testIsPayerAuthEnabledReturnsFalseWhenSecretKeyIdMissing(): void
+    public static function ucReviewStepDataProvider(): array
     {
-        $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '1'],
-                ['payment/paradoxlabs_cybersource/cardinal_org_unit_id', ScopeInterface::SCOPE_STORE, null, 'org123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key_id', ScopeInterface::SCOPE_STORE, null, ''],
-            ]);
-
-        $this->assertFalse($this->config->isPayerAuthEnabled());
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            // Unset must read as off: the field defaults to 0 and an absent value is not consent.
+            'unset' => [null, false],
+        ];
     }
 
-    public function testIsPayerAuthEnabledReturnsFalseWhenSecretKeyMissing(): void
+    /**
+     * The uc_billing_type fallback must agree with the config.xml default (NONE): an empty stored
+     * value and an unconfigured install have to produce the same drop-in.
+     */
+    public function testGetUcBillingTypeDefaultsToNone(): void
     {
         $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '1'],
-                ['payment/paradoxlabs_cybersource/cardinal_org_unit_id', ScopeInterface::SCOPE_STORE, null, 'org123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key_id', ScopeInterface::SCOPE_STORE, null, 'keyid123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key', ScopeInterface::SCOPE_STORE, null, ''],
-            ]);
+            ->with('payment/paradoxlabs_cybersource/uc_billing_type', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn(null);
 
-        $this->assertFalse($this->config->isPayerAuthEnabled());
+        $this->assertSame('NONE', $this->config->getUcBillingType());
     }
 
-    public function testIsPayerAuthEnabledForTypeReturnsTrueWhenTypeInList(): void
-    {
+    /**
+     * D10: completeMandate.type must follow Magento payment_action semantics — authorize_capture
+     * is a sale (CAPTURE); everything else authorizes only (AUTH). Every consumer suite mocks
+     * Config, so this mapping is the single point where an inversion would force-capture at
+     * checkout for authorize-mode merchants; it must be pinned against the real class.
+     *
+     * @dataProvider completeMandateTypeDataProvider
+     */
+    #[DataProvider('completeMandateTypeDataProvider')]
+    public function testGetUcCompleteMandateTypeMapsPaymentAction(
+        string $paymentAction,
+        string $expected
+    ): void {
         $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '1'],
-                ['payment/paradoxlabs_cybersource/cardinal_org_unit_id', ScopeInterface::SCOPE_STORE, null, 'org123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key_id', ScopeInterface::SCOPE_STORE, null, 'keyid123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key', ScopeInterface::SCOPE_STORE, null, 'secret123'],
-                ['payment/paradoxlabs_cybersource/cardinal_card_types', ScopeInterface::SCOPE_STORE, null, 'VI,MC,AE'],
-            ]);
+            ->with('payment/paradoxlabs_cybersource/payment_action', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($paymentAction);
 
-        $this->assertTrue($this->config->isPayerAuthEnabledForType('VI'));
-        $this->assertTrue($this->config->isPayerAuthEnabledForType('MC'));
-        $this->assertTrue($this->config->isPayerAuthEnabledForType('AE'));
+        $this->assertSame($expected, $this->config->getUcCompleteMandateType());
     }
 
-    public function testIsPayerAuthEnabledForTypeReturnsFalseWhenTypeNotInList(): void
+    public static function completeMandateTypeDataProvider(): array
     {
-        $this->scopeConfigMock->method('getValue')
-            ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '1'],
-                ['payment/paradoxlabs_cybersource/cardinal_org_unit_id', ScopeInterface::SCOPE_STORE, null, 'org123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key_id', ScopeInterface::SCOPE_STORE, null, 'keyid123'],
-                ['payment/paradoxlabs_cybersource/cardinal_secret_key', ScopeInterface::SCOPE_STORE, null, 'secret123'],
-                ['payment/paradoxlabs_cybersource/cardinal_card_types', ScopeInterface::SCOPE_STORE, null, 'VI,MC'],
-            ]);
-
-        $this->assertFalse($this->config->isPayerAuthEnabledForType('DI'));
+        return [
+            'authorize maps to AUTH' => ['authorize', 'AUTH'],
+            'authorize_capture maps to CAPTURE' => ['authorize_capture', 'CAPTURE'],
+            'unset payment_action defaults to AUTH' => ['', 'AUTH'],
+        ];
     }
 
-    public function testIsPayerAuthEnabledForTypeReturnsFalseWhenPayerAuthDisabled(): void
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthEnabled(?string $flag, bool $expected): void
     {
         $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthEnabled());
+    }
+
+    public static function payerAuthEnabledDataProvider(): array
+    {
+        return [
+            'enabled' => ['1', true],
+            'disabled' => ['0', false],
+            'unset' => [null, false],
+        ];
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsPayerAuthRequired(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_required', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isPayerAuthRequired());
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledDataProvider
+     */
+    #[DataProvider('payerAuthEnabledDataProvider')]
+    public function testIsCardStorageValidationEnabled(?string $flag, bool $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/validate_card_storage', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($flag);
+
+        $this->assertSame($expected, $this->config->isCardStorageValidationEnabled());
+    }
+
+    /**
+     * @dataProvider payerAuthEnabledForTypeDataProvider
+     */
+    #[DataProvider('payerAuthEnabledForTypeDataProvider')]
+    public function testIsPayerAuthEnabledForType(
+        string $flag,
+        ?string $cardTypes,
+        string $ccType,
+        bool $expected
+    ): void {
+        $this->scopeConfigMock->method('getValue')
             ->willReturnMap([
-                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, '0'],
-                ['payment/paradoxlabs_cybersource/cardinal_card_types', ScopeInterface::SCOPE_STORE, null, 'VI,MC'],
+                ['payment/paradoxlabs_cybersource/cardinal_active', ScopeInterface::SCOPE_STORE, null, $flag],
+                ['payment/paradoxlabs_cybersource/cardinal_card_types', ScopeInterface::SCOPE_STORE, null, $cardTypes],
             ]);
 
-        $this->assertFalse($this->config->isPayerAuthEnabledForType('VI'));
+        $this->assertSame($expected, $this->config->isPayerAuthEnabledForType($ccType));
+    }
+
+    public static function payerAuthEnabledForTypeDataProvider(): array
+    {
+        return [
+            'type in list' => ['1', 'AE,VI,MC', 'VI', true],
+            'first type in list' => ['1', 'AE,VI,MC', 'AE', true],
+            'type not in list' => ['1', 'AE,VI,MC', 'DI', false],
+            'feature off' => ['0', 'AE,VI,MC', 'VI', false],
+            'empty config value' => ['1', '', 'VI', false],
+            'unset config value' => ['1', null, 'VI', false],
+        ];
+    }
+
+    /**
+     * @dataProvider payerAuthReturnOriginsDataProvider
+     * @param string|null $value
+     * @param string[] $expected
+     */
+    #[DataProvider('payerAuthReturnOriginsDataProvider')]
+    public function testGetPayerAuthReturnOrigins(?string $value, array $expected): void
+    {
+        $this->scopeConfigMock->method('getValue')
+            ->with('payment/paradoxlabs_cybersource/payer_auth_return_origins', ScopeInterface::SCOPE_STORE, null)
+            ->willReturn($value);
+
+        $this->assertSame($expected, $this->config->getPayerAuthReturnOrigins());
+    }
+
+    /**
+     * @return array<string, array{0: string|null, 1: string[]}>
+     */
+    public static function payerAuthReturnOriginsDataProvider(): array
+    {
+        return [
+            'unset' => [null, []],
+            'empty' => ['', []],
+            'whitespace only' => ["  \n \n", []],
+            'single' => ['https://pwa.example.net', ['https://pwa.example.net']],
+            'multi-line with blanks and whitespace' => [
+                "https://pwa.example.net\n\n  https://app.example.net:8443  \n",
+                ['https://pwa.example.net', 'https://app.example.net:8443'],
+            ],
+            'windows line endings' => [
+                "https://a.example.net\r\nhttps://b.example.net",
+                ['https://a.example.net', 'https://b.example.net'],
+            ],
+            'lowercased' => ['HTTPS://PWA.Example.NET', ['https://pwa.example.net']],
+        ];
     }
 
     private function setupSandboxMode(bool $isSandbox): void

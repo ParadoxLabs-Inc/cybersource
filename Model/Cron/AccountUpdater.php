@@ -185,12 +185,21 @@ class AccountUpdater
     {
         $cards = $this->loadCards($update['sourceRecord']['token']);
 
+        // A NAN (new account number) record need not carry an expiry: only compute a new expiration
+        // when BOTH fields are present; otherwise keep each card's stored expiry untouched. An
+        // unguarded read here aborted the whole update (dev mode) or wrote an epoch-garbage expiry
+        // (production), dropping the new PAN data.
+        $yr = $update['responseRecord']['cardExpiryYear'] ?? null;
+        $mo = $update['responseRecord']['cardExpiryMonth'] ?? null;
+        $hasNewExpiry = $yr !== null && $yr !== '' && $mo !== null && $mo !== '';
+
         /** @var Card $card */
         foreach ($cards as $card) {
-            $yr         = $update['responseRecord']['cardExpiryYear'];
-            $mo         = $update['responseRecord']['cardExpiryMonth'];
-            $day        = date('t', strtotime($yr . '-' . $mo));
-            $newExpires = sprintf('%s-%s-%s 23:59:59', $yr, $mo, $day);
+            $newExpires = $card->getExpires();
+            if ($hasNewExpiry) {
+                $day        = date('t', strtotime($yr . '-' . $mo));
+                $newExpires = sprintf('%s-%s-%s 23:59:59', $yr, $mo, $day);
+            }
 
             $newType = $card->getType();
             if (isset($update['responseRecord']['cardType'])) {
@@ -209,8 +218,10 @@ class AccountUpdater
                 || $card->getAdditional('cc_last4') !== $newLast4
                 || $card->getAdditional('cc_bin') !== $newBin) {
                 $card->setExpires($newExpires);
-                $card->setAdditional('cc_exp_year', $yr);
-                $card->setAdditional('cc_exp_month', $mo);
+                if ($hasNewExpiry) {
+                    $card->setAdditional('cc_exp_year', $yr);
+                    $card->setAdditional('cc_exp_month', $mo);
+                }
                 $card->setAdditional('cc_type', $newType);
                 $card->setAdditional('cc_last4', $newLast4);
                 $card->setAdditional('cc_bin', $newBin);
@@ -224,7 +235,7 @@ class AccountUpdater
                         $card->getId(),
                         $card->getPaymentId(),
                         $update['responseRecord']['response'],
-                        $update['responseRecord']['reason']
+                        $update['responseRecord']['reason'] ?? ''
                     )
                 );
             }
@@ -253,7 +264,7 @@ class AccountUpdater
                     $card->getId(),
                     $card->getPaymentId(),
                     $update['responseRecord']['response'],
-                    $update['responseRecord']['reason']
+                    $update['responseRecord']['reason'] ?? ''
                 )
             );
         }

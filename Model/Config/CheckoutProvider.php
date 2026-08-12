@@ -28,7 +28,6 @@ use Magento\Framework\UrlInterface;
 use Magento\Payment\Model\CcConfig;
 use Magento\Payment\Model\CcGenericConfigProvider;
 use ParadoxLabs\CyberSource\Helper\Data;
-use ParadoxLabs\CyberSource\Model\Service\CardinalCruise\JsonWebTokenGenerator;
 
 /**
  * ConfigProvider Class
@@ -43,7 +42,6 @@ class CheckoutProvider extends CcGenericConfigProvider
      * @param Data $dataHelper
      * @param UrlInterface $urlBuilder
      * @param Config $config
-     * @param JsonWebTokenGenerator $jsonWebTokenGenerator
      * @param array $methodCodes
      */
     public function __construct(
@@ -54,7 +52,6 @@ class CheckoutProvider extends CcGenericConfigProvider
         protected readonly Data $dataHelper,
         protected readonly UrlInterface $urlBuilder,
         protected readonly Config $config,
-        protected readonly JsonWebTokenGenerator $jsonWebTokenGenerator,
         array $methodCodes = []
     ) {
         parent::__construct($ccConfig, $this->paymentHelper, [Config::CODE]);
@@ -98,6 +95,7 @@ class CheckoutProvider extends CcGenericConfigProvider
 
         $config            = parent::getConfig();
         $selected          = null;
+        $newestId          = null;
         $storedCardOptions = [];
 
         if ($this->canSaveCard()) {
@@ -115,7 +113,14 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'cc_last4' => $card->getAdditional('cc_last4'),
                 ];
 
-                $selected = $card->getHash();
+                // Preselect the newest stored card (highest id; the collection carries no explicit
+                // ordering), so repeat customers land on a card they already vaulted and the UC
+                // drop-in — a signed capture-context call plus iframe — only mounts if they
+                // explicitly choose "Add new card".
+                if ($newestId === null || (int)$card->getId() > $newestId) {
+                    $newestId = (int)$card->getId();
+                    $selected = $card->getHash();
+                }
             }
         }
 
@@ -130,12 +135,20 @@ class CheckoutProvider extends CcGenericConfigProvider
                     'selectedCard' => $selected,
                     'logoImage' => $this->getLogoImage(),
                     'requireCcv' => $this->requireCcv(),
-                    'paramUrl' => $this->urlBuilder->getUrl('pdl_cybs/secureAccept/getParams'),
+                    // Unified Checkout (UC) keys. The renderer requests a capture-context JWT from this
+                    // endpoint, decodes it for the client library URL/SRI, and mounts the UC drop-in.
+                    // The client library URL/version comes from the JWT and the embedded layout is
+                    // implicit in the dual-container show(), so clientVersion/ucLayout are not exposed
+                    // to the JS (the server still pins clientVersion when building the capture context).
+                    'captureContextUrl' => $this->urlBuilder->getUrl('pdl_cybs/unifiedCheckout/captureContext'),
                     'fingerprintUrl' => $this->config->getFingerprintUrl($this->checkoutSession->getQuoteId()),
-                    'cardinalScript' => $this->config->getCardinalSongbirdUrl(),
-                    'cardinalSRIHash' => $this->config->getCardinalSongbirdSRIHash(),
-                    'cardinalAuthUrl' => $this->urlBuilder->getUrl('pdl_cybs/cardinalCruise/getAuthPayload'),
-                    'cardinalJWT' => $this->jsonWebTokenGenerator->getJwt($this->checkoutSession->getQuote()),
+                    // Auto-submit the order when a new-card tokenization resolves and the checkout
+                    // validators (agreements et al.) pass; see the renderer's maybeAutoPlaceOrder().
+                    'autoPlaceOrder' => $this->config->isUcAutoPlaceOrderEnabled(),
+                    // Payer Authentication (3DS) gate: when off, the renderer skips the pre-place
+                    // setup() call entirely, so a non-3DS store never pays that round-trip. The
+                    // server enforces enablement regardless; this only saves the wasted request.
+                    'payerAuthActive' => $this->config->isPayerAuthEnabled(),
                 ],
             ],
         ]);
@@ -184,6 +197,15 @@ class CheckoutProvider extends CcGenericConfigProvider
      */
     public function defaultSaveCard()
     {
+        /**
+         * When saving is mandatory, the 'save for next time' option is never shown, so the
+         * opt-out setting is meaningless (and hidden in the admin). Default to yes; otherwise
+         * checkout would submit save=0 and store the card deactivated, hiding it from reuse.
+         */
+        if ($this->forceSaveCard()) {
+            return true;
+        }
+
         return $this->methods[ Config::CODE ]->getConfigData('savecard_opt_out') ? true : false;
     }
 }

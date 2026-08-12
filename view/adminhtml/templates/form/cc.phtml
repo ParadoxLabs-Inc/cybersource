@@ -17,9 +17,7 @@ $code ?>",
         "validateForm": false
     },
     "cybersourceLegacyForm": {
-        "target": "<?= /* @noEscape */
-$code ?>_iframe",
-        "paramUrl": "<?= $escaper->escapeJs($block->getUrl('pdl_cybs/secureAccept/getParams')) ?>",
+        "captureContextUrl": "<?= $escaper->escapeJs($block->getUrl('pdl_cybs/unifiedCheckout/captureContext')) ?>",
         "fingerprintUrl": null
     }
 }'>
@@ -27,6 +25,7 @@ $code ?>_iframe",
     $code ?>-payment-method" type="hidden" name="payment[method]" value="<?= /* @noEscape */
     $code ?>"/>
     <input type="hidden" name="source" value="checkout"/>
+    <input type="hidden" name="payment[transient_token]" value=""/>
     <?= /* @noEscape */
     $block->getBlockHtml('formkey') ?>
 
@@ -62,9 +61,10 @@ $code ?>_iframe",
         </div>
         <div class="admin__field _required card hide-if-card-selected">
             <div class="admin__field-control control">
-                <iframe src="about:blank" id="<?= /* @noEscape */
-                $code ?>_iframe" name="<?= /* @noEscape */
-                $code ?>_iframe"></iframe>
+                <div class="unified-checkout-selection" id="<?= /* @noEscape */
+                $code ?>_uc_selection"></div>
+                <div class="unified-checkout-screen" id="<?= /* @noEscape */
+                $code ?>_uc_screen"></div>
                 <p id="<?= /* @noEscape */
                 $code ?>_warning" class="admin__field-control message message-error error "></p>
             </div>

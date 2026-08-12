@@ -1,5 +1,42 @@
 # ParadoxLabs_CyberSource Changelog
 
+## 4.0.0 - Aug 5, 2026: Unified Checkout + native Payer Authentication
+
+**WARNING: Secure Acceptance, CardinalCommerce Songbird, and the SOAP gateway have been removed.
+Run `bin/magento setup:di:compile` after deployment.**
+
+- Added CyberSource Unified Checkout as the card form, replacing Secure Acceptance; all payment
+  processing now runs on the REST API.
+- Added native CyberSource Payer Authentication (3D Secure 2), replacing CardinalCommerce Songbird
+  — no Cardinal credentials needed, but CyberSource must enable Payer Auth on your merchant account.
+- Added `Require Payer Authentication` (default off) to refuse orders placed without *attempting*
+  Payer Authentication — closes the REST/GraphQL bypass; subscription rebills and admin orders are
+  exempt. It requires the authentication to be attempted, not to succeed: a card the issuer cannot
+  authenticate (not enrolled, issuer timeout, directory-server error) still places without a
+  liability shift, as it did in 3.x.
+- Added `Headless Return URL Origins`; separate-origin headless storefronts must configure it or
+  their payer-auth challenge return is rejected.
+- Changed `Enable Payer Authentication` to take effect without Cardinal credentials — stores that
+  had it checked without completing Cardinal setup get 3DS ON after upgrading.
+- Changed `Enable Decision Manager` to control fraud screening on checkout authorizations
+  (previously no effect); subscription and follow-on charges remain exempt.
+- Changed the default `Enable for Card Types` list to AE, VI, MC, DI, JCB, DN — EEA merchants
+  accepting Maestro should add it. Note an empty selection disables Payer Authentication for
+  every card even when `Enable Payer Authentication` is on — every charge is out of scope.
+- Changed `Enable fraud check when storing cards` to govern the $0 card-storage authorization,
+  keeping the 3.x default of not screening card adds.
+- Removed all SOAP, Secure Acceptance, and CardinalCommerce settings; stored values (including
+  secret keys) are deleted on upgrade, preserving `Enable Payer Authentication` and card types.
+- Guest payer-auth and capture-context routes are unthrottled by design; rate-limit at your
+  WAF/CDN/proxy.
+- A Payer Authentication block is scoped to the CARD, not the cart: a card that fails or abandons
+  3DS stays blocked until it authenticates, but switching to another card clears the block on the
+  same cart. Note that re-entering the same card number counts as a different card here, because it
+  authenticates from scratch; stored cards stay blocked until they pass.
+- A blocked card now reports "Your payment could not be verified. Please re-enter your payment
+  information and try again." and resets the payment form, instead of silently re-running the
+  verification it can never pass.
+
 ## 3.0.0 - Jun 17, 2026: PHP 8.1–8.5 compatibility
 
 **WARNING: PHP 8.1 is now the minimum. Now requires ParadoxLabs_TokenBase 5.0.**

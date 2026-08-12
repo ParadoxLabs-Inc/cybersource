@@ -1,0 +1,225 @@
+<?php declare(strict_types=1);
+/**
+ * ParadoxLabs, Inc.
+ * https://www.paradoxlabs.com
+ * 717-431-3330
+ *
+ * Need help? Open a ticket in our support system:
+ *  https://support.paradoxlabs.com
+ *
+ * @author      Ryan Hoerr <info@paradoxlabs.com>
+ * @license     https://store.paradoxlabs.com/license.html
+ */
+
+namespace ParadoxLabs\CyberSource\Test\Integration;
+
+use Exception;
+use LogicException;
+use Magento\Framework\Exception\RuntimeException;
+use ParadoxLabs\CyberSource\Model\Service\Rest;
+
+/**
+ * Test double for the CyberSource REST HTTP boundary.
+ *
+ * The real {@see Rest} class signs and dispatches live cURL calls to CyberSource. This double replaces it via
+ * ObjectManager::addSharedInstance so the whole Method + Gateway + UnifiedCheckout service stack executes
+ * against canned replies. Every call is recorded for assertions, and response shaping is delegated to a
+ * caller-supplied responder: fn(string $method, string $path, array $params): array|string.
+ *
+ * Return types deliberately mirror the real client, because callers depend on the difference:
+ *  - post()    → array  (decoded JSON)
+ *  - postRaw() → string (a bare JWT, e.g. the Unified Checkout capture context)
+ *  - get()/delete() → string (raw body; DELETE is a 204 with an empty body)
+ *
+ * To simulate a gateway/HTTP failure, throw {@see httpError()} from the responder: it reproduces the real
+ * client's exception TYPE and structure, which callers branch on.
+ */
+class CyberSourceRestStub extends Rest
+{
+    /**
+     * Id prefix the sequenced responder mints for /pts/v2/payments replies (authorizations and sales).
+     *
+     * Declared here rather than on RestStubTrait: trait constants require PHP 8.2, and this package
+     * supports 8.1.
+     */
+    public const PAYMENT_ID_PREFIX = 'PAY';
+
+    /**
+     * Id prefix the sequenced responder mints for /captures replies.
+     */
+    public const CAPTURE_ID_PREFIX = 'CAP';
+
+    /**
+     * Id prefix the sequenced responder mints for /refunds replies.
+     */
+    public const REFUND_ID_PREFIX = 'REF';
+
+    /**
+     * Id prefix the sequenced responder mints for /reversals replies.
+     */
+    public const REVERSAL_ID_PREFIX = 'REV';
+
+    /**
+     * Id prefix the sequenced responder mints for /voids replies.
+     */
+    public const VOID_ID_PREFIX = 'VOID';
+
+    /**
+     * Recorded calls, in order: ['method' => ..., 'path' => ..., 'params' => [...]].
+     *
+     * @var array<int, array{method: string, path: string, params: array}>
+     */
+    public array $calls = [];
+
+    /**
+     * @var callable|null
+     */
+    private $responder;
+
+    /**
+     * Bypass the parent constructor: none of the real collaborators (config, HTTP, signing) are needed here.
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * Configure the response shaper used for every HTTP verb.
+     *
+     * @param callable $responder fn(string $method, string $path, array $params): array|string
+     * @return void
+     */
+    public function setResponder(callable $responder): void
+    {
+        $this->responder = $responder;
+    }
+
+    /**
+     * Build the exception the real client raises for a non-2xx response, for use from a responder.
+     *
+     * Shape matters, not just the fact of throwing: {@see Rest::throwOnHttpError()} raises Magento's
+     * RuntimeException carrying the GENERIC shopper-facing phrase, with the gateway's own message
+     * demoted to the previous exception and the HTTP status as the code. Callers branch on that
+     * type — Management::runSetup catches RuntimeException specifically to degrade a declined
+     * device-data setup — so a plain \Exception here would exercise a catch path production never
+     * takes, and quietly pass a test for code that cannot work.
+     *
+     * @param string $message Gateway's own message, i.e. what the real client puts on the previous.
+     * @param int $status
+     * @return RuntimeException
+     */
+    public static function httpError(string $message, int $status = 400): RuntimeException
+    {
+        return new RuntimeException(
+            __('The transaction was declined. Please verify your payment details and try again.'),
+            new Exception($message, $status),
+            $status
+        );
+    }
+
+    /**
+     * Return the recorded request paths in call order.
+     *
+     * @return array<int, string>
+     */
+    public function getCalledPaths(): array
+    {
+        return array_column($this->calls, 'path');
+    }
+
+    /**
+     * Return the recorded calls whose path contains the given needle.
+     *
+     * @param string $needle
+     * @return array<int, array{method: string, path: string, params: array}>
+     */
+    public function getCallsMatching(string $needle): array
+    {
+        return array_values(
+            array_filter($this->calls, static fn (array $call): bool => str_contains($call['path'], $needle))
+        );
+    }
+
+    /**
+     * Forget all recorded calls, so a test can assert on a single phase of a multi-step flow.
+     *
+     * @return void
+     */
+    public function resetCalls(): void
+    {
+        $this->calls = [];
+    }
+
+    /**
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return string
+     */
+    #[\Override]
+    public function get($path, $params = [], $responseType = 'application/hal+json')
+    {
+        return (string)$this->respond('GET', (string)$path, (array)$params);
+    }
+
+    /**
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return string
+     */
+    #[\Override]
+    public function delete($path, $params = [], $responseType = 'application/hal+json')
+    {
+        return (string)$this->respond('DELETE', (string)$path, (array)$params);
+    }
+
+    /**
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return array
+     */
+    #[\Override]
+    public function post(string $path, array $params = [], string $responseType = 'application/json'): array
+    {
+        return (array)$this->respond('POST', $path, $params);
+    }
+
+    /**
+     * @param string $path
+     * @param array $params
+     * @param string $responseType
+     * @return string
+     */
+    #[\Override]
+    public function postRaw(string $path, array $params = [], string $responseType = 'application/jwt'): string
+    {
+        return (string)$this->respond('POST', $path, $params);
+    }
+
+    /**
+     * Record the call and delegate to the configured responder.
+     *
+     * @param string $method
+     * @param string $path
+     * @param array $params
+     * @return array|string
+     */
+    private function respond(string $method, string $path, array $params)
+    {
+        $this->calls[] = [
+            'method' => $method,
+            'path' => $path,
+            'params' => $params,
+        ];
+
+        if ($this->responder === null) {
+            throw new LogicException(
+                sprintf('CyberSourceRestStub has no responder configured for %s %s', $method, $path)
+            );
+        }
+
+        return ($this->responder)($method, $path, $params);
+    }
+}
