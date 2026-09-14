@@ -344,4 +344,31 @@ class StoredCardRequestTest extends TestCase
         );
         $this->assertSame('spa', $result['processingInformation']['commerceIndicator']);
     }
+
+    public function testToArrayIncludesShipToAndLineItems(): void
+    {
+        // Issue #14: stored-card auths carried shipTo + items in 3.x too (same authorize path).
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI123')
+            ->setShipTo(['firstName' => 'Jane', 'country' => 'US'])
+            ->setLineItems([
+                ['productName' => 'Widget', 'productSku' => 'WID-1', 'quantity' => 1, 'unitPrice' => '12.00'],
+            ]);
+
+        $result = $request->toArray();
+
+        $this->assertSame('Jane', $result['orderInformation']['shipTo']['firstName']);
+        $this->assertSame('WID-1', $result['orderInformation']['lineItems'][0]['productSku']);
+    }
+
+    public function testToArrayOmitsShipToAndLineItemsWhenEmpty(): void
+    {
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('PI123')->setTotalAmount('5.00');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('shipTo', $result['orderInformation']);
+        $this->assertArrayNotHasKey('lineItems', $result['orderInformation']);
+    }
 }

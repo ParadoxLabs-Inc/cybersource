@@ -47,6 +47,13 @@ use ParadoxLabs\TokenBase\Model\Gateway\Response;
 class Method extends AbstractMethod
 {
     /**
+     * Registry key prefix mapping a consumed Unified Checkout transient token (sha1) to the vault card it minted.
+     *
+     * @see \ParadoxLabs\Authnetcim\Model\Method::loadOrCreateCard() Same pattern for Accept.js nonces.
+     */
+    public const REGISTRY_CONSUMED_TOKEN_PREFIX = 'cybersource-uc-token-';
+
+    /**
      * Method constructor.
      *
      * Extends the TokenBase method with the Unified Checkout token->card mapper, used post-auth to
@@ -90,6 +97,76 @@ class Method extends AbstractMethod
             $registry,
             $methodCode,
             $data
+        );
+    }
+
+    /**
+     * Swap in the card minted by an earlier order on the same transient token, then defer to the parent.
+     *
+     * @param InfoInterface $payment
+     * @return CardInterface
+     * @throws CommandException
+     */
+    #[Override]
+    protected function loadOrCreateCard(InfoInterface $payment)
+    {
+        $this->useCardFromConsumedToken($payment);
+
+        return parent::loadOrCreateCard($payment);
+    }
+
+    /**
+     * Point the payment at the card its (spent) transient token already minted in this request, if any.
+     *
+     * @param InfoInterface $payment
+     * @return bool Whether a card was swapped in.
+     */
+    protected function useCardFromConsumedToken(InfoInterface $payment): bool
+    {
+        $token = (string)$payment->getAdditionalInformation('transient_token');
+        if ($token === '') {
+            return false;
+        }
+
+        $cardId = $this->registry->registry(self::REGISTRY_CONSUMED_TOKEN_PREFIX . sha1($token));
+        if ($cardId === null) {
+            return false;
+        }
+
+        $this->log(sprintf('useCardFromConsumedToken(): transient token already vaulted as card %s', $cardId));
+
+        /** @var Payment $payment */
+        $payment->setData('tokenbase_id', $cardId);
+        $payment->unsetData('tokenbase_card');
+        $payment->unsAdditionalInformation('transient_token');
+
+        return true;
+    }
+
+    /**
+     * Record the consumed transient token -> vault card mapping for later orders in this request.
+     *
+     * Only a successful exchange is recorded; on uc_token_missing the card has no TMS ids to charge.
+     *
+     * @param InfoInterface $payment
+     * @param CardInterface $card
+     * @param Response $response
+     * @return void
+     */
+    protected function registerConsumedToken(InfoInterface $payment, CardInterface $card, Response $response): void
+    {
+        $token = (string)$payment->getAdditionalInformation('transient_token');
+
+        if ($token === ''
+            || (bool)$response->getData('uc_token_missing') === true
+            || empty($card->getId())) {
+            return;
+        }
+
+        $this->registry->register(
+            self::REGISTRY_CONSUMED_TOKEN_PREFIX . sha1($token),
+            $card->getId(),
+            true
         );
     }
 
@@ -333,6 +410,7 @@ class Method extends AbstractMethod
         $card = $this->getCard();
         if ($card instanceof CardInterface) {
             $this->cardBuilder->applyTokenToCard($card, $response);
+            $this->registerConsumedToken($payment, $card, $response);
         }
 
         // Re-sync payment cc_* from the response: AbstractMethod copies cc fields from the card PRE-auth

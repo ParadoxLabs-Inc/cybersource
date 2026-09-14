@@ -26,7 +26,8 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
  *
  * Hand-written "type safety without the SDK" (DECISION D14), the follow-on sibling of PaymentRequest.
  * One DTO covers all three follow-on shapes because they share the same field tree:
- *   - capture  POST /pts/v2/payments/{id}/captures   → clientReferenceInformation + orderInformation.amountDetails
+ *   - capture  POST /pts/v2/payments/{id}/captures   → clientReferenceInformation + orderInformation
+ *     (amountDetails + lineItems, for Level II/III interchange data on settlement)
  *   - refund   POST /pts/v2/captures/{id}/refunds     → clientReferenceInformation + orderInformation.amountDetails
  *   - reversal POST /pts/v2/payments/{id}/reversals   → clientReferenceInformation + reversalInformation.amountDetails
  *
@@ -38,6 +39,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
 class FollowOnRequest
 {
     use FilterEmptyTrait;
+    use LineItemsTrait;
 
     /**
      * @var string|null
@@ -271,17 +273,30 @@ class FollowOnRequest
             'currency' => $this->currency,
         ]);
 
-        if (!empty($amountDetails)) {
-            // Reversal carries its amount under reversalInformation; capture/refund under orderInformation.
-            if ($this->reversal === true) {
+        // Reversal carries its amount under reversalInformation; capture/refund under orderInformation.
+        if ($this->reversal === true) {
+            if (!empty($amountDetails)) {
                 $request['reversalInformation'] = [
                     'amountDetails' => $amountDetails,
                 ];
-            } else {
-                $request['orderInformation'] = [
-                    'amountDetails' => $amountDetails,
-                ];
             }
+
+            return $request;
+        }
+
+        $orderInformation = [];
+
+        if (!empty($amountDetails)) {
+            $orderInformation['amountDetails'] = $amountDetails;
+        }
+
+        $lineItems = $this->buildLineItems();
+        if (!empty($lineItems)) {
+            $orderInformation['lineItems'] = $lineItems;
+        }
+
+        if (!empty($orderInformation)) {
+            $request['orderInformation'] = $orderInformation;
         }
 
         return $request;

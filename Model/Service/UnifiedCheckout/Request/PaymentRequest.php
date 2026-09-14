@@ -34,6 +34,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
 class PaymentRequest
 {
     use FilterEmptyTrait;
+    use LineItemsTrait;
 
     /**
      * @var string|null
@@ -83,6 +84,15 @@ class PaymentRequest
      * @var array<string, string|null>
      */
     private array $billTo = [];
+
+    /**
+     * Shipping address fields, keyed by API field name (orderInformation.shipTo).
+     *
+     * Empty (default) = virtual order or no shipping address; the key is then omitted entirely.
+     *
+     * @var array<string, string|null>
+     */
+    private array $shipTo = [];
 
     /**
      * CyberSource partner solution ID (clientReferenceInformation.partner.solutionId).
@@ -346,6 +356,29 @@ class PaymentRequest
     }
 
     /**
+     * Get the shipTo address fields.
+     *
+     * @return array<string, string|null>
+     */
+    public function getShipTo(): array
+    {
+        return $this->shipTo;
+    }
+
+    /**
+     * Set the shipTo address fields, keyed by API field name.
+     *
+     * @param array<string, string|null> $shipTo
+     * @return $this
+     */
+    public function setShipTo(array $shipTo): self
+    {
+        $this->shipTo = $shipTo;
+
+        return $this;
+    }
+
+    /**
      * Get the partner solution ID.
      *
      * @return string|null
@@ -530,6 +563,16 @@ class PaymentRequest
         $billTo = $this->filterEmpty($this->billTo);
         if (!empty($billTo)) {
             $orderInformation['billTo'] = $billTo;
+        }
+
+        $shipTo = $this->filterEmpty($this->shipTo);
+        if (!empty($shipTo)) {
+            $orderInformation['shipTo'] = $shipTo;
+        }
+
+        $lineItems = $this->buildLineItems();
+        if (!empty($lineItems)) {
+            $orderInformation['lineItems'] = $lineItems;
         }
 
         if (!empty($orderInformation)) {

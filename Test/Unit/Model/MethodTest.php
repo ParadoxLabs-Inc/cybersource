@@ -37,6 +37,7 @@ class MethodTest extends TestCase
     private CardBuilder|MockObject $cardBuilderMock;
     private CardRepositoryInterface|MockObject $cardRepositoryMock;
     private UnifiedCheckoutResponse|MockObject $ucResponseMock;
+    private Registry|MockObject $registryMock;
     private Method $method;
 
     protected function setUp(): void
@@ -47,6 +48,7 @@ class MethodTest extends TestCase
         $this->cardBuilderMock = $this->createMock(CardBuilder::class);
         $this->cardRepositoryMock = $this->createMock(CardRepositoryInterface::class);
         $this->ucResponseMock = $this->createMock(UnifiedCheckoutResponse::class);
+        $this->registryMock = $this->createMock(Registry::class);
 
         $this->method = new Method(
             $this->createMock(Repository::class),
@@ -56,7 +58,7 @@ class MethodTest extends TestCase
             $this->cardRepositoryMock,
             $this->createMock(Address::class),
             $this->createMock(ConfigInterface::class),
-            $this->createMock(Registry::class),
+            $this->registryMock,
             $this->cardBuilderMock,
             $this->ucResponseMock,
             'paradoxlabs_cybersource'
@@ -482,8 +484,128 @@ class MethodTest extends TestCase
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * A successful Unified Checkout token exchange records the consumed token against the card it minted.
+     *
+     * @dataProvider hookProvider
+     * @param string $hook
+     * @return void
      */
+    #[DataProvider('hookProvider')]
+    public function testUnifiedCheckoutResponseRegistersConsumedTokenAgainstCard(string $hook): void
+    {
+        $card = $this->createMock(CardInterface::class);
+        $card->method('getId')->willReturn(42);
+        $this->setCard($card);
+
+        $response = new Response(['token_information' => ['instrumentIdentifier' => 'INSTR-42']]);
+        $this->cardBuilderMock->method('applyTokenToCard')->willReturn($card);
+
+        $payment = $this->buildPayment();
+        $payment->method('getAdditionalInformation')->willReturnCallback(
+            static fn(?string $key = null) => $key === 'transient_token' ? 'jwt-1' : null
+        );
+
+        $this->registryMock->expects($this->once())
+            ->method('register')
+            ->with(Method::REGISTRY_CONSUMED_TOKEN_PREFIX . sha1('jwt-1'), 42, true);
+
+        $this->invokeHook($hook, $payment, $response);
+    }
+
+    /**
+     * Auth approved but TOKEN_CREATE failed: the card has no TMS ids, so it must not be handed to sibling orders.
+     */
+    public function testTokenMissingResponseDoesNotRegisterConsumedToken(): void
+    {
+        $card = $this->createMock(CardInterface::class);
+        $card->method('getId')->willReturn(42);
+        $this->setCard($card);
+
+        $payment = $this->buildPayment();
+        $payment->method('getAdditionalInformation')->willReturnCallback(
+            static fn(?string $key = null) => $key === 'transient_token' ? 'jwt-1' : null
+        );
+
+        $this->registryMock->expects($this->never())->method('register');
+
+        $this->invokeHook('afterCapture', $payment, new Response(['uc_token_missing' => true]));
+    }
+
+    /**
+     * A spent transient token swaps the registered card in (stored-card path) and drops the token.
+     */
+    public function testLoadOrCreateCardSwapsInCardForConsumedTransientToken(): void
+    {
+        $this->registryMock->method('registry')->willReturnCallback(
+            static fn(string $key) => $key === Method::REGISTRY_CONSUMED_TOKEN_PREFIX . sha1('jwt-1') ? 42 : null
+        );
+
+        $card = $this->buildCard();
+        $card->method('getId')->willReturn(42);
+        $card->method('getMethod')->willReturn('paradoxlabs_cybersource');
+        $card->method('getCustomerId')->willReturn(5);
+        $this->cardRepositoryMock->expects($this->once())->method('getById')->with(42)->willReturn($card);
+
+        $order = $this->createMock(Order::class);
+        $order->method('getCustomerId')->willReturn(5);
+
+        $set     = [];
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getOrder')->willReturn($order);
+        $payment->method('setData')->willReturnCallback(
+            function ($key, $value = null) use (&$set, $payment) {
+                $set[$key] = $value;
+
+                return $payment;
+            }
+        );
+        $payment->method('getData')->willReturnCallback(
+            static function (string $key = '') use (&$set) {
+                return $set[$key] ?? null;
+            }
+        );
+        $payment->method('hasData')->willReturnCallback(
+            static function (string $key = '') use (&$set) {
+                return array_key_exists($key, $set);
+            }
+        );
+        $payment->method('getAdditionalInformation')->willReturnCallback(
+            static fn(?string $key = null) => $key === 'transient_token' ? 'jwt-1' : null
+        );
+        $payment->expects($this->once())->method('unsetData')->with('tokenbase_card');
+        $payment->expects($this->once())->method('unsAdditionalInformation')->with('transient_token');
+
+        $this->method->setInfoInstance($payment);
+
+        $loadOrCreate = new \ReflectionMethod(Method::class, 'loadOrCreateCard');
+        $result       = $loadOrCreate->invoke($this->method, $payment);
+
+        $this->assertSame(42, $set['tokenbase_id']);
+        $this->assertSame($card, $result);
+    }
+
+    /**
+     * First (or only) order: nothing registered for the token, so the normal create path runs untouched.
+     */
+    public function testLoadOrCreateCardLeavesUnconsumedTransientTokenAlone(): void
+    {
+        $this->registryMock->method('registry')->willReturn(null);
+        $this->cardRepositoryMock->expects($this->never())->method('getById');
+
+        $payment = $this->createMock(Payment::class);
+        $payment->method('getAdditionalInformation')->willReturnCallback(
+            static fn(?string $key = null) => $key === 'transient_token' ? 'jwt-fresh' : null
+        );
+        $payment->method('hasData')->willReturn(false);
+        $payment->expects($this->never())->method('setData');
+        $payment->expects($this->never())->method('unsAdditionalInformation');
+
+        $this->expectException(CommandException::class);
+
+        $loadOrCreate = new \ReflectionMethod(Method::class, 'loadOrCreateCard');
+        $loadOrCreate->invoke($this->method, $payment);
+    }
+
     public static function zeroTotalEntryPointProvider(): array
     {
         return [

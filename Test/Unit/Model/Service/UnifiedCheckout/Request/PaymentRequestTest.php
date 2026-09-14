@@ -282,4 +282,62 @@ class PaymentRequestTest extends TestCase
         );
         $this->assertSame('vbv', $result['processingInformation']['commerceIndicator']);
     }
+
+    public function testToArrayIncludesShipToAndLineItems(): void
+    {
+        // Issue #14: 3.x sent the shipping address and line items on every auth; the UC body carries
+        // them under orderInformation.shipTo / orderInformation.lineItems.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')
+            ->setShipTo([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'address1' => '123 Test Ln',
+                'country' => 'US',
+            ])
+            ->setLineItems([
+                [
+                    'productName' => 'Widget',
+                    'productSku' => 'WID-1',
+                    'quantity' => 2,
+                    'unitPrice' => '12.00',
+                    'taxAmount' => '1.98',
+                ],
+            ]);
+
+        $result = $request->toArray();
+
+        $this->assertSame('Jane', $result['orderInformation']['shipTo']['firstName']);
+        $this->assertSame('123 Test Ln', $result['orderInformation']['shipTo']['address1']);
+        $this->assertSame('WID-1', $result['orderInformation']['lineItems'][0]['productSku']);
+        $this->assertSame(2, $result['orderInformation']['lineItems'][0]['quantity']);
+        $this->assertSame('12.00', $result['orderInformation']['lineItems'][0]['unitPrice']);
+    }
+
+    public function testToArrayOmitsShipToAndLineItemsWhenEmpty(): void
+    {
+        // Virtual order / send_line_items off: neither key may appear, keeping the body identical to
+        // the pre-#14 request.
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')->setTotalAmount('5.00');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('shipTo', $result['orderInformation']);
+        $this->assertArrayNotHasKey('lineItems', $result['orderInformation']);
+    }
+
+    public function testToArrayPrunesEmptyLineItemRowsAndLeaves(): void
+    {
+        $request = new PaymentRequest();
+        $request->setTransientTokenJwt('jwt')
+            ->setLineItems([
+                ['productName' => 'Widget', 'taxAmount' => null, 'productSku' => ''],
+                [],
+            ]);
+
+        $result = $request->toArray();
+
+        $this->assertSame([['productName' => 'Widget']], $result['orderInformation']['lineItems']);
+    }
 }

@@ -157,7 +157,7 @@ class Gateway extends AbstractGateway
     {
         if ($this->hasTransientToken($payment)) {
             // New-card Unified Checkout auth/sale (A1).
-            return $this->unifiedCheckoutResponse->place($payment, (float)$amount, false);
+            return $this->unifiedCheckoutResponse->place($payment, (float)$amount, false, $this->getLineItems());
         }
 
         // Stored-card / MIT auth from the vaulted TMS ids.
@@ -216,7 +216,28 @@ class Gateway extends AbstractGateway
             );
         }
 
-        return $this->unifiedCheckoutResponse->placeStored($payment, $card, (float)$amount, $capture);
+        return $this->unifiedCheckoutResponse->placeStored(
+            $payment,
+            $card,
+            (float)$amount,
+            $capture,
+            $this->getLineItems()
+        );
+    }
+
+    /**
+     * The sales line items TokenBase attached for this operation, or [] when none.
+     *
+     * TokenBase's AbstractMethod populates $this->lineItems (gated on the send_line_items setting)
+     * with the operation's item set — order items at authorize, invoice items at capture, creditmemo
+     * items at refund — so the gate and the per-operation item scoping both live in the existing
+     * wiring; a disabled setting simply leaves this null.
+     *
+     * @return array<int|string, mixed>
+     */
+    protected function getLineItems(): array
+    {
+        return is_array($this->lineItems) ? $this->lineItems : [];
     }
 
     /**
@@ -252,7 +273,12 @@ class Gateway extends AbstractGateway
         }
 
         try {
-            return $this->unifiedCheckoutFollowOn->capture($payment, (float)$amount, (string)$transactionId);
+            return $this->unifiedCheckoutFollowOn->capture(
+                $payment,
+                (float)$amount,
+                (string)$transactionId,
+                $this->getLineItems()
+            );
         } catch (Throwable $exception) {
             // Handle 'transaction not found' (expired/unusable authorization). The REST follow-on service
             // re-throws the SOAP-equivalent code (242) for that condition, so the SOAP-era recapture logic
@@ -292,7 +318,7 @@ class Gateway extends AbstractGateway
     protected function captureBundled(InfoInterface $payment, float $amount)
     {
         if ($this->hasTransientToken($payment)) {
-            return $this->unifiedCheckoutResponse->place($payment, $amount, true);
+            return $this->unifiedCheckoutResponse->place($payment, $amount, true, $this->getLineItems());
         }
 
         return $this->buildStoredCardAuth($payment, $amount, true);

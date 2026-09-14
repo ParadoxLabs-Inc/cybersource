@@ -27,6 +27,7 @@ use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
 use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\BindingValidator;
@@ -35,6 +36,7 @@ use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\CardBuilder;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\LineItemsBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequestFactory;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequest;
@@ -182,6 +184,7 @@ class Response
      * @param BindingValidator $bindingValidator
      * @param PassThroughMapper $passThroughMapper
      * @param Persistor $payerAuthPersistor
+     * @param LineItemsBuilder $lineItemsBuilder
      */
     public function __construct(
         protected readonly Rest $rest,
@@ -195,7 +198,8 @@ class Response
         protected readonly TransientTokenReader $transientTokenReader,
         protected readonly BindingValidator $bindingValidator,
         protected readonly PassThroughMapper $passThroughMapper,
-        protected readonly Persistor $payerAuthPersistor
+        protected readonly Persistor $payerAuthPersistor,
+        protected readonly LineItemsBuilder $lineItemsBuilder,
     ) {
     }
 
@@ -210,14 +214,20 @@ class Response
      * @param InfoInterface $payment
      * @param float $amount
      * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
+     * @param array<int|string, mixed> $lineItems Sales items to send as orderInformation.lineItems
+     *        (already send_line_items-gated by the TokenBase wiring); empty = none sent.
      * @return GatewayResponse
      * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path), or on a
      *         failed/stale Payer Authentication record that must not be placed against.
      * @throws RuntimeException On an error/invalid response, or a missing transient token.
      * @throws Throwable
      */
-    public function place(InfoInterface $payment, float $amount, ?bool $capture = null): GatewayResponse
-    {
+    public function place(
+        InfoInterface $payment,
+        float $amount,
+        ?bool $capture = null,
+        array $lineItems = []
+    ): GatewayResponse {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
         $order   = $payment->getOrder();
@@ -226,7 +236,7 @@ class Response
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request = $this->buildRequest($payment, $amount, $capture);
+        $request = $this->buildRequest($payment, $amount, $capture, $lineItems);
 
         // Payer Authentication: consume the pre-place verdict for THIS card and THIS amount, if any.
         // Runs before the money call so a failed/stale result blocks placement rather than dropping
@@ -262,6 +272,8 @@ class Response
      * @param CardInterface $card
      * @param float $amount
      * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
+     * @param array<int|string, mixed> $lineItems Sales items to send as orderInformation.lineItems
+     *        (already send_line_items-gated by the TokenBase wiring); empty = none sent.
      * @return GatewayResponse
      * @throws CommandException On a declined transaction (mirrors the SA/SOAP decline path), or on a
      *         failed/stale Payer Authentication record that must not be placed against.
@@ -272,7 +284,8 @@ class Response
         InfoInterface $payment,
         CardInterface $card,
         float $amount,
-        ?bool $capture = null
+        ?bool $capture = null,
+        array $lineItems = []
     ): GatewayResponse {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
@@ -282,7 +295,7 @@ class Response
         $this->config->setStoreId($storeId);
         $this->rest->setStoreId($storeId);
 
-        $request = $this->buildStoredCardRequest($payment, $card, $amount, $capture);
+        $request = $this->buildStoredCardRequest($payment, $card, $amount, $capture, $lineItems);
 
         // Payer Authentication on the stored-card CIT (the MIT/admin branches never consult it — see
         // shouldConsumePayerAuth()). The binding is the vault card id the authentication was run against.
@@ -352,6 +365,7 @@ class Response
      * @param CardInterface $card
      * @param float $amount
      * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
+     * @param array<int|string, mixed> $lineItems Sales items to send as orderInformation.lineItems.
      * @return StoredCardRequest
      * @throws RuntimeException When the card carries no vaulted paymentInstrument id.
      */
@@ -359,7 +373,8 @@ class Response
         InfoInterface $payment,
         CardInterface $card,
         float $amount,
-        ?bool $capture = null
+        ?bool $capture = null,
+        array $lineItems = []
     ): StoredCardRequest {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
@@ -391,6 +406,8 @@ class Response
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()))
+            ->setShipTo($this->getShipTo($order))
+            ->setLineItems($this->lineItemsBuilder->build($lineItems))
             ->setPaymentInstrumentId($paymentInstrumentId)
             ->setStoredCredentialUsed(true)
             ->setSolutionId($this->config->getSolutionId())
@@ -944,11 +961,16 @@ class Response
      * @param InfoInterface $payment
      * @param float $amount
      * @param bool|null $capture Operation intent: true=sale, false=auth-only; null=derive from config.
+     * @param array<int|string, mixed> $lineItems Sales items to send as orderInformation.lineItems.
      * @return PaymentRequest
      * @throws RuntimeException When no transient token is present on the payment.
      */
-    public function buildRequest(InfoInterface $payment, float $amount, ?bool $capture = null): PaymentRequest
-    {
+    public function buildRequest(
+        InfoInterface $payment,
+        float $amount,
+        ?bool $capture = null,
+        array $lineItems = []
+    ): PaymentRequest {
         /** @var Payment $payment */
         /** @var OrderInterface $order */
         $order = $payment->getOrder();
@@ -971,6 +993,8 @@ class Response
             ->setTotalAmount(number_format((float)$this->sanitizer->amount($amount), 2, '.', ''))
             ->setCurrency($this->sanitizer->alpha((string)$order->getBaseCurrencyCode(), 3))
             ->setBillTo($this->getBillTo($order->getBillingAddress()))
+            ->setShipTo($this->getShipTo($order))
+            ->setLineItems($this->lineItemsBuilder->build($lineItems))
             ->setSolutionId($this->config->getSolutionId())
             ->setApplicationName($this->config->getClientName())
             ->setApplicationVersion($this->config->getClientVersion());
@@ -1521,6 +1545,49 @@ class Response
             'country' => $this->sanitizer->alpha(strtoupper((string)$billingAddress->getCountryId()), 2),
             'email' => $this->getEmail($billingAddress),
             'phoneNumber' => $this->sanitizer->phone($billingAddress->getTelephone(), 15),
+        ], static fn($value): bool => $value !== null && $value !== '');
+    }
+
+    /**
+     * Map the order shipping address to the /pts/v2/payments shipTo field tree.
+     *
+     * SOAP parity (ObjectBuilder::getOrderShipTo() + the Gateway's is-virtual gate): a virtual order
+     * has no shipping address to send, so the tree is empty and orderInformation.shipTo is omitted.
+     * Same field mapping as getBillTo() minus email — the SOAP shipTo never carried one.
+     *
+     * @param OrderInterface $order
+     * @return array<string, string>
+     */
+    protected function getShipTo(OrderInterface $order): array
+    {
+        if ((bool)$order->getIsVirtual() === true || !$order instanceof Order) {
+            return [];
+        }
+
+        $shippingAddress = $order->getShippingAddress();
+        if (!$shippingAddress instanceof OrderAddressInterface) {
+            return [];
+        }
+
+        $street   = $shippingAddress->getStreet();
+        $address1 = (string)($street[0] ?? '');
+
+        return array_filter([
+            'firstName' => $this->sanitizer->alphanumericPunc($shippingAddress->getFirstname(), 60),
+            'lastName' => $this->sanitizer->alphanumericPunc($shippingAddress->getLastname(), 60),
+            'address1' => $this->sanitizer->alphanumericPunc($address1, 60),
+            'address2' => $this->sanitizer->alphanumericPunc($street[1] ?? null, 60),
+            'locality' => $this->sanitizer->alphanumericPunc($shippingAddress->getCity(), 50),
+            'administrativeArea' => $this->sanitizer->alphanumericPunc(
+                strtoupper((string)$shippingAddress->getRegionCode()),
+                20
+            ),
+            'postalCode' => $this->sanitizer->postcode(
+                $shippingAddress->getPostcode(),
+                (string)$shippingAddress->getCountryId()
+            ),
+            'country' => $this->sanitizer->alpha(strtoupper((string)$shippingAddress->getCountryId()), 2),
+            'phoneNumber' => $this->sanitizer->phone($shippingAddress->getTelephone(), 15),
         ], static fn($value): bool => $value !== null && $value !== '');
     }
 

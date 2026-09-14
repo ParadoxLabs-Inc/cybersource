@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Test\Unit\Model;
 
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\HTTP\ClientInterfaceFactory;
 use Magento\Payment\Gateway\Command\CommandException;
@@ -88,6 +89,24 @@ class GatewayTest extends TestCase
         $this->assertSame($expected, $this->gateway->authorize($payment, 24.0));
     }
 
+    public function testAuthorizePassesLineItemsThrough(): void
+    {
+        // Issue #14: the items TokenBase attached (send_line_items gate) must reach the request
+        // builder; a gateway with none set passes an empty list.
+        $payment  = $this->buildPayment('the.jwt.token');
+        $items    = [new DataObject(['sku' => 'WID-1'])];
+        $expected = (new GatewayResponse())->setData(['transaction_id' => 'TXN1']);
+
+        $this->gateway->setLineItems($items);
+
+        $this->ucResponse->expects($this->once())
+            ->method('place')
+            ->with($payment, 24.0, false, $items)
+            ->willReturn($expected);
+
+        $this->assertSame($expected, $this->gateway->authorize($payment, 24.0));
+    }
+
     public function testAuthorizeStoredCardSeamThrowsUntilA4(): void
     {
         // No transient token -> stored-card path -> A4 seam, which fails loudly (not faked).
@@ -106,6 +125,23 @@ class GatewayTest extends TestCase
         $this->followOn->expects($this->once())
             ->method('capture')
             ->with($payment, 24.0, 'AUTHID9')
+            ->willReturn($expected);
+
+        $this->assertSame($expected, $this->gateway->capture($payment, 24.0));
+    }
+
+    public function testCaptureLinkedPassesLineItemsThrough(): void
+    {
+        // Issue #14: invoice items attached by TokenBase ride the linked capture for L2/L3 data.
+        $payment  = $this->buildPayment();
+        $items    = [new DataObject(['sku' => 'WID-1'])];
+        $expected = (new GatewayResponse())->setData(['transaction_id' => 'CAP1']);
+
+        $this->gateway->setHaveAuthorized(true)->setTransactionId('AUTHID9')->setLineItems($items);
+
+        $this->followOn->expects($this->once())
+            ->method('capture')
+            ->with($payment, 24.0, 'AUTHID9', $items)
             ->willReturn($expected);
 
         $this->assertSame($expected, $this->gateway->capture($payment, 24.0));

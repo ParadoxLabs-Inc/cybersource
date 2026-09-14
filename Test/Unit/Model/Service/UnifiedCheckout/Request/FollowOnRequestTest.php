@@ -112,4 +112,47 @@ class FollowOnRequestTest extends TestCase
         $this->assertSame('ParadoxLabs_CyberSource', $cri['applicationName']);
         $this->assertSame('3.0.0', $cri['applicationVersion']);
     }
+
+    public function testToArrayIncludesLineItemsOnOrderBody(): void
+    {
+        // Issue #14: a linked capture carries invoice line items for Level II/III settlement data.
+        $request = new FollowOnRequest();
+        $request->setTotalAmount('24.00')
+            ->setCurrency('USD')
+            ->setLineItems([
+                ['productName' => 'Widget', 'productSku' => 'WID-1', 'quantity' => 2, 'unitPrice' => '12.00'],
+            ]);
+
+        $result = $request->toArray();
+
+        $this->assertSame('24.00', $result['orderInformation']['amountDetails']['totalAmount']);
+        $this->assertSame('WID-1', $result['orderInformation']['lineItems'][0]['productSku']);
+    }
+
+    public function testToArrayOmitsLineItemsOnReversalBody(): void
+    {
+        // The reversal body has no orderInformation at all; items must never leak into it.
+        $request = new FollowOnRequest();
+        $request->setTotalAmount('24.00')
+            ->setCurrency('USD')
+            ->setReversal(true)
+            ->setLineItems([
+                ['productName' => 'Widget', 'quantity' => 1],
+            ]);
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('orderInformation', $result);
+        $this->assertSame('24.00', $result['reversalInformation']['amountDetails']['totalAmount']);
+    }
+
+    public function testToArrayOmitsLineItemsWhenEmpty(): void
+    {
+        $request = new FollowOnRequest();
+        $request->setTotalAmount('5.00');
+
+        $result = $request->toArray();
+
+        $this->assertArrayNotHasKey('lineItems', $result['orderInformation']);
+    }
 }

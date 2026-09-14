@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Sales\Api\Data\OrderAddressInterface;
@@ -16,6 +17,7 @@ use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Persistor;
 use ParadoxLabs\CyberSource\Model\Service\PayerAuth\Verdict;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\LineItemsBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\PaymentRequestFactory;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\StoredCardRequest;
@@ -98,6 +100,7 @@ class ResponseTest extends TestCase
             $this->bindingValidatorMock,
             new PassThroughMapper(),
             $this->persistorMock,
+            new LineItemsBuilder(new Sanitizer()),
         );
     }
 
@@ -1906,5 +1909,123 @@ class ResponseTest extends TestCase
         $this->buildService($config)->place($this->buildPayment($this->buildBoundToken()), 24.0);
 
         $this->assertArrayNotHasKey('consumerAuthenticationInformation', $this->sentBody);
+    }
+
+    /**
+     * Order fixture with a shipping address attached (issue #14 coverage).
+     */
+    private function buildShippablePayment(): Payment&MockObject
+    {
+        $payment = $this->buildPayment();
+
+        $shippingAddress = $this->createMock(OrderAddressInterface::class);
+        $shippingAddress->method('getFirstname')->willReturn('John');
+        $shippingAddress->method('getLastname')->willReturn('Receiver');
+        $shippingAddress->method('getStreet')->willReturn(['456 Ship St', 'Suite 2']);
+        $shippingAddress->method('getCity')->willReturn('Dallas');
+        $shippingAddress->method('getRegionCode')->willReturn('TX');
+        $shippingAddress->method('getPostcode')->willReturn('75201');
+        $shippingAddress->method('getCountryId')->willReturn('US');
+        $shippingAddress->method('getTelephone')->willReturn('2145551234');
+
+        /** @var Order&MockObject $order */
+        $order = $payment->getOrder();
+        $order->method('getIsVirtual')->willReturn(false);
+        $order->method('getShippingAddress')->willReturn($shippingAddress);
+
+        return $payment;
+    }
+
+    public function testPlaceSendsShipToForShippableOrder(): void
+    {
+        // Issue #14: 3.x sent the shipping address on every non-virtual auth; the UC body must carry
+        // it as orderInformation.shipTo (Decision Manager keys on ship-to/bill-to mismatch).
+        $this->primeRest(['id' => 'TXN1', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildShippablePayment(), 24.0);
+
+        $shipTo = $this->sentBody['orderInformation']['shipTo'];
+        $this->assertSame('John', $shipTo['firstName']);
+        $this->assertSame('Receiver', $shipTo['lastName']);
+        $this->assertSame('456 Ship St', $shipTo['address1']);
+        $this->assertSame('Suite 2', $shipTo['address2']);
+        $this->assertSame('Dallas', $shipTo['locality']);
+        $this->assertSame('TX', $shipTo['administrativeArea']);
+        $this->assertSame('75201', $shipTo['postalCode']);
+        $this->assertSame('US', $shipTo['country']);
+        $this->assertSame('2145551234', $shipTo['phoneNumber']);
+        // The SOAP shipTo never carried an email; parity keeps it off.
+        $this->assertArrayNotHasKey('email', $shipTo);
+    }
+
+    public function testPlaceOmitsShipToForVirtualOrder(): void
+    {
+        $payment = $this->buildPayment();
+        /** @var Order&MockObject $order */
+        $order = $payment->getOrder();
+        $order->method('getIsVirtual')->willReturn(true);
+
+        $this->primeRest(['id' => 'TXN1', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($payment, 24.0);
+
+        $this->assertArrayNotHasKey('shipTo', $this->sentBody['orderInformation']);
+    }
+
+    public function testPlaceSendsLineItems(): void
+    {
+        // Issue #14: line items feed Decision Manager product signals and Level II/III interchange.
+        $this->primeRest(['id' => 'TXN1', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment(), 24.0, null, [
+            new DataObject([
+                'name' => 'Widget',
+                'sku' => 'WID-1',
+                'qty_ordered' => '2',
+                'base_price' => '12.0000',
+                'base_tax_amount' => '1.9800',
+            ]),
+        ]);
+
+        $this->assertSame(
+            [
+                [
+                    'productName' => 'Widget',
+                    'productSku' => 'WID-1',
+                    'quantity' => 2,
+                    'unitPrice' => '12.00',
+                    'taxAmount' => '1.98',
+                ],
+            ],
+            $this->sentBody['orderInformation']['lineItems']
+        );
+    }
+
+    public function testPlaceOmitsLineItemsWhenNoneGiven(): void
+    {
+        // send_line_items off leaves the TokenBase wiring silent -> no items reach the builder and
+        // the key must be absent, keeping the body identical to the pre-#14 request.
+        $this->primeRest(['id' => 'TXN1', 'status' => 'AUTHORIZED']);
+
+        $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertArrayNotHasKey('lineItems', $this->sentBody['orderInformation']);
+    }
+
+    public function testPlaceStoredSendsLineItems(): void
+    {
+        // The stored-card (vault/MIT) auth shares the 3.x authorize path, so it carries items too.
+        $this->primeRest(['id' => 'TXN1', 'status' => 'AUTHORIZED']);
+
+        $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0, null, [
+            new DataObject([
+                'name' => 'Widget',
+                'sku' => 'WID-1',
+                'qty_ordered' => '1',
+                'base_price' => '24.0000',
+            ]),
+        ]);
+
+        $this->assertSame('WID-1', $this->sentBody['orderInformation']['lineItems'][0]['productSku']);
     }
 }

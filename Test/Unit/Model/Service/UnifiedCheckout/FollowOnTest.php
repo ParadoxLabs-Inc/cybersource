@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParadoxLabs\CyberSource\Test\Unit\Model\Service\UnifiedCheckout;
 
 use Exception;
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Sales\Model\Order;
@@ -13,6 +14,7 @@ use ParadoxLabs\CyberSource\Model\Config\Config;
 use ParadoxLabs\CyberSource\Model\Service\Rest;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\FollowOn;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\LineItemsBuilder;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FollowOnRequest;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FollowOnRequestFactory;
 use ParadoxLabs\TokenBase\Helper\Data;
@@ -63,6 +65,7 @@ class FollowOnTest extends TestCase
             $this->createMock(Data::class),
             $responseFactory,
             $requestFactory,
+            new LineItemsBuilder(new Sanitizer()),
         );
     }
 
@@ -115,6 +118,49 @@ class FollowOnTest extends TestCase
         $this->assertSame('100000123', $this->lastBody['clientReferenceInformation']['code']);
         $this->assertFalse($response->getIsError());
         $this->assertSame('CAP1', $response->getData('transaction_id'));
+    }
+
+    public function testCaptureSendsLineItems(): void
+    {
+        // Issue #14: a linked capture carries the invoice line items for Level II/III settlement data.
+        $this->primePost(
+            ['id' => 'CAP1', 'status' => 'AUTHORIZED', 'processorInformation' => ['responseCode' => '100']]
+        );
+
+        $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9', [
+            new DataObject([
+                'name' => 'Widget',
+                'sku' => 'WID-1',
+                'qty' => '2',
+                'base_price' => '12.0000',
+                'base_tax_amount' => '1.9800',
+            ]),
+        ]);
+
+        $this->assertSame(
+            [
+                [
+                    'productName' => 'Widget',
+                    'productSku' => 'WID-1',
+                    'quantity' => 2,
+                    'unitPrice' => '12.00',
+                    'taxAmount' => '1.98',
+                ],
+            ],
+            $this->lastBody['orderInformation']['lineItems']
+        );
+    }
+
+    public function testCaptureOmitsLineItemsWhenNoneGiven(): void
+    {
+        // send_line_items off -> no items reach the service -> body identical to the pre-#14 capture.
+        $this->primePost(
+            ['id' => 'CAP1', 'status' => 'AUTHORIZED', 'processorInformation' => ['responseCode' => '100']]
+        );
+
+        $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9');
+
+        $this->assertArrayNotHasKey('lineItems', $this->lastBody['orderInformation']);
     }
 
     public function testRefundBuildsLinkedPathAndPreservesPartialAmount(): void

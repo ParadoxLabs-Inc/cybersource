@@ -158,6 +158,7 @@ class FollowOn
      * @param Data $helper
      * @param ResponseFactory $responseFactory
      * @param FollowOnRequestFactory $requestFactory
+     * @param LineItemsBuilder $lineItemsBuilder
      */
     public function __construct(
         protected readonly Rest $rest,
@@ -165,7 +166,8 @@ class FollowOn
         protected readonly Sanitizer $sanitizer,
         protected readonly Data $helper,
         protected readonly ResponseFactory $responseFactory,
-        protected readonly FollowOnRequestFactory $requestFactory
+        protected readonly FollowOnRequestFactory $requestFactory,
+        protected readonly LineItemsBuilder $lineItemsBuilder,
     ) {
     }
 
@@ -175,16 +177,23 @@ class FollowOn
      * @param InfoInterface $payment
      * @param float $amount
      * @param string $transactionId Stored auth transaction id (SOAP requestID == REST id).
+     * @param array<int|string, mixed> $lineItems Invoice items to send as orderInformation.lineItems
+     *        for Level II/III settlement data (already send_line_items-gated by the TokenBase wiring).
      * @return GatewayResponse
      * @throws CommandException On a decline / follow-on-not-found (carrying the SOAP-equivalent code).
      * @throws RuntimeException On an error/invalid response.
      * @throws Throwable
      */
-    public function capture(InfoInterface $payment, float $amount, string $transactionId): GatewayResponse
-    {
+    public function capture(
+        InfoInterface $payment,
+        float $amount,
+        string $transactionId,
+        array $lineItems = []
+    ): GatewayResponse {
         $this->scopeFromPayment($payment);
 
         $request = $this->buildRequest($payment, $amount);
+        $request->setLineItems($this->lineItemsBuilder->build($lineItems));
         $path    = sprintf(self::CAPTURE_PATH, rawurlencode($transactionId));
 
         return $this->send($path, $request, $payment, self::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE);
