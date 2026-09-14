@@ -56,9 +56,13 @@ use Throwable;
  * re-presentable id condition maps to the 242/241 retry codes — specifically (1) an HTTP 404 against the
  * follow-on path, and (2) a 2xx body whose errorInformation.reason is EXACTLY 'NOT_FOUND'. Everything else
  * is surfaced as-is. In particular, a body that carries a real processorInformation.responseCode (a genuine
- * auth/capture decline) is ALWAYS thrown as a plain decline (CommandException with its own code / 0), NEVER
- * as 242/241 — because the retry codes drive a fresh bundled auth+capture (capture) or an unlinked credit
- * (refund), and mapping a real decline to them would re-charge / re-credit silently. Processor reasons such
+ * auth/capture decline) is ALWAYS thrown as a plain decline (CommandException with its own code / 0, and a
+ * raw code colliding with RESERVED_SOAP_CODES neutralised to 0), NEVER as 242/241 — because the retry codes
+ * drive a fresh bundled auth+capture (capture) or an unlinked credit (refund), and mapping a real decline to
+ * them would re-charge / re-credit silently.
+ *
+ * APPROVAL AUTHORITY: the top-level status decides success; processorInformation.responseCode is the raw
+ * acquirer code and must not be evaluated for the result (see Response). Processor reasons such
  * as PROCESSOR_ERROR / INVALID_REQUEST are NOT not-found conditions (UC-API-REFERENCE.md §4 shows
  * PROCESSOR_ERROR on an APPROVED auth) and are deliberately excluded; matching is by exact reason equality,
  * never substring.
@@ -108,7 +112,9 @@ class FollowOn
     public const TMS_PAYMENT_INSTRUMENT_PATH = '/tms/v2/payment-instruments/%s';
 
     /**
-     * The processor responseCode that maps to a clean approval (mirrors SOAP reasonCode 100).
+     * The processorInformation.responseCode the CyberSource sandbox simulator returns for an approval.
+     *
+     * Informational only — never an approval decision (see the class docblock, APPROVAL AUTHORITY).
      */
     public const RESPONSE_CODE_APPROVED = '100';
 
@@ -136,6 +142,17 @@ class FollowOn
      * SOAP reasonCode equivalent for "refund target not valid for follow-on" (drives unlinked credit).
      */
     public const SOAP_CODE_REFUND_NOT_FOLLOWABLE = 241;
+
+    /**
+     * Exception codes the gateway/method layer reads as "retry with a fresh auth / unlinked credit / void not
+     * needed" (Gateway::capture(), Gateway::refund(), Method::isExpectedVoidFailure()). A raw processor
+     * responseCode equal to one of these must never be surfaced as the exception code.
+     */
+    public const RESERVED_SOAP_CODES = [
+        102,
+        self::SOAP_CODE_REFUND_NOT_FOLLOWABLE,
+        self::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE,
+    ];
 
     /**
      * The single errorInformation.reason value that means "follow-on target id is unusable / not found".
@@ -454,8 +471,7 @@ class FollowOn
         $errorReason  = (string)($response['errorInformation']['reason'] ?? '');
         $errorMessage = (string)($response['errorInformation']['message'] ?? '');
 
-        $isApproved = $responseCode === self::RESPONSE_CODE_APPROVED
-            || ($responseCode === '' && in_array($status, self::APPROVED_STATUSES, true));
+        $isApproved = in_array($status, self::APPROVED_STATUSES, true);
 
         $data = $response;
         $data['transaction_id']       = $response['id'] ?? null;
@@ -482,6 +498,12 @@ class FollowOn
         }
 
         $code = ctype_digit($responseCode) ? (int)$responseCode : 0;
+
+        // Neutralise a raw code colliding with the reserved retry codes, so a processor decision can never
+        // be mistaken for an unusable-target condition (the fail-safe below promises exactly that).
+        if (in_array($code, self::RESERVED_SOAP_CODES, true)) {
+            $code = 0;
+        }
 
         // FAIL-SAFE: a real processor decision (the body carries a processorInformation.responseCode) is
         // ALWAYS surfaced as a plain decline, NEVER mapped to the 242/241 retry codes. The retry codes are

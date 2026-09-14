@@ -337,6 +337,56 @@ class FollowOnTest extends TestCase
         }
     }
 
+    public function testCaptureApprovedStatusWithProcessorSpecificResponseCodeIsApproved(): void
+    {
+        // 4.0.0 regression: the raw processor code is processor-specific; status decides.
+        $this->primePost([
+            'id' => 'CAP00',
+            'status' => 'PENDING',
+            'processorInformation' => ['responseCode' => '00'],
+        ]);
+
+        $response = $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9');
+
+        $this->assertFalse($response->getIsError());
+        $this->assertSame('CAP00', $response->getTransactionId());
+    }
+
+    public function testDeclinedStatusWithResponseCode100IsStillADecline(): void
+    {
+        // The inverse: a raw '100' on a DECLINED status is not an approval.
+        $this->primePost([
+            'id' => 'D100',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '100'],
+            'errorInformation' => ['message' => 'Declined'],
+        ]);
+
+        $this->expectException(CommandException::class);
+
+        $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9');
+    }
+
+    public function testProcessorCodeCollidingWithReservedSoapCodeIsNeutralised(): void
+    {
+        // A raw code equal to a reserved retry code must not surface as the exception code, or
+        // Gateway::capture() would recapture and a failed void would report as benign.
+        $this->primePost([
+            'id' => 'D242',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '242'],
+            'errorInformation' => ['message' => 'Declined'],
+        ]);
+
+        try {
+            $this->service->capture($this->buildPayment(), 24.0, 'AUTHID9');
+            $this->fail('Expected CommandException');
+        } catch (CommandException $e) {
+            $this->assertSame(0, $e->getCode());
+            $this->assertNotSame(FollowOn::SOAP_CODE_CAPTURE_NOT_FOLLOWABLE, $e->getCode());
+        }
+    }
+
     public function testGenericErrorThrowsRuntimeException(): void
     {
         $this->primePost([

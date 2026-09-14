@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Fixed every Unified Checkout transaction failing with `Transaction Failed: AUTHORIZED` (or
+  `PENDING` on capture) on merchant accounts whose processor reports approvals with a response code
+  other than `100`. 4.0.0 judged approval from the raw processor response code, which CyberSource
+  documents as processor-specific and not to be used for the authorization result; the transaction
+  status is now the authority. Each failed attempt left a live authorization at CyberSource with no
+  order — check the Business Center for orphaned authorizations after upgrading.
 - Fixed multishipping checkout with a new card failing on the second order with a duplicate
   `paradoxlabs_stored_card` hash error. Every order placed from one multishipping quote carries the same
   single-use Unified Checkout transient token; the first order now records the vault card it minted and

@@ -60,11 +60,12 @@ use Throwable;
  *  1. Decision Manager review (AUTHORIZED_PENDING_REVIEW) suppresses tokenInformation entirely — a
  *     successful auth can legitimately carry NO TMS ids. We treat that as success and flag it.
  *  2. TOKEN_CREATE can fail ("Requested service is forbidden" / PROCESSOR_ERROR) while the auth itself
- *     approves. CRITICALLY, the spike confirmed CyberSource reports this as top-level status=DECLINED
- *     with errorInformation.reason=PROCESSOR_ERROR EVEN THOUGH processorInformation.responseCode=100
- *     (the auth approved). The authoritative "auth approved" signal is therefore responseCode === '100',
- *     NOT the top-level status. We must not fail an approved auth for a token-service error -- proceed
- *     token-less. A genuine auth decline (responseCode != '100', e.g. '202') still fails.
+ *     approves, reported as top-level status=DECLINED + reason=PROCESSOR_ERROR. We must not fail an
+ *     approved auth for a token-service error -- proceed token-less (carve-out in interpretResponse()).
+ *
+ * APPROVAL AUTHORITY: the top-level `status` decides approved-vs-declined. processorInformation.responseCode
+ * is the raw acquirer code ('100' only on the sandbox simulator); CyberSource's field reference says "Do not
+ * use this field to evaluate the result of the authorization."
  *
  * @see UC-API-REFERENCE.md §2, §3, §4
  */
@@ -115,7 +116,9 @@ class Response
     ];
 
     /**
-     * The processor responseCode that maps to a clean approval (mirrors SOAP reasonCode 100).
+     * The processorInformation.responseCode the CyberSource sandbox simulator returns for an approval.
+     *
+     * Informational only — never an approval decision (see the class docblock, APPROVAL AUTHORITY).
      */
     public const RESPONSE_CODE_APPROVED = '100';
 
@@ -1075,22 +1078,18 @@ class Response
         $responseCode = (string)($response['processorInformation']['responseCode'] ?? '');
         $errorReason  = (string)($response['errorInformation']['reason'] ?? '');
         $errorMessage = (string)($response['errorInformation']['message'] ?? '');
+        $authorizedAmount = (string)($response['orderInformation']['amountDetails']['authorizedAmount'] ?? '');
 
-        // processorInformation.responseCode is the AUTHORITY for approved-vs-declined, NOT the top-level
-        // status. Per the spike (UC-API-REFERENCE §4), a token sub-service failure surfaces as
-        // status=DECLINED + reason=PROCESSOR_ERROR while responseCode stays '100' (the auth approved). We
-        // key approval off responseCode === '100' so that scenario succeeds; status is only a fallback when
-        // CyberSource returns no responseCode (e.g. INVALID_REQUEST / error replies).
-        $authApproved  = $responseCode === self::RESPONSE_CODE_APPROVED;
+        $statusApproved = in_array($status, self::APPROVED_STATUSES, true);
 
-        // Decision Manager / risk REJECT (Iter 4, D6 parity): the processor can APPROVE the auth
-        // (responseCode=100) while DM declines the order — status AUTHORIZED_RISK_DECLINED / REJECTED with
-        // reason DECISION_PROFILE_REJECT. Unlike the token-forbidden case (which we let stand token-less), a
-        // DM reject MUST fail the transaction so the order is not placed. We override the responseCode-based
+        // Decision Manager / risk REJECT (Iter 4, D6 parity): the processor can APPROVE the auth while DM
+        // declines the order — status AUTHORIZED_RISK_DECLINED / REJECTED with reason
+        // DECISION_PROFILE_REJECT. Unlike the token-forbidden case (which we let stand token-less), a DM
+        // reject MUST fail the transaction so the order is not placed. We override the status-based
         // approval here, mirroring the legacy SOAP REJECT decision -> CommandException.
         // VERIFY (live, AVS/CVV soft-decline parity): the legacy SOAP path carved AVS/CVV soft declines
         // (reasonCodes 200/230) OUT of the REJECT decline — it kept the auth and accepted with the fraud flag.
-        // In REST, AVS/CVV results surface on an otherwise AUTHORIZED/responseCode=100 reply via
+        // In REST, AVS/CVV results surface on an otherwise AUTHORIZED reply via
         // processorInformation.avs.code / cardVerification.resultCode, NOT as a RISK_DECLINED status, so they are
         // expected to pass through as approved here. Confirm on a boarded MID with an AVS/CVV-mismatch test card
         // that such a reply is not surfaced as AUTHORIZED_RISK_DECLINED/DECISION_PROFILE_REJECT before relying on
@@ -1098,8 +1097,16 @@ class Response
         $isRiskDeclined = in_array($status, self::RISK_DECLINED_STATUSES, true)
             || $errorReason === self::REASON_DECISION_PROFILE_REJECT;
 
-        $isApproved    = !$isRiskDeclined
-            && ($authApproved || ($responseCode === '' && in_array($status, self::APPROVED_STATUSES, true)));
+        // Token-forbidden carve-out (§4): a TOKEN_CREATE failure flips status to DECLINED + PROCESSOR_ERROR
+        // with the auth approved. Requires processor-agnostic evidence an auth was issued; fails closed.
+        // VERIFY (live): the reply shape is unrecorded — the spike MID was provisioned 2026-07-22.
+        $tokenForbiddenApproval = $tokenCreateRequested
+            && $status === 'DECLINED'
+            && $errorReason === self::REASON_PROCESSOR_ERROR
+            && empty($response['tokenInformation'])
+            && ($approvalCode !== '' || $authorizedAmount !== '');
+
+        $isApproved    = !$isRiskDeclined && ($statusApproved || $tokenForbiddenApproval);
         $isUnderReview = $this->isUnderReview($status);
 
         // Flatten the raw reply so Method::storeTransactionStatuses() can read ccAuthReply.* keys, and
@@ -1141,13 +1148,9 @@ class Response
         if ($isApproved) {
             $gatewayResponse->setIsError(false);
 
-            // TOKEN_CREATE may fail ("Requested service is forbidden") while the auth approves. The spike
-            // confirmed this surfaces as status=DECLINED + PROCESSOR_ERROR with responseCode=100; because
-            // we key approval off responseCode (not status), we land here and proceed token-less. The
-            // discriminator for "auth stands but token forbidden" is responseCode === '100' (already
-            // established by $authApproved) + PROCESSOR_ERROR + no token returned.
+            // TOKEN_CREATE may fail while the auth approves (carve-out above, or an approved status
+            // carrying PROCESSOR_ERROR). Either way the auth stands: proceed token-less and flag it.
             if ($tokenCreateRequested
-                && $authApproved
                 && $errorReason === self::REASON_PROCESSOR_ERROR
                 && empty($data['token_information'])
             ) {
@@ -1178,10 +1181,8 @@ class Response
             return $gatewayResponse;
         }
 
-        // A3 HANDOFF: the exception code below is the UC processorInformation.responseCode space
-        // (100=approved, 2xx=declines). This is NOT the SOAP reasonCode space (102/242/241) that
-        // Gateway::capture()/refund() recapture logic keys on. A3 (gateway wiring) must reconcile the two
-        // code spaces when routing UC through Method/Gateway, or recapture/decline handling will misfire.
+        // The exception code below is the raw processor responseCode when numeric — diagnostics only.
+        // Nothing on this path keys on it; the SOAP retry codes (102/242/241) are consumed only by FollowOn.
         return $this->throwForFailure(
             $gatewayResponse,
             $status,

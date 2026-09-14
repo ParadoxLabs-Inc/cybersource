@@ -292,9 +292,8 @@ class ResponseTest extends TestCase
     public function testTokenCreateForbiddenWhileAuthApprovedDoesNotFail(): void
     {
         // The spike isolation finding (UC-API-REFERENCE §4): when TOKEN_CREATE is not provisioned the
-        // auth approves (processorInformation.responseCode=100) but CyberSource STILL returns top-level
-        // status=DECLINED + errorInformation.reason=PROCESSOR_ERROR. Approval must key on responseCode,
-        // not status, so this scenario must NOT throw.
+        // auth approves but CyberSource STILL returns status=DECLINED + PROCESSOR_ERROR. With evidence of
+        // the auth (an approvalCode) the carve-out lets it stand token-less, so this must NOT throw.
         $this->primeRest([
             'id' => 'TXN-NOTMS',
             'status' => 'DECLINED',
@@ -339,6 +338,77 @@ class ResponseTest extends TestCase
         $this->expectExceptionMessage('Transaction Failed');
 
         $this->service->place($this->buildPayment(), 24.0);
+    }
+
+    public function testAuthorizedStatusWithProcessorSpecificResponseCodeIsApproved(): void
+    {
+        // 4.0.0 regression: a live MID approving with raw code '00' threw "Transaction Failed: AUTHORIZED"
+        // on every order. The top-level status must decide.
+        $this->primeRest([
+            'id' => 'TXN-AUTH-00',
+            'status' => 'AUTHORIZED',
+            'processorInformation' => [
+                'approvalCode' => '123456',
+                'responseCode' => '00',
+            ],
+        ]);
+
+        $response = $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertFalse($response->getIsError());
+        $this->assertFalse($response->getIsFraud());
+        $this->assertSame('TXN-AUTH-00', $response->getTransactionId());
+        // The raw code is still surfaced for diagnostics, unchanged.
+        $this->assertSame('00', $response->getResponseCode());
+    }
+
+    public function testDeclinedStatusWithResponseCode100IsStillADecline(): void
+    {
+        // status=DECLINED without the token-forbidden signature is a decline, whatever the raw code.
+        $this->primeRest([
+            'id' => 'TXN-DECLINE-100',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '100'],
+            'errorInformation' => ['reason' => 'PROCESSOR_DECLINED', 'message' => 'Decline'],
+        ]);
+
+        $this->expectException(CommandException::class);
+
+        $this->service->place($this->buildPayment(), 24.0);
+    }
+
+    public function testTokenCreateForbiddenWithoutAuthEvidenceThrows(): void
+    {
+        // Fail closed: DECLINED + PROCESSOR_ERROR with no approvalCode and no authorizedAmount is no
+        // evidence an auth was issued, so it must not place an order.
+        $this->primeRest([
+            'id' => 'TXN-NOTMS-NOEVIDENCE',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '100'],
+            'errorInformation' => ['reason' => 'PROCESSOR_ERROR', 'message' => 'Requested service is forbidden'],
+        ]);
+
+        $this->expectException(CommandException::class);
+
+        $this->service->place($this->buildPayment(), 24.0);
+    }
+
+    public function testTokenCreateForbiddenWithAuthorizedAmountEvidenceIsApproved(): void
+    {
+        // A processor that omits approvalCode can still evidence the auth via authorizedAmount.
+        $this->primeRest([
+            'id' => 'TXN-NOTMS-AMOUNT',
+            'status' => 'DECLINED',
+            'processorInformation' => ['responseCode' => '00'],
+            'errorInformation' => ['reason' => 'PROCESSOR_ERROR', 'message' => 'Requested service is forbidden'],
+            'orderInformation' => ['amountDetails' => ['authorizedAmount' => '24.00']],
+        ]);
+
+        $response = $this->service->place($this->buildPayment(), 24.0);
+
+        $this->assertFalse($response->getIsError());
+        $this->assertSame('TXN-NOTMS-AMOUNT', $response->getTransactionId());
+        $this->assertTrue($response->getData('uc_token_missing'));
     }
 
     public function testPartialAuthorizedIsSurfacedNotTreatedAsFullApproval(): void
@@ -590,11 +660,10 @@ class ResponseTest extends TestCase
         );
     }
 
-    public function testPlaceStoredDoesNotFlagTokenMissingOnProcessorError(): void
+    public function testPlaceStoredDeclinedProcessorErrorIsADeclineNotATokenCarveOut(): void
     {
-        // The token-forbidden carve-out (approved auth + PROCESSOR_ERROR + no token) must likewise only
-        // apply when TOKEN_CREATE was actually requested; otherwise an unrelated processor error on a
-        // stored-card charge would poison the card by the same route.
+        // The carve-out only applies when TOKEN_CREATE was requested. A stored-card charge requests no
+        // token, so the same reply is a real decline and must throw.
         $this->primeRest([
             'id' => 'TXN-STORED-PROCERR',
             'status' => 'DECLINED',
@@ -602,12 +671,9 @@ class ResponseTest extends TestCase
             'processorInformation' => ['responseCode' => '100', 'approvalCode' => '888888'],
         ]);
 
-        $response = $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
+        $this->expectException(CommandException::class);
 
-        $this->assertNull(
-            $response->getData('uc_token_missing'),
-            'No token was requested, so a PROCESSOR_ERROR reply must not flag the stored card.'
-        );
+        $this->service->placeStored($this->buildStoredPayment(), $this->buildCard(), 24.0);
     }
 
     public function testPlaceStoredMitPostsExpectedBodyAndApproves(): void
