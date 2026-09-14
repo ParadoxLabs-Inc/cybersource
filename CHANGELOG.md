@@ -1,27 +1,13 @@
 # ParadoxLabs_CyberSource Changelog
 
-## Unreleased
+## 4.1.0 - Sep 14, 2026
 
-- Fixed every Unified Checkout transaction failing with `Transaction Failed: AUTHORIZED` (or
-  `PENDING` on capture) on merchant accounts whose processor reports approvals with a response code
-  other than `100`. 4.0.0 judged approval from the raw processor response code, which CyberSource
-  documents as processor-specific and not to be used for the authorization result; the transaction
-  status is now the authority. Each failed attempt left a live authorization at CyberSource with no
-  order — check the Business Center for orphaned authorizations after upgrading.
-- Fixed multishipping checkout with a new card failing on the second order with a duplicate
-  `paradoxlabs_stored_card` hash error. Every order placed from one multishipping quote carries the same
-  single-use Unified Checkout transient token; the first order now records the vault card it minted and
-  the remaining orders charge that stored card instead of re-inserting a card row and re-posting the
-  spent token.
-
-## 4.0.1 - Aug 12, 2026: Restore shipping address and line items on gateway requests
-
-- Fixed transactions omitting the order shipping address and line items, which 4.0.0 dropped in the
-  Unified Checkout migration (issue #14). Authorizations and sales again send
-  `orderInformation.shipTo` for non-virtual orders and `orderInformation.lineItems` (governed by the
-  `Send Line Items` setting, on by default), and linked captures now send the invoice line items for
-  Level II/III interchange qualification. Decision Manager rules keyed on shipping address,
-  ship-to/bill-to mismatch, or product data see those signals again.
+- Changed the minimum ParadoxLabs_TokenBase requirement to 5.1.
+- Fixed all Unified Checkout transactions failing with `Transaction Failed: AUTHORIZED` on processors that
+  approve with a response code other than `100`, leaving orphaned authorizations at CyberSource.
+- Fixed authorizations and captures omitting the order shipping address and line items, which 4.0.0 dropped
+  (issue #14).
+- Fixed multishipping checkout with a new card failing on the second order with a duplicate stored-card error.
 
 ## 4.0.0 - Aug 12, 2026: Unified Checkout + native Payer Authentication
 
