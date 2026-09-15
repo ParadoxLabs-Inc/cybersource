@@ -1,6 +1,6 @@
 # ParadoxLabs_CyberSource Changelog
 
-## 4.1.0 - Sep 14, 2026
+## 4.1.0 - Sep 15, 2026
 
 - Changed the minimum ParadoxLabs_TokenBase requirement to 5.1.
 - Fixed all Unified Checkout transactions failing with `Transaction Failed: AUTHORIZED` on processors that
