@@ -59,7 +59,9 @@ class LineItemsBuilder
      * Map sales items (order/invoice/creditmemo rows) to the REST lineItems entries.
      *
      * Child rows (configurable/bundle children) are skipped — the visible parent row carries the
-     * price, and emitting both would double-count the product. Zero-quantity rows are skipped.
+     * price, and emitting both would double-count the product. Zero-quantity rows are skipped, as are
+     * rows with no positive unit price: the API rejects a 0.00 unitPrice (INVALID_DATA on
+     * orderInformation.lineItems[n].unitPrice), and a free row carries no interchange or fraud signal.
      *
      * @param array<int|string, mixed> $items Order, invoice, or creditmemo items.
      * @return array<int, array<string, string|int>>
@@ -79,11 +81,16 @@ class LineItemsBuilder
                 continue;
             }
 
+            $unitPrice = $this->formatAmount($item->getData('base_price'));
+            if ($unitPrice === null || (float)$unitPrice <= 0) {
+                continue;
+            }
+
             $lineItems[] = array_filter([
                 'productName' => $this->sanitizer->alphanumericPunc($item->getData('name'), self::FIELD_MAX_LENGTH),
                 'productSku' => $this->sanitizer->alphanumericPunc($item->getData('sku'), self::FIELD_MAX_LENGTH),
                 'quantity' => max(1, (int)round($quantity)),
-                'unitPrice' => $this->formatAmount($item->getData('base_price')),
+                'unitPrice' => $unitPrice,
                 'taxAmount' => $this->formatAmount($item->getData('base_tax_amount')),
             ], static fn($value): bool => $value !== null && $value !== '');
         }
@@ -94,21 +101,38 @@ class LineItemsBuilder
     /**
      * Whether this row is a child of another row (configurable/bundle child) and must be skipped.
      *
-     * Order rows carry parent_item_id directly; invoice/creditmemo rows resolve it through their
-     * order item, when one is reachable.
+     * Order rows carry parent_item_id once saved — but authorization runs on Order::place() BEFORE the
+     * order is saved, when the child link exists only as the parent_item object set by the quote
+     * conversion (standard and multishipping checkout alike). Both forms are checked. Invoice/creditmemo
+     * rows resolve the link through their order item, when one is reachable.
      *
      * @param DataObject $item
      * @return bool
      */
     protected function isChildRow(DataObject $item): bool
     {
-        if (!empty($item->getData('parent_item_id'))) {
+        if ($this->hasParent($item)) {
             return true;
         }
 
         $orderItem = method_exists($item, 'getOrderItem') ? $item->getOrderItem() : null;
 
-        return $orderItem instanceof OrderItemInterface && !empty($orderItem->getParentItemId());
+        return $orderItem instanceof DataObject && $this->hasParent($orderItem);
+    }
+
+    /**
+     * Whether an order row links to a parent row, by saved id or by unsaved parent object.
+     *
+     * @param DataObject $orderItem
+     * @return bool
+     */
+    protected function hasParent(DataObject $orderItem): bool
+    {
+        if (!empty($orderItem->getData(OrderItemInterface::PARENT_ITEM_ID))) {
+            return true;
+        }
+
+        return $orderItem->getData(OrderItemInterface::PARENT_ITEM) instanceof DataObject;
     }
 
     /**

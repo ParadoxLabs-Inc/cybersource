@@ -1,5 +1,12 @@
 # ParadoxLabs_CyberSource Changelog
 
+## Unreleased
+
+- Fixed authorizations of configurable and bundle products failing with `INVALID_DATA` on
+  `orderInformation.lineItems[n].unitPrice`: child rows leaked into the line items because the
+  parent link is not yet saved at authorization time. Line items without a positive unit price are
+  now omitted.
+
 ## 4.1.0 - Sep 15, 2026
 
 - Changed the minimum ParadoxLabs_TokenBase requirement to 5.1.
