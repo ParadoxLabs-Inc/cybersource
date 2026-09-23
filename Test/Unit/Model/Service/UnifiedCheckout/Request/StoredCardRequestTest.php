@@ -141,7 +141,7 @@ class StoredCardRequestTest extends TestCase
 
     public function testToArraySendsLegacyTokenUnderLegacyTokenId(): void
     {
-        // Pre-4.0 cards hold a 16/22-digit Secure Storage token; as a paymentInstrument.id it is rejected.
+        // Pre-4.0 cards can hold a 16/22-digit Secure Storage token; as a paymentInstrument.id it is rejected.
         $request = new StoredCardRequest();
         $request->setPaymentInstrumentId('9504202000051486')
             ->setSecurityCode('123');

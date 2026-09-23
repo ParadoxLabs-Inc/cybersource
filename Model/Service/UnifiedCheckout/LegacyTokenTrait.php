@@ -22,7 +22,7 @@
 namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout;
 
 /**
- * Recognizes legacy Secure Storage tokens (16 or 22 digits) held by cards saved before 4.0.0.
+ * Recognizes legacy Secure Storage tokens (16 or 22 digits), which cards saved before 4.0.0 can hold.
  *
  * TMS tokens are 32 hex characters, so the shape alone tells them apart. Legacy tokens must be sent as
  * paymentInformation.legacyToken.id (payments) or paymentInformation.customer.customerId (Payer Auth);
