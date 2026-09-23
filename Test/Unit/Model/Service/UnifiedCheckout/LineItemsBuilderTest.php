@@ -9,6 +9,7 @@ use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 use ParadoxLabs\CyberSource\Model\Service\Sanitizer;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\LineItemsBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -204,6 +205,7 @@ class LineItemsBuilderTest extends TestCase
     /**
      * @dataProvider nonPositivePriceProvider
      */
+    #[DataProvider('nonPositivePriceProvider')]
     public function testSkipsRowsWithoutPositiveUnitPrice(mixed $basePrice): void
     {
         // The API rejects a 0.00 unitPrice outright; a free/priceless row is dropped rather than
