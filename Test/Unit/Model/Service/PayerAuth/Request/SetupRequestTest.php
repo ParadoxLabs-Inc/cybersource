@@ -44,6 +44,19 @@ class SetupRequestTest extends TestCase
         $this->assertArrayNotHasKey('tokenInformation', $result);
     }
 
+    public function testLegacyTokenIsSentAsCustomerId(): void
+    {
+        $request = new SetupRequest();
+        $request->setPaymentInstrumentId('9504202000051486');
+
+        $result = $request->toArray();
+
+        $this->assertSame(
+            ['customer' => ['customerId' => '9504202000051486']],
+            $result['paymentInformation']
+        );
+    }
+
     public function testBillToIsEmittedUnderOrderInformation(): void
     {
         $request = new SetupRequest();

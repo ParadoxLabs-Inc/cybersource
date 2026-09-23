@@ -129,6 +129,20 @@ class AuthenticationRequestTest extends TestCase
         $this->assertArrayNotHasKey('card', $result['paymentInformation']);
     }
 
+    public function testLegacyTokenIsSentAsCustomerId(): void
+    {
+        $request = $this->completeRequest()
+            ->setCard([])
+            ->setPaymentInstrumentId('9504202000051486');
+
+        $result = $request->toArray();
+
+        $this->assertSame(
+            ['customer' => ['customerId' => '9504202000051486']],
+            $result['paymentInformation']
+        );
+    }
+
     public function testSetCardKeepsOnlyKnownFields(): void
     {
         $request = $this->completeRequest()->setCard([

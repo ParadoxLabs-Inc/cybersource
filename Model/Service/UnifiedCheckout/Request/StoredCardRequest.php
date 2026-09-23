@@ -21,6 +21,8 @@
 
 namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
 
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\LegacyTokenTrait;
+
 /**
  * Typed value object for the Unified Checkout STORED-CARD (vault / MIT) payment request body.
  *
@@ -46,6 +48,7 @@ namespace ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request;
 class StoredCardRequest
 {
     use FilterEmptyTrait;
+    use LegacyTokenTrait;
     use LineItemsTrait;
 
     /**
@@ -679,8 +682,8 @@ class StoredCardRequest
     }
 
     /**
-     * Assemble paymentInformation: the TMS paymentInstrument id (the ONLY TMS id — see class docblock)
-     * plus the optional re-collected security code.
+     * Assemble paymentInformation: the TMS paymentInstrument id (the ONLY TMS id — see class docblock), or
+     * a pre-4.0 legacy Secure Storage token, plus the optional re-collected security code.
      *
      * @return array<string, mixed>
      */
@@ -688,7 +691,9 @@ class StoredCardRequest
     {
         $paymentInformation = [];
 
-        if ($this->paymentInstrumentId !== null && $this->paymentInstrumentId !== '') {
+        if ($this->isLegacyToken($this->paymentInstrumentId)) {
+            $paymentInformation['legacyToken'] = ['id' => $this->paymentInstrumentId];
+        } elseif ($this->paymentInstrumentId !== null && $this->paymentInstrumentId !== '') {
             $paymentInformation['paymentInstrument'] = ['id' => $this->paymentInstrumentId];
         }
 

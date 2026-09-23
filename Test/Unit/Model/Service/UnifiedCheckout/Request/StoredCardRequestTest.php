@@ -139,6 +139,24 @@ class StoredCardRequestTest extends TestCase
         $this->assertArrayNotHasKey('instrumentIdentifier', $result['paymentInformation']);
     }
 
+    public function testToArraySendsLegacyTokenUnderLegacyTokenId(): void
+    {
+        // Pre-4.0 cards hold a 16/22-digit Secure Storage token; as a paymentInstrument.id it is rejected.
+        $request = new StoredCardRequest();
+        $request->setPaymentInstrumentId('9504202000051486')
+            ->setSecurityCode('123');
+
+        $result = $request->toArray();
+
+        $this->assertSame(
+            [
+                'legacyToken' => ['id' => '9504202000051486'],
+                'card' => ['securityCode' => '123'],
+            ],
+            $result['paymentInformation']
+        );
+    }
+
     public function testToArrayOmitsCardBlockWhenSecurityCodeEmpty(): void
     {
         // An empty-string code must not emit an empty card block.

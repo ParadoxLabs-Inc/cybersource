@@ -6,6 +6,10 @@
   `orderInformation.lineItems[n].unitPrice`: child rows leaked into the line items because the
   parent link is not yet saved at authorization time. Line items without a positive unit price are
   now omitted.
+- Fixed stored cards saved before 4.0.0 with a legacy Secure Storage token (16 or 22 digits) failing at
+  checkout and Payer Authentication with `INVALID_DATA` (issue #24). These tokens are now sent as
+  `paymentInformation.legacyToken.id` for payments and `paymentInformation.customer.customerId` for Payer
+  Authentication.
 
 ## 4.1.0 - Sep 15, 2026
 

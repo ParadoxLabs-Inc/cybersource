@@ -22,6 +22,7 @@
 namespace ParadoxLabs\CyberSource\Model\Service\PayerAuth\Request;
 
 use Magento\Framework\Exception\InputException;
+use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\LegacyTokenTrait;
 use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FilterEmptyTrait;
 
 /**
@@ -40,6 +41,7 @@ use ParadoxLabs\CyberSource\Model\Service\UnifiedCheckout\Request\FilterEmptyTra
 class SetupRequest
 {
     use FilterEmptyTrait;
+    use LegacyTokenTrait;
 
     /**
      * @var string|null
@@ -196,6 +198,10 @@ class SetupRequest
 
         if ($hasToken) {
             $request['tokenInformation'] = ['transientTokenJwt' => $this->transientToken];
+        } elseif ($this->isLegacyToken($this->paymentInstrumentId)) {
+            $request['paymentInformation'] = [
+                'customer' => ['customerId' => $this->paymentInstrumentId],
+            ];
         } else {
             $request['paymentInformation'] = [
                 'paymentInstrument' => ['id' => $this->paymentInstrumentId],
